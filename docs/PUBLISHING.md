@@ -1,12 +1,12 @@
 # Publish
 
-`stuff publish cargo|npm|pypi|oci|mirror` is the normal entry point. `stuff publish --help` is authoritative for its grammar, options, and exit codes. A publish reads the live generation and manifest, prepares the requested packages against them, validates the complete result, uploads only missing objects, promotes `current` with a conditional write, reads back, and reports; a request whose bytes are already published reports `unchanged` and promotes nothing.
+`stuff publish cargo|npm|pypi|oci|mirror` is the normal entry point. `stuff publish --help` is authoritative for its grammar, options, and exit codes. A publish reads the live generation and manifest, prepares the requested packages against them, validates the complete result, uploads only missing objects, activates the generation through the durable coordinator, reads back, and reports; a request whose bytes are already published reports `unchanged` and promotes nothing.
 
 ## Check prerequisites
 
 | Requirement | Use | Check |
 | --- | --- | --- |
-| `cf` signed in, unless `R2_S3_*` is supplied | Mint temporary R2 credentials | `cf --profile stuff auth whoami` |
+| Owner-only publishing service credentials | Authenticate the gateway and coordinator | `~/.config/stuff/credentials.json`, mode 600 |
 | Publication state | Extend the live registry instead of replacing it | A publish reads the live generation; local state is optional |
 | Python 3.11+ | Run the kept R2 maintenance scripts and the `mycrates` oracle | `python3 --version` |
 | Rust nightly | `cargo publish` for crates | `cargo --version` |
@@ -15,12 +15,10 @@
 | `auditwheel` or `delocate` | `mypypi` repairs native wheels | `deploy/provision-mypypi-repair.sh` installs the pin |
 | `sandbox-exec` (macOS, built in) or `bwrap` (Linux) | Confine sdist build backends and wheel import checks | `bwrap --version`; the container needs the flags in the mypypi README |
 | Network | Fetch crates, npm tarballs, and Python wheels | |
-| R2 S3 token (optional) | Long-lived credentials, conditional promotion, and multipart uploads over 300 MB | `R2_S3_*` is set, or `cf` mints temporary credentials |
-| OCI writer host (optional) | Stream authenticated pushes through signed upload URLs | `deploy/myoci-writer.sh` runs with the shared secret and R2 credentials |
+| OCI writer host (optional) | Stream authenticated pushes through signed upload URLs | `deploy/myoci-writer.sh` runs with the shared secret and publishing service credentials |
 
-`stuff` mints R2 credentials through the `cf` profile named by `cf_profile` in its configuration (default `stuff`) and passes `--profile` on every `cf` call, so `make publish-*` works from any directory without a directory binding. Create the profile once with `cf auth create stuff`; check it with `cf --profile stuff auth whoami`. The kept maintenance scripts (`r2-pull.py`, `r2-gc.py`) mint through `stuff credentials`, so they use the same profile.
-
-`stuff` keeps configuration (`cf_profile`, the per-registry `bucket` and `public_base_url`, and `cargo.download_base_url`) in `${XDG_CONFIG_HOME:-$HOME/.config}/stuff/config.json`, a disposable cache in `${XDG_CACHE_HOME:-$HOME/.cache}/stuff/<registry>`, and durable state in `${XDG_STATE_HOME:-$HOME/.local/state}/stuff/<registry>`; `STUFF_CONFIG_HOME`, `STUFF_CACHE_HOME`, and `STUFF_STATE_HOME` override each. The kept maintenance scripts use the same state root. Back up the state directories. The live generation, not local state, is the publication source of truth.
+The native publisher reads the service credential file described below. It does not invoke Cloudflare or mint backing-store credentials. The gateway accepts immutable uploads under renewable leases; the coordinator owns activation, rollback and collection. Ordinary publishers receive only service credentials.
+`stuff` keeps configuration (the per-registry `bucket` and `public_base_url`, and `cargo.download_base_url`) in `${XDG_CONFIG_HOME:-$HOME/.config}/stuff/config.json`, a disposable cache in `${XDG_CACHE_HOME:-$HOME/.cache}/stuff/<registry>`, and durable state in `${XDG_STATE_HOME:-$HOME/.local/state}/stuff/<registry>`; `STUFF_CONFIG_HOME`, `STUFF_CACHE_HOME`, and `STUFF_STATE_HOME` override each. The kept maintenance scripts use the same state root. Back up the state directories. The live generation, not local state, is the publication source of truth.
 
 ## Publish a registry
 
@@ -367,43 +365,33 @@ stuff republish npm
 stuff republish pypi
 ```
 
-`make deploy` runs the whole rollout in order. It builds one Worker bundle, tests it, and deploys that bundle with `cf deploy --prebuilt`. It then runs the four republishes in parallel — `republish-mycrates`, `republish-mynpm`, `republish-mypypi`, and `republish-mirror` (plus `republish-oci` with `OCI_DEPLOY=1`). The mirror republish is an unchanged no-op unless the pinned manifest changed; then `make smoke-deployed`. Each publish mints its own temporary S3 credentials through `cf` when `R2_S3_*` is absent. Set `DEPLOY_JOBS=1` to serialize them. A failure stops the rollout before the live check.
-
+`make deploy` runs the serving and OpenOrange checks, then builds and deploys the committed image to Lisa. It preserves publication state and credentials. Publish each registry separately with the native commands; an image deployment does not republish packages.
 ## Shared stores
 
 Generation-scoped aliases (`wheels/`, `tarballs/`, `-/tarballs/`, listed in `deploy/shared-store-paths.txt`) are not uploaded. The Worker resolves them to the shared store, including direct `generations/<id>/...` requests. Files over the 300 MB single-PUT cap upload through S3 multipart and are skipped when the remote multipart ETag already matches.
 
-## Upload and promote with S3
+## Upload and activate
 
-Promotion is a conditional write, so publishing needs these credentials. `stuff` uses `R2_S3_*` when the three variables are set, and otherwise mints short-lived credentials through `cf` before it writes; it fails before writing if minting fails. Minting needs a logged-in `cf_profile` profile (`cf auth create stuff`, check with `cf --profile stuff auth whoami`) and an active account token whose policies mention R2. The working directory does not matter.
+The publishing service provides the S3-compatible upload gateway and the durable
+coordinator. A writer acquires a renewable five-minute lease, uploads immutable
+objects and their manifest, and activates against the revision it read. SQL
+commits the revision, generation, manifest identity and receipt together. Stable
+receipt keys make a lost response safe to retry. The S3 `current` object is a
+repairable projection; serving and publishers read the coordinator authority.
 
-To mint credentials by hand, for the bucket you will write (`stuff-mycrates`, `stuff-mynpm`, or `stuff-mypypi`):
-
-```sh
-eval "$(stuff credentials stuff-mycrates)"
-```
-
-The variables exist only in that shell and expire after an hour, so mint again when a long session outlives them. If minting fails, the message names the failing `cf` call. Typical causes are a missing login, no token that mentions R2, or an account `cf auth whoami` cannot resolve. Set `R2_PARENT_ACCESS_KEY_ID` or `R2_ACCOUNT_ID` to pick them explicitly.
-
-`stuff credentials` tries active account tokens whose policies mention R2 first and calls `cf r2 temporary-credentials create` with `object-read-write` scoped to the bucket. It prints exports for `R2_S3_ENDPOINT`, `R2_S3_ACCESS_KEY_ID`, `R2_S3_SECRET_ACCESS_KEY`, and `R2_S3_SESSION_TOKEN`, and never writes them to disk. `R2_PARENT_ACCESS_KEY_ID` picks a specific parent token, and `R2_ACCOUNT_ID` overrides the account used for the endpoint. `R2_TEMP_CREDENTIALS_TTL` sets the lifetime in seconds (default 3600).
-
-To use long-lived credentials instead, export them before publishing:
-
-```sh
-export R2_S3_ENDPOINT="https://<ACCOUNT_ID>.r2.cloudflarestorage.com"
-export R2_S3_ACCESS_KEY_ID="<ACCESS_KEY_ID>"
-export R2_S3_SECRET_ACCESS_KEY="<SECRET_ACCESS_KEY>"
-```
-
-`R2_S3_REGION` defaults to `auto`. Long-lived tokens should allow object read and write on the three registry buckets and nothing else.
-
-A publish reads `current` immediately before promoting and writes it with `If-Match` on the ETag it just read, or `If-None-Match: *` on a first publication, so a publisher that moves `current` during verification gets `412`. `stuff` re-reads the live snapshot and re-plans the additive change up to three times; a non-additive request exits 3 and never falls back to a plain put. The publish lock is local to one machine, and nothing fences two machines publishing the same registry at the same moment; publish each registry from one machine at a time.
+`stuff credentials BUCKET` prints shell exports for authenticated maintenance
+reads through the gateway. It does not mint a token or grant a write lease.
+The native publisher and Python writer/GC helpers acquire their own leases from
+the same service credential file. Keep backing-store credentials on the server.
+Explicit `R2_S3_*` credentials remain for archive/oracle maintenance; a configured
+publishing service takes precedence over them, and partial credentials fail.
+The retired `cf_profile` configuration field is rejected.
 
 ## Publish from a new machine
 
-A machine with no local state reads the live generation and manifest, verifies the objects it uses against listing size and ETag, and prepares against that snapshot. Use the single-writer restriction above; a fresh local cache does not establish ownership against another publishing machine.
+A machine with no local state reads the live generation and manifest, verifies the objects it uses against listing size and ETag, and prepares against that snapshot. The coordinator serializes writers across machines. A conflicting lease or revision returns a conflict without replacing another writer's generation.
 
-`deploy/r2-pull.py BUCKET DEST` only reads the bucket. It fetches the current generation and the shared stores and checks each object against its listing ETag, using the multipart ETag algorithm for objects uploaded in parts. After the download it checks every entry of the generation's manifest (key, size, ETag) against the pulled tree; a generation published before manifests existed is pulled without that check. With `R2_S3_*`, or with credentials minted through `cf`, it lists through the S3 API and downloads `R2_PULL_JOBS` objects in parallel. `R2_PULL_CF_ONLY=1` forces the paced `cf` transport.
+`deploy/r2-pull.py BUCKET DEST` only reads the bucket. It fetches the current generation and the shared stores and checks each object against its listing ETag, using the multipart ETag algorithm for objects uploaded in parts. After the download it checks every entry of the generation's manifest (key, size, ETag) against the pulled tree; a generation published before manifests existed is pulled without that check. With the publishing service credentials, or explicit archive `R2_S3_*`, it lists through the S3 API and downloads `R2_PULL_JOBS` objects in parallel. `R2_PULL_CF_ONLY=1` forces the paced `cf` transport.
 
 The Python `mycrates` adoption sequence (`mycrates init`, `adopt`, and `verify`) belongs to the legacy oracle and its golden tests; it is not a publishing entry point.
 
@@ -421,53 +409,33 @@ crates/mycrates/bin/mycrates migrate-state --state-dir "$H/mycrates/state"
 
 This describes the legacy Python write path, kept as the parity oracle. `mycrates` writes require the publish token, whether `--token-file` supplies it or you set `MYCRATES_TOKEN`. Reads follow `auth_required` in `config.json`, and the generated `current/registry/config.json` advertises the same value as `auth-required`.
 
-Keep `auth_required` false for the public Worker and static servers, which do not enforce read auth. The publish server serves `blobs/` for Cargo verification, so a dependent native crate publishes without `--no-verify`.
+Keep `auth_required` false for archive static servers. Production read authentication belongs to the tailnet ingress. The publish server serves `blobs/` for Cargo verification, so a dependent native crate publishes without `--no-verify`.
 
-## Deploy the Worker
-
-```sh
-cd crates/stuff-worker
-pnpm install --frozen-lockfile
-pnpm run build
-cf deploy --prebuilt --dry-run
-cf deploy --prebuilt
-```
-
-`pnpm run build` writes the Cloudflare Build Output Specification under `.cloudflare/output/v0`, and `cf deploy --prebuilt` uploads it without rebuilding (see [crates/stuff-worker/README.md](../crates/stuff-worker/README.md)). Use `--provision` only when adding a bucket. Custom domains come from `domains` in `cloudflare.config.ts`.
-
-The Worker uses Workers Caching. The default entrypoint is an uncached gateway. The `Registry` entrypoint caches responses under a key that includes the host, so the four domains cannot share cache entries. Immutable artifacts carry a one-year TTL. Mutable generation views carry 60 seconds, so a promotion becomes visible within that window without a cache purge. The gateway costs one extra worker-to-worker request per request; a cache hit skips `Registry` but still runs the gateway. Two requests to the same URL should show `cf-cache-status: HIT` on the second. Range requests are sliced from the cached full object, so a cold range fetch downloads the whole artifact. On a cache miss, `Registry` still reads each `current` pointer, so the 60-second window holds. It starts the object read for the pointer value its isolate last saw in parallel with the pointer read, and discards that read when the pointer has moved. The unified page and `llms.txt` keep their rendered body in the colo cache under the Worker version and the four generation ids, so they render again only after a deploy or a promotion.
-
-## Edge protection
-
-The registry hosts serve package clients, not browsers, so they must never receive an
-interactive challenge. Keep these zone settings for `17166969.xyz`:
-
-- Bot Fight Mode and Browser Integrity Check off.
-- Security Level `medium`, with the Cloudflare managed WAF ruleset enabled.
-- The `/ingest/` rate limit at 20 requests per 10 seconds per source IP and colo; do not
-  rate-limit or challenge the read paths.
-- No Managed Challenge, JS Challenge, or Turnstile rule on `crates.`, `npm.`, `pypi.`,
-  `oci.`, `stuff.`, `oci-blobs.`, `crates-blobs.`, or `mirror.`.
-
-Cargo downloads `.crate` files from `crates-blobs.17166969.xyz`, an R2 custom domain
-on `stuff-mycrates`, so they never invoke the Worker. Each generation's
-`config.json` sets `dl` to `<download_base_url>/blobs/{sha256-checksum}.crate`, and
-`cargo.download_base_url` defaults to that host. A config that sets
-`cargo.public_base_url` without `download_base_url` keeps downloads on the public host.
-The host needs two zone rules. The `stuff cache rules` Cache Rule caches
-`/blobs/*` for a year. The custom firewall rule "crates-blobs serves only blob
-objects" blocks every other path and method, because the bucket also holds
-`current`, `generations/`, `manifests/`, and `_probe/`. Generations published before
-the change keep `dl` on `crates.17166969.xyz`, and the Worker still serves
-`/blobs/` for them.
-
-A challenge breaks `cargo` with `403` and a `Just a moment...` body from
-`https://crates.17166969.xyz/current/crates-io/config.json`. Verify a fetch returns `200`:
+## Deploy the serving application
 
 ```sh
-curl -fsS -o /dev/null -w '%{http_code}\n' \
-  https://crates.17166969.xyz/current/crates-io/config.json
+make deploy ORANGE_HOST=lisa
 ```
+
+The image build consumes the existing compatibility build output and pinned
+OpenOrange closure. Deployment reads the host's previous image, changes only
+that app's image, and verifies stored registry data through the real HTTPS
+hostname at the selected host's Tailscale address. Failure or interruption
+restores the previous image. Runtime configuration and service credentials stay
+on the host; image deployment does not publish registry content.
+
+## Registry access
+
+Every registry and blob hostname resolves directly to Lisa's private tailnet
+ingress. The ingress verifies the peer's tailnet identity before forwarding a
+request. Package clients use the existing HTTPS URLs without Cloudflare login
+or browser challenges. No public proxy or tunnel fronts Stuff.
+
+Cargo downloads `.crate` files from `crates-blobs.17166969.xyz`; that reader
+accepts only `/blobs/` paths. OCI redirects blob reads to
+`oci-blobs.17166969.xyz`, which accepts only SHA-256 blob paths. Both readers
+stream from the same private S3 store and preserve HEAD, conditional and ranged
+reads. Published generation URLs and artifact hashes remain unchanged.
 
 ## Verify the publication
 
@@ -489,16 +457,18 @@ stuff rollback cargo <generation-id>
 
 `make gc` deletes R2 generations outside its retention window and shared-store objects no retained manifest references, then prints per-bucket and total storage before and after. It keeps `current` plus `GC_KEEP_PREVIOUS` older generations (default 1) and `GC_KEEP_NEWER` newer generations (default `all`). Preview with `GC_DRY_RUN=1`, and restrict buckets with `GC_BUCKETS`.
 
-The command mints bucket-scoped credentials per bucket, so the usual `cf` login is enough. Because manifests are deleted with their generations, rollback and roll-forward only reach retained generations.
-
-Generation GC holds its helper lock while planning and deleting; the package-registry lock mismatch above still requires separate scheduling from Rust publishers. It deletes manifests first, then generation trees, then shared objects. Before every batch it re-reads `current` and the manifest set and stops if either changed. It also defers shared-store deletion while a recent generation directory has no manifest. These checks belong to `r2-gc.py`; the separate OCI blob collector lacks that incomplete-generation protection.
+Generation and OCI blob collection use the same renewable exclusive coordinator
+lease as publishers. A collector checks every retained manifest and blob inventory,
+records exact S3 version IDs as retired before deleting them, and leaves each
+generation manifest until its bounded deletion batches finish. A generation that
+has been collected cannot be reactivated. New versions of shared immutable content
+can be uploaded safely. Bucket versioning must be enabled and verified.
 
 ## Fix common failures
 
 | Message | Cause | Fix |
 | --- | --- | --- |
-| `cf is not authenticated` | No active cf session | Run `cf auth login --use-keyring` |
-| `cannot determine the R2 account` or `no active account token can mint R2 credentials` | `stuff` could not mint R2 credentials through `cf` | Run `cf auth create stuff` (or the configured `cf_profile`), or export `R2_S3_*` |
+| `publishing service credentials are required` | No service credential file is configured | Install the owner-only service credential file below |
 | `current changed during promotion` | Another publisher moved `current` | Pull the new generation, merge your changes, and publish again |
 | `immutable object differs` | A local immutable file differs from R2 | Find which side is wrong; immutable objects are never overwritten |
 | `exceeds the 300 MB single-PUT cap` | Large object without S3 credentials | Set `R2_S3_*` |
@@ -522,10 +492,11 @@ entries whose source and destination still match and re-copies changed sources.
 ETags with the ledger and, with `--deep`, re-downloads the destination and checks SHA-256. It exits 1
 naming each missing, extra, changed or corrupted key. `make test-store-copy` proves both offline.
 
-### Publication coordinator (not enabled)
+### Publication coordinator
 
-The Worker contains an experimental per-registry Durable Object. It is disabled unless
-`STUFF_COORDINATOR_ENABLED` is `true`; do not set that flag in production yet. Its
+A per-registry Durable Object owns publication. The service requires
+`STUFF_COORDINATOR_ENABLED=true`; enable it only after validating the copied
+registries and fencing legacy writers during cutover. Its
 SQLite row owns the activation revision, generation, manifest SHA-256, and pending
 projection state. An activation transaction also stores its idempotency receipt.
 After the SQLite commit the owner writes R2 `current` as a compatibility projection;
@@ -534,13 +505,12 @@ serving a coordinator-backed mutable pointer. SQLite and R2 are not one atomic
 transaction. A request still in flight when an actor dies may finish late; all
 mutable reads use SQLite authority, and the next coordinator operation repairs
 the projection. Direct reads of the compatibility marker must be fenced at
-cutover. Immutable
-downloads continue to use R2 directly.
+cutover. Immutable downloads use the S3-backed registry and blob readers.
 
 The authenticated management endpoint is `/_publication/<registry>/<operation>`
 on the stuff host. Registries are `cargo`, `npm`, `pypi`, `oci`, and `mirror`.
 Requests use `Authorization: Bearer <STUFF_COORDINATOR_TOKEN>`; the token is a
-server secret. `GET current` returns `revision`, `generation`, `manifest`, and
+publishing service credential. `GET current` returns `revision`, `generation`, `manifest`, and
 `pending`. All other operations use POST with JSON. `begin` and `gc-claim` return
 an exclusive five-minute lease token, expiry in Unix milliseconds, and the current
 revision. `renew` and `abort` accept `{"token":"..."}`. `activate` and `rollback`
@@ -559,18 +529,13 @@ again, even if a crashed collector's deletion is still in flight. Re-uploading
 its manifest cannot undo retirement. This makes late external completion safe;
 the immutable generation ID must never be reused for different bytes.
 
-The next integration must replace native publication, rollback, and both GC
-scripts' direct mutations with this API, and remove or route OCI push's direct
-activation. Native uploads should retain their existing streaming and multipart
-implementation: issue narrowly scoped, short-lived upload credentials or a gateway
-that permits only immutable keys associated with an active lease, refuses `current`,
-manifest replacement and deletion, and prevents a stale upload from completing
-after its lease is superseded. A streaming proxy for every object would put the
-actor on the data path and sacrifice the native multipart design. OCI activation
-also checks every declared blob in the separate blob bucket. GC must extend its
-durable retirement protocol to shared objects and blob retention. Until those controls exist,
-unrestricted R2 credentials and the legacy writers can bypass this authority;
-lease checks alone cannot protect an external request already in flight at a crash.
+Native publication, rollback, both GC helpers and optional OCI manifest pushes
+use this authority. Immutable uploads stream through the authenticated S3 gateway,
+including multipart requests, under the renewable writer lease. The gateway
+refuses direct `current` writes, immutable replacement and arbitrary deletion.
+GC retires exact object versions before deletion, so a delayed deletion cannot
+remove a later upload of the same content. The store's root and application
+backend keys remain on the runtime host.
 
 ## Coordinated publishing service
 

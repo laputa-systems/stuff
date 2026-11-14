@@ -166,7 +166,7 @@ pub(super) fn begin(options: Options, environment: &Environment) -> Result<Begun
     let config = Config::load(&paths.config_file())?;
     let layout = CargoLayout::from_environment(environment);
     layout.prepare(environment)?;
-    let credentials = resolve(environment, &config.cf_profile, &config.cargo.bucket)?;
+    let credentials = resolve(environment, &config.cargo.bucket)?;
     let staging = if options.dry_run {
         Some(Staging::create(&layout.cache_dir, "cargo-dry-run")?)
     } else {

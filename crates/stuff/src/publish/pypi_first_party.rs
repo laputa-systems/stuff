@@ -30,7 +30,7 @@ pub fn publish(
     let config = Config::load(&paths.config_file())?;
     let settings = project_settings(&config.pypi.public_base_url)?;
     let artifacts = mypypi::publish::first_party_artifacts(&settings, &wheels).map_err(map_mypypi)?;
-    let credentials = credentials::resolve(environment, &config.cf_profile, &config.pypi.bucket)?;
+    let credentials = credentials::resolve(environment, &config.pypi.bucket)?;
     let state_dir = paths.publish_state_dir(Registry::Pypi);
     let cache_dir = paths.cache_dir("pypi");
     let staging = Staging::create(&cache_dir, "pypi-first-party")?;

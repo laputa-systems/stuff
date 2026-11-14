@@ -783,8 +783,7 @@ Commands:
      [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
      [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
   credentials <bucket>
-     print shell exports of short-lived R2 S3 credentials for one bucket,
-     minted through the configured cf_profile; use with eval
+     print shell exports for the publishing service S3 gateway; use with eval
   lock-path <bucket> | lock-path --registry cargo|npm|pypi|oci|mirror
      print the publish lock file of a registry, or of the registry that owns
      a configured bucket; maintenance helpers hold it while they write

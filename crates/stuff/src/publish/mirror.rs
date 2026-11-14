@@ -71,7 +71,7 @@ fn run_publication(
     })?;
     let manifest = mymirror::manifest::Manifest::parse(&manifest_text)
         .map_err(|error| PublishError::Usage(error.to_string()))?;
-    let credentials = credentials::resolve(environment, &config.cf_profile, &bucket)?;
+    let credentials = credentials::resolve(environment, &bucket)?;
 
     let cache_dir = paths.cache_dir("mirror");
     let state_dir = paths.publish_state_dir(Registry::Mirror);

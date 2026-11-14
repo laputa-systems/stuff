@@ -47,7 +47,7 @@ fn run() -> Result<(), String> {
     let config = Config::load(&paths.config_file()).map_err(|e| e.to_string())?;
     let bucket = config.cargo.bucket.clone();
     let credentials =
-        resolve(&environment, &config.cf_profile, &bucket).map_err(|e| e.to_string())?;
+        resolve(&environment, &bucket).map_err(|e| e.to_string())?;
     let client = R2Client::new(credentials);
 
     let mut sizes = Vec::new();
