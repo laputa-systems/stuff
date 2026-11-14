@@ -12,6 +12,8 @@
     oo provision [APP...]       store users/buckets, Rivet namespaces/pools
     oo set-image APP IMAGE [--if-current IMAGE]  conditionally select an image
     oo deployment APP           read the selected image and node version as JSON
+    oo record-deployment APP --if-current IMAGE  record a healthy activation
+    oo sync-deployments [APP]   retry queued deployment markers
     oo remove APP [--purge-store]  stop and unregister an app (optionally delete its buckets and S3 key)
     oo reload-ingress           validate and gracefully reload Caddy
     oo wait SERVICE [APP] [SECS]  block until a service answers
@@ -33,6 +35,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(os.path.realpath(__file__)).parent.parent / "lib"))
 import oolib  # noqa: E402
+import deployments  # noqa: E402
 from oo_s3 import S3  # noqa: E402
 from oolib import UID, ConfigError  # noqa: E402
 
@@ -586,6 +589,17 @@ def main(argv: list[str]) -> None:
         elif cmd == "deployment":
             deployment = oolib.read_app_deployment(cfg.app_image_file(cfg.apps[rest[0]]))
             print(json.dumps({"image": deployment.image, "version": deployment.version}))
+        elif cmd == "record-deployment":
+            if len(rest) != 3 or rest[1] != "--if-current":
+                die("usage: oo record-deployment APP --if-current IMAGE")
+            deployments.record(cfg, rest[0], rest[2], ready)
+            print(f"{rest[0]}: deployment marker delivered")
+        elif cmd == "sync-deployments":
+            if len(rest) > 1:
+                die("usage: oo sync-deployments [APP]")
+            for name in rest or [a.name for a in cfg.orange_apps()]:
+                deployments.sync(cfg, name)
+            print("deployment markers: synced")
         elif cmd == "reload-ingress":
             cmd_reload_ingress(cfg)
         elif cmd == "remove":

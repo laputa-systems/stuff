@@ -30,7 +30,8 @@ case "$*" in
   *'oo set-image stuff '*) [ "$(cat "$TEST_ROOT/image")" = "\${9}" ] || exit 1; printf '%s' "\${7}" > "$TEST_ROOT/image" ;;
   *'rc-service oo-app.stuff restart'*)
     if [ "$SCENARIO" = restart-fail ] && [ "$(cat "$TEST_ROOT/image")" = stuff:abcdef123456 ]; then exit 1; fi ;;
-  *'oo wait app stuff 90'*) if [ "$SCENARIO" = term ]; then kill -TERM "$PPID"; fi ;;
+  *'oo wait app stuff 90'*) if [ "$SCENARIO" = term ] && [ "$(cat "$TEST_ROOT/image")" = stuff:abcdef123456 ]; then kill -TERM "$PPID"; fi ;;
+  *'oo record-deployment stuff --if-current '*) [ "$SCENARIO" != marker-fail ] || exit 1 ;;
   *) exit 1 ;;
 esac`);
   script(join(bin, "curl"), `printf '%s\\n' "$*" >> "$TEST_ROOT/log"\nif [ "$SCENARIO" = health-fail ]; then echo 503; else echo 200; fi`);
@@ -75,4 +76,12 @@ test("successful deploy verifies the selected image and routes HTTPS to the host
   assert.match(result.log, /--resolve stuff\.17166969\.xyz:443:100\.64\.1\.2/);
   assert.match(result.log, /https:\/\/stuff\.17166969\.xyz\//);
   assert.equal((result.log.match(/oo deployment stuff/g) ?? []).length, 3);
+  assert.match(result.log, /record-deployment stuff --if-current stuff:abcdef123456/);
+});
+
+test("a failed marker delivery leaves the healthy deployment selected", t => {
+  const result = run(t, "marker-fail");
+  assert.notEqual(result.status, 0);
+  assert.equal(result.image, "stuff:abcdef123456");
+  assert.doesNotMatch(result.log, /set-image stuff stuff:previous/);
 });

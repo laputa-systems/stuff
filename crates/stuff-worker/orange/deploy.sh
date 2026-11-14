@@ -24,6 +24,9 @@ rollback() {
         if ssh "$host" doas -n /opt/openorange/bin/oo set-image "$app" "$previous" --if-current "$image" &&
            ssh "$host" doas -n /sbin/rc-service "oo-app.$app" restart; then
             echo 'Deployment failed; restored the previous Orange image' >&2
+            if ssh "$host" doas -n /opt/openorange/bin/oo wait app "$app" 90; then
+                ssh "$host" doas -n /opt/openorange/bin/oo record-deployment "$app" --if-current "$previous" || echo 'Rollback deployment marker pending; run oo sync-deployments' >&2
+            fi
         else
             echo "Orange rollback failed; inspect oo-app.$app on the host" >&2
             code=1
@@ -45,4 +48,5 @@ status=$(curl -sS --noproxy "$health_host" --resolve "$health_host:443:$address"
 selected=$(ssh "$host" doas -n /opt/openorange/bin/oo deployment "$app" | jaq -er '.image | select(type == "string" and length > 0)')
 [ "$selected" = "$image" ] || { echo 'Orange selected image changed during health check' >&2; exit 1; }
 switched=false
+ssh "$host" doas -n /opt/openorange/bin/oo record-deployment "$app" --if-current "$image"
 printf 'deployed %s on %s\n' "$image" "$host"
