@@ -39,7 +39,7 @@ _UPSTREAM_REGISTRIES: dict[Ecosystem, frozenset[str | None]] = {
     Ecosystem.NPM: frozenset({None, audit_upgrades.UPSTREAM_NPM_REGISTRY, "https://registry.npmjs.org"}),
     Ecosystem.PYPI: frozenset({None, audit_upgrades.UPSTREAM_PYTHON_INDEX, "https://pypi.org/simple/"}),
 }
-_PRUNED = frozenset({".git", ".work", ".venv", "node_modules", "target", "__pycache__"})
+_PRUNED = frozenset({".git", ".work", ".venv", "node_modules", "target", "__pycache__", ".cargo-home"})
 _SERVED_TIMEOUT_SECONDS = 300.0
 _SERVED_POLL_SECONDS = 15.0
 

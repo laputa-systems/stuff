@@ -128,7 +128,7 @@ def test_multiline_features_list_is_rewritten(tmp_path: Path) -> None:
     body = plan["Cargo.toml"]
     assert body == (
         '[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\n'
-        'rustix = { package = "laputa-rustix", version = "1.1.4", features = [\n'
+        'rustix = { package = "laputa-rustix", registry = "mycrates", version = "1.1.4", features = [\n'
         '    "event",\n'
         '    "fs",\n'
         '] }\n'
@@ -148,13 +148,23 @@ def test_fix_rewrites_bare_and_inline_specs(tmp_path: Path) -> None:
     )
     with mock.patch.object(laputa_rustix, "_refresh_locks"):
         plan = _fix(root, repository("tool", "rust"))
-    assert set(plan) == {"Cargo.toml"}
+    assert set(plan) == {"Cargo.toml", ".cargo/config.toml"}
     assert plan["Cargo.toml"] == (
         '[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\n'
-        'rustix = { package = "laputa-rustix", version = "1" }\n'
+        'rustix = { package = "laputa-rustix", registry = "mycrates", version = "1" }\n'
         'serde = "1"\n'
         'tokio = { version = "1", features = ["rt"] }\n'
         'rustix_fs = { version = "1", package = "laputa-rustix" }\n'
+    )
+    assert plan[".cargo/config.toml"] == (
+        '[source.crates-io]\n'
+        'replace-with = "stuff"\n'
+        '\n'
+        '[source.stuff]\n'
+        'registry = "sparse+https://crates.17166969.xyz/current/crates-io/"\n'
+        '\n'
+        '[registries.mycrates]\n'
+        'index = "sparse+https://crates.17166969.xyz/current/registry/"\n'
     )
 
 
@@ -164,7 +174,10 @@ def test_fix_is_idempotent(tmp_path: Path) -> None:
     write(root, '[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\nrustix = "1"\n')
     with mock.patch.object(laputa_rustix, "_refresh_locks"):
         first = _fix(root, repository("tool", "rust"))
-    write(root, first["Cargo.toml"])
+    for key, value in first.items():
+        path = root / key
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(value, encoding="utf-8")
     with mock.patch.object(laputa_rustix, "_refresh_locks"):
         second = _fix(root, repository("tool", "rust"))
     assert second == {}
@@ -218,7 +231,7 @@ def test_fixer_refreshes_lockfile(tmp_path: Path) -> None:
 
     with mock.patch.object(laputa_rustix.subprocess, "run", fake_run):
         plan = _fix(root, repository("tool", "rust"))
-    assert set(plan) == {"Cargo.toml", "Cargo.lock"}
+    assert set(plan) == {"Cargo.toml", "Cargo.lock", ".cargo/config.toml"}
 
 
 def test_fixer_reports_lock_refresh_failure(tmp_path: Path) -> None:
@@ -249,4 +262,65 @@ def test_rule_is_registered() -> None:
     assert "laputa-rustix" in registered
     rule = next(rule for rule in rules() if rule.id == "laputa-rustix")
     assert rule.fix is not None
-    assert rule.allowed_paths == ("Cargo.toml", "*/Cargo.toml", "Cargo.lock", "*/Cargo.lock")
+    assert rule.allowed_paths == ("Cargo.toml", "*/Cargo.toml", "Cargo.lock", "*/Cargo.lock", ".cargo/config.toml")
+
+
+def test_fix_appends_alias_to_existing_config_preserving_it(tmp_path: Path) -> None:
+    root = tmp_path / "demo"
+    root.mkdir()
+    (root / ".cargo").mkdir()
+    (root / ".cargo" / "config.toml").write_text(
+        '[target.x86_64-unknown-linux-musl]\nrustflags = ["-Clink-arg=-fuse-ld=mold"]\n',
+        encoding="utf-8",
+    )
+    write(root, '[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\nrustix = "1"\n')
+
+    with mock.patch.object(laputa_rustix, "_refresh_locks"):
+        plan = _fix(root, repository("tool", "rust"))
+
+    config = plan[".cargo/config.toml"]
+    assert config.startswith('[target.x86_64-unknown-linux-musl]\nrustflags')
+    assert config.count("[registries.mycrates]") == 1
+    assert 'index = "sparse+https://crates.17166969.xyz/current/registry/"' in config
+
+
+def test_fix_keeps_an_existing_mycrates_alias(tmp_path: Path) -> None:
+    root = tmp_path / "demo"
+    root.mkdir()
+    (root / ".cargo").mkdir()
+    config_body = (
+        '[registries.mycrates]\n'
+        'index = "sparse+https://crates.17166969.xyz/current/registry/"\n'
+    )
+    (root / ".cargo" / "config.toml").write_text(config_body, encoding="utf-8")
+    write(root, '[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\nrustix = "1"\n')
+
+    with mock.patch.object(laputa_rustix, "_refresh_locks"):
+        plan = _fix(root, repository("tool", "rust"))
+
+    assert ".cargo/config.toml" not in plan
+
+
+def test_fix_fails_loudly_on_a_conflicting_mycrates_index(tmp_path: Path) -> None:
+    root = tmp_path / "demo"
+    root.mkdir()
+    (root / ".cargo").mkdir()
+    (root / ".cargo" / "config.toml").write_text(
+        '[registries.mycrates]\nindex = "sparse+https://example.invalid/registry/"\n',
+        encoding="utf-8",
+    )
+    write(root, '[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\nrustix = "1"\n')
+
+    with mock.patch.object(laputa_rustix, "_refresh_locks"), pytest.raises(RuntimeError, match="mycrates"):
+        _fix(root, repository("tool", "rust"))
+
+
+def test_fix_fails_loudly_on_invalid_config_toml(tmp_path: Path) -> None:
+    root = tmp_path / "demo"
+    root.mkdir()
+    (root / ".cargo").mkdir()
+    (root / ".cargo" / "config.toml").write_text("[registries\n", encoding="utf-8")
+    write(root, '[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\nrustix = "1"\n')
+
+    with mock.patch.object(laputa_rustix, "_refresh_locks"), pytest.raises(RuntimeError, match="invalid TOML"):
+        _fix(root, repository("tool", "rust"))

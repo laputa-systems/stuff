@@ -1,12 +1,14 @@
 """The cargo dependency `rustix` is preferred as `laputa-rustix`.
 
 `laputa-rustix` is the laputa-systems fork of rustix with Windows support
-removed. Fleet repositories resolve it from the stuff registry, which serves
-it as the replacement for the crates.io release.
+removed. It is published on the stuff first-party registry
+(`sparse+https://crates.17166969.xyz/current/registry/`), which fleet
+repositories consume through the `mycrates` alias in `.cargo/config.toml`.
 
 The fixer rewrites a direct `rustix` dependency to the same key with
-`package = "laputa-rustix"`, so the import paths in dependent code stay
-unchanged, and it refreshes `Cargo.lock` minimally.
+`package = "laputa-rustix"` and `registry = "mycrates"`, so the import paths
+in dependent code stay unchanged, ensures the `mycrates` alias exists in the
+repository's `.cargo/config.toml`, and refreshes `Cargo.lock` minimally.
 """
 
 from __future__ import annotations
@@ -24,6 +26,16 @@ from repomod.types import Finding, Repository, Rule, TagPredicate, operational, 
 
 _RULE_ID = "laputa-rustix"
 _FORK = "laputa-rustix"
+_MYCRATES_INDEX = "sparse+https://crates.17166969.xyz/current/registry/"
+_MYCRATES_ALIAS = (
+    '[source.crates-io]\n'
+    'replace-with = "stuff"\n'
+    '\n'
+    '[source.stuff]\n'
+    'registry = "sparse+https://crates.17166969.xyz/current/crates-io/"\n'
+    '\n'
+    f'[registries.mycrates]\nindex = "{_MYCRATES_INDEX}"\n'
+)
 _PRUNED_DIRECTORIES = frozenset({".git", ".work", ".venv", "node_modules", "target"})
 _SKIPPED_PARTS = frozenset({"fixtures", "testdata", "snapshots", "golden", "third_party", "vendor"})
 _ALLOWED_PATHS = (
@@ -31,6 +43,7 @@ _ALLOWED_PATHS = (
     "*/Cargo.toml",
     "Cargo.lock",
     "*/Cargo.lock",
+    ".cargo/config.toml",
 )
 _DEPENDENCY_TABLE_NAMES = frozenset({"dependencies", "dev-dependencies", "build-dependencies"})
 _KEY = ("rustix", "'rustix'", '"rustix"')
@@ -276,9 +289,9 @@ def _rewrite(source: str) -> str:
         text = raw.strip()
         if text.startswith("{"):
             inner = raw[raw.index("{") + 1 :].lstrip(" \t")
-            replacement = '{ package = "laputa-rustix", ' + inner
+            replacement = '{ package = "laputa-rustix", registry = "mycrates", ' + inner
         else:
-            replacement = f'{{ package = "laputa-rustix", version = {text} }}'
+            replacement = f'{{ package = "laputa-rustix", registry = "mycrates", version = {text} }}'
         result = result[: occurrence.value_start] + replacement + result[occurrence.value_end :]
     return result
 
@@ -293,6 +306,31 @@ def _lock_directories(work: Path, manifests: list[str]) -> list[str]:
                 directories.add(PurePosixPath(*parts[:depth]).as_posix() if depth else ".")
                 break
     return sorted(directories)
+
+
+def _ensure_alias(root: Path, plan: dict[str, str]) -> None:
+    config = root / ".cargo" / "config.toml"
+    if config.is_symlink():
+        raise RuntimeError(f"{config} is a symlink; the `mycrates` alias cannot be ensured")
+    if not config.is_file():
+        plan[".cargo/config.toml"] = _MYCRATES_ALIAS
+        return
+    source = config.read_text(encoding="utf-8")
+    try:
+        document = tomllib.loads(source)
+    except tomllib.TOMLDecodeError as error:
+        raise RuntimeError(f"{config} is invalid TOML: {error}") from error
+    registries = document.get("registries")
+    mycrates = registries.get("mycrates") if isinstance(registries, dict) else None
+    if isinstance(mycrates, dict) and mycrates.get("index") == _MYCRATES_INDEX:
+        return
+    if isinstance(mycrates, dict):
+        raise RuntimeError(
+            f"{config} defines `registries.mycrates` with index {mycrates.get('index')!r}; "
+            f"expected {_MYCRATES_INDEX!r}"
+        )
+    prefix = source if source.endswith("\n") else source + "\n"
+    plan[".cargo/config.toml"] = prefix + "\n" + _MYCRATES_ALIAS
 
 
 def _refresh_locks(root: Path, manifests: list[str], plan: dict[str, str]) -> None:
@@ -339,6 +377,7 @@ def laputa_rustix_plan(root: Path, repository: Repository) -> dict[str, str]:
         plan[finding.file] = _rewrite((root / finding.file).read_text(encoding="utf-8"))
     manifests = [name for name in plan if name.endswith("Cargo.toml")]
     if manifests:
+        _ensure_alias(root, plan)
         _refresh_locks(root, manifests, plan)
     return plan
 
