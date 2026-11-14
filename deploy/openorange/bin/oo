@@ -169,7 +169,8 @@ def render_caddyfile(cfg) -> str:
             if app.kind == "orange" and not cfg.app_image_file(app).exists():
                 lines += ['\t\trespond "app not deployed" 503']
             else:
-                lines += [f"\t\treverse_proxy {app.ip}:{app.port}"]
+                lines += [f"\t\treverse_proxy {app.ip}:{app.port} {{",
+                          "\t\t\theader_up X-Forwarded-Proto https", "\t\t}"]
             lines += ["\t}", "}", ""]
         lines += [f"# Any other Host on the public listener", f"http://:{port} {{", f"\tbind {pub['bind']}", '\trespond "not found" 404', "}", ""]
     return "\n".join(lines)

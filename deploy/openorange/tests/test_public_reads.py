@@ -27,7 +27,7 @@ class PublicReadIngressTests(unittest.TestCase):
         request = urllib.request.Request(
             os.environ["OO_PUBLIC_READ_TEST_ORIGIN"].rstrip("/") + path,
             method=method,
-            headers={"Host": host, "Stats-Tailnet-Identity": "user:forged", "Stats-Gateway-Secret": "forged", "X-OO-Ingress": "tailnet"},
+            headers={"Host": host, "Stats-Tailnet-Identity": "user:forged", "Stats-Gateway-Secret": "forged", "X-OO-Ingress": "tailnet", "X-Forwarded-Proto": "http"},
         )
         try:
             return urllib.request.urlopen(request, timeout=15)
@@ -35,6 +35,10 @@ class PublicReadIngressTests(unittest.TestCase):
             return error
 
     def test_anonymous_reads_work_and_private_routes_and_mutations_are_blocked(self):
+        with self.request("GET", "/llms.txt") as response:
+            text = response.read().decode()
+            self.assertIn("https://stuff.17166969.xyz/", text)
+            self.assertNotIn("http://stuff.17166969.xyz/", text)
         for method in ("GET", "HEAD"):
             with self.request(method, "/") as response:
                 self.assertEqual(response.status, 200)
