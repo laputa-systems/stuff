@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -15,7 +18,7 @@ from repomod.types import Finding, RepoId, Repository
 FOOTER = "Maintained by Joshua Li: https://github.com/acme/tool"
 HEADER = (
     'version = 1\nmaintainer = "Joshua Li"\nprocedure = "https://example.invalid/owned-tools.md"\n'
-    'owners = ["acme"]\n\n'
+    'owners = ["acme"]\ninstall_manifest = ".local/state/sync/dl-owned.verified.json"\n\n'
 )
 
 
@@ -100,6 +103,33 @@ def test_declared_help_must_contain_the_footer_and_be_tested(tmp_path: Path, mon
     write(tmp_path, "src/help.rs", f"const FOOTER: &str = \"{FOOTER}\";\n")
     write(tmp_path, "tests/help.rs", "assert!(help.contains(\"https://github.com/acme/tool\"));\n")
     assert check(tmp_path, repository) == []
+
+
+def test_help_identity_is_the_complete_repository_name(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    write_policy(
+        tmp_path,
+        monkeypatch,
+        '[producers."acme/tool".commands]\ntool = { help = { source = "src/help.rs", test = "tests/help.rs" } }\n\n'
+        '[producers."acme/e".commands]\ne = { help = { source = "src/help.rs", test = "tests/help.rs" } }\n\n'
+        "[not_applicable]\n",
+    )
+    tool = Repository(RepoId("acme", "tool"), ("tool", "rust"))
+    write(tmp_path, "src/help.rs", "\"Maintained by Joshua Li: https://github.com/acme/tool-old\\n\"\n")
+    write(tmp_path, "tests/help.rs", "assert!(help.contains(\"https://github.com/acme/tool-old\"));\n")
+    assert messages(check(tmp_path, tool)) == [
+        "tool: help footer names acme/tool-old instead of acme/tool",
+        "tool: help test does not check the footer's https://github.com/acme/tool link",
+    ]
+    e = Repository(RepoId("acme", "e"), ("tool", "rust"))
+    write(tmp_path, "src/help.rs", "\"Maintained by Joshua Li: https://github.com/acme/ed\\n\"\n")
+    write(tmp_path, "tests/help.rs", "assert!(help.ends_with(\"https://github.com/acme/ed\\n\"));\n")
+    assert messages(check(tmp_path, e)) == [
+        "e: help footer names acme/ed instead of acme/e",
+        "e: help test does not check the footer's https://github.com/acme/e link",
+    ]
+    write(tmp_path, "src/help.rs", "\"Maintained by Joshua Li: https://github.com/acme/e\\n\"\n")
+    write(tmp_path, "tests/help.rs", "assert!(help.ends_with(\"https://github.com/acme/e\\n\"));\n")
+    assert check(tmp_path, e) == []
 
 
 def test_gaps_are_warnings_not_successes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -240,6 +270,16 @@ def git(*args: str, cwd: Path) -> None:
     subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True)
 
 
+def write_manifest(home: Path, *paths: Path) -> None:
+    manifest = home / ".local/state/sync/dl-owned.verified.json"
+    manifest.parent.mkdir(parents=True, exist_ok=True)
+    entries = {}
+    for path in paths:
+        kind = "D" if path.is_dir() and not path.is_symlink() else "F"
+        entries[str(path)] = {"kind": kind, "fingerprint": owned_tools.manifest_fingerprint(path, kind)}
+    manifest.write_text(json.dumps({"schema": 1, "entries": entries}), encoding="utf-8")
+
+
 @pytest.mark.usefixtures("git_environment")
 def test_which_resolves_without_executing_the_tool(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     write_policy(
@@ -289,20 +329,29 @@ def test_which_resolves_without_executing_the_tool(tmp_path: Path, monkeypatch: 
     git("remote", "set-url", "origin", "https://github.com/acme/tool.git", cwd=checkout)
 
     result = which("tool", catalog, policy, environ)
-    assert result["status"] == "unrecorded"
+    assert result["status"] == "unverified"
     assert result["executable"]["path"] == str(managed / "tool")
+    assert result["executable"]["detail"].startswith("no install manifest")
 
     state = home / ".local/state/dl"
     state.mkdir(parents=True)
-    (state / "tool").write_text("release-abc:etag\n", encoding="utf-8")
+    (state / "tool").write_text("not-a-release-or-sha\n", encoding="utf-8")
+    assert which("tool", catalog, policy, environ)["status"] == "unverified"
+
+    write_manifest(home, managed / "tool", managed / "rg")
+    (state / "tool").write_text(f"release-{'a' * 40}:etag\n", encoding="utf-8")
     result = which("tool", catalog, policy, environ)
     assert result["status"] == "owned"
-    assert result["executable"]["install_record"] == {
-        "path": str(state / "tool"),
-        "value": "release-abc:etag",
-    }
+    assert result["executable"]["evidence"] == "installer-manifest"
+    assert result["executable"]["revision"] == f"release-{'a' * 40}"
+    (state / "tool").write_text("etag-only\n", encoding="utf-8")
+    assert which("tool", catalog, policy, environ)["executable"]["revision"] is None
 
-    (state / "rg").write_text("14.1.1\n", encoding="utf-8")
+    (managed / "tool").write_text(f"#!/bin/sh\ntouch {marker}\nexit 2\n", encoding="utf-8")
+    result = which("tool", catalog, policy, environ)
+    assert result["status"] == "unverified"
+    assert result["executable"]["detail"] == f"{managed / 'tool'} changed since it was installed"
+
     assert which("rg", catalog, policy, environ)["status"] == "upstream-install"
 
     shadowed = {"HOME": str(home), "PATH": f"{other}{os.pathsep}{managed}"}
@@ -317,11 +366,84 @@ def test_which_resolves_without_executing_the_tool(tmp_path: Path, monkeypatch: 
     cargo_bin.mkdir(parents=True)
     (cargo_bin / "new").write_text("#!/bin/sh\nexit 1\n", encoding="utf-8")
     (cargo_bin / "new").chmod(0o755)
-    (cargo_bin / ".new-release").write_text("release-def\n", encoding="utf-8")
-    assert which("new", catalog, policy, {"HOME": str(home), "PATH": str(cargo_bin)})["status"] == "owned"
+    cargo_environ = {"HOME": str(home), "PATH": str(cargo_bin)}
+    record = cargo_bin / ".new-release"
+    record.write_text("not-a-release-or-sha\n", encoding="utf-8")
+    assert which("new", catalog, policy, cargo_environ)["status"] == "unverified"
+    digest = hashlib.sha256((cargo_bin / "new").read_bytes()).hexdigest()
+    record.write_text(f"release-{'b' * 40}\n{digest}  new\n", encoding="utf-8")
+    result = which("new", catalog, policy, cargo_environ)
+    assert result["status"] == "owned"
+    assert result["executable"]["revision"] == f"release-{'b' * 40}"
+    (cargo_bin / "new").write_text("#!/bin/sh\nexit 3\n", encoding="utf-8")
+    assert which("new", catalog, policy, cargo_environ)["status"] == "unverified"
 
     assert not marker.exists()
     assert not any((checkout / ".git").glob("index.lock"))
+
+
+@pytest.mark.usefixtures("git_environment")
+def test_which_verifies_source_links_and_release_directories(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    write_policy(tmp_path, monkeypatch, '[producers."acme/tool".commands]\ntool = { gap = "x" }\n\n[not_applicable]\n')
+    home = tmp_path / "home"
+    workspace = tmp_path / "workspace"
+    catalog = load_catalog(catalog_file(tmp_path), {"HOME": str(home), "REPOMOD_ROOT": str(workspace)})
+    policy = load_owned_tools()
+    checkout = workspace / "tool"
+    clone = tmp_path / "clone"
+    for path in (checkout, clone):
+        path.mkdir(parents=True)
+        git("init", "-q", cwd=path)
+        git("remote", "add", "origin", "git@github.com:acme/tool.git", cwd=path)
+    script = clone / "bin/tool"
+    script.parent.mkdir()
+    script.write_text("#!/bin/sh\nexit 1\n", encoding="utf-8")
+    script.chmod(0o755)
+    git("add", "bin/tool", cwd=clone)
+    git("commit", "-qm", "tool", cwd=clone)
+    managed = home / ".local/bin"
+    managed.mkdir(parents=True)
+    (managed / "tool").symlink_to(script)
+    environ = {"HOME": str(home), "PATH": str(managed)}
+
+    result = which("tool", catalog, policy, environ)
+    assert result["status"] == "owned"
+    assert result["executable"]["evidence"] == "source-link"
+    assert result["executable"]["work_tree"] == str(clone.resolve())
+    assert result["executable"]["revision"] == subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=clone, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+    script.write_text("#!/bin/sh\nexit 2\n", encoding="utf-8")
+    result = which("tool", catalog, policy, environ)
+    assert result["status"] == "owned"
+    assert result["executable"]["revision"] is None
+    assert result["executable"]["detail"].endswith("differs from HEAD")
+
+    git("remote", "set-url", "origin", "git@github.com:other/tool.git", cwd=clone)
+    assert which("tool", catalog, policy, environ)["status"] == "unverified"
+
+    release = home / ".local/share/tool/releases/not-a-revision"
+    (release / "bin").mkdir(parents=True)
+    binary = release / "bin/tool"
+    binary.write_text("#!/bin/sh\nexit 1\n", encoding="utf-8")
+    binary.chmod(0o755)
+    (managed / "tool").unlink()
+    (managed / "tool").symlink_to(binary)
+    result = which("tool", catalog, policy, environ)
+    assert result["status"] == "unverified"
+    assert result["executable"]["revision"] is None
+
+    write_manifest(home, managed / "tool")
+    result = which("tool", catalog, policy, environ)
+    assert result["status"] == "unverified"
+    assert result["executable"]["detail"] == f"{binary.resolve()} is not covered by the install manifest"
+    write_manifest(home, managed / "tool", release)
+    assert which("tool", catalog, policy, environ)["status"] == "owned"
+    binary.write_text("#!/bin/sh\nexit 9\n", encoding="utf-8")
+    assert which("tool", catalog, policy, environ)["status"] == "unverified"
 
 
 def test_repository_policy_is_valid_and_catalogued() -> None:
@@ -356,3 +478,15 @@ def test_repomod_primary_help_names_the_maintained_repository(capsys: pytest.Cap
     output = capsys.readouterr().out
     assert "Maintained by" not in output
     assert '"status": "unknown"' in output
+
+
+def test_which_script_runs_without_site_packages(tmp_path: Path) -> None:
+    result = subprocess.run(
+        [sys.executable, "-I", "-S", str(paths.ROOT / "repomod/which.py"), "no-such-owned-command", "--json"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 1, result.stderr
+    assert json.loads(result.stdout)["status"] == "unknown"

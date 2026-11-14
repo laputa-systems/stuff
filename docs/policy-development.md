@@ -353,7 +353,9 @@ lives. Each command declares exactly one of:
 - `gap = "reason"`: a concrete unfinished migration. It is reported as a warning, never as coverage.
 - `exempt = "reason"`: a companion, shim, or non-agent-facing command, with its support route.
 
-Optional `record` (home-relative install record, default `$XDG_STATE_HOME/dl/COMMAND`),
+The top-level `install_manifest` names usr's home-relative ownership manifest. Optional `record`
+(a home-relative install record that lists the command's sha256; without it the manifest is the
+evidence and `$XDG_STATE_HOME/dl/COMMAND` supplies only the revision),
 `launcher_dir` (default `.local/bin`), and `installed_from` (usr installs the upstream build, not
 the fork) describe the consumer's install for `repomod tools which`. `[not_applicable]` gives a
 reason for a non-library repository with no command.
@@ -372,7 +374,8 @@ reason for a non-library repository with no command.
   with `ast` and reads string literals and literal owner tables; it never imports or runs it. For
   `bin` directories: each executable file that is not a declared command.
 
-Static findings show that the metadata and the declared source agree. They do not show that help
+The source and test checks compare the complete repository name, so `acme/tool-old` does not
+satisfy `acme/tool`; a comment containing the footer still satisfies them. Static findings show that the metadata and the declared source agree. They do not show that help
 renders the footer: that proof is each tool's own help test, run against the built command by its
 repository's gates. Lint builds and executes nothing. `repomod tools coverage` accounts for every
 owned catalog entry, including ignored repositories that usr still installs, and also reports

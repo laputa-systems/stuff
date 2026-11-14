@@ -1,35 +1,17 @@
 from __future__ import annotations
 
 import argparse
-import json
-import os
 
-from repomod.owned_tools import coverage, coverage_json, load_owned_tools, usr_installed, which
+from repomod.owned_tools import coverage, coverage_json, load_owned_tools, usr_installed
+from repomod.which import run as run_which
 
 from . import common
 
-_OWNED = {"owned"}
 _COVERED = {"implemented", "not-applicable"}
 
 
 def _which(args: argparse.Namespace) -> int:
-    catalog = common.default_catalog()
-    result = which(args.command_name, catalog, load_owned_tools(), os.environ)
-    if args.json:
-        print(json.dumps(result, indent=2))
-    else:
-        print(f"{result['command']}: {result['status']}")
-        for key in ("repository", "url", "upstream", "backlog", "procedure"):
-            if result.get(key):
-                print(f"  {key}: {result[key]}")
-        if "producers" in result:
-            print("  producers: " + ", ".join(result["producers"]))
-        for key in ("checkout", "executable"):
-            value = result.get(key)
-            if isinstance(value, dict):
-                details = ", ".join(f"{name}={item}" for name, item in value.items() if item not in (None, [], ""))
-                print(f"  {key}: {details}")
-    return 0 if result["status"] in _OWNED else 1
+    return run_which(args.command_name, args.json)
 
 
 def _coverage(args: argparse.Namespace) -> int:

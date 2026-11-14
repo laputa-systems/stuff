@@ -2,6 +2,7 @@ version = 1
 maintainer = "Joshua Li"
 procedure = "https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/instructions/owned-tools.md"
 owners = ["joshuarli", "laputa-systems"]
+install_manifest = ".local/state/sync/dl-owned.verified.json"
 
 [producers."joshuarli/bctl"]
 

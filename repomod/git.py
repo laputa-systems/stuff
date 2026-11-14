@@ -200,6 +200,18 @@ def is_git_checkout(path: Path) -> bool:
     return result.returncode == 0 and result.stdout.strip() == "true"
 
 
+def work_tree_root(path: Path) -> Path | None:
+    result = run_git(["rev-parse", "--show-toplevel"], cwd=path, check=False)
+    if result.returncode != 0 or not result.stdout.strip():
+        return None
+    return Path(result.stdout.strip())
+
+
+def matches_head(path: Path, relative: str) -> bool:
+    result = run_git(["diff", "--quiet", "HEAD", "--", relative], cwd=path, check=False)
+    return result.returncode == 0
+
+
 def validated_checkout(path: Path, repo: RepoId) -> Path:
     absolute = Path(os.path.abspath(path))
     for component in (*reversed(absolute.parents), absolute):

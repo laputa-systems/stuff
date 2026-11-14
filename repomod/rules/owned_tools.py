@@ -30,10 +30,24 @@ def _read(root: Path, relative: str) -> str | None:
     return path.read_text(encoding="utf-8")
 
 
-def _maintained_by(text: str, maintainer: str) -> set[RepoId]:
-    prefix = re.escape(f"Maintained by {maintainer}: https://github.com/")
-    pattern = re.compile(prefix + r"([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+[A-Za-z0-9_-])")
-    return {RepoId(owner, name) for owner, name in pattern.findall(text)}
+_GITHUB_LINK = r"https://github\.com/([A-Za-z0-9-]+)/([A-Za-z0-9_.-]+)"
+
+
+def _repo_ids(matches: list[tuple[str, str]]) -> set[str]:
+    found = set()
+    for owner, raw in matches:
+        name = raw.rstrip(".").removesuffix(".git")
+        if name:
+            found.add(f"{owner}/{name}".casefold())
+    return found
+
+
+def _maintained_by(text: str, maintainer: str) -> set[str]:
+    return _repo_ids(re.findall(re.escape(f"Maintained by {maintainer}: ") + _GITHUB_LINK, text))
+
+
+def _linked(text: str) -> set[str]:
+    return _repo_ids(re.findall(_GITHUB_LINK, text))
 
 
 def _help_findings(
@@ -46,8 +60,8 @@ def _help_findings(
         findings.append(
             violation(repository, RULE_ID, help_.source, f"{command}: declared help source does not exist")
         )
-    elif expected not in source:
-        named = sorted(str(repo) for repo in _maintained_by(source, policy.maintainer) if repo != repository.id)
+    elif str(repository.id).casefold() not in (maintained := _maintained_by(source, policy.maintainer)):
+        named = sorted(maintained)
         message = (
             f"{command}: help footer names {', '.join(named)} instead of {repository.id}"
             if named
@@ -57,7 +71,7 @@ def _help_findings(
     test = _read(root, help_.test)
     if test is None:
         findings.append(violation(repository, RULE_ID, help_.test, f"{command}: declared help test does not exist"))
-    elif github_url(repository.id) not in test:
+    elif str(repository.id).casefold() not in _linked(test):
         findings.append(
             violation(
                 repository,

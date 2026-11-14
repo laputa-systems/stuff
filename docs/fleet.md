@@ -107,10 +107,25 @@ uv run repomod lint --repo acme/tool --checkout .work/wt/fix
 ## Owned tools
 
 `repomod tools which COMMAND` resolves an installed command to its maintained repository without
-running it. It reads the catalog, `fleet/policy/owned-tools.toml`, `PATH`, and the install record,
-and checks the canonical checkout's `origin`. It writes nothing and makes no network request.
-`--json` returns the repository, upstream, owned source forks, backlog and procedure links,
-checkout, and executable. Exit 0 means `status` is `owned`. Otherwise `status` is one of:
+running it. It reads the catalog, `fleet/policy/owned-tools.toml`, `PATH`, and the consumer's
+install evidence, and checks the canonical checkout's `origin`. It writes nothing and makes no
+network request. `--json` returns the repository, upstream, owned source forks, backlog and
+procedure links, checkout, and executable.
+
+The executable's `evidence` says what associates the file on `PATH` with the producer:
+
+| Evidence | Established by |
+| --- | --- |
+| `source-link` | The managed launcher is a symlink to a tracked file in a Git work tree whose `origin` is the producer |
+| `installer-manifest` | usr's `install_manifest` (schema 1) fingerprint still matches the launcher and, for a symlinked launcher, the recorded file or directory that contains its target |
+| `install-record` | The command's `record` lists a sha256 (`<digest>  <command>` after the first line) that matches the resolved file |
+
+`revision` is reported separately and is `null` when unknown: the work tree's `HEAD` for an
+unmodified source link, or a `release-<sha>` read from the install record. A record value, a
+`releases` directory name, or a record without a matching digest is not evidence.
+
+Exit 0 means `status` is `owned`: the checkout is present and the executable is `verified`.
+Otherwise `status` is one of:
 
 | Status | Meaning |
 | --- | --- |
@@ -120,8 +135,8 @@ checkout, and executable. Exit 0 means `status` is `owned`. Otherwise `status` i
 | `origin-mismatch` | The checkout's `origin` is not the producer |
 | `not-installed` | The command is not on `PATH` |
 | `shadowed` | An unmanaged executable precedes the managed launcher |
-| `unrecorded` | The executable has no install record or release directory, so its revision is unknown |
-| `upstream-install` | usr installs the upstream build, not the owned fork |
+| `unverified` | No evidence associates the executable with the producer; `detail` says why |
+| `upstream-install` | Verified, but usr installs the upstream build, not the owned fork |
 
 `repomod tools coverage` lists every owned repository as `implemented`, `gap`, `not-applicable`,
 `missing`, or `error`, and exits 1 until all are implemented or not applicable. See
@@ -130,6 +145,14 @@ checkout, and executable. Exit 0 means `status` is `owned`. Otherwise `status` i
 ```sh
 uv run repomod tools which kache --json
 uv run repomod tools coverage
+```
+
+`repomod/which.py` is the same lookup without the project environment. It imports only the
+standard library, so any Python 3.15 runs it with no `uv` synchronization or network, including
+when the development tools are broken:
+
+```sh
+python3 -I "${REPOMOD_ROOT:-$HOME/repos}/laputa-systems/stuff/repomod/which.py" kache --json
 ```
 
 ## Fix
