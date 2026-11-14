@@ -4,6 +4,7 @@ from repomod.dependencies.adapters.actions import ActionsAdapter
 from repomod.dependencies.adapters.cloudflare import CloudflareAdapter
 from repomod.dependencies.adapters.cmake import CmakeAdapter
 from repomod.dependencies.adapters.containers import ContainersAdapter
+from repomod.dependencies.adapters.orange import OrangeAdapter
 from repomod.dependencies.adapters.submodules import SubmodulesAdapter
 from repomod.dependencies.adapters.toolchains import ToolchainsAdapter
 from repomod.dependencies.adapters.vendored import is_vendored, vendored_roots
@@ -28,6 +29,7 @@ DIGEST = "sha256:020dfcbaaf4cc1078bf2d9c7ba31a8466e334061dcd2f248001d68f79e52c00
 type Adapter = (
     ActionsAdapter
     | CloudflareAdapter
+    | OrangeAdapter
     | CmakeAdapter
     | ContainersAdapter
     | SubmodulesAdapter
@@ -583,3 +585,35 @@ def test_docker_registries_keep_distinct_instances_in_dockerfiles_and_workflows(
         assert len(result.instances) == 2
         assert {edge.to_id for edge in result.edges} == {instance.id for instance in result.instances}
         assert len({instance.purl for instance in result.instances}) == 2
+
+
+def test_orange_topology_and_explicit_descriptor() -> None:
+    result = _extract(OrangeAdapter(), {
+        "deploy/openorange/apps.toml": """[apps.stats]
+kind = "orange"
+namespace = "stats-prod"
+buckets = ["exports"]
+hostnames = ["private.example"]
+public_hostnames = ["public.example"]
+[apps.native]
+kind = "native"
+namespace = "ignored"
+""",
+        "deploy/orange/orange.jsonc": '''{"durable_objects":{"bindings":[{"name":"ROOM","class_name":"Room"}]},
+        "r2_buckets":[{"binding":"DATA","bucket_name":"exports"}],
+        "services":[{"binding":"API","service":"api"}]}''',
+    })
+    for name, locator in (
+        ("orange-namespace/stats/stats-prod", "apps.stats.namespace"),
+        ("orange-r2/stats/exports", "apps.stats.buckets[0]"),
+        ("orange-private-host/stats/private.example", "apps.stats.hostnames[0]"),
+        ("orange-public-host/stats/public.example", "apps.stats.public_hostnames[0]"),
+        ("orange-durable-object/ROOM", "durable_objects.bindings[0].name"),
+        ("orange-r2/DATA", "r2_buckets[0].binding"),
+        ("orange-service/API", "services[0].binding"),
+    ):
+        edge = _direct(result, name, Ecosystem.SERVICE)[0]
+        assert edge.evidence[0].locator == locator
+        assert edge.evidence[0].path in {"deploy/openorange/apps.toml", "deploy/orange/orange.jsonc"}
+    assert not _direct(result, "orange-namespace/native/ignored", Ecosystem.SERVICE)
+    assert not result.issues

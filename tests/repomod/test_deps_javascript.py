@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from repomod.dependencies.adapters.javascript import JavaScriptAdapter
 from repomod.dependencies.model import (
@@ -633,3 +634,14 @@ def test_extraction_is_deterministic() -> None:
     result = _extract(files)
     assert _extract(files) == result
     assert len(result.edges) == 1
+
+
+def test_tracked_orange_runtime_closure() -> None:
+    path = "crates/stuff-worker/orange/pnpm-lock.yaml"
+    result = _extract({path: Path(path).read_text()})
+    for name, version in (("open-orange", "1.0.2"), ("rivetkit", "3.1.2-rc.1"),
+                          ("@rivet-dev/services", "0.2.5")):
+        edge = _direct(result, name)[0]
+        assert edge.resolved_version == version
+        assert edge.evidence[0].path == path
+    assert not result.issues
