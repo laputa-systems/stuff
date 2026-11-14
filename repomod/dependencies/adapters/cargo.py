@@ -307,6 +307,8 @@ def _package_version(
     issues: list[Issue],
 ) -> str | None:
     version = package.get("version")
+    if version is None:
+        return "0.0.0"
     if isinstance(version, dict) and version.get("workspace") is True:
         table = roots.get(root or "")
         workspace_package = table.get("package") if table is not None else None

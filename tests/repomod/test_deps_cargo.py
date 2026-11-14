@@ -455,6 +455,34 @@ def test_lock_mismatch_is_unknown_and_typed() -> None:
     assert anyhow[0].version is None
 
 
+def test_versionless_package_matches_the_lock_zero_entry() -> None:
+    result = _extract(
+        {
+            "Cargo.toml": '[workspace]\nmembers = ["guest-agent"]\nresolver = "2"\n',
+            "guest-agent/Cargo.toml": (
+                "[package]\nname = \"guest-agent\"\nedition = \"2024\"\n\n"
+                "[dependencies]\nanyhow = \"1\"\n"
+            ),
+            "Cargo.lock": _lock(
+                _package("guest-agent", "0.0.0", dependencies=("anyhow",)),
+                _package(
+                    "anyhow",
+                    "1.0.0",
+                    source="registry+https://github.com/rust-lang/crates.io-index",
+                ),
+            ),
+        }
+    )
+
+    assert result.issues == ()
+    projects = {project.id for project in result.projects}
+    assert "guest-agent:cargo" in projects
+    edges = _direct(result, "anyhow")
+    assert len(edges) == 1
+    assert edges[0].resolution is Resolution.RESOLVED
+    assert edges[0].resolved_version == "1.0.0"
+
+
 def test_missing_lock_produces_declared_only_edges() -> None:
     result = _extract(
         {
