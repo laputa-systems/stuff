@@ -7,6 +7,7 @@ import json
 import os
 import re
 import stat
+import shutil
 import tempfile
 from pathlib import Path
 
@@ -178,3 +179,17 @@ def sync(cfg, name):
         fcntl.flock(lock, fcntl.LOCK_EX)
         token, _ = credential(cfg, name)
         drain(cfg, name, directory, token)
+
+
+def snapshot(cfg, out):
+    target = out / "deployments"
+    private_dir(target)
+    source = cfg.state / "deployments"
+    if not source.exists():
+        return
+    for directory in sorted(source.iterdir()):
+        if not directory.is_dir() or not re.fullmatch(r"[a-z][a-z0-9-]{0,31}", directory.name):
+            raise oolib.ConfigError("invalid deployment state directory")
+        with (directory / ".lock").open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            shutil.copytree(directory, target / directory.name, ignore=shutil.ignore_patterns(".lock"))

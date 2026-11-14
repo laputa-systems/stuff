@@ -12,6 +12,7 @@ Contents of one backup directory `<UTC timestamp>/`:
     engine/{log,objects}            Engine log directory + object tier (one unit)
     store/{data,versions,iam}       all application buckets, versions and IAM
     etc/                            /etc/openorange (SECRETS; the directory is 0700)
+    deployments/                   pending markers and delivered activation receipts
     apps.toml, images.lock.json     the declarations the backup was taken with
     SHA256SUMS, manifest.json
 
@@ -32,6 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(os.path.realpath(__file__)).parent.parent / "lib"))
 import oolib  # noqa: E402
+import deployments  # noqa: E402
 
 HERE = Path(os.path.realpath(__file__)).parent
 
@@ -112,6 +114,7 @@ def main():
         try:
             run(str(HERE / "drain"))
             copy_state(cfg, out, prev, fenced=True)
+            deployments.snapshot(cfg, out)
             run("rsync", "-a", "--numeric-ids", f"{cfg.etc}/", f"{out / 'etc'}/")
             for f in ("apps.toml", "images.lock.json"):
                 shutil.copy2(HERE.parent / f, out / f)
@@ -137,7 +140,7 @@ def main():
         print("checksumming the copy (stack is back up)")
         sums = out / "SHA256SUMS"
         with open(sums, "w") as f:
-            subprocess.run("find engine store etc apps.toml images.lock.json -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum", shell=True, cwd=out, stdout=f, check=True)
+            subprocess.run("find engine store etc deployments apps.toml images.lock.json -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum", shell=True, cwd=out, stdout=f, check=True)
         nfiles = sum(1 for _ in open(sums))
         manifest = {
             "timestamp_utc": stamp,

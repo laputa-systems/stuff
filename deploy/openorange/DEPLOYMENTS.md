@@ -31,3 +31,8 @@ container restart with the same selected version keeps the original activation
 time; recording it again neither rewrites nor resends the marker. Selecting a
 different image, including a rollback, increments the version and records a new
 activation.
+
+Physical backups include `deployments/` under each app's lock, together with
+the deploy credentials in `etc/`. Restore rehearsals copy and checksum that
+state without replaying it against live Stats. A real restore must restore
+`deployments/` as well as Engine, Store and `etc/` before marker delivery resumes.

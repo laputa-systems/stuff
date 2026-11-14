@@ -81,6 +81,24 @@ class MarkerTests(unittest.TestCase):
             self.record()
         self.assertEqual(self.payloads, [original_body])
 
+    def test_backup_preserves_pending_and_delivered_markers_without_sending(self):
+        with patch.object(deployments, "send", side_effect=lambda cfg, name, token, body: self.payloads.append(body)):
+            self.record()
+        directory = self.cfg.state / "deployments/stats"
+        pending = directory / "oo-stats-2.json"
+        pending.write_bytes(b'{"markerId":"oo-stats-2"}')
+        pending.chmod(0o600)
+        backup = Path(self.temp.name) / "backup"
+        backup.mkdir(mode=0o700)
+        with patch.object(deployments, "send", side_effect=AssertionError("backups must never send markers")):
+            deployments.snapshot(self.cfg, backup)
+        restored = backup / "deployments/stats"
+        self.assertEqual((restored / pending.name).read_bytes(), pending.read_bytes())
+        self.assertEqual((restored / "delivered/oo-stats-1.json").read_bytes(), self.payloads[0])
+        self.assertEqual((backup / "deployments").stat().st_mode & 0o777, 0o700)
+        self.assertEqual((restored / pending.name).stat().st_mode & 0o777, 0o600)
+        self.assertFalse((restored / ".lock").exists())
+
     def test_selection_and_running_mismatches_refused(self):
         with self.assertRaises(oolib.ConfigError):
             self.record("stats:wrong")
