@@ -89,6 +89,11 @@ test("Orange S3 gateway verifies signatures, streams bytes and fences mutations"
   assert.equal((await call("HEAD",path,Buffer.alloc(0),signed("HEAD",path,Buffer.alloc(0)))).headers["content-length"],String(body.length));
   for(const method of ["PUT","DELETE"]) {const current="/_s3/custom-mycrates/current";assert.equal((await call(method,current,body,signed(method,current,body,lease.token))).status,403);}
   const marker="/_s3/custom-mycrates/current";assert.equal((await call("GET",marker,Buffer.alloc(0),signed("GET",marker,Buffer.alloc(0)))).body.toString(),"g0");
+  const ociLease=JSON.parse((await call("POST","/_publication/oci/begin",Buffer.from("{}"),{authorization:"Bearer management"})).body);
+  const ociManifest=`/_s3/custom-oci/oci/manifests/sha256/${hash(body)}`;
+  assert.equal((await call("PUT",ociManifest,body,signed("PUT",ociManifest,body,ociLease.token))).status,200);
+  assert.equal((await call("PUT",ociManifest,body,signed("PUT",ociManifest,body,ociLease.token))).status,412);
+  assert.equal((await call("PUT","/_s3/custom-oci/oci/manifests/sha256/invalid",body,signed("PUT","/_s3/custom-oci/oci/manifests/sha256/invalid",body,ociLease.token))).status,403);
   const bad={...signed("PUT",path,body,lease.token)};bad["x-amz-security-token"]="modified";assert.equal((await call("PUT",path,body,bad)).status,403);
   const old=signed("GET",path,Buffer.alloc(0),undefined,{"x-amz-date":"20000101T000000Z"});assert.equal((await call("GET",path,Buffer.alloc(0),old)).status,403);
   const corrupt="/_s3/custom-mycrates/generations/g1/corrupt";assert.equal((await call("PUT",corrupt,Buffer.from("changed bytes!!"),signed("PUT",corrupt,body,lease.token))).status,400);

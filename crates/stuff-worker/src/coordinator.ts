@@ -112,7 +112,7 @@ export class PublicationCoordinator {
     }
     return true;
   }
-  private async references(store: Bucket, registry: string, key: string): Promise<boolean> {
+  private async references(store: Bucket, blobInventory: boolean, key: string): Promise<boolean> {
     let cursor: string | undefined;
     const pages = new Set<string>();
     do {
@@ -121,7 +121,7 @@ export class PublicationCoordinator {
         const match = /^manifests\/([a-zA-Z0-9_-]{1,128})\.json$/.exec(object.key);
         if (!match) throw new Error("invalid manifest key");
         const manifest = await this.manifest(store, match[1]!);
-        if (registry !== "oci") {
+        if (!blobInventory) {
           if (manifest.objects.some(item => item.key === key)) return true;
         } else {
           const inventory = await store.get(`generations/${match[1]}/blobs.json`);
@@ -216,11 +216,13 @@ export class PublicationCoordinator {
     }
     if (op === "gc-object") {
       if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
-      const prefix = { cargo: "blobs/", npm: "tarballs/", pypi: "wheels/", oci: "sha256/" }[registry!];
       const key = body.key;
-      if (!prefix || typeof key !== "string" || !key.startsWith(prefix) || key.length <= prefix.length || key.length > 1024 || key.split("/").some(part => !part || part === "." || part === "..") || Array.from(key).some(char => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127) || (registry === "oci" && !/^sha256\/[0-9a-f]{64}$/.test(key))) return response(400, { error: "invalid shared object" });
-      if (await this.references(store, registry!, key)) return response(409, { error: "referenced object" });
-      if (!await this.deleteVersions(registry === "oci" ? "OCI_BLOBS" : binding, key, body.token)) return response(409, { error: "stale lease" });
+      const prefix = { cargo: "blobs/", npm: "tarballs/", pypi: "wheels/" }[registry!];
+      const ociKey = registry === "oci" && typeof key === "string" && /^(?:oci\/manifests\/)?sha256\/[0-9a-f]{64}$/.test(key);
+      if (typeof key !== "string" || !(ociKey || (prefix !== undefined && key.startsWith(prefix) && key.length > prefix.length)) || key.length > 1024 || key.split("/").some(part => !part || part === "." || part === "..") || Array.from(key).some(char => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127)) return response(400, { error: "invalid shared object" });
+      const blobInventory = registry === "oci" && key.startsWith("sha256/");
+      if (await this.references(store, blobInventory, key)) return response(409, { error: "referenced object" });
+      if (!await this.deleteVersions(blobInventory ? "OCI_BLOBS" : binding, key, body.token)) return response(409, { error: "stale lease" });
       return response(200, { deleted: 1 });
     }
     if (op === "gc-delete") {

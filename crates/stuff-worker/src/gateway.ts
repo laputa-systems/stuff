@@ -53,6 +53,7 @@ export async function gateway(req: Request, env: GatewayEnv, coordinator: Coordi
     const generation = /^generations\/([a-zA-Z0-9_-]{1,128})\/.+/.exec(key)?.[1] ?? /^manifests\/([a-zA-Z0-9_-]{1,128})\.json$/.exec(key)?.[1];
     const sharedPrefix = { MYCRATES: "blobs/", MYNPM: "tarballs/", PYPI: "wheels/" }[matches[0]![0]];
     const immutable = !!generation || (sharedPrefix !== undefined && key.startsWith(sharedPrefix) && key.length > sharedPrefix.length)
+      || (matches[0]![0] === "OCI" && /^oci\/manifests\/sha256\/[0-9a-f]{64}$/.test(key))
       || (matches[0]![0] === "OCI_BLOBS" && /^sha256\/[0-9a-f]{64}$/.test(key));
     if (!immutable) return new Response("forbidden", { status: 403 });
     const token = req.headers.get("x-amz-security-token");
