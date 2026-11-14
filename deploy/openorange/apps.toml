@@ -63,6 +63,8 @@ cpus = 2.0
 [apps.stuff]
 kind = "orange"
 display = "Stuff registries"
+worker_s3 = true
+secrets = ["STUFF_COORDINATOR_TOKEN", "STUFF_S3_ACCESS_KEY_ID", "STUFF_S3_SECRET_ACCESS_KEY", "STUFF_OCI_PUSH_TOKEN", "STUFF_OCI_PUSH_SECRET", "APPLICATION_EVENTS_ENDPOINT", "APPLICATION_EVENTS_SERVICE", "APPLICATION_EVENTS_TOKEN"]
 namespace = "stuff"
 ip = "172.29.80.21"
 port = 8080

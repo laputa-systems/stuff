@@ -74,6 +74,9 @@ class DeploymentTests(unittest.TestCase):
         values = oolib.read_env(cfg.app_env(app))
         self.assertEqual(values["SPACE_NAME"], "replacement-rehearsal")
         self.assertIn("SPACE_NAME", values["ORANGE_WORKER_SECRETS"].split(","))
+        self.assertNotIn("S3_SECRET_ACCESS_KEY", values["ORANGE_WORKER_SECRETS"].split(","))
+        stuff = oolib.read_env(cfg.app_env(cfg.apps["stuff"]))
+        self.assertIn("S3_SECRET_ACCESS_KEY", stuff["ORANGE_WORKER_SECRETS"].split(","))
         for invalid in [{"S3_SECRET_ACCESS_KEY": "overridden"}, {"OPERATOR_BOOTSTRAP_SHA256": "overlap"}, {"SPACE_NAME": "line\nbreak"}]:
             cfg.raw["apps"]["discover"]["vars"] = invalid
             with self.assertRaises(oolib.ConfigError):

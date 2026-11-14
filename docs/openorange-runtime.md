@@ -76,6 +76,9 @@ App `vars` are public Worker bindings stored in `apps.toml`; secret names
 are declared in `secrets` and their values live only in the root-owned
 `apps/NAME.extra.env`. Names cannot overlap or replace runtime credentials.
 `oo secrets` derives the Worker binding list from both declarations.
+`worker_s3 = true` explicitly exposes the app's own derived S3 credentials
+to its Worker. Stuff uses this for its streaming publication gateway. Other
+apps receive only their R2 adapters, with no raw store credentials in Worker bindings.
 
 ## Topology
 
