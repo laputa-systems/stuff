@@ -15,7 +15,7 @@ from repomod.types import operational as _operational
 from repomod.types import violation as _violation
 
 _PATH = "rust-toolchain.toml"
-_CHANNEL = "nightly-2026-09-15"
+_CHANNEL = "nightly-2026-11-09"
 _REQUIRED_COMPONENTS = ("rust-src", "clippy")
 _ASSIGNMENT = re.compile(r"^[ \t]*(?P<key>channel|components|'channel'|'components'|\"channel\"|\"components\")[ \t]*=")
 _TABLE = re.compile(r"\[\s*(.*?)\s*\](?:[ \t]*#.*)?\Z")

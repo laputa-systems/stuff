@@ -48,7 +48,7 @@ def test_missing_toolchain_config_is_fixable_for_rust_projects_and_rule_is_black
     apply_plan(tmp_path, plan)
 
     document = tomllib.loads((tmp_path / "rust-toolchain.toml").read_text(encoding="utf-8"))
-    assert document == {"toolchain": {"channel": "nightly-2026-09-15", "components": ["rust-src", "clippy"]}}
+    assert document == {"toolchain": {"channel": "nightly-2026-11-09", "components": ["rust-src", "clippy"]}}
     assert _findings(tmp_path, project) == []
     assert _fix(tmp_path, project) == plan
 
@@ -76,7 +76,7 @@ def test_outdated_channel_and_components_preserve_extra_components_and_settings(
     assert len(findings) == 1
     assert findings[0].fixable
     assert document["toolchain"] == {
-        "channel": "nightly-2026-09-15",
+        "channel": "nightly-2026-11-09",
         "components": ["custom-component", "rust-src", "clippy"],
         "profile": "minimal",
         "targets": ["x86_64-unknown-linux-gnu"],
@@ -99,7 +99,7 @@ def test_missing_toolchain_fields_are_added_without_replacing_other_settings(
     assert document == {
         "toolchain": {
             "profile": "minimal",
-            "channel": "nightly-2026-09-15",
+            "channel": "nightly-2026-11-09",
             "components": ["rust-src", "clippy"],
         },
         "other": {"value": True},

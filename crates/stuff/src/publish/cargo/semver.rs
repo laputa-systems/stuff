@@ -52,7 +52,7 @@ impl Version {
         }
         let mut numbers = [0_u64; 3];
         for (slot, piece) in numbers.iter_mut().zip(pieces.iter()) {
-            *slot = numeric(piece).ok_or_else(&invalid)?;
+            *slot = numeric(piece).ok_or_else(invalid)?;
         }
         let mut pre = Vec::new();
         if let Some(pre_text) = pre_text {
@@ -64,7 +64,7 @@ impl Version {
                     return Err(invalid());
                 }
                 if part.bytes().all(|byte| byte.is_ascii_digit()) {
-                    pre.push(Identifier::Numeric(numeric(part).ok_or_else(&invalid)?));
+                    pre.push(Identifier::Numeric(numeric(part).ok_or_else(invalid)?));
                 } else {
                     pre.push(Identifier::Alpha(part.to_string()));
                 }

@@ -76,7 +76,7 @@ CONTAINER_CMD="mkdir -p \"\$RUSTUP_HOME/toolchains\"; toolchain=\$(basename \"\$
 docker run -d --init --name "$NAME" --platform "linux/$ARCH" --user "$(id -u):$(id -g)" \
   --security-opt seccomp=unconfined --security-opt apparmor=unconfined --security-opt systempaths=unconfined \
   -v "$ROOT:/work" $MOUNTS -w /work \
-  -e "HOME=$HOME_DIR" -e RUSTUP_TOOLCHAIN=nightly-2026-09-15 \
+  -e "HOME=$HOME_DIR" -e RUSTUP_TOOLCHAIN=nightly-2026-11-09 \
   -e "CARGO_HOME=/work/.work/linux/cargo-home-$ARCH" \
   -e "RUSTUP_HOME=/work/.work/linux/rustup-home-$ARCH" \
   -e "CARGO_TARGET_DIR=/work/.work/linux/target-$ARCH" \

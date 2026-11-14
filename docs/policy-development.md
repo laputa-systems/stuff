@@ -364,7 +364,7 @@ strip = true
 CI workflows build and test the `release` profile; prerelease workflows package
 `target/<triple>/dist/`. Libraries without shipped binaries need no `dist` profile.
 
-`rust-toolchain` requires Rust repositories to pin `nightly-2026-09-15` in the root
+`rust-toolchain` requires Rust repositories to pin `nightly-2026-11-09` in the root
 `rust-toolchain.toml` and include `rust-src` and `clippy`. Its fixer preserves other toolchain
 settings and extra components. It leaves malformed TOML, symlinks, non-table `toolchain` values,
 invalid component arrays, and toolchain settings declared outside `[toolchain]` for manual repair.

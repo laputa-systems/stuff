@@ -22,7 +22,7 @@ if [ -n "${IMAGE_REBUILD:-}" ] || ! docker image inspect "$IMAGE" >/dev/null 2>&
 fi
 docker run --rm --platform "linux/$ARCH" --name stuff-myoci-writer -p "$PORT:5000" \
   -v "$ROOT:/work" -v "$SECRET:/run/secrets/oci-push-secret:ro" -v "$STATE:/state" \
-  -w /work -e RUSTUP_TOOLCHAIN=nightly-2026-09-15 \
+  -w /work -e RUSTUP_TOOLCHAIN=nightly-2026-11-09 \
   -e "CARGO_HOME=/work/.work/linux/cargo-home-writer" \
   -e "RUSTUP_HOME=/work/.work/linux/rustup-home-writer" \
   -e "CARGO_TARGET_DIR=/work/.work/linux/target-writer" \

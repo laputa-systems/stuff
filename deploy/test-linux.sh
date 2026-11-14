@@ -37,7 +37,7 @@ docker run -d --init --name "$NAME" --platform "linux/$ARCH" --user "$(id -u):$(
   -e "RUSTUP_HOME=$CONTAINER_WORK/rustup-home-$ARCH" \
   -e "CARGO_TARGET_DIR=$CONTAINER_WORK/target-$ARCH" \
   -e "TMPDIR=$CONTAINER_WORK/tmp" \
-  -e "RUSTUP_TOOLCHAIN=nightly-2026-09-15" \
+  -e "RUSTUP_TOOLCHAIN=nightly-2026-11-09" \
   "$IMAGE" sh -c 'mkdir -p "$RUSTUP_HOME/toolchains"; toolchain=$(basename "$(ls -d /opt/rustup/toolchains/* | head -1)"); ln -sfn "/opt/rustup/toolchains/$toolchain" "$RUSTUP_HOME/toolchains/$toolchain"; cp -f /opt/rustup/settings.toml "$RUSTUP_HOME/settings.toml"; exec "$@"' sh "$@" >/dev/null
 STATUS=$(docker wait "$NAME")
 docker logs "$NAME" 2>&1

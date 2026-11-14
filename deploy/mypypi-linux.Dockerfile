@@ -19,4 +19,4 @@ RUN set -eu; arch=$(uname -m); \
     chmod +x /tmp/rustup-init; \
     /tmp/rustup-init -y --profile minimal --default-toolchain none; \
     rm /tmp/rustup-init
-RUN rustup toolchain install nightly-2026-09-15 --profile minimal && rustup default nightly-2026-09-15
+RUN rustup toolchain install nightly-2026-11-09 --profile minimal && rustup default nightly-2026-11-09
