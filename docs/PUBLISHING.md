@@ -595,6 +595,11 @@ and optional `STUFF_S3_REGION` (default `auto`). Partial service configuration
 fails before publishing. Endpoint URLs require HTTPS except for local test
 servers. Service tokens and secret keys are omitted from debug output.
 
-The legacy GC scripts refuse service configuration; collection must use the
-coordinator's lease and retirement protocol. Backend credentials must never
-be given to an ordinary publisher.
+`make gc` and `deploy/r2-gc-blobs.py` use the same service credential file.
+They resolve bucket ownership through `stuff lock-path`, acquire a renewable
+exclusive GC lease before planning, and send generation and shared-object
+deletions to the coordinator. Renewal failure stops deletion. The coordinator
+checks every retained manifest or OCI blob inventory and retires exact S3
+version IDs before deletion; a later upload of the same content remains safe.
+Dry runs hold the lease while planning and release it without deleting objects.
+Backend credentials must never be given to an ordinary publisher.

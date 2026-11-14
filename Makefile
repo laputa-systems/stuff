@@ -196,6 +196,7 @@ test-r2: ## Check S3 uploads, multipart SigV4, pull, gc, and pagination without 
 	deploy/test-prune-generations.sh
 	python3 deploy/test-r2-pull-listing.py
 	python3 deploy/test-r2-gc.py
+	python3 deploy/test-publication-gc.py
 	python3 deploy/test-r2-multipart.py
 	python3 deploy/test-r2-put.py
 	python3 deploy/test-r2-gc-blobs.py

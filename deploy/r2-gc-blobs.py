@@ -18,6 +18,8 @@ manifests, and the generation set, and aborts if any of them changed.
 """
 
 import argparse
+from contextlib import nullcontext
+from publication_gc import configured, registry_for_bucket, GCError
 import importlib.util
 import json
 import os
@@ -28,7 +30,7 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from r2_common import require_legacy_gc, cf_command, fail, publish_lock, s3_list_meta, s3_ready
+from r2_common import cf_command, fail, publish_lock, s3_list_meta, s3_ready
 
 BLOB_PREFIX = "sha256/"
 BLOB_KEY = re.compile(r"sha256/[0-9a-f]{64}")
@@ -286,11 +288,15 @@ def delete_local(bucket, keys, jobs):
 
 
 def main(argv):
-    require_legacy_gc()
     args = parse_args(argv)
     if args.grace_minutes < 0:
         fail("--grace-minutes must be non-negative")
     jobs = max(1, args.jobs)
+    service = configured()
+    if service is not None:
+        service.read_credentials()
+        if registry_for_bucket(args.meta_bucket) != "oci" or registry_for_bucket(args.blob_bucket) != "oci":
+            fail("OCI blob GC requires metadata and blob buckets owned by the OCI registry")
     if s3_ready():
         gc = load_gc()
         api = gc.load_api()
@@ -310,7 +316,7 @@ def main(argv):
         def delete_batch(keys):
             delete_local(args.blob_bucket, keys, jobs)
 
-    with publish_lock(args.meta_bucket):
+    with publish_lock(args.meta_bucket), service.lease(args.meta_bucket) if service is not None else nullcontext() as lease:
         meta_objects = list_meta(args.meta_bucket)
         blobs = list_meta(args.blob_bucket)
         plan = plan_drop(args, meta_objects, blobs, get_body)
@@ -318,10 +324,17 @@ def main(argv):
         if args.dry_run:
             print("dry run: no objects deleted")
             return 0
+        if lease is not None:
+            def delete_batch(keys):
+                for key in keys:
+                    lease.delete("gc-object", key=key)
         delete_batches(args, plan, list_meta, get_body, delete_batch)
     print(f"deleted {len(plan['drop'])} blobs from {args.blob_bucket}; kept {plan['kept']}")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    try:
+        sys.exit(main(sys.argv[1:]))
+    except GCError as error:
+        fail(str(error))

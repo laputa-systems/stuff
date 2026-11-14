@@ -24,15 +24,16 @@ authenticated cf CLI for each bucket.
 """
 
 import argparse
+from contextlib import nullcontext
+from publication_gc import configured, GCError
 import datetime
 import json
 import os
 import re
-import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from r2_common import require_legacy_gc, fail, mint_s3_credentials, object_url, publish_lock, s3_list_meta, s3_ready, safe_object_key
+from r2_common import fail, mint_s3_credentials, object_url, publish_lock, s3_list_meta, s3_ready, safe_object_key
 
 CURRENT_KEY = "current"
 MANIFEST_PREFIX = "manifests/"
@@ -325,7 +326,25 @@ def delete_batches(plan):
             yield keys[start : start + DELETE_BATCH]
 
 
-def delete_keys(plan, jobs):
+def delete_keys(plan, jobs, lease=None):
+    if lease is not None:
+        pending = set(plan["drop_generations"])
+        while pending:
+            referenced = {
+                generation_for(key)
+                for generation in pending
+                for key in plan["manifests"].get(generation, {}).get("refs", {})
+                if generation_for(key) != generation
+            }
+            ready = sorted(pending - referenced)
+            if not ready:
+                fail("garbage generations reference each other; no generation was deleted in this round")
+            for generation in ready:
+                lease.delete("gc-delete", generation=generation)
+                pending.remove(generation)
+        for key in sorted(plan["drop_shared"]):
+            lease.delete("gc-object", key=key)
+        return
     failures = []
     deleted = set()
     with ThreadPoolExecutor(max_workers=jobs) as pool:
@@ -359,7 +378,7 @@ def format_generations(generations):
     return ", ".join(generations) if generations else "<none>"
 
 
-def run_bucket(bucket, args):
+def run_bucket(bucket, args, lease=None):
     plan = build_plan(bucket, args.keep_previous, args.keep_newer, args.grace_minutes)
     objects = plan["objects"]
     before_bytes = sum(value[0] for value in objects.values())
@@ -402,7 +421,7 @@ def run_bucket(bucket, args):
 
     if not plan["drop_keys"]:
         return before_bytes, before_count, before_bytes, before_count
-    delete_keys(plan, args.jobs)
+    delete_keys(plan, args.jobs, lease)
     after = s3_list_meta(bucket)
     current_body = get_object(plan["api"], plan["endpoint"], bucket, CURRENT_KEY)
     current = current_body.decode("utf-8", "replace").strip() if current_body is not None else ""
@@ -422,7 +441,6 @@ def keep_count(value):
 
 
 def main(argv=None):
-    require_legacy_gc()
     parser = argparse.ArgumentParser(description="Delete R2 objects no retained generation needs")
     parser.add_argument("buckets", nargs="+")
     parser.add_argument("--keep-previous", type=int, default=1)
@@ -438,6 +456,9 @@ def main(argv=None):
     if args.jobs < 1:
         fail("--jobs must be at least 1")
 
+    service = configured()
+    if service is not None:
+        service.read_credentials()
     user_s3 = s3_ready()
     totals = [0, 0, 0, 0]
     for index, bucket in enumerate(args.buckets):
@@ -446,8 +467,8 @@ def main(argv=None):
         if not user_s3:
             clear_s3()
             mint_credentials(bucket)
-        with publish_lock(bucket):
-            result = run_bucket(bucket, args)
+        with publish_lock(bucket), service.lease(bucket) if service is not None else nullcontext() as lease:
+            result = run_bucket(bucket, args, lease)
         for position, value in enumerate(result):
             totals[position] += value
     print()
@@ -461,4 +482,7 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except GCError as error:
+        fail(str(error))
