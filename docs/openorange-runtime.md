@@ -347,9 +347,12 @@ for the Cloudflare plugin).
 * **Disk accounting:** `bin/disk-usage [--json]`: Engine log, Engine objects,
   each app's bucket set (incl. versions), store total, caddy, backups, restore
   rehearsals, logs, free space, Docker.
-* **Backup:** `bin/backup [--dest DIR] [--keep N] [--no-restart]` fences
-  the stack and copies Engine, Store, configuration, app declarations and image
-  pins. It checksums the copy and retains a positive number of backups. Failed
+* **Backup:** `bin/backup [--dest DIR] [--keep N] [--no-restart]` pre-copies
+  Engine and Store while applications run, then fences the stack and reconciles
+  every file by checksum before copying configuration, app declarations and image
+  pins. The live pre-copy alone is unusable. Stats and private ingress restart
+  before unrelated apps so host agents can drain their four-minute queues.
+  It checksums the final copy and retains a positive number of backups. Failed
   drains or copies and SIGTERM/SIGINT restart services that were running before
   the fence, including the tunnel only if it was running. `--no-restart` leaves
   services stopped only after a successful copy; failures still restart them.
