@@ -60,6 +60,7 @@ def main():
     want = {
         "ingress/Dockerfile": {"BUILDER": "caddy_builder", "RUNTIME": "caddy_runtime"},
         "identity/Dockerfile": {"BASE": "identity_base"},
+        "rivet/Dockerfile": {"BASE": "identity_base"},
     }
     for f, args in want.items():
         text = (ROOT / f).read_text()

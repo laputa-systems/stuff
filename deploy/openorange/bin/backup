@@ -102,7 +102,8 @@ def main():
         priority = [service for service in app_services if service == "oo-app.stats"]
         # Host agents spool for four minutes; reopen Stats before waiting for unrelated apps.
         services = ["oo-dns", "oo-store", "oo-engine", "oo-identity", *priority, "oo-ingress",
-                    *(service for service in app_services if service not in priority), "oo-tunnel"]
+                    *(service for service in app_services if service not in priority),
+                    *(["oo-rivet"] if cfg.rivet is not None else []), "oo-tunnel"]
         was = {service: running(service) for service in services}
         t0 = time.time()
         print("fencing: draining stack (ingress -> apps -> identity -> engine -> store)")

@@ -1,0 +1,31 @@
+#!/sbin/openrc-run
+. /opt/openorange/openrc/oo-common.sh
+
+description="OpenOrange read-only Rivet explorer"
+supervisor=supervise-daemon
+command=/usr/bin/docker
+respawn_delay=3
+respawn_max=0
+respawn_period=60
+output_log="$OO_LOGDIR/rivet.log"
+error_log="$OO_LOGDIR/rivet.log"
+retry="TERM/15/KILL/5"
+
+depend() {
+	need docker net
+	after oo-engine
+}
+
+start_pre() {
+	"$OO_BIN" prepare rivet || return 1
+	oo_remove_container oo-rivet
+	command_args="$("$OO_BIN" run-args rivet)" || return 1
+}
+
+start_post() {
+	oo_wait rivet 30 || { eerror "oo-rivet did not become ready"; oo_fail_stop oo-rivet; return 1; }
+}
+
+stop_post() {
+	oo_remove_container oo-rivet
+}

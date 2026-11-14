@@ -53,6 +53,10 @@
     }
   },
   "local_builds": {
+    "rivet": {
+      "tag": "openorange/rivet:1",
+      "dockerfile": "rivet/Dockerfile"
+    },
     "caddy": {
       "tag": "openorange/caddy:2.11.9-cf0.2.4",
       "dockerfile": "ingress/Dockerfile",

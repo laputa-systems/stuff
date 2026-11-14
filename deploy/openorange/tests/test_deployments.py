@@ -52,7 +52,8 @@ class DeploymentTests(unittest.TestCase):
         cfg = oolib.load()
         cfg.stack["etc_dir"] = self.directory.name
         commands = runpy.run_path(str(Path(__file__).resolve().parents[1] / "bin" / "oo"))
-        commands["cmd_secrets"](cfg)
+        with patch.object(os, "chown"):
+            commands["cmd_secrets"](cfg)
         app = cfg.apps["stuff"]
         self.assertTrue(app.versioning)
         self.assertFalse(cfg.apps["discover"].versioning)
@@ -115,7 +116,8 @@ class DeploymentTests(unittest.TestCase):
         app = replace(cfg.apps["discover"], vars={"SPACE_NAME": "replacement-rehearsal"})
         cfg.apps["discover"] = app
         commands = runpy.run_path(str(Path(__file__).resolve().parents[1] / "bin" / "oo"))
-        commands["cmd_secrets"](cfg)
+        with patch.object(os, "chown"):
+            commands["cmd_secrets"](cfg)
         values = oolib.read_env(cfg.app_env(app))
         self.assertEqual(values["SPACE_NAME"], "replacement-rehearsal")
         self.assertIn("SPACE_NAME", values["ORANGE_WORKER_SECRETS"].split(","))

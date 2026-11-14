@@ -49,6 +49,13 @@ region = "us-east-1"
 # Application bucket data and Engine storage are on different paths with
 # different credentials; the Engine does not use this store (see runbook).
 
+[rivet]
+enabled = true
+hostname = "stats.17166969.xyz"
+ip = "172.29.80.24"
+port = 8080
+operators = ["user:joshua.r.li.98@gmail.com"]
+
 [apps.stats]
 kind = "orange"
 display = "Stats"

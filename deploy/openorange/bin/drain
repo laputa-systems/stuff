@@ -33,6 +33,7 @@ case "${1:-}" in
 	if "$OO" dns-enabled; then start_one oo-dns; fi
 	start_one oo-store; start_one oo-engine; start_one oo-identity
 	for a in $apps; do start_one "oo-app.$a"; done
+	if "$OO" rivet-enabled; then start_one oo-rivet; fi
 	start_one oo-ingress
 	if "$OO" tunnel-enabled; then start_one oo-tunnel; fi
 	exit "$failed"
@@ -45,6 +46,7 @@ case "${1:-}" in
 "")
 	stop_one oo-tunnel
 	stop_one oo-ingress
+	stop_one oo-rivet
 	for a in $apps; do stop_one "oo-app.$a"; done
 	stop_one oo-identity
 	stop_one oo-engine

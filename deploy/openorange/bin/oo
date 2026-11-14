@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import socket
 import sys
@@ -39,7 +40,7 @@ import deployments  # noqa: E402
 from oo_s3 import S3  # noqa: E402
 from oolib import UID, ConfigError  # noqa: E402
 
-SERVICES = ("store", "engine", "identity", "ingress", "tunnel", "dns", "app")
+SERVICES = ("store", "engine", "identity", "ingress", "tunnel", "dns", "rivet", "app")
 
 
 def die(msg: str, code: int = 1):
@@ -71,6 +72,25 @@ def cmd_secrets(cfg) -> None:
     engine.setdefault("RIVET__AUTH__ADMIN_TOKEN", oolib.token(32))
     oolib.write_env(cfg.engine_env, engine, "Rivet Engine admin token (root-only)")
 
+    if cfg.rivet is not None:
+        directory = etc / "rivet"
+        directory.mkdir(exist_ok=True)
+        directory.chmod(0o700)
+        file = directory / "config.json"
+        previous = json.loads(file.read_text()) if file.exists() else {}
+        settings = {"engine_origin": cfg.engine_url, "engine_token": engine["RIVET__AUTH__ADMIN_TOKEN"],
+                    "gateway_secret": previous.get("gateway_secret") or oolib.token(32), "operators": list(cfg.rivet.operators)}
+        temporary = file.with_suffix(".pending")
+        fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        with os.fdopen(fd, "w") as out:
+            json.dump(settings, out)
+            out.write("\n")
+            out.flush()
+            os.fsync(out.fileno())
+        os.chown(temporary, 0, int(UID))
+        temporary.chmod(0o440)
+        os.replace(temporary, file)
+
     for app in cfg.apps.values():
         path = cfg.app_env(app)
         cur = oolib.read_env(path)
@@ -101,7 +121,7 @@ def cmd_secrets(cfg) -> None:
 
 
 # ------------------------------------------------------------------ render
-CADDY_STRIP = ["Tailscale-*", "Stats-Gateway-Secret", "Stats-Tailnet-Identity", "X-OO-Peer", "X-OO-Ingress", "X-Forwarded-*", "Forwarded", "X-Real-Ip"]
+CADDY_STRIP = ["Tailscale-*", "Stats-Gateway-Secret", "Rivet-Gateway-Secret", "Stats-Tailnet-Identity", "X-OO-Peer", "X-OO-Ingress", "X-Forwarded-*", "Forwarded", "X-Real-Ip"]
 
 
 def render_caddyfile(cfg) -> str:
@@ -136,13 +156,19 @@ def render_caddyfile(cfg) -> str:
             "\t\t\tcopy_headers Stats-Tailnet-Identity",
             "\t\t}",
         ]
+        dashboard = cfg.rivet
+        if dashboard is not None and dashboard.hostname in app.hostnames:
+            lines += ["\t\t@rivet {", f"\t\t\thost {dashboard.hostname}",
+                      f"\t\t\tpath {oolib.RIVET_PATH} {oolib.RIVET_PATH}/*", "\t\t}",
+                      "\t\thandle @rivet {", f"\t\t\treverse_proxy {dashboard.ip}:{dashboard.port} {{",
+                      "\t\t\t\theader_up Rivet-Gateway-Secret {$GW_SECRET_RIVET}", "\t\t\t}", "\t\t}"]
         if app.kind == "orange" and not cfg.app_image_file(app).exists():
             lines += ['\t\trespond "app not deployed" 503']
         else:
             upstream = app.upstream if app.kind == "native" else f"{app.ip}:{app.port}"
             lines += [
                 f"\t\treverse_proxy {upstream} {{",
-                f"\t\t\theader_up Stats-Gateway-Secret {{env.GW_SECRET_{app.env_key}}}",
+                f"\t\t\theader_up Stats-Gateway-Secret {{$GW_SECRET_{app.env_key}}}",
                 "\t\t}",
             ]
         lines += ["\t}", "}", ""]
@@ -206,6 +232,11 @@ def cmd_render(cfg, stdout: bool = False) -> None:
     (d / "Caddyfile").write_text(render_caddyfile(cfg))
     os.chmod(d / "Caddyfile", 0o644)
     env = {}
+    if cfg.rivet is not None:
+        file = cfg.etc / "rivet/config.json"
+        if not file.exists():
+            die("Rivet dashboard configuration missing; run `oo secrets`")
+        env["GW_SECRET_RIVET"] = json.loads(file.read_text())["gateway_secret"]
     for app in cfg.enabled_apps():
         sec = oolib.read_env(cfg.app_env(app)).get("GATEWAY_SECRET")
         if not sec:
@@ -248,6 +279,9 @@ def cmd_prepare(cfg, service: str, app: str | None) -> None:
         sock = cfg.run / "identity" / "identity.sock"
         if sock.exists():
             sock.unlink()
+    elif service == "rivet":
+        if cfg.rivet is None or not (cfg.etc / "rivet/config.json").is_file() or not (cfg.etc / "rivet.image").is_file():
+            die("Rivet dashboard configuration/image missing: run `oo secrets && bin/build-rivet`")
     elif service == "ingress":
         for d in ("data", "config"):
             chown_dir(cfg.state / "caddy" / d, 0o700)
@@ -454,7 +488,7 @@ def cmd_remove(cfg, name: str, purge_store: bool) -> None:
 # ------------------------------------------------------------------ ingress
 def cmd_reload_ingress(cfg) -> None:
     cmd_render(cfg)
-    base = ["exec", "oo-ingress", "caddy"]
+    base = ["exec", "--env-file", str(cfg.etc / "ingress.env"), "oo-ingress", "caddy"]
     v = oolib.docker(*base, "validate", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile", check=False)
     if v.returncode != 0:
         die(f"Caddyfile invalid, not reloading:\n{v.stderr[-800:]}")
@@ -481,6 +515,12 @@ def http_ok(url: str, headers=None, timeout=3, ok=lambda s: 200 <= s < 300) -> b
 
 
 def ready(cfg, service: str, app: str | None) -> bool:
+    if service == "rivet":
+        if cfg.rivet is None:
+            return False
+        settings = json.loads((cfg.etc / "rivet/config.json").read_text())
+        headers = {"Rivet-Gateway-Secret": settings["gateway_secret"], "Stats-Tailnet-Identity": cfg.rivet.operators[0]}
+        return http_ok(f"http://{cfg.rivet.ip}:{cfg.rivet.port}{oolib.RIVET_PATH}/api/health", headers=headers, ok=lambda status: status == 200)
     if service == "dns":
         if not cfg.dns.get("enabled"):
             return False
@@ -566,6 +606,14 @@ def main(argv: list[str]) -> None:
             sys.exit(0 if cfg.tunnel.get("enabled") else 1)
         elif cmd == "dns-enabled":
             sys.exit(0 if cfg.dns.get("enabled") else 1)
+        elif cmd == "rivet-enabled":
+            sys.exit(0 if cfg.rivet is not None else 1)
+        elif cmd == "set-rivet-image":
+            if len(rest) != 1 or not re.fullmatch(r"sha256:[0-9a-f]{64}", rest[0]):
+                die("usage: oo set-rivet-image sha256:IMAGE_ID")
+            file = cfg.etc / "rivet.image"
+            file.write_text(rest[0] + "\n")
+            file.chmod(0o600)
         elif cmd == "dns-routes":
             print(json.dumps(oolib.dns_routes(cfg)))
         elif cmd == "secrets":

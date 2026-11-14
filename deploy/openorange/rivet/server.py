@@ -1,5 +1,6 @@
 import hmac
 import json
+import os
 import re
 import sys
 import socket
@@ -128,7 +129,11 @@ class Handler(BaseHTTPRequestHandler):
                 data = json.loads(raw)
             if not isinstance(data, dict): raise ValueError()
             secrets = (cfg['engine_token'], cfg['gateway_secret'])
-            if kind == 'health': result = project(data, kind, secrets)
+            if kind == 'health':
+                result = project(data, kind, secrets)
+                configured_tag = os.environ.get('RIVET_CONFIGURED_IMAGE_TAG')
+                if configured_tag:
+                    result['configuredImageTag'] = safe_string(configured_tag, secrets)
             elif kind == 'names':
                 names = data['names']
                 if not isinstance(names, dict): raise ValueError()
@@ -187,4 +192,7 @@ class Server(ThreadingHTTPServer):
             self.slots.release()
 
 if __name__ == '__main__':
-    Server(('0.0.0.0', 8080), config(sys.argv[1])).serve_forever()
+    port = int(os.environ.get('PORT', '8080'))
+    if not 1024 <= port <= 65535:
+        raise ValueError('invalid port')
+    Server(('0.0.0.0', port), config(sys.argv[1])).serve_forever()

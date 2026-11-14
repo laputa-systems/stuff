@@ -6,6 +6,9 @@
 [apps.stats]
 enabled = false
 
+[rivet]
+enabled = false
+
 [apps.demo]
 kind = "orange"
 display = "Rehearsal demo"

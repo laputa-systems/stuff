@@ -84,6 +84,8 @@ def main():
         svcs.append(("tunnel", None))
     if cfg.dns.get("enabled"):
         svcs.append(("dns", None))
+    if cfg.rivet is not None:
+        svcs.append(("rivet", None))
     for svc, app in svcs:
         rcname = f"oo-{svc}" if not app else f"oo-app.{app}"
         cname = f"oo-{svc}" if not app else f"oo-app-{app}"
@@ -98,6 +100,19 @@ def main():
             expected = {cfg.network["name"]} | ({cfg.egress_network} if a.internet else set())
             isolated = set(networks) == expected and networks.get(cfg.network["name"], {}).get("IPAddress") == a.ip
             rec(f"app {app}: network isolation", "PASS" if isolated else "FAIL", ", ".join(sorted(networks)) or "absent")
+        if svc == "rivet":
+            rc, out, _ = sh("docker", "inspect", cname, "--format", "{{json .NetworkSettings.Networks}}")
+            networks = json.loads(out) if rc == 0 else {}
+            isolated = set(networks) == {cfg.network["name"]} and networks.get(cfg.network["name"], {}).get("IPAddress") == cfg.rivet.ip
+            rec("rivet: private bridge only", "PASS" if isolated else "FAIL")
+            rc, out, _ = sh("docker", "inspect", cname, "--format", "{{json .HostConfig.PortBindings}} {{.HostConfig.ReadonlyRootfs}} {{.Config.User}} {{.Image}}")
+            pinned = (cfg.etc / "rivet.image").read_text().strip()
+            secure = rc == 0 and out in (f"{{}} true {oolib.UID}:{oolib.UID} {pinned}", f"null true {oolib.UID}:{oolib.UID} {pinned}")
+            rec("rivet: pinned non-root read-only container without published ports", "PASS" if secure else "FAIL")
+            rc, _, _ = sh(str(Path(__file__).parent / "oo"), "wait", "rivet", "2")
+            rec("rivet: authenticated Engine health read", "PASS" if rc == 0 else "FAIL")
+            status, _ = get(f"http://{cfg.rivet.ip}:{cfg.rivet.port}{oolib.RIVET_PATH}/api/namespaces")
+            rec("rivet: unauthenticated reads denied", "PASS" if status == 403 else "FAIL", f"http {status}")
     if cfg.tunnel.get("enabled"):
         st, _ = get(f"http://127.0.0.1:{cfg.tunnel['metrics_port']}/ready")
         rec("public tunnel connected", "PASS" if st == 200 else "FAIL", f"http {st}")

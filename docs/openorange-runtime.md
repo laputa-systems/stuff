@@ -508,7 +508,61 @@ connection readiness and that bind address. `drain` stops the connector
 before ingress, and starts it after ingress and the apps. The physical
 backup includes its credentials and configuration with the rest of `/etc/openorange`.
 
-### Rivet dashboard research (implementation pending)
+### Rivet infrastructure explorer
+
+The custom, read-only explorer is at `https://stats.17166969.xyz/rivet`.
+It is managed by `oo-rivet`, separately from Stats and the Engine. Caddy
+routes only `/rivet` and `/rivet/*` on the existing private Stats hostname;
+Stats' application routes and all other hostnames keep their existing upstreams.
+The public tunnel has no route to the explorer.
+
+The `[rivet]` table selects the private hostname, unused bridge address and
+explicit operator identities. A public application hostname is rejected.
+Tailnet membership alone grants no access: every page, asset and API read
+requires both Caddy's gateway secret and an exact identity in `operators`.
+Caddy removes client-supplied identity and gateway headers before whois
+authentication. The BFF permits only six bounded GET operations against the
+fixed Engine origin; it projects known fields and rejects upstream redirects,
+malformed responses and secrets in returned fields. It has no Docker socket,
+command executor, arbitrary proxy or mutation endpoint.
+
+`oo secrets` generates `/etc/openorange/rivet/config.json` with the Engine
+credential, independent gateway secret and operator policy. The file is
+root-owned, group-readable only by container GID 10001, mode 0440 inside a
+0700 directory. Caddy's derived gateway environment remains root-only.
+Credentials never enter frontend configuration or assets. The normal physical
+backup includes these files and the selected image ID.
+
+To install or update only this service, after syncing the stack code:
+
+```sh
+doas /opt/openorange/bin/oo secrets
+doas /opt/openorange/bin/build-rivet
+doas install -m 0755 /opt/openorange/openrc/oo-rivet /etc/init.d/oo-rivet
+doas rc-update add oo-rivet default
+doas rc-service oo-rivet restart
+doas /opt/openorange/bin/oo reload-ingress
+doas /opt/openorange/bin/health --json
+```
+
+The builder uses the digest-pinned Python base and records the resulting
+content-addressed image ID in `/etc/openorange/rivet.image`. The container
+runs by that ID, as UID/GID 10001, with a read-only filesystem, a 128 MiB
+limit, the internal bridge alone and no published ports. Restarting `oo-rivet`
+does not restart its dependencies. Caddy's reload reads the current protected
+gateway environment and validates the configuration before a graceful reload.
+Neither operation replaces or restarts the Engine.
+
+The UI shows live Engine health/version, namespaces, pools, connected and
+disconnected nodes, actor names, filtered actor pages and selected record
+details. ID/key search covers the displayed actor page. Pagination is marked
+incomplete. Lifecycle timestamps are reported events rather than a claim about
+the actor's current state. Engine storage health, logs, metrics, arbitrary actor
+inspection and WebSockets are unavailable; links lead to Stats' existing
+service deployments and host metrics. No SQLite inspection or cluster-wide
+actor total is inferred.
+
+#### UI selection and pinned Engine evidence
 
 On 2026-11-14, the running `oo-engine` image was inspected read-only. Its
 image reference was the Engine index digest in `images.lock.json`; the binary
@@ -538,7 +592,16 @@ links Rivet Cloud's hosted dashboard. The separate official
 it is not evidence of a maintained v3-compatible self-hosted UI. On this date,
 the [Docker Hub `rivetdev` namespace](https://hub.docker.com/u/rivetdev)
 listed `engine`, `services`, `sandbox-agent`, and `compute-hello-world`, with
-no dashboard image. This search does not prove that no other official package
-exists. No compatible standalone official UI was verified. A custom read-only
-explorer remains to be implemented and verified; no dashboard route or
-operator access is provisioned by this research.
+no dashboard image. The complete pinned source tree contains no `frontend/`
+dashboard build. Search-indexed instructions for an older monorepo frontend
+do not describe the files in this tag. The maintained
+[Inspector bundle staging contract](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/rivetkit-rust/packages/rivetkit-core/inspector-dist/README.md)
+describes a separate actor Inspector UI, with generated assets absent from
+the source tree. Its
+[versioned protocol](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/rivetkit-rust/packages/inspector-protocol/schemas/v6.bare)
+also carries actor operations beyond infrastructure reads. The production
+Stats application's `/inspector/ui/` returns 404. No compatible, maintained
+standalone cluster dashboard with a verified self-hosted deployment was found
+in these images, source packages or deployment instructions. The selected
+explorer uses the validated Engine read API without introducing a SaaS
+dependency, obsolete frontend, or browser-held cluster credential.

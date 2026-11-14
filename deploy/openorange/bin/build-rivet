@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+HERE=$(cd "$(dirname "$0")/.." && pwd)
+tag=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["local_builds"]["rivet"]["tag"])' "$HERE/images.lock.json")
+engine_tag=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["images"]["engine"]["tag"])' "$HERE/images.lock.json")
+docker build --platform linux/amd64 --build-arg "ENGINE_IMAGE_TAG=$engine_tag" -t "$tag" "$HERE/rivet"
+image=$(docker image inspect --format '{{.Id}}' "$tag")
+"$HERE/bin/oo" set-rivet-image "$image"
+echo "rivet: built and pinned $image; restart oo-rivet to activate"

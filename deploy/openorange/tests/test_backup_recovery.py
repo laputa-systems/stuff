@@ -41,7 +41,7 @@ class BackupRecoveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR')) as directory:
             cfg.stack['state_dir'] = directory
             cfg.stack['run_dir'] = str(Path(directory) / 'run')
-            initially_up = {'oo-store', 'oo-engine', 'oo-identity', 'oo-ingress', cfg.orange_apps()[0].service}
+            initially_up = {'oo-store', 'oo-engine', 'oo-identity', 'oo-ingress', 'oo-rivet', cfg.orange_apps()[0].service}
             running = set(initially_up)
             started = []
             handlers = {}

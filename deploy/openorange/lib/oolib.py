@@ -37,6 +37,15 @@ RESERVED_NAMESPACES = {"default"}
 # app's isolation is its namespace, and both pools are created in every one.
 ORANGE_POOLS = ("default", "services")
 PRIMARY_POOL = "default"
+RIVET_PATH = "/rivet"
+
+
+@dataclass(frozen=True)
+class RivetDashboard:
+    hostname: str
+    ip: str
+    port: int
+    operators: tuple[str, ...]
 
 
 class ConfigError(Exception):
@@ -176,6 +185,7 @@ class Config:
     apps: dict[str, App] = field(default_factory=dict)
     tunnel: dict = field(default_factory=dict)
     dns: dict = field(default_factory=dict)
+    rivet: RivetDashboard | None = None
 
     # --- paths -----------------------------------------------------------
     def p(self, key: str, *parts: str) -> Path:
@@ -259,7 +269,7 @@ def load(path: str | os.PathLike | None = None, overlay: str | os.PathLike | Non
 
 
 def validate(raw: dict) -> Config:
-    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel", "dns"}, "apps.toml")
+    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel", "dns", "rivet"}, "apps.toml")
     if raw.get("schema") != 1:
         raise ConfigError("schema must be 1")
     stack, net, ing, store = (raw.get(k, {}) for k in ("stack", "network", "ingress", "store"))
@@ -406,7 +416,32 @@ def validate(raw: dict) -> Config:
         raise ConfigError("dns.enabled must be boolean")
     if dns.get("enabled") and not any(app.public_hostnames for app in apps.values()):
         raise ConfigError("split DNS requires declared public hostnames")
-    return Config(raw, stack, net, ing, store, apps, tunnel, dns)
+    rivet = None
+    dashboard = raw.get("rivet", {})
+    if not isinstance(dashboard, dict):
+        raise ConfigError("rivet must be a table")
+    _only(dashboard, {"enabled", "hostname", "ip", "port", "operators"}, "rivet")
+    if dashboard and _req(dashboard, "enabled", bool, "rivet"):
+        hostname = _req(dashboard, "hostname", str, "rivet")
+        ip = _req(dashboard, "ip", str, "rivet")
+        port = _req(dashboard, "port", int, "rivet")
+        operators = _req(dashboard, "operators", list, "rivet")
+        if hostname not in used_hosts or any(hostname in app.public_hostnames for app in apps.values()):
+            raise ConfigError("rivet.hostname must be an existing private application hostname")
+        try:
+            address = ipaddress.ip_address(ip)
+        except ValueError as error:
+            raise ConfigError("rivet.ip must be a private bridge address") from error
+        if address not in subnet or ip in used_ips or address in (subnet.network_address, subnet.broadcast_address):
+            raise ConfigError("rivet.ip must be an unused private bridge address")
+        if not 1024 <= port <= 65535:
+            raise ConfigError("rivet.port must be 1024-65535")
+        if not 1 <= len(operators) <= 32 or any(not isinstance(identity, str) or not re.fullmatch(r"user:[A-Za-z0-9@._+%-]+", identity) for identity in operators):
+            raise ConfigError("rivet.operators must explicitly list user identities")
+        if len(set(operators)) != len(operators):
+            raise ConfigError("rivet.operators must be distinct")
+        rivet = RivetDashboard(hostname, ip, port, tuple(operators))
+    return Config(raw, stack, net, ing, store, apps, tunnel, dns, rivet)
 
 
 def dns_routes(cfg: Config) -> dict[str, list[str]]:
@@ -544,6 +579,16 @@ def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
                          "-v", "/var/run/tailscale:/var/run/tailscale:ro",
                          "-v", f"{cfg.run}/identity:/run/identity",
                          "--memory", "64m", "--pids-limit", "32", local_tag("identity")]
+    if service == "rivet":
+        if cfg.rivet is None:
+            raise ConfigError("Rivet dashboard is disabled")
+        image = (cfg.etc / "rivet.image").read_text().strip()
+        if not re.fullmatch(r"sha256:[0-9a-f]{64}", image):
+            raise ConfigError("Rivet dashboard requires a pinned image ID")
+        return COMMON + ["--name", "oo-rivet", *_net(cfg, cfg.rivet.ip), "--read-only", "--user", f"{UID}:{UID}",
+                         "--env", f"PORT={cfg.rivet.port}",
+                         "--memory", "128m", "--cpus", "0.5", "--pids-limit", "64", "--stop-timeout", "15",
+                         "-v", f"{cfg.etc}/rivet/config.json:/run/secrets/rivet-explorer.json:ro", image]
     if service == "ingress":
         args = COMMON + ["--cap-add", "NET_BIND_SERVICE", "--name", "oo-ingress", "--network", "host",
                          "--read-only", "--user", f"{UID}:{UID}", "--stop-timeout", "30",

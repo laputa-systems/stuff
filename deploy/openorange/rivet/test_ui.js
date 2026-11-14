@@ -6,7 +6,7 @@ class Element {
   append(...items) { this.children.push(...items); if (this.tag === 'select' && !this.value && items.length) this.value = items[0].value; }
   addEventListener(event, callback) { this.listeners[event] = callback; }
 }
-const ids = {}; for (const id of ['namespace','actor-name','actor-search','refresh','health','message','nodes','actors','detail','pools','node-status','actor-count']) ids[id] = new Element(['namespace','actor-name'].includes(id) ? 'select' : 'div');
+const ids = {}; for (const id of ['namespace','actor-name','actor-search','refresh','health','message','nodes','actors','detail','pools','node-status','actor-count','version-note']) ids[id] = new Element(['namespace','actor-name'].includes(id) ? 'select' : 'div');
 const location = {hash:'#namespace=old&name=actor', pathname:'/rivet/'};
 const history = {replaceState(a,b,url) { location.hash = url.startsWith('#') ? url : ''; }, pushState(a,b,url) { location.hash = url.startsWith('#') ? url : ''; }};
 let pendingOld;
