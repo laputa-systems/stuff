@@ -7,6 +7,7 @@ from repomod.dependencies.adapters.cmake import CmakeAdapter
 from repomod.dependencies.adapters.containers import ContainersAdapter
 from repomod.dependencies.adapters.go import GoAdapter
 from repomod.dependencies.adapters.javascript import JavaScriptAdapter
+from repomod.dependencies.adapters.orange import OrangeAdapter
 from repomod.dependencies.adapters.python import PythonAdapter
 from repomod.dependencies.adapters.submodules import SubmodulesAdapter
 from repomod.dependencies.adapters.swift import SwiftAdapter
@@ -27,4 +28,5 @@ ADAPTERS: tuple[Adapter, ...] = (
     SubmodulesAdapter(),
     CmakeAdapter(),
     CloudflareAdapter(),
+    OrangeAdapter(),
 )

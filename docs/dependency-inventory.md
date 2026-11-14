@@ -227,7 +227,7 @@ unregistered purl types that exist only inside this inventory:
 - `artifact` — an arbitrary downloaded file, such as `pkg:artifact/musl-1.2.6.tar.xz?download_url=…`.
 - `git` — a git repository dependency that is not a tagged forge package, with `vcs_url` as identity.
 - `system` — a system library from CMake `find_package` or pkg-config, such as `pkg:system/ZLIB`.
-- `service` — a managed service binding from `wrangler.toml`, such as `pkg:service/cloudflare-d1/DB`.
+- `service` — a service binding from Wrangler or Orange configuration, or an OpenOrange app namespace, bucket, or host from tracked `deploy/openorange/apps.toml`. Orange runtime package closures use the existing JavaScript lockfile extraction; generated descriptors are not tracked source evidence.
 - `generic` — the residual bucket for components with no better identity. Anything new that
   adapters emit must land in one of these types or carry explicit qualifiers; `generic` carries
   no meaning beyond "some other dependency".

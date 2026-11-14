@@ -506,3 +506,9 @@ def test_delete_repositories_leaves_file_untouched_when_an_override_would_dangle
     with pytest.raises(CatalogError, match="overrides for deleted repositories"):
         delete_repositories(catalog, ["acme/gone"])
     assert path.read_text(encoding="utf-8") == before
+
+
+def test_openorange_is_a_primary_tag(tmp_path: Path) -> None:
+    path = write_catalog(tmp_path / "catalog.toml", '[repos.joshuarli]\nstats = ["openorange"]')
+    catalog = load_catalog(path, {"HOME": str(tmp_path)})
+    assert catalog.repositories[0].tags == ("openorange",)

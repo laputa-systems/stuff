@@ -30,6 +30,8 @@ _NAME_RULES: dict[str, tuple[Ecosystem, str]] = {
     ".tool-versions": (Ecosystem.GENERIC, ".tool-versions"),
     ".nvmrc": (Ecosystem.GENERIC, ".nvmrc"),
     "CMakeLists.txt": (Ecosystem.GENERIC, "CMakeLists.txt"),
+    "apps.toml": (Ecosystem.GENERIC, "openorange/apps.toml"),
+    "orange.jsonc": (Ecosystem.GENERIC, "orange.jsonc"),
     "wrangler.toml": (Ecosystem.GENERIC, "wrangler.toml"),
     "wrangler.json": (Ecosystem.GENERIC, "wrangler.json"),
     "wrangler.jsonc": (Ecosystem.GENERIC, "wrangler.jsonc"),
@@ -71,6 +73,8 @@ def classify(path: str) -> DiscoveredInput | None:
         if path != ".gitmodules":
             return None
         return DiscoveredInput(path, Ecosystem.GENERIC, ".gitmodules")
+    if name == "apps.toml" and not (path == "openorange/apps.toml" or path.endswith("/openorange/apps.toml")):
+        return None
     rule = _NAME_RULES.get(name)
     if rule is not None:
         return DiscoveredInput(path, *rule)

@@ -22,6 +22,7 @@ PRIMARY_TAGS = frozenset(
         "system",
         "build",
         "cloudflare",
+        "openorange",
         "config",
         "data",
     }
