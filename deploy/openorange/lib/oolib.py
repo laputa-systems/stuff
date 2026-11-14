@@ -483,7 +483,7 @@ def _net(cfg: Config, ip: str) -> list[str]:
 
 
 def engine_args(cfg: Config, name: str, ip: str, env_file: Path, config_file: Path, log_dir: Path, objects_dir: Path,
-                detach: bool = False) -> list[str]:
+                detach: bool = False, *, image: str | None = None) -> list[str]:
     """`docker run` arguments for one Engine instance. Shared by the live unit and the restore rehearsal."""
     # The Engine takes an ownership lock next to its object tier under /var/lib/rivet, so that
     # directory is a tmpfs with the two data directories bind-mounted into it.
@@ -493,7 +493,20 @@ def engine_args(cfg: Config, name: str, ip: str, env_file: Path, config_file: Pa
         "--user", f"{UID}:{UID}", "--env-file", str(env_file),
         "-v", f"{config_file}:/etc/rivet/config.json:ro",
         "-v", f"{log_dir}:/var/lib/rivet/log", "-v", f"{objects_dir}:/var/lib/rivet/objects",
-        "--tmpfs", "/tmp", image_ref("engine")]
+        "--tmpfs", "/tmp", image or image_ref("engine")]
+
+
+def store_args(cfg: Config, name: str, ip: str, env_file: Path, *, data_dir: Path, versions_dir: Path,
+               iam_dir: Path, admin_dir: Path, detach: bool = False, image: str | None = None) -> list[str]:
+    return COMMON + (["-d"] if detach else []) + ["--name", name, *_net(cfg, ip), "--read-only", "--user", f"{UID}:{UID}",
+                         "--env-file", str(env_file),
+                         "-v", f"{data_dir}:/data", "-v", f"{versions_dir}:/versions",
+                         "-v", f"{iam_dir}:/iam", "-v", f"{admin_dir}:/run/adm",
+                         "--tmpfs", "/tmp",
+                         image or image_ref("store"),
+                         "--port", f":{STORE_PORT}", "--admin-port", "/run/adm/admin.sock",
+                         "--region", cfg.store["region"], "--iam-dir", "/iam", "--health", "/health",
+                         "--quiet", "posix", "--fsync", "--versioning-dir", "/versions", "/data"]
 
 
 def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
@@ -506,18 +519,8 @@ def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
                          "--cpus", "0.25", "--pids-limit", "64", "-v", f"{cfg.etc}/dns/Corefile:/Corefile:ro",
                          image_ref("coredns"), "-conf", "/Corefile"]
     if service == "store":
-        # versitygw posix backend as an unprivileged user with no capabilities.
-        # The admin API listens on a unix socket (not on any network) and is
-        # driven from the host with the root key (see `oo provision`).
-        return COMMON + ["--name", "oo-store", *_net(cfg, n["store_ip"]), "--read-only", "--user", f"{UID}:{UID}",
-                         "--env-file", str(cfg.store_env),
-                         "-v", f"{cfg.state}/store/data:/data", "-v", f"{cfg.state}/store/versions:/versions",
-                         "-v", f"{cfg.state}/store/iam:/iam", "-v", f"{cfg.run}/store-admin:/run/adm",
-                         "--tmpfs", "/tmp",
-                         image_ref("store"),
-                         "--port", f":{STORE_PORT}", "--admin-port", "/run/adm/admin.sock",
-                         "--region", cfg.store["region"], "--iam-dir", "/iam", "--health", "/health",
-                         "--quiet", "posix", "--fsync", "--versioning-dir", "/versions", "/data"]
+        return store_args(cfg, "oo-store", n["store_ip"], cfg.store_env, data_dir=cfg.state / "store" / "data",
+                          versions_dir=cfg.state / "store" / "versions", iam_dir=cfg.state / "store" / "iam", admin_dir=cfg.run / "store-admin")
     if service == "engine":
         return engine_args(cfg, "oo-engine", n["engine_ip"], cfg.engine_env, cfg.etc / "engine" / "config.json",
                            cfg.state / "engine" / "log", cfg.state / "engine" / "objects")

@@ -1,20 +1,7 @@
 #!/usr/bin/env python3
-"""Restore a backup into a FRESH directory and a throwaway Engine, without
-touching the live stack. Run as root.
-
-    restore-rehearsal [BACKUP_DIR] [--app NAME --probe PATH [--expect TEXT]] [--keep]
-
-1. copies BACKUP_DIR/engine/* into /var/lib/openorange/restore/<ts>/
-2. starts `oo-restore-engine` (private network, spare address, no published
-   port) on the copy with the backed-up config and token
-3. verifies the namespaces and pools declared for the backed-up apps exist
-4. with --app/--probe: starts a throwaway container of that app's image
-   against the restored Engine and GETs PATH from it, printing the body (and
-   failing if --expect text is absent). This is the proof that Actor state
-   came back, not just that /health answers.
-5. removes the containers (the restored directory is kept unless --purge).
-"""
+"""Rehearse a physical backup on private throwaway Engine and Store instances."""
 import argparse
+import hashlib
 import ipaddress
 import json
 import os
@@ -22,24 +9,93 @@ import shutil
 import subprocess
 import sys
 import time
+import tomllib
 import urllib.error
 import urllib.request
+import xml.etree.ElementTree as ET
 from pathlib import Path
+from dataclasses import replace
 
 sys.path.insert(0, str(Path(os.path.realpath(__file__)).parent.parent / "lib"))
-import oolib  # noqa: E402
+import oolib
+from oo_s3 import S3
+
+LIMIT = 1024 * 1024
 
 
-def call(url, token, method="GET", body=None, timeout=10):
-    req = urllib.request.Request(url, method=method, data=json.dumps(body).encode() if body is not None else None,
-                                 headers={"Content-Type": "application/json", **({"Authorization": f"Bearer {token}"} if token else {})})
+def call(url, token=None, headers=None, timeout=10):
+    hdr = dict(headers or {})
+    if token:
+        hdr["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=hdr)
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return r.status, r.read()
-    except urllib.error.HTTPError as e:
-        return e.code, e.read()
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            return response.status, response.read(LIMIT + 1)
+    except urllib.error.HTTPError as error:
+        return error.code, error.read(LIMIT + 1)
     except OSError:
         return 0, b""
+
+
+def app_env(etc, app, engine_url, store_url, version):
+    env = oolib.read_env(etc / "apps" / f"{app.name}.env")
+    env.update(oolib.read_env(etc / "apps" / f"{app.name}.extra.env"))
+    env["RIVET_ENDPOINT"] = engine_url
+    env["RIVET_NODE_VERSION"] = str(version)
+    for key in list(env):
+        if key == "S3_ENDPOINT" or (key.startswith("ORANGE_R2_") and key.endswith("_S3_ENDPOINT")):
+            env[key] = store_url
+        if key.startswith("APPLICATION_EVENTS_"):
+            env[key] = ""
+    return env
+
+
+def digest_stream(response):
+    digest = hashlib.sha256()
+    size = 0
+    while chunk := response.read(65536):
+        size += len(chunk)
+        digest.update(chunk)
+    return size, digest.hexdigest()
+
+
+def verify_bucket(client, bucket, data_dir):
+    count = size = 0
+    aggregate = hashlib.sha256()
+    token = None
+    while True:
+        query = {"list-type": "2"}
+        if token:
+            query["continuation-token"] = token
+        status, _, body = client.request("GET", f"/{bucket}", query=query, consume=lambda response: response.read(LIMIT + 1))
+        if status != 200 or len(body) > LIMIT:
+            raise RuntimeError(f"bucket {bucket}: listing failed or exceeded limit ({status})")
+        root = ET.fromstring(body)
+        ns = {"s": root.tag.partition("}")[0].lstrip("{")} if "}" in root.tag else {}
+        prefix = "s:" if ns else ""
+        for item in root.findall(f"{prefix}Contents", ns):
+            key = item.findtext(f"{prefix}Key", namespaces=ns)
+            expected_size = int(item.findtext(f"{prefix}Size", namespaces=ns))
+            status, _, result = client.request("GET", f"/{bucket}/{key}", consume=digest_stream)
+            if status != 200 or result[0] != expected_size:
+                raise RuntimeError(f"bucket {bucket}: object read failed or size mismatch")
+            path = data_dir / bucket / key
+            if not path.resolve().is_relative_to((data_dir / bucket).resolve()):
+                raise RuntimeError(f"bucket {bucket}: object path escapes bucket")
+            with path.open("rb") as copied:
+                expected = digest_stream(copied)
+            if result != expected:
+                raise RuntimeError(f"bucket {bucket}: served object differs from copied data")
+            count += 1
+            size += result[0]
+            aggregate.update(json.dumps([key, *result], ensure_ascii=True, separators=(',', ':')).encode() + b"\n")
+        if root.findtext(f"{prefix}IsTruncated", namespaces=ns) != "true":
+            break
+        next_token = root.findtext(f"{prefix}NextContinuationToken", namespaces=ns)
+        if not next_token or next_token == token:
+            raise RuntimeError(f"bucket {bucket}: invalid continuation token")
+        token = next_token
+    print(f"bucket {bucket}: objects={count} bytes={size} sha256={aggregate.hexdigest()}")
 
 
 def main():
@@ -49,94 +105,107 @@ def main():
     ap.add_argument("--app")
     ap.add_argument("--probe")
     ap.add_argument("--expect")
+    ap.add_argument("--headers-file", type=Path)
     ap.add_argument("--purge", action="store_true")
     a = ap.parse_args()
+    if bool(a.app) != bool(a.probe) or (a.expect and not a.probe) or (a.headers_file and not a.probe):
+        ap.error("--app and --probe must be supplied together; --expect and --headers-file require them")
     if os.geteuid() != 0:
         sys.exit("restore-rehearsal: run as root")
-    cfg = oolib.load()
-    bdir = cfg.state / "backups"
+    live = oolib.load()
+    bdir = live.state / "backups"
     src = Path(a.backup) if a.backup else sorted(p.parent for p in bdir.glob("*/manifest.json"))[-1]
-    manifest = json.loads((src / "manifest.json").read_text())
-    stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
-    root = cfg.state / "restore" / stamp
-    for sub in ("engine/log", "engine/objects"):
-        (root / sub).mkdir(parents=True)
-        subprocess.run(["rsync", "-aH", "--numeric-ids", f"{src / sub}/", f"{root / sub}/"], check=True)
-    print(f"restored copy: {root}  (from {src.name})")
-    net = ipaddress.ip_network(cfg.network["subnet"])
-    ip = str(list(net.hosts())[-3])
     etc = src / "etc"
+    raw = tomllib.loads((src / "apps.toml").read_text())
+    if (etc / "overlay.toml").exists():
+        raw = oolib._deep_merge(raw, tomllib.loads((etc / "overlay.toml").read_text()))
+    cfg = oolib.validate(raw)
+    pins = json.loads((src / "images.lock.json").read_text())["images"]
+    def image(key):
+        return f"{pins[key]['repository']}@{pins[key]['index_digest']}"
+    sums = (src / "SHA256SUMS").read_text().splitlines()
+    if not all(any(line.endswith("  " + name) for line in sums) for name in ("apps.toml", "images.lock.json")):
+        raise RuntimeError("backup lacks declaration checksums")
+    subprocess.run(["sha256sum", "-c", "--quiet", "SHA256SUMS"], cwd=src, check=True)
+    stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+    root = live.state / "restore" / stamp
+    root.mkdir(parents=True, mode=0o700)
+    for sub in ("engine/log", "engine/objects", "store/data", "store/versions", "store/iam"):
+        (root / sub).mkdir(parents=True)
+        subprocess.run(["rsync", "-aHX", "--numeric-ids", f"{src / sub}/", f"{root / sub}/"], check=True)
+    copied_sums = "\n".join(line for line in sums if line.split("  ", 1)[-1].startswith(("engine/", "store/"))) + "\n"
+    subprocess.run(["sha256sum", "-c", "--quiet"], cwd=root, input=copied_sums, text=True, check=True)
+    admin = root / "admin"
+    admin.mkdir(mode=0o700)
+    os.chown(admin, int(oolib.UID), int(oolib.UID))
     token = oolib.read_env(etc / "engine.env")["RIVET__AUTH__ADMIN_TOKEN"]
-    name = "oo-restore-engine"
-    subprocess.run(["docker", "rm", "-f", name], capture_output=True)
-    cmd = ["docker", *oolib.engine_args(cfg, name, ip, etc / "engine.env", etc / "engine" / "config.json",
-                                         root / "engine" / "log", root / "engine" / "objects", detach=True)]
-    subprocess.run(cmd, check=True, capture_output=True)
-    url = f"http://{ip}:{oolib.ENGINE_PORT}"
-    ok = False
-    extra = []
-    status = 1
+    names = [f"oo-restore-{kind}-{os.getpid()}" for kind in ("store", "engine", "app")]
+    network_name = f"oo-restore-{os.getpid()}"
+    network_created = False
     try:
-        for _ in range(60):
-            st, _ = call(url + "/health", token, timeout=3)
-            if st == 200:
-                break
-            alive = subprocess.run(["docker", "inspect", "-f", "{{.State.Running}}", name], capture_output=True, text=True).stdout.strip()
-            if alive != "true":
-                logs = subprocess.run(["docker", "logs", "--tail", "5", name], capture_output=True, text=True)
-                raise SystemExit(f"restored engine exited: {(logs.stdout + logs.stderr)[-400:]}")
-            time.sleep(1)
-        else:
-            raise SystemExit("restored engine never became healthy")
-        print(f"restored engine healthy at {url}")
-        st, body = call(url + "/namespaces", token)
+        subprocess.run(["docker", "network", "create", "--internal", network_name], check=True, capture_output=True)
+        network_created = True
+        inspected = subprocess.run(["docker", "network", "inspect", network_name], check=True, capture_output=True, text=True)
+        net = ipaddress.ip_network(json.loads(inspected.stdout)[0]["IPAM"]["Config"][0]["Subnet"])
+        hosts = list(net.hosts())
+        engine_ip, store_ip, app_ip = map(str, hosts[-3:])
+        engine_url = f"http://{engine_ip}:{oolib.ENGINE_PORT}"
+        store_url = f"http://{store_ip}:{oolib.STORE_PORT}"
+        runtime_cfg = replace(cfg, network={**cfg.network, "name": network_name})
+        subprocess.run(["docker", *oolib.store_args(runtime_cfg, names[0], store_ip, etc / "store.env", data_dir=root / "store/data", versions_dir=root / "store/versions", iam_dir=root / "store/iam", admin_dir=admin, detach=True, image=image("store"))], check=True, capture_output=True)
+        subprocess.run(["docker", *oolib.engine_args(runtime_cfg, names[1], engine_ip, etc / "engine.env", etc / "engine/config.json", root / "engine/log", root / "engine/objects", True, image=image("engine"))], check=True, capture_output=True)
+        for url, auth in ((store_url + "/health", None), (engine_url + "/health", token)):
+            for _ in range(60):
+                if call(url, auth, timeout=3)[0] == 200:
+                    break
+                time.sleep(1)
+            else:
+                raise RuntimeError(f"service did not become healthy: {url}")
+        st, body = call(engine_url + "/namespaces", token)
+        if st != 200:
+            raise RuntimeError("namespace query failed")
         have = {n["name"] for n in json.loads(body)["namespaces"]}
-        missing = []
-        for n, info in manifest["apps"].items():
-            if info["namespace"] not in have:
-                missing.append(info["namespace"])
-                continue
-            st, body = call(f"{url}/pools?namespace={info['namespace']}", token)
-            pools = {p["name"] for p in json.loads(body)["pools"]}
-            missing += [f"{info['namespace']}/{p}" for p in oolib.ORANGE_POOLS if p not in pools]
-        print("namespaces/pools restored:", "all present" if not missing else f"MISSING {missing}")
-        if missing:
-            raise SystemExit(1)
+        for app in cfg.orange_apps():
+            if app.namespace not in have:
+                raise RuntimeError(f"missing namespace {app.namespace}")
+            st, body = call(f"{engine_url}/pools?namespace={app.namespace}", token)
+            if st != 200 or not set(oolib.ORANGE_POOLS) <= {p["name"] for p in json.loads(body)["pools"]}:
+                raise RuntimeError(f"missing pools for {app.namespace}")
+            env = oolib.read_env(etc / "apps" / f"{app.name}.env")
+            if app.buckets:
+                client = S3(store_url, cfg.store["region"], env["S3_ACCESS_KEY_ID"], env["S3_SECRET_ACCESS_KEY"])
+                for bucket in app.buckets:
+                    verify_bucket(client, bucket, root / "store/data")
         if a.app:
             app = cfg.apps[a.app]
+            if app not in cfg.orange_apps():
+                raise RuntimeError("probe app is not an enabled orange app")
             deployment = oolib.read_app_deployment(etc / "apps" / f"{a.app}.image")
-            ref = deployment.image
-            aenv = oolib.read_env(etc / "apps" / f"{a.app}.env")
-            aenv["RIVET_ENDPOINT"] = url
-            aenv["RIVET_NODE_VERSION"] = str(deployment.version)
-            tmp = root / "app.env"
-            oolib.write_env(tmp, aenv)
-            aip = str(list(net.hosts())[-4])
-            cname = "oo-restore-app"
-            subprocess.run(["docker", "rm", "-f", cname], capture_output=True)
-            subprocess.run(["docker", "run", "-d", "--rm", "--name", cname, "--network", cfg.network["name"], "--ip", aip, "--read-only",
-                            "--cap-drop", "ALL", "--security-opt", "no-new-privileges", "--user", "1000:1000", "--env-file", str(tmp),
-                            "--tmpfs", "/tmp", "--tmpfs", "/app/.open-orange", "--env", f"PORT={app.port}", ref], check=True, capture_output=True)
-            extra.append(cname)
-            body = b""
+            env = app_env(etc, app, engine_url, store_url, deployment.version)
+            envfile = root / "app.env"
+            oolib.write_env(envfile, env)
+            subprocess.run(["docker", "run", "-d", "--rm", "--name", names[2], "--network", network_name, "--ip", app_ip, "--read-only", "--cap-drop", "ALL", "--security-opt", "no-new-privileges", "--user", "1000:1000", "--env-file", str(envfile), "--tmpfs", "/tmp", "--tmpfs", "/app/.open-orange", "--env", f"PORT={app.port}", deployment.image], check=True, capture_output=True)
+            headers = {"Host": app.hostnames[0], "Stats-Gateway-Secret": env["GATEWAY_SECRET"], "Stats-Tailnet-Identity": "user:restore-rehearsal@example.invalid"}
+            if a.headers_file:
+                if a.headers_file.stat().st_mode & 0o077:
+                    raise RuntimeError("headers file must not be accessible by group or others")
+                headers.update(oolib.read_env(a.headers_file))
             for _ in range(60):
-                st, body = call(f"http://{aip}:{app.port}{a.probe}", None)
+                st, body = call(f"http://{app_ip}:{app.port}{a.probe}", headers=headers)
                 if st == 200:
                     break
                 time.sleep(1)
-            text = body.decode(errors="replace").strip()
-            print(f"probe GET {a.probe} on restored app -> http {st} {text}")
-            if st != 200 or (a.expect and a.expect not in text):
-                raise SystemExit(f"probe did not return the expected state ({a.expect!r})")
-        ok = True
-        status = 0
+            print(f"probe: status={st} bytes={len(body)} sha256={hashlib.sha256(body).hexdigest()}")
+            if st != 200 or len(body) > LIMIT or (a.expect and a.expect.encode() not in body):
+                raise RuntimeError("probe failed, exceeded limit, or expected text absent")
+        print("restore rehearsal: PASS")
     finally:
-        for c in [name] + extra:
-            subprocess.run(["docker", "rm", "-f", c], capture_output=True)
+        for name in reversed(names):
+            subprocess.run(["docker", "rm", "-f", name], capture_output=True)
+        if network_created:
+            subprocess.run(["docker", "network", "rm", network_name], check=True, capture_output=True)
         if a.purge:
-            shutil.rmtree(root, ignore_errors=True)
-    print("restore rehearsal:", "PASS" if ok else "FAIL")
-    sys.exit(status)
+            shutil.rmtree(root)
 
 
 if __name__ == "__main__":

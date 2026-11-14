@@ -39,7 +39,7 @@ class S3:
             self.port = u.port or (443 if u.scheme == "https" else 80)
         self.region, self.ak, self.sk, self.timeout = region, access_key, secret_key, timeout
 
-    def request(self, method, path, query=None, headers=None, body=b""):
+    def request(self, method, path, query=None, headers=None, body=b"", *, consume=None):
         query = query or {}
         now = datetime.datetime.now(datetime.timezone.utc)
         amz, day = now.strftime("%Y%m%dT%H%M%SZ"), now.strftime("%Y%m%d")
@@ -69,7 +69,7 @@ class S3:
         try:
             conn.request(method, url, body=body if method != "GET" else None, headers={k: v for k, v in h.items() if k != "host"})
             r = conn.getresponse()
-            data = r.read()
+            data = consume(r) if consume is not None and r.status == 200 else r.read()
             return r.status, {k.lower(): v for k, v in r.getheaders()}, data
         finally:
             conn.close()

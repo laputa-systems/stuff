@@ -347,24 +347,28 @@ for the Cloudflare plugin).
 * **Disk accounting:** `bin/disk-usage [--json]`: Engine log, Engine objects,
   each app's bucket set (incl. versions), store total, caddy, backups, restore
   rehearsals, logs, free space, Docker.
-* **Backup:** `bin/backup [--dest DIR] [--keep N]`. Rivet documents no online
-  snapshot for a single instance, so it fences: drains the stack, `rsync -aHX`
-  (hard-linked against the previous backup) of Engine log+objects and store
-  data/versions/iam, `/etc/openorange` (secrets: the backup directory is 0700),
-  `apps.toml`, `images.lock.json`; restarts; then writes `SHA256SUMS` and
-  `manifest.json`. Downtime measured: 7 s on an idle stack. A failed copy
-  still restarts the stack and leaves `*.partial`.
+* **Backup:** `bin/backup [--dest DIR] [--keep N] [--no-restart]` fences
+  the stack and copies Engine, Store, configuration, app declarations and image
+  pins. It checksums the copy and retains a positive number of backups. Failed
+  drains or copies and SIGTERM/SIGINT restart services that were running before
+  the fence, including the tunnel only if it was running. `--no-restart` leaves
+  services stopped only after a successful copy; failures still restart them.
+  Backups contain secrets and must remain protected.
 * **Restore rehearsal:** `bin/restore-rehearsal [BACKUP] [--app A --probe PATH
-  --expect TEXT] [--purge]` copies the Engine directories into
-  `/var/lib/openorange/restore/<ts>/`, starts a second Engine on a spare
-  address of the private network (no published port), verifies every declared
-  namespace and pool, and with `--app` starts a throwaway container of the app
-  image against it and prints the probe response. A real restore is the same
-  copy into the live directories with the stack stopped
-  (`drain`, copy back, `drain --start`). Rivet states a fresh-cluster restore
-  "has not yet been validated for this release": a `/health` answer is not proof,
-  so always probe application state. The store restore is a file copy and was
-  verified only by `sha256sum -c` of the backup, not by serving it again.
+  --expect TEXT] [--headers-file FILE] [--purge]` verifies backup checksums,
+  copies Engine and Store data, versions and IAM, and starts both on a separate internal Docker network
+  at private addresses with the backed configurations and pinned images. It checks backed
+  namespaces and pools and streams every object in each declared bucket, reporting
+  counts, bytes and an aggregate SHA-256. Each served object's SHA-256 and size
+  must match the corresponding checksummed file in the copied Store data. With
+  an app probe it uses the backed app image and environment, directs S3 and Engine
+  to the copies, disables application events, and sends the app's host and a
+  synthetic gateway identity. Probe output is limited to status, byte count and
+  SHA-256; responses over 1 MiB fail. An optional root-protected `KEY=value`
+  headers file supplies operator authentication. Containers are removed afterward;
+  `--purge` also removes the copied data. Older backups without checksums for
+  `apps.toml` and `images.lock.json` cannot be rehearsed by this command.
+  A real restore copies the data into live directories with the stack stopped.
 * **Upgrade:** (1) `bin/backup`; (2) `bin/pin-verify --resolve` after choosing
   the new tags in `images.lock.json` (review the diff), `bin/pin-verify`;
   (3) `bin/sync-code`, `doas bin/build-images` for Caddy/identity;
