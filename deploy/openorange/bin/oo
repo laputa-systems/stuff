@@ -10,7 +10,7 @@
     oo render [--stdout [--tls internal|acme]]   write engine config, Caddyfile, ingress env, conf.d
     oo network                  ensure the private docker network
     oo provision [APP...]       store users/buckets, Rivet namespaces/pools
-    oo set-image APP IMAGE      point an app at a (locally built) image
+    oo set-image APP IMAGE [--if-current IMAGE]  conditionally select an image
     oo deployment APP           read the selected image and node version as JSON
     oo remove APP [--purge-store]  stop and unregister an app (optionally delete its buckets and S3 key)
     oo reload-ingress           validate and gracefully reload Caddy
@@ -385,12 +385,12 @@ def cmd_provision(cfg, names: list[str]) -> None:
     print("provision: ok for " + ", ".join(a.name for a in apps))
 
 
-def cmd_set_image(cfg, app: str, image: str) -> None:
+def cmd_set_image(cfg, app: str, image: str, *, expected_image: str | None = None) -> None:
     a = cfg.apps.get(app)
     if not a or a.kind != "orange":
         die(f"unknown orange app {app}")
     f = cfg.app_image_file(a)
-    deployment = oolib.set_app_deployment(f, image.strip())
+    deployment = oolib.set_app_deployment(f, image.strip(), expected_image=expected_image)
     print(f"{app}: image -> {deployment.image}, node version {deployment.version} (previous kept in {f.with_suffix('.image.prev').name})")
 
 
@@ -575,7 +575,9 @@ def main(argv: list[str]) -> None:
         elif cmd == "provision":
             cmd_provision(cfg, rest)
         elif cmd == "set-image":
-            cmd_set_image(cfg, rest[0], rest[1])
+            if len(rest) not in (2, 4) or len(rest) == 4 and rest[2] != "--if-current":
+                die("usage: oo set-image APP IMAGE [--if-current IMAGE]")
+            cmd_set_image(cfg, rest[0], rest[1], expected_image=rest[3] if len(rest) == 4 else None)
         elif cmd == "deployment":
             deployment = oolib.read_app_deployment(cfg.app_image_file(cfg.apps[rest[0]]))
             print(json.dumps({"image": deployment.image, "version": deployment.version}))

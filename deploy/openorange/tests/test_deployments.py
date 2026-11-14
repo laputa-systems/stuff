@@ -35,6 +35,19 @@ class DeploymentTests(unittest.TestCase):
         self.assertEqual(sorted(x.version for x in results), list(range(1, 17)))
         self.assertEqual(oolib.read_app_deployment(self.path).version, 16)
 
+    def test_conditional_rollout_cannot_replace_or_rollback_a_newer_image(self):
+        oolib.set_app_deployment(self.path, "stats:previous")
+        oolib.set_app_deployment(self.path, "stats:mine", expected_image="stats:previous")
+        with self.assertRaisesRegex(oolib.ConfigError, "changed concurrently"):
+            oolib.set_app_deployment(self.path, "stats:other", expected_image="stats:previous")
+        oolib.set_app_deployment(self.path, "stats:newer")
+        before = self.path.read_bytes()
+        previous = self.path.with_suffix(".image.prev").read_bytes()
+        with self.assertRaisesRegex(oolib.ConfigError, "changed concurrently"):
+            oolib.set_app_deployment(self.path, "stats:previous", expected_image="stats:mine")
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(self.path.with_suffix(".image.prev").read_bytes(), previous)
+
     def test_registry_provisioning_enables_and_verifies_versioning(self):
         cfg = oolib.load()
         cfg.stack["etc_dir"] = self.directory.name

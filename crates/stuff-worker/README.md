@@ -12,8 +12,8 @@ The thin fetch handler `entry.ts` initializes the compiled wasm once
 
 That boundary is the wasm-bindgen ABI produced by `scripts/build-wasm.sh`.
 The exports are synchronous and carry JSON strings and primitives.
-workerd instantiates the resulting core module, and `cf deploy` ships that
-same bundle. A WIT component would need a second host. Workers load core
+workerd and OpenOrange instantiate the resulting core module. A WIT component
+would need a second host. Workers load core
 modules through `WebAssembly.instantiate`, and the platform's Rust path is
 wasm-bindgen, so this Worker does not add a component host.
 
@@ -33,9 +33,8 @@ tsrs -p tsconfig.json --fast # type-check and compile entry.ts into the bundle
 
 `pnpm run build:wasm` runs only the wasm step. `pnpm run typecheck` checks
 the TypeScript without emitting. `pnpm run dev` starts the Vite dev server that
-`cf dev` discovers through `@cloudflare/vite-plugin`. `cf deploy --prebuilt`
-uploads the spec as-is without rebuilding it. Validate without credentials
-with `cf deploy --prebuilt --dry-run`.
+`cf dev` discovers through `@cloudflare/vite-plugin`. `make worker-check`
+validates the OpenOrange package without deployment credentials.
 
 Vite 8 builds with Rolldown. Wrangler is a test dependency and brings esbuild;
 the Worker build does not invoke either. `make search-bundle` uses Vite to
@@ -105,6 +104,18 @@ then run `crates/stuff-worker/orange/build-image.sh HOST`. It builds the Worker,
 stages a portable descriptor and bundle, and builds `stuff:<commit>` on HOST
 for Linux amd64 over SSH. Supply runtime secrets separately on the host. Run
 `make worker-orange-package-test` to verify the relocated staging paths.
+
+From the repository root, `make deploy ORANGE_HOST=lisa` runs the Worker and
+OpenOrange checks, builds the committed image on the selected host, and deploys
+it. The host must already have the Stuff app configured and running. The
+deployment checks Orange readiness, confirms the selected image, and requests
+the unified registry over HTTPS using the host's Tailscale IPv4 address. It
+restores the previous image if deployment fails or is interrupted. It does not
+replace a newer concurrent deployment: image selection and rollback compare
+the expected image under the host's deployment lock. It does not
+alter app configuration or credentials, or republish registry data. Publish
+registry changes separately with the native `stuff` publisher. Run
+`make worker-deploy-test` for the local deployment and rollback regression.
 
 The image `stuff:463f8d96a4bd` is staged on `lisa` (2026-11-14), with
 production DNS unchanged. A temporary object in the real S3 store verified

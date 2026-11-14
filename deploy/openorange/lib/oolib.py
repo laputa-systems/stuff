@@ -87,12 +87,14 @@ def _replace_deployment(path: Path, deployment: AppDeployment) -> None:
             os.unlink(temporary)
 
 
-def set_app_deployment(path: Path, image: str) -> AppDeployment:
+def set_app_deployment(path: Path, image: str, *, expected_image: str | None = None) -> AppDeployment:
     if not image or any(c.isspace() for c in image):
         raise ConfigError("image must be a nonempty reference without whitespace")
     with path.with_suffix(".image.lock").open("a") as lockfile:
         fcntl.flock(lockfile, fcntl.LOCK_EX)
         current = read_app_deployment(path) if path.exists() else None
+        if expected_image is not None and (current is None or current.image != expected_image):
+            raise ConfigError("app image changed concurrently; conditional deployment refused")
         if current and current.image == image and current.version > 0:
             return current
         version = (current.version if current else 0) + 1
