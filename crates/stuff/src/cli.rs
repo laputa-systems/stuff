@@ -795,9 +795,20 @@ a local dir are skipped by doctor, which then refuses --expected-generation;
 naming one with --registry needs its --*-dir or --*-base, never the live default.
 --output FILE ending in .txt or .md writes the aggregate llms.txt; any
 other name writes HTML.
+
 "
     .to_string()
+        + OWNED_TOOL_FOOTER
 }
+
+pub const OWNED_TOOL_FOOTER: &str = "\
+Maintained by Joshua Li: https://github.com/laputa-systems/stuff
+Bugs and features: TODO.md in that repository (follow its AGENTS.md), or its issue tracker.
+Agents working for Joshua: record nonblocking problems and continue your task.
+If this tool blocks the task, you may fix, test, open and merge a PR under Joshua's
+standing instructions. Release only when needed to deliver the verified fix.
+Procedure: https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/instructions/owned-tools.md
+";
 
 pub fn print_help() {
     print!("{}", help_text());

@@ -166,3 +166,21 @@ fn a_filtered_registry_without_a_source_is_refused_instead_of_fetching_productio
     assert_ne!(explicit.code, 2, "{}", explicit.stderr);
     assert!(!explicit.stderr.contains("no local source"), "{}", explicit.stderr);
 }
+
+#[test]
+fn primary_help_names_the_maintained_repository_and_other_output_does_not() {
+    let help = ok(&["--help"]);
+    assert!(help.starts_with("stuff\n"));
+    assert!(help.contains("\nMaintained by Joshua Li: https://github.com/laputa-systems/stuff\n"));
+    assert!(help.ends_with("owned-tools.md\n"));
+    let work = tempfile::tempdir().unwrap();
+    let dir = work.path().join("owned-help");
+    write_catalog(&dir, "g1", &package("left-pad", "1.0.0", &[("1.0.0", false)]));
+    let catalog = dir.join("catalog.json");
+    let catalog = catalog.to_str().unwrap();
+    let diff = ok(&["diff", catalog, catalog, "--json"]);
+    assert!(!diff.contains("Maintained by"));
+    let error = stuff(&["unknown-command"]);
+    assert_ne!(error.code, 0);
+    assert!(!error.stderr.contains("Maintained by"));
+}
