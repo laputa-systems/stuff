@@ -35,7 +35,7 @@ import oolib  # noqa: E402
 from oo_s3 import S3  # noqa: E402
 from oolib import UID, ConfigError  # noqa: E402
 
-SERVICES = ("store", "engine", "identity", "ingress", "app")
+SERVICES = ("store", "engine", "identity", "ingress", "tunnel", "app")
 
 
 def die(msg: str, code: int = 1):
@@ -223,6 +223,9 @@ def cmd_prepare(cfg, service: str, app: str | None) -> None:
             chown_dir(cfg.state / "engine" / d, 0o700)
         if not cfg.engine_env.exists() or not (cfg.etc / "engine" / "config.json").exists():
             die("engine env/config missing: run `oo secrets && oo render`")
+    elif service == "tunnel":
+        if not cfg.tunnel.get("enabled") or not (cfg.etc / "tunnel.env").exists():
+            die("tunnel configuration or root-owned tunnel.env missing")
     elif service == "identity":
         chown_dir(cfg.run / "identity", 0o700)
         sock = cfg.run / "identity" / "identity.sock"
@@ -453,6 +456,8 @@ def ready(cfg, service: str, app: str | None) -> bool:
         return http_ok(cfg.store_url + "/health")
     if service == "engine":
         return http_ok(cfg.engine_url + "/health")
+    if service == "tunnel":
+        return bool(cfg.tunnel.get("enabled")) and http_ok(f"http://127.0.0.1:{cfg.tunnel['metrics_port']}/ready")
     if service == "identity":
         s = socket.socket(socket.AF_UNIX)
         s.settimeout(2)
@@ -505,6 +510,10 @@ def main(argv: list[str]) -> None:
         elif cmd == "apps-list":
             allapps = rest[:1] == ["--all"]
             print("\n".join(a.name for a in cfg.orange_apps() if allapps or cfg.app_image_file(a).exists()))
+        elif cmd == "tunnel-config":
+            print(json.dumps(oolib.tunnel_config(cfg)))
+        elif cmd == "tunnel-enabled":
+            sys.exit(0 if cfg.tunnel.get("enabled") else 1)
         elif cmd == "secrets":
             cmd_secrets(cfg)
         elif cmd == "prepare":

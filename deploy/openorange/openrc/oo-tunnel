@@ -1,0 +1,30 @@
+#!/sbin/openrc-run
+. /opt/openorange/openrc/oo-common.sh
+
+description="OpenOrange Discover public tunnel"
+supervisor=supervise-daemon
+command=/usr/bin/docker
+respawn_delay=3
+respawn_max=0
+respawn_period=60
+output_log="$OO_LOGDIR/tunnel.log"
+error_log="$OO_LOGDIR/tunnel.log"
+retry="TERM/30/KILL/5"
+
+depend() {
+	need docker net oo-ingress
+}
+
+start_pre() {
+	"$OO_BIN" prepare tunnel || return 1
+	oo_remove_container oo-tunnel
+	command_args="$("$OO_BIN" run-args tunnel)" || return 1
+}
+
+start_post() {
+	oo_wait tunnel 60 || { eerror "oo-tunnel did not connect"; oo_fail_stop oo-tunnel; return 1; }
+}
+
+stop_post() {
+	oo_remove_container oo-tunnel
+}

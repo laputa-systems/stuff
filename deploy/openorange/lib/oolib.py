@@ -169,6 +169,7 @@ class Config:
     ingress: dict
     store: dict
     apps: dict[str, App] = field(default_factory=dict)
+    tunnel: dict = field(default_factory=dict)
 
     # --- paths -----------------------------------------------------------
     def p(self, key: str, *parts: str) -> Path:
@@ -252,7 +253,7 @@ def load(path: str | os.PathLike | None = None, overlay: str | os.PathLike | Non
 
 
 def validate(raw: dict) -> Config:
-    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps"}, "apps.toml")
+    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel"}, "apps.toml")
     if raw.get("schema") != 1:
         raise ConfigError("schema must be 1")
     stack, net, ing, store = (raw.get(k, {}) for k in ("stack", "network", "ingress", "store"))
@@ -287,6 +288,18 @@ def validate(raw: dict) -> Config:
             raise ConfigError("ingress.public.port must be 1024-65535")
     _only(store, {"region"}, "store")
     _req(store, "region", str, "store")
+
+    tunnel = raw.get("tunnel", {})
+    _only(tunnel, {"enabled", "id", "metrics_port"}, "tunnel")
+    if tunnel:
+        _req(tunnel, "enabled", bool, "tunnel")
+        if not re.fullmatch(r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}", _req(tunnel, "id", str, "tunnel")):
+            raise ConfigError("tunnel.id must be a UUID")
+        port = _req(tunnel, "metrics_port", int, "tunnel")
+        if not 1024 <= port <= 65535 or port == pub.get("port"):
+            raise ConfigError("tunnel.metrics_port must be 1024-65535 and distinct from the public listener")
+        if tunnel["enabled"] and not pub:
+            raise ConfigError("tunnel needs the loopback public listener")
 
     apps: dict[str, App] = {}
     used_ips = {net["store_ip"], net["engine_ip"]}
@@ -370,7 +383,16 @@ def validate(raw: dict) -> Config:
                 raise ConfigError(f"{where}.upstream must be IP:PORT")
             kw.update(upstream=up)
         apps[name] = App(**kw)
-    return Config(raw, stack, net, ing, store, apps)
+    return Config(raw, stack, net, ing, store, apps, tunnel)
+
+
+def tunnel_config(cfg: Config) -> dict:
+    if not cfg.tunnel.get("enabled") or not cfg.public:
+        raise ConfigError("public tunnel is disabled")
+    service = f"http://{cfg.public['bind']}:{cfg.public['port']}"
+    rules = [{"hostname": host, "service": service}
+             for app in cfg.enabled_apps() for host in app.public_hostnames]
+    return {"config": {"ingress": [*rules, {"service": "http_status:404"}]}}
 
 
 # --- images ------------------------------------------------------------------
@@ -455,6 +477,13 @@ def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
     if service == "engine":
         return engine_args(cfg, "oo-engine", n["engine_ip"], cfg.engine_env, cfg.etc / "engine" / "config.json",
                            cfg.state / "engine" / "log", cfg.state / "engine" / "objects")
+    if service == "tunnel":
+        if not cfg.tunnel.get("enabled"):
+            raise ConfigError("tunnel is disabled")
+        return COMMON + ["--name", "oo-tunnel", "--network", "host", "--read-only", "--user", f"{UID}:{UID}",
+                         "--env-file", str(cfg.etc / "tunnel.env"), "--memory", "128m", "--cpus", "0.5", "--pids-limit", "64",
+                         "--tmpfs", "/tmp", image_ref("cloudflared"), "tunnel", "--no-autoupdate", "--metrics",
+                         f"127.0.0.1:{cfg.tunnel['metrics_port']}", "run"]
     if service == "identity":
         return COMMON + ["--name", "oo-identity", "--network", "none", "--read-only", "--user", f"{UID}:{UID}",
                          "-v", "/var/run/tailscale:/var/run/tailscale:ro",

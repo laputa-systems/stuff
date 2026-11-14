@@ -84,7 +84,7 @@ tailnet client --443--> [host net] oo-ingress (Caddy, 100.68.104.43:443)
                           |  unix socket /run/openorange/identity/identity.sock
                           |      oo-identity (python, --network none) -> tailscaled LocalAPI whois
                           |  http://172.29.80.2x:8080
-cloudflared (pending) --> 127.0.0.1:18480 (public listener, same Caddy)
+oo-tunnel (cloudflared) --> 127.0.0.1:18480 (public listener, same Caddy)
                           v
         docker network `openorange` 172.29.80.0/24, --internal (no route off the host)
         oo-store .10:7070   oo-engine .11:6420   oo-app-<name> .20+:8080
@@ -411,3 +411,18 @@ instances exist but are not in the default runlevel until an image is deployed.
    tagged-node request is untested.
 4. Off-host/off-disk backup destination.
 5. Tansu tunnel retirement at cutover.
+
+## Discover public connector
+
+`oo-tunnel` runs cloudflared 2026.10.7 by digest under OpenRC. Its only
+origin is the loopback public listener. `oo tunnel-config` derives its
+remote ingress rules from each enabled app's `public_hostnames`, then
+adds a 404 catch-all. Stats, Stuff and Tansu have no public tunnel route.
+The public listener refuses `/admin` before forwarding any request.
+
+The root-owned `/etc/openorange/tunnel.env` supplies `TUNNEL_TOKEN` through
+Docker's environment file. The token never appears in process arguments.
+Metrics and readiness bind to `127.0.0.1:18481`; `bin/health` checks both
+connection readiness and that bind address. `drain` stops the connector
+before ingress, and starts it after ingress and the apps. The physical
+backup includes its credentials and configuration with the rest of `/etc/openorange`.

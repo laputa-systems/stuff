@@ -33,13 +33,16 @@ case "${1:-}" in
 	start_one oo-store; start_one oo-engine; start_one oo-identity
 	for a in $apps; do start_one "oo-app.$a"; done
 	start_one oo-ingress
+	if "$OO" tunnel-enabled; then start_one oo-tunnel; fi
 	exit "$failed"
 	;;
 --apps)
+	stop_one oo-tunnel
 	stop_one oo-ingress
 	for a in $apps; do stop_one "oo-app.$a"; done
 	;;
 "")
+	stop_one oo-tunnel
 	stop_one oo-ingress
 	for a in $apps; do stop_one "oo-app.$a"; done
 	stop_one oo-identity

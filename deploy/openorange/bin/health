@@ -80,6 +80,8 @@ def main():
 
     # services
     svcs = [("store", None), ("engine", None), ("identity", None), ("ingress", None)] + [("app", a.name) for a in cfg.orange_apps() if cfg.app_image_file(a).exists()]
+    if cfg.tunnel.get("enabled"):
+        svcs.append(("tunnel", None))
     for svc, app in svcs:
         rcname = f"oo-{svc}" if not app else f"oo-app.{app}"
         cname = f"oo-{svc}" if not app else f"oo-app-{app}"
@@ -94,6 +96,9 @@ def main():
             expected = {cfg.network["name"]} | ({cfg.egress_network} if a.internet else set())
             isolated = set(networks) == expected and networks.get(cfg.network["name"], {}).get("IPAddress") == a.ip
             rec(f"app {app}: network isolation", "PASS" if isolated else "FAIL", ", ".join(sorted(networks)) or "absent")
+    if cfg.tunnel.get("enabled"):
+        st, _ = get(f"http://127.0.0.1:{cfg.tunnel['metrics_port']}/ready")
+        rec("public tunnel connected", "PASS" if st == 200 else "FAIL", f"http {st}")
     # store
     st, _ = get(cfg.store_url + "/health")
     rec("store /health", "PASS" if st == 200 else "FAIL", f"http {st}")
@@ -183,6 +188,9 @@ def main():
     if pub:
         ppub = sorted(ip for ip, p in ls if p == pub["port"])
         rec(f"public listener port {pub['port']} is bound only on {pub['bind']}", "PASS" if ppub in ([pub["bind"]], []) else "FAIL", str(ppub))
+    if cfg.tunnel.get("enabled"):
+        metrics = sorted(ip for ip, p in ls if p == cfg.tunnel["metrics_port"])
+        rec("tunnel metrics is loopback only", "PASS" if metrics == ["127.0.0.1"] else "FAIL", str(metrics))
     bad = sorted((ip, p) for ip, p in ls if p in stack_ports and ip not in ("127.0.0.1", "::1"))
     rec("no stack port (engine/store/app) listens on a host interface", "PASS" if not bad else "FAIL", str(bad) if bad else "none")
     on443 = sorted(ip for ip, p in ls if p == 443)

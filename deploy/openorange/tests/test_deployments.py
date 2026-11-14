@@ -79,6 +79,24 @@ class DeploymentTests(unittest.TestCase):
             with self.assertRaises(oolib.ConfigError):
                 oolib.validate(cfg.raw)
 
+    def test_tunnel_routes_only_declared_public_hosts_to_loopback(self):
+        cfg = oolib.load()
+        rules = oolib.tunnel_config(cfg)["config"]["ingress"]
+        hosts = {rule["hostname"] for rule in rules if "hostname" in rule}
+        expected = {host for app in cfg.enabled_apps() for host in app.public_hostnames}
+        self.assertEqual(hosts, expected)
+        self.assertNotIn("stats.17166969.xyz", hosts)
+        self.assertNotIn("tansu.17166969.xyz", hosts)
+        self.assertEqual(rules[-1], {"service": "http_status:404"})
+        self.assertTrue(all(rule["service"].startswith("http://127.0.0.1:") for rule in rules[:-1]))
+        args = oolib.run_args(cfg, "tunnel")
+        self.assertIn(str(cfg.etc / "tunnel.env"), args)
+        self.assertNotIn("--token", args)
+        self.assertIn(f"127.0.0.1:{cfg.tunnel['metrics_port']}", args)
+        cfg.tunnel["enabled"] = False
+        with self.assertRaises(oolib.ConfigError):
+            oolib.run_args(cfg, "tunnel")
+
     def test_app_arguments_use_deployment_version_and_image_together(self):
         cfg = oolib.load()
         cfg.stack["etc_dir"] = self.directory.name
