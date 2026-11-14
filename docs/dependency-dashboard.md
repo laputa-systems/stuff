@@ -13,7 +13,7 @@ open .work/dependencies/dashboard/index.html
 The `open` command is for macOS; on Linux, open that file in your browser.
 
 For a local server, `make deps` syncs the checkouts, re-snapshots the tracked inventory
-(committing any changes under `fleet/dependencies/v1/`), renders the dashboard with live status,
+(committing any changes under `fleet/dependencies/v1/` and `fleet/loc/v1/`), renders the dashboard with live status,
 and serves it at `http://127.0.0.1:8765` with `srv`; use `make deps PORT=9000` for another
 port.
 
@@ -145,6 +145,14 @@ Overview.
   downloads, system packages, service bindings, and git dependencies each have their own
   ecosystem. Search (`/`) finds any package.
   `packages.html#pkg=pkg:cargo/serde` deep-links to its versions and consumers.
+- **Lines** (`lines.html`) counts lines of code by language, from
+  `fleet/loc/v1`, which `repomod loc snapshot` writes from `loc --git . -o json` in each
+  selected catalogued checkout. The table lists languages with files, code, comment, and blank
+  lines, and a second table lists every repository with its leading language. Forks and hidden
+  private repositories are counted into the snapshot but left out of the page's totals and
+  tables. `make deps` refreshes the snapshot alongside the dependency inventory; the committed
+  files record each repository's commit and `loc` version, and re-running against an unchanged
+  tree writes nothing.
 
 Charts use status colors only where color means severity, and one hue or emphasis elsewhere; weight.html is the
 exception, coloring bar segments by language with colorblind-safe Okabe-Ito hues. The library's categorical
@@ -211,7 +219,7 @@ copies the pinned library's base `styles.css` and `tokens.css` and the `layout.c
 family sheets from `crates/stuff-catalog/assets/ui-dashboard/`, refreshed from the pinned
 `@laputa-systems/ui-dashboard` in `crates/stuff-worker/package.json` by `make catalog-css`.
 Rendering needs no Node install. `make deps` syncs the checkouts and re-snapshots the inventory
-(committing any changes) before it renders; it does not run Node.
+and line counts (committing any changes) before it renders; it does not run Node.
 
 ## Budgets and verification
 
@@ -227,8 +235,9 @@ overflow.
 
 ## Measuring the render
 
-`make deps` is `uv run repomod sync` and `uv run repomod deps snapshot` (committing any
-inventory changes), then `uv run repomod deps render --status` followed by `srv`. The render is the part
+`make deps` is `uv run repomod sync`, `uv run repomod deps snapshot` and
+`uv run repomod loc snapshot` (committing any tracked data changes), then
+`uv run repomod deps render --status` followed by `srv`. The render is the part
 that varies: it reads the tracked inventory, collects live repository status, and writes the
 dashboard. `bench/deps_perf.py` separates warm-cache behavior from an isolated cold run.
 

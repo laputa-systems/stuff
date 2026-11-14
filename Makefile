@@ -36,9 +36,10 @@ RUNS ?= 3
 deps: ## Sync, snapshot, and serve the fleet dependency dashboard ([PORT=8765] [PRIVATE=1])
 	@uv run repomod sync
 	@uv run repomod deps snapshot
-	@git add -A -- fleet/dependencies/v1
-	@if ! git diff --cached --quiet -- fleet/dependencies/v1; then \
-		git commit -m "chore(deps): snapshot fleet dependency inventory" \
+	@uv run repomod loc snapshot
+	@git add -A -- fleet/dependencies/v1 fleet/loc/v1
+	@if ! git diff --cached --quiet -- fleet/dependencies/v1 fleet/loc/v1; then \
+		git commit -m "chore(deps): snapshot fleet dependency inventory and line counts" \
 			-m "The dashboard renders this tracked inventory; refresh it so the pages reflect the synced checkouts."; \
 	fi
 	@uv run repomod deps render --status $(if $(filter 1,$(PRIVATE)),--include-private)

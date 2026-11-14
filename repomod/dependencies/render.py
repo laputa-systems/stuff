@@ -13,7 +13,18 @@ from urllib.parse import parse_qs, quote, urlsplit
 from packaging.version import InvalidVersion, Version
 
 from repomod import dependency_roles, paths
-from repomod.dependencies import analysis, enrich, insights, migrations, triage, ui, weight, weight_view, world
+from repomod.dependencies import (
+    analysis,
+    enrich,
+    insights,
+    loc_view,
+    migrations,
+    triage,
+    ui,
+    weight,
+    weight_view,
+    world,
+)
 from repomod.dependencies import diff as diff_module
 from repomod.dependencies.graph import Graph, Inventory
 from repomod.dependencies.model import (
@@ -35,6 +46,7 @@ from repomod.types import StatusItem, StatusLevel
 
 MARKER = ".repomod-dashboard"
 ASSETS = Path(__file__).with_name("assets")
+LOC_DATA = paths.LOC
 UI_DASHBOARD = paths.ROOT / "crates" / "stuff-catalog" / "assets" / "ui-dashboard"
 UI_SHEETS = ("styles.css", "tokens.css", "layout.css", "data.css")
 _LIST_ROWS = 25
@@ -92,6 +104,7 @@ class _Site:
     hidden: frozenset[str]
     world: world.World
     package_weight: tuple[weight.Repository, ...]
+    code: loc_view.Data
 
 
 def render(
@@ -132,6 +145,7 @@ def render(
             ("choices", "Choices", _choices),
             ("weight", "Weight", _weight),
             ("packages", "Packages", _packages),
+            ("lines", "Lines", _lines),
             ("changes", "Changes", _changes),
             ("coverage", "Coverage", _coverage),
         )
@@ -222,6 +236,7 @@ def _site(
         hidden,
         world_value,
         weight.build(graph, owned_names, cache.results, world_value),
+        loc_view.load(LOC_DATA),
     )
 
 
@@ -276,7 +291,12 @@ def _navigation(site: _Site) -> tuple[NavGroup, ...]:
         ),
         NavGroup(
             "Inventory",
-            (NavLink("coverage", "Coverage"), NavLink("changes", "Changes"), NavLink("packages", "Packages")),
+            (
+                NavLink("coverage", "Coverage"),
+                NavLink("changes", "Changes"),
+                NavLink("packages", "Packages"),
+                NavLink("lines", "Lines"),
+            ),
         ),
     )
 
@@ -842,6 +862,10 @@ def _weight(site: _Site) -> str:
         )
         + '\n<script src="assets/weight.js"></script>'
     )
+
+
+def _lines(site: _Site) -> str:
+    return loc_view.page(site.code, site.forks, sorted(site.hidden))
 
 
 def _duplicate_panel(site: _Site) -> str:
@@ -1604,6 +1628,9 @@ def _repository(site: _Site, name: str) -> str:
     held = next((row for row in site.package_weight if row.repository == name), None)
     if held is not None and held.total([language.key for language in weight.LANGUAGES]).packages:
         body.append(weight_view.repository_panel(held, "../../../"))
+    counted = next((repository for repository in site.code.repositories if repository.name == name), None)
+    if counted is not None:
+        body.append(loc_view.repository_panel(counted, "../../../"))
     if not data.edges:
         body.append(
             '<p class="zero">complete: zero dependencies</p>'

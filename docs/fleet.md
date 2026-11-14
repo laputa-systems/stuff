@@ -223,7 +223,7 @@ uv run repomod deps render
 
 Install the dashboard's pinned CSS package once with `pnpm install --frozen-lockfile`.
 For a local server, `make deps` syncs the checkouts, re-snapshots the tracked inventory
-(committing any changes under `fleet/dependencies/v1/`), renders with live status, and serves the
+(committing any changes under `fleet/dependencies/v1/` and `fleet/loc/v1/`), renders with live status, and serves the
 dashboard at `http://127.0.0.1:8765` with `srv`; use `make deps PORT=9000` for another port.
 
 See [dependency inventory](dependency-inventory.md) for the data layout, coverage kinds,

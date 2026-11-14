@@ -11,6 +11,7 @@ from repomod.cmd.discover import _discover
 from repomod.cmd.fix import _fix
 from repomod.cmd.gc import _gc
 from repomod.cmd.lint import _lint
+from repomod.cmd.loc import _loc
 from repomod.cmd.merge import _merge
 from repomod.cmd.musl import _musl
 from repomod.cmd.pins import _pins
@@ -238,6 +239,26 @@ def _parser() -> argparse.ArgumentParser:
         help="also read live CI, release, upstream, pull request, and checkout status",
     )
 
+    loc = commands.add_parser(
+        "loc", help="count lines of code in catalogued repositories with loc"
+    )
+    loc_commands = loc.add_subparsers(dest="operation", required=True)
+    snapshot_loc = loc_commands.add_parser(
+        "snapshot",
+        help="count each selected repository's tracked lines and write fleet/loc/v1",
+        description=(
+            "run `loc --git . -o json` in each selected checkout and write the "
+            "counts under fleet/loc/v1; requires loc on PATH (see ~/repos/loc)"
+        ),
+    )
+    _filters(snapshot_loc)
+    snapshot_loc.add_argument("--workers", type=int, default=4)
+    snapshot_loc.add_argument(
+        "--strict",
+        action="store_true",
+        help="exit 1 when a selected repository is failed or unavailable",
+    )
+
     tools = commands.add_parser("tools", help="resolve owned commands to their maintained repositories")
     tool_commands = tools.add_subparsers(dest="operation", required=True)
     tool_which = tool_commands.add_parser(
@@ -298,6 +319,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "gc": _gc,
             "discover": _discover,
             "deps": _deps,
+            "loc": _loc,
             "tools": _tools,
             "topics": _topics,
         }
