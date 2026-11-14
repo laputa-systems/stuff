@@ -27,7 +27,15 @@ from repomod.types import Finding, Repository, Rule, TagPredicate, operational, 
 _RULE_ID = "laputa-rustix"
 _FORK = "laputa-rustix"
 _MYCRATES_INDEX = "sparse+https://crates.17166969.xyz/current/registry/"
-_MYCRATES_ALIAS = f'[registries.mycrates]\nindex = "{_MYCRATES_INDEX}"\n'
+_MYCRATES_ALIAS = (
+    '[source.crates-io]\n'
+    'replace-with = "stuff"\n'
+    '\n'
+    '[source.stuff]\n'
+    'registry = "sparse+https://crates.17166969.xyz/current/crates-io/"\n'
+    '\n'
+    f'[registries.mycrates]\nindex = "{_MYCRATES_INDEX}"\n'
+)
 _PRUNED_DIRECTORIES = frozenset({".git", ".work", ".venv", "node_modules", "target"})
 _SKIPPED_PARTS = frozenset({"fixtures", "testdata", "snapshots", "golden", "third_party", "vendor"})
 _ALLOWED_PATHS = (

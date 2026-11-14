@@ -157,6 +157,12 @@ def test_fix_rewrites_bare_and_inline_specs(tmp_path: Path) -> None:
         'rustix_fs = { version = "1", package = "laputa-rustix" }\n'
     )
     assert plan[".cargo/config.toml"] == (
+        '[source.crates-io]\n'
+        'replace-with = "stuff"\n'
+        '\n'
+        '[source.stuff]\n'
+        'registry = "sparse+https://crates.17166969.xyz/current/crates-io/"\n'
+        '\n'
         '[registries.mycrates]\n'
         'index = "sparse+https://crates.17166969.xyz/current/registry/"\n'
     )
