@@ -6,8 +6,11 @@ Status: in progress. Landed: the `owned-tool-support` rule, `repomod tools which
 in stuff, repomod, usr's agent-facing utilities, kache, python-build (source only, no release), e,
 fz, srv, and img. usr installs `img` from `joshuarli/img` in place of the former `rimage`, and no
 longer installs the archived `laputa-systems/fs`. `uv run repomod tools coverage` lists every
-remaining `gap`; tm is parked on laputa-systems/tm#28. Open: the remaining producers and the
-controlled agent and release exercises.
+remaining `gap`; tm is parked on laputa-systems/tm#28. `tools which` reports `owned` only with
+install evidence (a tracked source link, a matching usr install-manifest fingerprint, or a sha256
+install record), and `repomod/which.py` runs it with the standard library alone; sandboxed agents
+receive `~/.agents/instructions`. Open: the remaining producers and the controlled agent and
+release exercises.
 
 ## Mission and authorization
 
