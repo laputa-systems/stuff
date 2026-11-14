@@ -506,3 +506,15 @@ def test_nested_fixture_lockfiles_are_mirrored(tmp_path: Path, monkeypatch: pyte
     plan = mirror.plan(_catalog(tmp_path, repository), [repository], POLICY, _served(), tmp_path / "scratch")
     assert Package(Ecosystem.CARGO, "rustybench", "0.3.0") in plan.missing
     assert Package(Ecosystem.CARGO, "rustybench", "0.1.0") not in plan.missing
+
+
+def test_extracted_package_caches_are_not_mirrored(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    root = _checkout(tmp_path)
+    cached = root / "rust-cpython" / ".cargo-home" / "registry" / "src" / "host" / "base64-0.23.1"
+    cached.mkdir(parents=True)
+    (cached / "Cargo.lock").write_text(CARGO_LOCK.format(rustybench="0.2.0", checksum="ff"), encoding="utf-8")
+    repository = _repository()
+    _upstream_relock(monkeypatch, [])
+    plan = mirror.plan(_catalog(tmp_path, repository), [repository], POLICY, _served(), tmp_path / "scratch")
+    assert Package(Ecosystem.CARGO, "rustybench", "0.2.0") not in plan.missing
+    assert Package(Ecosystem.CARGO, "rustybench", "0.5.0") in plan.missing
