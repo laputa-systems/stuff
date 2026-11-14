@@ -126,7 +126,7 @@ def main():
     sums = (src / "SHA256SUMS").read_text().splitlines()
     if not all(any(line.endswith("  " + name) for line in sums) for name in ("apps.toml", "images.lock.json")):
         raise RuntimeError("backup lacks declaration checksums")
-    subprocess.run(["sha256sum", "-c", "--quiet", "SHA256SUMS"], cwd=src, check=True)
+    subprocess.run(["sha256sum", "-c", "SHA256SUMS"], cwd=src, stdout=subprocess.DEVNULL, check=True)
     stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
     root = live.state / "restore" / stamp
     root.mkdir(parents=True, mode=0o700)
@@ -134,7 +134,7 @@ def main():
         (root / sub).mkdir(parents=True)
         subprocess.run(["ionice", "-c", "3", "nice", "-n", "19", "rsync", "-aHX", "--numeric-ids", f"{src / sub}/", f"{root / sub}/"], check=True)
     copied_sums = "\n".join(line for line in sums if line.split("  ", 1)[-1].startswith(("engine/", "store/"))) + "\n"
-    subprocess.run(["sha256sum", "-c", "--quiet"], cwd=root, input=copied_sums, text=True, check=True)
+    subprocess.run(["sha256sum", "-c"], cwd=root, input=copied_sums, text=True, stdout=subprocess.DEVNULL, check=True)
     admin = root / "admin"
     admin.mkdir(mode=0o700)
     os.chown(admin, int(oolib.UID), int(oolib.UID))
