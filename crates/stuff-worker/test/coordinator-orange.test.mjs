@@ -10,7 +10,7 @@ import { generate } from "../scripts/orange.mjs";
 
 const workerDir = resolve(import.meta.dirname, "..");
 const root = resolve(workerDir, "../..");
-const worker = join(workerDir, ".cloudflare/output/v0/workers/default/bundle/entry.js");
+const worker = join(workerDir, "build/orange/workers/default/bundle/entry.js");
 const bin = join(workerDir, "orange/node_modules/open-orange/dist/bin.js");
 const digest = (text) => createHash("sha256").update(text).digest("hex");
 async function freePort() {

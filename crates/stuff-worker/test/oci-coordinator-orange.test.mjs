@@ -17,7 +17,7 @@ test("Orange OCI HTTP publication shares coordinator authority and retains manif
   const directory = mkdtempSync(join(root, ".work/tmp/oci-coordinator-"));
   const configPath = join(directory, "orange.jsonc");
   const config = generate(configPath, "oci-coordinator-test");
-  const worker = join(workerDir, ".cloudflare/output/v0/workers/default/bundle/entry.js");
+  const worker = join(workerDir, "build/orange/workers/default/bundle/entry.js");
   const wrapper = join(directory, "wrapper.mjs");
   writeFileSync(wrapper, `import worker, {PublicationCoordinator as Base} from ${JSON.stringify(worker)};
 let loseActivation=false, failPut=false;

@@ -60,7 +60,7 @@ test("Orange GC retires exact versions and permits a fresh upload of the same bl
   const configPath = join(directory, "orange.jsonc");
   const config = generate(configPath, "gc-test");
   const wrapper = join(directory, "wrapper.mjs");
-  const worker = join(workerDir, ".cloudflare/output/v0/workers/default/bundle/entry.js");
+  const worker = join(workerDir, "build/orange/workers/default/bundle/entry.js");
   writeFileSync(wrapper, `import worker, { PublicationCoordinator as Base } from ${JSON.stringify(worker)};
 let offset=0; const now=Date.now; Date.now=()=>now()+offset;
 const endpoint=${JSON.stringify(`http://127.0.0.1:${backendPort}`)};

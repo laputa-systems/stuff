@@ -9,7 +9,7 @@ import { generate } from "../scripts/orange.mjs";
 import { seed, seedOci, OCI_FIXTURE, OCI_ARM64, OCI_LAYER } from "./fixtures.mjs";
 
 const root = resolve(import.meta.dirname, "../../..");
-const worker = resolve(import.meta.dirname, "../.cloudflare/output/v0/workers/default/bundle/entry.js");
+const worker = resolve(import.meta.dirname, "../build/orange/workers/default/bundle/entry.js");
 const bin = resolve(import.meta.dirname, "../orange/node_modules/open-orange/dist/bin.js");
 
 async function port() {

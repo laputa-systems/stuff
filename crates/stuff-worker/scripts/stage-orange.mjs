@@ -1,16 +1,15 @@
 import { cpSync, mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { generate } from "./orange.mjs";
+import { generate, DEFAULT_WORKER_DIRECTORY } from "./orange.mjs";
 
-const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const bundle = join(root, ".cloudflare/output/v0/workers/default/bundle");
 
-export function stage(destination, release) {
+export function stage(destination, release, { workerDirectory = DEFAULT_WORKER_DIRECTORY } = {}) {
+  const bundle = join(workerDirectory, "bundle");
   const app = resolve(destination);
   mkdirSync(app, { recursive: true });
   const descriptor = join(app, "stuff.jsonc");
-  const config = generate(descriptor, release);
+  const config = generate(descriptor, release, { workerDirectory });
   const main = relative(bundle, config.main);
   if (!main || main.startsWith("..") || resolve(bundle, main) !== config.main) throw new Error("worker main is outside bundle");
   cpSync(bundle, join(app, "bundle"), { recursive: true });

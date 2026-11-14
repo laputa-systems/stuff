@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createTestHarness } from "wrangler";
 
-const workerDir = fileURLToPath(new URL("../.cloudflare/output/v0/workers/default", import.meta.url));
+const workerDir = fileURLToPath(new URL("../build/orange/workers/default", import.meta.url));
 const bundleDir = join(workerDir, "bundle");
 const harnessRoot = fileURLToPath(new URL("../../../.work/tmp", import.meta.url));
 const routes = JSON.stringify([

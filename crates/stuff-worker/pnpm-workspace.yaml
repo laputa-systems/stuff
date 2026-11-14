@@ -3,7 +3,6 @@ allowBuilds:
   workerd: true
 minimumReleaseAgeExclude:
   - tsrs@0.25.0-ts7.1.0-beta
-  - cf@1.0.0-beta.30
   - '@tsrs/darwin-arm64@0.25.0-ts7.1.0-beta'
   - '@tsrs/darwin-x64@0.25.0-ts7.1.0-beta'
   - '@tsrs/linux-arm64-gnu@0.25.0-ts7.1.0-beta'

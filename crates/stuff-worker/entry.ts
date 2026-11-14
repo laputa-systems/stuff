@@ -1,4 +1,5 @@
 import { recordOperation, requestOperation, flushOperations } from "./src/telemetry.js";
+import type { ExecutionContext } from "./src/runtime-types.js";
 import { gateway } from "./src/gateway.js";
 import { sha as sha256 } from "./src/sigv4.js";
 export { PublicationCoordinator } from "./src/coordinator.js";

@@ -1,12 +1,12 @@
 # stuff-worker
 
-Cloudflare Worker that serves the registry layouts and the static artifact
+OpenOrange Worker that serves the registry layouts and the static artifact
 mirror from R2. URL routing
 and response planning are Rust (`src/map.rs`, `src/api.rs`, shared `stuff-http`
 semantics, `deser` for config parsing), with no `worker` SDK and no async
 runtime in the dependency tree. Routes match on the request hostname, so each
 registry serves from its own domain root (see `STUFF_ROUTES` in
-`cloudflare.config.ts`, which also defines the bindings and custom domains).
+`orange.jsonc`, which also defines the storage bindings).
 The thin fetch handler `entry.ts` initializes the compiled wasm once
 (`initSync`) and talks to R2 directly.
 
@@ -19,22 +19,26 @@ wasm-bindgen, so this Worker does not add a component host.
 
 ## Build
 
-`pnpm run build` (`scripts/build.mjs`) produces the Cloudflare Build Output
-Specification under `.cloudflare/output/v0`: the wasm module and bindgen glue
-from `scripts/build-wasm.sh`, `entry.ts` compiled by `tsrs` to
-`bundle/entry.js`, and the `worker.config.json` manifest that names the
-three ES modules. It runs, in order:
-
-```sh
-cf workers types             # regenerate .cloudflare/types from cloudflare.config.ts
-sh scripts/build-wasm.sh     # cargo build + wasm-bindgen + wasm-opt
-tsrs -p tsconfig.json --fast # type-check and compile entry.ts into the bundle
-```
+`pnpm run build` (`scripts/build.mjs`) builds the wasm module and bindgen
+glue, compiles the TypeScript with `tsrs`, and writes the native module
+manifest under `build/orange/workers/default`. `orange.jsonc` is the source
+for runtime bindings and compatibility settings. The build needs the pinned
+Rust toolchain with the `wasm32-unknown-unknown` target installed.
 
 `pnpm run build:wasm` runs only the wasm step. `pnpm run typecheck` checks
-the TypeScript without emitting. `pnpm run dev` starts the Vite dev server that
-`cf dev` discovers through `@cloudflare/vite-plugin`. `make worker-check`
-validates the OpenOrange package without deployment credentials.
+the TypeScript without emitting. `pnpm run dev` starts the OpenOrange local
+server; `make dev` installs both pinned dependency closures first.
+`make worker-check` validates the OpenOrange package without credentials.
+
+Development binds to `127.0.0.1:8787` by default (`PORT` overrides the port).
+The unified page links to `/cargo`, `/npm`, `/pypi`, and `/mirror`; OCI uses
+`/v2/`. The data is the synthetic registry fixture in a fresh `.work/tmp`
+directory. It has no production storage or telemetry credentials. Successful
+Rust and TypeScript builds are staged before restarting the local runtime;
+failed builds leave the last successful build serving. Local data survives
+those restarts. SIGINT/SIGTERM close the watchers, builder and runtime.
+`make worker-dev-test` exercises a real Rust response change and an invalid
+Rust edit against the normal `pnpm run dev` command.
 
 Vite 8 builds with Rolldown. Wrangler is a test dependency and brings esbuild;
 the Worker build does not invoke either. `make search-bundle` uses Vite to
@@ -86,16 +90,14 @@ counts:
 The JavaScript glue, the wasm boundary, and R2 latency are not in these
 numbers. Read those from production with the `stats-improve` workflow.
 
-CI runs `pnpm run build` and then `pnpm run test:runtime` in the same build
-directory. `cf build` alone cannot work: `entry.ts` imports the wasm glue that
-only `scripts/build.mjs` generates, so the wasm step must run before `tsrs`.
+The wasm step must run before `tsrs` because `entry.ts` imports the generated
+wasm glue. The runtime tests use the build output from the same directory.
 
 ## OpenOrange
 
 The registry runs on self-hosted OpenOrange (pinned in `orange/`; runtime in
-`deploy/openorange`). `scripts/orange.mjs OUTPUT RELEASE` writes the Wrangler
-descriptor from the typed build output and rejects unmapped fields; it maps text
-and R2 bindings and sets `STUFF_RELEASE`. `make worker-orange-test` runs the
+`deploy/openorange`). `scripts/orange.mjs OUTPUT RELEASE` writes the runtime descriptor from `orange.jsonc` and rejects unmapped fields;
+it derives the S3 bucket binding map and sets `STUFF_RELEASE`. `make worker-orange-test` runs the
 built Worker under the pinned `orange dev` with seeded storage for every
 registry hostname.
 
@@ -110,11 +112,11 @@ OpenOrange checks, builds the committed image on the selected host, and deploys
 it. The host must already have the Stuff app configured and running. The
 deployment checks Orange readiness, confirms the selected image, and requests
 the unified registry over HTTPS using the host's Tailscale IPv4 address. It
-restores the previous image if deployment fails or is interrupted. It does not
-replace a newer concurrent deployment: image selection and rollback compare
-the expected image under the host's deployment lock. It does not
-alter app configuration or credentials, or republish registry data. Publish
-registry changes separately with the native `stuff` publisher. Run
+restores the previous image if deployment fails or is interrupted. Image
+selection and rollback compare the expected image under the host's deployment
+lock, preserving newer concurrent deployments. Configuration, credentials and
+publication state are retained. Publish registry changes separately with the
+native `stuff` publisher. Run
 `make worker-deploy-test` for the local deployment and rollback regression.
 
 The image `stuff:463f8d96a4bd` is staged on `lisa` (2026-11-14), with

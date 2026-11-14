@@ -1,7 +1,15 @@
-.PHONY: help release lint ts-lint repomod-test repomod-lint deps bench bench-cli deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
+.PHONY: help dev worker-dev-test release lint ts-lint repomod-test repomod-lint deps bench bench-cli deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
 
 help: ## Show this help
 	@grep -E '^[a-z-]+: ## ' $(MAKEFILE_LIST) | sort | awk -F': ## ' '{printf "  make %-14s %s\n", $$1, $$2}'
+
+dev: ## Run the isolated OpenOrange registry fixture with Rust rebuilds
+	pnpm --dir crates/stuff-worker install --frozen-lockfile
+	pnpm --dir crates/stuff-worker/orange install --frozen-lockfile --ignore-scripts
+	pnpm --dir crates/stuff-worker run dev
+
+worker-dev-test: ## Prove Rust rebuilds, last-good serving and dev shutdown
+	node --test crates/stuff-worker/test/dev-orange.test.mjs
 
 build: ## Build the full workspace
 	cargo build --workspace
@@ -97,7 +105,7 @@ worker-build: ## Compile the worker wasm glue into crates/stuff-worker/build
 worker-check: ## Validate the worker build and OpenOrange package without credentials
 	$(MAKE) worker-orange-package-test
 
-worker-bundle: ## Build the Cloudflare worker bundle once for test and deploy
+worker-bundle: ## Build the registry modules for runtime checks and deployment
 	cd $(WORKER_DIR) && pnpm run build
 
 worker-test: worker-bundle ## Exercise the worker bundle under the workerd runtime

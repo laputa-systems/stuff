@@ -1,18 +1,26 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
     "rootDir": ".",
-    "outDir": ".cloudflare/output/v0/workers/default/bundle",
+    "outDir": "build/orange/workers/default/bundle",
     "sourceMap": true,
     "strict": true,
     "noEmitOnError": true,
     "skipLibCheck": true,
     "types": []
   },
-  "include": ["entry.ts", "src/**/*.ts", "build/wasm/*.d.ts", ".cloudflare/types/index.d.ts"]
+  "include": [
+    "entry.ts",
+    "src/**/*.ts",
+    "build/wasm/*.d.ts"
+  ]
 }

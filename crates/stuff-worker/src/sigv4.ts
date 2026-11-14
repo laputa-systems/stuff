@@ -1,4 +1,4 @@
-export const bytes = (value: string): Uint8Array => new TextEncoder().encode(value);
+export const bytes = (value: string): Uint8Array<ArrayBuffer> => new TextEncoder().encode(value);
 export const hex = (value: ArrayBuffer): string => Array.from(new Uint8Array(value), b => b.toString(16).padStart(2, "0")).join("");
 export const sha = async (value: string): Promise<string> => hex(await crypto.subtle.digest("SHA-256", bytes(value)));
 const mac = async (key: string | ArrayBuffer, value: string): Promise<ArrayBuffer> => {
@@ -11,7 +11,7 @@ function query(url: URL): string {
     .sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0)
     .map(([k, v]) => `${k}=${v}`).join("&");
 }
-export async function signingMaterial(method: string, url: URL, headers: Headers, names: string[], payload: string, date: string, region: string, secret: string): Promise<{ key: CryptoKey; message: Uint8Array }> {
+export async function signingMaterial(method: string, url: URL, headers: Headers, names: string[], payload: string, date: string, region: string, secret: string): Promise<{ key: CryptoKey; message: Uint8Array<ArrayBuffer> }> {
   const canonical = `${method}\n${url.pathname}\n${query(url)}\n${names.map(n => `${n}:${headers.get(n)!.trim().replace(/\s+/g, " ")}\n`).join("")}\n${names.join(";")}\n${payload}`;
   const scope = `${date.slice(0, 8)}/${region}/s3/aws4_request`;
   const key = await mac(await mac(await mac(await mac(`AWS4${secret}`, date.slice(0, 8)), region), "s3"), "aws4_request");

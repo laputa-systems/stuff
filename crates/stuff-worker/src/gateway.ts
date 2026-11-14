@@ -88,7 +88,6 @@ export async function gateway(req: Request, env: GatewayEnv, coordinator: Coordi
         if (hex(await digest.digest) !== req.headers.get("x-amz-content-sha256")) { invalidPayload = true; throw new Error("payload checksum mismatch"); }
         if (last !== null) controller.enqueue(last);
       },
-      cancel(reason) { void digestWriter.abort(reason).catch(() => undefined); },
     }));
   }
   try { return await storeRequest(env, req.method, bucket, key, { query: url.searchParams, headers, body, payload: req.headers.get("x-amz-content-sha256")!, signal: req.signal }); }

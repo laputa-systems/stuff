@@ -1,0 +1,58 @@
+{
+  "name": "stuff",
+  "main": "entry.ts",
+  "no_bundle": true,
+  "compatibility_date": "2026-10-30",
+  "compatibility_flags": [],
+  "vars": {
+    "STUFF_ROUTES": "[{\"host\":\"crates.17166969.xyz\",\"bucket_binding\":\"MYCRATES\",\"key_prefix\":\"\"},{\"host\":\"crates-blobs.17166969.xyz\",\"bucket_binding\":\"MYCRATES\",\"key_prefix\":\"\"},{\"host\":\"npm.17166969.xyz\",\"bucket_binding\":\"MYNPM\",\"key_prefix\":\"\"},{\"host\":\"pypi.17166969.xyz\",\"bucket_binding\":\"PYPI\",\"key_prefix\":\"\"},{\"host\":\"oci.17166969.xyz\",\"bucket_binding\":\"OCI\",\"key_prefix\":\"\"},{\"host\":\"mirror.17166969.xyz\",\"bucket_binding\":\"MIRROR\",\"key_prefix\":\"\"}]",
+    "STUFF_CARGO_BLOB_HOST": "crates-blobs.17166969.xyz",
+    "STUFF_OCI_BLOB_HOST": "oci-blobs.17166969.xyz",
+    "STUFF_UNIFIED_HOST": "stuff.17166969.xyz",
+    "STUFF_OCI_HOST": "oci.17166969.xyz",
+    "STUFF_OCI_BLOB_ORIGIN": "https://oci-blobs.17166969.xyz",
+    "STUFF_RELEASE": "development"
+  },
+  "r2_buckets": [
+    {
+      "binding": "MYCRATES",
+      "bucket_name": "stuff-mycrates"
+    },
+    {
+      "binding": "MYNPM",
+      "bucket_name": "stuff-mynpm"
+    },
+    {
+      "binding": "PYPI",
+      "bucket_name": "stuff-mypypi"
+    },
+    {
+      "binding": "OCI",
+      "bucket_name": "stuff-oci"
+    },
+    {
+      "binding": "MIRROR",
+      "bucket_name": "stuff-mirror"
+    },
+    {
+      "binding": "OCI_BLOBS",
+      "bucket_name": "stuff-oci-blobs"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "COORDINATOR",
+        "class_name": "PublicationCoordinator"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "PublicationCoordinator"
+      ]
+    }
+  ]
+}

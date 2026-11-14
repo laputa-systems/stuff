@@ -15,7 +15,7 @@ import { workerHarness } from "./worker-harness.mjs";
 import { catalog, seed, seedOci, OCI_FIXTURE, OCI_INDEX, OCI_ARM64, OCI_AMD64, OCI_REFERRER, OCI_LAYER, OCI_REFERRER_TYPE } from "./fixtures.mjs";
 
 const outputDir = fileURLToPath(
-  new URL("../.cloudflare/output/v0/workers/default", import.meta.url),
+  new URL("../build/orange/workers/default", import.meta.url),
 );
 const bundleDir = join(outputDir, "bundle");
 
