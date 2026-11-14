@@ -79,6 +79,12 @@
    "purl": "pkg:apk/zlib-static"
   },
   {
+   "display_name": "adler2",
+   "ecosystem": "cargo",
+   "name": "adler2",
+   "purl": "pkg:cargo/adler2"
+  },
+  {
    "display_name": "aho-corasick",
    "ecosystem": "cargo",
    "name": "aho-corasick",
@@ -211,6 +217,12 @@
    "purl": "pkg:cargo/crabgrind"
   },
   {
+   "display_name": "crc32fast",
+   "ecosystem": "cargo",
+   "name": "crc32fast",
+   "purl": "pkg:cargo/crc32fast"
+  },
+  {
    "display_name": "crypto-common",
    "ecosystem": "cargo",
    "name": "crypto-common",
@@ -251,6 +263,12 @@
    "ecosystem": "cargo",
    "name": "find-msvc-tools",
    "purl": "pkg:cargo/find-msvc-tools"
+  },
+  {
+   "display_name": "flate2",
+   "ecosystem": "cargo",
+   "name": "flate2",
+   "purl": "pkg:cargo/flate2"
   },
   {
    "display_name": "futures-core",
@@ -367,6 +385,12 @@
    "purl": "pkg:cargo/memchr"
   },
   {
+   "display_name": "miniz_oxide",
+   "ecosystem": "cargo",
+   "name": "miniz_oxide",
+   "purl": "pkg:cargo/miniz_oxide"
+  },
+  {
    "display_name": "mio",
    "ecosystem": "cargo",
    "name": "mio",
@@ -413,6 +437,12 @@
    "ecosystem": "cargo",
    "name": "r-efi",
    "purl": "pkg:cargo/r-efi"
+  },
+  {
+   "display_name": "rawzip",
+   "ecosystem": "cargo",
+   "name": "rawzip",
+   "purl": "pkg:cargo/rawzip"
   },
   {
    "display_name": "regex-automata",
@@ -491,6 +521,12 @@
    "ecosystem": "cargo",
    "name": "signal-hook-registry",
    "purl": "pkg:cargo/signal-hook-registry"
+  },
+  {
+   "display_name": "simd-adler32",
+   "ecosystem": "cargo",
+   "name": "simd-adler32",
+   "purl": "pkg:cargo/simd-adler32"
   },
   {
    "display_name": "slab",
@@ -727,6 +763,12 @@
    "purl": "pkg:cargo/zeroize"
   },
   {
+   "display_name": "zlib-rs",
+   "ecosystem": "cargo",
+   "name": "zlib-rs",
+   "purl": "pkg:cargo/zlib-rs"
+  },
+  {
    "display_name": "alpine",
    "ecosystem": "docker",
    "name": "alpine",
@@ -773,6 +815,12 @@
    "ecosystem": "local",
    "name": "graviola",
    "purl": "pkg:local/graviola"
+  },
+  {
+   "display_name": "make-archive",
+   "ecosystem": "local",
+   "name": "make-archive",
+   "purl": "pkg:local/make-archive"
   },
   {
    "display_name": "oxish",
@@ -1228,7 +1276,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -1239,10 +1287,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -2495,6 +2543,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=crc32fast,version=1.5.5].dependencies[0]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/crc32fast@1.5.5#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/cfg-if@1.0.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=crypto-common,version=0.2.2].dependencies[0]",
      "path": "client/Cargo.lock"
     }
@@ -2741,6 +2807,60 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/windows-sys@0.61.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=flate2,version=1.1.11].dependencies[0]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/flate2@1.1.11#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.5.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/crc32fast@1.5.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=flate2,version=1.1.11].dependencies[1]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/flate2@1.1.11#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.9.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/miniz_oxide@0.9.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=flate2,version=1.1.11].dependencies[2]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/flate2@1.1.11#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.6.8",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/zlib-rs@0.6.8#"
   },
   {
    "condition": null,
@@ -3695,6 +3815,42 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/regex-automata@0.4.18#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=miniz_oxide,version=0.9.1].dependencies[0]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/miniz_oxide@0.9.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.0.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/adler2@2.0.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=miniz_oxide,version=0.9.1].dependencies[1]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/miniz_oxide@0.9.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.3.10",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/simd-adler32@0.3.10#"
   },
   {
    "condition": null,
@@ -8309,6 +8465,50 @@
    "constraint": "1",
    "evidence": [
     {
+     "locator": "dependencies.flate2",
+     "path": "tools/make-archive/Cargo.toml"
+    },
+    {
+     "locator": "package[name=make-archive,version=0.1.0].dependencies[0]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "tools/make-archive:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.1.11",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/flate2@1.1.11#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.5.2",
+   "evidence": [
+    {
+     "locator": "dependencies.rawzip",
+     "path": "tools/make-archive/Cargo.toml"
+    },
+    {
+     "locator": "package[name=make-archive,version=0.1.0].dependencies[1]",
+     "path": "tools/make-archive/Cargo.lock"
+    }
+   ],
+   "from": "tools/make-archive:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.5.2",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rawzip@0.5.2#"
+  },
+  {
+   "condition": null,
+   "constraint": "1",
+   "evidence": [
+    {
      "locator": "dependencies.cfg-if",
      "path": "vendor/graviola/Cargo.toml"
     },
@@ -9037,7 +9237,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "96451a75266add8c6d9bce1304a0503de777c62b",
+   "blob": "f8e73730e6c56dde064dd535b30a1b20e0cf335d",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -9069,7 +9269,7 @@
    "path": "client/fixture/Dockerfile"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   },
   {
@@ -9083,6 +9283,14 @@
   {
    "blob": "41fd40ea3b63fd985c68a1c67c0d3bcf4df864bd",
    "path": "test/qualify-elf.Dockerfile"
+  },
+  {
+   "blob": "e2fcde09733f61e15941fe4105ae78247a3e933c",
+   "path": "tools/make-archive/Cargo.lock"
+  },
+  {
+   "blob": "662726439ce458b2a2e9de137754e9b0b4c0e23f",
+   "path": "tools/make-archive/Cargo.toml"
   },
   {
    "blob": "3e350a3d0ae9b8436e675aaa158651c92953dd05",
@@ -9117,7 +9325,7 @@
    "path": "vendor/oxish/oxish/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "bef8d003700282cd56a2c327ef1ffe491433f52f2cfdee04c93a56f26f69ff5a",
+ "inputs_fingerprint": "df56613f750a30b792c155e77e0aa88e31f53088d56977a8c6aa01810e8f13f2",
  "instances": [
   {
    "commit": null,
@@ -9300,6 +9508,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.4-r0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/adler2",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/adler2@2.0.1#",
+   "purl": "pkg:cargo/adler2@2.0.1",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "2.0.1"
   },
   {
    "commit": null,
@@ -9615,6 +9836,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:cargo/crc32fast",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/crc32fast@1.5.5#",
+   "purl": "pkg:cargo/crc32fast@1.5.5",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.5.5"
+  },
+  {
+   "commit": null,
    "component": "pkg:cargo/crypto-common",
    "context": "",
    "first_party": false,
@@ -9716,6 +9950,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.1.9"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/flate2",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/flate2@1.1.11#",
+   "purl": "pkg:cargo/flate2@1.1.11",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.1.11"
   },
   {
    "commit": null,
@@ -9992,6 +10239,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:cargo/miniz_oxide",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/miniz_oxide@0.9.1#",
+   "purl": "pkg:cargo/miniz_oxide@0.9.1",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.9.1"
+  },
+  {
+   "commit": null,
    "component": "pkg:cargo/mio",
    "context": "",
    "first_party": false,
@@ -10132,6 +10392,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "6.0.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/rawzip",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/rawzip@0.5.2#",
+   "purl": "pkg:cargo/rawzip@0.5.2",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.5.2"
   },
   {
    "commit": null,
@@ -10314,6 +10587,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.4.8"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/simd-adler32",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/simd-adler32@0.3.10#",
+   "purl": "pkg:cargo/simd-adler32@0.3.10",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.3.10"
   },
   {
    "commit": null,
@@ -10928,6 +11214,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:cargo/zlib-rs",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/zlib-rs@0.6.8#",
+   "purl": "pkg:cargo/zlib-rs@0.6.8",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.6.8"
+  },
+  {
+   "commit": null,
    "component": "pkg:docker/alpine",
    "context": "",
    "first_party": false,
@@ -11032,6 +11331,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:local/make-archive",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/make-archive@0.1.0#",
+   "purl": "pkg:local/make-archive@0.1.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": "0.1.0"
+  },
+  {
+   "commit": null,
    "component": "pkg:local/oxish-client",
    "context": "",
    "first_party": true,
@@ -11100,13 +11412,13 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [
@@ -11143,6 +11455,11 @@
    "directory": "test",
    "ecosystem": "generic",
    "id": "test:repo"
+  },
+  {
+   "directory": "tools/make-archive",
+   "ecosystem": "cargo",
+   "id": "tools/make-archive:cargo"
   },
   {
    "directory": "vendor/graviola",

@@ -856,7 +856,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -867,10 +867,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -1177,11 +1177,11 @@
    "path": "fuzz/Cargo.toml"
   },
   {
-   "blob": "6572a8702b82496bb28ab50d80bba414d559d374",
+   "blob": "0edc7319bc0e9ef4aadb062b5290e85962581424",
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "516b4f0a6b7ae5c06ab7e17a815353c2bd81917f157b437a789536f1de2d919f",
+ "inputs_fingerprint": "76977443532f4cbb30feb281e87f925ab21054a2d5322d089312e04b07ac9111",
  "instances": [
   {
    "commit": null,
@@ -1565,13 +1565,13 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [

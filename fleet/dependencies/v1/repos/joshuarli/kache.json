@@ -10415,7 +10415,7 @@
    "path": "Cargo.lock"
   },
   {
-   "blob": "1e81c51477e95774311b1f1eeabe888a58eba7bb",
+   "blob": "ddeeee86ee92b4b26da59459f94b1b7e795bd565",
    "path": "Cargo.toml"
   },
   {
@@ -10923,7 +10923,7 @@
    "path": "test-projects/stale-check/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "0adcacfc2d9edaf0ad68d79327585b9a857ea2451a45a1e1c38ffaded043e435",
+ "inputs_fingerprint": "df05431f50246fd7326a05d7e91094b92160384702249e9799d478d336152d27",
  "instances": [
   {
    "commit": null,

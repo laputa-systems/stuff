@@ -25,6 +25,12 @@
    "purl": "pkg:apk/gcc"
   },
   {
+   "display_name": "git",
+   "ecosystem": "apk",
+   "name": "git",
+   "purl": "pkg:apk/git"
+  },
+  {
    "display_name": "make",
    "ecosystem": "apk",
    "name": "make",
@@ -714,6 +720,24 @@
   },
   {
    "condition": null,
+   "constraint": "2.54.1-r0",
+   "evidence": [
+    {
+     "locator": "L10",
+     "path": "Dockerfile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.54.1-r0",
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/git@2.54.1-r0#"
+  },
+  {
+   "condition": null,
    "constraint": "4.4.1-r4",
    "evidence": [
     {
@@ -984,7 +1008,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -995,10 +1019,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -3135,7 +3159,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "8ba34c752b03e5401407df5ecfa66fafc8193a7e",
+   "blob": "ace1450ac0f36046b81b87526fd527735136a7b9",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -3147,7 +3171,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "df714983fae594bb1cb209403ac9fa3f00638633",
+   "blob": "9bbf2402d257a8616b415b02bb02db1b8a46caf5",
    "path": "Dockerfile"
   },
   {
@@ -3155,11 +3179,11 @@
    "path": "Makefile"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "630817df87df1baa0a61829b28ea8295dae2e02c27701ca3451ce5893077d527",
+ "inputs_fingerprint": "1bda22d89129b6fe1ae226a01ced3f182a6a7aa280c0687547bd25a0eb9099b0",
  "instances": [
   {
    "commit": null,
@@ -3212,6 +3236,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "15.2.0-r5"
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/git@2.54.1-r0#",
+   "purl": "pkg:apk/git@2.54.1-r0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "2.54.1-r0"
   },
   {
    "commit": null,
@@ -4180,19 +4217,19 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [
   {
    "kind": "dynamic_value",
-   "locator": "L18",
+   "locator": "L19",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "Dockerfile"
   },

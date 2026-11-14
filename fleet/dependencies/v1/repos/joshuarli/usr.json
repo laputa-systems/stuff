@@ -1,0 +1,278 @@
+{
+ "components": [
+  {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  },
+  {
+   "display_name": "actions/setup-node",
+   "ecosystem": "github",
+   "name": "actions/setup-node",
+   "purl": "pkg:github/actions/setup-node"
+  }
+ ],
+ "edges": [
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
+     "locator": "jobs.offline.steps[0].uses",
+     "path": ".github/workflows/pi-offline-verify.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/pk.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
+     "locator": "jobs.policy.steps[0].uses",
+     "path": ".github/workflows/policy.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
+     "locator": "jobs.ubuntu.steps[0].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
+     "locator": "jobs.macos.steps[0].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
+     "locator": "jobs.offline.steps[1].uses",
+     "path": ".github/workflows/pi-offline-verify.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
+     "locator": "jobs.policy.steps[1].uses",
+     "path": ".github/workflows/policy.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#"
+  }
+ ],
+ "inputs": [
+  {
+   "blob": "b4a5175780f09ff531948145b9c250386c769959",
+   "path": ".github/workflows/pi-offline-verify.yml"
+  },
+  {
+   "blob": "fc23482f65d5c05eae34deee9034fec82580e97f",
+   "path": ".github/workflows/pk.yml"
+  },
+  {
+   "blob": "92672586c9cd560f85a757aa5c206f6459e6da3c",
+   "path": ".github/workflows/policy.yml"
+  },
+  {
+   "blob": "21e5a8c904bfe3ba38b96ada1ae2c65338fe5d2a",
+   "path": ".github/workflows/test.yml"
+  },
+  {
+   "blob": "83d9738bc276149a3ccf23e271751dcfe71513f6",
+   "path": "Makefile"
+  },
+  {
+   "blob": "515069616e2a4dfa90fe1bc5cadd247de5805395",
+   "path": "tailscale/Makefile"
+  },
+  {
+   "blob": "2cd9ac9acced091848d247f8b3086c52c51ee47f",
+   "path": "tools/close-stale-prs/pyproject.toml"
+  },
+  {
+   "blob": "529ee6112b3ed65b51a7d7f70d2f872711c0e588",
+   "path": "tools/decide/pyproject.toml"
+  },
+  {
+   "blob": "84fc972d2f08245898269b13c1ff8551917961a5",
+   "path": "tools/mdtool/pyproject.toml"
+  },
+  {
+   "blob": "638ad14d02551b848d6550e577e2829835c7c7a0",
+   "path": "tools/pi-subagent-bridge/package.json"
+  },
+  {
+   "blob": "e986b24bbae58b2e6d308a8186e3347e92314fe4",
+   "path": "tools/policy/package.json"
+  },
+  {
+   "blob": "bf5e6ac6055d049a57acf0a2c8e6e7b364476162",
+   "path": "tools/todo/pyproject.toml"
+  },
+  {
+   "blob": "cce418fd6907355eb641cd7ff9498cca290bbbb2",
+   "path": "tools/usage/pyproject.toml"
+  }
+ ],
+ "inputs_fingerprint": "b1ff9ac1b307a61c9dfc6c2c9391739909dfc697826f04a9e11062a73e044e70",
+ "instances": [
+  {
+   "commit": "11d5960a326750d5838078e36cf38b85af677262",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#",
+   "purl": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "11d5960a326750d5838078e36cf38b85af677262"
+  },
+  {
+   "commit": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "component": "pkg:github/actions/setup-node",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#",
+   "purl": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/setup-node",
+   "version": "49933ea5288caeca8642d1e84afbd3f7d6820020"
+  }
+ ],
+ "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  },
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "tailscale/Makefile"
+  }
+ ],
+ "projects": [
+  {
+   "directory": ".",
+   "ecosystem": "generic",
+   "id": ".:repo"
+  },
+  {
+   "directory": "tools/close-stale-prs",
+   "ecosystem": "pypi",
+   "id": "tools/close-stale-prs:pypi"
+  },
+  {
+   "directory": "tools/decide",
+   "ecosystem": "pypi",
+   "id": "tools/decide:pypi"
+  },
+  {
+   "directory": "tools/mdtool",
+   "ecosystem": "pypi",
+   "id": "tools/mdtool:pypi"
+  },
+  {
+   "directory": "tools/todo",
+   "ecosystem": "pypi",
+   "id": "tools/todo:pypi"
+  },
+  {
+   "directory": "tools/usage",
+   "ecosystem": "pypi",
+   "id": "tools/usage:pypi"
+  }
+ ],
+ "repository": "joshuarli/usr",
+ "schema": 1,
+ "tags": [
+  "config"
+ ]
+}
