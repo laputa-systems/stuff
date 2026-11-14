@@ -1,0 +1,199 @@
+{
+ "commit": "e7607b63aa3337b8d19b17d39bb95e4796e8a5a4",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 30035585,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 475893,
+       "comment": 0,
+       "shebang": 0,
+       "total": 475893
+      },
+      "name": "JSON"
+     },
+     {
+      "lines": {
+       "blank": 3,
+       "code": 87,
+       "comment": 0,
+       "shebang": 0,
+       "total": 90
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 20,
+       "comment": 0,
+       "shebang": 0,
+       "total": 20
+      },
+      "name": "Mermaid"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 12,
+       "comment": 0,
+       "shebang": 0,
+       "total": 12
+      },
+      "name": "YAML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 7,
+       "comment": 0,
+       "shebang": 0,
+       "total": 7
+      },
+      "name": "SQL"
+     }
+    ],
+    "file_count": 173,
+    "lines": {
+     "blank": 23316,
+     "code": 501698,
+     "comment": 5,
+     "shebang": 0,
+     "total": 525019
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 3507896,
+    "file_count": 406,
+    "lines": {
+     "blank": 6476,
+     "code": 75802,
+     "comment": 2283,
+     "shebang": 0,
+     "total": 84561
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 1959481,
+    "file_count": 305,
+    "lines": {
+     "blank": 5,
+     "code": 35257,
+     "comment": 0,
+     "shebang": 0,
+     "total": 35262
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 84896,
+    "file_count": 32,
+    "lines": {
+     "blank": 621,
+     "code": 3895,
+     "comment": 7,
+     "shebang": 0,
+     "total": 4523
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 68664,
+    "file_count": 7,
+    "lines": {
+     "blank": 125,
+     "code": 1486,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1611
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 280489,
+    "file_count": 3,
+    "lines": {
+     "blank": 295,
+     "code": 955,
+     "comment": 4,
+     "shebang": 0,
+     "total": 1254
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 7792,
+    "file_count": 5,
+    "lines": {
+     "blank": 5,
+     "code": 178,
+     "comment": 0,
+     "shebang": 5,
+     "total": 188
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 3806,
+    "file_count": 1,
+    "lines": {
+     "blank": 25,
+     "code": 85,
+     "comment": 0,
+     "shebang": 0,
+     "total": 110
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1477,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 46,
+     "comment": 0,
+     "shebang": 0,
+     "total": 46
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 616,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 12,
+     "comment": 0,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "Dockerfile"
+   }
+  ],
+  "paths": [
+   "joshuarli/discover"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 35950702,
+   "file_count": 935,
+   "lines": {
+    "blank": 30868,
+    "code": 619414,
+    "comment": 2299,
+    "shebang": 5,
+    "total": 652586
+   }
+  }
+ },
+ "repository": "joshuarli/discover",
+ "schema": 1,
+ "state": "complete"
+}

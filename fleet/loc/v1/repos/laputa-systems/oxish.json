@@ -1,0 +1,87 @@
+{
+ "commit": "fb45dade9bdf094c9c65607ab0f5879ae7e149c5",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 430428,
+    "file_count": 30,
+    "lines": {
+     "blank": 1352,
+     "code": 9712,
+     "comment": 1253,
+     "shebang": 0,
+     "total": 12317
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 57068,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 3,
+       "code": 18,
+       "comment": 7,
+       "shebang": 0,
+       "total": 28
+      },
+      "name": "Rust"
+     }
+    ],
+    "file_count": 3,
+    "lines": {
+     "blank": 241,
+     "code": 763,
+     "comment": 7,
+     "shebang": 0,
+     "total": 1011
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 5486,
+    "file_count": 8,
+    "lines": {
+     "blank": 31,
+     "code": 203,
+     "comment": 0,
+     "shebang": 0,
+     "total": 234
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 263,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 8,
+     "comment": 2,
+     "shebang": 0,
+     "total": 10
+    },
+    "name": "YAML"
+   }
+  ],
+  "paths": [
+   "laputa-systems/oxish"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 493245,
+   "file_count": 42,
+   "lines": {
+    "blank": 1624,
+    "code": 10686,
+    "comment": 1262,
+    "shebang": 0,
+    "total": 13572
+   }
+  }
+ },
+ "repository": "laputa-systems/oxish",
+ "schema": 1,
+ "state": "complete"
+}

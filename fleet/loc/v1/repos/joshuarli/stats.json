@@ -1,0 +1,249 @@
+{
+ "commit": "cca28956d0c86045d08a3cbc42ab2172dc55cbe6",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 3600745,
+    "file_count": 453,
+    "lines": {
+     "blank": 5538,
+     "code": 60153,
+     "comment": 57,
+     "shebang": 0,
+     "total": 65748
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 2471716,
+    "file_count": 33,
+    "lines": {
+     "blank": 199,
+     "code": 31551,
+     "comment": 5755,
+     "shebang": 4,
+     "total": 37509
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 11091396,
+    "file_count": 393,
+    "lines": {
+     "blank": 0,
+     "code": 31164,
+     "comment": 0,
+     "shebang": 0,
+     "total": 31164
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 288986,
+    "file_count": 28,
+    "lines": {
+     "blank": 678,
+     "code": 6487,
+     "comment": 1,
+     "shebang": 0,
+     "total": 7166
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 436784,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 132,
+       "comment": 2,
+       "shebang": 0,
+       "total": 134
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 4,
+       "code": 25,
+       "comment": 0,
+       "shebang": 0,
+       "total": 29
+      },
+      "name": "TypeScript"
+     },
+     {
+      "lines": {
+       "blank": 2,
+       "code": 17,
+       "comment": 0,
+       "shebang": 0,
+       "total": 19
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 10,
+       "comment": 0,
+       "shebang": 0,
+       "total": 10
+      },
+      "name": "JSON"
+     }
+    ],
+    "file_count": 25,
+    "lines": {
+     "blank": 1027,
+     "code": 5577,
+     "comment": 2,
+     "shebang": 0,
+     "total": 6606
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 55244,
+    "file_count": 21,
+    "lines": {
+     "blank": 181,
+     "code": 1460,
+     "comment": 17,
+     "shebang": 21,
+     "total": 1679
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 94749,
+    "file_count": 24,
+    "lines": {
+     "blank": 82,
+     "code": 969,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1051
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 11868,
+    "file_count": 1,
+    "lines": {
+     "blank": 56,
+     "code": 184,
+     "comment": 0,
+     "shebang": 0,
+     "total": 240
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 4140,
+    "file_count": 1,
+    "lines": {
+     "blank": 14,
+     "code": 111,
+     "comment": 3,
+     "shebang": 0,
+     "total": 128
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 1166,
+    "file_count": 4,
+    "lines": {
+     "blank": 8,
+     "code": 47,
+     "comment": 0,
+     "shebang": 0,
+     "total": 55
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1520,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 47,
+     "comment": 0,
+     "shebang": 0,
+     "total": 47
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 1874,
+    "file_count": 3,
+    "lines": {
+     "blank": 3,
+     "code": 40,
+     "comment": 0,
+     "shebang": 0,
+     "total": 43
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 1053,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 38,
+     "comment": 0,
+     "shebang": 0,
+     "total": 38
+    },
+    "name": "JSONC"
+   },
+   {
+    "bytes": 685,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 24,
+     "comment": 0,
+     "shebang": 0,
+     "total": 24
+    },
+    "name": "XML"
+   },
+   {
+    "bytes": 478,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 14,
+     "comment": 0,
+     "shebang": 0,
+     "total": 14
+    },
+    "name": "HTML"
+   }
+  ],
+  "paths": [
+   "joshuarli/stats"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 18062404,
+   "file_count": 991,
+   "lines": {
+    "blank": 7786,
+    "code": 137866,
+    "comment": 5835,
+    "shebang": 25,
+    "total": 151512
+   }
+  }
+ },
+ "repository": "joshuarli/stats",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,215 @@
+{
+ "commit": "46c3702f2c160fe79ebdc4354dcdeb8c9950f5f7",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 7209503,
+    "file_count": 482,
+    "lines": {
+     "blank": 10736,
+     "code": 140173,
+     "comment": 4985,
+     "shebang": 0,
+     "total": 155894
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 697529,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 36,
+       "code": 611,
+       "comment": 81,
+       "shebang": 0,
+       "total": 728
+      },
+      "name": "TypeScript"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 368,
+       "comment": 0,
+       "shebang": 0,
+       "total": 368
+      },
+      "name": "JSON"
+     },
+     {
+      "lines": {
+       "blank": 5,
+       "code": 282,
+       "comment": 10,
+       "shebang": 0,
+       "total": 297
+      },
+      "name": "JavaScript"
+     },
+     {
+      "lines": {
+       "blank": 4,
+       "code": 241,
+       "comment": 4,
+       "shebang": 0,
+       "total": 249
+      },
+      "name": "YAML"
+     },
+     {
+      "lines": {
+       "blank": 3,
+       "code": 217,
+       "comment": 0,
+       "shebang": 0,
+       "total": 220
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 4,
+       "code": 36,
+       "comment": 2,
+       "shebang": 0,
+       "total": 42
+      },
+      "name": "TOML"
+     },
+     {
+      "lines": {
+       "blank": 3,
+       "code": 33,
+       "comment": 0,
+       "shebang": 0,
+       "total": 36
+      },
+      "name": "Mermaid"
+     },
+     {
+      "lines": {
+       "blank": 1,
+       "code": 26,
+       "comment": 0,
+       "shebang": 0,
+       "total": 27
+      },
+      "name": "Markdown"
+     },
+     {
+      "lines": {
+       "blank": 4,
+       "code": 16,
+       "comment": 0,
+       "shebang": 0,
+       "total": 20
+      },
+      "name": "XML"
+     }
+    ],
+    "file_count": 66,
+    "lines": {
+     "blank": 2575,
+     "code": 6995,
+     "comment": 97,
+     "shebang": 0,
+     "total": 9667
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 150656,
+    "file_count": 21,
+    "lines": {
+     "blank": 219,
+     "code": 2854,
+     "comment": 72,
+     "shebang": 1,
+     "total": 3146
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 86785,
+    "file_count": 24,
+    "lines": {
+     "blank": 0,
+     "code": 1870,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1870
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 36980,
+    "file_count": 10,
+    "lines": {
+     "blank": 112,
+     "code": 707,
+     "comment": 21,
+     "shebang": 1,
+     "total": 841
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 22858,
+    "file_count": 2,
+    "lines": {
+     "blank": 13,
+     "code": 341,
+     "comment": 11,
+     "shebang": 2,
+     "total": 367
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 2103,
+    "file_count": 1,
+    "lines": {
+     "blank": 9,
+     "code": 45,
+     "comment": 0,
+     "shebang": 0,
+     "total": 54
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 678,
+    "file_count": 1,
+    "lines": {
+     "blank": 6,
+     "code": 26,
+     "comment": 0,
+     "shebang": 0,
+     "total": 32
+    },
+    "name": "TOML"
+   }
+  ],
+  "paths": [
+   "joshuarli/pi-build"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 8207092,
+   "file_count": 607,
+   "lines": {
+    "blank": 13670,
+    "code": 153011,
+    "comment": 5186,
+    "shebang": 4,
+    "total": 171871
+   }
+  }
+ },
+ "repository": "joshuarli/pi-build",
+ "schema": 1,
+ "state": "complete"
+}

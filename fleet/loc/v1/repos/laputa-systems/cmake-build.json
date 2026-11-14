@@ -1,0 +1,181 @@
+{
+ "commit": "281e9cd89fab7a6e566a6c13e9a20bd786b2b212",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 315528,
+    "file_count": 7,
+    "lines": {
+     "blank": 0,
+     "code": 10014,
+     "comment": 0,
+     "shebang": 0,
+     "total": 10014
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 369174,
+    "file_count": 63,
+    "lines": {
+     "blank": 961,
+     "code": 6994,
+     "comment": 41,
+     "shebang": 0,
+     "total": 7996
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 438967,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 45,
+       "comment": 0,
+       "shebang": 0,
+       "total": 45
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 3,
+       "comment": 0,
+       "shebang": 0,
+       "total": 3
+      },
+      "name": "Rust"
+     }
+    ],
+    "file_count": 28,
+    "lines": {
+     "blank": 590,
+     "code": 5996,
+     "comment": 0,
+     "shebang": 0,
+     "total": 6586
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 5900,
+    "file_count": 2,
+    "lines": {
+     "blank": 12,
+     "code": 118,
+     "comment": 0,
+     "shebang": 0,
+     "total": 130
+    },
+    "name": "reStructuredText"
+   },
+   {
+    "bytes": 3820,
+    "file_count": 6,
+    "lines": {
+     "blank": 0,
+     "code": 64,
+     "comment": 0,
+     "shebang": 0,
+     "total": 64
+    },
+    "name": "CMake"
+   },
+   {
+    "bytes": 1120,
+    "file_count": 4,
+    "lines": {
+     "blank": 1,
+     "code": 35,
+     "comment": 0,
+     "shebang": 0,
+     "total": 36
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 803,
+    "file_count": 1,
+    "lines": {
+     "blank": 9,
+     "code": 23,
+     "comment": 0,
+     "shebang": 0,
+     "total": 32
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 601,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 24,
+     "comment": 0,
+     "shebang": 0,
+     "total": 29
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 877,
+    "file_count": 3,
+    "lines": {
+     "blank": 1,
+     "code": 26,
+     "comment": 0,
+     "shebang": 0,
+     "total": 27
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 481,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 11,
+     "comment": 0,
+     "shebang": 0,
+     "total": 15
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 80,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 3,
+     "comment": 0,
+     "shebang": 1,
+     "total": 4
+    },
+    "name": "Bash"
+   }
+  ],
+  "paths": [
+   "laputa-systems/cmake-build"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 1137351,
+   "file_count": 117,
+   "lines": {
+    "blank": 1583,
+    "code": 23308,
+    "comment": 41,
+    "shebang": 1,
+    "total": 24933
+   }
+  }
+ },
+ "repository": "laputa-systems/cmake-build",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,131 @@
+{
+ "commit": "2efca1cffe9f4f19bddb7208643c18de63bbbc41",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 238543,
+    "file_count": 14,
+    "lines": {
+     "blank": 437,
+     "code": 6189,
+     "comment": 207,
+     "shebang": 0,
+     "total": 6833
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 24649,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 2,
+       "code": 19,
+       "comment": 0,
+       "shebang": 0,
+       "total": 21
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 4,
+       "comment": 0,
+       "shebang": 0,
+       "total": 4
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 2,
+       "comment": 0,
+       "shebang": 0,
+       "total": 2
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 13,
+    "lines": {
+     "blank": 91,
+     "code": 246,
+     "comment": 0,
+     "shebang": 0,
+     "total": 337
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 11292,
+    "file_count": 1,
+    "lines": {
+     "blank": 28,
+     "code": 256,
+     "comment": 13,
+     "shebang": 1,
+     "total": 298
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 1616,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 59,
+     "comment": 1,
+     "shebang": 0,
+     "total": 63
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 693,
+    "file_count": 2,
+    "lines": {
+     "blank": 4,
+     "code": 22,
+     "comment": 2,
+     "shebang": 0,
+     "total": 28
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 164,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 7,
+     "comment": 0,
+     "shebang": 0,
+     "total": 10
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/ptytest"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 276957,
+   "file_count": 32,
+   "lines": {
+    "blank": 566,
+    "code": 6779,
+    "comment": 223,
+    "shebang": 1,
+    "total": 7569
+   }
+  }
+ },
+ "repository": "laputa-systems/ptytest",
+ "schema": 1,
+ "state": "complete"
+}

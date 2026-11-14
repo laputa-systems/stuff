@@ -1,0 +1,129 @@
+{
+ "commit": "d997582dd9afa4903ab26a1f336fff74ba66ad72",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 466756,
+    "file_count": 27,
+    "lines": {
+     "blank": 1319,
+     "code": 11052,
+     "comment": 1271,
+     "shebang": 0,
+     "total": 13642
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 60814,
+    "file_count": 3,
+    "lines": {
+     "blank": 273,
+     "code": 1071,
+     "comment": 524,
+     "shebang": 0,
+     "total": 1868
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 25987,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 20,
+       "code": 110,
+       "comment": 14,
+       "shebang": 0,
+       "total": 144
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 8,
+       "code": 32,
+       "comment": 5,
+       "shebang": 0,
+       "total": 45
+      },
+      "name": "C"
+     },
+     {
+      "lines": {
+       "blank": 2,
+       "code": 6,
+       "comment": 3,
+       "shebang": 0,
+       "total": 11
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 2,
+       "comment": 0,
+       "shebang": 0,
+       "total": 2
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 2,
+    "lines": {
+     "blank": 179,
+     "code": 477,
+     "comment": 22,
+     "shebang": 0,
+     "total": 678
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 2812,
+    "file_count": 2,
+    "lines": {
+     "blank": 11,
+     "code": 57,
+     "comment": 14,
+     "shebang": 0,
+     "total": 82
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 2573,
+    "file_count": 1,
+    "lines": {
+     "blank": 14,
+     "code": 61,
+     "comment": 7,
+     "shebang": 0,
+     "total": 82
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/rust-fontconfig"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 558942,
+   "file_count": 35,
+   "lines": {
+    "blank": 1796,
+    "code": 12718,
+    "comment": 1838,
+    "shebang": 0,
+    "total": 16352
+   }
+  }
+ },
+ "repository": "laputa-systems/rust-fontconfig",
+ "schema": 1,
+ "state": "complete"
+}

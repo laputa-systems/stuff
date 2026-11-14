@@ -1,0 +1,129 @@
+{
+ "commit": "bde8faff34539f5db8ce84433b509cae82af781b",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 192767,
+    "file_count": 17,
+    "lines": {
+     "blank": 679,
+     "code": 4441,
+     "comment": 36,
+     "shebang": 0,
+     "total": 5156
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 22955,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 16,
+       "code": 33,
+       "comment": 0,
+       "shebang": 0,
+       "total": 49
+      },
+      "name": "Python"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 13,
+       "comment": 0,
+       "shebang": 0,
+       "total": 13
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 2,
+       "comment": 0,
+       "shebang": 0,
+       "total": 2
+      },
+      "name": "INI"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 2,
+       "comment": 0,
+       "shebang": 0,
+       "total": 2
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 5,
+    "lines": {
+     "blank": 82,
+     "code": 196,
+     "comment": 0,
+     "shebang": 0,
+     "total": 278
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 1549,
+    "file_count": 1,
+    "lines": {
+     "blank": 11,
+     "code": 69,
+     "comment": 0,
+     "shebang": 0,
+     "total": 80
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1068,
+    "file_count": 1,
+    "lines": {
+     "blank": 9,
+     "code": 29,
+     "comment": 3,
+     "shebang": 0,
+     "total": 41
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 465,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 10,
+     "comment": 0,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "Dockerfile"
+   }
+  ],
+  "paths": [
+   "joshuarli/pytest-parallel"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 218804,
+   "file_count": 25,
+   "lines": {
+    "blank": 783,
+    "code": 4745,
+    "comment": 39,
+    "shebang": 0,
+    "total": 5567
+   }
+  }
+ },
+ "repository": "joshuarli/pytest-parallel",
+ "schema": 1,
+ "state": "complete"
+}

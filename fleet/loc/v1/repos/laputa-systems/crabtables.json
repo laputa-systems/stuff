@@ -1,0 +1,97 @@
+{
+ "commit": "38646b8f2f6ee7256c448849edda4459842a2e10",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 1708408,
+    "file_count": 69,
+    "lines": {
+     "blank": 2579,
+     "code": 44495,
+     "comment": 3729,
+     "shebang": 0,
+     "total": 50803
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 44814,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 1,
+       "code": 10,
+       "comment": 0,
+       "shebang": 0,
+       "total": 11
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 10,
+       "comment": 0,
+       "shebang": 0,
+       "total": 10
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 5,
+    "lines": {
+     "blank": 127,
+     "code": 322,
+     "comment": 0,
+     "shebang": 0,
+     "total": 449
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 2440,
+    "file_count": 2,
+    "lines": {
+     "blank": 13,
+     "code": 67,
+     "comment": 6,
+     "shebang": 0,
+     "total": 86
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 2373,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 45,
+     "comment": 5,
+     "shebang": 1,
+     "total": 56
+    },
+    "name": "Python"
+   }
+  ],
+  "paths": [
+   "laputa-systems/crabtables"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 1758035,
+   "file_count": 77,
+   "lines": {
+    "blank": 2724,
+    "code": 44929,
+    "comment": 3740,
+    "shebang": 1,
+    "total": 51394
+   }
+  }
+ },
+ "repository": "laputa-systems/crabtables",
+ "schema": 1,
+ "state": "complete"
+}

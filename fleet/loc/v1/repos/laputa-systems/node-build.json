@@ -1,0 +1,123 @@
+{
+ "commit": "eb5b7637dc74b8ce17add7548b752fd3c3c96eae",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 127055,
+    "file_count": 27,
+    "lines": {
+     "blank": 533,
+     "code": 2908,
+     "comment": 2,
+     "shebang": 0,
+     "total": 3443
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 16283,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 10,
+       "comment": 0,
+       "shebang": 0,
+       "total": 10
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 7,
+    "lines": {
+     "blank": 73,
+     "code": 271,
+     "comment": 0,
+     "shebang": 0,
+     "total": 344
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 4119,
+    "file_count": 3,
+    "lines": {
+     "blank": 0,
+     "code": 98,
+     "comment": 0,
+     "shebang": 0,
+     "total": 98
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 931,
+    "file_count": 1,
+    "lines": {
+     "blank": 10,
+     "code": 26,
+     "comment": 0,
+     "shebang": 0,
+     "total": 36
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 543,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 22,
+     "comment": 0,
+     "shebang": 0,
+     "total": 27
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 428,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 13,
+     "comment": 0,
+     "shebang": 0,
+     "total": 16
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 333,
+    "file_count": 3,
+    "lines": {
+     "blank": 1,
+     "code": 10,
+     "comment": 0,
+     "shebang": 0,
+     "total": 11
+    },
+    "name": "JavaScript"
+   }
+  ],
+  "paths": [
+   "laputa-systems/node-build"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 149692,
+   "file_count": 43,
+   "lines": {
+    "blank": 625,
+    "code": 3348,
+    "comment": 2,
+    "shebang": 0,
+    "total": 3975
+   }
+  }
+ },
+ "repository": "laputa-systems/node-build",
+ "schema": 1,
+ "state": "complete"
+}

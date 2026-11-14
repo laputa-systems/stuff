@@ -1,0 +1,51 @@
+{
+ "commit": "b5fb66b4ccf71ab40f74929616367ae2b792c089",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 5325,
+    "file_count": 1,
+    "lines": {
+     "blank": 26,
+     "code": 132,
+     "comment": 4,
+     "shebang": 0,
+     "total": 162
+    },
+    "name": "Zig"
+   },
+   {
+    "bytes": 790,
+    "file_count": 1,
+    "lines": {
+     "blank": 8,
+     "code": 22,
+     "comment": 0,
+     "shebang": 0,
+     "total": 30
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/zzz"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 6115,
+   "file_count": 2,
+   "lines": {
+    "blank": 34,
+    "code": 154,
+    "comment": 4,
+    "shebang": 0,
+    "total": 192
+   }
+  }
+ },
+ "repository": "laputa-systems/zzz",
+ "schema": 1,
+ "state": "complete"
+}

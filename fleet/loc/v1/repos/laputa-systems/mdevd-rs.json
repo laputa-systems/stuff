@@ -1,0 +1,135 @@
+{
+ "commit": "a429cb068091c7872bb88e14937ef7e59c144f84",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 223580,
+    "file_count": 32,
+    "lines": {
+     "blank": 368,
+     "code": 5364,
+     "comment": 394,
+     "shebang": 0,
+     "total": 6126
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 62930,
+    "file_count": 21,
+    "lines": {
+     "blank": 125,
+     "code": 1665,
+     "comment": 62,
+     "shebang": 21,
+     "total": 1873
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 22360,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 6,
+       "comment": 0,
+       "shebang": 0,
+       "total": 6
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 6,
+    "lines": {
+     "blank": 106,
+     "code": 361,
+     "comment": 0,
+     "shebang": 0,
+     "total": 467
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 5378,
+    "file_count": 2,
+    "lines": {
+     "blank": 12,
+     "code": 182,
+     "comment": 7,
+     "shebang": 0,
+     "total": 201
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 2434,
+    "file_count": 1,
+    "lines": {
+     "blank": 6,
+     "code": 50,
+     "comment": 6,
+     "shebang": 1,
+     "total": 63
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 592,
+    "file_count": 2,
+    "lines": {
+     "blank": 8,
+     "code": 33,
+     "comment": 0,
+     "shebang": 0,
+     "total": 41
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1190,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 19,
+     "comment": 3,
+     "shebang": 0,
+     "total": 25
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 47,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 1,
+     "comment": 0,
+     "shebang": 1,
+     "total": 2
+    },
+    "name": "XSH"
+   }
+  ],
+  "paths": [
+   "laputa-systems/mdevd-rs"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 318511,
+   "file_count": 67,
+   "lines": {
+    "blank": 628,
+    "code": 7675,
+    "comment": 472,
+    "shebang": 23,
+    "total": 8798
+   }
+  }
+ },
+ "repository": "laputa-systems/mdevd-rs",
+ "schema": 1,
+ "state": "complete"
+}

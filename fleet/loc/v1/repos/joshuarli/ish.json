@@ -1,0 +1,147 @@
+{
+ "commit": "db22f74c5914ca11fdb97baf23c7df58a9f64ace",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 3788804,
+    "file_count": 185,
+    "lines": {
+     "blank": 7555,
+     "code": 88184,
+     "comment": 2222,
+     "shebang": 0,
+     "total": 97961
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 304199,
+    "file_count": 52,
+    "lines": {
+     "blank": 0,
+     "code": 10025,
+     "comment": 0,
+     "shebang": 0,
+     "total": 10025
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 309942,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 82,
+       "comment": 0,
+       "shebang": 0,
+       "total": 82
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 46,
+    "lines": {
+     "blank": 899,
+     "code": 3985,
+     "comment": 0,
+     "shebang": 0,
+     "total": 4884
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 52041,
+    "file_count": 1,
+    "lines": {
+     "blank": 181,
+     "code": 2735,
+     "comment": 9,
+     "shebang": 0,
+     "total": 2925
+    },
+    "name": "Perl"
+   },
+   {
+    "bytes": 36610,
+    "file_count": 17,
+    "lines": {
+     "blank": 85,
+     "code": 952,
+     "comment": 24,
+     "shebang": 8,
+     "total": 1069
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 36955,
+    "file_count": 5,
+    "lines": {
+     "blank": 99,
+     "code": 823,
+     "comment": 5,
+     "shebang": 3,
+     "total": 930
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 5338,
+    "file_count": 11,
+    "lines": {
+     "blank": 39,
+     "code": 204,
+     "comment": 0,
+     "shebang": 0,
+     "total": 243
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 5700,
+    "file_count": 1,
+    "lines": {
+     "blank": 14,
+     "code": 118,
+     "comment": 14,
+     "shebang": 0,
+     "total": 146
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 6577,
+    "file_count": 1,
+    "lines": {
+     "blank": 21,
+     "code": 113,
+     "comment": 2,
+     "shebang": 0,
+     "total": 136
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "joshuarli/ish"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 4546166,
+   "file_count": 319,
+   "lines": {
+    "blank": 8893,
+    "code": 107139,
+    "comment": 2276,
+    "shebang": 11,
+    "total": 118319
+   }
+  }
+ },
+ "repository": "joshuarli/ish",
+ "schema": 1,
+ "state": "complete"
+}

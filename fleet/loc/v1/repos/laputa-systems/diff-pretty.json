@@ -1,0 +1,119 @@
+{
+ "commit": "3a046f2fdef3ed32109296c0f61cc78cdd16bdb5",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 226403,
+    "file_count": 19,
+    "lines": {
+     "blank": 488,
+     "code": 5957,
+     "comment": 356,
+     "shebang": 0,
+     "total": 6801
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 12743,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 2,
+       "code": 12,
+       "comment": 0,
+       "shebang": 0,
+       "total": 14
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 10,
+       "comment": 0,
+       "shebang": 0,
+       "total": 10
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 1,
+       "comment": 0,
+       "shebang": 0,
+       "total": 1
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 10,
+    "lines": {
+     "blank": 67,
+     "code": 213,
+     "comment": 0,
+     "shebang": 0,
+     "total": 280
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 7027,
+    "file_count": 1,
+    "lines": {
+     "blank": 15,
+     "code": 128,
+     "comment": 16,
+     "shebang": 0,
+     "total": 159
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 3086,
+    "file_count": 1,
+    "lines": {
+     "blank": 12,
+     "code": 49,
+     "comment": 6,
+     "shebang": 0,
+     "total": 67
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1067,
+    "file_count": 3,
+    "lines": {
+     "blank": 12,
+     "code": 52,
+     "comment": 0,
+     "shebang": 0,
+     "total": 64
+    },
+    "name": "TOML"
+   }
+  ],
+  "paths": [
+   "laputa-systems/diff-pretty"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 250326,
+   "file_count": 34,
+   "lines": {
+    "blank": 594,
+    "code": 6399,
+    "comment": 378,
+    "shebang": 0,
+    "total": 7371
+   }
+  }
+ },
+ "repository": "laputa-systems/diff-pretty",
+ "schema": 1,
+ "state": "complete"
+}

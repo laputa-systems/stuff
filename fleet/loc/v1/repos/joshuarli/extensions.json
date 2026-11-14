@@ -1,0 +1,167 @@
+{
+ "commit": "5925904431241602c986e632e625ee08ad3b2b1f",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 376324,
+    "file_count": 95,
+    "lines": {
+     "blank": 773,
+     "code": 9582,
+     "comment": 23,
+     "shebang": 0,
+     "total": 10378
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 55330,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 16,
+       "comment": 0,
+       "shebang": 0,
+       "total": 16
+      },
+      "name": "CSS"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 14,
+       "comment": 0,
+       "shebang": 0,
+       "total": 14
+      },
+      "name": "JavaScript"
+     }
+    ],
+    "file_count": 14,
+    "lines": {
+     "blank": 9,
+     "code": 521,
+     "comment": 0,
+     "shebang": 0,
+     "total": 530
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 40240,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 13,
+       "comment": 0,
+       "shebang": 0,
+       "total": 13
+      },
+      "name": "JavaScript"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 9,
+       "comment": 0,
+       "shebang": 0,
+       "total": 9
+      },
+      "name": "YAML"
+     }
+    ],
+    "file_count": 13,
+    "lines": {
+     "blank": 108,
+     "code": 328,
+     "comment": 10,
+     "shebang": 0,
+     "total": 446
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 3451,
+    "file_count": 6,
+    "lines": {
+     "blank": 45,
+     "code": 225,
+     "comment": 0,
+     "shebang": 0,
+     "total": 270
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 5219,
+    "file_count": 2,
+    "lines": {
+     "blank": 17,
+     "code": 143,
+     "comment": 0,
+     "shebang": 0,
+     "total": 160
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 2620,
+    "file_count": 3,
+    "lines": {
+     "blank": 0,
+     "code": 94,
+     "comment": 0,
+     "shebang": 0,
+     "total": 94
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 511,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 17,
+     "comment": 0,
+     "shebang": 0,
+     "total": 22
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 26603,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 1,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1
+    },
+    "name": "XML"
+   }
+  ],
+  "paths": [
+   "joshuarli/extensions"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 510298,
+   "file_count": 135,
+   "lines": {
+    "blank": 957,
+    "code": 10911,
+    "comment": 33,
+    "shebang": 0,
+    "total": 11901
+   }
+  }
+ },
+ "repository": "joshuarli/extensions",
+ "schema": 1,
+ "state": "complete"
+}

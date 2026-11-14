@@ -4,7 +4,7 @@
   "joshuarli/bctl": {
    "commit": "693a816908d9aa5495dff16fccdc4b4c237bbc7c",
    "inputs_fingerprint": "45c33cd03dc6b708df270d4cc42dc7f984590c5b4b18f50ad694b2295aba2e04",
-   "state": "failed"
+   "state": "partial"
   },
   "joshuarli/ctrs": {
    "commit": "86afb7c7306a35ef4a116c0b6e49c30df9033e91",
@@ -174,7 +174,7 @@
   "laputa-systems/gluon": {
    "commit": "5d2169d1786659ec9da3d5f664c3a37df7d44405",
    "inputs_fingerprint": "1c8ae70856d9d4b22999a5be16f1247f9d71b64631aef9fa32bf99ec0de250dc",
-   "state": "failed"
+   "state": "partial"
   },
   "laputa-systems/hi-lite": {
    "commit": "64e6630020dbeeb2945477f9689969d921bb1ab2",

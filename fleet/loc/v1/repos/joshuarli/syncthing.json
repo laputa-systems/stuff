@@ -1,0 +1,313 @@
+{
+ "commit": "21f5f231c49509102c79625a29863a15587d2b3f",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 2954394,
+    "file_count": 531,
+    "lines": {
+     "blank": 15225,
+     "code": 82210,
+     "comment": 10408,
+     "shebang": 0,
+     "total": 107843
+    },
+    "name": "Go"
+   },
+   {
+    "bytes": 2324290,
+    "file_count": 37,
+    "lines": {
+     "blank": 7983,
+     "code": 39240,
+     "comment": 22901,
+     "shebang": 0,
+     "total": 70124
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 2527689,
+    "file_count": 58,
+    "lines": {
+     "blank": 0,
+     "code": 27091,
+     "comment": 0,
+     "shebang": 0,
+     "total": 27091
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 2055103,
+    "file_count": 187,
+    "lines": {
+     "blank": 733,
+     "code": 20438,
+     "comment": 4421,
+     "shebang": 0,
+     "total": 25592
+    },
+    "name": "XML"
+   },
+   {
+    "bytes": 813433,
+    "file_count": 93,
+    "lines": {
+     "blank": 2280,
+     "code": 14808,
+     "comment": 2582,
+     "shebang": 0,
+     "total": 19670
+    },
+    "name": "Java"
+   },
+   {
+    "bytes": 237258,
+    "file_count": 13,
+    "lines": {
+     "blank": 344,
+     "code": 10614,
+     "comment": 163,
+     "shebang": 0,
+     "total": 11121
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 304622,
+    "file_count": 40,
+    "lines": {
+     "blank": 621,
+     "code": 6885,
+     "comment": 404,
+     "shebang": 0,
+     "total": 7910
+    },
+    "name": "Kotlin"
+   },
+   {
+    "bytes": 249439,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 29,
+       "code": 314,
+       "comment": 5,
+       "shebang": 0,
+       "total": 348
+      },
+      "name": "JavaScript"
+     }
+    ],
+    "file_count": 38,
+    "lines": {
+     "blank": 133,
+     "code": 3659,
+     "comment": 67,
+     "shebang": 0,
+     "total": 3859
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 70982,
+    "file_count": 14,
+    "lines": {
+     "blank": 235,
+     "code": 1900,
+     "comment": 218,
+     "shebang": 13,
+     "total": 2366
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 46625,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 20,
+       "comment": 0,
+       "shebang": 0,
+       "total": 20
+      },
+      "name": "YAML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 5,
+       "comment": 0,
+       "shebang": 0,
+       "total": 5
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 27,
+    "lines": {
+     "blank": 277,
+     "code": 854,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1131
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 15624,
+    "file_count": 1,
+    "lines": {
+     "blank": 78,
+     "code": 315,
+     "comment": 44,
+     "shebang": 0,
+     "total": 437
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 10968,
+    "file_count": 5,
+    "lines": {
+     "blank": 73,
+     "code": 300,
+     "comment": 41,
+     "shebang": 0,
+     "total": 414
+    },
+    "name": "Protocol Buffers"
+   },
+   {
+    "bytes": 15060,
+    "file_count": 14,
+    "lines": {
+     "blank": 40,
+     "code": 227,
+     "comment": 136,
+     "shebang": 0,
+     "total": 403
+    },
+    "name": "SQL"
+   },
+   {
+    "bytes": 7348,
+    "file_count": 8,
+    "lines": {
+     "blank": 54,
+     "code": 157,
+     "comment": 11,
+     "shebang": 0,
+     "total": 222
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 4716,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 79,
+     "comment": 4,
+     "shebang": 0,
+     "total": 88
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1910,
+    "file_count": 3,
+    "lines": {
+     "blank": 6,
+     "code": 61,
+     "comment": 12,
+     "shebang": 0,
+     "total": 79
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 264,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 17,
+     "comment": 0,
+     "shebang": 0,
+     "total": 20
+    },
+    "name": "PowerShell"
+   },
+   {
+    "bytes": 608,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 20,
+     "comment": 0,
+     "shebang": 0,
+     "total": 20
+    },
+    "name": "INI"
+   },
+   {
+    "bytes": 603,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 18,
+     "comment": 0,
+     "shebang": 0,
+     "total": 18
+    },
+    "name": "Java Properties"
+   },
+   {
+    "bytes": 277,
+    "file_count": 2,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 0,
+     "shebang": 0,
+     "total": 7
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 124,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 5,
+     "comment": 0,
+     "shebang": 0,
+     "total": 5
+    },
+    "name": "Batch"
+   }
+  ],
+  "paths": [
+   "joshuarli/syncthing"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 11641337,
+   "file_count": 1078,
+   "lines": {
+    "blank": 28092,
+    "code": 208903,
+    "comment": 41412,
+    "shebang": 13,
+    "total": 278420
+   }
+  }
+ },
+ "repository": "joshuarli/syncthing",
+ "schema": 1,
+ "state": "complete"
+}

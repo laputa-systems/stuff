@@ -1,0 +1,119 @@
+{
+ "commit": "64e6630020dbeeb2945477f9689969d921bb1ab2",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 299385,
+    "file_count": 31,
+    "lines": {
+     "blank": 694,
+     "code": 8091,
+     "comment": 571,
+     "shebang": 0,
+     "total": 9356
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 14195,
+    "file_count": 4,
+    "lines": {
+     "blank": 34,
+     "code": 311,
+     "comment": 30,
+     "shebang": 4,
+     "total": 379
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 10809,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 2,
+       "code": 5,
+       "comment": 0,
+       "shebang": 0,
+       "total": 7
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 3,
+       "comment": 0,
+       "shebang": 0,
+       "total": 3
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 2,
+       "comment": 0,
+       "shebang": 0,
+       "total": 2
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 7,
+    "lines": {
+     "blank": 70,
+     "code": 144,
+     "comment": 0,
+     "shebang": 0,
+     "total": 214
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 1056,
+    "file_count": 3,
+    "lines": {
+     "blank": 4,
+     "code": 28,
+     "comment": 6,
+     "shebang": 0,
+     "total": 38
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 354,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 9,
+     "comment": 2,
+     "shebang": 0,
+     "total": 15
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/hi-lite"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 325799,
+   "file_count": 46,
+   "lines": {
+    "blank": 806,
+    "code": 8583,
+    "comment": 609,
+    "shebang": 4,
+    "total": 10002
+   }
+  }
+ },
+ "repository": "laputa-systems/hi-lite",
+ "schema": 1,
+ "state": "complete"
+}

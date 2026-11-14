@@ -1,0 +1,135 @@
+{
+ "commit": "ac29c7720327f7dee4ed4677ce8421673fcc3563",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 128858,
+    "file_count": 4,
+    "lines": {
+     "blank": 407,
+     "code": 2758,
+     "comment": 8,
+     "shebang": 1,
+     "total": 3174
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 88248,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 5,
+       "code": 138,
+       "comment": 3,
+       "shebang": 0,
+       "total": 146
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 11,
+    "lines": {
+     "blank": 290,
+     "code": 761,
+     "comment": 3,
+     "shebang": 0,
+     "total": 1054
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 16860,
+    "file_count": 5,
+    "lines": {
+     "blank": 0,
+     "code": 835,
+     "comment": 0,
+     "shebang": 0,
+     "total": 835
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 28250,
+    "file_count": 11,
+    "lines": {
+     "blank": 92,
+     "code": 720,
+     "comment": 0,
+     "shebang": 11,
+     "total": 823
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 3127,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 86,
+     "comment": 0,
+     "shebang": 0,
+     "total": 90
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 1683,
+    "file_count": 1,
+    "lines": {
+     "blank": 9,
+     "code": 41,
+     "comment": 0,
+     "shebang": 0,
+     "total": 50
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 544,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 23,
+     "comment": 0,
+     "shebang": 0,
+     "total": 28
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 745,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 16,
+     "comment": 0,
+     "shebang": 0,
+     "total": 20
+    },
+    "name": "Dockerfile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/ffmpeg-build"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 268315,
+   "file_count": 35,
+   "lines": {
+    "blank": 811,
+    "code": 5240,
+    "comment": 11,
+    "shebang": 12,
+    "total": 6074
+   }
+  }
+ },
+ "repository": "laputa-systems/ffmpeg-build",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,205 @@
+{
+ "commit": "933c02721ee9c5506c47ab1b2c02679a3485f4d8",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 780150,
+    "file_count": 56,
+    "lines": {
+     "blank": 1695,
+     "code": 16102,
+     "comment": 121,
+     "shebang": 43,
+     "total": 17961
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 66040,
+    "file_count": 10,
+    "lines": {
+     "blank": 0,
+     "code": 1694,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1694
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 71897,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 57,
+       "comment": 0,
+       "shebang": 0,
+       "total": 57
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 8,
+    "lines": {
+     "blank": 177,
+     "code": 935,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1112
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 37622,
+    "file_count": 4,
+    "lines": {
+     "blank": 62,
+     "code": 826,
+     "comment": 27,
+     "shebang": 4,
+     "total": 919
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 11230,
+    "file_count": 1,
+    "lines": {
+     "blank": 12,
+     "code": 239,
+     "comment": 1,
+     "shebang": 0,
+     "total": 252
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 8964,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 6,
+       "code": 182,
+       "comment": 4,
+       "shebang": 0,
+       "total": 192
+      },
+      "name": "JavaScript"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 5,
+       "comment": 0,
+       "shebang": 0,
+       "total": 5
+      },
+      "name": "CSS"
+     }
+    ],
+    "file_count": 4,
+    "lines": {
+     "blank": 6,
+     "code": 219,
+     "comment": 4,
+     "shebang": 0,
+     "total": 229
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 6195,
+    "file_count": 1,
+    "lines": {
+     "blank": 42,
+     "code": 158,
+     "comment": 7,
+     "shebang": 0,
+     "total": 207
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 3821,
+    "file_count": 9,
+    "lines": {
+     "blank": 12,
+     "code": 127,
+     "comment": 0,
+     "shebang": 0,
+     "total": 139
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 1487,
+    "file_count": 1,
+    "lines": {
+     "blank": 8,
+     "code": 58,
+     "comment": 0,
+     "shebang": 0,
+     "total": 66
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 530,
+    "file_count": 3,
+    "lines": {
+     "blank": 0,
+     "code": 35,
+     "comment": 0,
+     "shebang": 0,
+     "total": 35
+    },
+    "name": "Assembly"
+   },
+   {
+    "bytes": 655,
+    "file_count": 1,
+    "lines": {
+     "blank": 6,
+     "code": 26,
+     "comment": 0,
+     "shebang": 0,
+     "total": 32
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 161,
+    "file_count": 3,
+    "lines": {
+     "blank": 0,
+     "code": 3,
+     "comment": 0,
+     "shebang": 0,
+     "total": 3
+    },
+    "name": "JavaScript"
+   }
+  ],
+  "paths": [
+   "laputa-systems/chromium-build"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 988752,
+   "file_count": 101,
+   "lines": {
+    "blank": 2020,
+    "code": 20422,
+    "comment": 160,
+    "shebang": 47,
+    "total": 22649
+   }
+  }
+ },
+ "repository": "laputa-systems/chromium-build",
+ "schema": 1,
+ "state": "complete"
+}

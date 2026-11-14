@@ -1,0 +1,205 @@
+{
+ "commit": "4c80ff68ccfcc542b1b0057bfb8e3a9d69fad158",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 1738730,
+    "file_count": 102,
+    "lines": {
+     "blank": 4227,
+     "code": 33032,
+     "comment": 1422,
+     "shebang": 34,
+     "total": 38715
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 456774,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 14186,
+     "comment": 0,
+     "shebang": 0,
+     "total": 14186
+    },
+    "name": "XML"
+   },
+   {
+    "bytes": 462614,
+    "file_count": 63,
+    "lines": {
+     "blank": 542,
+     "code": 8083,
+     "comment": 82,
+     "shebang": 0,
+     "total": 8707
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 222359,
+    "file_count": 41,
+    "lines": {
+     "blank": 486,
+     "code": 5249,
+     "comment": 94,
+     "shebang": 40,
+     "total": 5869
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 262562,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 149,
+       "comment": 4,
+       "shebang": 0,
+       "total": 153
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 6,
+       "comment": 0,
+       "shebang": 0,
+       "total": 6
+      },
+      "name": "JSON"
+     }
+    ],
+    "file_count": 33,
+    "lines": {
+     "blank": 678,
+     "code": 1949,
+     "comment": 18,
+     "shebang": 0,
+     "total": 2645
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 28984,
+    "file_count": 23,
+    "lines": {
+     "blank": 88,
+     "code": 861,
+     "comment": 2,
+     "shebang": 0,
+     "total": 951
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 33086,
+    "file_count": 7,
+    "lines": {
+     "blank": 25,
+     "code": 637,
+     "comment": 0,
+     "shebang": 4,
+     "total": 666
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 8810,
+    "file_count": 8,
+    "lines": {
+     "blank": 0,
+     "code": 345,
+     "comment": 0,
+     "shebang": 0,
+     "total": 345
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 7158,
+    "file_count": 2,
+    "lines": {
+     "blank": 36,
+     "code": 181,
+     "comment": 3,
+     "shebang": 0,
+     "total": 220
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 2372,
+    "file_count": 7,
+    "lines": {
+     "blank": 8,
+     "code": 74,
+     "comment": 3,
+     "shebang": 0,
+     "total": 85
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1979,
+    "file_count": 2,
+    "lines": {
+     "blank": 13,
+     "code": 39,
+     "comment": 0,
+     "shebang": 0,
+     "total": 52
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 172,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 12,
+     "comment": 0,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "Ruby"
+   },
+   {
+    "bytes": 127,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 6,
+     "comment": 0,
+     "shebang": 0,
+     "total": 6
+    },
+    "name": "INI"
+   }
+  ],
+  "paths": [
+   "joshuarli/usr"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 3225727,
+   "file_count": 292,
+   "lines": {
+    "blank": 6103,
+    "code": 64654,
+    "comment": 1624,
+    "shebang": 78,
+    "total": 72459
+   }
+  }
+ },
+ "repository": "joshuarli/usr",
+ "schema": 1,
+ "state": "complete"
+}

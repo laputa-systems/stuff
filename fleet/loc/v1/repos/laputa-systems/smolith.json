@@ -1,0 +1,177 @@
+{
+ "commit": "066bb8c9c609c66c271fc32f170181375e421551",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 60003210,
+    "file_count": 414,
+    "lines": {
+     "blank": 0,
+     "code": 1788544,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1788544
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 5322495,
+    "file_count": 457,
+    "lines": {
+     "blank": 18986,
+     "code": 115183,
+     "comment": 32594,
+     "shebang": 0,
+     "total": 166763
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 583174,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 106,
+       "code": 401,
+       "comment": 53,
+       "shebang": 0,
+       "total": 560
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 18,
+       "comment": 0,
+       "shebang": 0,
+       "total": 18
+      },
+      "name": "JavaScript"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 18,
+       "comment": 0,
+       "shebang": 0,
+       "total": 18
+      },
+      "name": "TOML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 12,
+       "comment": 0,
+       "shebang": 0,
+       "total": 12
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 94,
+    "lines": {
+     "blank": 3448,
+     "code": 7092,
+     "comment": 53,
+     "shebang": 0,
+     "total": 10593
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 192205,
+    "file_count": 43,
+    "lines": {
+     "blank": 413,
+     "code": 4604,
+     "comment": 93,
+     "shebang": 41,
+     "total": 5151
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 120651,
+    "file_count": 14,
+    "lines": {
+     "blank": 348,
+     "code": 2868,
+     "comment": 92,
+     "shebang": 6,
+     "total": 3314
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 71447,
+    "file_count": 58,
+    "lines": {
+     "blank": 287,
+     "code": 1932,
+     "comment": 60,
+     "shebang": 0,
+     "total": 2279
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 31535,
+    "file_count": 3,
+    "lines": {
+     "blank": 218,
+     "code": 739,
+     "comment": 92,
+     "shebang": 0,
+     "total": 1049
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 1811,
+    "file_count": 3,
+    "lines": {
+     "blank": 16,
+     "code": 41,
+     "comment": 5,
+     "shebang": 0,
+     "total": 62
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1412,
+    "file_count": 1,
+    "lines": {
+     "blank": 6,
+     "code": 35,
+     "comment": 0,
+     "shebang": 0,
+     "total": 41
+    },
+    "name": "Dockerfile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/smolith"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 66327940,
+   "file_count": 1087,
+   "lines": {
+    "blank": 23722,
+    "code": 1921038,
+    "comment": 32989,
+    "shebang": 47,
+    "total": 1977796
+   }
+  }
+ },
+ "repository": "laputa-systems/smolith",
+ "schema": 1,
+ "state": "complete"
+}

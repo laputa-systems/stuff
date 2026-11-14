@@ -1,0 +1,199 @@
+{
+ "commit": "9cda606d70cffabb274411b0d2eddd9a4b224561",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 1852574,
+    "file_count": 103,
+    "lines": {
+     "blank": 5269,
+     "code": 39544,
+     "comment": 10034,
+     "shebang": 0,
+     "total": 54847
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 209881,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 8,
+       "code": 29,
+       "comment": 4,
+       "shebang": 0,
+       "total": 41
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 18,
+       "comment": 0,
+       "shebang": 0,
+       "total": 18
+      },
+      "name": "TOML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 5,
+       "comment": 0,
+       "shebang": 0,
+       "total": 5
+      },
+      "name": "PowerShell"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 5,
+       "comment": 0,
+       "shebang": 0,
+       "total": 5
+      },
+      "name": "ZSH"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 4,
+       "comment": 0,
+       "shebang": 0,
+       "total": 4
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 24,
+    "lines": {
+     "blank": 987,
+     "code": 3925,
+     "comment": 4,
+     "shebang": 0,
+     "total": 4916
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 47804,
+    "file_count": 2,
+    "lines": {
+     "blank": 194,
+     "code": 828,
+     "comment": 322,
+     "shebang": 2,
+     "total": 1346
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 31723,
+    "file_count": 2,
+    "lines": {
+     "blank": 107,
+     "code": 438,
+     "comment": 247,
+     "shebang": 1,
+     "total": 793
+    },
+    "name": "ZSH"
+   },
+   {
+    "bytes": 11742,
+    "file_count": 12,
+    "lines": {
+     "blank": 47,
+     "code": 366,
+     "comment": 15,
+     "shebang": 0,
+     "total": 428
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 2412,
+    "file_count": 2,
+    "lines": {
+     "blank": 83,
+     "code": 65,
+     "comment": 70,
+     "shebang": 0,
+     "total": 218
+    },
+    "name": "Ignore"
+   },
+   {
+    "bytes": 4553,
+    "file_count": 4,
+    "lines": {
+     "blank": 18,
+     "code": 134,
+     "comment": 20,
+     "shebang": 3,
+     "total": 175
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 914,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 22,
+     "comment": 5,
+     "shebang": 0,
+     "total": 31
+    },
+    "name": "Fish"
+   },
+   {
+    "bytes": 804,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 19,
+     "comment": 0,
+     "shebang": 0,
+     "total": 23
+    },
+    "name": "Ruby"
+   },
+   {
+    "bytes": 124,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 0,
+     "shebang": 0,
+     "total": 7
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/rg"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 2162531,
+   "file_count": 152,
+   "lines": {
+    "blank": 6715,
+    "code": 45346,
+    "comment": 10717,
+    "shebang": 6,
+    "total": 62784
+   }
+  }
+ },
+ "repository": "laputa-systems/rg",
+ "schema": 1,
+ "state": "complete"
+}

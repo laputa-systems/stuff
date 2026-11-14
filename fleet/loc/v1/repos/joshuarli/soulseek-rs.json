@@ -1,0 +1,165 @@
+{
+ "commit": "78eded5743a9c91325512f2e2c722819f379c5a5",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 2486371,
+    "file_count": 225,
+    "lines": {
+     "blank": 6355,
+     "code": 61109,
+     "comment": 6360,
+     "shebang": 0,
+     "total": 73824
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 61732,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 2577,
+     "comment": 0,
+     "shebang": 0,
+     "total": 2577
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 93688,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 20,
+       "code": 160,
+       "comment": 26,
+       "shebang": 0,
+       "total": 206
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 14,
+       "code": 53,
+       "comment": 9,
+       "shebang": 0,
+       "total": 76
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 8,
+       "comment": 0,
+       "shebang": 0,
+       "total": 8
+      },
+      "name": "YAML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 4,
+       "comment": 0,
+       "shebang": 0,
+       "total": 4
+      },
+      "name": "JSON"
+     }
+    ],
+    "file_count": 8,
+    "lines": {
+     "blank": 405,
+     "code": 1536,
+     "comment": 35,
+     "shebang": 0,
+     "total": 1976
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 4770,
+    "file_count": 4,
+    "lines": {
+     "blank": 17,
+     "code": 112,
+     "comment": 28,
+     "shebang": 0,
+     "total": 157
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 5791,
+    "file_count": 1,
+    "lines": {
+     "blank": 15,
+     "code": 118,
+     "comment": 15,
+     "shebang": 0,
+     "total": 148
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 3010,
+    "file_count": 2,
+    "lines": {
+     "blank": 16,
+     "code": 61,
+     "comment": 12,
+     "shebang": 2,
+     "total": 91
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 1522,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 53,
+     "comment": 0,
+     "shebang": 0,
+     "total": 53
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 1963,
+    "file_count": 1,
+    "lines": {
+     "blank": 7,
+     "code": 35,
+     "comment": 0,
+     "shebang": 0,
+     "total": 42
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "joshuarli/soulseek-rs"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 2658847,
+   "file_count": 244,
+   "lines": {
+    "blank": 6815,
+    "code": 65601,
+    "comment": 6450,
+    "shebang": 2,
+    "total": 78868
+   }
+  }
+ },
+ "repository": "joshuarli/soulseek-rs",
+ "schema": 1,
+ "state": "complete"
+}

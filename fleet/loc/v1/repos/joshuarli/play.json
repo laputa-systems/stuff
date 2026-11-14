@@ -1,0 +1,199 @@
+{
+ "commit": "0a7cf7a6a6578d2826f3eba8ce76a51ea7133105",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 5651675,
+    "file_count": 429,
+    "lines": {
+     "blank": 15425,
+     "code": 116477,
+     "comment": 21661,
+     "shebang": 0,
+     "total": 153563
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 286706,
+    "file_count": 18,
+    "lines": {
+     "blank": 695,
+     "code": 5912,
+     "comment": 51,
+     "shebang": 5,
+     "total": 6663
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 253846,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 49,
+       "code": 204,
+       "comment": 62,
+       "shebang": 0,
+       "total": 315
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 15,
+       "code": 58,
+       "comment": 20,
+       "shebang": 0,
+       "total": 93
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 12,
+       "comment": 0,
+       "shebang": 0,
+       "total": 12
+      },
+      "name": "JSON"
+     },
+     {
+      "lines": {
+       "blank": 2,
+       "code": 7,
+       "comment": 2,
+       "shebang": 0,
+       "total": 11
+      },
+      "name": "Python"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 4,
+       "comment": 0,
+       "shebang": 0,
+       "total": 4
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 49,
+    "lines": {
+     "blank": 1099,
+     "code": 2491,
+     "comment": 100,
+     "shebang": 0,
+     "total": 3690
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 108461,
+    "file_count": 24,
+    "lines": {
+     "blank": 340,
+     "code": 2429,
+     "comment": 31,
+     "shebang": 23,
+     "total": 2823
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 51091,
+    "file_count": 36,
+    "lines": {
+     "blank": 0,
+     "code": 2735,
+     "comment": 0,
+     "shebang": 0,
+     "total": 2735
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 36576,
+    "file_count": 40,
+    "lines": {
+     "blank": 165,
+     "code": 973,
+     "comment": 147,
+     "shebang": 0,
+     "total": 1285
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 16060,
+    "file_count": 1,
+    "lines": {
+     "blank": 54,
+     "code": 454,
+     "comment": 8,
+     "shebang": 0,
+     "total": 516
+    },
+    "name": "Objective-C"
+   },
+   {
+    "bytes": 2351,
+    "file_count": 1,
+    "lines": {
+     "blank": 12,
+     "code": 98,
+     "comment": 0,
+     "shebang": 0,
+     "total": 110
+    },
+    "name": "Meson"
+   },
+   {
+    "bytes": 2639,
+    "file_count": 2,
+    "lines": {
+     "blank": 13,
+     "code": 67,
+     "comment": 0,
+     "shebang": 0,
+     "total": 80
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1913,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 30,
+     "comment": 0,
+     "shebang": 0,
+     "total": 35
+    },
+    "name": "Dockerfile"
+   }
+  ],
+  "paths": [
+   "joshuarli/play"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 6411318,
+   "file_count": 601,
+   "lines": {
+    "blank": 17808,
+    "code": 131666,
+    "comment": 21998,
+    "shebang": 28,
+    "total": 171500
+   }
+  }
+ },
+ "repository": "joshuarli/play",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,87 @@
+{
+ "commit": "75f78d7cce4ead473f03717bf77a1c47347e33af",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 223320,
+    "file_count": 33,
+    "lines": {
+     "blank": 686,
+     "code": 5622,
+     "comment": 8,
+     "shebang": 0,
+     "total": 6316
+    },
+    "name": "Swift"
+   },
+   {
+    "bytes": 26139,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 13,
+       "comment": 0,
+       "shebang": 0,
+       "total": 13
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 9,
+    "lines": {
+     "blank": 103,
+     "code": 275,
+     "comment": 0,
+     "shebang": 0,
+     "total": 378
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 4073,
+    "file_count": 1,
+    "lines": {
+     "blank": 10,
+     "code": 91,
+     "comment": 0,
+     "shebang": 0,
+     "total": 101
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 769,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 28,
+     "comment": 0,
+     "shebang": 0,
+     "total": 28
+    },
+    "name": "XML"
+   }
+  ],
+  "paths": [
+   "joshuarli/mactop"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 254301,
+   "file_count": 44,
+   "lines": {
+    "blank": 799,
+    "code": 6016,
+    "comment": 8,
+    "shebang": 0,
+    "total": 6823
+   }
+  }
+ },
+ "repository": "joshuarli/mactop",
+ "schema": 1,
+ "state": "complete"
+}

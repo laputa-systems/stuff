@@ -1,0 +1,159 @@
+{
+ "commit": "5d2169d1786659ec9da3d5f664c3a37df7d44405",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 1119493,
+    "file_count": 76,
+    "lines": {
+     "blank": 2221,
+     "code": 28418,
+     "comment": 1637,
+     "shebang": 0,
+     "total": 32276
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 23018,
+    "file_count": 5,
+    "lines": {
+     "blank": 33,
+     "code": 550,
+     "comment": 43,
+     "shebang": 5,
+     "total": 631
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 12595,
+    "file_count": 52,
+    "lines": {
+     "blank": 50,
+     "code": 388,
+     "comment": 0,
+     "shebang": 0,
+     "total": 438
+    },
+    "name": "Meson"
+   },
+   {
+    "bytes": 11010,
+    "file_count": 10,
+    "lines": {
+     "blank": 50,
+     "code": 256,
+     "comment": 29,
+     "shebang": 9,
+     "total": 344
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 15538,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 8,
+       "comment": 0,
+       "shebang": 0,
+       "total": 8
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 7,
+    "lines": {
+     "blank": 41,
+     "code": 220,
+     "comment": 0,
+     "shebang": 0,
+     "total": 261
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 5076,
+    "file_count": 75,
+    "lines": {
+     "blank": 18,
+     "code": 214,
+     "comment": 0,
+     "shebang": 0,
+     "total": 232
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 2359,
+    "file_count": 10,
+    "lines": {
+     "blank": 20,
+     "code": 111,
+     "comment": 0,
+     "shebang": 0,
+     "total": 131
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 952,
+    "file_count": 6,
+    "lines": {
+     "blank": 0,
+     "code": 27,
+     "comment": 0,
+     "shebang": 0,
+     "total": 27
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 102,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 0,
+     "shebang": 0,
+     "total": 7
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 185,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 6,
+     "comment": 0,
+     "shebang": 0,
+     "total": 6
+    },
+    "name": "XML"
+   }
+  ],
+  "paths": [
+   "laputa-systems/gluon"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 1190328,
+   "file_count": 243,
+   "lines": {
+    "blank": 2435,
+    "code": 30195,
+    "comment": 1709,
+    "shebang": 14,
+    "total": 34353
+   }
+  }
+ },
+ "repository": "laputa-systems/gluon",
+ "schema": 1,
+ "state": "complete"
+}

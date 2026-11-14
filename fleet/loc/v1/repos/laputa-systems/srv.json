@@ -1,0 +1,99 @@
+{
+ "commit": "d3878814b369f84e47c061ca59818fa5f6995ae7",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 61777,
+    "file_count": 2,
+    "lines": {
+     "blank": 175,
+     "code": 1684,
+     "comment": 1,
+     "shebang": 0,
+     "total": 1860
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 6916,
+    "file_count": 1,
+    "lines": {
+     "blank": 15,
+     "code": 125,
+     "comment": 16,
+     "shebang": 0,
+     "total": 156
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 3429,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 7,
+       "comment": 0,
+       "shebang": 0,
+       "total": 7
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 3,
+    "lines": {
+     "blank": 16,
+     "code": 46,
+     "comment": 0,
+     "shebang": 0,
+     "total": 62
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 2369,
+    "file_count": 1,
+    "lines": {
+     "blank": 8,
+     "code": 39,
+     "comment": 2,
+     "shebang": 0,
+     "total": 49
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 570,
+    "file_count": 2,
+    "lines": {
+     "blank": 6,
+     "code": 29,
+     "comment": 0,
+     "shebang": 0,
+     "total": 35
+    },
+    "name": "TOML"
+   }
+  ],
+  "paths": [
+   "laputa-systems/srv"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 75061,
+   "file_count": 9,
+   "lines": {
+    "blank": 220,
+    "code": 1923,
+    "comment": 19,
+    "shebang": 0,
+    "total": 2162
+   }
+  }
+ },
+ "repository": "laputa-systems/srv",
+ "schema": 1,
+ "state": "complete"
+}

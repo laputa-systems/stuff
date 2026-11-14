@@ -1,0 +1,217 @@
+{
+ "commit": "2c72290c48a3e91b8ca439eaf4de1a6830c0f922",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 3939947,
+    "file_count": 285,
+    "lines": {
+     "blank": 9435,
+     "code": 89547,
+     "comment": 9967,
+     "shebang": 0,
+     "total": 108949
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 1467461,
+    "file_count": 142,
+    "lines": {
+     "blank": 3061,
+     "code": 33575,
+     "comment": 822,
+     "shebang": 0,
+     "total": 37458
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 105276,
+    "file_count": 6,
+    "lines": {
+     "blank": 532,
+     "code": 3650,
+     "comment": 221,
+     "shebang": 0,
+     "total": 4403
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 130771,
+    "file_count": 24,
+    "lines": {
+     "blank": 259,
+     "code": 2327,
+     "comment": 17,
+     "shebang": 0,
+     "total": 2603
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 117561,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 57,
+       "comment": 1,
+       "shebang": 0,
+       "total": 58
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 18,
+       "comment": 0,
+       "shebang": 0,
+       "total": 18
+      },
+      "name": "YAML"
+     }
+    ],
+    "file_count": 42,
+    "lines": {
+     "blank": 531,
+     "code": 1611,
+     "comment": 1,
+     "shebang": 0,
+     "total": 2143
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 49781,
+    "file_count": 8,
+    "lines": {
+     "blank": 145,
+     "code": 1309,
+     "comment": 8,
+     "shebang": 8,
+     "total": 1470
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 29986,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 50,
+       "code": 530,
+       "comment": 0,
+       "shebang": 0,
+       "total": 580
+      },
+      "name": "CSS"
+     }
+    ],
+    "file_count": 6,
+    "lines": {
+     "blank": 51,
+     "code": 804,
+     "comment": 0,
+     "shebang": 0,
+     "total": 855
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 6469,
+    "file_count": 4,
+    "lines": {
+     "blank": 0,
+     "code": 210,
+     "comment": 0,
+     "shebang": 0,
+     "total": 210
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 7468,
+    "file_count": 1,
+    "lines": {
+     "blank": 41,
+     "code": 146,
+     "comment": 1,
+     "shebang": 0,
+     "total": 188
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 7888,
+    "file_count": 3,
+    "lines": {
+     "blank": 24,
+     "code": 155,
+     "comment": 0,
+     "shebang": 0,
+     "total": 179
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 4337,
+    "file_count": 9,
+    "lines": {
+     "blank": 21,
+     "code": 144,
+     "comment": 0,
+     "shebang": 0,
+     "total": 165
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1929,
+    "file_count": 2,
+    "lines": {
+     "blank": 14,
+     "code": 58,
+     "comment": 0,
+     "shebang": 0,
+     "total": 72
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 854,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 42,
+     "comment": 0,
+     "shebang": 0,
+     "total": 42
+    },
+    "name": "YAML"
+   }
+  ],
+  "paths": [
+   "joshuarli/tansu"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 5869728,
+   "file_count": 533,
+   "lines": {
+    "blank": 14114,
+    "code": 133578,
+    "comment": 11037,
+    "shebang": 8,
+    "total": 158737
+   }
+  }
+ },
+ "repository": "joshuarli/tansu",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,123 @@
+{
+ "commit": "8f080b291cc0e1b1c7bc25970536a955f83d451d",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 148389,
+    "file_count": 14,
+    "lines": {
+     "blank": 338,
+     "code": 3290,
+     "comment": 254,
+     "shebang": 0,
+     "total": 3882
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 91965,
+    "file_count": 4,
+    "lines": {
+     "blank": 253,
+     "code": 1843,
+     "comment": 118,
+     "shebang": 4,
+     "total": 2218
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 16593,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 23,
+       "comment": 0,
+       "shebang": 0,
+       "total": 23
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 7,
+    "lines": {
+     "blank": 78,
+     "code": 191,
+     "comment": 0,
+     "shebang": 0,
+     "total": 269
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 7026,
+    "file_count": 1,
+    "lines": {
+     "blank": 15,
+     "code": 129,
+     "comment": 16,
+     "shebang": 0,
+     "total": 160
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 2368,
+    "file_count": 1,
+    "lines": {
+     "blank": 8,
+     "code": 39,
+     "comment": 2,
+     "shebang": 0,
+     "total": 49
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 4992,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 42,
+     "comment": 0,
+     "shebang": 0,
+     "total": 42
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 684,
+    "file_count": 2,
+    "lines": {
+     "blank": 7,
+     "code": 30,
+     "comment": 0,
+     "shebang": 0,
+     "total": 37
+    },
+    "name": "TOML"
+   }
+  ],
+  "paths": [
+   "laputa-systems/fz"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 272017,
+   "file_count": 30,
+   "lines": {
+    "blank": 699,
+    "code": 5564,
+    "comment": 390,
+    "shebang": 4,
+    "total": 6657
+   }
+  }
+ },
+ "repository": "laputa-systems/fz",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,193 @@
+{
+ "commit": "8d3c9e18006de8a1ed8144a9febbb83ef4af32a9",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 777697,
+    "file_count": 74,
+    "lines": {
+     "blank": 1821,
+     "code": 20744,
+     "comment": 709,
+     "shebang": 0,
+     "total": 23274
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 1542094,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 11,
+       "code": 128,
+       "comment": 9,
+       "shebang": 0,
+       "total": 148
+      },
+      "name": "JavaScript"
+     },
+     {
+      "lines": {
+       "blank": 1,
+       "code": 61,
+       "comment": 0,
+       "shebang": 0,
+       "total": 62
+      },
+      "name": "CSS"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 32,
+       "comment": 0,
+       "shebang": 0,
+       "total": 32
+      },
+      "name": "JSON"
+     }
+    ],
+    "file_count": 173,
+    "lines": {
+     "blank": 1000,
+     "code": 9253,
+     "comment": 312,
+     "shebang": 0,
+     "total": 10565
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 430788,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 1008,
+       "comment": 0,
+       "shebang": 0,
+       "total": 1008
+      },
+      "name": "JSON"
+     },
+     {
+      "lines": {
+       "blank": 6,
+       "code": 22,
+       "comment": 7,
+       "shebang": 0,
+       "total": 35
+      },
+      "name": "JavaScript"
+     },
+     {
+      "lines": {
+       "blank": 2,
+       "code": 15,
+       "comment": 0,
+       "shebang": 0,
+       "total": 17
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 11,
+       "comment": 2,
+       "shebang": 0,
+       "total": 13
+      },
+      "name": "Python"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 12,
+       "comment": 0,
+       "shebang": 0,
+       "total": 12
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 1,
+       "comment": 0,
+       "shebang": 0,
+       "total": 1
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 181,
+    "lines": {
+     "blank": 2164,
+     "code": 4193,
+     "comment": 9,
+     "shebang": 0,
+     "total": 6366
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 22685,
+    "file_count": 8,
+    "lines": {
+     "blank": 23,
+     "code": 210,
+     "comment": 9,
+     "shebang": 0,
+     "total": 242
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 366,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 12,
+     "comment": 0,
+     "shebang": 0,
+     "total": 17
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 805,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 1,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1
+    },
+    "name": "JSON"
+   }
+  ],
+  "paths": [
+   "joshuarli/defuddle-rs"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 2774435,
+   "file_count": 438,
+   "lines": {
+    "blank": 5013,
+    "code": 34413,
+    "comment": 1039,
+    "shebang": 0,
+    "total": 40465
+   }
+  }
+ },
+ "repository": "joshuarli/defuddle-rs",
+ "schema": 1,
+ "state": "complete"
+}

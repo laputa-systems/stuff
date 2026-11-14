@@ -1,0 +1,695 @@
+{
+ "commit": "4a187628d36a7465ee8f6ab5ae76d2ad97f4e99d",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 517183,
+    "file_count": 58,
+    "lines": {
+     "blank": 1205,
+     "code": 12250,
+     "comment": 876,
+     "shebang": 0,
+     "total": 14331
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 23037,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 31,
+       "comment": 0,
+       "shebang": 0,
+       "total": 31
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 2,
+       "code": 25,
+       "comment": 1,
+       "shebang": 0,
+       "total": 28
+      },
+      "name": "TOML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 20,
+       "comment": 0,
+       "shebang": 0,
+       "total": 20
+      },
+      "name": "JSON"
+     }
+    ],
+    "file_count": 2,
+    "lines": {
+     "blank": 125,
+     "code": 339,
+     "comment": 1,
+     "shebang": 0,
+     "total": 465
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 12878,
+    "file_count": 5,
+    "lines": {
+     "blank": 46,
+     "code": 205,
+     "comment": 35,
+     "shebang": 4,
+     "total": 290
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 10714,
+    "file_count": 4,
+    "lines": {
+     "blank": 9,
+     "code": 193,
+     "comment": 20,
+     "shebang": 4,
+     "total": 226
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 2706,
+    "file_count": 2,
+    "lines": {
+     "blank": 15,
+     "code": 58,
+     "comment": 3,
+     "shebang": 0,
+     "total": 76
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1811,
+    "file_count": 2,
+    "lines": {
+     "blank": 10,
+     "code": 63,
+     "comment": 0,
+     "shebang": 0,
+     "total": 73
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 2142,
+    "file_count": 2,
+    "lines": {
+     "blank": 7,
+     "code": 39,
+     "comment": 10,
+     "shebang": 0,
+     "total": 56
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 1145,
+    "file_count": 4,
+    "lines": {
+     "blank": 9,
+     "code": 36,
+     "comment": 6,
+     "shebang": 0,
+     "total": 51
+    },
+    "name": "Objective-C"
+   },
+   {
+    "bytes": 719,
+    "file_count": 3,
+    "lines": {
+     "blank": 8,
+     "code": 23,
+     "comment": 9,
+     "shebang": 0,
+     "total": 40
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 1025,
+    "file_count": 4,
+    "lines": {
+     "blank": 4,
+     "code": 19,
+     "comment": 11,
+     "shebang": 1,
+     "total": 35
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 715,
+    "file_count": 3,
+    "lines": {
+     "blank": 5,
+     "code": 20,
+     "comment": 6,
+     "shebang": 0,
+     "total": 31
+    },
+    "name": "Scala"
+   },
+   {
+    "bytes": 668,
+    "file_count": 3,
+    "lines": {
+     "blank": 6,
+     "code": 19,
+     "comment": 6,
+     "shebang": 0,
+     "total": 31
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 705,
+    "file_count": 3,
+    "lines": {
+     "blank": 6,
+     "code": 16,
+     "comment": 7,
+     "shebang": 0,
+     "total": 29
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 323,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 21,
+     "comment": 2,
+     "shebang": 0,
+     "total": 27
+    },
+    "name": "V"
+   },
+   {
+    "bytes": 436,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 12,
+     "comment": 9,
+     "shebang": 0,
+     "total": 24
+    },
+    "name": "Lua"
+   },
+   {
+    "bytes": 484,
+    "file_count": 2,
+    "lines": {
+     "blank": 5,
+     "code": 13,
+     "comment": 5,
+     "shebang": 0,
+     "total": 23
+    },
+    "name": "R"
+   },
+   {
+    "bytes": 433,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 14,
+     "comment": 6,
+     "shebang": 0,
+     "total": 23
+    },
+    "name": "Java"
+   },
+   {
+    "bytes": 488,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 12,
+     "comment": 5,
+     "shebang": 0,
+     "total": 20
+    },
+    "name": "Zig"
+   },
+   {
+    "bytes": 386,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 2,
+       "comment": 0,
+       "shebang": 0,
+       "total": 2
+      },
+      "name": "HTML"
+     }
+    ],
+    "file_count": 2,
+    "lines": {
+     "blank": 4,
+     "code": 14,
+     "comment": 2,
+     "shebang": 0,
+     "total": 20
+    },
+    "name": "PHP"
+   },
+   {
+    "bytes": 357,
+    "file_count": 2,
+    "lines": {
+     "blank": 4,
+     "code": 11,
+     "comment": 5,
+     "shebang": 0,
+     "total": 20
+    },
+    "name": "Go"
+   },
+   {
+    "bytes": 411,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 14,
+     "comment": 2,
+     "shebang": 0,
+     "total": 19
+    },
+    "name": "Verilog"
+   },
+   {
+    "bytes": 412,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 10,
+     "comment": 5,
+     "shebang": 1,
+     "total": 19
+    },
+    "name": "Perl"
+   },
+   {
+    "bytes": 467,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 15,
+     "comment": 2,
+     "shebang": 0,
+     "total": 19
+    },
+    "name": "Objective-C++"
+   },
+   {
+    "bytes": 382,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 12,
+     "comment": 4,
+     "shebang": 0,
+     "total": 19
+    },
+    "name": "Fortran"
+   },
+   {
+    "bytes": 385,
+    "file_count": 2,
+    "lines": {
+     "blank": 4,
+     "code": 12,
+     "comment": 3,
+     "shebang": 0,
+     "total": 19
+    },
+    "name": "Elixir"
+   },
+   {
+    "bytes": 435,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 13,
+     "comment": 2,
+     "shebang": 0,
+     "total": 18
+    },
+    "name": "Visual Basic/Visual Basic .NET"
+   },
+   {
+    "bytes": 377,
+    "file_count": 2,
+    "lines": {
+     "blank": 2,
+     "code": 12,
+     "comment": 4,
+     "shebang": 0,
+     "total": 18
+    },
+    "name": "Dart"
+   },
+   {
+    "bytes": 367,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 7,
+     "comment": 7,
+     "shebang": 0,
+     "total": 17
+    },
+    "name": "SQL"
+   },
+   {
+    "bytes": 343,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 10,
+     "comment": 5,
+     "shebang": 0,
+     "total": 17
+    },
+    "name": "Common Lisp"
+   },
+   {
+    "bytes": 324,
+    "file_count": 2,
+    "lines": {
+     "blank": 2,
+     "code": 9,
+     "comment": 4,
+     "shebang": 0,
+     "total": 15
+    },
+    "name": "Nim"
+   },
+   {
+    "bytes": 269,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 4,
+     "comment": 5,
+     "shebang": 0,
+     "total": 13
+    },
+    "name": "Kotlin"
+   },
+   {
+    "bytes": 323,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 10,
+     "comment": 2,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "MATLAB"
+   },
+   {
+    "bytes": 215,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 6,
+     "comment": 4,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "Assembly"
+   },
+   {
+    "bytes": 307,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 6,
+     "comment": 3,
+     "shebang": 0,
+     "total": 11
+    },
+    "name": "Octave"
+   },
+   {
+    "bytes": 197,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 4,
+     "shebang": 0,
+     "total": 11
+    },
+    "name": "Nix"
+   },
+   {
+    "bytes": 189,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 3,
+     "shebang": 0,
+     "total": 10
+    },
+    "name": "PowerShell"
+   },
+   {
+    "bytes": 180,
+    "file_count": 1,
+    "lines": {
+     "blank": 1,
+     "code": 6,
+     "comment": 3,
+     "shebang": 0,
+     "total": 10
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 183,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 5,
+     "comment": 2,
+     "shebang": 0,
+     "total": 10
+    },
+    "name": "F#"
+   },
+   {
+    "bytes": 186,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 5,
+     "comment": 2,
+     "shebang": 0,
+     "total": 10
+    },
+    "name": "Erlang"
+   },
+   {
+    "bytes": 274,
+    "file_count": 1,
+    "lines": {
+     "blank": 1,
+     "code": 7,
+     "comment": 2,
+     "shebang": 0,
+     "total": 10
+    },
+    "name": "Blade"
+   },
+   {
+    "bytes": 163,
+    "file_count": 1,
+    "lines": {
+     "blank": 1,
+     "code": 5,
+     "comment": 2,
+     "shebang": 1,
+     "total": 9
+    },
+    "name": "ZSH"
+   },
+   {
+    "bytes": 171,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 4,
+     "comment": 2,
+     "shebang": 1,
+     "total": 9
+    },
+    "name": "Ruby"
+   },
+   {
+    "bytes": 171,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 4,
+     "comment": 3,
+     "shebang": 0,
+     "total": 9
+    },
+    "name": "Julia"
+   },
+   {
+    "bytes": 178,
+    "file_count": 1,
+    "lines": {
+     "blank": 1,
+     "code": 5,
+     "comment": 2,
+     "shebang": 1,
+     "total": 9
+    },
+    "name": "Fish"
+   },
+   {
+    "bytes": 215,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 8,
+     "comment": 1,
+     "shebang": 0,
+     "total": 9
+    },
+    "name": "C#"
+   },
+   {
+    "bytes": 195,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 3,
+     "comment": 3,
+     "shebang": 0,
+     "total": 8
+    },
+    "name": "CMake"
+   },
+   {
+    "bytes": 175,
+    "file_count": 1,
+    "lines": {
+     "blank": 1,
+     "code": 3,
+     "comment": 4,
+     "shebang": 0,
+     "total": 8
+    },
+    "name": "Batch"
+   },
+   {
+    "bytes": 147,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 4,
+     "comment": 2,
+     "shebang": 0,
+     "total": 6
+    },
+    "name": "Haskell"
+   },
+   {
+    "bytes": 153,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 4,
+     "comment": 1,
+     "shebang": 0,
+     "total": 5
+    },
+    "name": "SCSS"
+   },
+   {
+    "bytes": 125,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 4,
+     "comment": 1,
+     "shebang": 0,
+     "total": 5
+    },
+    "name": "JSONC"
+   },
+   {
+    "bytes": 147,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 4,
+     "comment": 1,
+     "shebang": 0,
+     "total": 5
+    },
+    "name": "Groovy"
+   },
+   {
+    "bytes": 1024,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 1,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1
+    },
+    "name": "JSON"
+   }
+  ],
+  "paths": [
+   "joshuarli/loc"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 587445,
+   "file_count": 146,
+   "lines": {
+    "blank": 1537,
+    "code": 13599,
+    "comment": 1114,
+    "shebang": 13,
+    "total": 16263
+   }
+  }
+ },
+ "repository": "joshuarli/loc",
+ "schema": 1,
+ "state": "complete"
+}

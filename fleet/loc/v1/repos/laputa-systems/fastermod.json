@@ -1,0 +1,111 @@
+{
+ "commit": "81a61246cd831aff192958368ad4373761aa7245",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 94578,
+    "file_count": 7,
+    "lines": {
+     "blank": 261,
+     "code": 2642,
+     "comment": 71,
+     "shebang": 0,
+     "total": 2974
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 8597,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 3,
+       "comment": 0,
+       "shebang": 0,
+       "total": 3
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 6,
+    "lines": {
+     "blank": 51,
+     "code": 128,
+     "comment": 0,
+     "shebang": 0,
+     "total": 179
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 7397,
+    "file_count": 1,
+    "lines": {
+     "blank": 16,
+     "code": 130,
+     "comment": 18,
+     "shebang": 0,
+     "total": 164
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 2664,
+    "file_count": 1,
+    "lines": {
+     "blank": 11,
+     "code": 44,
+     "comment": 2,
+     "shebang": 0,
+     "total": 57
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1142,
+    "file_count": 3,
+    "lines": {
+     "blank": 9,
+     "code": 47,
+     "comment": 0,
+     "shebang": 0,
+     "total": 56
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1602,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 1,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1
+    },
+    "name": "JSON"
+   }
+  ],
+  "paths": [
+   "laputa-systems/fastermod"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 115980,
+   "file_count": 19,
+   "lines": {
+    "blank": 348,
+    "code": 2992,
+    "comment": 91,
+    "shebang": 0,
+    "total": 3431
+   }
+  }
+ },
+ "repository": "laputa-systems/fastermod",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,143 @@
+{
+ "commit": "6e017cf3d106bb14c66a9dfd46a342cd773841df",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 495705,
+    "file_count": 50,
+    "lines": {
+     "blank": 1913,
+     "code": 11119,
+     "comment": 2716,
+     "shebang": 0,
+     "total": 15748
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 22536,
+    "file_count": 2,
+    "lines": {
+     "blank": 55,
+     "code": 525,
+     "comment": 23,
+     "shebang": 2,
+     "total": 605
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 21038,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 4,
+       "code": 28,
+       "comment": 0,
+       "shebang": 0,
+       "total": 32
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 13,
+       "comment": 0,
+       "shebang": 0,
+       "total": 13
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 1,
+       "code": 5,
+       "comment": 0,
+       "shebang": 0,
+       "total": 6
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 9,
+    "lines": {
+     "blank": 111,
+     "code": 371,
+     "comment": 0,
+     "shebang": 0,
+     "total": 482
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 3990,
+    "file_count": 1,
+    "lines": {
+     "blank": 10,
+     "code": 60,
+     "comment": 9,
+     "shebang": 0,
+     "total": 79
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 1268,
+    "file_count": 3,
+    "lines": {
+     "blank": 7,
+     "code": 51,
+     "comment": 0,
+     "shebang": 0,
+     "total": 58
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 709,
+    "file_count": 1,
+    "lines": {
+     "blank": 9,
+     "code": 17,
+     "comment": 0,
+     "shebang": 0,
+     "total": 26
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 5566,
+    "file_count": 3,
+    "lines": {
+     "blank": 0,
+     "code": 3,
+     "comment": 0,
+     "shebang": 0,
+     "total": 3
+    },
+    "name": "JSON"
+   }
+  ],
+  "paths": [
+   "laputa-systems/rustybench"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 550812,
+   "file_count": 69,
+   "lines": {
+    "blank": 2105,
+    "code": 12146,
+    "comment": 2748,
+    "shebang": 2,
+    "total": 17001
+   }
+  }
+ },
+ "repository": "laputa-systems/rustybench",
+ "schema": 1,
+ "state": "complete"
+}

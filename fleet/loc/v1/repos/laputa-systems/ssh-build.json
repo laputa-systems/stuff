@@ -1,0 +1,147 @@
+{
+ "commit": "2a589f8fd945dd74322b64999e515ce7704777ef",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 2013067,
+    "file_count": 159,
+    "lines": {
+     "blank": 6052,
+     "code": 45955,
+     "comment": 4727,
+     "shebang": 0,
+     "total": 56734
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 94882,
+    "file_count": 30,
+    "lines": {
+     "blank": 208,
+     "code": 1691,
+     "comment": 159,
+     "shebang": 26,
+     "total": 2084
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 108575,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 53,
+       "comment": 0,
+       "shebang": 0,
+       "total": 53
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 9,
+    "lines": {
+     "blank": 329,
+     "code": 1363,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1692
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 26843,
+    "file_count": 1,
+    "lines": {
+     "blank": 66,
+     "code": 557,
+     "comment": 28,
+     "shebang": 1,
+     "total": 652
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 6279,
+    "file_count": 9,
+    "lines": {
+     "blank": 37,
+     "code": 230,
+     "comment": 0,
+     "shebang": 0,
+     "total": 267
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 12307,
+    "file_count": 6,
+    "lines": {
+     "blank": 36,
+     "code": 195,
+     "comment": 34,
+     "shebang": 0,
+     "total": 265
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 3393,
+    "file_count": 1,
+    "lines": {
+     "blank": 15,
+     "code": 97,
+     "comment": 0,
+     "shebang": 0,
+     "total": 112
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 3306,
+    "file_count": 4,
+    "lines": {
+     "blank": 0,
+     "code": 84,
+     "comment": 0,
+     "shebang": 0,
+     "total": 84
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 1721,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 56,
+     "comment": 2,
+     "shebang": 0,
+     "total": 63
+    },
+    "name": "C"
+   }
+  ],
+  "paths": [
+   "laputa-systems/ssh-build"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 2270373,
+   "file_count": 220,
+   "lines": {
+    "blank": 6748,
+    "code": 50228,
+    "comment": 4950,
+    "shebang": 27,
+    "total": 61953
+   }
+  }
+ },
+ "repository": "laputa-systems/ssh-build",
+ "schema": 1,
+ "state": "complete"
+}

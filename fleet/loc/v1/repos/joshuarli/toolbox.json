@@ -1,0 +1,111 @@
+{
+ "commit": "fcc8ec62097f9db4a068bb143bbddcd2d4dd82fb",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 866055,
+    "file_count": 96,
+    "lines": {
+     "blank": 3861,
+     "code": 18920,
+     "comment": 1172,
+     "shebang": 6,
+     "total": 23959
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 183358,
+    "file_count": 13,
+    "lines": {
+     "blank": 0,
+     "code": 6592,
+     "comment": 0,
+     "shebang": 0,
+     "total": 6592
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 45675,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 35,
+       "comment": 1,
+       "shebang": 0,
+       "total": 36
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 14,
+    "lines": {
+     "blank": 151,
+     "code": 493,
+     "comment": 1,
+     "shebang": 0,
+     "total": 645
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 5335,
+    "file_count": 2,
+    "lines": {
+     "blank": 20,
+     "code": 159,
+     "comment": 0,
+     "shebang": 0,
+     "total": 179
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 3038,
+    "file_count": 1,
+    "lines": {
+     "blank": 13,
+     "code": 93,
+     "comment": 4,
+     "shebang": 0,
+     "total": 110
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 300,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 8,
+     "comment": 2,
+     "shebang": 0,
+     "total": 13
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "joshuarli/toolbox"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 1103761,
+   "file_count": 127,
+   "lines": {
+    "blank": 4048,
+    "code": 26265,
+    "comment": 1179,
+    "shebang": 6,
+    "total": 31498
+   }
+  }
+ },
+ "repository": "joshuarli/toolbox",
+ "schema": 1,
+ "state": "complete"
+}

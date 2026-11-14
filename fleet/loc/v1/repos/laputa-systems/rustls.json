@@ -1,0 +1,167 @@
+{
+ "commit": "45fc17fe7e3bac8898806e34765747a20185f077",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 2941641,
+    "file_count": 172,
+    "lines": {
+     "blank": 9900,
+     "code": 64656,
+     "comment": 10593,
+     "shebang": 0,
+     "total": 85149
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 6138340,
+    "file_count": 4,
+    "lines": {
+     "blank": 0,
+     "code": 6116,
+     "comment": 0,
+     "shebang": 0,
+     "total": 6116
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 113316,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 26,
+       "code": 106,
+       "comment": 0,
+       "shebang": 0,
+       "total": 132
+      },
+      "name": "TOML"
+     },
+     {
+      "lines": {
+       "blank": 2,
+       "code": 64,
+       "comment": 3,
+       "shebang": 0,
+       "total": 69
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 7,
+       "code": 43,
+       "comment": 7,
+       "shebang": 0,
+       "total": 57
+      },
+      "name": "Rust"
+     }
+    ],
+    "file_count": 31,
+    "lines": {
+     "blank": 721,
+     "code": 1886,
+     "comment": 10,
+     "shebang": 0,
+     "total": 2617
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 15972,
+    "file_count": 19,
+    "lines": {
+     "blank": 78,
+     "code": 490,
+     "comment": 37,
+     "shebang": 0,
+     "total": 605
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 24934,
+    "file_count": 6,
+    "lines": {
+     "blank": 24,
+     "code": 413,
+     "comment": 1,
+     "shebang": 0,
+     "total": 438
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 7539,
+    "file_count": 5,
+    "lines": {
+     "blank": 36,
+     "code": 207,
+     "comment": 28,
+     "shebang": 5,
+     "total": 276
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 7243,
+    "file_count": 5,
+    "lines": {
+     "blank": 49,
+     "code": 180,
+     "comment": 19,
+     "shebang": 4,
+     "total": 252
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 3911,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 205,
+     "comment": 0,
+     "shebang": 0,
+     "total": 205
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 3517,
+    "file_count": 2,
+    "lines": {
+     "blank": 13,
+     "code": 68,
+     "comment": 0,
+     "shebang": 0,
+     "total": 81
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/rustls"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 9256413,
+   "file_count": 245,
+   "lines": {
+    "blank": 10821,
+    "code": 74221,
+    "comment": 10688,
+    "shebang": 9,
+    "total": 95739
+   }
+  }
+ },
+ "repository": "laputa-systems/rustls",
+ "schema": 1,
+ "state": "complete"
+}

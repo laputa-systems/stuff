@@ -1,0 +1,87 @@
+{
+ "commit": "39e3a6308dd44d43171a455bdf38a2ab299c54c1",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 88298,
+    "file_count": 7,
+    "lines": {
+     "blank": 234,
+     "code": 1667,
+     "comment": 602,
+     "shebang": 0,
+     "total": 2503
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 18613,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 4,
+       "code": 46,
+       "comment": 0,
+       "shebang": 0,
+       "total": 50
+      },
+      "name": "Rust"
+     }
+    ],
+    "file_count": 3,
+    "lines": {
+     "blank": 91,
+     "code": 227,
+     "comment": 0,
+     "shebang": 0,
+     "total": 318
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 1010,
+    "file_count": 4,
+    "lines": {
+     "blank": 7,
+     "code": 38,
+     "comment": 2,
+     "shebang": 0,
+     "total": 47
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 179,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 0,
+     "shebang": 0,
+     "total": 7
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/lexopt"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 108100,
+   "file_count": 15,
+   "lines": {
+    "blank": 334,
+    "code": 1937,
+    "comment": 604,
+    "shebang": 0,
+    "total": 2875
+   }
+  }
+ },
+ "repository": "laputa-systems/lexopt",
+ "schema": 1,
+ "state": "complete"
+}

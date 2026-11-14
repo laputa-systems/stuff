@@ -1,0 +1,135 @@
+{
+ "commit": "63916c25f5cb38a5ebb12ddbbb503517fcb4c908",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 540026,
+    "file_count": 45,
+    "lines": {
+     "blank": 1132,
+     "code": 13779,
+     "comment": 36,
+     "shebang": 0,
+     "total": 14947
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 25574,
+    "file_count": 20,
+    "lines": {
+     "blank": 9,
+     "code": 694,
+     "comment": 10,
+     "shebang": 20,
+     "total": 733
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 40247,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 36,
+       "comment": 0,
+       "shebang": 0,
+       "total": 36
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 15,
+    "lines": {
+     "blank": 163,
+     "code": 529,
+     "comment": 0,
+     "shebang": 0,
+     "total": 692
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 12988,
+    "file_count": 6,
+    "lines": {
+     "blank": 36,
+     "code": 306,
+     "comment": 2,
+     "shebang": 4,
+     "total": 348
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 8541,
+    "file_count": 1,
+    "lines": {
+     "blank": 15,
+     "code": 260,
+     "comment": 10,
+     "shebang": 0,
+     "total": 285
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 1897,
+    "file_count": 8,
+    "lines": {
+     "blank": 13,
+     "code": 76,
+     "comment": 0,
+     "shebang": 0,
+     "total": 89
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1803,
+    "file_count": 2,
+    "lines": {
+     "blank": 5,
+     "code": 35,
+     "comment": 0,
+     "shebang": 0,
+     "total": 40
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 497,
+    "file_count": 2,
+    "lines": {
+     "blank": 6,
+     "code": 17,
+     "comment": 0,
+     "shebang": 0,
+     "total": 23
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/tinyland"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 631573,
+   "file_count": 99,
+   "lines": {
+    "blank": 1379,
+    "code": 15696,
+    "comment": 58,
+    "shebang": 24,
+    "total": 17157
+   }
+  }
+ },
+ "repository": "laputa-systems/tinyland",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,321 @@
+{
+ "commit": "64e3d7b08dad3a1471039cd5ad656d6819af3709",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 17608944,
+    "file_count": 108,
+    "lines": {
+     "blank": 0,
+     "code": 661052,
+     "comment": 0,
+     "shebang": 0,
+     "total": 661052
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 3247211,
+    "file_count": 235,
+    "lines": {
+     "blank": 5622,
+     "code": 79043,
+     "comment": 498,
+     "shebang": 0,
+     "total": 85163
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 3198967,
+    "file_count": 257,
+    "lines": {
+     "blank": 10796,
+     "code": 73222,
+     "comment": 569,
+     "shebang": 30,
+     "total": 84617
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 374678,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 11,
+       "code": 202,
+       "comment": 0,
+       "shebang": 0,
+       "total": 213
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 40,
+       "comment": 0,
+       "shebang": 0,
+       "total": 40
+      },
+      "name": "JSON"
+     },
+     {
+      "lines": {
+       "blank": 3,
+       "code": 31,
+       "comment": 0,
+       "shebang": 0,
+       "total": 34
+      },
+      "name": "TOML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 1,
+       "comment": 0,
+       "shebang": 0,
+       "total": 1
+      },
+      "name": "INI"
+     }
+    ],
+    "file_count": 38,
+    "lines": {
+     "blank": 1049,
+     "code": 4598,
+     "comment": 0,
+     "shebang": 0,
+     "total": 5647
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 195507,
+    "file_count": 22,
+    "lines": {
+     "blank": 458,
+     "code": 3225,
+     "comment": 1363,
+     "shebang": 0,
+     "total": 5046
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 153756,
+    "file_count": 45,
+    "lines": {
+     "blank": 247,
+     "code": 3081,
+     "comment": 246,
+     "shebang": 44,
+     "total": 3618
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 190323,
+    "file_count": 25,
+    "lines": {
+     "blank": 113,
+     "code": 3202,
+     "comment": 0,
+     "shebang": 2,
+     "total": 3317
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 82792,
+    "file_count": 46,
+    "lines": {
+     "blank": 410,
+     "code": 2161,
+     "comment": 68,
+     "shebang": 0,
+     "total": 2639
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 23183,
+    "file_count": 5,
+    "lines": {
+     "blank": 136,
+     "code": 607,
+     "comment": 0,
+     "shebang": 0,
+     "total": 743
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 63150,
+    "file_count": 6,
+    "lines": {
+     "blank": 22,
+     "code": 695,
+     "comment": 0,
+     "shebang": 0,
+     "total": 717
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 78981,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 13,
+       "code": 448,
+       "comment": 0,
+       "shebang": 0,
+       "total": 461
+      },
+      "name": "CSS"
+     }
+    ],
+    "file_count": 1,
+    "lines": {
+     "blank": 13,
+     "code": 567,
+     "comment": 0,
+     "shebang": 0,
+     "total": 580
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 25732,
+    "file_count": 7,
+    "lines": {
+     "blank": 120,
+     "code": 412,
+     "comment": 19,
+     "shebang": 0,
+     "total": 551
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 12953,
+    "file_count": 7,
+    "lines": {
+     "blank": 32,
+     "code": 257,
+     "comment": 11,
+     "shebang": 0,
+     "total": 300
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 5213,
+    "file_count": 1,
+    "lines": {
+     "blank": 26,
+     "code": 126,
+     "comment": 4,
+     "shebang": 0,
+     "total": 156
+    },
+    "name": "Zig"
+   },
+   {
+    "bytes": 4349,
+    "file_count": 2,
+    "lines": {
+     "blank": 7,
+     "code": 104,
+     "comment": 0,
+     "shebang": 0,
+     "total": 111
+    },
+    "name": "Go"
+   },
+   {
+    "bytes": 2042,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 66,
+     "comment": 0,
+     "shebang": 0,
+     "total": 66
+    },
+    "name": "JSONC"
+   },
+   {
+    "bytes": 1861,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 56,
+     "comment": 1,
+     "shebang": 0,
+     "total": 59
+    },
+    "name": "Swift"
+   },
+   {
+    "bytes": 742,
+    "file_count": 2,
+    "lines": {
+     "blank": 5,
+     "code": 35,
+     "comment": 0,
+     "shebang": 0,
+     "total": 40
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 557,
+    "file_count": 1,
+    "lines": {
+     "blank": 5,
+     "code": 24,
+     "comment": 0,
+     "shebang": 0,
+     "total": 29
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 71,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 4,
+     "comment": 0,
+     "shebang": 0,
+     "total": 4
+    },
+    "name": "INI"
+   }
+  ],
+  "paths": [
+   "laputa-systems/stuff"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 25271012,
+   "file_count": 812,
+   "lines": {
+    "blank": 19063,
+    "code": 832537,
+    "comment": 2779,
+    "shebang": 76,
+    "total": 854455
+   }
+  }
+ },
+ "repository": "laputa-systems/stuff",
+ "schema": 1,
+ "state": "complete"
+}

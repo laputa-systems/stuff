@@ -1,0 +1,143 @@
+{
+ "commit": "e6ff8fb8939ae00c32a07a0caae89cc0d20b3dde",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 6080786,
+    "file_count": 733,
+    "lines": {
+     "blank": 19147,
+     "code": 184937,
+     "comment": 7557,
+     "shebang": 0,
+     "total": 211641
+    },
+    "name": "Go"
+   },
+   {
+    "bytes": 134263,
+    "file_count": 59,
+    "lines": {
+     "blank": 0,
+     "code": 4963,
+     "comment": 0,
+     "shebang": 0,
+     "total": 4963
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 122131,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 24,
+       "comment": 0,
+       "shebang": 0,
+       "total": 24
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 7,
+       "comment": 1,
+       "shebang": 0,
+       "total": 8
+      },
+      "name": "YAML"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 7,
+       "comment": 0,
+       "shebang": 0,
+       "total": 7
+      },
+      "name": "Go"
+     }
+    ],
+    "file_count": 27,
+    "lines": {
+     "blank": 776,
+     "code": 1895,
+     "comment": 1,
+     "shebang": 0,
+     "total": 2672
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 72219,
+    "file_count": 10,
+    "lines": {
+     "blank": 243,
+     "code": 1328,
+     "comment": 305,
+     "shebang": 10,
+     "total": 1886
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 3173,
+    "file_count": 1,
+    "lines": {
+     "blank": 22,
+     "code": 92,
+     "comment": 14,
+     "shebang": 1,
+     "total": 129
+    },
+    "name": "ZSH"
+   },
+   {
+    "bytes": 3879,
+    "file_count": 1,
+    "lines": {
+     "blank": 21,
+     "code": 90,
+     "comment": 9,
+     "shebang": 0,
+     "total": 120
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1305,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 31,
+     "comment": 0,
+     "shebang": 0,
+     "total": 33
+    },
+    "name": "XML"
+   }
+  ],
+  "paths": [
+   "joshuarli/gh"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 6417756,
+   "file_count": 832,
+   "lines": {
+    "blank": 20211,
+    "code": 193336,
+    "comment": 7886,
+    "shebang": 11,
+    "total": 221444
+   }
+  }
+ },
+ "repository": "joshuarli/gh",
+ "schema": 1,
+ "state": "complete"
+}

@@ -1,0 +1,131 @@
+{
+ "commit": "31a9badb3198ec413d45e07ce8e46d5f5f6ef1c5",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 1270606,
+    "file_count": 72,
+    "lines": {
+     "blank": 5663,
+     "code": 25792,
+     "comment": 5379,
+     "shebang": 0,
+     "total": 36834
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 148123,
+    "file_count": 4,
+    "lines": {
+     "blank": 548,
+     "code": 1440,
+     "comment": 1517,
+     "shebang": 0,
+     "total": 3505
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 22940,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 19,
+       "code": 51,
+       "comment": 4,
+       "shebang": 0,
+       "total": 74
+      },
+      "name": "Rust"
+     },
+     {
+      "lines": {
+       "blank": 4,
+       "code": 18,
+       "comment": 5,
+       "shebang": 0,
+       "total": 27
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 1,
+       "code": 9,
+       "comment": 0,
+       "shebang": 0,
+       "total": 10
+      },
+      "name": "Ignore"
+     }
+    ],
+    "file_count": 8,
+    "lines": {
+     "blank": 164,
+     "code": 365,
+     "comment": 9,
+     "shebang": 0,
+     "total": 538
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 8895,
+    "file_count": 7,
+    "lines": {
+     "blank": 49,
+     "code": 248,
+     "comment": 5,
+     "shebang": 0,
+     "total": 302
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 13071,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 170,
+     "comment": 0,
+     "shebang": 0,
+     "total": 170
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 2115,
+    "file_count": 1,
+    "lines": {
+     "blank": 16,
+     "code": 13,
+     "comment": 39,
+     "shebang": 0,
+     "total": 68
+    },
+    "name": "JavaScript"
+   }
+  ],
+  "paths": [
+   "laputa-systems/zlib-rs"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 1465750,
+   "file_count": 93,
+   "lines": {
+    "blank": 6440,
+    "code": 28028,
+    "comment": 6949,
+    "shebang": 0,
+    "total": 41417
+   }
+  }
+ },
+ "repository": "laputa-systems/zlib-rs",
+ "schema": 1,
+ "state": "complete"
+}

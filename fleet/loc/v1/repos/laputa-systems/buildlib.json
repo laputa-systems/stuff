@@ -1,0 +1,97 @@
+{
+ "commit": "98d0c20655ac84b6976d69ec2433337b840e4e81",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 101192,
+    "file_count": 14,
+    "lines": {
+     "blank": 453,
+     "code": 2057,
+     "comment": 141,
+     "shebang": 0,
+     "total": 2651
+    },
+    "name": "Python"
+   },
+   {
+    "bytes": 1577,
+    "file_count": 1,
+    "lines": {
+     "blank": 11,
+     "code": 71,
+     "comment": 0,
+     "shebang": 0,
+     "total": 82
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 2900,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 1,
+       "code": 5,
+       "comment": 0,
+       "shebang": 0,
+       "total": 6
+      },
+      "name": "TOML"
+     },
+     {
+      "lines": {
+       "blank": 1,
+       "code": 3,
+       "comment": 0,
+       "shebang": 0,
+       "total": 4
+      },
+      "name": "Python"
+     }
+    ],
+    "file_count": 3,
+    "lines": {
+     "blank": 24,
+     "code": 45,
+     "comment": 0,
+     "shebang": 0,
+     "total": 69
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 264,
+    "file_count": 1,
+    "lines": {
+     "blank": 3,
+     "code": 9,
+     "comment": 0,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "Makefile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/buildlib"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 105933,
+   "file_count": 19,
+   "lines": {
+    "blank": 491,
+    "code": 2182,
+    "comment": 141,
+    "shebang": 0,
+    "total": 2814
+   }
+  }
+ },
+ "repository": "laputa-systems/buildlib",
+ "schema": 1,
+ "state": "complete"
+}

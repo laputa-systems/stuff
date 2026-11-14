@@ -1,0 +1,145 @@
+{
+ "commit": "b29e4d07a2b9a5e72319b37429cf375149212755",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 72822,
+    "file_count": 13,
+    "lines": {
+     "blank": 123,
+     "code": 1126,
+     "comment": 205,
+     "shebang": 11,
+     "total": 1465
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 39662,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 23,
+       "comment": 0,
+       "shebang": 0,
+       "total": 23
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 12,
+       "comment": 0,
+       "shebang": 0,
+       "total": 12
+      },
+      "name": "TOML"
+     }
+    ],
+    "file_count": 6,
+    "lines": {
+     "blank": 98,
+     "code": 528,
+     "comment": 0,
+     "shebang": 0,
+     "total": 626
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 7249,
+    "file_count": 6,
+    "lines": {
+     "blank": 28,
+     "code": 191,
+     "comment": 8,
+     "shebang": 0,
+     "total": 227
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 6852,
+    "file_count": 1,
+    "lines": {
+     "blank": 19,
+     "code": 114,
+     "comment": 25,
+     "shebang": 0,
+     "total": 158
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 5669,
+    "file_count": 1,
+    "lines": {
+     "blank": 9,
+     "code": 70,
+     "comment": 41,
+     "shebang": 0,
+     "total": 120
+    },
+    "name": "CMake"
+   },
+   {
+    "bytes": 3132,
+    "file_count": 4,
+    "lines": {
+     "blank": 5,
+     "code": 61,
+     "comment": 7,
+     "shebang": 0,
+     "total": 73
+    },
+    "name": "C"
+   },
+   {
+    "bytes": 2421,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 57,
+     "comment": 0,
+     "shebang": 0,
+     "total": 57
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 1403,
+    "file_count": 2,
+    "lines": {
+     "blank": 3,
+     "code": 24,
+     "comment": 10,
+     "shebang": 0,
+     "total": 37
+    },
+    "name": "Dockerfile"
+   }
+  ],
+  "paths": [
+   "laputa-systems/llvm-prebuilt-musl"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 139210,
+   "file_count": 34,
+   "lines": {
+    "blank": 285,
+    "code": 2171,
+    "comment": 296,
+    "shebang": 11,
+    "total": 2763
+   }
+  }
+ },
+ "repository": "laputa-systems/llvm-prebuilt-musl",
+ "schema": 1,
+ "state": "complete"
+}

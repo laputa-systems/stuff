@@ -1,0 +1,133 @@
+{
+ "commit": "8b4b9f737e909e5fbdcea6cce4ca1331e898ed17",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 778729,
+    "file_count": 46,
+    "lines": {
+     "blank": 2295,
+     "code": 20113,
+     "comment": 1283,
+     "shebang": 0,
+     "total": 23691
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 10685,
+    "file_count": 1,
+    "lines": {
+     "blank": 33,
+     "code": 309,
+     "comment": 0,
+     "shebang": 1,
+     "total": 343
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 14417,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 4,
+       "comment": 0,
+       "shebang": 0,
+       "total": 4
+      },
+      "name": "INI"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 2,
+       "comment": 0,
+       "shebang": 0,
+       "total": 2
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 12,
+    "lines": {
+     "blank": 73,
+     "code": 125,
+     "comment": 0,
+     "shebang": 0,
+     "total": 198
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 7437,
+    "file_count": 1,
+    "lines": {
+     "blank": 15,
+     "code": 124,
+     "comment": 22,
+     "shebang": 0,
+     "total": 161
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 3131,
+    "file_count": 1,
+    "lines": {
+     "blank": 12,
+     "code": 54,
+     "comment": 4,
+     "shebang": 0,
+     "total": 70
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 832,
+    "file_count": 2,
+    "lines": {
+     "blank": 6,
+     "code": 35,
+     "comment": 0,
+     "shebang": 0,
+     "total": 41
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 5041,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 1,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1
+    },
+    "name": "JSON"
+   }
+  ],
+  "paths": [
+   "laputa-systems/e"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 820272,
+   "file_count": 64,
+   "lines": {
+    "blank": 2434,
+    "code": 20761,
+    "comment": 1309,
+    "shebang": 1,
+    "total": 24505
+   }
+  }
+ },
+ "repository": "laputa-systems/e",
+ "schema": 1,
+ "state": "complete"
+}

@@ -59815,16 +59815,20 @@
     {
      "locator": "dependencies.anyhow",
      "path": "third_party/smolvm/libkrun/tests/guest-agent/Cargo.toml"
+    },
+    {
+     "locator": "package[name=guest-agent,version=0.0.0].dependencies[0]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/guest-agent:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "1.0.102",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/anyhow#"
+   "to": "pkg:cargo/anyhow@1.0.102#"
   },
   {
    "condition": null,
@@ -59833,16 +59837,20 @@
     {
      "locator": "dependencies.test_cases",
      "path": "third_party/smolvm/libkrun/tests/guest-agent/Cargo.toml"
+    },
+    {
+     "locator": "package[name=guest-agent,version=0.0.0].dependencies[1]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/guest-agent:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.0.0",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:local/test_cases#"
+   "to": "pkg:local/test_cases@0.0.0#"
   },
   {
    "condition": null,
@@ -59851,16 +59859,20 @@
     {
      "locator": "dependencies.quote",
      "path": "third_party/smolvm/libkrun/tests/macros/Cargo.toml"
+    },
+    {
+     "locator": "package[name=macros,version=0.0.0].dependencies[0]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/macros:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "1.0.45",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/quote#"
+   "to": "pkg:cargo/quote@1.0.45#"
   },
   {
    "condition": null,
@@ -59869,16 +59881,20 @@
     {
      "locator": "dependencies.syn",
      "path": "third_party/smolvm/libkrun/tests/macros/Cargo.toml"
+    },
+    {
+     "locator": "package[name=macros,version=0.0.0].dependencies[1]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/macros:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "2.0.117",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/syn#"
+   "to": "pkg:cargo/syn@2.0.117#"
   },
   {
    "condition": null,
@@ -59887,16 +59903,20 @@
     {
      "locator": "dependencies.anyhow",
      "path": "third_party/smolvm/libkrun/tests/runner/Cargo.toml"
+    },
+    {
+     "locator": "package[name=runner,version=0.0.0].dependencies[0]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/runner:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "1.0.102",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/anyhow#"
+   "to": "pkg:cargo/anyhow@1.0.102#"
   },
   {
    "condition": null,
@@ -59905,16 +59925,20 @@
     {
      "locator": "dependencies.clap",
      "path": "third_party/smolvm/libkrun/tests/runner/Cargo.toml"
+    },
+    {
+     "locator": "package[name=runner,version=0.0.0].dependencies[1]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/runner:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "4.5.60",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/clap#"
+   "to": "pkg:cargo/clap@4.5.60#"
   },
   {
    "condition": null,
@@ -59923,16 +59947,20 @@
     {
      "locator": "dependencies.nix",
      "path": "third_party/smolvm/libkrun/tests/runner/Cargo.toml"
+    },
+    {
+     "locator": "package[name=runner,version=0.0.0].dependencies[3]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/runner:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.29.0",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/nix#"
+   "to": "pkg:cargo/nix@0.29.0#"
   },
   {
    "condition": null,
@@ -59941,16 +59969,20 @@
     {
      "locator": "dependencies.tempdir",
      "path": "third_party/smolvm/libkrun/tests/runner/Cargo.toml"
+    },
+    {
+     "locator": "package[name=runner,version=0.0.0].dependencies[4]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/runner:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.3.7",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/tempdir#"
+   "to": "pkg:cargo/tempdir@0.3.7#"
   },
   {
    "condition": null,
@@ -59959,16 +59991,20 @@
     {
      "locator": "dependencies.macros",
      "path": "third_party/smolvm/libkrun/tests/runner/Cargo.toml"
+    },
+    {
+     "locator": "package[name=runner,version=0.0.0].dependencies[2]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/runner:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.0.0",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:local/macros#"
+   "to": "pkg:local/macros@0.0.0#"
   },
   {
    "condition": null,
@@ -59977,16 +60013,20 @@
     {
      "locator": "dependencies.test_cases",
      "path": "third_party/smolvm/libkrun/tests/runner/Cargo.toml"
+    },
+    {
+     "locator": "package[name=runner,version=0.0.0].dependencies[5]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/runner:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.0.0",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:local/test_cases#"
+   "to": "pkg:local/test_cases@0.0.0#"
   },
   {
    "condition": null,
@@ -59995,16 +60035,20 @@
     {
      "locator": "dependencies.anyhow",
      "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
+    },
+    {
+     "locator": "package[name=test_cases,version=0.0.0].dependencies[0]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/test_cases:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "1.0.102",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/anyhow#"
+   "to": "pkg:cargo/anyhow@1.0.102#"
   },
   {
    "condition": null,
@@ -60013,16 +60057,20 @@
     {
      "locator": "dependencies.nix",
      "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
+    },
+    {
+     "locator": "package[name=test_cases,version=0.0.0].dependencies[3]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/test_cases:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.29.0",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/nix#"
+   "to": "pkg:cargo/nix@0.29.0#"
   },
   {
    "condition": "feature:serde",
@@ -60031,16 +60079,20 @@
     {
      "locator": "dependencies.serde",
      "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
+    },
+    {
+     "locator": "package[name=test_cases,version=0.0.0].dependencies[4]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/test_cases:cargo",
    "optional": true,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "conditional",
+   "resolved_version": "1.0.228",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/serde#"
+   "to": "pkg:cargo/serde@1.0.228#"
   },
   {
    "condition": "feature:serde_json",
@@ -60049,16 +60101,20 @@
     {
      "locator": "dependencies.serde_json",
      "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
+    },
+    {
+     "locator": "package[name=test_cases,version=0.0.0].dependencies[5]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/test_cases:cargo",
    "optional": true,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "conditional",
+   "resolved_version": "1.0.149",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/serde_json#"
+   "to": "pkg:cargo/serde_json@1.0.149#"
   },
   {
    "condition": null,
@@ -60067,16 +60123,20 @@
     {
      "locator": "dependencies.tempdir",
      "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
+    },
+    {
+     "locator": "package[name=test_cases,version=0.0.0].dependencies[6]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/test_cases:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.3.7",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:cargo/tempdir#"
+   "to": "pkg:cargo/tempdir@0.3.7#"
   },
   {
    "condition": "feature:krun-sys",
@@ -60085,16 +60145,20 @@
     {
      "locator": "dependencies.krun-sys",
      "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
+    },
+    {
+     "locator": "package[name=test_cases,version=0.0.0].dependencies[1]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/test_cases:cargo",
    "optional": true,
    "relation": "direct",
-   "resolution": "unknown",
+   "resolution": "conditional",
    "resolved_version": "1.11.1",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:local/krun-sys@1.11.1#7a64d9b306dafc12"
+   "to": "pkg:local/krun-sys@1.11.1#"
   },
   {
    "condition": null,
@@ -60103,16 +60167,20 @@
     {
      "locator": "dependencies.macros",
      "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
+    },
+    {
+     "locator": "package[name=test_cases,version=0.0.0].dependencies[2]",
+     "path": "third_party/smolvm/libkrun/tests/Cargo.lock"
     }
    ],
    "from": "third_party/smolvm/libkrun/tests/test_cases:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "unknown",
-   "resolved_version": null,
+   "resolution": "resolved",
+   "resolved_version": "0.0.0",
    "scope": "runtime",
    "source_kind": "vendored",
-   "to": "pkg:local/macros#"
+   "to": "pkg:local/macros@0.0.0#"
   },
   {
    "condition": "feature:async",
@@ -63410,19 +63478,6 @@
    "component": "pkg:cargo/anyhow",
    "context": "",
    "first_party": false,
-   "id": "pkg:cargo/anyhow#",
-   "purl": "pkg:cargo/anyhow",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/anyhow",
-   "context": "",
-   "first_party": false,
    "id": "pkg:cargo/anyhow@1.0.102#",
    "purl": "pkg:cargo/anyhow@1.0.102",
    "registry_url": "https://github.com/rust-lang/crates.io-index",
@@ -64314,19 +64369,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.8.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/clap",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/clap#",
-   "purl": "pkg:cargo/clap",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
   },
   {
    "commit": null,
@@ -67765,19 +67807,6 @@
    "component": "pkg:cargo/nix",
    "context": "",
    "first_party": false,
-   "id": "pkg:cargo/nix#",
-   "purl": "pkg:cargo/nix",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/nix",
-   "context": "",
-   "first_party": false,
    "id": "pkg:cargo/nix@0.25.1#",
    "purl": "pkg:cargo/nix@0.25.1",
    "registry_url": "https://github.com/rust-lang/crates.io-index",
@@ -68578,19 +68607,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.12.6"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/quote",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/quote#",
-   "purl": "pkg:cargo/quote",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
   },
   {
    "commit": null,
@@ -69494,19 +69510,6 @@
    "component": "pkg:cargo/serde",
    "context": "",
    "first_party": false,
-   "id": "pkg:cargo/serde#",
-   "purl": "pkg:cargo/serde",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/serde",
-   "context": "",
-   "first_party": false,
    "id": "pkg:cargo/serde@1.0.228#",
    "purl": "pkg:cargo/serde@1.0.228",
    "registry_url": "https://github.com/rust-lang/crates.io-index",
@@ -69579,19 +69582,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.0.229"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/serde_json",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/serde_json#",
-   "purl": "pkg:cargo/serde_json",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
   },
   {
    "commit": null,
@@ -70092,19 +70082,6 @@
    "component": "pkg:cargo/syn",
    "context": "",
    "first_party": false,
-   "id": "pkg:cargo/syn#",
-   "purl": "pkg:cargo/syn",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/syn",
-   "context": "",
-   "first_party": false,
    "id": "pkg:cargo/syn@1.0.109#",
    "purl": "pkg:cargo/syn@1.0.109",
    "registry_url": "https://github.com/rust-lang/crates.io-index",
@@ -70268,19 +70245,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.1.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/tempdir",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/tempdir#",
-   "purl": "pkg:cargo/tempdir",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
   },
   {
    "commit": null,
@@ -73385,7 +73349,7 @@
    "purl": "pkg:local/guest-agent@0.0.0",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "path",
+   "source_kind": "workspace",
    "vcs_url": null,
    "version": "0.0.0"
   },
@@ -73613,26 +73577,13 @@
   {
    "commit": null,
    "component": "pkg:local/krun-sys",
-   "context": "4d50589913fe9642",
+   "context": "",
    "first_party": true,
-   "id": "pkg:local/krun-sys@1.11.1#4d50589913fe9642",
+   "id": "pkg:local/krun-sys@1.11.1#",
    "purl": "pkg:local/krun-sys@1.11.1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "1.11.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/krun-sys",
-   "context": "7a64d9b306dafc12",
-   "first_party": true,
-   "id": "pkg:local/krun-sys@1.11.1#7a64d9b306dafc12",
-   "purl": "pkg:local/krun-sys@1.11.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
    "vcs_url": null,
    "version": "1.11.1"
   },
@@ -73719,24 +73670,11 @@
    "component": "pkg:local/macros",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/macros#",
-   "purl": "pkg:local/macros",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/macros",
-   "context": "",
-   "first_party": true,
    "id": "pkg:local/macros@0.0.0#",
    "purl": "pkg:local/macros@0.0.0",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "path",
+   "source_kind": "workspace",
    "vcs_url": null,
    "version": "0.0.0"
   },
@@ -73749,7 +73687,7 @@
    "purl": "pkg:local/runner@0.0.0",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "path",
+   "source_kind": "workspace",
    "vcs_url": null,
    "version": "0.0.0"
   },
@@ -74018,24 +73956,11 @@
    "component": "pkg:local/test_cases",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/test_cases#",
-   "purl": "pkg:local/test_cases",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "vendored",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/test_cases",
-   "context": "",
-   "first_party": true,
    "id": "pkg:local/test_cases@0.0.0#",
    "purl": "pkg:local/test_cases@0.0.0",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "path",
+   "source_kind": "workspace",
    "vcs_url": null,
    "version": "0.0.0"
   },
@@ -76370,30 +76295,6 @@
    "locator": null,
    "message": "no parser for Makefile",
    "path": "third_party/smolvm/libkrun/src/rutabaga_gfx/ffi/src/tests/Makefile"
-  },
-  {
-   "kind": "lock_mismatch",
-   "locator": null,
-   "message": "third_party/smolvm/libkrun/tests/Cargo.lock has no package entry for guest-agent None",
-   "path": "third_party/smolvm/libkrun/tests/guest-agent/Cargo.toml"
-  },
-  {
-   "kind": "lock_mismatch",
-   "locator": null,
-   "message": "third_party/smolvm/libkrun/tests/Cargo.lock has no package entry for macros None",
-   "path": "third_party/smolvm/libkrun/tests/macros/Cargo.toml"
-  },
-  {
-   "kind": "lock_mismatch",
-   "locator": null,
-   "message": "third_party/smolvm/libkrun/tests/Cargo.lock has no package entry for runner None",
-   "path": "third_party/smolvm/libkrun/tests/runner/Cargo.toml"
-  },
-  {
-   "kind": "lock_mismatch",
-   "locator": null,
-   "message": "third_party/smolvm/libkrun/tests/Cargo.lock has no package entry for test_cases None",
-   "path": "third_party/smolvm/libkrun/tests/test_cases/Cargo.toml"
   },
   {
    "kind": "unsupported_format",

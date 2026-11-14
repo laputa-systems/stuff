@@ -1,0 +1,123 @@
+{
+ "commit": "627e23c39e79311a42aad0adf233fff1368eb8e5",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 315437,
+    "file_count": 31,
+    "lines": {
+     "blank": 1124,
+     "code": 8402,
+     "comment": 567,
+     "shebang": 0,
+     "total": 10093
+    },
+    "name": "Rust"
+   },
+   {
+    "bytes": 64210,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 81,
+       "comment": 0,
+       "shebang": 0,
+       "total": 81
+      },
+      "name": "Bash"
+     }
+    ],
+    "file_count": 7,
+    "lines": {
+     "blank": 488,
+     "code": 1088,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1576
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 7345,
+    "file_count": 4,
+    "lines": {
+     "blank": 42,
+     "code": 160,
+     "comment": 28,
+     "shebang": 2,
+     "total": 232
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 2680,
+    "file_count": 3,
+    "lines": {
+     "blank": 16,
+     "code": 87,
+     "comment": 6,
+     "shebang": 0,
+     "total": 109
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 1478,
+    "file_count": 1,
+    "lines": {
+     "blank": 12,
+     "code": 43,
+     "comment": 0,
+     "shebang": 0,
+     "total": 55
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 618,
+    "file_count": 1,
+    "lines": {
+     "blank": 7,
+     "code": 30,
+     "comment": 4,
+     "shebang": 0,
+     "total": 41
+    },
+    "name": "AWK"
+   },
+   {
+    "bytes": 30,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 1,
+     "comment": 0,
+     "shebang": 0,
+     "total": 1
+    },
+    "name": "Fish"
+   }
+  ],
+  "paths": [
+   "laputa-systems/fd"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 391798,
+   "file_count": 48,
+   "lines": {
+    "blank": 1689,
+    "code": 9811,
+    "comment": 605,
+    "shebang": 2,
+    "total": 12107
+   }
+  }
+ },
+ "repository": "laputa-systems/fd",
+ "schema": 1,
+ "state": "complete"
+}
