@@ -20,6 +20,21 @@ async function hash(value: string): Promise<string> {
   const bytes = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value)));
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
 }
+async function everyObject<T>(items: readonly T[], check: (item: T) => Promise<boolean>): Promise<boolean> {
+  let next = 0;
+  let valid = true;
+  let unavailable = false;
+  await Promise.all(Array.from({ length: Math.min(32, items.length) }, async () => {
+    while (valid && !unavailable) {
+      const index = next++;
+      if (index >= items.length) return;
+      try { if (!await check(items[index]!)) valid = false; }
+      catch { unavailable = true; }
+    }
+  }));
+  if (unavailable) throw new Error("object verification unavailable");
+  return valid;
+}
 export class PublicationCoordinator {
   private readonly state: State;
   private readonly env: Env;
@@ -90,6 +105,11 @@ export class PublicationCoordinator {
     const body = JSON.parse(text) as Record<string, unknown>;
     if (!body || typeof body !== "object" || Array.isArray(body)) return response(400, { error: "bad request" });
     const sql = this.state.storage.sql;
+    if (op === "gateway-lease") {
+      if (!this.lease("upload", body.token)) return response(409, { error: "stale lease" });
+      if (body.generation !== undefined && (!validGeneration(body.generation) || this.one("SELECT generation FROM retired_generations WHERE generation=?", body.generation))) return response(409, { error: "retired generation" });
+      return response(200, { ok: true });
+    }
     if (op === "begin" || op === "gc-claim") {
       const existing = this.one<Lease>("SELECT kind, token, expires FROM lease WHERE id=1");
       if (existing && existing.expires > Date.now()) return response(409, { error: "lease held" });
@@ -118,19 +138,18 @@ export class PublicationCoordinator {
         (item.key.startsWith("generations/") && retired.has(item.key.split("/")[1]!)) ||
         (item.key.startsWith("manifests/") && retired.has(item.key.slice("manifests/".length).replace(/\.json$/, "")))))
         return response(409, { error: "generation permanently retired by garbage collection" });
-      for (const item of manifest.objects) {
+      if (!await everyObject(manifest.objects, async item => {
         const found = await store.head(item.key);
-        if (!found || found.size !== item.size || found.etag.replaceAll('"', "") !== item.etag.replaceAll('"', "")) return response(409, { error: "incomplete generation" });
-      }
+        return found !== null && found.size === item.size && found.etag.replaceAll('"', "") === item.etag.replaceAll('"', "");
+      })) return response(409, { error: "incomplete generation" });
       if (registry === "oci") {
         const object = await store.get(`generations/${body.generation}/blobs.json`);
         if (!object) return response(409, { error: "OCI blob inventory missing" });
         const inventory = JSON.parse(await object.text()) as { schemaVersion?: unknown; blobs?: unknown };
         if (inventory.schemaVersion !== 1 || !Array.isArray(inventory.blobs)) return response(409, { error: "invalid OCI blob inventory" });
-        for (const blob of inventory.blobs as unknown[]) {
-          if (typeof blob !== "string" || !/^sha256:[0-9a-f]{64}$/.test(blob) || !await this.env.OCI_BLOBS.head(`sha256/${blob.slice(7)}`))
-            return response(409, { error: "OCI blob missing or invalid" });
-        }
+        if (!await everyObject(inventory.blobs as unknown[], async blob =>
+          typeof blob === "string" && /^sha256:[0-9a-f]{64}$/.test(blob) && await this.env.OCI_BLOBS.head(`sha256/${blob.slice(7)}`) !== null))
+          return response(409, { error: "OCI blob missing or invalid" });
       }
       if (!this.lease("upload", body.token)) return response(409, { error: "stale lease" });
       const revision = current.revision + 1;

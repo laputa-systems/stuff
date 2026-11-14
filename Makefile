@@ -110,7 +110,7 @@ worker-orange-test: ## Run the built registry Worker under the pinned OpenOrange
 	pnpm --dir crates/stuff-worker install --frozen-lockfile
 	cd crates/stuff-worker/orange && pnpm install --frozen-lockfile
 	pnpm --dir crates/stuff-worker run build
-	cd crates/stuff-worker && node --test test/orange.test.mjs
+	cd crates/stuff-worker && node --test --test-concurrency=1 test/orange.test.mjs test/coordinator-orange.test.mjs test/gateway-orange.test.mjs test/application-producer.test.mjs
 
 
 worker-deploy: worker-bundle ## Deploy the worker bundle tested by worker-test

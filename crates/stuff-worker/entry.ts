@@ -1,3 +1,5 @@
+import { recordOperation, flushOperations } from "./src/telemetry.js";
+import { gateway } from "./src/gateway.js";
 export { PublicationCoordinator } from "./src/coordinator.js";
 import {
   initSync,
@@ -71,6 +73,16 @@ interface WorkerEnv {
   readonly STUFF_OCI_PUSH_SECRET?: string;
   readonly STUFF_OCI_WRITER_ORIGIN?: string;
   readonly STUFF_RELEASE: string;
+  readonly APPLICATION_EVENTS_ENDPOINT?: string;
+  readonly APPLICATION_EVENTS_SERVICE?: string;
+  readonly APPLICATION_EVENTS_TOKEN?: string;
+  readonly STUFF_S3_BUCKET_BINDINGS?: string;
+  readonly STUFF_S3_ACCESS_KEY_ID?: string;
+  readonly STUFF_S3_SECRET_ACCESS_KEY?: string;
+  readonly S3_ENDPOINT?: string;
+  readonly S3_REGION?: string;
+  readonly S3_ACCESS_KEY_ID?: string;
+  readonly S3_SECRET_ACCESS_KEY?: string;
   readonly STUFF_COORDINATOR_ENABLED?: string;
   readonly STUFF_COORDINATOR_TOKEN?: string;
   readonly COORDINATOR?: CoordinatorNamespace;
@@ -760,9 +772,12 @@ async function primaryRead(
   return { generation, object };
 }
 
-export default {
-  async fetch(req: Request, env: WorkerEnv): Promise<Response> {
+async function serve(req: Request, env: WorkerEnv): Promise<Response> {
     const url = new URL(req.url);
+    if (url.hostname === env.STUFF_UNIFIED_HOST && url.pathname.startsWith("/_s3/")) {
+      if (env.STUFF_COORDINATOR_ENABLED !== "true") return notFound();
+      return gateway(req, env, (registry, op, request) => coordinatorRequest(env, registry, op, request));
+    }
     if (url.hostname === env.STUFF_UNIFIED_HOST && url.pathname.startsWith("/_publication/")) {
       if (env.STUFF_COORDINATOR_ENABLED !== "true") return notFound();
       if (!await authorized(req, env.STUFF_COORDINATOR_TOKEN ?? "")) return new Response("unauthorized", { status: 401 });
@@ -984,5 +999,20 @@ export default {
       object = full;
     }
     return new Response(object.body, { status: plan.status, headers });
+}
+
+export default {
+  async fetch(req: Request, env: WorkerEnv, context: ExecutionContext): Promise<Response> {
+    const started = performance.now();
+    let failure: unknown;
+    try {
+      const response = await serve(req, env);
+      if (response.status >= 500) failure = new Error("registry request failed");
+      return response;
+    } catch (error) { failure = error; throw error; }
+    finally {
+      recordOperation(env, performance.now() - started, failure);
+      context.waitUntil(flushOperations());
+    }
   }
 };

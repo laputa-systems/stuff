@@ -127,3 +127,22 @@ The facade spools streamed S3 PUT bodies to a temporary file
 (`runner.js:14006`). Publishers upload natively through the Rust S3 client,
 so only Worker-side OCI pushes take that path. GET and range reads stream
 (`runner.js:14134`).
+
+### Coordinated native uploads
+
+The management host exposes signed S3 requests at `/_s3/BUCKET/KEY` when
+`STUFF_COORDINATOR_ENABLED` is true. `STUFF_S3_BUCKET_BINDINGS` is generated
+from the built R2 bindings. Publishers use a separate service key and sign
+the upload lease in `x-amz-security-token`. The gateway checks the payload
+while streaming and keeps the final bytes back until its digest matches.
+Backing S3 credentials stay inside the Worker. Immutable PUTs and multipart
+completion use conditional creation. Direct writes to `current` are refused.
+
+Direct Stats events use the vendored producer 0.2.0 artifact, whose source
+revision and hashes are recorded under `vendor/stats-producer`. Configure
+`APPLICATION_EVENTS_ENDPOINT`, `APPLICATION_EVENTS_SERVICE`, and
+`APPLICATION_EVENTS_TOKEN`. Delivery holds at most 256 queued events, sends
+64 per batch, and uses two retries with a two-second request deadline.
+Events report integer wall time. Error messages are redacted, and delivery
+failure does not reject a registry request. No platform CPU or billing data
+is inferred.
