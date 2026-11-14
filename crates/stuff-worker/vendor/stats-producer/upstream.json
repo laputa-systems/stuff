@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/joshuarli/stats",
+  "revision": "bdf65f743a28509d8cb59696d5d6f64bdee15412",
+  "path": "packages/producer",
+  "version": "0.2.0",
+  "files": {
+    "index.js": "8a5ccb2055c958e6c3278f70bbb4d8fd09534e8f9d956b8f50737e3106671a84",
+    "index.d.ts": "e466cb95fd34118751ab976eba87514a8ee1886a5528e44008fba3dc1cc644a1",
+    "protocol.js": "ed0c1b77c214c6803fe0892a881ea52caad6717932c854558698fe236e7a8d89",
+    "protocol.d.ts": "d39197ea30fc9070176fa85487a0f7ec8d8b7443385730921fd5199a4734e44e"
+  }
+}

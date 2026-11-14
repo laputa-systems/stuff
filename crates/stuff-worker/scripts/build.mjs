@@ -30,12 +30,22 @@ for (const stale of ["cloudflare.config.js", "cloudflare.config.js.map"]) {
   rmSync(join(bundleDir, stale), { force: true });
 }
 
+for (const name of ["index.js", "protocol.js"]) {
+  const destination = join(bundleDir, "vendor/stats-producer", name);
+  mkdirSync(dirname(destination), { recursive: true });
+  copyFileSync(join(root, "vendor/stats-producer", name), destination);
+}
+
 const manifest = {
   type: "complete",
   mainModule: "entry.js",
   modules: {
     "entry.js": { type: "esm" },
     "src/coordinator.js": { type: "esm" },
+    "src/gateway.js": { type: "esm" },
+    "src/telemetry.js": { type: "esm" },
+    "vendor/stats-producer/index.js": { type: "esm" },
+    "vendor/stats-producer/protocol.js": { type: "esm" },
     "build/wasm/stuff_worker.js": { type: "esm" },
     "build/wasm/stuff_worker_bg.wasm": { type: "wasm" },
   },
