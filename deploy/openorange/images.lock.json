@@ -43,6 +43,13 @@
       "version": "2026.10.7",
       "index_digest": "sha256:4955524aeaa379e154023d5a027c250f7b35041a2e7e950cf13f144bc9b9c5ba",
       "amd64_digest": "sha256:32f933aa6fe1f69c5885b93f3c92cc3f60cca8f0530868bc3bc2cc446114a385"
+    },
+    "coredns": {
+      "repository": "docker.io/coredns/coredns",
+      "tag": "1.15.0",
+      "version": "1.15.0",
+      "index_digest": "sha256:0a9d8c8ddf34347eb59aad9a8784f0710de88d6d112726d11d271f9bc6daca26",
+      "amd64_digest": "sha256:3429e3bbffb1e839470c4a3541d4d78aca84a1394c75a539d0200c58c63196ac"
     }
   },
   "local_builds": {

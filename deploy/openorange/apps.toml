@@ -138,3 +138,6 @@ cpus = 1.0
 enabled = true
 id = "5656ecc8-b9bd-4d70-8adb-14ff8cc91631"
 metrics_port = 18481
+
+[dns]
+enabled = true

@@ -172,6 +172,7 @@ class Config:
     store: dict
     apps: dict[str, App] = field(default_factory=dict)
     tunnel: dict = field(default_factory=dict)
+    dns: dict = field(default_factory=dict)
 
     # --- paths -----------------------------------------------------------
     def p(self, key: str, *parts: str) -> Path:
@@ -255,7 +256,7 @@ def load(path: str | os.PathLike | None = None, overlay: str | os.PathLike | Non
 
 
 def validate(raw: dict) -> Config:
-    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel"}, "apps.toml")
+    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel", "dns"}, "apps.toml")
     if raw.get("schema") != 1:
         raise ConfigError("schema must be 1")
     stack, net, ing, store = (raw.get(k, {}) for k in ("stack", "network", "ingress", "store"))
@@ -391,7 +392,35 @@ def validate(raw: dict) -> Config:
                 raise ConfigError(f"{where}.upstream must be IP:PORT")
             kw.update(upstream=up)
         apps[name] = App(**kw)
-    return Config(raw, stack, net, ing, store, apps, tunnel)
+    dns = raw.get("dns", {})
+    _only(dns, {"enabled"}, "dns")
+    if "enabled" in dns and type(dns["enabled"]) is not bool:
+        raise ConfigError("dns.enabled must be boolean")
+    if dns.get("enabled") and not any(app.public_hostnames for app in apps.values()):
+        raise ConfigError("split DNS requires declared public hostnames")
+    return Config(raw, stack, net, ing, store, apps, tunnel, dns)
+
+
+def dns_routes(cfg: Config) -> dict[str, list[str]]:
+    hosts = sorted({host for app in cfg.enabled_apps() for host in app.public_hostnames})
+    if not cfg.dns.get("enabled") or not hosts:
+        raise ConfigError("split DNS is disabled")
+    return {host: [cfg.ingress["bind"]] for host in hosts}
+
+
+def dns_config(cfg: Config) -> str:
+    hosts = sorted(dns_routes(cfg))
+    pattern = "(?i)^(" + "|".join(host.replace(".", "[.]") for host in hosts) + ")[.]$"
+    return "\n".join([
+        " ".join(hosts) + " {", f"    bind {cfg.ingress['bind']}",
+        "    template IN A {", f"        match {pattern}",
+        '        answer "{{ .Name }} 60 IN A ' + cfg.ingress["bind"] + '"',
+        "        fallthrough", "    }",
+        "    template IN AAAA {", f"        match {pattern}",
+        "        rcode NOERROR", "        fallthrough", "    }",
+        "    forward . 1.1.1.1 1.0.0.1 {", "        max_concurrent 64", "    }",
+        "    cache 60", "    errors", "}", "",
+    ])
 
 
 def tunnel_config(cfg: Config) -> dict:
@@ -469,6 +498,13 @@ def engine_args(cfg: Config, name: str, ip: str, env_file: Path, config_file: Pa
 
 def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
     n = cfg.network
+    if service == "dns":
+        if not cfg.dns.get("enabled"):
+            raise ConfigError("split DNS is disabled")
+        return COMMON + ["--name", "oo-dns", "--network", "host", "--read-only", "--stop-timeout", "10",
+                         "--user", f"{UID}:{UID}", "--cap-add", "NET_BIND_SERVICE", "--memory", "64m",
+                         "--cpus", "0.25", "--pids-limit", "64", "-v", f"{cfg.etc}/dns/Corefile:/Corefile:ro",
+                         image_ref("coredns"), "-conf", "/Corefile"]
     if service == "store":
         # versitygw posix backend as an unprivileged user with no capabilities.
         # The admin API listens on a unix socket (not on any network) and is

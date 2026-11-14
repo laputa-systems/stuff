@@ -132,6 +132,27 @@ class DeploymentTests(unittest.TestCase):
         with self.assertRaises(oolib.ConfigError):
             oolib.run_args(cfg, "tunnel")
 
+    def test_split_dns_uses_declared_public_names_and_tailnet_listener(self):
+        cfg = oolib.load()
+        corefile = oolib.dns_config(cfg)
+        hosts = {host for app in cfg.enabled_apps() for host in app.public_hostnames}
+        self.assertEqual(set(corefile.split(" {", 1)[0].split()), hosts)
+        self.assertIn(f"bind {cfg.ingress['bind']}", corefile)
+        self.assertIn("template IN AAAA", corefile)
+        self.assertIn("rcode NOERROR", corefile)
+        self.assertIn("forward . 1.1.1.1 1.0.0.1", corefile)
+        args = oolib.run_args(cfg, "dns")
+        self.assertIn("host", args)
+        self.assertIn("NET_BIND_SERVICE", args)
+        self.assertNotIn("--publish", args)
+        self.assertNotIn("--privileged", args)
+        cfg.raw["dns"]["enabled"] = "true"
+        with self.assertRaises(oolib.ConfigError):
+            oolib.validate(cfg.raw)
+        cfg.dns["enabled"] = False
+        with self.assertRaises(oolib.ConfigError):
+            oolib.run_args(cfg, "dns")
+
     def test_app_arguments_use_deployment_version_and_image_together(self):
         cfg = oolib.load()
         cfg.stack["etc_dir"] = self.directory.name

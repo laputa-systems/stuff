@@ -36,7 +36,7 @@ import oolib  # noqa: E402
 from oo_s3 import S3  # noqa: E402
 from oolib import UID, ConfigError  # noqa: E402
 
-SERVICES = ("store", "engine", "identity", "ingress", "tunnel", "app")
+SERVICES = ("store", "engine", "identity", "ingress", "tunnel", "dns", "app")
 
 
 def die(msg: str, code: int = 1):
@@ -175,6 +175,11 @@ def cmd_render(cfg, stdout: bool = False) -> None:
     if stdout:
         print(render_caddyfile(cfg), end="")
         return
+    if cfg.dns.get("enabled"):
+        dns = cfg.etc / "dns"
+        dns.mkdir(parents=True, exist_ok=True)
+        (dns / "Corefile").write_text(oolib.dns_config(cfg))
+        (dns / "Corefile").chmod(0o644)
     # engine config
     ecfg = {
         "storage": {"log_directory": "/var/lib/rivet/log", "auto_provision_partitions": 1, "balancing": {"enabled": False}},
@@ -224,6 +229,9 @@ def cmd_prepare(cfg, service: str, app: str | None) -> None:
             chown_dir(cfg.state / "engine" / d, 0o700)
         if not cfg.engine_env.exists() or not (cfg.etc / "engine" / "config.json").exists():
             die("engine env/config missing: run `oo secrets && oo render`")
+    elif service == "dns":
+        if not cfg.dns.get("enabled") or not (cfg.etc / "dns/Corefile").exists():
+            die("split DNS configuration missing")
     elif service == "tunnel":
         if not cfg.tunnel.get("enabled") or not (cfg.etc / "tunnel.env").exists():
             die("tunnel configuration or root-owned tunnel.env missing")
@@ -462,6 +470,22 @@ def http_ok(url: str, headers=None, timeout=3, ok=lambda s: 200 <= s < 300) -> b
 
 
 def ready(cfg, service: str, app: str | None) -> bool:
+    if service == "dns":
+        if not cfg.dns.get("enabled"):
+            return False
+        hosts = sorted(oolib.dns_routes(cfg))
+        name = b"".join(bytes([len(label)]) + label.encode("ascii") for label in hosts[0].split(".")) + b"\0"
+        query = b"\x12\x34\x01\x00\x00\x01\x00\x00\x00\x00\x00\x00" + name + b"\x00\x01\x00\x01"
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as resolver:
+            resolver.settimeout(2)
+            try:
+                resolver.sendto(query, (cfg.ingress["bind"], 53))
+                packet, peer = resolver.recvfrom(4096)
+                return (peer == (cfg.ingress["bind"], 53) and packet[:2] == query[:2]
+                        and len(packet) >= 12 and packet[3] & 15 == 0 and packet[6:8] != b"\0\0"
+                        and socket.inet_aton(cfg.ingress["bind"]) in packet[12:])
+            except OSError:
+                return False
     if service == "store":
         return http_ok(cfg.store_url + "/health")
     if service == "engine":
@@ -524,6 +548,10 @@ def main(argv: list[str]) -> None:
             print(json.dumps(oolib.tunnel_config(cfg)))
         elif cmd == "tunnel-enabled":
             sys.exit(0 if cfg.tunnel.get("enabled") else 1)
+        elif cmd == "dns-enabled":
+            sys.exit(0 if cfg.dns.get("enabled") else 1)
+        elif cmd == "dns-routes":
+            print(json.dumps(oolib.dns_routes(cfg)))
         elif cmd == "secrets":
             cmd_secrets(cfg)
         elif cmd == "prepare":

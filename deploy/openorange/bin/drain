@@ -30,6 +30,7 @@ start_one() {
 
 case "${1:-}" in
 --start)
+	if "$OO" dns-enabled; then start_one oo-dns; fi
 	start_one oo-store; start_one oo-engine; start_one oo-identity
 	for a in $apps; do start_one "oo-app.$a"; done
 	start_one oo-ingress

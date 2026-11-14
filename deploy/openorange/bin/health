@@ -46,16 +46,16 @@ def get(url, headers=None, timeout=4):
         return 0, b""
 
 
-def listeners():
+def listeners(protocol="tcp"):
     out = set()
-    for f, v6 in (("/proc/net/tcp", False), ("/proc/net/tcp6", True)):
+    for f, v6 in ((f"/proc/net/{protocol}", False), (f"/proc/net/{protocol}6", True)):
         try:
             lines = Path(f).read_text().splitlines()[1:]
         except OSError:
             continue
         for ln in lines:
             p = ln.split()
-            if p[3] != "0A":
+            if protocol == "tcp" and p[3] != "0A":
                 continue
             addr, port = p[1].split(":")
             port = int(port, 16)
@@ -82,6 +82,8 @@ def main():
     svcs = [("store", None), ("engine", None), ("identity", None), ("ingress", None)] + [("app", a.name) for a in cfg.orange_apps() if cfg.app_image_file(a).exists()]
     if cfg.tunnel.get("enabled"):
         svcs.append(("tunnel", None))
+    if cfg.dns.get("enabled"):
+        svcs.append(("dns", None))
     for svc, app in svcs:
         rcname = f"oo-{svc}" if not app else f"oo-app.{app}"
         cname = f"oo-{svc}" if not app else f"oo-app-{app}"
@@ -99,6 +101,9 @@ def main():
     if cfg.tunnel.get("enabled"):
         st, _ = get(f"http://127.0.0.1:{cfg.tunnel['metrics_port']}/ready")
         rec("public tunnel connected", "PASS" if st == 200 else "FAIL", f"http {st}")
+    if cfg.dns.get("enabled"):
+        rc, _, _ = sh(str(Path(__file__).parent / "oo"), "wait", "dns", "2")
+        rec("split DNS answers on tailnet address", "PASS" if rc == 0 else "FAIL", cfg.ingress["bind"])
     # store
     st, _ = get(cfg.store_url + "/health")
     rec("store /health", "PASS" if st == 200 else "FAIL", f"http {st}")
@@ -195,6 +200,10 @@ def main():
     rec("no stack port (engine/store/app) listens on a host interface", "PASS" if not bad else "FAIL", str(bad) if bad else "none")
     on443 = sorted(ip for ip, p in ls if p == 443)
     rec(f"port 443 is bound only on {bind}", "PASS" if on443 == [bind] else "FAIL", str(on443))
+    if cfg.dns.get("enabled"):
+        for protocol, sockets in (("tcp", ls), ("udp", listeners("udp"))):
+            addresses = sorted(ip for ip, port in sockets if port == 53 and ip not in ("127.0.0.1", "::1"))
+            rec(f"DNS {protocol} is bound only on {bind}", "PASS" if addresses == [bind] else "FAIL", str(addresses))
     rc, out, _ = sh("docker", "ps", "--filter", "name=oo-", "--format", "{{.Names}} {{.Ports}}")
     published = [ln for ln in out.splitlines() if "->" in ln]
     rec("no oo-* container publishes a port", "PASS" if not published else "FAIL", "; ".join(published) or "none")

@@ -1,0 +1,30 @@
+#!/sbin/openrc-run
+. /opt/openorange/openrc/oo-common.sh
+
+description="OpenOrange tailnet split DNS"
+supervisor=supervise-daemon
+command=/usr/bin/docker
+respawn_delay=3
+respawn_max=0
+respawn_period=60
+output_log="$OO_LOGDIR/dns.log"
+error_log="$OO_LOGDIR/dns.log"
+retry="TERM/10/KILL/5"
+
+depend() {
+	need docker net
+}
+
+start_pre() {
+	"$OO_BIN" prepare dns || return 1
+	oo_remove_container oo-dns
+	command_args="$("$OO_BIN" run-args dns)" || return 1
+}
+
+start_post() {
+	oo_wait dns 30 || { eerror "oo-dns did not become ready"; oo_fail_stop oo-dns; return 1; }
+}
+
+stop_post() {
+	oo_remove_container oo-dns
+}

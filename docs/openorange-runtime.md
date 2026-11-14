@@ -91,6 +91,25 @@ Generation retirement remains permanent, so historical URLs are never reused.
 
 ## Topology
 
+Discover's public names use split DNS. A digest-pinned CoreDNS 1.15.0 container
+binds UDP and TCP port 53 only on Lisa's tailnet address. It derives the four
+names from `public_hostnames`, answers their A records with the ingress address,
+and returns empty successful AAAA answers so browsers use the private ingress.
+Queries below those names, including ACME TXT checks, fall through to public
+resolvers. Other domains are refused. Tailscale's restricted nameserver routes
+must name this resolver for each public hostname before public tunnel cutover.
+The resolver is stateless and stays up during application data fencing.
+`bin/oo dns-routes` prints the exact JSON map for a Tailscale
+`PATCH /api/v2/tailnet/-/dns/split-dns`; a partial update preserves unrelated
+DNS routes and global nameservers. Preserve the old values before applying it.
+
+CoreDNS is Apache-2.0 and ships as one Go binary in the upstream image; no
+language package closure is installed on Lisa. Version 1.15.0 is the current
+upstream release and includes the fixes listed in its
+[release record](https://github.com/coredns/coredns/releases/tag/v1.15.0).
+Only UDP/TCP DNS, templates and forwarding are enabled; there are no custom
+transport listeners, query logs or dynamic update endpoints.
+
 ```
 tailnet client --443--> [host net] oo-ingress (Caddy, 100.68.104.43:443)
                           |  unix socket /run/openorange/identity/identity.sock
