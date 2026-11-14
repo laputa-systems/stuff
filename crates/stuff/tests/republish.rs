@@ -741,6 +741,11 @@ fn make_dry_runs_resolve_stuff_republish() {
             "make -n {target} did not resolve {needle}: {text}"
         );
     }
+}
+
+#[test]
+fn make_deploy_checks_and_deploys_without_republishing_registries() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let output = Command::new("make")
         .arg("-n")
         .arg("deploy")
@@ -749,11 +754,7 @@ fn make_dry_runs_resolve_stuff_republish() {
         .expect("run make -n deploy");
     assert!(output.status.success(), "make -n deploy failed");
     let text = String::from_utf8_lossy(&output.stdout);
-    for registry in ["cargo", "npm", "pypi"] {
-        let needle = format!("stuff republish {registry}");
-        assert!(
-            text.lines().any(|line| line.contains(&needle)),
-            "make -n deploy did not resolve {needle}: {text}"
-        );
-    }
+    assert!(text.contains("test:runtime"), "deployment omitted runtime checks: {text}");
+    assert!(text.contains("crates/stuff-worker/orange/deploy.sh"), "deployment omitted OpenOrange: {text}");
+    assert!(!text.contains("stuff republish"), "deployment rebuilt registry generations: {text}");
 }
