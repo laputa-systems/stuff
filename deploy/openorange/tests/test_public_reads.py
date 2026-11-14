@@ -53,6 +53,9 @@ class PublicReadIngressTests(unittest.TestCase):
                 self.assertEqual(response.headers["Allow"], "GET, HEAD")
         with self.request("GET", "/_publication/cargo/current", host="stuff-publish.17166969.xyz") as response:
             self.assertEqual(response.status, 404)
+        for host in ("hq-admin.17166969.xyz", "hq-preview-admin.17166969.xyz"):
+            with self.request("GET", "/admin", host=host) as response:
+                self.assertEqual(response.status, 404)
 
 
 if __name__ == "__main__":

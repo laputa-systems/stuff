@@ -2,9 +2,10 @@
 
 Runbook for the stack that hosts Stats, Stuff, Discover and fronts Tansu on
 `lisa` (Alpine 3.25, musl, x86_64, OpenRC, Docker, tailnet address
-`100.68.104.43`). Campaign context: `stats/docs/CAMPAIGN-OPENORANGE.md`, slice S7.
-Rehearsed on `lisa` on 2026-11-13; production DNS and the existing services
-were not touched.
+`100.68.104.43`). Stats, Stuff and Tansu use this ingress in production.
+Stuff pulls are anonymous and public; publishing uses
+`https://stuff-publish.17166969.xyz` over Tailscale. Discover's restored
+production and preview data await final source fencing and cutover.
 
 ## Components and pins
 
@@ -91,14 +92,15 @@ Generation retirement remains permanent, so historical URLs are never reused.
 
 ## Topology
 
-Discover's public names use split DNS. A digest-pinned CoreDNS 1.15.0 container
+An optional split-DNS resolver is available for public names. A digest-pinned CoreDNS 1.15.0 container
 binds UDP and TCP port 53 only on Lisa's tailnet address. It derives the
 names from `public_hostnames`, answers their A records with the ingress address,
 and returns empty successful AAAA answers so browsers use the private ingress.
 Queries below those names, including ACME TXT checks, fall through to public
 resolvers. Other domains are refused. Tailscale's restricted nameserver routes
-must name this resolver for Discover's public hostnames before their public
-tunnel cutover. Stuff uses the separate private publishing hostname
+can name this resolver to reach the private listener by public hostname.
+Discover instead uses `hq-admin.` and `hq-preview-admin.` for private
+administration. Stuff uses the separate private publishing hostname
 `stuff-publish.17166969.xyz`, so its publishers do not require split DNS.
 The resolver is stateless and stays up during application data fencing.
 `bin/oo dns-routes` prints the exact JSON map for a Tailscale
@@ -179,7 +181,7 @@ There is no email allowlist. A local process on `lisa` is the node's own user.
 Apps whose image is not deployed yet answer `503 app not deployed` after the
 identity check.
 
-### Public listener (Discover; tunnel pending)
+### Public listener
 
 Declared in `apps.toml`: `[ingress.public] bind = "127.0.0.1" port = 18480`
 (validation rejects any non-loopback bind) and per app `public_hostnames`
@@ -195,32 +197,28 @@ tailnet listener serve everything including `/admin`, with identity. Apps must
 treat "no valid gateway secret" as anonymous public traffic and must use
 `Cf-Connecting-Ip` for the client address on that path.
 
-**Pending owner actions** (nothing was created): (1) an outbound-only
-cloudflared tunnel on `lisa`, run like the existing `tansu-tunnel`
-(`--network host`, token in its env), with public hostnames mapped to service
-`http://127.0.0.1:18480` and the four Discover DNS records pointed at the
-tunnel; (2) because those hostnames then resolve to Cloudflare for everyone,
-tailnet clients need split DNS (or a MagicDNS/unbound override) sending them to
-`100.68.104.43` to reach `/admin`, otherwise the tailnet listener is
-unreachable by name; (3) for ACME on the tailnet listener the Discover
-hostnames need DNS-01 only (no public A record is needed).
+The outbound-only `oo-tunnel` connector maps the eight public Stuff names
+and four prepared Discover names to `http://127.0.0.1:18480`. Stuff DNS
+points at this tunnel. Discover DNS still points at its source Workers;
+private administration uses separate `hq-admin.` and `hq-preview-admin.`
+names that resolve directly to Lisa. ACME uses DNS-01 for both public and
+private names.
 
 ### Tansu
 
 `tansu.17166969.xyz` is an `[apps.tansu]` `kind = "native"` entry: tailnet
-listener, identity, upstream `127.0.0.1:3001`, `Host` untouched. `tansu`,
-`tansu-http-redirect` and `tansu-tunnel` were not stopped or changed. At
-cutover (S10), after DNS for `tansu.` resolves to the tailnet address for
-every client that needs it (passkeys are bound to the RP ID, so the hostname
-must not change), retire the tunnel: `docker stop tansu-tunnel && docker
-update --restart=no tansu-tunnel`, then delete the tunnel and its public
-hostname in Cloudflare. Not done now.
+listener, identity, upstream `127.0.0.1:3001`, `Host` untouched. The native
+service remains on Lisa. DNS now resolves to the tailnet address; the old
+Cloudflare tunnel and container were retired after preserving their
+configuration. The passkey RP hostname is unchanged. The login page and
+login-options request pass; a user completing a hardware passkey login
+remains unverified.
 
 ### Hostnames (tailnet listener; all get DNS-01 certificates)
 
-`stats.` (Stats); `stuff.`, `crates.`, `crates-blobs.`, `npm.`, `pypi.`, `oci.`,
-`oci-blobs.`, `mirror.` (Stuff); `hq.`, `research.` (Discover);
-`hq-preview.`, `research-preview.` (Discover preview); `tansu.` (Tansu), all
+`stats.` (Stats); `stuff-publish.`, `stuff.`, `crates.`, `crates-blobs.`, `npm.`, `pypi.`, `oci.`,
+`oci-blobs.`, `mirror.` (Stuff); `hq.`, `research.`, `hq-admin.` (Discover);
+`hq-preview.`, `research-preview.`, `hq-preview-admin.` (Discover preview); `tansu.` (Tansu), all
 under `17166969.xyz`.
 
 ### TLS
@@ -230,8 +228,8 @@ for the exact hostnames; clients use `-k` or trust
 `/var/lib/openorange/caddy/data/caddy/pki/authorities/local/root.crt`.
 `tls = "acme"`: DNS-01 through `caddy-dns/cloudflare`, token from
 `/etc/openorange/cloudflare-dns.env` (`CF_API_TOKEN=...`, 0600 root, passed with
-`--env-file`, never in argv). Real ACME is **pending the token**: the
-`acme` Caddyfile validates against the built binary, and `oo run-args ingress`
+`--env-file`, never in argv). Production uses ACME with issued certificates.
+The `acme` Caddyfile validates against the built binary, and `oo run-args ingress`
 refuses to start in `acme` mode while the file is missing. Switching: write the
 token file, set `tls = "acme"`, `bin/oo render`, `rc-service oo-ingress
 restart`. `bin/oo render --stdout --tls acme` previews it.
@@ -443,17 +441,43 @@ instances exist but are not in the default runlevel until an image is deployed.
 * The IAM, `.vgwlocks` and `versions` directories belong to the store; do not
   edit them by hand.
 
-## Pending (owner)
+## Remaining verification
 
-1. Cloudflare API token limited to DNS edit on `17166969.xyz` ->
-   `/etc/openorange/cloudflare-dns.env`, then switch `tls = "acme"`; DNS
-   records (not created here).
-2. Discover public path: the cloudflared tunnel and its DNS (above), plus
-   split DNS for tailnet access to the same hostnames.
-3. Tailnet policy for tagged machines that must reach `100.68.104.43:443`; a
-   tagged-node request is untested.
-4. Off-host/off-disk backup destination.
-5. Tansu tunnel retirement at cutover.
+Discover needs a fresh fenced source snapshot before selecting the restored
+spaces and moving its public DNS.
+A real tagged-node request and Tansu hardware passkey login remain untested.
+The current tailnet policy permits HTTPS; Mac, Threadripper and Lisa have
+published through the same coordinator without policy changes.
+
+Off-host backups live at `/Users/josh/backups/openorange` on the Mac. The
+post-Stuff snapshot `20261114T184204Z` passed an independent Engine/S3
+restore with full object checksums. Its 9,256,069,120-byte archive was copied
+to `lisa/post-stuff-cutover/state.tar` and verified against SHA-256
+`39caece0385a875ca8b19e7cbc94826e18186139d86426584789652893b8b48d`.
+The current Stuff build context and ingress/secret configuration overlay
+are preserved under `stuff/runtime-9da0f029c115` in that backup directory.
+
+## Stuff production cutover (2026-11-14)
+
+All eight public pull names route through the connector to Lisa. Anonymous
+Cargo, npm, PyPI, OCI and mirror reads pass, including a checksum-verified
+Cargo download, HEAD, conditional 304, byte-range 206 and invalid-range 416.
+Public writes return 405 and publishing paths return 404. Public upstream
+requests explicitly carry HTTPS so generated links retain the correct scheme.
+Mac, Threadripper and Lisa use the protected credentials file with the private
+publishing hostname; real publications and coordinator conflict checks pass.
+
+The Cloudflare Worker `stuff` and its six R2 buckets (`stuff-mycrates`,
+`stuff-mynpm`, `stuff-mypypi`, `stuff-oci`, `stuff-mirror`, `stuff-oci-blobs`)
+were deleted after source identity checks, full-data recovery and off-host
+archive verification. Protected source inventories, copy ledgers and final
+retirement receipts are under `stuff/source-cutover` in the Mac backup.
+Cloudflare DNS, the public connector and immutable-blob cache rules still
+serve public access; application compute, coordination and storage run on Lisa.
+
+The temporary private-DNS interval interrupted GitHub consumers. Public DNS
+now returns edge addresses, and the previously failing Ish lint workflow
+downloaded its Stuff dependencies and passed on a fresh GitHub runner.
 
 ## Public connector
 

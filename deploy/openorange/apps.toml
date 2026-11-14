@@ -120,13 +120,14 @@ hostnames = ["tansu.17166969.xyz"]
 [apps.discover]
 kind = "orange"
 display = "Discover"
+vars = { HQ_ADMIN_HOST = "hq-admin.17166969.xyz" }
 namespace = "discover"
 ip = "172.29.80.22"
 port = 8080
 health_path = "/healthz"
 internet = true
 secrets = ["OPERATOR_BOOTSTRAP_SHA256", "APPLICATION_EVENTS_TOKEN", "APPLICATION_EVENTS_ENDPOINT", "APPLICATION_EVENTS_SERVICE"]
-hostnames = ["hq.17166969.xyz", "research.17166969.xyz"]
+hostnames = ["hq.17166969.xyz", "research.17166969.xyz", "hq-admin.17166969.xyz"]
 public_hostnames = ["hq.17166969.xyz", "research.17166969.xyz"]
 public_deny_paths = ["/admin"]
 buckets = ["discover-artifacts"]
@@ -136,13 +137,14 @@ cpus = 2.0
 [apps.discover-preview]
 kind = "orange"
 display = "Discover (preview)"
+vars = { HQ_ADMIN_HOST = "hq-preview-admin.17166969.xyz" }
 namespace = "discover-preview"
 ip = "172.29.80.23"
 port = 8080
 health_path = "/healthz"
 internet = true
 secrets = ["OPERATOR_BOOTSTRAP_SHA256", "APPLICATION_EVENTS_TOKEN", "APPLICATION_EVENTS_ENDPOINT", "APPLICATION_EVENTS_SERVICE"]
-hostnames = ["hq-preview.17166969.xyz", "research-preview.17166969.xyz"]
+hostnames = ["hq-preview.17166969.xyz", "research-preview.17166969.xyz", "hq-preview-admin.17166969.xyz"]
 public_hostnames = ["hq-preview.17166969.xyz", "research-preview.17166969.xyz"]
 public_deny_paths = ["/admin"]
 buckets = ["discover-preview-artifacts"]
