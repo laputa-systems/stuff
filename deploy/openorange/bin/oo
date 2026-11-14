@@ -322,6 +322,15 @@ def provision_store(cfg, apps) -> None:
                 st, _, _ = adm.request("PATCH", "/change-bucket-owner/", query={"bucket": b, "owner": ak})
                 if st != 200:
                     die(f"store change-bucket-owner {b} -> {st}")
+            if app.versioning:
+                client = store_s3(cfg)
+                st, _, _ = client.request("PUT", f"/{b}", query={"versioning": ""}, body=b'<VersioningConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Status>Enabled</Status></VersioningConfiguration>')
+                if st != 200:
+                    die(f"store enable versioning {b} -> {st}")
+                st, _, body = client.request("GET", f"/{b}", query={"versioning": ""})
+                if st != 200 or not any(e.tag.endswith("Status") and e.text == "Enabled" for e in ET.fromstring(body).iter()):
+                    die(f"store versioning verification failed for {b}")
+
 
 
 def engine_call(cfg, method: str, path: str, body: dict | None = None):

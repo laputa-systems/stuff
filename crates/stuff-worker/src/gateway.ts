@@ -1,3 +1,5 @@
+import { bytes, hex, sha, signingMaterial } from "./sigv4.js";
+import { storeRequest } from "./s3.js";
 
 interface GatewayEnv {
   STUFF_S3_BUCKET_BINDINGS?: string;
@@ -10,25 +12,6 @@ interface GatewayEnv {
 }
 type Coordinator = (registry: string, op: string, request?: Request) => Promise<Response>;
 const registries: Record<string, string> = { MYCRATES: "cargo", MYNPM: "npm", PYPI: "pypi", OCI: "oci", OCI_BLOBS: "oci", MIRROR: "mirror" };
-const bytes = (value: string): Uint8Array => new TextEncoder().encode(value);
-const hex = (value: ArrayBuffer): string => Array.from(new Uint8Array(value), b => b.toString(16).padStart(2, "0")).join("");
-const sha = async (value: string): Promise<string> => hex(await crypto.subtle.digest("SHA-256", bytes(value)));
-const mac = async (key: string | ArrayBuffer, value: string): Promise<ArrayBuffer> => {
-  const imported = await crypto.subtle.importKey("raw", typeof key === "string" ? bytes(key) : key, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  return crypto.subtle.sign("HMAC", imported, bytes(value));
-};
-const quote = (s: string): string => encodeURIComponent(s).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
-function query(url: URL): string {
-  return [...url.searchParams.entries()].map(([k, v]) => [quote(k), quote(v)] as const)
-    .sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0)
-    .map(([k, v]) => `${k}=${v}`).join("&");
-}
-async function signingMaterial(method: string, url: URL, headers: Headers, names: string[], payload: string, date: string, region: string, secret: string): Promise<{ key: CryptoKey; message: Uint8Array }> {
-  const canonical = `${method}\n${url.pathname}\n${query(url)}\n${names.map(n => `${n}:${headers.get(n)!.trim().replace(/\s+/g, " ")}\n`).join("")}\n${names.join(";")}\n${payload}`;
-  const scope = `${date.slice(0, 8)}/${region}/s3/aws4_request`;
-  const key = await mac(await mac(await mac(await mac(`AWS4${secret}`, date.slice(0, 8)), region), "s3"), "aws4_request");
-  return { key: await crypto.subtle.importKey("raw", key, { name: "HMAC", hash: "SHA-256" }, false, ["sign", "verify"]), message: bytes(`AWS4-HMAC-SHA256\n${date}\n${scope}\n${await sha(canonical)}`) };
-}
 async function authenticate(req: Request, env: GatewayEnv): Promise<boolean> {
   const auth = /^AWS4-HMAC-SHA256 Credential=([^/]+)\/(\d{8})\/auto\/s3\/aws4_request, SignedHeaders=([a-z0-9;-]+), Signature=([0-9a-f]{64})$/.exec(req.headers.get("authorization") ?? "");
   const date = req.headers.get("x-amz-date") ?? "";
@@ -77,19 +60,9 @@ export async function gateway(req: Request, env: GatewayEnv, coordinator: Coordi
     const lease = await coordinator(registry, "gateway-lease", new Request("https://coordinator/", { method: "POST", body: JSON.stringify({ token, generation }) }));
     if (!lease.ok) return new Response("forbidden", { status: 403 });
   }
-  if (!env.S3_ENDPOINT || !env.S3_REGION || !env.S3_ACCESS_KEY_ID || !env.S3_SECRET_ACCESS_KEY) return new Response("unavailable", { status: 503 });
-  const endpoint = new URL(env.S3_ENDPOINT);
-  endpoint.pathname = `${endpoint.pathname.replace(/\/$/, "")}/${match[1]}${match[2] === undefined ? "" : `/${match[2]}`}`;
-  endpoint.search = url.search;
   const headers = new Headers();
-  for (const name of ["content-type", "content-length", "range", "if-match", "if-none-match", "x-amz-content-sha256", "x-amz-date"]) { const value = req.headers.get(name); if (value !== null) headers.set(name, value); }
+  for (const name of ["content-type", "content-length", "range", "if-match", "if-none-match"]) { const value = req.headers.get(name); if (value !== null) headers.set(name, value); }
   if ((req.method === "PUT" && !url.search) || (req.method === "POST" && url.searchParams.has("uploadId"))) headers.set("if-none-match", "*");
-  headers.set("host", endpoint.host);
-  const names = [...headers.keys()].sort();
-  const date = headers.get("x-amz-date")!;
-  const material = await signingMaterial(req.method, endpoint, headers, names, headers.get("x-amz-content-sha256")!, date, env.S3_REGION, env.S3_SECRET_ACCESS_KEY);
-  const sig = hex(await crypto.subtle.sign("HMAC", material.key, material.message));
-  headers.set("authorization", `AWS4-HMAC-SHA256 Credential=${env.S3_ACCESS_KEY_ID}/${date.slice(0, 8)}/${env.S3_REGION}/s3/aws4_request, SignedHeaders=${names.join(";")}, Signature=${sig}`);
   let invalidPayload = false;
   let body: ReadableStream<Uint8Array> | null = null;
   let writer: WritableStreamDefaultWriter<ArrayBuffer | ArrayBufferView> | null = null;
@@ -117,8 +90,7 @@ export async function gateway(req: Request, env: GatewayEnv, coordinator: Coordi
       cancel(reason) { void digestWriter.abort(reason).catch(() => undefined); },
     }));
   }
-  const options: RequestInit & { duplex?: "half" } = { method: req.method, headers, redirect: "manual", signal: req.signal, ...(body === null ? {} : { body, duplex: "half" }) };
-  try { return await fetch(endpoint.href, options); }
+  try { return await storeRequest(env, req.method, bucket, key, { query: url.searchParams, headers, body, payload: req.headers.get("x-amz-content-sha256")!, signal: req.signal }); }
   catch { return new Response(invalidPayload ? "invalid payload" : "store unavailable", { status: invalidPayload ? 400 : 503 }); }
   finally {
     if (writer !== null) { await writer.abort().catch(() => undefined); writer.releaseLock(); }

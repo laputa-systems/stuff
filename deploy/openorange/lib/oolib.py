@@ -136,6 +136,7 @@ class App:
     memory: str = "1g"
     cpus: float = 1.0
     vars: dict[str, str] = field(default_factory=dict)
+    versioning: bool = False
     worker_s3: bool = False
     internet: bool = False
     health_path: str = "/"
@@ -308,7 +309,7 @@ def validate(raw: dict) -> Config:
     used_hosts: dict[str, str] = {}
     used_buckets: set[str] = set()
     common = {"kind", "display", "hostnames", "enabled", "health_path", "public_hostnames", "public_deny_paths"}
-    orange_keys = common | {"namespace", "ip", "port", "buckets", "image", "memory", "cpus", "secrets", "internet", "vars", "worker_s3"}
+    orange_keys = common | {"namespace", "ip", "port", "buckets", "image", "memory", "cpus", "secrets", "internet", "vars", "worker_s3", "versioning"}
     native_keys = common | {"upstream"}
     for name, a in raw.get("apps", {}).items():
         where = f"apps.{name}"
@@ -362,6 +363,9 @@ def validate(raw: dict) -> Config:
                 if dup:
                     raise ConfigError(f"{where}: buckets {sorted(dup)} already belong to another app")
                 used_buckets |= set(buckets)
+            versioning = a.get("versioning", False)
+            if type(versioning) is not bool:
+                raise ConfigError(f"{where}.versioning must be boolean")
             worker_s3 = a.get("worker_s3", False)
             if type(worker_s3) is not bool:
                 raise ConfigError(f"{where}.worker_s3 must be boolean")
@@ -377,7 +381,7 @@ def validate(raw: dict) -> Config:
             for sname in (*secrets_, *variables):
                 if not isinstance(sname, str) or not re.match(r"^[A-Z][A-Z0-9_]{1,63}$", sname) or sname == "GATEWAY_SECRET" or sname.startswith(("RIVET", "ORANGE_", "OO_", "S3_")):
                     raise ConfigError(f"{where}: invalid secret name {sname!r}")
-            kw.update(worker_s3=worker_s3, vars=dict(variables), internet=internet, secrets=secrets_, namespace=ns, ip=ip, port=port, buckets=buckets, image=a.get("image", ""),
+            kw.update(versioning=versioning, worker_s3=worker_s3, vars=dict(variables), internet=internet, secrets=secrets_, namespace=ns, ip=ip, port=port, buckets=buckets, image=a.get("image", ""),
                       memory=a.get("memory", "1g"), cpus=float(a.get("cpus", 1.0)))
         else:
             up = _req(a, "upstream", str, where)

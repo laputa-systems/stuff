@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
@@ -33,6 +34,37 @@ class DeploymentTests(unittest.TestCase):
             results = list(pool.map(lambda n: oolib.set_app_deployment(self.path, f"stats:{n}"), range(16)))
         self.assertEqual(sorted(x.version for x in results), list(range(1, 17)))
         self.assertEqual(oolib.read_app_deployment(self.path).version, 16)
+
+    def test_registry_provisioning_enables_and_verifies_versioning(self):
+        cfg = oolib.load()
+        cfg.stack["etc_dir"] = self.directory.name
+        commands = runpy.run_path(str(Path(__file__).resolve().parents[1] / "bin" / "oo"))
+        commands["cmd_secrets"](cfg)
+        app = cfg.apps["stuff"]
+        self.assertTrue(app.versioning)
+        self.assertFalse(cfg.apps["discover"].versioning)
+        calls = []
+
+        class Store:
+            def request(self, method, path, **kwargs):
+                calls.append((method, path, kwargs))
+                if path == "/list-users":
+                    return 200, {}, b"<Accounts/>"
+                if method == "GET" and path == "/":
+                    return 200, {}, b"<ListAllMyBucketsResult/>"
+                if method == "GET":
+                    return 200, {}, b"<VersioningConfiguration><Status>Enabled</Status></VersioningConfiguration>"
+                return 200, {}, b""
+
+        provision = commands["provision_store"]
+        with patch.dict(provision.__globals__, {"store_admin": lambda _: Store(), "store_s3": lambda _: Store()}):
+            provision(cfg, [app])
+        enabled = [(path, kwargs) for method, path, kwargs in calls if method == "PUT"]
+        self.assertEqual([path for path, _ in enabled], [f"/{bucket}" for bucket in app.buckets])
+        self.assertTrue(all(kwargs["query"] == {"versioning": ""} and b"<Status>Enabled</Status>" in kwargs["body"] for _, kwargs in enabled))
+        cfg.raw["apps"]["stuff"]["versioning"] = "true"
+        with self.assertRaises(oolib.ConfigError):
+            oolib.validate(cfg.raw)
 
     def test_malformed_and_unknown_records_never_select_an_image(self):
         for value in ["{", '{"schema":2,"image":"stats:a","version":1}',

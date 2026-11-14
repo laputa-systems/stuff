@@ -43,6 +43,8 @@ const manifest = {
     "entry.js": { type: "esm" },
     "src/coordinator.js": { type: "esm" },
     "src/gateway.js": { type: "esm" },
+    "src/sigv4.js": { type: "esm" },
+    "src/s3.js": { type: "esm" },
     "src/telemetry.js": { type: "esm" },
     "vendor/stats-producer/index.js": { type: "esm" },
     "vendor/stats-producer/protocol.js": { type: "esm" },

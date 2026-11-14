@@ -80,6 +80,15 @@ are declared in `secrets` and their values live only in the root-owned
 to its Worker. Stuff uses this for its streaming publication gateway. Other
 apps receive only their R2 adapters, with no raw store credentials in Worker bindings.
 
+Stuff sets `versioning = true` for its six buckets. Provisioning enables and
+verifies S3 versioning; it never suspends versioning on an existing bucket.
+The publication coordinator holds the exclusive GC lease, checks retained
+manifests and OCI blob inventories, and persists the exact object version IDs
+before deleting them. A failed or expired deletion can be retried without
+deleting a later upload of the same content. Activation rejects a shared object
+whose current version was retired; a newly uploaded version can be published.
+Generation retirement remains permanent, so historical URLs are never reused.
+
 ## Topology
 
 ```

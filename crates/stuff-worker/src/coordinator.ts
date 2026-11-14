@@ -1,3 +1,5 @@
+import { objectVersions, storeBucket, storeRequest, type StoreEnv } from "./s3.js";
+
 interface ObjectHead { size: number; etag: string; text(): Promise<string> }
 interface Bucket {
   get(key: string): Promise<ObjectHead | null>;
@@ -8,11 +10,11 @@ interface Bucket {
 }
 interface SQL { exec<T = Record<string, unknown>>(query: string, ...bindings: (string | number | null)[]): Iterable<T> }
 interface State { storage: { sql: SQL; transactionSync<T>(fn: () => T): T; sync(): Promise<void> }; blockConcurrencyWhile<T>(fn: () => Promise<T>): Promise<T> }
-interface Env { MYCRATES: Bucket; MYNPM: Bucket; PYPI: Bucket; OCI: Bucket; OCI_BLOBS: Bucket; MIRROR: Bucket }
+interface Env extends StoreEnv { MYCRATES: Bucket; MYNPM: Bucket; PYPI: Bucket; OCI: Bucket; OCI_BLOBS: Bucket; MIRROR: Bucket }
 type Current = { revision: number; generation: string | null; manifest: string | null; pending: number };
 type Lease = { kind: string; token: string; expires: number };
 type Receipt = { payload: string; revision: number; generation: string; manifest: string };
-const bindings: Record<string, keyof Env> = { cargo: "MYCRATES", npm: "MYNPM", pypi: "PYPI", oci: "OCI", mirror: "MIRROR" };
+const bindings: Record<string, "MYCRATES" | "MYNPM" | "PYPI" | "OCI" | "MIRROR"> = { cargo: "MYCRATES", npm: "MYNPM", pypi: "PYPI", oci: "OCI", mirror: "MIRROR" };
 const validGeneration = (value: unknown): value is string => typeof value === "string" && /^[a-zA-Z0-9_-]{1,128}$/.test(value);
 const validToken = (value: unknown): value is string => typeof value === "string" && /^[a-zA-Z0-9_-]{1,128}$/.test(value);
 const response = (status: number, value: unknown): Response => Response.json(value, { status, headers: { "cache-control": "no-store" } });
@@ -46,6 +48,7 @@ export class PublicationCoordinator {
     sql.exec("CREATE TABLE IF NOT EXISTS lease (id INTEGER PRIMARY KEY CHECK(id=1), kind TEXT NOT NULL, token TEXT NOT NULL, expires INTEGER NOT NULL)");
     sql.exec("CREATE TABLE IF NOT EXISTS receipts (key TEXT PRIMARY KEY, payload TEXT NOT NULL, revision INTEGER NOT NULL, generation TEXT NOT NULL, manifest TEXT NOT NULL)");
     sql.exec("CREATE TABLE IF NOT EXISTS retired_generations (generation TEXT PRIMARY KEY)");
+    sql.exec("CREATE TABLE IF NOT EXISTS retired_versions (key TEXT NOT NULL, version_id TEXT NOT NULL, PRIMARY KEY(key, version_id))");
   }
   private one<T>(query: string, ...args: (string | number | null)[]): T | undefined { return Array.from(this.state.storage.sql.exec<T>(query, ...args))[0]; }
   private async manifest(store: Bucket, generation: string): Promise<{ identity: string; objects: { key: string; size: number; etag: string }[] }> {
@@ -84,6 +87,55 @@ export class PublicationCoordinator {
   private lease(kind: string, token: unknown): boolean {
     const lease = this.one<Lease>("SELECT kind, token, expires FROM lease WHERE id=1");
     return validToken(token) && lease?.kind === kind && lease.token === token && lease.expires > Date.now();
+  }
+  private async versionAvailable(binding: string, key: string): Promise<boolean> {
+    if (!this.one("SELECT version_id FROM retired_versions WHERE key=? LIMIT 1", key)) return true;
+    const head = await storeRequest(this.env, "HEAD", storeBucket(this.env, binding), key);
+    if (head.status === 404) return false;
+    if (!head.ok) throw new Error("store version check failed");
+    const version = head.headers.get("x-amz-version-id") ?? "null";
+    return !this.one("SELECT version_id FROM retired_versions WHERE key=? AND version_id=?", key, version);
+  }
+  private async deleteVersions(binding: string, key: string, token: unknown): Promise<boolean> {
+    const bucket = storeBucket(this.env, binding);
+    const versions = await objectVersions(this.env, bucket, key);
+    if (!this.lease("gc", token)) return false;
+    this.state.storage.transactionSync(() => {
+      for (const version of versions) this.state.storage.sql.exec("INSERT INTO retired_versions VALUES (?, ?) ON CONFLICT(key, version_id) DO NOTHING", key, version);
+    });
+    await this.state.storage.sync();
+    for (const version of versions) {
+      if (!this.lease("gc", token)) return false;
+      const deleted = await storeRequest(this.env, "DELETE", bucket, key, { query: new URLSearchParams({ versionId: version }) });
+      await deleted.body?.cancel();
+      if (!deleted.ok && deleted.status !== 404) throw new Error("store version deletion failed");
+    }
+    return true;
+  }
+  private async references(store: Bucket, registry: string, key: string): Promise<boolean> {
+    let cursor: string | undefined;
+    const pages = new Set<string>();
+    do {
+      const listed = await store.list({ prefix: "manifests/", ...(cursor ? { cursor } : {}) });
+      for (const object of listed.objects) {
+        const match = /^manifests\/([a-zA-Z0-9_-]{1,128})\.json$/.exec(object.key);
+        if (!match) throw new Error("invalid manifest key");
+        const manifest = await this.manifest(store, match[1]!);
+        if (registry !== "oci") {
+          if (manifest.objects.some(item => item.key === key)) return true;
+        } else {
+          const inventory = await store.get(`generations/${match[1]}/blobs.json`);
+          if (!inventory) throw new Error("OCI blob inventory missing");
+          const value = JSON.parse(await inventory.text()) as { schemaVersion?: unknown; blobs?: unknown };
+          if (value.schemaVersion !== 1 || !Array.isArray(value.blobs) || value.blobs.some(blob => typeof blob !== "string" || !/^sha256:[0-9a-f]{64}$/.test(blob))) throw new Error("invalid OCI blob inventory");
+          if (value.blobs.includes(`sha256:${key.slice(7)}`)) return true;
+        }
+      }
+      cursor = listed.truncated ? listed.cursor : undefined;
+      if (listed.truncated && (!cursor || pages.has(cursor))) throw new Error("invalid manifest cursor");
+      if (cursor) pages.add(cursor);
+    } while (cursor);
+    return false;
   }
   async fetch(req: Request): Promise<Response> {
     return this.state.blockConcurrencyWhile(async () => {
@@ -140,7 +192,7 @@ export class PublicationCoordinator {
         return response(409, { error: "generation permanently retired by garbage collection" });
       if (!await everyObject(manifest.objects, async item => {
         const found = await store.head(item.key);
-        return found !== null && found.size === item.size && found.etag.replaceAll('"', "") === item.etag.replaceAll('"', "");
+        return found !== null && found.size === item.size && found.etag.replaceAll('"', "") === item.etag.replaceAll('"', "") && await this.versionAvailable(binding, item.key);
       })) return response(409, { error: "incomplete generation" });
       if (registry === "oci") {
         const object = await store.get(`generations/${body.generation}/blobs.json`);
@@ -148,7 +200,7 @@ export class PublicationCoordinator {
         const inventory = JSON.parse(await object.text()) as { schemaVersion?: unknown; blobs?: unknown };
         if (inventory.schemaVersion !== 1 || !Array.isArray(inventory.blobs)) return response(409, { error: "invalid OCI blob inventory" });
         if (!await everyObject(inventory.blobs as unknown[], async blob =>
-          typeof blob === "string" && /^sha256:[0-9a-f]{64}$/.test(blob) && await this.env.OCI_BLOBS.head(`sha256/${blob.slice(7)}`) !== null))
+          typeof blob === "string" && /^sha256:[0-9a-f]{64}$/.test(blob) && await this.env.OCI_BLOBS.head(`sha256/${blob.slice(7)}`) !== null && await this.versionAvailable("OCI_BLOBS", `sha256/${blob.slice(7)}`)))
           return response(409, { error: "OCI blob missing or invalid" });
       }
       if (!this.lease("upload", body.token)) return response(409, { error: "stale lease" });
@@ -161,6 +213,15 @@ export class PublicationCoordinator {
       await this.state.storage.sync();
       await this.current(store);
       return response(200, { revision, generation: body.generation, manifest: body.manifest });
+    }
+    if (op === "gc-object") {
+      if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
+      const prefix = { cargo: "blobs/", npm: "tarballs/", pypi: "wheels/", oci: "sha256/" }[registry!];
+      const key = body.key;
+      if (!prefix || typeof key !== "string" || !key.startsWith(prefix) || key.length <= prefix.length || key.length > 1024 || key.split("/").some(part => !part || part === "." || part === "..") || Array.from(key).some(char => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127) || (registry === "oci" && !/^sha256\/[0-9a-f]{64}$/.test(key))) return response(400, { error: "invalid shared object" });
+      if (await this.references(store, registry!, key)) return response(409, { error: "referenced object" });
+      if (!await this.deleteVersions(registry === "oci" ? "OCI_BLOBS" : binding, key, body.token)) return response(409, { error: "stale lease" });
+      return response(200, { deleted: 1 });
     }
     if (op === "gc-delete") {
       if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
@@ -195,7 +256,9 @@ export class PublicationCoordinator {
       await this.state.storage.sync();
       for (const key of keys) {
         if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
-        await store.delete(key);
+        if (this.env.S3_ENDPOINT) {
+          if (!await this.deleteVersions(binding, key, body.token)) return response(409, { error: "stale lease" });
+        } else await store.delete(key);
       }
       return response(200, { deleted: keys.length });
     }

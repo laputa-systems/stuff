@@ -781,7 +781,7 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
     if (url.hostname === env.STUFF_UNIFIED_HOST && url.pathname.startsWith("/_publication/")) {
       if (env.STUFF_COORDINATOR_ENABLED !== "true") return notFound();
       if (!await authorized(req, env.STUFF_COORDINATOR_TOKEN ?? "")) return new Response("unauthorized", { status: 401 });
-      const match = /^\/_publication\/(cargo|npm|pypi|oci|mirror)\/(begin|renew|abort|activate|rollback|gc-claim|gc-delete|current)$/.exec(url.pathname);
+      const match = /^\/_publication\/(cargo|npm|pypi|oci|mirror)\/(begin|renew|abort|activate|rollback|gc-claim|gc-delete|gc-object|current)$/.exec(url.pathname);
       if (!match) return notFound();
       return coordinatorRequest(env, match[1]!, match[2]!, req);
     }
