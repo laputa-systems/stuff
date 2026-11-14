@@ -11,6 +11,7 @@
     oo network                  ensure the private docker network
     oo provision [APP...]       store users/buckets, Rivet namespaces/pools
     oo set-image APP IMAGE      point an app at a (locally built) image
+    oo deployment APP           read the selected image and node version as JSON
     oo remove APP [--purge-store]  stop and unregister an app (optionally delete its buckets and S3 key)
     oo reload-ingress           validate and gracefully reload Caddy
     oo wait SERVICE [APP] [SECS]  block until a service answers
@@ -539,6 +540,9 @@ def main(argv: list[str]) -> None:
             cmd_provision(cfg, rest)
         elif cmd == "set-image":
             cmd_set_image(cfg, rest[0], rest[1])
+        elif cmd == "deployment":
+            deployment = oolib.read_app_deployment(cfg.app_image_file(cfg.apps[rest[0]]))
+            print(json.dumps({"image": deployment.image, "version": deployment.version}))
         elif cmd == "reload-ingress":
             cmd_reload_ingress(cfg)
         elif cmd == "remove":
