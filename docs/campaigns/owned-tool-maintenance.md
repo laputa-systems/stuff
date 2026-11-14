@@ -1,8 +1,12 @@
 # Campaign: ownership and repair of agent-facing tools
 
-Status: implementation prompt, ready to run. Committing this document does not mean the
-fleet migration has been performed. The accompanying catalog change brings `joshuarli/usr`
-under normal fleet management; inspect its existing policy findings separately.
+Status: in progress. Landed: the `owned-tool-support` rule, `repomod tools which|coverage`, and
+`fleet/policy/owned-tools.toml` in stuff; the standing rule in usr
+(`dotfiles/base/.agents/instructions/owned-tools.md`, triggered from both contracts); help footers
+in stuff, repomod, usr's agent-facing utilities, kache, python-build (source only, no release), e,
+fz, and srv. `uv run repomod tools coverage` lists every remaining `gap`; tm is parked on
+laputa-systems/tm#28. Open: the remaining producers, the controlled agent and release exercises
+(they need `~/usr` pulled so harnesses load the rule), and usr USR-64/USR-65.
 
 ## Mission and authorization
 

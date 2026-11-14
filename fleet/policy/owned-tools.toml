@@ -209,7 +209,7 @@ doas = { gap = "primary help does not print the owned-tool footer yet" }
 [producers."laputa-systems/e"]
 
 [producers."laputa-systems/e".commands]
-e = { gap = "primary help does not print the owned-tool footer yet" }
+e = { help = { source = "src/main.rs", test = "tests/help.rs" } }
 
 [producers."laputa-systems/fastermod"]
 
@@ -232,7 +232,7 @@ ffprobe = { gap = "primary help does not print the owned-tool footer yet" }
 [producers."laputa-systems/fz"]
 
 [producers."laputa-systems/fz".commands]
-fz = { gap = "primary help does not print the owned-tool footer yet" }
+fz = { help = { source = "src/cli.rs", test = "tests/cli.rs" } }
 
 [producers."laputa-systems/git-build"]
 upstream = "git/git"
@@ -293,7 +293,7 @@ rg = { gap = "primary help does not print the owned-tool footer yet", installed_
 [producers."laputa-systems/srv"]
 
 [producers."laputa-systems/srv".commands]
-srv = { gap = "primary help does not print the owned-tool footer yet" }
+srv = { help = { source = "src/main.rs", test = "tests/help.rs" } }
 
 [producers."laputa-systems/ssh-build"]
 upstream = "openssh/openssh-portable"
@@ -323,7 +323,7 @@ tinyland = { gap = "primary help does not print the owned-tool footer yet" }
 [producers."laputa-systems/tm"]
 
 [producers."laputa-systems/tm".commands]
-tm = { gap = "primary help does not print the owned-tool footer yet" }
+tm = { gap = "footer branch feat/owned-help is parked until main builds again (laputa-systems/tm#28)" }
 
 [producers."laputa-systems/vault"]
 
