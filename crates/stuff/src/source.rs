@@ -29,7 +29,7 @@ pub fn fetch_catalog(base_url: &str) -> Result<stuff_catalog::Catalog> {
     let base = base_url.trim_end_matches('/');
     let url = format!("{base}/current/catalog.json");
     check_url_security(&url)?;
-    let client = Client::builder().connect_timeout(FETCH_TIMEOUT).build();
+    let client = Client::builder().connect_timeout(FETCH_TIMEOUT).expect("non-zero connect timeout").build();
     let req = http::Request::builder()
         .method(http::Method::GET)
         .uri(url.clone())
@@ -102,7 +102,7 @@ pub fn fetch_response(url: &str, accept: Option<&str>) -> Result<FetchResponse> 
 
 fn fetch_response_once(url: &str, accept: Option<&str>) -> Result<FetchResponse> {
     check_url_security(url)?;
-    let client = Client::builder().connect_timeout(FETCH_TIMEOUT).build();
+    let client = Client::builder().connect_timeout(FETCH_TIMEOUT).expect("non-zero connect timeout").build();
     let mut builder = http::Request::builder()
         .method(http::Method::GET)
         .uri(url.to_string())
@@ -150,7 +150,7 @@ fn fetch_response_once(url: &str, accept: Option<&str>) -> Result<FetchResponse>
 
 pub fn fetch_bytes_capped(url: &str, cap: u64) -> Result<(u16, Vec<u8>)> {
     check_url_security(url)?;
-    let client = Client::builder().connect_timeout(FETCH_TIMEOUT).build();
+    let client = Client::builder().connect_timeout(FETCH_TIMEOUT).expect("non-zero connect timeout").build();
     let req = http::Request::builder()
         .method(http::Method::GET)
         .uri(url.to_string())

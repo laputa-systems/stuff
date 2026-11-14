@@ -112,7 +112,7 @@ impl R2Client {
     pub fn new(credentials: Credentials) -> Self {
         R2Client {
             credentials,
-            http: Client::builder().connect_timeout(CONNECT_TIMEOUT).build(),
+            http: Client::builder().connect_timeout(CONNECT_TIMEOUT).expect("non-zero connect timeout").build(),
             sleeper: Arc::new(std::thread::sleep),
             attempts: DEFAULT_ATTEMPTS,
             list_page: DEFAULT_LIST_PAGE,

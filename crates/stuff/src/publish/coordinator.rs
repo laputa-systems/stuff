@@ -50,7 +50,7 @@ impl Coordinator {
             .header("content-type", "application/json")
             .body(body.unwrap_or("").as_bytes().to_vec())
             .map_err(|e| PublishError::Config(format!("coordinator request: {e}")))?;
-        let client = Client::builder().connect_timeout(Duration::from_secs(10)).build();
+        let client = Client::builder().connect_timeout(Duration::from_secs(10)).expect("non-zero connect timeout").build();
         let mut response = client.request_with_timeout(request, Some(Duration::from_secs(30)))
             .map_err(|e| PublishError::Transport(format!("coordinator {operation}: {e}")))?;
         let status = response.status().as_u16();
