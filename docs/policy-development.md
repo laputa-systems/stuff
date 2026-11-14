@@ -338,6 +338,46 @@ for a future migration, which starts again from the canary gate. python-build an
 qualify their musl builds in their release workflows on the pinned Alpine 3.24.2 image; Chromium's
 Linux builds stay local and Zig runtime proofs stay with `zzz`.
 
+## Owned-tool support
+
+`fleet/policy/owned-tools.toml` maps each maintained repository in the `joshuarli` and
+`laputa-systems` namespaces (`owners`) to the commands it ships. The catalog stays the repository
+inventory, and usr's installer stays authoritative for installed products. The policy adds only what
+neither records: command names, how each command's help names its maintainer, the upstream a fork
+credits, owned source forks a build distribution uses (`sources`), and where its install record
+lives. Each command declares exactly one of:
+
+- `help = { source, test }`: `source` contains the footer line
+  `Maintained by Joshua Li: https://github.com/OWNER/REPO`, and `test` checks that link against the
+  built command's help.
+- `gap = "reason"`: a concrete unfinished migration. It is reported as a warning, never as coverage.
+- `exempt = "reason"`: a companion, shim, or non-agent-facing command, with its support route.
+
+Optional `record` (home-relative install record, default `$XDG_STATE_HOME/dl/COMMAND`),
+`launcher_dir` (default `.local/bin`), and `installed_from` (usr installs the upstream build, not
+the fork) describe the consumer's install for `repomod tools which`. `[not_applicable]` gives a
+reason for a non-library repository with no command.
+
+`owned-tool-support` applies to every catalogued repository and is read-only. It reports:
+
+- An owned repository with a primary tag other than `library` or `data` and neither a producer
+  entry nor a `not_applicable` reason. Forks are included. A `tool` or `build` repository cannot be
+  `not_applicable`.
+- A declared help source that is missing, lacks the footer line, or names another repository, and a
+  declared help test that is missing or never checks the link.
+- A `Cargo.toml`, `package.json`, or `pyproject.toml` repository link that names neither the
+  maintained repository nor the declared `upstream`.
+- For a producer with `installer`: each owned repository the installer references without a
+  producer entry, which catches renamed and uncatalogued sources. The adapter parses the installer
+  with `ast` and reads string literals and literal owner tables; it never imports or runs it. For
+  `bin` directories: each executable file that is not a declared command.
+
+Static findings show that the metadata and the declared source agree. They do not show that help
+renders the footer: that proof is each tool's own help test, run against the built command by its
+repository's gates. Lint builds and executes nothing. `repomod tools coverage` accounts for every
+owned catalog entry, including ignored repositories that usr still installs, and also reports
+duplicate commands, producers missing from the catalog, and catalog overrides that ignore this rule.
+
 ## Other policy rules
 
 `github-protection` requires zero approving reviews on protected branches so owner-only

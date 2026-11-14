@@ -1,0 +1,346 @@
+version = 1
+maintainer = "Joshua Li"
+procedure = "https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/instructions/owned-tools.md"
+owners = ["joshuarli", "laputa-systems"]
+
+[producers."joshuarli/bctl"]
+
+[producers."joshuarli/bctl".commands]
+bctl = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/ctrs"]
+
+[producers."joshuarli/ctrs".commands]
+ctrs = { gap = "primary help does not print the owned-tool footer yet" }
+ctrs-init = { exempt = "runs as PID 1 inside containers; ctrs --help is its support route" }
+
+[producers."joshuarli/defuddle-rs"]
+
+[producers."joshuarli/defuddle-rs".commands]
+defuddle = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/gh"]
+upstream = "cli/cli"
+
+[producers."joshuarli/gh".commands]
+gh = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/ghostty"]
+upstream = "ghostty-org/ghostty"
+
+[producers."joshuarli/ghostty".commands]
+ghostty-custom = { gap = "ignored in the catalog with no checkout; the installed app's About surface is not migrated" }
+
+[producers."joshuarli/img"]
+
+[producers."joshuarli/img".commands]
+img = { gap = "primary help does not print the owned-tool footer yet" }
+rimage = { gap = "usr installs it from the former joshuarli/rimage name (usr USR-64); help is not migrated" }
+
+[producers."joshuarli/ish"]
+
+[producers."joshuarli/ish".commands]
+epsh = { gap = "primary help does not print the owned-tool footer yet" }
+ish = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/kache"]
+
+[producers."joshuarli/kache".commands]
+kache = { help = { source = "src/cli_args.rs", test = "tests/owned_help_test.rs" }, launcher_dir = ".cargo/bin", record = ".cargo/bin/.kache-release" }
+kache-engine = { help = { source = "src/cli_args.rs", test = "tests/owned_help_test.rs" }, launcher_dir = ".cargo/bin", record = ".cargo/bin/.kache-release" }
+
+[producers."joshuarli/loc"]
+
+[producers."joshuarli/loc".commands]
+loc = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/lz"]
+
+[producers."joshuarli/lz".commands]
+less = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/mactop"]
+
+[producers."joshuarli/mactop".commands]
+mactop = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/mold"]
+upstream = "rui314/mold"
+
+[producers."joshuarli/mold".commands]
+"ld.mold" = { exempt = "linker alias of mold; mold --help is its support route" }
+mold = { gap = "ignored in the catalog with no checkout; help is not migrated" }
+
+[producers."joshuarli/pi-build"]
+
+[producers."joshuarli/pi-build".commands]
+pi = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/play"]
+
+[producers."joshuarli/play".commands]
+player = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/shck"]
+
+[producers."joshuarli/shck".commands]
+shellcheck = { gap = "ignored in the catalog with no checkout; ShellCheck-compatible help is not migrated" }
+
+[producers."joshuarli/soulseek-rs"]
+
+[producers."joshuarli/soulseek-rs".commands]
+soulseek-rs = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/stats"]
+
+[producers."joshuarli/stats".commands]
+stats = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/swift-bylaws"]
+
+[producers."joshuarli/swift-bylaws".commands]
+bylaws = { gap = "ignored in the catalog with no checkout; help is not migrated" }
+
+[producers."joshuarli/syncthing"]
+upstream = "syncthing/syncthing"
+
+[producers."joshuarli/syncthing".commands]
+syncthing = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/tansu"]
+
+[producers."joshuarli/tansu".commands]
+tansu = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/toolbox"]
+
+[producers."joshuarli/toolbox".commands]
+tool = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/usr"]
+installer = "tools/sync/installer.py"
+bin = ["dotfiles/base/.local/bin", "dotfiles/darwin/.local/bin", "dotfiles/linux/.local/bin"]
+
+[producers."joshuarli/usr".commands]
+"agent-instructions.py" = { exempt = "SessionStart hook that must print only the selected contract" }
+bash = { exempt = "shim that executes the real bash; its help belongs to bash" }
+claude-api = { exempt = "harness launcher; arguments, including --help, pass through to the launched harness" }
+claude-ds = { exempt = "harness launcher; arguments, including --help, pass through to the launched harness" }
+claude-or = { exempt = "harness launcher; arguments, including --help, pass through to the launched harness" }
+"close-stale-prs.py" = { help = { source = "tools/close-stale-prs/src/close_stale_prs.py", test = "tools/close-stale-prs/tests/test_close_stale_prs.py" } }
+"codex-campaign-closeout.py" = { help = { source = "dotfiles/base/.local/bin/codex-campaign-closeout.py", test = "dotfiles/codex-campaign-closeout-test.py" } }
+codex-or = { exempt = "harness launcher; arguments, including --help, pass through to the launched harness" }
+decide = { help = { source = "tools/decide/src/decide.py", test = "tools/decide/tests/test_decide.py" } }
+dsh = { exempt = "harness launcher; arguments, including --help, pass through to the launched harness" }
+ecount = { help = { source = "dotfiles/base/.local/bin/ecount", test = "dotfiles/owned-help-test.sh" } }
+encode = { exempt = "personal host or media helper, not an agent-facing tool" }
+"export-cookies.py" = { exempt = "personal host or media helper, not an agent-facing tool" }
+fix-tailscale-magicdns = { exempt = "personal host or media helper, not an agent-facing tool" }
+freeport = { exempt = "personal host or media helper, not an agent-facing tool" }
+gh-cancel-pr-runs = { help = { source = "dotfiles/base/.local/bin/gh-cancel-pr-runs", test = "dotfiles/owned-help-test.sh" } }
+ghostty-fda-check = { help = { source = "dotfiles/base/.local/bin/ghostty-fda-check", test = "dotfiles/owned-help-test.sh" } }
+git-bench = { help = { source = "dotfiles/base/.local/bin/git-bench", test = "dotfiles/owned-help-test.sh" } }
+git-branch-consolidation = { help = { source = "dotfiles/base/.local/bin/git-branch-consolidation", test = "dotfiles/owned-help-test.sh" } }
+git-review = { exempt = "its first argument is passed to git merge-base, so --help cannot be claimed; the usr TODO.md and owned-tools procedure are its support route" }
+git-tune = { help = { source = "dotfiles/base/.local/bin/git-tune", test = "dotfiles/owned-help-test.sh" } }
+gr = { help = { source = "dotfiles/base/.local/bin/gr", test = "dotfiles/owned-help-test.sh" } }
+macos-free-memory = { exempt = "personal host or media helper, not an agent-facing tool" }
+macos-kill-simulators = { exempt = "personal host or media helper, not an agent-facing tool" }
+mdl = { exempt = "personal host or media helper, not an agent-facing tool" }
+mdtool = { help = { source = "tools/mdtool/src/mdtool.py", test = "tools/mdtool/tests/mdtool-test.sh" } }
+memtop = { help = { source = "dotfiles/base/.local/bin/memtop", test = "dotfiles/owned-help-test.sh" } }
+mpdl = { exempt = "personal host or media helper, not an agent-facing tool" }
+perf-gate-ready = { help = { source = "dotfiles/base/.local/bin/perf-gate-ready", test = "dotfiles/owned-help-test.sh" } }
+pi-subagent-bridge = { help = { source = "tools/pi-subagent-bridge/src/cli.ts", test = "tools/pi-subagent-bridge/test/cli.test.ts" } }
+pi-subagent-bridge-reload = { help = { source = "dotfiles/base/.local/bin/pi-subagent-bridge-reload", test = "tools/pi-subagent-bridge/test/cli.test.ts" } }
+pinact = { help = { source = "tools/pinact/src/pinact/pinning.py", test = "tools/pinact/test_pinact.py" } }
+pk = { help = { source = "dotfiles/base/.local/bin/pk", test = "dotfiles/owned-help-test.sh" } }
+power-policy = { exempt = "personal host or media helper, not an agent-facing tool" }
+reset-agent-home = { help = { source = "dotfiles/base/.local/bin/reset-agent-home", test = "dotfiles/owned-help-test.sh" } }
+reset-agents = { help = { source = "dotfiles/base/.local/bin/reset-agents", test = "dotfiles/owned-help-test.sh" } }
+safari-cloud-tabs = { exempt = "personal host or media helper, not an agent-facing tool" }
+sbx = { help = { source = "dotfiles/base/.local/bin/sbx", test = "dotfiles/sbx-test.py" } }
+"setup-git-client.sh" = { help = { source = "dotfiles/base/.local/bin/setup-git-client.sh", test = "dotfiles/owned-help-test.sh" } }
+setup-kache = { help = { source = "dotfiles/base/.local/bin/setup-kache", test = "dotfiles/owned-help-test.sh" } }
+setup-mold = { help = { source = "dotfiles/linux/.local/bin/setup-mold", test = "dotfiles/owned-help-test.sh" } }
+sh = { exempt = "shim that executes the real sh; its help belongs to sh" }
+"shift_srt.py" = { exempt = "personal host or media helper, not an agent-facing tool" }
+stream = { exempt = "personal host or media helper, not an agent-facing tool" }
+todo = { help = { source = "tools/todo/src/todo.py", test = "tools/todo/tests/test_todo.py" } }
+unbound-reload = { exempt = "personal host or media helper, not an agent-facing tool" }
+"uninstall-asahi.py" = { exempt = "personal host or media helper, not an agent-facing tool" }
+usage = { help = { source = "tools/usage/src/usage", test = "tools/usage/tests/test_usage.py" } }
+vdl = { exempt = "personal host or media helper, not an agent-facing tool" }
+worktree-create = { help = { source = "dotfiles/base/.local/bin/worktree-create", test = "dotfiles/owned-help-test.sh" } }
+worktree-remove = { help = { source = "dotfiles/base/.local/bin/worktree-remove", test = "dotfiles/owned-help-test.sh" } }
+worktree-retire = { help = { source = "dotfiles/base/.local/bin/worktree-retire", test = "dotfiles/worktree-retire-test.py" } }
+yt-dlp = { exempt = "shim that executes the real yt-dlp; its help belongs to yt-dlp" }
+zsh = { exempt = "shim that executes the real zsh; its help belongs to zsh" }
+
+[producers."joshuarli/view"]
+
+[producers."joshuarli/view".commands]
+view = { gap = "ignored in the catalog with no checkout; the app's About surface is not migrated" }
+
+[producers."laputa-systems/chromium-build"]
+upstream = "chromium/chromium"
+
+[producers."laputa-systems/chromium-build".commands]
+chromium = { gap = "the shipped browser's About/support surface is not migrated" }
+
+[producers."laputa-systems/cmake-build"]
+upstream = "Kitware/CMake"
+
+[producers."laputa-systems/cmake-build".commands]
+cmake = { gap = "primary help does not print the owned-tool footer yet" }
+cpack = { exempt = "ships with cmake; cmake --help is its support route" }
+ctest = { exempt = "ships with cmake; cmake --help is its support route" }
+
+[producers."laputa-systems/diff-pretty"]
+
+[producers."laputa-systems/diff-pretty".commands]
+diff-pretty = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/doas-rs"]
+
+[producers."laputa-systems/doas-rs".commands]
+doas = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/e"]
+
+[producers."laputa-systems/e".commands]
+e = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/fastermod"]
+
+[producers."laputa-systems/fastermod".commands]
+fastermod = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/fd"]
+upstream = "sharkdp/fd"
+
+[producers."laputa-systems/fd".commands]
+fd = { gap = "primary help does not print the owned-tool footer yet", installed_from = "sharkdp/fd" }
+
+[producers."laputa-systems/ffmpeg-build"]
+upstream = "FFmpeg/FFmpeg"
+
+[producers."laputa-systems/ffmpeg-build".commands]
+ffmpeg = { gap = "primary help does not print the owned-tool footer yet" }
+ffprobe = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/fz"]
+
+[producers."laputa-systems/fz".commands]
+fz = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/git-build"]
+upstream = "git/git"
+
+[producers."laputa-systems/git-build".commands]
+git = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/gluon"]
+
+[producers."laputa-systems/gluon".commands]
+gluon-build = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
+meson = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
+ninja = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
+
+[producers."laputa-systems/jaq"]
+upstream = "01mf02/jaq"
+
+[producers."laputa-systems/jaq".commands]
+jaq = { gap = "primary help does not print the owned-tool footer yet", installed_from = "01mf02/jaq" }
+
+[producers."laputa-systems/llvm-prebuilt-musl"]
+upstream = "llvm/llvm-project"
+
+[producers."laputa-systems/llvm-prebuilt-musl".commands]
+clang = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/mdevd-rs"]
+
+[producers."laputa-systems/mdevd-rs".commands]
+mdevd = { gap = "primary help does not print the owned-tool footer yet" }
+mdevd-coldplug = { exempt = "one-shot boot helper started by mdevd's service; mdevd --help is its support route" }
+
+[producers."laputa-systems/node-build"]
+upstream = "nodejs/node"
+
+[producers."laputa-systems/node-build".commands]
+node = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/python-build"]
+upstream = "python/cpython"
+
+[producers."laputa-systems/python-build".commands]
+python3 = { help = { source = "patches/cpython/0007-owned-tool-help.patch", test = "patches/cpython/0007-owned-tool-help.patch" } }
+
+[producers."laputa-systems/rage"]
+upstream = "str4d/rage"
+
+[producers."laputa-systems/rage".commands]
+rage = { gap = "primary help does not print the owned-tool footer yet" }
+rage-keygen = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/rg"]
+upstream = "BurntSushi/ripgrep"
+
+[producers."laputa-systems/rg".commands]
+rg = { gap = "primary help does not print the owned-tool footer yet", installed_from = "BurntSushi/ripgrep" }
+
+[producers."laputa-systems/srv"]
+
+[producers."laputa-systems/srv".commands]
+srv = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/ssh-build"]
+upstream = "openssh/openssh-portable"
+sources = ["laputa-systems/oxish"]
+
+[producers."laputa-systems/ssh-build".commands]
+oxish-server = { gap = "primary help does not print the owned-tool footer yet", record = "oxish" }
+oxish-session = { gap = "primary help does not print the owned-tool footer yet", record = "oxish" }
+scp = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+sftp = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+ssh = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+ssh-add = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+ssh-agent = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+ssh-keygen = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+
+[producers."laputa-systems/stuff"]
+
+[producers."laputa-systems/stuff".commands]
+repomod = { help = { source = "repomod/cli.py", test = "tests/repomod/test_owned_tools.py" } }
+stuff = { help = { source = "crates/stuff/src/cli.rs", test = "crates/stuff/tests/cli.rs" }, record = ".local/state/dl/stuff" }
+
+[producers."laputa-systems/tinyland"]
+
+[producers."laputa-systems/tinyland".commands]
+tinyland = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/tm"]
+
+[producers."laputa-systems/tm".commands]
+tm = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/vault"]
+
+[producers."laputa-systems/vault".commands]
+vault = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/xsh"]
+
+[producers."laputa-systems/xsh".commands]
+xsh = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."laputa-systems/zzz"]
+
+[producers."laputa-systems/zzz".commands]
+zzz = { gap = "primary help does not print the owned-tool footer yet" }
+
+[not_applicable]
+"joshuarli/discover" = "web application; its support link belongs in the app, not a command"
+"joshuarli/extensions" = "browser extensions without a command-line interface"
+"laputa-systems/laputa" = "operating-system image; the commands it ships belong to their own producers"

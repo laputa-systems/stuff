@@ -104,6 +104,34 @@ whose `origin` matches the catalogued repository. It is only read.
 uv run repomod lint --repo acme/tool --checkout .work/wt/fix
 ```
 
+## Owned tools
+
+`repomod tools which COMMAND` resolves an installed command to its maintained repository without
+running it. It reads the catalog, `fleet/policy/owned-tools.toml`, `PATH`, and the install record,
+and checks the canonical checkout's `origin`. It writes nothing and makes no network request.
+`--json` returns the repository, upstream, owned source forks, backlog and procedure links,
+checkout, and executable. Exit 0 means `status` is `owned`. Otherwise `status` is one of:
+
+| Status | Meaning |
+| --- | --- |
+| `unknown` | No owned producer declares the command |
+| `ambiguous` | More than one producer declares it |
+| `missing-checkout`, `uncatalogued` | The producer has no checkout at its catalog path, or no catalog entry |
+| `origin-mismatch` | The checkout's `origin` is not the producer |
+| `not-installed` | The command is not on `PATH` |
+| `shadowed` | An unmanaged executable precedes the managed launcher |
+| `unrecorded` | The executable has no install record or release directory, so its revision is unknown |
+| `upstream-install` | usr installs the upstream build, not the owned fork |
+
+`repomod tools coverage` lists every owned repository as `implemented`, `gap`, `not-applicable`,
+`missing`, or `error`, and exits 1 until all are implemented or not applicable. See
+[owned-tool support](policy-development.md#owned-tool-support).
+
+```sh
+uv run repomod tools which kache --json
+uv run repomod tools coverage
+```
+
 ## Fix
 
 `repomod fix` syncs the selected repositories, repairs policy violations, and opens a pull

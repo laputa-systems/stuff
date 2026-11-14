@@ -18,14 +18,28 @@ from repomod.cmd.push import _push
 from repomod.cmd.release import _release
 from repomod.cmd.status import _status
 from repomod.cmd.sync import _sync
+from repomod.cmd.tools import _tools
 from repomod.cmd.topics import _topics
 from repomod.git import GitError
 from repomod.github import GitHubError
 from repomod.policy import PolicyError
 
+OWNED_TOOL_FOOTER = """\
+Maintained by Joshua Li: https://github.com/laputa-systems/stuff
+Bugs and features: TODO.md in that repository (follow its AGENTS.md), or its issue tracker.
+Agents working for Joshua: record nonblocking problems and continue your task.
+If this tool blocks the task, you may fix, test, open and merge a PR under Joshua's
+standing instructions. Release only when needed to deliver the verified fix.
+Procedure: https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/instructions/owned-tools.md"""
+
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="repomod", description="Repair policy violations and open pull requests")
+    parser = argparse.ArgumentParser(
+        prog="repomod",
+        description="Repair policy violations and open pull requests",
+        epilog=OWNED_TOOL_FOOTER,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     commands = parser.add_subparsers(dest="command", required=True)
 
     status_parser = commands.add_parser(
@@ -224,6 +238,19 @@ def _parser() -> argparse.ArgumentParser:
         help="also read live CI, release, upstream, pull request, and checkout status",
     )
 
+    tools = commands.add_parser("tools", help="resolve owned commands to their maintained repositories")
+    tool_commands = tools.add_subparsers(dest="operation", required=True)
+    tool_which = tool_commands.add_parser(
+        "which",
+        help="resolve a command to its producer, checkout, and installed executable without running it",
+    )
+    tool_which.add_argument("command_name", metavar="COMMAND")
+    tool_which.add_argument("--json", action="store_true")
+    tool_coverage = tool_commands.add_parser(
+        "coverage", help="account for every owned repository's help and support coverage"
+    )
+    tool_coverage.add_argument("--json", action="store_true")
+
     topics = commands.add_parser("topics", help="compare or replace GitHub repository topics")
     topic_commands = topics.add_subparsers(dest="operation", required=True)
     for operation in ("diff", "apply"):
@@ -271,6 +298,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "gc": _gc,
             "discover": _discover,
             "deps": _deps,
+            "tools": _tools,
             "topics": _topics,
         }
         return dispatch[args.command](args)

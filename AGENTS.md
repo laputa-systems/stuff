@@ -50,6 +50,7 @@ Run everything from the repository root.
 | repomod architecture, sync, repair, and state ownership | [docs/fleet-design.md](docs/fleet-design.md) |
 | Catalog tags and visibility | [docs/tagging.md](docs/tagging.md) |
 | Rules, fixers, and musl publication | [docs/policy-development.md](docs/policy-development.md) |
+| Owned-tool ownership lookup and help contract | [docs/fleet.md#owned-tools](docs/fleet.md#owned-tools); `fleet/policy/owned-tools.toml` |
 | Build repositories: make targets, pinned inputs, releases | [docs/build-repos.md](docs/build-repos.md) |
 | Dependency policy checks and the registry policy the fleet follows | [docs/audit.md](docs/audit.md); `fleet/registries.toml` |
 | Tracked dependency model and extraction | [docs/dependency-inventory.md](docs/dependency-inventory.md) |
