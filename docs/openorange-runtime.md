@@ -507,3 +507,38 @@ Metrics and readiness bind to `127.0.0.1:18481`; `bin/health` checks both
 connection readiness and that bind address. `drain` stops the connector
 before ingress, and starts it after ingress and the apps. The physical
 backup includes its credentials and configuration with the rest of `/etc/openorange`.
+
+### Rivet dashboard research (implementation pending)
+
+On 2026-11-14, the running `oo-engine` image was inspected read-only. Its
+image reference was the Engine index digest in `images.lock.json`; the binary
+reported `Rivet 3.1.1`, although the configured image tag is `3.1.2-rc.1`.
+The image did not expose an OCI revision label, so the source tag is not proof
+of the image's source revision. Authenticated GETs returned 200 for
+`/namespaces`, `/pools?namespace=stats-prod`,
+`/pools/default/nodes?namespace=stats-prod`,
+`/actors/names?namespace=stats-prod`, and an actor list filtered by name;
+`/health` returned 200 without authentication. `/runner-pools` and `/ui`
+returned 404. Actor lists require a name or actor ID; a request with only a
+namespace returned 400. These observations do not establish the availability
+or safety of other routes.
+
+The [Rivet `v3.1.2-rc.1` tag](https://github.com/rivet-dev/rivet/tree/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9)
+resolves to `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`. Its
+[public router](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/engine/packages/api-public/src/router.rs)
+declares `/runner-pools`, whereas its checked-in
+[OpenAPI artifact](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/engine/artifacts/openapi.json)
+describes `/pools`. Use the observed live contract, not an assumption that
+the tag and image are identical. The current
+[self-host control-plane guide](https://rivet.dev/docs/deploy/self-host/control-plane/)
+describes the Engine image and does not claim a bundled UI. The tag's
+[README](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/README.md)
+links Rivet Cloud's hosted dashboard. The separate official
+[frontend repository](https://github.com/rivet-dev/frontend) is archived;
+it is not evidence of a maintained v3-compatible self-hosted UI. On this date,
+the [Docker Hub `rivetdev` namespace](https://hub.docker.com/u/rivetdev)
+listed `engine`, `services`, `sandbox-agent`, and `compute-hello-world`, with
+no dashboard image. This search does not prove that no other official package
+exists. No compatible standalone official UI was verified. A custom read-only
+explorer remains to be implemented and verified; no dashboard route or
+operator access is provisioned by this research.
