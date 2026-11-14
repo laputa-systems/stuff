@@ -21,6 +21,7 @@ ENV_NAMES = (
     "PATH",
     "CF_LOCAL_STATE",
     "STUFF_STATE_HOME",
+    "STUFF_CONFIG_HOME",
     "R2_S3_ENDPOINT",
     "R2_S3_ACCESS_KEY_ID",
     "R2_S3_SECRET_ACCESS_KEY",
@@ -40,6 +41,7 @@ class R2PutTests(unittest.TestCase):
         self.saved = {name: os.environ.get(name) for name in ENV_NAMES}
         self.work = tempfile.TemporaryDirectory()
         self.root = pathlib.Path(self.work.name)
+        os.environ["STUFF_CONFIG_HOME"] = str(self.root / "config")
         self.site = self.root / "site"
         self.site.mkdir()
         self.server = fake_s3.serve()

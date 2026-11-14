@@ -30,7 +30,7 @@ export async function storeRequest(env: StoreEnv, method: string, bucket: string
   const material = await signingMaterial(method, url, headers, names, headers.get("x-amz-content-sha256")!, date, env.S3_REGION, env.S3_SECRET_ACCESS_KEY);
   const signature = hex(await crypto.subtle.sign("HMAC", material.key, material.message));
   headers.set("authorization", `AWS4-HMAC-SHA256 Credential=${env.S3_ACCESS_KEY_ID}/${date.slice(0, 8)}/${env.S3_REGION}/s3/aws4_request, SignedHeaders=${names.join(";")}, Signature=${signature}`);
-  const init: RequestInit & { duplex?: "half" } = { method, headers, redirect: "manual", ...(options.signal ? { signal: options.signal } : {}), ...(options.body == null ? {} : { body: options.body, duplex: "half" }) };
+  const init: RequestInit & { duplex?: "half" } = { method, headers, redirect: "manual", signal: options.signal ?? AbortSignal.timeout(30_000), ...(options.body == null ? {} : { body: options.body, duplex: "half" }) };
   return fetch(url, init);
 }
 

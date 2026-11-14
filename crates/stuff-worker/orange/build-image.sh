@@ -5,8 +5,8 @@ root=$(git rev-parse --show-toplevel)
 cd "$root"
 test -z "$(git status --porcelain --untracked-files=normal)" || { echo "orange: commit changes first, so the image tag names its contents" >&2; exit 1; }
 release=$(git rev-parse --short=12 HEAD)
-context="$root/.work/tmp/stuff-orange-image-$release"
-rm -rf "$context"
+mkdir -p "$root/.work/tmp"
+context=$(mktemp -d "$root/.work/tmp/stuff-orange-image-$release.XXXXXX")
 mkdir -p "$context/orange"
 (cd crates/stuff-worker && pnpm run build) >&2
 node crates/stuff-worker/scripts/stage-orange.mjs "$context/app" "stuff-$release" >&2

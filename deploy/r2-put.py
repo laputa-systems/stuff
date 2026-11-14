@@ -26,6 +26,8 @@ import time
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from publication_service import PublicationError, upload_session
+
 from r2_common import (
     Pacer,
     cf_command,
@@ -109,6 +111,33 @@ def connection(parsed):
     return current
 
 
+def verify_existing_object(url, expected_sha, size):
+    headers = multipart().signature_headers("GET", url, multipart().EMPTY_SHA256)
+    parsed = urllib.parse.urlsplit(url)
+    client = (http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection)(parsed.hostname, parsed.port, timeout=120)
+    found = hashlib.sha256()
+    length = 0
+    try:
+        client.request("GET", parsed.path + (("?" + parsed.query) if parsed.query else ""), headers=headers)
+        response = client.getresponse()
+        if response.status != 200:
+            raise PutError("cannot verify existing immutable object")
+        while True:
+            chunk = response.read(HASH_CHUNK)
+            if not chunk:
+                break
+            length += len(chunk)
+            if length > size:
+                raise PutError("immutable object differs", retryable=False)
+            found.update(chunk)
+    except (OSError, http.client.HTTPException):
+        raise PutError("cannot verify existing immutable object") from None
+    finally:
+        client.close()
+    if length != size or found.hexdigest() != expected_sha:
+        raise PutError("immutable object differs", retryable=False)
+
+
 def s3_put(path, bucket, key, kind):
     endpoint = os.environ["R2_S3_ENDPOINT"].rstrip("/")
     url = object_url(endpoint, bucket, key)
@@ -144,6 +173,9 @@ def s3_put(path, bucket, key, kind):
     except (OSError, http.client.HTTPException) as e:
         reset_connection()
         raise PutError(f"{type(e).__name__}: {e}")
+    if status == 412:
+        verify_existing_object(url, sha.hexdigest(), size)
+        return
     if status != 200:
         if status == 429 or status >= 500:
             reset_connection()
@@ -173,16 +205,20 @@ def cf_put(path, bucket, key, kind, pacer):
     raise PutError(detail)
 
 
-def put_one(site, bucket, key, transport, pacer):
+def put_one(site, bucket, key, transport, pacer, lease=None):
     path = os.path.join(site, safe_relative(key))
     kind = content_type(key)
     attempts = int(os.environ.get("R2_PUT_ATTEMPTS", "6"))
     for attempt in range(1, attempts + 1):
         try:
+            if lease is not None:
+                lease.check()
             if transport == "s3":
                 s3_put(path, bucket, key, kind)
             else:
                 cf_put(path, bucket, key, kind, pacer)
+            if lease is not None:
+                lease.check()
             sys.stdout.write(f"put {key}\n")
             sys.stdout.flush()
             return
@@ -196,8 +232,7 @@ def put_one(site, bucket, key, transport, pacer):
                 time.sleep(delay)
 
 
-def main(argv=None):
-    argv = sys.argv[1:] if argv is None else argv
+def upload(argv, lease=None):
     if len(argv) == 2 and argv[0] == "--type":
         sys.stdout.write(content_type(argv[1]))
         return 0
@@ -236,7 +271,7 @@ def main(argv=None):
     failures = []
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         pending = {
-            pool.submit(put_one, site, bucket, key, transport, pacer): key
+            pool.submit(put_one, site, bucket, key, transport, pacer, lease): key
             for key in keys
         }
         for future in as_completed(pending):
@@ -250,6 +285,21 @@ def main(argv=None):
             print(f"FAIL: put {key}: {detail}", file=sys.stderr)
         return 1
     return 0
+
+
+def main(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    if len(argv) == 2 and argv[0] == "--type":
+        return upload(argv)
+    if len(argv) != 3:
+        fail("usage: r2-put.py --type KEY | r2-put.py SITE_DIR BUCKET KEYS_FILE")
+    try:
+        with upload_session(argv[1]) as lease:
+            return upload(argv, lease)
+    except PublicationError as error:
+        fail(str(error))
+    finally:
+        close_connections()
 
 
 if __name__ == "__main__":

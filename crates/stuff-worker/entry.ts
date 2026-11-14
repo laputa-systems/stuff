@@ -1,5 +1,6 @@
-import { recordOperation, flushOperations } from "./src/telemetry.js";
+import { recordOperation, requestOperation, flushOperations } from "./src/telemetry.js";
 import { gateway } from "./src/gateway.js";
+import { sha as sha256 } from "./src/sigv4.js";
 export { PublicationCoordinator } from "./src/coordinator.js";
 import {
   initSync,
@@ -394,7 +395,28 @@ async function ociPushManifest(
       ),
     );
   }
-  const body = await req.text();
+  let body: string;
+  try {
+    const reader = req.body?.getReader();
+    const decoder = new TextDecoder("utf-8", { fatal: true, ignoreBOM: false });
+    let size = 0;
+    body = "";
+    if (reader) {
+      try {
+        for (;;) {
+          const chunk = await reader.read();
+          if (chunk.done) break;
+          size += chunk.value.byteLength;
+          if (size > 4 * 1024 * 1024) throw new RangeError("manifest body is too large");
+          body += decoder.decode(chunk.value, { stream: true });
+        }
+        body += decoder.decode();
+      } finally { await reader.cancel().catch(() => undefined); reader.releaseLock(); }
+    }
+  } catch (error) {
+    const oversized = error instanceof RangeError;
+    return ociPlanResponse(writeErrorPlan(400, JSON.stringify({ errors: [{ code: oversized ? "SIZE_INVALID" : "MANIFEST_INVALID", message: oversized ? "manifest body is too large" : "manifest body must be valid UTF-8" }] })));
+  }
   const refs = JSON.parse(oci_manifest_refs_json(body)) as {
     kind: string;
     digest?: string;
@@ -432,6 +454,7 @@ async function ociPushManifest(
     availableChildren.push(digest);
   }
   const publicUrl = `${url.protocol}//${url.host}`;
+  if (env.STUFF_COORDINATOR_ENABLED === "true") return coordinatedOciManifest(env, meta, repository, reference, body, availableBlobs, availableChildren, publicUrl);
   const encoder = new TextEncoder();
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const pointer = await meta.get("current");
@@ -483,6 +506,89 @@ async function ociPushManifest(
   return ociPlanResponse(
     JSON.parse(oci_error_json("CONFLICT", "could not activate the generation")) as OciPlan,
   );
+}
+
+class PublicationConflict extends Error {}
+
+async function coordinatorJson<T>(env: WorkerEnv, op: string, body?: unknown): Promise<T> {
+  const result = await coordinatorRequest(env, "oci", op, body === undefined ? undefined : new Request("https://coordinator/", { method: "POST", body: JSON.stringify(body) }));
+  if (!result.ok) {
+    await result.body?.cancel();
+    if (result.status === 409) throw new PublicationConflict("publication conflicts with the current registry state");
+    throw new Error("publication service unavailable");
+  }
+  return result.json() as Promise<T>;
+}
+
+async function immutableText(meta: R2BucketLike, key: string, text: string): Promise<{ key: string; size: number; etag: string }> {
+  const value = new TextEncoder().encode(text);
+  let object = await meta.put(key, value, { onlyIf: { etagDoesNotMatch: "*" } });
+  if (object === null) {
+    object = await meta.get(key);
+    if (object === null || object.size !== value.byteLength || await object.text() !== text) throw new PublicationConflict("immutable publication object differs");
+  }
+  return { key, size: value.byteLength, etag: object.etag };
+}
+
+async function coordinatedOciManifest(env: WorkerEnv, meta: R2BucketLike, repository: string, reference: string, body: string, availableBlobs: string[], availableChildren: string[], publicUrl: string): Promise<Response> {
+  let lease: { token: string; revision: number };
+  try { lease = await coordinatorJson(env, "begin", {}); }
+  catch (error) {
+    if (error instanceof PublicationConflict) return ociPlanResponse(JSON.parse(oci_error_json("CONFLICT", error.message)) as OciPlan);
+    throw error;
+  }
+  const renewal: { pending: Promise<void> | null; failed: boolean } = { pending: null, failed: false };
+  const timer = setInterval(() => {
+    if (renewal.pending !== null) return;
+    renewal.pending = coordinatorJson(env, "renew", { token: lease.token }).then(() => undefined, () => { renewal.failed = true; }).finally(() => { renewal.pending = null; });
+  }, 60_000);
+  try {
+    const current = await coordinatorJson<{ revision: number; generation: string | null }>(env, "current");
+    if (current.revision !== lease.revision) throw new PublicationConflict("publication revision changed");
+    const snapshot = current.generation === null ? EMPTY_OCI_SNAPSHOT : await ociSnapshot(meta, current.generation);
+    const planned = JSON.parse(oci_generation_json(repository, JSON.stringify(snapshot.repositories), snapshot.blobsText, JSON.stringify(snapshot.referrers), body, reference, JSON.stringify(availableBlobs), JSON.stringify(availableChildren), publicUrl)) as OciGeneration;
+    if (planned.kind !== "ok" || !planned.generation || !planned.digest || !planned.manifest_key) return ociPlanResponse(writeErrorPlan(planned.status, planned.body));
+    if (planned.generation === current.generation) return ociPlanResponse(JSON.parse(oci_manifest_put_json(repository, planned.digest)) as OciPlan);
+    const objects = new Map<string, { key: string; size: number; etag: string }>();
+    const inserted = await immutableText(meta, planned.manifest_key, body);
+    objects.set(inserted.key, inserted);
+    const manifests = new Set<string>();
+    for (const file of planned.files ?? []) {
+      const object = await immutableText(meta, `generations/${planned.generation}/${file.key}`, file.text);
+      objects.set(object.key, object);
+      if (file.key.endsWith("/repository.json")) {
+        const view = JSON.parse(file.text) as { manifests?: { digest?: unknown }[] };
+        if (!Array.isArray(view.manifests)) throw new Error("invalid OCI repository inventory");
+        for (const manifest of view.manifests) {
+          if (typeof manifest.digest !== "string" || !/^sha256:[0-9a-f]{64}$/.test(manifest.digest)) throw new Error("invalid OCI manifest inventory");
+          manifests.add(`oci/manifests/sha256/${manifest.digest.slice(7)}`);
+        }
+      }
+    }
+    for (const key of manifests) {
+      if (objects.has(key)) continue;
+      const object = await meta.head(key);
+      if (object === null) throw new PublicationConflict("OCI manifest inventory is incomplete");
+      objects.set(key, { key, size: object.size, etag: object.etag });
+    }
+    const manifest = JSON.stringify({ schemaVersion: 1, objects: [...objects.values()].sort((a, b) => a.key < b.key ? -1 : a.key > b.key ? 1 : 0) });
+    await immutableText(meta, `manifests/${planned.generation}.json`, manifest);
+    if (renewal.pending !== null) await renewal.pending;
+    if (renewal.failed) throw new PublicationConflict("publication lease renewal failed");
+    const manifestHash = await sha256(manifest);
+    const key = await sha256(`oci:${planned.generation}:${manifestHash}:${lease.revision}`);
+    const activation = { token: lease.token, key, generation: planned.generation, manifest: manifestHash, expectedRevision: lease.revision };
+    try { await coordinatorJson(env, "activate", activation); }
+    catch (error) { if (error instanceof PublicationConflict) throw error; await coordinatorJson(env, "activate", activation); }
+    return ociPlanResponse(JSON.parse(oci_manifest_put_json(repository, planned.digest)) as OciPlan);
+  } catch (error) {
+    if (error instanceof PublicationConflict) return ociPlanResponse(JSON.parse(oci_error_json("CONFLICT", error.message)) as OciPlan);
+    throw error;
+  } finally {
+    clearInterval(timer);
+    if (renewal.pending !== null) await renewal.pending;
+    try { await coordinatorJson(env, "abort", { token: lease.token }); } catch { /* Activation consumes the lease; failed operations let it expire if abort is unavailable. */ }
+  }
 }
 
 function written(object: R2ObjectLike | null, key: string): R2ObjectLike {
@@ -794,7 +900,6 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
         url.pathname === "/v2/" ||
         url.pathname.startsWith("/v2/"))
     ) {
-      if (env.STUFF_COORDINATOR_ENABLED === "true" && req.method !== "GET" && req.method !== "HEAD") return new Response("writes unavailable", { status: 503 });
       return ociFetch(req, env, url);
     }
     if (req.method !== "GET" && req.method !== "HEAD") {
@@ -1004,14 +1109,15 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
 export default {
   async fetch(req: Request, env: WorkerEnv, context: ExecutionContext): Promise<Response> {
     const started = performance.now();
+    const operation = requestOperation(req);
     let failure: unknown;
     try {
       const response = await serve(req, env);
-      if (response.status >= 500) failure = new Error("registry request failed");
+      if (response.status >= 500 || (operation !== "registry.request" && response.status >= 400)) failure = new Error("registry request failed");
       return response;
     } catch (error) { failure = error; throw error; }
     finally {
-      recordOperation(env, performance.now() - started, failure);
+      recordOperation(env, operation, performance.now() - started, failure);
       context.waitUntil(flushOperations());
     }
   }

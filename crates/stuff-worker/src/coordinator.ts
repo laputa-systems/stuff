@@ -252,17 +252,19 @@ export class PublicationCoordinator {
         cursor = listed.truncated ? listed.cursor : undefined;
         if (listed.truncated && !cursor) throw new Error("missing cursor");
       } while (cursor);
-      keys.push(`manifests/${body.generation}.json`);
+      const manifestKey = `manifests/${body.generation}.json`;
+      if (await store.head(manifestKey) !== null) keys.push(manifestKey);
       if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
       sql.exec("INSERT INTO retired_generations VALUES (?) ON CONFLICT(generation) DO NOTHING", body.generation);
       await this.state.storage.sync();
-      for (const key of keys) {
+      const batch = keys.slice(0, 32);
+      for (const key of batch) {
         if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
         if (this.env.S3_ENDPOINT) {
           if (!await this.deleteVersions(binding, key, body.token)) return response(409, { error: "stale lease" });
         } else await store.delete(key);
       }
-      return response(200, { deleted: keys.length });
+      return response(200, { deleted: batch.length, complete: batch.length === keys.length });
     }
     return response(404, { error: "not found" });
   }

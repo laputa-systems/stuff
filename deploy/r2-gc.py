@@ -25,7 +25,7 @@ authenticated cf CLI for each bucket.
 
 import argparse
 from contextlib import nullcontext
-from publication_gc import configured, GCError
+from publication_service import configured, PublicationError
 import datetime
 import json
 import os
@@ -467,7 +467,7 @@ def main(argv=None):
         if not user_s3:
             clear_s3()
             mint_credentials(bucket)
-        with publish_lock(bucket), service.lease(bucket) if service is not None else nullcontext() as lease:
+        with publish_lock(bucket), service.gc_lease(bucket) if service is not None else nullcontext() as lease:
             result = run_bucket(bucket, args, lease)
         for position, value in enumerate(result):
             totals[position] += value
@@ -484,5 +484,5 @@ def main(argv=None):
 if __name__ == "__main__":
     try:
         main()
-    except GCError as error:
+    except PublicationError as error:
         fail(str(error))

@@ -16,9 +16,16 @@ function producer(env: Config): Producer | null {
   configured = state;
   return state.producer;
 }
-export function recordOperation(env: Config, durationMs: number, failure: unknown): void {
+export function requestOperation(req: Request): string {
+  const path = new URL(req.url).pathname;
+  const publication = /^\/_publication\/(cargo|npm|pypi|oci|mirror)\/(activate|rollback)$/.exec(path);
+  if (req.method === "POST" && publication) return `registry.publication.attempt.${publication[1]}`;
+  if (req.method === "PUT" && /^\/v2\/.+\/manifests\/[^/]+$/.test(path)) return "registry.publication.attempt.oci";
+  return "registry.request";
+}
+export function recordOperation(env: Config, operation: string, durationMs: number, failure: unknown): void {
   try {
-    producer(env)?.record({ operation: "registry.request", durationMs: Math.round(durationMs), outcome: failure === undefined ? "ok" : "error",
+    producer(env)?.record({ operation, durationMs: Math.round(durationMs), outcome: failure === undefined ? "ok" : "error",
       ...(failure === undefined ? {} : { errorCode: "registry.request" }),
       ...(failure instanceof Error ? { diagnostics: { version: 1, name: "Error", message: "", frames: (failure.stack ?? "").split("\n").filter(line => /^\s*at /u.test(line)) } } : {}) });
   } catch { return; }

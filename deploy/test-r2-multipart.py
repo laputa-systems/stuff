@@ -6,6 +6,7 @@ import pathlib
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SCRIPT = pathlib.Path(__file__).with_name("r2-multipart.py")
 sys.path.insert(0, str(SCRIPT.parent))
@@ -110,6 +111,8 @@ class SigV4Tests(unittest.TestCase):
 class MultipartFlowTests(unittest.TestCase):
     def setUp(self):
         self.saved = dict(os.environ)
+        self.isolated = tempfile.TemporaryDirectory()
+        os.environ["STUFF_CONFIG_HOME"] = self.isolated.name
         self.server = fake_s3.serve()
         self.server.verify_signature = True
         self.server.request_log_style = "full"
@@ -129,6 +132,7 @@ class MultipartFlowTests(unittest.TestCase):
         self.server.server_close()
         os.environ.clear()
         os.environ.update(self.saved)
+        self.isolated.cleanup()
 
     def run_upload(self, payload):
         with tempfile.TemporaryDirectory() as work:
@@ -154,6 +158,33 @@ class MultipartFlowTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             self.run_upload(b"abcdefghij")
         self.assertEqual(self.server.requests[-1][0], "DELETE")
+
+    def test_upload_accepts_lowercase_gateway_response_headers(self):
+        original = fake_s3.FakeS3Handler._reply
+
+        def lowercase(handler, status, body=b"", headers=None):
+            return original(handler, status, body, {name.lower(): value for name, value in (headers or {}).items()})
+
+        with patch.object(fake_s3.FakeS3Handler, "_reply", lowercase):
+            self.run_upload(b"abcdefghij")
+        self.assertEqual(self.server.objects[("bucket", "path/artifact")][0], b"abcdefghij")
+
+    def test_conditional_completion_verifies_existing_bytes_and_aborts_parts(self):
+        self.run_upload(b"abcdefghij")
+        actual = r2.request
+
+        def immutable_complete(method, url, *args, **kwargs):
+            if method == "POST" and "uploadId=" in url:
+                return 412, b"", {}
+            return actual(method, url, *args, **kwargs)
+
+        with patch.object(r2, "request", side_effect=immutable_complete):
+            self.run_upload(b"abcdefghij")
+            self.assertEqual(self.server.requests[-1][0], "DELETE")
+            with self.assertRaises(SystemExit):
+                self.run_upload(b"changedxxx")
+        self.assertEqual(self.server.requests[-1][0], "DELETE")
+        self.assertEqual(self.server.uploads, {})
 
 
 if __name__ == "__main__":

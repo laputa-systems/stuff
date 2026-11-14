@@ -19,7 +19,7 @@ manifests, and the generation set, and aborts if any of them changed.
 
 import argparse
 from contextlib import nullcontext
-from publication_gc import configured, registry_for_bucket, GCError
+from publication_service import configured, registry_for_bucket, PublicationError
 import importlib.util
 import json
 import os
@@ -316,7 +316,7 @@ def main(argv):
         def delete_batch(keys):
             delete_local(args.blob_bucket, keys, jobs)
 
-    with publish_lock(args.meta_bucket), service.lease(args.meta_bucket) if service is not None else nullcontext() as lease:
+    with publish_lock(args.meta_bucket), service.gc_lease(args.meta_bucket) if service is not None else nullcontext() as lease:
         meta_objects = list_meta(args.meta_bucket)
         blobs = list_meta(args.blob_bucket)
         plan = plan_drop(args, meta_objects, blobs, get_body)
@@ -336,5 +336,5 @@ def main(argv):
 if __name__ == "__main__":
     try:
         sys.exit(main(sys.argv[1:]))
-    except GCError as error:
+    except PublicationError as error:
         fail(str(error))

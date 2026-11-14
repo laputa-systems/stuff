@@ -119,4 +119,17 @@ export default {async fetch(req,env,ctx){if(new URL(req.url).pathname==='/__cloc
   assert.equal((await call("gc-object", { token: lease.token, key: "blobs/orphan" })).status, 409, "retained manifest protects shared blob");
   assert.equal((await call("gc-object", { token: lease.token, key: "current" })).status, 400);
   await call("abort", { token: lease.token });
+  for (let index = 0; index < 37; index++) put(`generations/large/item-${index}`, "collect me");
+  put("manifests/large.json", manifest);
+  lease = (await call("gc-claim")).value;
+  const batch = await call("gc-delete", { token: lease.token, generation: "large" });
+  assert.equal(batch.status, 200);
+  assert.deepEqual(batch.value, { deleted: 32, complete: false });
+  assert.ok(objects.has("manifests/large.json"), "the manifest protects shared references until generation deletion completes");
+  assert.equal((await call("renew", { token: lease.token })).status, 200, "large GC leaves the actor available for lease renewal between batches");
+  const finished = await call("gc-delete", { token: lease.token, generation: "large" });
+  assert.equal(finished.status, 200);
+  assert.deepEqual(finished.value, { deleted: 6, complete: true });
+  assert.equal(objects.has("manifests/large.json"), false);
+  await call("abort", { token: lease.token });
 });

@@ -20,7 +20,8 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 
-from r2_common import PART_SIZE, fail, object_url, quote
+from publication_service import PublicationError, upload_session
+from r2_common import PART_SIZE, fail, load_sibling, object_url, quote
 
 EMPTY_SHA256 = hashlib.sha256(b"").hexdigest()
 
@@ -157,7 +158,7 @@ def completion_error(body):
     return find_text(root, "Code") or find_text(root, "Message")
 
 
-def main():
+def upload(lease=None):
     if len(sys.argv) != 5:
         fail("usage: r2-multipart.py FILE BUCKET KEY CONTENT_TYPE")
     path, bucket, key, content_type = sys.argv[1:5]
@@ -183,6 +184,8 @@ def main():
         with open(path, "rb") as f:
             part = 1
             while True:
+                if lease is not None:
+                    lease.check()
                 chunk = f.read(PART_SIZE)
                 if not chunk:
                     break
@@ -195,7 +198,7 @@ def main():
                 if status != 200:
                     abort()
                     fail(f"part {part} upload failed: HTTP {status}")
-                etag = headers.get("ETag") or headers.get("Etag") or ""
+                etag = next((value for name, value in headers.items() if name.lower() == "etag"), "")
                 if not etag:
                     abort()
                     fail(f"part {part} upload returned no ETag")
@@ -209,21 +212,50 @@ def main():
             '<?xml version="1.0" encoding="UTF-8"?>'
             f"<CompleteMultipartUpload>{parts_xml}</CompleteMultipartUpload>"
         ).encode()
+        if lease is not None:
+            lease.check()
         status, body, _ = request(
             "POST",
             base + f"?uploadId={quote(upload_id)}",
             complete,
             content_type,
         )
+        if status == 412:
+            verifier = load_sibling("r2_put_verification", "r2-put.py")
+            sha = hashlib.sha256()
+            with open(path, "rb") as source:
+                for chunk in iter(lambda: source.read(1 << 20), b""):
+                    sha.update(chunk)
+            try:
+                verifier.verify_existing_object(base, sha.hexdigest(), size)
+            except verifier.PutError as error:
+                abort()
+                fail(error.detail)
+            abort()
+            print(f"verified existing immutable {key} ({size} bytes)")
+            return
         error = completion_error(body)
         if status != 200 or error:
             abort()
             detail = f": {error}" if error else ""
             fail(f"complete multipart upload failed: HTTP {status}{detail}")
+    except PublicationError:
+        abort()
+        raise
     except OSError as e:
         abort()
         fail(f"could not read {path}: {e}")
     print(f"multipart {key} ({size} bytes, {len(etags)} parts)")
+
+
+def main():
+    if len(sys.argv) != 5:
+        fail("usage: r2-multipart.py FILE BUCKET KEY CONTENT_TYPE")
+    try:
+        with upload_session(sys.argv[2]) as lease:
+            return upload(lease)
+    except PublicationError as error:
+        fail(str(error))
 
 
 if __name__ == "__main__":

@@ -603,3 +603,19 @@ checks every retained manifest or OCI blob inventory and retires exact S3
 version IDs before deletion; a later upload of the same content remains safe.
 Dry runs hold the lease while planning and release it without deleting objects.
 Backend credentials must never be given to an ordinary publisher.
+
+Optional OCI HTTP manifest pushes use the same activation lease and receipt
+protocol. The native `myoci writer` uploads completed blobs through the service
+using the same credential file; single PUT and multipart helpers acquire and
+renew an upload lease. Repeated immutable uploads verify the existing bytes.
+Each upload session holds a file lock across append, digest verification and
+storage, and separate sessions use separate staging directories. Lock files
+remain stable between requests; remove them only while the writer is stopped.
+HTTP push remains disabled unless its push token, session secret and writer
+origin are configured. Native `stuff publish oci` needs none of those settings.
+
+When application telemetry is configured, activation, rollback and OCI manifest
+requests emit `registry.publication.attempt.<registry>`; other requests emit
+`registry.request`. Receipt retries count as attempts. Operation names contain
+no package names, paths or tokens. Delivery is bounded and does not gate serving
+or publication when Stats is unavailable.

@@ -143,6 +143,14 @@ fn handle_connection(mut stream: TcpStream, options: &WriterOptions) {
         return;
     }
     let temp = options.state.uploads_dir().join(&upload_id);
+    let _session_lock = match lock_upload(&options.state, &upload_id) {
+        Ok(lock) => lock,
+        Err(error) => {
+            let code = if error.kind() == std::io::ErrorKind::WouldBlock { ErrorCode::Conflict } else { ErrorCode::BlobUploadInvalid };
+            crate::serve::send_plan(&mut stream, &plan_error(&OciError::new(code, "upload session is busy or unavailable")), None);
+            return;
+        }
+    };
     match request.method {
         WriteMethod::UploadStatus { .. } => {
             let length = std::fs::metadata(&temp).map(|meta| meta.len()).unwrap_or(0);
@@ -187,6 +195,17 @@ fn handle_connection(mut stream: TcpStream, options: &WriterOptions) {
         }
         _ => {}
     }
+}
+
+fn lock_upload(state: &State, upload_id: &str) -> std::io::Result<std::fs::File> {
+    // Keep the lock inode stable so concurrent requests cannot lock different files for one session.
+    let path = state.uploads_dir().join(format!(".lock-{upload_id}"));
+    let file = std::fs::OpenOptions::new().create(true).truncate(false).read(true).write(true).open(path)?;
+    file.try_lock().map_err(|error| match error {
+        std::fs::TryLockError::WouldBlock => std::io::Error::from(std::io::ErrorKind::WouldBlock),
+        std::fs::TryLockError::Error(error) => error,
+    })?;
+    Ok(file)
 }
 
 fn append_body(
@@ -444,7 +463,9 @@ fn upload_r2(
         }
         return Ok(());
     }
-    let stage = state.uploads_dir().join(format!(".r2-{}", digest.hex()));
+    let session = temp.file_name().and_then(|name| name.to_str())
+        .ok_or_else(|| fail("invalid upload session filename".to_string()))?;
+    let stage = state.uploads_dir().join(format!(".r2-{}-{session}", digest.hex()));
     let _ = std::fs::remove_dir_all(&stage);
     std::fs::create_dir_all(stage.join("sha256"))
         .map_err(|error| fail(format!("could not create R2 staging: {error}")))?;
@@ -471,4 +492,24 @@ fn now() -> u64 {
         .duration_since(UNIX_EPOCH)
         .map(|duration| duration.as_secs())
         .unwrap_or(0)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn upload_sessions_exclude_concurrent_mutation_and_release_on_disconnect() {
+        let directory = tempfile::tempdir().unwrap();
+        let state = State::new(directory.path().to_path_buf());
+        std::fs::create_dir_all(state.uploads_dir()).unwrap();
+        let first = lock_upload(&state, "first").unwrap();
+        assert_eq!(lock_upload(&state, "first").unwrap_err().kind(), std::io::ErrorKind::WouldBlock);
+        let other = lock_upload(&state, "other").unwrap();
+        drop(first);
+        let reopened = lock_upload(&state, "first").unwrap();
+        assert_eq!(lock_upload(&state, "other").unwrap_err().kind(), std::io::ErrorKind::WouldBlock);
+        drop((other, reopened));
+        assert!(lock_upload(&state, "other").is_ok());
+    }
 }

@@ -1,5 +1,6 @@
-"""Exclusive publication-service leases for the registry GC planners."""
+"""Bounded publication-service credentials and exclusive writer/GC leases."""
 
+import contextlib
 import json
 import os
 import stat
@@ -8,10 +9,11 @@ import threading
 import urllib.error
 import urllib.parse
 import urllib.request
+from enum import Enum
 from pathlib import Path
 
 
-class GCError(RuntimeError):
+class PublicationError(RuntimeError):
     pass
 
 
@@ -25,21 +27,21 @@ class Service:
         expected = {"schema", "endpoint", "coordinator_token", "access_key_id", "secret_access_key", "region"}
         if (not isinstance(document, dict) or set(document) != expected
                 or type(document["schema"]) is not int or document["schema"] != 1):
-            raise GCError("unsupported publishing credential schema")
+            raise PublicationError("unsupported publishing credential schema")
         if any(not isinstance(document[key], str) or not document[key] or not document[key].isascii()
                or any(ord(char) < 32 or ord(char) == 127 for char in document[key])
                for key in expected - {"schema"}):
-            raise GCError("invalid publishing credential fields")
+            raise PublicationError("invalid publishing credential fields")
         try:
             url = urllib.parse.urlsplit(document["endpoint"])
             _ = url.port
         except ValueError:
-            raise GCError("invalid publishing endpoint") from None
+            raise PublicationError("invalid publishing endpoint") from None
         loopback = url.scheme == "http" and url.hostname in ("localhost", "127.0.0.1", "::1")
         if (not url.hostname or url.username is not None or url.password is not None
                 or url.path not in ("", "/") or url.query or url.fragment
                 or (url.scheme != "https" and not loopback)):
-            raise GCError("publishing endpoint requires HTTPS without credentials, path or query")
+            raise PublicationError("publishing endpoint requires HTTPS without credentials, path or query")
         self._document = document
         self.endpoint = document["endpoint"].rstrip("/")
         self._opener = urllib.request.build_opener(_NoRedirect())
@@ -64,29 +66,32 @@ class Service:
             with self._opener.open(request, timeout=15) as response:
                 encoded = response.read(16385)
                 if len(encoded) > 16384:
-                    raise GCError("publication service response exceeds 16 KiB")
+                    raise PublicationError("publication service response exceeds 16 KiB")
             value = json.loads(encoded)
         except urllib.error.HTTPError as error:
             error.close()
-            raise GCError(f"publication service {operation} failed: HTTP {error.code}") from None
+            raise PublicationError(f"publication service {operation} failed: HTTP {error.code}") from None
         except (OSError, ValueError):
-            raise GCError(f"publication service {operation} unavailable") from None
+            raise PublicationError(f"publication service {operation} unavailable") from None
         if not isinstance(value, dict):
-            raise GCError("invalid publication service response")
+            raise PublicationError("invalid publication service response")
         return value
 
-    def lease(self, bucket):
-        return Lease(self, registry_for_bucket(bucket))
+    def gc_lease(self, bucket):
+        return Lease(self, registry_for_bucket(bucket), Purpose.GC)
+
+    def upload_lease(self, bucket):
+        return Lease(self, registry_for_bucket(bucket), Purpose.UPLOAD)
 
 
 def configured():
     names = ("STUFF_COORDINATOR_URL", "STUFF_COORDINATOR_TOKEN", "STUFF_S3_ACCESS_KEY_ID", "STUFF_S3_SECRET_ACCESS_KEY")
     if any(name in os.environ for name in names):
         if not all(os.environ.get(name) for name in names):
-            raise GCError("all publishing service environment credentials are required")
+            raise PublicationError("all publishing service environment credentials are required")
         gateway = os.environ.get("STUFF_S3_GATEWAY_URL")
         if gateway is not None and gateway.rstrip("/") != os.environ[names[0]].rstrip("/") + "/_s3":
-            raise GCError("STUFF_S3_GATEWAY_URL must be the publishing endpoint's /_s3 route")
+            raise PublicationError("STUFF_S3_GATEWAY_URL must be the publishing endpoint's /_s3 route")
         return Service({"schema": 1, "endpoint": os.environ[names[0]], "coordinator_token": os.environ[names[1]],
                         "access_key_id": os.environ[names[2]], "secret_access_key": os.environ[names[3]],
                         "region": os.environ.get("STUFF_S3_REGION", "auto")})
@@ -97,22 +102,22 @@ def configured():
         with path.open("rb") as handle:
             metadata = os.fstat(handle.fileno())
             if not stat.S_ISREG(metadata.st_mode) or metadata.st_mode & 0o077 or metadata.st_size > 65536:
-                raise GCError("publishing credentials require an owner-only regular file of at most 64 KiB")
+                raise PublicationError("publishing credentials require an owner-only regular file of at most 64 KiB")
             value = handle.read(65537)
     except FileNotFoundError:
         if "STUFF_CREDENTIAL_FILE" in os.environ:
-            raise GCError("cannot read publishing credentials") from None
+            raise PublicationError("cannot read publishing credentials") from None
         if os.environ.get("STUFF_COORDINATOR_ENABLED") == "true":
-            raise GCError("publishing service credentials are required") from None
+            raise PublicationError("publishing service credentials are required") from None
         return None
     except OSError:
-        raise GCError("cannot read publishing credentials") from None
+        raise PublicationError("cannot read publishing credentials") from None
     try:
         if len(value) > 65536:
             raise ValueError()
         document = json.loads(value)
     except ValueError:
-        raise GCError("invalid publishing credential JSON") from None
+        raise PublicationError("invalid publishing credential JSON") from None
     return Service(document)
 
 
@@ -124,31 +129,37 @@ def registry_for_bucket(bucket):
             result = subprocess.run([os.environ.get("STUFF", "stuff"), "lock-path", "--registry", registry],
                                     capture_output=True, text=True, timeout=15)
         except (OSError, subprocess.TimeoutExpired):
-            raise GCError("cannot resolve registry publication lock") from None
+            raise PublicationError("cannot resolve registry publication lock") from None
         if result.returncode != 0:
-            raise GCError("cannot resolve registry publication lock")
+            raise PublicationError("cannot resolve registry publication lock")
         if result.stdout.strip() == bucket_lock:
             return registry
-    raise GCError("bucket has no configured registry publication lock")
+    raise PublicationError("bucket has no configured registry publication lock")
+
+
+class Purpose(Enum):
+    GC = "gc-claim"
+    UPLOAD = "begin"
 
 
 class Lease:
-    def __init__(self, service, registry):
+    def __init__(self, service, registry, purpose):
         self.service = service
         self.registry = registry
+        self._purpose = purpose
         self._stop = threading.Event()
         self._failed = threading.Event()
         self._thread = None
         self._token = None
 
     def __enter__(self):
-        value = self.service.request(self.registry, "gc-claim", {})
+        value = self.service.request(self.registry, self._purpose.value, {})
         token = value.get("token")
         if (not isinstance(token, str) or not token or len(token) > 128
                 or any(not (char.isascii() and (char.isalnum() or char in "_-")) for char in token)):
-            raise GCError("invalid GC lease token")
+            raise PublicationError("invalid publication lease token")
         self._token = token
-        self._thread = threading.Thread(target=self._renew, name="publication-gc-renew")
+        self._thread = threading.Thread(target=self._renew, name="publication-lease-renew")
         try:
             self._thread.start()
         except RuntimeError:
@@ -160,27 +171,57 @@ class Lease:
         while not self._stop.wait(60):
             try:
                 self.service.request(self.registry, "renew", {"token": self._token})
-            except GCError:
+            except PublicationError:
                 self._failed.set()
                 return
 
     def check(self):
         if self._failed.is_set():
-            raise GCError("GC lease renewal failed; deletion stopped")
+            raise PublicationError("publication lease renewal failed; writes stopped")
+
+    def install_s3_credentials(self):
+        self.check()
+        self.service.read_credentials()
+        os.environ["R2_S3_SESSION_TOKEN"] = self._token
 
     def delete(self, operation, **body):
-        self.check()
-        result = self.service.request(self.registry, operation, dict(token=self._token, **body))
-        self.check()
-        return result
+        deleted = 0
+        while True:
+            self.check()
+            result = self.service.request(self.registry, operation, dict(token=self._token, **body))
+            self.check()
+            if operation != "gc-delete":
+                return result
+            count = result.get("deleted")
+            complete = result.get("complete")
+            if type(count) is not int or count < 0 or type(complete) is not bool:
+                raise PublicationError("invalid generation collection response")
+            deleted += count
+            if complete:
+                return {"deleted": deleted, "complete": True}
+            if count == 0:
+                raise PublicationError("generation collection made no progress")
 
     def __exit__(self, error_type, error, traceback):
         self._stop.set()
         self._thread.join()
         try:
             self.service.request(self.registry, "abort", {"token": self._token})
-        except GCError:
+        except PublicationError:
             if error_type is None:
                 raise
         if error_type is None:
             self.check()
+
+
+@contextlib.contextmanager
+def upload_session(bucket):
+    service = configured()
+    if service is None:
+        yield None
+        return
+    if os.environ.get("CF_LOCAL_STATE"):
+        raise PublicationError("Cloudflare local transport cannot use publishing service credentials")
+    with service.upload_lease(bucket) as lease:
+        lease.install_s3_credentials()
+        yield lease
