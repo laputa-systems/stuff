@@ -34,8 +34,7 @@ ghostty-custom = { gap = "ignored in the catalog with no checkout; the installed
 [producers."joshuarli/img"]
 
 [producers."joshuarli/img".commands]
-img = { gap = "primary help does not print the owned-tool footer yet" }
-rimage = { gap = "usr installs it from the former joshuarli/rimage name (usr USR-64); help is not migrated" }
+img = { help = { source = "src/cli/mod.rs", test = "tests/cli.rs" } }
 
 [producers."joshuarli/ish"]
 
