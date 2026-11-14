@@ -64,7 +64,7 @@ cpus = 2.0
 [apps.stuff]
 kind = "orange"
 display = "Stuff registries"
-vars = { STUFF_COORDINATOR_ENABLED = "true" }
+vars = { STUFF_COORDINATOR_ENABLED = "true", STUFF_PUBLISH_HOST = "stuff-publish.17166969.xyz" }
 worker_s3 = true
 versioning = true
 secrets = ["STUFF_COORDINATOR_TOKEN", "STUFF_S3_ACCESS_KEY_ID", "STUFF_S3_SECRET_ACCESS_KEY", "STUFF_OCI_PUSH_TOKEN", "STUFF_OCI_PUSH_SECRET", "APPLICATION_EVENTS_ENDPOINT", "APPLICATION_EVENTS_SERVICE", "APPLICATION_EVENTS_TOKEN"]
@@ -72,6 +72,17 @@ namespace = "stuff"
 ip = "172.29.80.21"
 port = 8080
 hostnames = [
+  "stuff.17166969.xyz",
+  "stuff-publish.17166969.xyz",
+  "crates.17166969.xyz",
+  "crates-blobs.17166969.xyz",
+  "npm.17166969.xyz",
+  "pypi.17166969.xyz",
+  "oci.17166969.xyz",
+  "oci-blobs.17166969.xyz",
+  "mirror.17166969.xyz",
+]
+public_hostnames = [
   "stuff.17166969.xyz",
   "crates.17166969.xyz",
   "crates-blobs.17166969.xyz",
@@ -81,6 +92,8 @@ hostnames = [
   "oci-blobs.17166969.xyz",
   "mirror.17166969.xyz",
 ]
+public_methods = ["GET", "HEAD"]
+public_deny_paths = ["/_s3", "/_publication", "/admin"]
 buckets = [
   "stuff-mycrates",
   "stuff-mynpm",

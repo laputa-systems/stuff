@@ -162,6 +162,10 @@ def render_caddyfile(cfg) -> str:
                           # Tolerate dot segments, repeated slashes and `;params` the app might normalise away.
                           f"\t\t@denyre{i} path_regexp (?i)^/+(?:\\.{{1,2}}/+)*{path.lstrip('/')}(?:[/;]|$)",
                           f"\t\trespond @denyre{i} 404"]
+            if app.public_methods:
+                lines += [f"\t\t@private_method not method {' '.join(app.public_methods)}",
+                          f"\t\theader @private_method Allow \"{', '.join(app.public_methods)}\"",
+                          "\t\trespond @private_method 405"]
             if app.kind == "orange" and not cfg.app_image_file(app).exists():
                 lines += ['\t\trespond "app not deployed" 503']
             else:

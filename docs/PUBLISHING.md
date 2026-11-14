@@ -389,6 +389,13 @@ The retired `cf_profile` configuration field is rejected.
 
 ## Publish from a new machine
 
+A pull needs no credentials or Tailscale: the registry and blob URLs accept
+anonymous GET and HEAD requests. Publishing uses
+`https://stuff-publish.17166969.xyz`, which resolves directly to Lisa's
+tailnet address. The public listener blocks other methods and the upload and
+coordinator paths. Publishers need Tailscale access and the protected service
+credential file; they do not need split DNS.
+
 A machine with no local state reads the live generation and manifest, verifies the objects it uses against listing size and ETag, and prepares against that snapshot. The coordinator serializes writers across machines. A conflicting lease or revision returns a conflict without replacing another writer's generation.
 
 `deploy/r2-pull.py BUCKET DEST` only reads the bucket. It fetches the current generation and the shared stores and checks each object against its listing ETag, using the multipart ETag algorithm for objects uploaded in parts. After the download it checks every entry of the generation's manifest (key, size, ETag) against the pulled tree; a generation published before manifests existed is pulled without that check. With the publishing service credentials, or explicit archive `R2_S3_*`, it lists through the S3 API and downloads `R2_PULL_JOBS` objects in parallel. `R2_PULL_CF_ONLY=1` forces the paced `cf` transport.
@@ -550,7 +557,7 @@ Store service credentials in `~/.config/stuff/credentials.json` with mode 600
 `XDG_CONFIG_HOME` follow the existing configuration directory rules. The JSON
 has schema 1 and requires `endpoint`, `coordinator_token`, `access_key_id`,
 `secret_access_key`, and `region`. The endpoint is the management origin, for
-example `https://stuff.17166969.xyz`; its S3 route is derived from that origin.
+example `https://stuff-publish.17166969.xyz`; its S3 route is derived from that origin.
 These are service credentials, distinct from the backing store credentials.
 The service must be enabled and verified before installing this file.
 

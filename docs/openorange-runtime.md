@@ -92,12 +92,14 @@ Generation retirement remains permanent, so historical URLs are never reused.
 ## Topology
 
 Discover's public names use split DNS. A digest-pinned CoreDNS 1.15.0 container
-binds UDP and TCP port 53 only on Lisa's tailnet address. It derives the four
+binds UDP and TCP port 53 only on Lisa's tailnet address. It derives the
 names from `public_hostnames`, answers their A records with the ingress address,
 and returns empty successful AAAA answers so browsers use the private ingress.
 Queries below those names, including ACME TXT checks, fall through to public
 resolvers. Other domains are refused. Tailscale's restricted nameserver routes
-must name this resolver for each public hostname before public tunnel cutover.
+must name this resolver for Discover's public hostnames before their public
+tunnel cutover. Stuff uses the separate private publishing hostname
+`stuff-publish.17166969.xyz`, so its publishers do not require split DNS.
 The resolver is stateless and stays up during application data fencing.
 `bin/oo dns-routes` prints the exact JSON map for a Tailscale
 `PATCH /api/v2/tailnet/-/dns/split-dns`; a partial update preserves unrelated
@@ -453,13 +455,18 @@ instances exist but are not in the default runlevel until an image is deployed.
 4. Off-host/off-disk backup destination.
 5. Tansu tunnel retirement at cutover.
 
-## Discover public connector
+## Public connector
 
 `oo-tunnel` runs cloudflared 2026.10.7 by digest under OpenRC. Its only
 origin is the loopback public listener. `oo tunnel-config` derives its
 remote ingress rules from each enabled app's `public_hostnames`, then
-adds a 404 catch-all. Stats, Stuff and Tansu have no public tunnel route.
-The public listener refuses `/admin` before forwarding any request.
+adds a 404 catch-all. Stats and Tansu have no public tunnel route.
+Stuff's eight pull hostnames accept only GET and HEAD on this listener;
+`/_s3`, `/_publication`, and `/admin` are refused before forwarding.
+`public_methods` declares the allowed methods and returns 405 for other
+methods. Its private publishing hostname is absent from the public listener
+and tunnel. Discover retains its public reader and bearer MCP routes, with
+`/admin` refused before forwarding.
 
 The root-owned `/etc/openorange/tunnel.env` supplies `TUNNEL_TOKEN` through
 Docker's environment file. The token never appears in process arguments.

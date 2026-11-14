@@ -8,6 +8,7 @@ import { resolve, join } from "node:path";
 import { generate } from "../scripts/orange.mjs";
 const root = resolve(import.meta.dirname, "../../..");
 const workerDir = resolve(import.meta.dirname, "..");
+const publishingHost = "stuff-publish.17166969.xyz";
 const hash = value => createHash("sha256").update(value).digest("hex");
 const hmac = (key, value) => createHmac("sha256", key).update(value).digest();
 const quote = value => encodeURIComponent(value).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
@@ -23,7 +24,7 @@ function signature(method, path, headers, signed, secret) {
 async function listen(server) { await new Promise(ok => server.listen(0,"127.0.0.1",ok)); return server.address().port; }
 function signed(method,path,body,token,overrides={}) {
   const date = new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
-  const headers = {host:"stuff.17166969.xyz","x-amz-date":date,"x-amz-content-sha256":hash(body),...(token ? {"x-amz-security-token":token}:{}),...(body.length || method === "PUT" || method === "POST" ? {"content-length":String(body.length)}:{}),...overrides};
+  const headers = {host:publishingHost,"x-amz-date":date,"x-amz-content-sha256":hash(body),...(token ? {"x-amz-security-token":token}:{}),...(body.length || method === "PUT" || method === "POST" ? {"content-length":String(body.length)}:{}),...overrides};
   const names = Object.keys(headers).sort();
   headers.authorization = `AWS4-HMAC-SHA256 Credential=service/${date.slice(0,8)}/auto/s3/aws4_request, SignedHeaders=${names.join(";")}, Signature=${signature(method,path,headers,names,"service-secret")}`;
   return headers;
@@ -68,7 +69,7 @@ test("Orange S3 gateway verifies signatures, streams bytes and fences mutations"
   const file=join(directory,"orange.jsonc");const config=generate(file,"gateway-test");
   const mapping=Object.fromEntries(config.r2_buckets.map(value=>[value.binding,`custom-${value.binding.toLowerCase().replaceAll("_","-")}`]));
   for(const binding of config.r2_buckets)binding.bucket_name=mapping[binding.binding];
-  Object.assign(config.vars,{STUFF_S3_BUCKET_BINDINGS:JSON.stringify(mapping),STUFF_COORDINATOR_ENABLED:"true",STUFF_COORDINATOR_TOKEN:"management",STUFF_S3_ACCESS_KEY_ID:"service",STUFF_S3_SECRET_ACCESS_KEY:"service-secret",S3_ENDPOINT:`http://127.0.0.1:${backendPort}`,S3_REGION:"auto",S3_ACCESS_KEY_ID:"backend",S3_SECRET_ACCESS_KEY:"backend-secret"});
+  Object.assign(config.vars,{STUFF_S3_BUCKET_BINDINGS:JSON.stringify(mapping),STUFF_COORDINATOR_ENABLED:"true",STUFF_PUBLISH_HOST:publishingHost,STUFF_COORDINATOR_TOKEN:"management",STUFF_S3_ACCESS_KEY_ID:"service",STUFF_S3_SECRET_ACCESS_KEY:"service-secret",S3_ENDPOINT:`http://127.0.0.1:${backendPort}`,S3_REGION:"auto",S3_ACCESS_KEY_ID:"backend",S3_SECRET_ACCESS_KEY:"backend-secret"});
   const wrapper=join(directory,"wrapper.mjs");
   writeFileSync(wrapper,`import worker from ${JSON.stringify(join(workerDir,"build/orange/workers/default/bundle/entry.js"))};export {PublicationCoordinator} from ${JSON.stringify(join(workerDir,"build/orange/workers/default/bundle/entry.js"))};let offset=0;const now=Date.now;Date.now=()=>now()+offset;export default {async fetch(req,env,ctx){const path=new URL(req.url).pathname;if(path==="/__clock"){offset+=600000;return new Response("ok");}if(path==="/__seed"){await env.MYCRATES.put("current","g0");await env.MYCRATES.put("manifests/g0.json",JSON.stringify({schemaVersion:1,objects:[]}));return new Response("ok");}return worker.fetch(req,env,ctx);}};`);
   config.main=wrapper;writeFileSync(file,JSON.stringify(config));
@@ -76,9 +77,11 @@ test("Orange S3 gateway verifies signatures, streams bytes and fences mutations"
   let logs="";
   await new Promise((ok,fail)=>{const timer=setTimeout(()=>fail(new Error(logs)),60000);child.stdout.on("data",chunk=>{logs=(logs+chunk).slice(-32768);if(logs.includes('"type":"ready"')){clearTimeout(timer);ok();}});child.stderr.on("data",chunk=>{logs=(logs+chunk).slice(-32768);});child.once("exit",code=>{clearTimeout(timer);fail(new Error(`Orange exit ${code}: ${logs}`));});});
   const call=(method,path,body=Buffer.alloc(0),headers={})=>new Promise((ok,fail)=>{
-    const req=request({host:"127.0.0.1",port,path,method,headers:{host:"stuff.17166969.xyz",...headers}},res=>{const chunks=[];res.on("data",chunk=>chunks.push(chunk));res.on("end",()=>ok({status:res.statusCode,headers:res.headers,body:Buffer.concat(chunks)}));});req.on("error",fail);req.end(body);
+    const req=request({host:"127.0.0.1",port,path,method,headers:{host:publishingHost,...headers}},res=>{const chunks=[];res.on("data",chunk=>chunks.push(chunk));res.on("end",()=>ok({status:res.statusCode,headers:res.headers,body:Buffer.concat(chunks)}));});req.on("error",fail);req.end(body);
   });
   assert.equal((await call("POST","/__seed")).status,200);
+  assert.equal((await call("GET","/_s3/custom-mycrates/current",Buffer.alloc(0),signed("GET","/_s3/custom-mycrates/current",Buffer.alloc(0),undefined,{host:"stuff.17166969.xyz"}))).status,404);
+  assert.equal((await call("POST","/_publication/cargo/begin",Buffer.from("{}"),{host:"stuff.17166969.xyz",authorization:"Bearer management"})).status,405);
   const lease=JSON.parse((await call("POST","/_publication/cargo/begin",Buffer.from("{}"),{authorization:"Bearer management"})).body);
   assert.ok(lease.token);
   const path="/_s3/custom-mycrates/generations/g1/data";const body=Buffer.from("immutable bytes");

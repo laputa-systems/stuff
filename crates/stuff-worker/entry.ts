@@ -67,6 +67,7 @@ interface CoordinatorNamespace {
 interface WorkerEnv {
   readonly STUFF_ROUTES: string;
   readonly STUFF_UNIFIED_HOST?: string;
+  readonly STUFF_PUBLISH_HOST?: string;
   readonly STUFF_OCI_HOST?: string;
   readonly STUFF_CARGO_BLOB_HOST?: string;
   readonly STUFF_OCI_BLOB_HOST?: string;
@@ -881,11 +882,12 @@ async function primaryRead(
 
 async function serve(req: Request, env: WorkerEnv): Promise<Response> {
     const url = new URL(req.url);
-    if (url.hostname === env.STUFF_UNIFIED_HOST && url.pathname.startsWith("/_s3/")) {
+    const publishingHost = env.STUFF_PUBLISH_HOST ?? env.STUFF_UNIFIED_HOST;
+    if (url.hostname === publishingHost && url.pathname.startsWith("/_s3/")) {
       if (env.STUFF_COORDINATOR_ENABLED !== "true") return notFound();
       return gateway(req, env, (registry, op, request) => coordinatorRequest(env, registry, op, request));
     }
-    if (url.hostname === env.STUFF_UNIFIED_HOST && url.pathname.startsWith("/_publication/")) {
+    if (url.hostname === publishingHost && url.pathname.startsWith("/_publication/")) {
       if (env.STUFF_COORDINATOR_ENABLED !== "true") return notFound();
       if (!await authorized(req, env.STUFF_COORDINATOR_TOKEN ?? "")) return new Response("unauthorized", { status: 401 });
       const match = /^\/_publication\/(cargo|npm|pypi|oci|mirror)\/(begin|renew|abort|activate|rollback|gc-claim|gc-delete|gc-object|current)$/.exec(url.pathname);

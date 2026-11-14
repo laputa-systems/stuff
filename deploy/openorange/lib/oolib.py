@@ -147,6 +147,7 @@ class App:
     # that arrives through an outbound-only tunnel. Everything else is tailnet-only.
     public_hostnames: tuple[str, ...] = ()
     public_deny_paths: tuple[str, ...] = ("/admin",)  # each entry and `entry/*` answer 404 publicly
+    public_methods: tuple[str, ...] = ()
 
     @property
     def container(self) -> str:
@@ -311,7 +312,7 @@ def validate(raw: dict) -> Config:
     used_ns: set[str] = set(RESERVED_NAMESPACES)
     used_hosts: dict[str, str] = {}
     used_buckets: set[str] = set()
-    common = {"kind", "display", "hostnames", "enabled", "health_path", "public_hostnames", "public_deny_paths"}
+    common = {"kind", "display", "hostnames", "enabled", "health_path", "public_hostnames", "public_deny_paths", "public_methods"}
     orange_keys = common | {"namespace", "ip", "port", "buckets", "image", "memory", "cpus", "secrets", "internet", "vars", "worker_s3", "versioning"}
     native_keys = common | {"upstream"}
     for name, a in raw.get("apps", {}).items():
@@ -341,8 +342,13 @@ def validate(raw: dict) -> Config:
         deny = tuple(a.get("public_deny_paths", ["/admin"]))
         if not all(isinstance(p, str) and re.match(r"^/[A-Za-z0-9._~/-]*[A-Za-z0-9._~-]$", p) for p in deny):
             raise ConfigError(f"{where}.public_deny_paths must be absolute path prefixes without a trailing slash")
+        methods = a.get("public_methods", [])
+        if not isinstance(methods, list) or any(not isinstance(method, str) or method not in {"GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"} for method in methods) or len(methods) != len(set(methods)):
+            raise ConfigError(f"{where}.public_methods must list distinct HTTP methods")
+        if methods and not pubs:
+            raise ConfigError(f"{where}.public_methods requires public_hostnames")
         kw = dict(name=name, kind=kind, display=a.get("display", name), hostnames=hosts, enabled=enabled,
-                  health_path=a.get("health_path", "/"), public_hostnames=pubs, public_deny_paths=deny)
+                  health_path=a.get("health_path", "/"), public_hostnames=pubs, public_deny_paths=deny, public_methods=tuple(methods))
         if kind == "orange":
             ns = _req(a, "namespace", str, where)
             ip = _req(a, "ip", str, where)
