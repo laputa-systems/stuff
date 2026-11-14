@@ -137,6 +137,7 @@ encode = { exempt = "personal host or media helper, not an agent-facing tool" }
 "export-cookies.py" = { exempt = "personal host or media helper, not an agent-facing tool" }
 fix-tailscale-magicdns = { exempt = "personal host or media helper, not an agent-facing tool" }
 freeport = { exempt = "personal host or media helper, not an agent-facing tool" }
+intercom-tailnet = { gap = "its help epilog names owned sources but not the owned-tool footer" }
 gh-cancel-pr-runs = { help = { source = "dotfiles/base/.local/bin/gh-cancel-pr-runs", test = "dotfiles/owned-help-test.sh" } }
 ghostty-fda-check = { help = { source = "dotfiles/base/.local/bin/ghostty-fda-check", test = "dotfiles/owned-help-test.sh" } }
 git-bench = { help = { source = "dotfiles/base/.local/bin/git-bench", test = "dotfiles/owned-help-test.sh" } }
