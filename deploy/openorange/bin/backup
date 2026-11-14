@@ -56,7 +56,8 @@ def copy_state(cfg, out, previous, *, fenced):
         target.mkdir(parents=True, exist_ok=True)
         links = [f"--link-dest={previous / sub}"] if previous and (previous / sub).exists() else []
         print(f"{'reconcile' if fenced else 'pre-copy'} {sub}")
-        result = run("rsync", "-aHX", "--numeric-ids", "--delete", *(["--checksum"] if fenced else []),
+        priority = [] if fenced else ["ionice", "-c", "3", "nice", "-n", "19"]
+        result = run(*priority, "rsync", "-aHX", "--numeric-ids", "--delete", *(["--checksum"] if fenced else []),
                      *links, f"{source}/", f"{target}/", check=False)
         if result.returncode not in ([0] if fenced else [0, 24]):
             raise subprocess.CalledProcessError(result.returncode, result.args)

@@ -132,7 +132,7 @@ def main():
     root.mkdir(parents=True, mode=0o700)
     for sub in ("engine/log", "engine/objects", "store/data", "store/versions", "store/iam"):
         (root / sub).mkdir(parents=True)
-        subprocess.run(["rsync", "-aHX", "--numeric-ids", f"{src / sub}/", f"{root / sub}/"], check=True)
+        subprocess.run(["ionice", "-c", "3", "nice", "-n", "19", "rsync", "-aHX", "--numeric-ids", f"{src / sub}/", f"{root / sub}/"], check=True)
     copied_sums = "\n".join(line for line in sums if line.split("  ", 1)[-1].startswith(("engine/", "store/"))) + "\n"
     subprocess.run(["sha256sum", "-c", "--quiet"], cwd=root, input=copied_sums, text=True, check=True)
     admin = root / "admin"

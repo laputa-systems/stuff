@@ -464,7 +464,10 @@ def http_ok(url: str, headers=None, timeout=3, ok=lambda s: 200 <= s < 300) -> b
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return ok(r.status)
     except urllib.error.HTTPError as e:
-        return ok(e.code)
+        try:
+            return ok(e.code)
+        finally:
+            e.close()
     except (OSError, ValueError):
         return False
 
@@ -510,7 +513,12 @@ def ready(cfg, service: str, app: str | None) -> bool:
             return False
     if service == "app":
         a = cfg.apps[app]
-        return http_ok(f"http://{a.ip}:{a.port}{a.health_path}", ok=lambda s: s < 500)
+        env = oolib.read_env(cfg.app_env(a))
+        headers = {"Host": a.hostnames[0], "X-OO-Ingress": "tailnet",
+                   "Stats-Tailnet-Identity": "user:readiness@openorange.invalid"}
+        if env.get("GATEWAY_SECRET"):
+            headers["Stats-Gateway-Secret"] = env["GATEWAY_SECRET"]
+        return http_ok(f"http://{a.ip}:{a.port}{a.health_path}", headers=headers, ok=lambda s: s == 200)
     return False
 
 

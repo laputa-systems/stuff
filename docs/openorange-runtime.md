@@ -352,6 +352,9 @@ for the Cloudflare plugin).
   every file by checksum before copying configuration, app declarations and image
   pins. The live pre-copy alone is unusable. Stats and private ingress restart
   before unrelated apps so host agents can drain their four-minute queues.
+  Online copies use Linux idle I/O priority and reduced CPU priority. Application
+  readiness requires HTTP 200 with the declared Host and trusted local gateway
+  headers; Stats reads its stored host list rather than its process health route.
   It checksums the final copy and retains a positive number of backups. Failed
   drains or copies and SIGTERM/SIGINT restart services that were running before
   the fence, including the tunnel only if it was running. `--no-restart` leaves

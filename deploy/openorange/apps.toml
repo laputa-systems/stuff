@@ -52,6 +52,7 @@ region = "us-east-1"
 [apps.stats]
 kind = "orange"
 display = "Stats"
+health_path = "/api/v1/hosts"
 namespace = "stats-prod"
 ip = "172.29.80.20"
 port = 8080
