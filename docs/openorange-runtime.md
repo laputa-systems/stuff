@@ -4,8 +4,8 @@ Runbook for the stack that hosts Stats, Stuff, Discover and fronts Tansu on
 `lisa` (Alpine 3.25, musl, x86_64, OpenRC, Docker, tailnet address
 `100.68.104.43`). Stats, Stuff and Tansu use this ingress in production.
 Stuff pulls are anonymous and public; publishing uses
-`https://stuff-publish.17166969.xyz` over Tailscale. Discover's restored
-production and preview data await final source fencing and cutover.
+`https://stuff-publish.17166969.xyz` over Tailscale. Discover production and
+preview serve public reader/MCP traffic with separate private admin names.
 
 ## Components and pins
 
@@ -199,8 +199,8 @@ treat "no valid gateway secret" as anonymous public traffic and must use
 
 The outbound-only `oo-tunnel` connector maps the eight public Stuff names
 and four prepared Discover names to `http://127.0.0.1:18480`. Stuff DNS
-points at this tunnel. Discover DNS still points at its source Workers;
-private administration uses separate `hq-admin.` and `hq-preview-admin.`
+points at this tunnel, as do the four Discover names. Discover's private
+administration uses separate `hq-admin.` and `hq-preview-admin.`
 names that resolve directly to Lisa. ACME uses DNS-01 for both public and
 private names.
 
@@ -443,8 +443,6 @@ instances exist but are not in the default runlevel until an image is deployed.
 
 ## Remaining verification
 
-Discover needs a fresh fenced source snapshot before selecting the restored
-spaces and moving its public DNS.
 A real tagged-node request and Tansu hardware passkey login remain untested.
 The current tailnet policy permits HTTPS; Mac, Threadripper and Lisa have
 published through the same coordinator without policy changes.
@@ -478,6 +476,17 @@ serve public access; application compute, coordination and storage run on Lisa.
 The temporary private-DNS interval interrupted GitHub consumers. Public DNS
 now returns edge addresses, and the previously failing Ish lint workflow
 downloaded its Stuff dependencies and passed on a fresh GitHub runner.
+
+Discover production and preview also completed cutover. Their selected spaces
+are `replacement-orange-live-20261114` and
+`replacement-orange-preview-live-20261114`, restored from fresh fenced source
+snapshots with 15,475 and 667 verified rows and independent recovery proofs.
+The source Workers, Durable Object namespaces, two artifact buckets and two
+Discover Access applications are deleted. Public search index checksums match;
+reader and bearer MCP requests pass, public admin routes return 404, and the
+private admin form origin and CSRF checks pass. Their protected snapshots,
+runtime contexts and final configuration overlay live under `discover/` and
+`discover-preview/` in the Mac backup directory.
 
 ## Public connector
 

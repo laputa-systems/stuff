@@ -120,7 +120,7 @@ hostnames = ["tansu.17166969.xyz"]
 [apps.discover]
 kind = "orange"
 display = "Discover"
-vars = { HQ_ADMIN_HOST = "hq-admin.17166969.xyz" }
+vars = { HQ_ADMIN_HOST = "hq-admin.17166969.xyz", SPACE_NAME = "replacement-orange-live-20261114" }
 namespace = "discover"
 ip = "172.29.80.22"
 port = 8080
@@ -137,7 +137,7 @@ cpus = 2.0
 [apps.discover-preview]
 kind = "orange"
 display = "Discover (preview)"
-vars = { HQ_ADMIN_HOST = "hq-preview-admin.17166969.xyz" }
+vars = { HQ_ADMIN_HOST = "hq-preview-admin.17166969.xyz", SPACE_NAME = "replacement-orange-preview-live-20261114" }
 namespace = "discover-preview"
 ip = "172.29.80.23"
 port = 8080
