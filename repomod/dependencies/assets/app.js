@@ -1,6 +1,5 @@
 "use strict";
 (() => {
-    "use strict";
     const page = document.body.getAttribute("data-page") ?? "";
     const prefix = document.body.getAttribute("data-prefix") ?? "";
     const current = document.querySelector(".ui-side-nav a[aria-current]");
@@ -20,20 +19,25 @@
             }
             return;
         }
-        if (typing)
+        if (typing) {
             return;
+        }
         if (event.key === "j" || event.key === "k") {
-            const rows = Array.from(document.querySelectorAll("[data-row]")).filter((row) => row.offsetParent !== null);
-            if (rows.length === 0)
+            const rows = Array.from(document.querySelectorAll("[data-row]"))
+                .filter((row) => row.offsetParent !== null);
+            if (rows.length === 0) {
                 return;
+            }
             event.preventDefault();
             const index = rows.findIndex((row) => row.classList.contains("selected"));
             const next = index < 0 ? 0 : event.key === "j" ? Math.min(rows.length - 1, index + 1) : Math.max(0, index - 1);
-            for (const row of rows)
+            for (const row of rows) {
                 row.classList.remove("selected");
+            }
             const selected = rows[next];
-            if (selected === undefined)
+            if (selected === undefined) {
                 return;
+            }
             selected.classList.add("selected");
             selected.scrollIntoView({ block: "nearest" });
         }
@@ -41,22 +45,26 @@
             const selected = document.querySelector(".selected[data-href]");
             if (selected !== null) {
                 const href = selected.getAttribute("data-href");
-                if (href !== null)
+                if (href !== null) {
                     window.location.href = href;
+                }
             }
         }
     });
     document.addEventListener("click", (event) => {
         const target = event.target;
-        if (!(target instanceof Element))
+        if (!(target instanceof Element)) {
             return;
+        }
         const button = target.closest("[data-copy]");
-        if (button === null)
+        if (button === null) {
             return;
+        }
         const value = button.getAttribute("data-copy") ?? "";
         const clipboard = navigator.clipboard;
-        if (clipboard === undefined)
+        if (clipboard === undefined) {
             return;
+        }
         void clipboard.writeText(value).then(() => {
             button.setAttribute("data-copied", "1");
             button.textContent = "copied";
@@ -80,13 +88,15 @@
         function update() {
             const matching = rows.filter(matches);
             const visible = new Set(limit > 0 && !expanded ? matching.slice(0, limit) : matching);
-            for (const row of rows)
+            for (const row of rows) {
                 row.hidden = !visible.has(row);
+            }
             for (const group of scope.querySelectorAll("[data-group]")) {
                 group.hidden = group.querySelector("[data-item]:not([hidden])") === null;
             }
-            if (empty !== null)
+            if (empty !== null) {
                 empty.hidden = matching.length > 0;
+            }
             if (more !== null) {
                 const hidden = matching.length - visible.size;
                 more.hidden = hidden === 0;
@@ -103,8 +113,9 @@
         });
         update();
     }
-    for (const scope of document.querySelectorAll("[data-table-scope]"))
+    for (const scope of document.querySelectorAll("[data-table-scope]")) {
         setupTable(scope);
+    }
     const tip = document.createElement("div");
     tip.className = "tip";
     tip.hidden = true;
@@ -125,23 +136,27 @@
         moveTip(event);
     });
     document.addEventListener("mousemove", (event) => {
-        if (!tip.hidden)
+        if (!tip.hidden) {
             moveTip(event);
+        }
     });
     const input = document.querySelector("#search");
     const results = document.querySelector("#search-results");
     function closeResults() {
-        if (results === null)
+        if (results === null) {
             return;
+        }
         results.innerHTML = "";
         results.style.display = "none";
     }
     function renderResults() {
-        if (input === null || results === null)
+        if (input === null || results === null) {
             return;
+        }
         const search = window.searchDeps;
-        if (typeof search !== "function")
+        if (typeof search !== "function") {
             return;
+        }
         const found = search(input.value);
         results.innerHTML = "";
         if (found.length === 0) {
@@ -167,16 +182,19 @@
         input.addEventListener("focus", renderResults);
         document.addEventListener("click", (event) => {
             const target = event.target;
-            if (target === input)
+            if (target === input) {
                 return;
-            if (results !== null && target instanceof Node && results.contains(target))
+            }
+            if (results !== null && target instanceof Node && results.contains(target)) {
                 return;
+            }
             closeResults();
         });
     }
     function routePackage() {
-        if (page !== "packages")
+        if (page !== "packages") {
             return;
+        }
         const sections = Array.from(document.querySelectorAll(".package"));
         const list = document.getElementById("package-index");
         let match = null;
@@ -193,20 +211,25 @@
         for (const section of sections) {
             const active = wanted !== null && section.getAttribute("data-purl") === wanted;
             section.classList.toggle("active", active);
-            if (active)
+            if (active) {
                 match = section;
+            }
         }
-        if (list !== null)
+        if (list !== null) {
             list.style.display = match !== null ? "none" : "";
-        if (match !== null)
+        }
+        if (match !== null) {
             match.scrollIntoView({ block: "start" });
+        }
     }
     function routeEcosystem() {
-        if (page !== "world")
+        if (page !== "world") {
             return;
+        }
         const hash = window.location.hash || "";
-        if (!hash.startsWith("#ecosystem-"))
+        if (!hash.startsWith("#ecosystem-")) {
             return;
+        }
         const target = document.getElementById(hash.slice(1));
         if (target instanceof HTMLDetailsElement) {
             target.open = true;

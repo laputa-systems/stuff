@@ -269,15 +269,20 @@ mistyped `--output` cannot delete unrelated files.
 
 ## Source and verification
 
-The browser scripts under `repomod/dependencies/assets/` (`app.js`, `search.js`, and
-`weight.js`, loaded only by the Weight page) are committed and maintained directly. The Explore
-page loads `assets/atlas.js` (the view controller), `assets/atlas.css`, a generated
+The browser scripts under `repomod/dependencies/assets/` are TypeScript sources
+(`app.ts`, `search.ts`, `weight.ts` — loaded only by the Weight page — and `atlas.ts`,
+the Explore view controller). The adjacent `browser.d.ts` declares the globals they share
+(`DEPS_INDEX`, `searchDeps`, `depsWeight`, `DEPS_ATLAS`, `AtlasVendor`). The committed
+`.js` files beside them are the build artifacts emitted from those sources by
+`make ts-assets`; edit the `.ts` sources and commit both together. The Explore
+page loads `assets/atlas.js`, `assets/atlas.css`, a generated
 `assets/atlas-data.js` (the filtered fleet projected to the graph format at render time;
 regenerate by re-rendering), and `assets/vendor/atlas.vendor.js`. The vendor bundle is a
 minified IIFE of pinned MIT packages (sigma 4.0.6, graphology 0.26.0, and their pinned
 dependencies) built by `tools/atlas-vendor` with esbuild; the pins, license texts, and the
 bundle's sha256 live in `repomod/dependencies/assets/vendor/VENDORED.md`. Rendering needs no
-Node install; rebuilding the vendor bundle does (`cd tools/atlas-vendor && npm ci && npm run build`).
+Node install; rebuilding the vendor bundle does (`cd tools/atlas-vendor && npm ci && npm run build`),
+and so does `make ts-assets`.
 The renderer copies the pinned library's base `styles.css` and `tokens.css` and the `layout.css`
 and `data.css` family sheets from `crates/stuff-catalog/assets/ui-dashboard/`, refreshed from the
 pinned `@laputa-systems/ui-dashboard` in `crates/stuff-worker/package.json` by `make catalog-css`.

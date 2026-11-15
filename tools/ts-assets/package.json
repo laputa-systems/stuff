@@ -1,0 +1,15 @@
+{
+  "name": "ts-assets",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Build-only workspace typechecking and emitting the TypeScript browser assets committed beside their sources. No dependency at dashboard render time or in the Rivet image.",
+  "type": "module",
+  "scripts": {
+    "build": "tsrs -p ../../repomod/dependencies/assets/tsconfig.json && tsrs -p ../../deploy/openorange/rivet/tsconfig.json && tsrs -p ../../deploy/openorange/rivet/tsconfig.test_ui.json",
+    "check": "tsrs -p ../../repomod/dependencies/assets/tsconfig.json --noEmit --fast && tsrs -p ../../deploy/openorange/rivet/tsconfig.json --noEmit --fast && tsrs -p ../../deploy/openorange/rivet/tsconfig.test_ui.json --noEmit --fast"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "tsrs": "0.25.0-ts7.1.0-beta"
+  }
+}

@@ -25,6 +25,7 @@ Run everything from the repository root.
   `make preview` serves the dashboard from its canonical preview dataset, which the golden test in
   `tests/repomod/test_dashboard_preview.py` also renders; see [the dashboard doc](docs/dependency-dashboard.md).
 - Search: `make test-search`; after changing `crates/stuff-catalog/web/`, run `make search-bundle` and commit `assets/search.js` (install Worker dependencies first).
+- TypeScript browser assets: edit the `.ts` sources (`repomod/dependencies/assets/*.ts`, `deploy/openorange/rivet/*.ts`); run `make ts-assets` and commit the sources and compiled `.js` artifacts together.
 - Catalog page styles: after bumping `@laputa-systems/ui-dashboard` in `crates/stuff-worker/package.json`, run `make catalog-css` and commit `crates/stuff-catalog/assets/ui-dashboard/`. App styles live in `crates/stuff-catalog/assets/catalog.css`. Both renderers (`stuff-catalog` and the mycrates oracle) embed them, so regenerate the mycrates golden generation with them.
 - Worker: `make worker-test`, `make worker-check`; build instructions are in its README below.
 - Offline maintenance: `make test-r2`, `make test-publish-lock`; `make test-r2-live` accesses real R2 and is opt-in.

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022",
+    "types": []
+  },
+  "include": [
+    "app.ts",
+    "atlas.ts",
+    "browser.d.ts",
+    "search.ts",
+    "weight.ts"
+  ]
+}

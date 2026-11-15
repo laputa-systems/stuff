@@ -1,4 +1,4 @@
-.PHONY: help preview dev worker-dev-test release lint ts-lint repomod-test repomod-lint deps bench bench-cli deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
+.PHONY: help preview dev worker-dev-test release lint ts-lint repomod-test repomod-lint deps bench bench-cli deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css ts-assets test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
 
 help: ## Show this help
 	@grep -E '^[a-z-]+: ## ' $(MAKEFILE_LIST) | sort | awk -F': ## ' '{printf "  make %-14s %s\n", $$1, $$2}'
@@ -103,6 +103,11 @@ catalog-css: ## Copy the pinned ui-dashboard stylesheets into stuff-catalog; fai
 	mkdir -p $(CATALOG_CSS)
 	cp $(UI_DASHBOARD_DIST)/tokens.css $(UI_DASHBOARD_DIST)/styles.css $(UI_DASHBOARD_DIST)/styles/layout.css $(UI_DASHBOARD_DIST)/styles/data.css $(CATALOG_CSS)/
 	@git diff --exit-code -- $(CATALOG_CSS)
+
+TS_ASSETS_DIR := tools/ts-assets
+
+ts-assets: ## Rebuild the committed .js artifacts from the TypeScript browser asset sources
+	cd $(TS_ASSETS_DIR) && npm ci --no-audit --no-fund && npm run build
 
 test-search: ## Run the package search tests
 	node --test $(SEARCH_DIR)/web/search.test.ts
