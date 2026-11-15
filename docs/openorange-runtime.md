@@ -741,3 +741,10 @@ stop `oo-platform`. Protected credentials and policy remain available for a
 later activation. Full stack backups already include `/etc/openorange`; preserve
 `platform.env`, `platform.image`, `platform/policy.json` and the selected image
 in the off-host copy as well.
+
+The 2026-11-14 production activation is recorded in the
+[Stats acceptance report](https://github.com/joshuarli/stats/blob/master/bench/results/2026-11-14-platform-runtime/README.md).
+It verifies real actor data, browser navigation, private access, restart isolation
+and the protected Mac copy. Collection is best effort: slow writes under load
+can exhaust the bounded delivery budget, and the dashboard reports abandoned
+observations. A healthy receiver does not imply complete telemetry delivery.
