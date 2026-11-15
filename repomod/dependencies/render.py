@@ -791,11 +791,32 @@ def _outdated(site: _Site) -> str:
             "opens one pull request per repository."
         )
     )
-    rows = "".join(_upgrade_row(row) for row in site.outdated)
+    rows = [
+        (
+            _package_link(row.component.purl, "", row.component.display_name),
+            _e(f"{', '.join(use.version for use in row.uses)} → {row.latest}"),
+            _e(
+                ", ".join(
+                    sorted(
+                        {_short_repository(name) for use in row.uses for name in use.repositories},
+                        key=str.casefold,
+                    )
+                )
+            ),
+        )
+        for row in site.outdated
+    ]
     body.append(
         ui.panel(
             "Upgrades",
-            ui.scope(f'<ul class="todo-columns upgrade-list">{rows}</ul>', search="Filter upgrades"),
+            ui.scope(
+                ui.static_table(
+                    (Column("Package"), Column("Change", mono=True, wrap=True), Column("Repositories", wrap=True)),
+                    rows,
+                    label="Direct dependencies behind the registry",
+                ),
+                search="Filter upgrades",
+            ),
             meta=f"{len(site.outdated)} direct dependencies · {by_ecosystem} · most repositories first",
             panel_id="upgrades",
         )
@@ -830,16 +851,6 @@ def _migrations_panel(site: _Site) -> str:
         count=len(cards),
         note="The fleet replaces these; a release bump is not the fix",
         group_id="migrate",
-    )
-
-
-def _upgrade_row(row: insights.Outdated) -> str:
-    versions = ", ".join(use.version for use in row.uses)
-    names = sorted({_short_repository(name) for use in row.uses for name in use.repositories}, key=str.casefold)
-    return (
-        f"<li data-item>{_package_link(row.component.purl, '', row.component.display_name)} "
-        f'<span class="line-detail">{_e(versions)} → {_e(row.latest)}</span>'
-        f'<div class="line-detail">{_e(", ".join(names))}</div></li>'
     )
 
 

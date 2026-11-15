@@ -288,12 +288,8 @@
    "h2: Upgrades"
   ],
   "items": {
-   "count": 49,
-   "first": [
-    "libc 0.2.189, 0.2.186, 0.2.182 \u2192 0.2.191 img, lz, xsh",
-    "sha2 0.11.0, 0.10.9 \u2192 0.11.1 img, ssh-build, xsh",
-    "flate2 1.1.10, 1.1.9 \u2192 1.1.11 ctrs, xsh"
-   ]
+   "count": 0,
+   "first": []
   },
   "nav": [
    "To do 6",
@@ -310,7 +306,21 @@
    "Packages",
    "Lines"
   ],
-  "tables": [],
+  "tables": [
+   {
+    "first": [
+     "libc | 0.2.189, 0.2.186, 0.2.182 \u2192 0.2.191 | img, lz, xsh",
+     "sha2 | 0.11.0, 0.10.9 \u2192 0.11.1 | img, ssh-build, xsh",
+     "flate2 | 1.1.10, 1.1.9 \u2192 1.1.11 | ctrs, xsh"
+    ],
+    "headers": [
+     "Package",
+     "Change",
+     "Repositories"
+    ],
+    "rows": 49
+   }
+  ],
   "tiles": [],
   "title": "Upgrades \u00b7 dependencies"
  },
