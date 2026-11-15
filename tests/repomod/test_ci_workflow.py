@@ -28,7 +28,7 @@ def found(root: Path, project: Repository) -> list[tuple[str | None, bool]]:
 
 def test_only_a_pull_request_make_test_or_test_ci_step_satisfies_the_rule(tmp_path: Path) -> None:
     makefile(tmp_path)
-    for step in ("make test", "make test-ci TARGET=x", "cd sub && make -C crates test"):
+    for step in ("make test", "make test-ci TARGET=x"):
         workflow(tmp_path, "ci.yml", PULL_REQUEST + f"      - run: {step}\n")
         assert found(tmp_path, repository()) == [], step
 
@@ -97,3 +97,96 @@ def test_pristine_forks_are_skipped_and_diverged_forks_read_every_workflow(tmp_p
 
     assert found(tmp_path, repository("tool", "fork")) == []
     assert found(tmp_path, repository("tool", "fork", "fork-diverged")) == [(".github/workflows/ci.yml", False)]
+
+
+def test_unsupported_workflow_shapes_name_the_construct(tmp_path: Path) -> None:
+    makefile(tmp_path)
+    run = '      - run: make test\n'
+    def trigger(options: str) -> str:
+        return PULL_REQUEST.replace('  pull_request:\n', f'  pull_request:\n    {options}\n') + run
+    def job(option: str) -> str:
+        return PULL_REQUEST.replace('    runs-on:', f'    {option}\n    runs-on:') + run
+    cases = [
+        (PULL_REQUEST + '      - run: make test\n        if: false\n', 'step-level if'),
+        (job('if: ${{ false }}'), 'job-level if'),
+        (PULL_REQUEST + '      - run: make test\n        continue-on-error: true\n', 'step continue-on-error'),
+        (job('continue-on-error: true'), 'job continue-on-error'),
+        (PULL_REQUEST + '      - run: make test || true\n', 'shell operator ||'),
+        (PULL_REQUEST + '      - run: make -n test\n', 'make flag -n'),
+        (trigger('paths: [src/**]'), 'pull_request paths'),
+        (trigger('paths-ignore: [docs/**]'), 'pull_request paths-ignore'),
+        (trigger('branches-ignore: [main]'), 'pull_request branches-ignore'),
+        (trigger('types: [opened, reopened]'), 'pull_request types'),
+        ('on: pull_request\njobs:\n  ci:\n    uses: acme/demo/.github/workflows/test.yml@main\n',
+         'reusable-workflow job uses'),
+        (PULL_REQUEST + '      - run: make test\n        shell: pwsh\n', 'step shell'),
+        (PULL_REQUEST.replace('    steps:', '    defaults:\n      run:\n        shell: pwsh\n    steps:') + run,
+         'step shell'),
+        ('defaults:\n  run:\n    shell: pwsh\n' + PULL_REQUEST + run, 'step shell'),
+        (PULL_REQUEST + '      - run: |\n          make test\n          echo done\n', 'multi-line'),
+    ]
+    for source, expected in cases:
+        workflow(tmp_path, 'ci.yml', source)
+        findings = _ci_workflow_findings(tmp_path, repository())
+        assert len(findings) == 1, source
+        assert expected in findings[0].message, (source, findings)
+
+
+def test_supported_workflow_shapes(tmp_path: Path) -> None:
+    makefile(tmp_path)
+    for source in (
+        PULL_REQUEST + '      - run: make test\n',
+        PULL_REQUEST + '      - run: make test-ci\n',
+        PULL_REQUEST + '      - run: make test-ci TARGET=x\n',
+        PULL_REQUEST.replace('    runs-on:', '    strategy:\n      matrix:\n        target: [one, two]\n    runs-on:')
+        + '      - run: make test\n',
+        PULL_REQUEST.replace('    steps:', '    defaults:\n      run:\n        working-directory: sub\n    steps:')
+        + '      - run: make test\n',
+        PULL_REQUEST.replace(
+            '    steps:', '    defaults:\n      run:\n        shell: bash -euo pipefail {0}\n    steps:'
+        )
+        + '      - run: make test\n',
+    ):
+        workflow(tmp_path, 'ci.yml', source)
+        assert _ci_workflow_findings(tmp_path, repository()) == [], source
+
+
+def test_invalid_yaml_is_operational_even_with_a_valid_workflow(tmp_path: Path) -> None:
+    makefile(tmp_path)
+    workflow(tmp_path, 'a.yml', PULL_REQUEST + '      - run: make test\n')
+    workflow(tmp_path, 'z.yml', 'on: [\n')
+    findings = _ci_workflow_findings(tmp_path, repository())
+    assert len(findings) == 1
+    assert findings[0].kind == 'operational'
+    assert 'cannot parse workflow YAML' in findings[0].message
+
+
+def test_ambiguous_branches_are_reported(tmp_path: Path, monkeypatch) -> None:
+    from repomod.rules import ci_workflow
+
+    monkeypatch.setattr(ci_workflow, "_local_default_branch", lambda root: None)
+    makefile(tmp_path)
+    workflow(tmp_path, 'ci.yml', PULL_REQUEST.replace(
+        '  pull_request:\n', '  pull_request:\n    branches: [main]\n'
+    ) + '      - run: make test\n')
+    findings = _ci_workflow_findings(tmp_path, repository())
+    assert 'ambiguous pull_request branches' in findings[0].message
+
+
+def test_fleet_workflow_shapes(tmp_path: Path) -> None:
+    makefile(tmp_path)
+    srv = PULL_REQUEST + '      - run: make test\n'
+    workflow(tmp_path, 'ci.yml', srv)
+    assert _ci_workflow_findings(tmp_path, repository()) == []
+    loc = PULL_REQUEST + (
+        "      - run: |\n"
+        "          docker run image sh -ec '\n"
+        "            cargo clippy\n"
+        "            make test\n"
+        "          '\n"
+    )
+    workflow(tmp_path, 'ci.yml', loc)
+    findings = _ci_workflow_findings(tmp_path, repository())
+    assert len(findings) == 1
+    assert 'cannot verify failure propagation' in findings[0].message
+    assert 'single-line make test-ci' in findings[0].message
