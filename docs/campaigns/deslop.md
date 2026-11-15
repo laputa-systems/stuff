@@ -8,12 +8,16 @@ established, so the slop cannot return.
 ## Status
 
 - **State:** running.
-- **Accepted:** F1 (`fe04fa2`; topics published to the eight forks).
-- **Next slice:** K0, then K1 and F2.
+- **Accepted:** F1 (`fe04fa2`; topics published to the eight forks), K0 (usr `5994013`), K1 (usr
+  `ed0ff67`).
+- **In review:** F2, [stuff#9](https://github.com/laputa-systems/stuff/pull/9) (waiting on CI).
+- **Next slice:** Phase 1 tool qualification on srv, buildlib, and extensions (in progress).
 - **Phase:** 0 (foundations).
 - **Seeded tiers:** none.
 - **Settled repositories:** none. The scorecard is [deslop-scorecard.md](deslop-scorecard.md).
-- **Needs you:** nothing yet.
+- **Needs you:** fast-forward `~/usr` (it has one local change, so the campaign left it). Until
+  you do, the installed `todo` lacks `--file`, so the campaign runs
+  `python3 <usr clone>/tools/todo/src/todo.py` instead.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.`
 
 ## How the campaign runs
@@ -71,7 +75,7 @@ tier.
    acceptance command passed. Work parked for the owner stays unmerged.
 6. **Removals.** Behavior-preserving cuts land on their own. Removing live behavior or a public
    contract (a CLI flag, a public API, a compatibility path, a format) is a walk-back. It is filed as
-   a ticket under the file's `## Needs owner` heading, and the owner reviews those at each tier
+   a ticket whose area starts with `Needs owner ·`, and the owner reviews those at each tier
    checkpoint.
 7. **Fan-out through tickets.** After the method works, the remaining work is filed as tickets in a
    per-repo `TODO-DESLOP.md`, separate from `TODO.md`, so the owner can dispatch repo agents. The
@@ -178,7 +182,7 @@ Fleet facts the plan relies on:
 | F1 | stuff | `repomod/catalog.py`, `docs/tagging.md`, `tests/repomod/`, `fleet/catalog.toml` (the tag only) | The `fork-diverged` tag is valid only together with `fork`. Tag the eight in-scope forks and run `topics apply` for them. | `make repomod-test`. `uv run repomod lint --rule topics --tag fork-diverged` lists exactly the eight forks with no findings. A catalog entry with `fork-diverged` but no `fork` is rejected. |
 | F2 | stuff | `repomod/rules/workflows.py` or a new `rules/test_workflow.py`, `docs/policy-development.md`, `.github/workflows/ci.yml`, tests | Rule `gha-test-workflow`: some workflow runs `make test` or `make test-ci` on pull requests. It applies to non-fork repos and to `fork-diverged` forks. Its fixer adds a test workflow, the same way the lint fixer does. stuff's own CI starts running `make repomod-test`. | `make repomod-test` passes, with a fixture where the workflow calls `cargo test` directly and gets a finding. stuff's CI shows a passing repomod pytest step. |
 | K0 | usr | `tools/todo/` | `todo --file PATH` works for every subcommand. Without it, the tool still finds `TODO.md` as before. | usr's todo tests cover `add`, `list`, and `check` against `TODO-DESLOP.md` while a `TODO.md` exists beside it, and each file keeps its own `Prefix`/`Next`. `make skills-check` passes. |
-| K1 | usr | `test-audit/SKILL.md` and new `test-audit/references/mutation.md` | Rewrite the Coverage section. Coverage is measured routinely with `make coverage` and used to find unprotected boundaries and dead-code candidates. It is never a gate or a target. Add mutation testing: the result classes (caught, missed, unviable, timeout, budget exhausted), how to disposition a survivor, how to justify an equivalent mutant, test-only diff selection, and fault injection for each new boundary test. | `make skills-check`. `rg -n 'not a gate' test-audit/SKILL.md` still matches. The section no longer says to drop coverage reports. |
+| K1 | usr | `test-audit/SKILL.md` and new `test-audit/references/mutation.md` | Rewrite the Coverage section. Coverage is measured routinely with `make coverage` and used to find unprotected boundaries and dead-code candidates. It is never a gate or a target. Add mutation testing: the result classes (caught, missed, unviable, timeout, budget exhausted), how to disposition a survivor, how to justify an equivalent mutant, test-only diff selection, and fault injection for each new boundary test. | `make skills-check`, with test-audit within the 8000-byte limit. The section says coverage is never a gate and no longer says to drop coverage reports. |
 
 F1 and K0 may run in parallel because they touch different repositories. F2 follows F1. K1 may run
 in parallel with F1 or F2.
@@ -315,7 +319,7 @@ on the merged result.
    *Accept:* no undispositioned survivor in the critical scope, the test cost budget holds, and the
    mutation lane is green on the PR.
 5. **Dead code.** Run the dead-code tools, then `debloat`. Apply the cuts. File walk-backs under
-   `## Needs owner`. Every PR body carries the deletion record for each removal: the finding; the
+   tickets whose area starts with `Needs owner ·`. Every PR body carries the deletion record for each removal: the finding; the
    entry points, registrations, build and package references, and consumers checked; the platforms
    and features covered; and the consumer tests run.
    *Accept:* the tools are clean or allowlisted under the rule above, and consumer tests are green.
@@ -342,8 +346,9 @@ Each one carries:
 - **Fix with:** `deslop`.
 
 The file opens with three lines saying that one agent works the file and takes the lowest-numbered
-open ticket outside `## Needs owner`, that steps 6 and 7 follow DSLP-5, and that `## Report` comes
-last. Findings that steps 2 to 5 discover are appended as DSLP-6 and later, so ticket order still
+open ticket whose area does not start with `Needs owner ·`, that steps 6 and 7 follow DSLP-5, and
+that `## Report` comes last. Owner items use the area prefix instead of a heading, because
+`todo fmt` reorders tickets around fixed free text. Findings that steps 2 to 5 discover are appended as DSLP-6 and later, so ticket order still
 matches step order. Fleet-wide or shared-file work never becomes a repo ticket.
 
 ## Check-up
@@ -351,7 +356,7 @@ matches step order. Fleet-wide or shared-file work never becomes a repo ticket.
 A repo is **settled** when all of these hold:
 
 - DSLP-1 to DSLP-5 are closed.
-- No P1 or P2 ticket is open outside `## Needs owner`.
+- No P1 or P2 ticket is open, except owner items (area `Needs owner ·`).
 - `## Report` is complete.
 - CI is green on the default branch.
 - `uv run repomod lint --repo <repo>` is clean for the F2/F3 rules.
@@ -362,7 +367,7 @@ The campaign agent then:
 2. Runs the perf gate for perf-sensitive repos against the base SHA.
 3. Spot-checks one boundary test with an injected fault.
 4. Copies the Report into the scorecard.
-5. Moves the repo's `## Needs owner` items into Status.
+5. Moves the repo's `Needs owner ·` items into Status.
 
 A repo that fails a check-up gets a new ticket. It is not settled.
 
