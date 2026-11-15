@@ -488,17 +488,21 @@ private admin form origin and CSRF checks pass. Their protected snapshots,
 runtime contexts and final configuration overlay live under `discover/` and
 `discover-preview/` in the Mac backup directory.
 
-## Nanoshop staging
+## Nanoshop
 
-Nanoshop is declared in the shared stack but has not been deployed by this
-change. Its public shop hostname permits storefront, cart and webhook methods;
-`/admin` is denied on the public listener. The admin hostname is private and
-uses tailnet whois. Before startup, the operator must supply
-`NANOSHOP_OPERATOR_SHA256`, `APPLICATION_EVENTS_TOKEN`,
-`APPLICATION_EVENTS_ENDPOINT`, and `APPLICATION_EVENTS_SERVICE` in the
-root-owned `apps/nanoshop.extra.env`. Shared infrastructure generates the
-gateway secret. The app has no internet egress and uses its own namespace and
-bucket.
+Nanoshop is deployed at `https://shop.17166969.xyz`, with private owner and
+operator access at `https://shop-admin.17166969.xyz/admin`. Public cart and
+webhook methods are permitted; public `/admin` is denied. The app has its own
+namespace/bucket, no published ports and no internet egress. Its operator hash
+is supplied through the root-owned `apps/nanoshop.extra.env`.
+
+`make deploy` in the Nanoshop repository builds and activates only this app,
+with image preflight, rollback and a Stats deployment marker. Image
+`nanoshop:159a08d7ed2e` passed that path on 2026-11-14. Public health/home,
+private administration, cart POST and cart read passed. The old Cloudflare
+Worker, Durable Object namespace, empty bucket, Access app and dedicated
+service token were deleted. The owner explicitly discarded the old test data;
+the native shop uses the repository fixture.
 
 ## Public connector
 

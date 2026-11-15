@@ -21,8 +21,7 @@ class NanoshopConfigurationTests(unittest.TestCase):
                          (("nanoshop-media-storied",), "1g", 1.0, False))
         self.assertEqual(app.vars["NANOSHOP_ADMIN_ORIGIN"], "https://shop-admin.17166969.xyz")
         self.assertEqual(json.loads(app.vars["NANOSHOP_OWNER_IDENTITIES"]), ["user:joshua.r.li.98@gmail.com"])
-        self.assertEqual(set(app.secrets), {"NANOSHOP_OPERATOR_SHA256", "APPLICATION_EVENTS_TOKEN",
-                                            "APPLICATION_EVENTS_ENDPOINT", "APPLICATION_EVENTS_SERVICE"})
+        self.assertEqual(set(app.secrets), {"NANOSHOP_OPERATOR_SHA256"})
         with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as directory:
             cfg.stack["etc_dir"] = directory
             with patch.object(os, "chown"):

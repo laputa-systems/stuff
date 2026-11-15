@@ -162,7 +162,7 @@ cpus = 1.0
 kind = "orange"
 display = "Nanoshop"
 vars = { NANOSHOP_ADMIN_ORIGIN = "https://shop-admin.17166969.xyz", NANOSHOP_OWNER_IDENTITIES = '["user:joshua.r.li.98@gmail.com"]' }
-secrets = ["NANOSHOP_OPERATOR_SHA256", "APPLICATION_EVENTS_TOKEN", "APPLICATION_EVENTS_ENDPOINT", "APPLICATION_EVENTS_SERVICE"]
+secrets = ["NANOSHOP_OPERATOR_SHA256"]
 namespace = "nanoshop-storied"
 ip = "172.29.80.25"
 port = 8080
