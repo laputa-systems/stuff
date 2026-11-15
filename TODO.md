@@ -15,7 +15,7 @@ Evidence for the 2026-11-11 ultrareview refers to `5ab165462999f71c11788ea9a2c6b
 
 - **Area:** OpenOrange durability
 - **Where:** deploy/openorange/bin/backup, bin/restore-rehearsal, docs/openorange-runtime.md; Engine filesystem log and object tier are one recovery unit
-- **Problem:** Current recurring backups live on Lisa's disk and known off-host Mac copies are manually made; there is no recurring independently verified S3 backup copy or restore freshness guarantee. Host or disk loss can lose writes after the latest independently verified off-host fence. The owner explicitly defers S3 backup implementation as P1 while repository hardening proceeds.
-- **Recommendation:** Use existing fenced backup artifacts to add protected recurring S3 copies with complete manifests and integrity checks, retention and freshness monitoring, plus a non-production full restore rehearsal measuring RPO/RTO. Keep Engine log and object state together, distinguish backup storage from the Engine storage backend, and obtain an explicit deployment handoff/approval before credentials, scheduling or production changes.
+- **Problem:** Fenced backups and known off-host Mac copies are manually made. The shared installer installs log rotation but no recurring backup scheduler was found in its source. There is no recurring independently verified S3 copy or restore freshness guarantee. Host or disk loss can lose writes after the latest independently verified off-host fence. The owner explicitly defers S3 backup implementation as P1.
+- **Recommendation:** Use existing fenced artifacts for protected recurring S3 copies, complete manifests, integrity checks, retention and freshness monitoring. Add a non-production full restore rehearsal measuring RPO/RTO. Keep Engine logs and object state together, distinguish backup storage from the Engine backend, and resume scheduling and credential work when the owner resumes this P1.
 - **Fix with:** durable-state
 - **Effort:** M

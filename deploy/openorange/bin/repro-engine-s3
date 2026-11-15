@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+"""Compare the pinned Engine's HTTP S3 startup in disposable local containers."""
+import argparse
+import json
+import os
+from pathlib import Path
+import secrets
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+
+
+class Interrupted(BaseException):
+    def __init__(self, number):
+        self.number = number
+
+
+def interrupt(number, _frame):
+    raise Interrupted(number)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--context", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--deadline", type=int, default=60)
+    args = parser.parse_args()
+    if not 10 <= args.deadline <= 120:
+        parser.error("--deadline must be from 10 to 120 seconds")
+    docker = ["docker", "--context", args.context]
+
+    def run(*command, check=True):
+        return subprocess.run([*docker, *command], capture_output=True, text=True, check=check, timeout=150)
+
+    endpoint = run("context", "inspect", args.context, "--format", "{{.Endpoints.docker.Host}}").stdout.strip()
+    if not endpoint.startswith("unix://"):
+        parser.error("the reproduction requires an explicit local Unix-socket Docker context")
+    args.output.mkdir(parents=True, exist_ok=False, mode=0o700)
+    pins = json.loads((Path(__file__).resolve().parent.parent / "images.lock.json").read_text())["images"]
+    image = lambda name: pins[name]["repository"] + "@" + pins[name]["amd64_digest"]
+    prefix = "oo-s3-repro-" + secrets.token_hex(6)
+    access, secret, token = secrets.token_hex(12), secrets.token_hex(32), secrets.token_hex(32)
+    sensitive = (access, secret, token)
+    names = []
+    network_created = False
+    results = []
+
+    def private_file(path, text):
+        with open(path, "x", opener=lambda file, flags: os.open(file, flags, 0o600)) as out:
+            out.write(text)
+
+    def health(origin):
+        return run("exec", probe, "curl", "--fail", "--silent", "--max-time", "2", "--output", "/dev/null", origin + "/health", check=False).returncode == 0
+
+    common = ["run", "-d", "--platform", "linux/amd64", "--network", prefix, "--read-only", "--user", "10001:10001", "--cap-drop", "ALL", "--security-opt", "no-new-privileges", "--tmpfs", "/tmp:size=64m"]
+    try:
+        with tempfile.TemporaryDirectory(prefix="credentials-", dir=args.output) as temporary:
+            temporary = Path(temporary)
+            store_env = temporary / "store.env"
+            private_file(store_env, f"ROOT_ACCESS_KEY={access}\nROOT_SECRET_KEY={secret}\n")
+            run("network", "create", "--internal", prefix)
+            network_created = True
+            curl_config = temporary / "curl.conf"
+            private_file(curl_config, f'user = "{access}:{secret}"\naws-sigv4 = "aws:amz:us-east-1:s3"\n')
+            probe = prefix + "-probe"
+            names.append(probe)
+            run(*common, "--name", probe, "--memory", "128m", "--user", f"{os.getuid()}:{os.getgid()}", "--volume", f"{curl_config}:/run/curl.conf:ro", "--entrypoint", "/bin/sleep", image("engine"), "infinity")
+            store = prefix + "-store"
+            names.append(store)
+            run(*common, "--name", store, "--memory", "256m", "--env-file", str(store_env),
+                "--tmpfs", "/data:uid=10001,gid=10001,size=1g", "--tmpfs", "/iam:uid=10001,gid=10001,size=16m", "--tmpfs", "/versions:uid=10001,gid=10001,size=1g",
+                image("store"), "--port", ":7070", "--region", "us-east-1", "--iam-dir", "/iam", "--health", "/health", "posix", "--fsync", "--versioning-dir", "/versions", "/data")
+            store_origin = f"http://{store}:7070"
+            until = time.monotonic() + 20
+            while not health(store_origin):
+                if time.monotonic() >= until:
+                    raise RuntimeError("isolated Store did not become healthy")
+                time.sleep(0.1)
+            for allow_http in (False, True):
+                trial = "allow-http" if allow_http else "default"
+                bucket = "engine-" + trial
+                run("exec", probe, "curl", "--fail", "--silent", "--max-time", "5", "--config", "/run/curl.conf", "--request", "PUT", store_origin + "/" + bucket)
+                config = temporary / (trial + ".json")
+                config.write_text(json.dumps({"storage": {"log_directory": "/var/lib/rivet/log", "auto_provision_partitions": 1, "balancing": {"enabled": False}}, "object_storage": {"primary": {"s3": {"bucket": bucket, "region": "us-east-1", "endpoint": f"http://{store}:7070"}}}, "telemetry": {"enabled": False}}))
+                config.chmod(0o644)
+                engine_env = temporary / (trial + ".env")
+                private_file(engine_env, f"RIVET_CONFIG_PATH=/etc/rivet/config.json\nRIVET__AUTH__ADMIN_TOKEN={token}\nAWS_ACCESS_KEY_ID={access}\nAWS_SECRET_ACCESS_KEY={secret}\n" + ("AWS_ALLOW_HTTP=true\n" if allow_http else ""))
+                engine = prefix + "-" + trial
+                names.append(engine)
+                run(*common, "--name", engine, "--memory", "2g", "--env-file", str(engine_env),
+                    "--tmpfs", "/var/lib/rivet:uid=10001,gid=10001,mode=0700,size=8g", "--tmpfs", "/var/lib/rivet/log:uid=10001,gid=10001,mode=0700,size=8g", "--ulimit", "nofile=1048576:1048576", "--volume", f"{config}:/etc/rivet/config.json:ro", image("engine"))
+                origin = f"http://{engine}:6420"
+                until = time.monotonic() + args.deadline
+                ready = False
+                while time.monotonic() < until:
+                    if health(origin):
+                        ready = True
+                        break
+                    if run("inspect", engine, "--format", "{{.State.Running}}").stdout.strip() != "true":
+                        break
+                    time.sleep(0.25)
+                logs = run("logs", engine, check=False)
+                text = logs.stdout + logs.stderr
+                for value in sensitive:
+                    text = text.replace(value, "[redacted]")
+                private_file(args.output / (trial + ".log"), text)
+                results.append({"trial": trial, "ready": ready, "configTimedOut": "config operation timed out" in text, "httpRejected": "URL scheme is not allowed" in text, "deadlineSeconds": args.deadline})
+                run("rm", "-f", engine)
+                names.remove(engine)
+            report = {"engine": image("engine"), "store": image("store"), "platform": "linux/amd64", "context": args.context, "isolation": "internal disposable network, ephemeral state, no published ports, generated credentials", "results": results}
+            private_file(args.output / "results.json", json.dumps(report, indent=2) + "\n")
+            print(json.dumps(report))
+    finally:
+        for name in reversed(names):
+            logs = run("logs", name, check=False)
+            text = logs.stdout + logs.stderr
+            for value in sensitive:
+                text = text.replace(value, "[redacted]")
+            private_file(args.output / (name + ".log"), text)
+            if run("rm", "-f", name, check=False).returncode:
+                print(f"cleanup failed for isolated container {name}", file=sys.stderr)
+        if network_created:
+            if run("network", "rm", prefix, check=False).returncode:
+                print(f"cleanup failed for isolated network {prefix}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    for number in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP, signal.SIGQUIT):
+        signal.signal(number, interrupt)
+    try:
+        main()
+    except Interrupted as error:
+        signal.signal(error.number, signal.SIG_DFL)
+        os.kill(os.getpid(), error.number)

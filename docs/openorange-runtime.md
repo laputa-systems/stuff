@@ -390,13 +390,15 @@ for the Cloudflare plugin).
 Single host, single NVMe disk. All of Engine, store, Caddy state and the
 default backups live on one filesystem, so a disk or host loss loses everything
 on `lisa`; the default backup protects against operator error, corruption and a
-bad upgrade, not hardware. Anything written after the last backup is lost on
-restore. A copy on another device or host (`--dest`) is the owner's decision
-and is **not configured**. The Engine acknowledges a write after a majority of
-instances have it on disk; with one instance a log-disk loss loses writes not
-yet in the object tier. The application export planned in S4 stays the
-recovery contract independent of Engine internals. The store is a single
-copy of plain files; bucket versioning is enabled but unproven under restore.
+bad upgrade, not hardware. The Mac has manually copied, integrity-verified
+artifacts under `/Users/josh/backups/openorange`. No recurring backup scheduler
+was found in the installer source. A recurring S3 copy remains deferred as P1
+in STUF-75. Writes after the latest independently verified off-host fence remain
+at risk. The Engine log and object tier form one recovery unit. Retaining an
+S3 bucket alone does not establish Engine recovery after log-disk loss.
+Application logical exports provide an additional recovery path independent
+of Engine internals. Store object checksums have passed isolated restore tests.
+Full-host replacement RTO and bucket-version recovery remain unmeasured.
 
 ## Rehearsal record (lisa, 2026-11-13)
 
@@ -748,3 +750,51 @@ It verifies real actor data, browser navigation, private access, restart isolati
 and the protected Mac copy. Collection is best effort: slow writes under load
 can exhaust the bounded delivery budget, and the dashboard reports abandoned
 observations. A healthy receiver does not imply complete telemetry delivery.
+
+## Runtime hardening (2026-11-14)
+
+`bin/drain` fails if application discovery fails, an OpenRC stop fails or a
+service remains running. `bin/backup` also checks Docker for any active Engine,
+Store or enabled application writer before reconciling backup checksums.
+Recovery restores every previously running application, including native apps,
+and the platform bridge. These two scripts are installed on Lisa. The focused
+shell and shared Python tests cover failed stops and service recovery ordering.
+
+The latest protected physical snapshot has fence `20261114T214525Z`, 76,609
+files and 9,555,488,768 bytes. The recorded 169.5 seconds is backup downtime,
+not restore RTO. The older `20261114T184204Z` snapshot has an independent
+Engine and Store restore with complete object checksums and an application
+probe. That older probe does not prove the newest Stats state.
+
+Stats-specific application changes and remaining native-runtime gaps are in
+its [hardening audit](https://github.com/joshuarli/stats/blob/master/docs/runtime-hardening.md).
+The Engine image, persistence and production credentials remain unchanged.
+
+## Isolated Engine S3 startup reproduction
+
+`bin/repro-engine-s3` compares the pinned AMD64 Engine and Store manifests.
+It requires an explicit local Unix-socket Docker context. Every container uses
+a fresh internal network and ephemeral state, without published ports.
+Generated credentials live in protected files and are removed during cleanup.
+The probe uses curl from the pinned Engine image. It does not start another
+Engine process for probing.
+
+Run from the Stuff checkout with a new output directory:
+
+```sh
+deploy/openorange/bin/repro-engine-s3 --context orbstack \
+  --output "$PWD/.work/tmp/engine-s3-repro"
+```
+
+The [startup receipt](../deploy/openorange/tests/engine-s3-startup-results.json)
+records the actual local run under AMD64 emulation. The default plain-HTTP
+configuration times out during configuration startup. Setting
+`AWS_ALLOW_HTTP=true` lets the same pinned Engine become healthy against
+VersityGW. The pinned S3 builder reads this option from its environment.
+
+This explains a necessary configuration difference in the earlier failed
+plain-HTTP attempt. It does not prove conditional-write semantics, recovery,
+latency, upgrade compatibility or a safe live backend migration. HTTP remains
+permitted only inside this isolated experiment. Production remains on the
+filesystem tier. No upstream defect was established by this configuration
+test, so no bug was filed. S3 backup work remains separate and deferred.

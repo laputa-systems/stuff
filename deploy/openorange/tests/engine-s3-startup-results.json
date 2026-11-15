@@ -1,0 +1,26 @@
+{
+  "engine": "docker.io/rivetdev/engine@sha256:66de9f77cde47be3cd7af2c001e8083784f6b91ca58b0ab5d7878677cff5bd5d",
+  "store": "docker.io/versity/versitygw@sha256:5da5e2cd887eec7ae6ab1cd6f5099207c754964358ab6351da2a9d6b80507e4e",
+  "platform": "linux/amd64",
+  "context": "orbstack",
+  "isolation": "internal disposable network, ephemeral state, no published ports, generated credentials",
+  "results": [
+    {
+      "trial": "default",
+      "ready": false,
+      "configTimedOut": true,
+      "httpRejected": false,
+      "deadlineSeconds": 60
+    },
+    {
+      "trial": "allow-http",
+      "ready": true,
+      "configTimedOut": false,
+      "httpRejected": false,
+      "deadlineSeconds": 60
+    }
+  ],
+  "date": "2026-11-14 America/Los_Angeles",
+  "hostArchitecture": "aarch64",
+  "execution": "linux/amd64 images under OrbStack emulation; startup compatibility, not a performance benchmark"
+}
