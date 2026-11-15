@@ -9,7 +9,7 @@ established, so the slop cannot return.
 
 - **State:** assurance hardening (decision 13) landed or is in review; broader dispatch waits for
   the owner. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of scope (decision 12).
-- **Method:** usr's `deslop` skill is the one procedure (usr#34: pre-merge contract, consumer and
+- **Method:** usr's `deslop` skill is the one procedure (usr#34, merged: pre-merge contract, consumer and
   perf evidence, ticket revalidation, bounded component tasks; typing and mutation lessons). This
   doc holds only scope, decisions, sequencing, and status.
 - **Repaired pilot defects:**
@@ -40,9 +40,9 @@ established, so the slop cannot return.
   | --- | --- | --- | --- |
   | Rust, small single crate (srv, 2k) | srv#38 gate | 235 mutants, 9m43s in CI; controls fail as intended | Qualified |
   | Rust, large crate (loc, 12k) | same gate, bounded scope | critical scope is 916 of 2,433 mutants (about 50 min on 4 jobs). Its counting core (229) left 29 survivors. Timeout reruns held about 10 cores each and were stopped. | Not a lane yet: needs sharding, a CPU cap (`cpu-guard`, usr#36), and suite threads capped in mutation runs |
-  | Python, plain pytest (buildlib) | mutmut 3.8.1 scratch | earlier pilot: 235 → 216 survivors | Blocked for CI by STUF-83 |
-  | Python, pytest-parallel consumers (stuff `repomod/`) | mutmut | rejected by pytest-parallel before workers start; serial (`-p no:parallel`) is the only route, and pytest-parallel's own repo also hits its TMPDIR defect | Blocked: STUF-83, plus a serial-only recipe |
-  | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 scratch | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Blocked by STUF-83 and extensions DSLP-6 (Vitest/coverage-v8 mismatch); the browser runtime is unqualified |
+  | Python, plain pytest (buildlib) | mutmut 3.8.1 (mirrored by STUF-83) | earlier pilot: 235 → 216 survivors | Mirrored, lane not qualified: needs the whole-change gate and CI negative controls |
+  | Python, pytest-parallel consumers (stuff `repomod/`) | mutmut | rejected by pytest-parallel before workers start; serial (`-p no:parallel`) is the only route, and pytest-parallel's own repo also hits its TMPDIR defect | Mirrored; serial-only recipe, lane not qualified |
+  | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 (mirrored) | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Mirrored, lane not qualified; blocked by extensions DSLP-6 (Vitest/coverage-v8 mismatch); the browser runtime is unqualified |
 
 - **Calibration landed:**
   - loc: Ground #5, Diagnose #6 (a stdin path list counts a file once per spelling, DSLP-6 P1),
@@ -58,15 +58,14 @@ established, so the slop cannot return.
   - oxish upstream workflows, and tm's flaky macOS test.
 - **Next justified dispatch batch:** diff-pretty, vault, and fz: tier-A Rust tools under 10k
   lines with no hardware or setuid boundary, where the qualified srv recipe applies unchanged. Hold
-  Python and TypeScript mutation steps until STUF-83 and their lanes qualify. Those repos may still
+  Python and TypeScript mutation steps until their lanes qualify (STUF-83 mirrored the tools). Those repos may still
   run Ground, Diagnose, Types, and Dead code.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
   1. Fix stuff `main`'s mycrates golden red (6257776 onward), then merge stuff#12.
-  2. Review and merge usr#34 (method), usr#35 (bridge ticket), and usr#36 (`cpu-guard`).
-  3. Approve dispatch of the batch above.
-  4. Owner tickets: buildlib DSLP-10 (the ELF `is_64` walk-back), and srv's Content-Type rows.
-  5. toolbox: fix Actions billing to bring it back in scope.
+  2. Approve dispatch of the batch above.
+  3. Owner tickets: buildlib DSLP-10 (the ELF `is_64` walk-back), and srv's Content-Type rows.
+  4. toolbox: fix Actions billing to bring it back in scope.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` The
   next slices are loc's sharded lane under `cpu-guard`, then STUF-84's fixers once stuff#12 lands.
 
