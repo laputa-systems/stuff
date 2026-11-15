@@ -24,11 +24,11 @@ never gated.
 | hi-lite | A |  |  |  |  |  |  |  |  |  |  |  |  |
 | lz | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | rustybench | B |  |  |  |  |  |  |  |  |  |  |  |  |
-| loc | B |  |  |  |  |  |  |  |  |  |  |  |  |
+| loc | Calibration |  |  |  |  |  |  |  |  |  |  |  |  |
 | laputa-ui-dashboard | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | tinyland | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | chromium-build | B |  |  |  |  |  |  |  |  |  |  |  |  |
-| toolbox | B |  |  |  |  |  |  |  |  |  |  |  |  |
+| toolbox | Calibration |  |  |  |  |  |  |  |  |  |  |  |  |
 | e | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | defuddle-rs | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | gluon | B |  |  |  |  |  |  |  |  |  |  |  |  |
@@ -36,13 +36,14 @@ never gated.
 | usr | C |  |  |  |  |  |  |  |  |  |  |  |  |
 | img | C |  |  |  |  |  |  |  |  |  |  |  |  |
 | tm | C |  |  |  |  |  |  |  |  |  |  |  |  |
-| stats | C |  |  |  |  |  |  |  |  |  |  |  |  |
+| stats | Calibration |  |  |  |  |  |  |  |  |  |  |  |  |
 | discover | C |  |  |  |  |  |  |  |  |  |  |  |  |
 | ish | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | smolith | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | play | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | tansu | D |  |  |  |  |  |  |  |  |  |  |  |  |
-| stuff | D |  |  |  |  |  |  |  |  |  |  |  |  |
+| stuff (repomod) | Calibration | | | | | | | | | | | | |
+| stuff (rest) | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | kache | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | jaq | E |  |  |  |  |  |  |  |  |  |  |  |  |
 | rust-fontconfig | E |  |  |  |  |  |  |  |  |  |  |  |  |

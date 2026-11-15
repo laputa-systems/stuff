@@ -7,8 +7,9 @@ established, so the slop cannot return.
 
 ## Status
 
-- **State:** planned. Nothing has started.
-- **Next slice:** F1.
+- **State:** running.
+- **Accepted:** F1 (`fe04fa2`; topics published to the eight forks).
+- **Next slice:** K0, then K1 and F2.
 - **Phase:** 0 (foundations).
 - **Seeded tiers:** none.
 - **Settled repositories:** none. The scorecard is [deslop-scorecard.md](deslop-scorecard.md).
@@ -26,8 +27,9 @@ The campaign has two kinds of workers.
   `TODO-DESLOP.md` with the `deslop` skill and touches nothing outside that repository. Repositories
   are disjoint, so any number of repo agents can run at once.
 
-The method is proven at small scale before it is handed out. Phases 1 and 2 are run by the campaign
-agent itself. From phase 3, the campaign agent seeds one size tier at a time. It checks up on the
+The method is proven at small scale, then on complex repos, before it is handed out. Phases 1 and 2
+are run by the campaign agent itself. Phase 3 starts only when the owner approves the calibration
+report. From phase 3, the campaign agent seeds one size tier at a time. It checks up on the
 settled repositories and folds what they learned into the skill before it seeds the next, larger
 tier.
 
@@ -74,7 +76,9 @@ tier.
 7. **Fan-out through tickets.** After the method works, the remaining work is filed as tickets in a
    per-repo `TODO-DESLOP.md`, separate from `TODO.md`, so the owner can dispatch repo agents. The
    campaign checks each repository after its tickets settle.
-8. **Skills.** Skill development in `usr` is in scope. The skills are where the campaign's lessons
+8. **Fan-out needs approval.** Phase 3 starts only after the owner approves the calibration report
+   (Phase 2). Until then the tooling must be proven on complex repos, not only small ones.
+9. **Skills.** Skill development in `usr` is in scope. The skills are where the campaign's lessons
    end up. Repo agents follow them, and they outlive the campaign. `test-audit` changes its position
    on line coverage first (K1).
 
@@ -201,18 +205,43 @@ throwaway PR without merging.
 
 ### Phase 2: calibration (campaign agent)
 
-Run the pass on three repos that each test a part of the method the pilots could not:
+**2a, narrow.** Run the pass on three repos that each test one part of the method the pilots could
+not:
 
 - **fastermod:** the perf gate, against a rustybench baseline.
 - **pytest-parallel:** coverage across parallel workers (this is new runner support, which unblocks
   stuff and toolbox), plus the known red above.
 - **ptytest:** a library with consumers.
 
-**Checkpoint M2:**
+Then extract the repo pass into an explicit `deslop` skill in usr (**K3**). Replace the Repo pass
+section here with a link to it, and write the ticket template into the skill.
 
-- **K3.** Extract the repo pass into an explicit `deslop` skill in usr. Replace the Repo pass section
-  here with a link to it. Write the ticket template into the skill.
-- Score the repos.
+**2b, complex.** Run the pass, using the `deslop` skill, on four repos that stress the tools at the
+scale and shape of the larger tiers:
+
+- **loc** (Rust, 12.5k): a real CLI with corpus semantics, a rustybench baseline, and musl and
+  macOS artifacts.
+- **toolbox** (Python, 18.9k): a pytest-parallel consumer. It proves coverage and mutmut through
+  the runner on a real suite.
+- **stats** (Rust and TypeScript, 68.4k): component mode, Stryker on a large TypeScript suite, a
+  Cloudflare Worker runtime boundary, and cross-language fixtures.
+- **stuff, the `repomod/` component** (Python): effect-heavy code (Git, GitHub, filesystem) behind
+  fakes, so it proves mutation testing and dead-code tools on code that mostly orchestrates effects.
+  The campaign agent already owns stuff's shared files, so this does not break disjointness.
+
+2b's repos may run in parallel lanes, one per repo, after K3.
+
+**Checkpoint M2** writes the **calibration report** into Status, then stops for the owner. The
+report covers:
+
+- For each tool: whether it ran on every calibration repo, its cost (wall time and CI minutes), its
+  confirmed yield, and its false-positive rate.
+- For each step: its yield against its cost.
+- Escaped regressions, if any.
+- The method changes made in response.
+- A recommendation on whether to fan out, and which tier first.
+
+The calibration repos count as settled for the scorecard. Phase 3 starts on the owner's approval.
 
 ### Phase 3: fan-out (campaign agent seeds; owner dispatches repo agents)
 
@@ -228,9 +257,9 @@ For each tier in order:
 | Tier | Repos (Rust + Python + TS lines from `fleet/loc/v1`) |
 | --- | --- |
 | A, under 10k | pi-build (0.7k, `tools/` only), ffmpeg-build 2.8k, node-build 2.9k, fz 5.1k, doas-rs 5.4k, mdevd-rs 5.4k, diff-pretty 6.0k, vault 6.2k, cmake-build 7.0k, hi-lite 8.1k |
-| B, 10k to 30k | lz 11.1k, rustybench 11.1k, loc 12.5k, laputa-ui-dashboard 13.8k, tinyland 14.1k, chromium-build 16.1k, toolbox 18.9k, e 20.1k, defuddle-rs 20.7k, gluon 28.7k |
-| C, 30k to 80k | ctrs 32.7k, usr 42.2k, img 43.7k, tm 51.6k, stats 68.4k, discover 75.8k |
-| D, over 80k, by component | ish 89.0k, smolith 118.1k, play 122.4k, tansu 123.2k, stuff 156.1k, kache 240.1k |
+| B, 10k to 30k | lz 11.1k, rustybench 11.1k, laputa-ui-dashboard 13.8k, tinyland 14.1k, chromium-build 16.1k, e 20.1k, defuddle-rs 20.7k, gluon 28.7k |
+| C, 30k to 80k | ctrs 32.7k, usr 42.2k, img 43.7k, tm 51.6k, discover 75.8k |
+| D, over 80k, by component | ish 89.0k, smolith 118.1k, play 122.4k, tansu 123.2k, stuff 156.1k (components other than `repomod/`), kache 240.1k |
 | E, forks (delta only) | jaq, rust-fontconfig, rustix, rage, fd, oxish, crabtables, soulseek-rs |
 
 Two repos share files with the campaign agent and are never dispatched to a repo agent while it is
