@@ -1041,7 +1041,8 @@ def test_ish_archive_fixer_produces_valid_file_plan(tmp_path: Path) -> None:
         line for line in difflib.ndiff(source.splitlines(keepends=True), fixed.splitlines(keepends=True))
         if line.startswith("- ")
     ]
-    assert removed and all("zip" in line for line in removed), removed
+    assert removed
+    assert all("zip" in line for line in removed), removed
     write_workflow(tmp_path, fixed)
     assert _binary_release_standard_findings(tmp_path, repo) == []
     assert archive_findings(tmp_path, repo) == []
