@@ -55,7 +55,6 @@ case "$UNAME_S-$UNAME_M" in
   Linux-x86_64) HOST_PLATFORM="linux-x86_64" ;;
   Linux-aarch64|Linux-arm64) HOST_PLATFORM="linux-aarch64" ;;
   Darwin-arm64) HOST_PLATFORM="macos-arm64" ;;
-  Darwin-x86_64) HOST_PLATFORM="macos-x86_64" ;;
   *) echo "FAIL: unsupported host platform $UNAME_S-$UNAME_M"; exit 1 ;;
 esac
 
@@ -66,7 +65,7 @@ version = "0.1.0"
 requires-python = ">=3.15,<3.16"
 
 [tool.mypypi.targets]
-platforms = ["linux-x86_64", "linux-aarch64", "macos-x86_64", "macos-arm64"]
+platforms = ["linux-x86_64", "linux-aarch64", "macos-arm64"]
 linux_repair_policy = "manylinux_2_28"
 EOF
 cat > "$WORK/packages.toml" <<'EOF'

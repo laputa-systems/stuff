@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "registry": "cargo",
-  "generation": "9eadd5d935ac5ab51b494984",
+  "generation": "0ae7ce3ba02fe782be3a9bf8",
   "packages": [
     {
       "name": "Beta_crate",

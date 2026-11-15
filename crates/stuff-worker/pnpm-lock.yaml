@@ -176,8 +176,8 @@ importers:
   .:
     devDependencies:
       '@laputa-systems/ui-dashboard':
-        specifier: 0.11.1
-        version: 0.11.1
+        specifier: 0.11.3
+        version: 0.11.3
       oxlint:
         specifier: 1.93.0
         version: 1.93.0(oxlint-tsgolint@7.0.2005)
@@ -580,8 +580,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@laputa-systems/ui-dashboard@0.11.1':
-    resolution: {integrity: sha512-Zjen/xmDRQYHqi2Snb+F9iX22TfHdGchBQOYNTwlHlF1U/TYAwDEsoiDYjZ4LrqC/HILNlzMVSgV5mVHpWiPyA==, tarball: https://npm.17166969.xyz/current/-/tarballs/6637a7ff1983450607aa2d929dbf85f625f6d937c7746721050398353c251e517553f4d80300c4b288836236782eba82fc720b365ccc552815e66547a5688fc8.tgz}
+  '@laputa-systems/ui-dashboard@0.11.3':
+    resolution: {integrity: sha512-Y+kku/ajifwf7ihzd14UmqpPrzmBW7jvkLNI7BpwkJemQdwp9LT8oJ4kxP7ytOFnb9rzZh9ukPFjWFf9yQD6wA==, tarball: https://npm.17166969.xyz/current/-/tarballs/63e924bbf6a389fc1fee2873775e149aaa4faf39815bb8ef90b348ec1a709097a641dc29f4b4fca09e24c4fef2b4e1676fdaf3661f6e90f1635857fdc900fac0.tgz}
     engines: {node: '>=26.13.1'}
     peerDependencies:
       '@solidjs/web': '>=2.0.0-rc.18'
@@ -1453,7 +1453,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@laputa-systems/ui-dashboard@0.11.1': {}
+  '@laputa-systems/ui-dashboard@0.11.3': {}
 
   '@napi-rs/wasm-runtime@1.2.6(@emnapi/core@2.0.0-beta.2)(@emnapi/runtime@2.0.0-beta.2)':
     dependencies:

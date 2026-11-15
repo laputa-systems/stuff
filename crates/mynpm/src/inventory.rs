@@ -896,6 +896,19 @@ fn normalize_artifact(
     Ok(Some((meta_val, ArtifactVerification { sha512, integrity, shasum, source_url, legacy_sha1_only: legacy, first_party })))
 }
 
+fn with_record_identity(error: Error, identity: &str) -> Error {
+    use crate::error::Error as E;
+    match error {
+        E::Usage(s) => E::Usage(format!("{identity}: {s}")),
+        E::Input(s) => E::Input(format!("{identity}: {s}")),
+        E::Operation(s) => E::Operation(format!("{identity}: {s}")),
+        E::Conflict(s) => E::Conflict(format!("{identity}: {s}")),
+        E::Corrupt(s) => E::Corrupt(format!("{identity}: {s}")),
+        E::Limit(s) => E::Limit(format!("{identity}: {s}")),
+        E::Network(s) => E::Network(format!("{identity}: {s}")),
+    }
+}
+
 pub fn normalize_artifact_record(v: &deser_value::Value, label: &str, category: Category) -> Result<ArtifactRecord> {
     let record = require_record(v, label, category)?;
     exact_keys(record, &["name", "version", "packument", "metadata", "artifact"], label, category)?;
@@ -905,9 +918,13 @@ pub fn normalize_artifact_record(v: &deser_value::Value, label: &str, category: 
     if !valid_package_name(&name) || !valid_version(&version) {
         return Err(err(category, format!("{label} has an invalid package identity")));
     }
-    let packument = normalize_packument_metadata(record.get("packument").unwrap_or(&null), &format!("{label}.packument"), category, &name)?;
-    let metadata = normalize_metadata(record.get("metadata").unwrap_or(&null), &format!("{label}.metadata"), category, &name, &version)?;
-    let normalized = normalize_artifact(record.get("artifact").unwrap_or(&null), &format!("{label}.artifact"), category, metadata.as_ref())?;
+    let identity = format!("{name}@{version}");
+    let packument = normalize_packument_metadata(record.get("packument").unwrap_or(&null), &format!("{label}.packument"), category, &name)
+        .map_err(|error| with_record_identity(error, &identity))?;
+    let metadata = normalize_metadata(record.get("metadata").unwrap_or(&null), &format!("{label}.metadata"), category, &name, &version)
+        .map_err(|error| with_record_identity(error, &identity))?;
+    let normalized = normalize_artifact(record.get("artifact").unwrap_or(&null), &format!("{label}.artifact"), category, metadata.as_ref())
+        .map_err(|error| with_record_identity(error, &identity))?;
     let (Some(packument), Some(metadata), Some((metadata_out, artifact))) = (packument, metadata, normalized) else {
         return Err(err(category, format!("{label} must include packument metadata, version metadata, and a verified artifact")));
     };

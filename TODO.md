@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 85
+Next: 89
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -22,22 +22,34 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** durable-state
 - **Effort:** M
 
+### STUF-85 · P1 · First-party packuments freeze dist-tags.latest at the lexicographic max instead of the newest publish
+
+- **Area:** npm
+- **Where:** crates/mynpm/src/packument.rs packument_modified / latest_snapshot
+- **Problem:** latest_snapshot sorts candidate snapshots by a top-level "modified" key no record carries (first-party packuments nest time.modified under "time"; upstream packuments have no top-level modified either), so dist-tags.latest and time.modified froze at the lexicographic max packument (0.9.1 for @laputa-systems/ui-dashboard) after publishes of 0.10.0-0.11.3. Renderer fix merged in PR #14 with regression test; mynpm suite + clippy green. BLOCKER to shipping it to the live npm registry: the registry seals its current generation by re-hashing base+artifacts+packument bytes with the running renderer, so ANY packument-byte change makes the live generation unsealable by the fixed binary ("integrity: generation identity does not match its contents"). stuff republish npm routes through the same Seal::Current check and cannot cross it either (verified: its only steps are pull -> publish_site -> read_current(Seal::Current)). The npm registry has no adopt/re-seat entry point wired into republish (myoci and mycrates have adopt; see docs/PUBLISHING.md 296-321 for OCI). Advancing dist-tags.latest on the live registry requires, ONCE, an operator-run migration: r2-pull the npm bucket into a site, mynpm adopt --site-dir SITE to re-render + verify + switch the local current to a new generation, then stuff republish npm to stage and promote it, then verify npm view @laputa-systems/ui-dashboard dist-tags. Pulling the whole mirror may be large; verify disk and window before starting, run it supervised rather than unattended. Do NOT install a #14-built stuff (cargo install / usr sync) before that re-seat lands: the seal then rejects the pre-re-seat generation used for every subsequent npm publication on this machine until the migration lands.
+- **Recommendation:** merge #14 (done) and record the exact completion path: operator (Joshua) runs the one-time pull -> adopt -> republish migration against the npm bucket, supervised, then npm view @laputa-systems/ui-dashboard dist-tags must report 0.11.3 and stuff publish npm --tarball must succeed again; then close this ticket. Alternatively, the tool gains a wired npm adopt (republish does adopt-then-promote), after which republish is a no-op-safe renderer catch-up; that is the durable fix for the missing command but is a bigger change than a one-time migration and wants its own review.
+- **Fix with:** worker
+- **Effort:** M
+
+
+
+
+### STUF-87 · P1 · Diagnose private Engine volume fencing during acknowledged Stats import
+
+- **Area:** OpenOrange Engine durability
+- **Where:** Stats bench/results/2026-11-15-scale-prep-review/README.md; protected Lisa /home/josh/.work/stats-perf-campaign/production-engine-20261115/engine-stdout.log and campaign-rebuild-20261115/
+- **Problem:** Isolated Stats fixture using image stats:6cc06db247a3, private Engine binary SHA256 0b6e8c031ce2d2d3259b540a4ae55c6f8d4bb367001406110ce5dc62bcd7357f, two CPUs and 3 GiB repeatedly fails canonical snapshot import with HTTP 500. Engine logs QuorumUnavailable at 18:03:23 UTC and staged_write_abort_failed fencing at 18:03:30, 18:18:35 and 19:08:47 on 2026-11-15. A fresh-namespace single campaign rebuild with 250ms import pacing stopped at 70500 acknowledged rows; memory limit events occurred but zero OOM kills. Blocks tenfold acceptance and repeated recovery. Underlying defect versus Engine configuration/resource limits is unproven; P1 assumed for the blocked durable recovery path, not a claim of production data loss.
+- **Recommendation:** Preserve failed state and logs; reproduce the volume-layer failure in an isolated pinned runtime, distinguish resource/configuration misuse from Engine defect, and verify acknowledged rows survive reopening and ten ordinary restarts under 15 seconds. Do not restart the shared Engine or repair it within the Stats campaign. Check cross-namespace actor identity handling: actor-list results in two fixture namespaces returned the same actor ID.
+- **Fix with:** root-cause
+- **Effort:** M
+
+
 ### STUF-82 · P2 · Worker gateway test intermittently sees an already-read body
 
 - **Area:** Worker runtime
 - **Where:** crates/stuff-worker/test/runtime.test.mjs:193 (the gateway forwards the host to the cached entrypoint)
 - **Problem:** In stuff#9 CI run 43691840562 the worker-runtime job failed with TypeError Body is unusable: Body has already been read on the first cargo.text() call at runtime.test.mjs:202, after the same job passed on the PR's previous run with no Worker change between them. Something consumes the gateway response body before the test reads it; a shared or cached Response handed to two requests would do it. Unreproduced locally.
 - **Recommendation:** Root-cause with repeated runs of that test (node --test with a loop) and read the gateway path that serves catalog.json for both hosts; fix the producer, not the test, and keep the test as the regression.
-- **Fix with:** root-cause
-- **Effort:** M
-
-
-### STUF-83 · P2 · Mirror the deslop mutation and dead-code tools for Python and TypeScript
-
-- **Area:** Registries
-- **Where:** stuff publish pypi, stuff publish npm --lockfile (crates/mynpm/src/inventory.rs:850)
-- **Problem:** The deslop campaign mirrored vulture 2.16 and deptry 0.25.1, but mutmut 3.8.1 fails planning because libcst 1.9.0 has no macos-x86_64 wheel (setproctitle and pyyaml are native too), and a lockfile of @stryker-mutator/core 10.1.1, @stryker-mutator/vitest-runner 10.1.1, knip 6.45.1, and @vitest/coverage-v8 5.1.0 resolved from npmjs fails with integrity: verified artifact.artifact.sourceUrl must be a public npm HTTPS URL, without naming the package (lockfile kept at .work/tmp/npm-tools in the campaign clone). Until both are mirrored, Python and TypeScript repositories run mutation and knip from scratch installs and have no CI mutation lane.
-- **Recommendation:** Make the npm error name the offending package and fix or exempt its source URL; for mutmut either build the missing wheels with --allow-sdist on a matching host or choose a pure-Python mutation tool. Then pin the tools in the deslop skill tools reference and add the Python and TypeScript lanes.
 - **Fix with:** root-cause
 - **Effort:** M
 
@@ -49,5 +61,25 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Problem:** The deslop campaign proved the Rust recipe in srv (branch coverage, cargo-mutants 27.1.0 diff lane through taiki-e/install-action, exit 3 counted as detected, a whole-crate run for test-only diffs) and adopted strict settings per repository on evidence (Rust unsafe_code forbid; ty missing-type-argument and unsound-return-statement; Ruff ANN401). Nothing in repomod requires them, so a repository can drop its lane or profile, and every Rust repository copies the same Makefile block by hand.
 - **Recommendation:** Add rules that apply only to repositories whose TODO-DESLOP.md Tests step is closed (or that already have the targets): make-coverage-target, mutants-diff-lane (job present, pinned tool, base ref through env), and strict-typing-profile for the settings adopted fleet-wide; give mutants-diff-lane a fixer that writes srv's Makefile block and job. Python and TypeScript lanes follow STUF-83.
 - **Fix with:** none
+- **Effort:** M
+
+
+### STUF-86 · P2 · Expose positive observation actor sleep and wake evidence
+
+- **Area:** OpenOrange lifecycle observability
+- **Where:** deploy/openorange/rivet/server.py; Stats docs/CAMPAIGN-STATS-PERFORMANCE.md W3 and bench/results/2026-11-15-scale-prep-review/README.md; protected Lisa /home/josh/.work/stats-perf-campaign/
+- **Problem:** Pinned Engine 3.1.2-rc.1 in the isolated stats-perf-scale-server fixture returns null sleep_ts, start_ts and connectable_ts for the active observation-store actor on repeated API inspection. Stats exposes no constructor-generation signal. This prevents confirming the after-sleep condition for 200 uncached browser selections per range; idle elapsed time and forced restarts cannot substitute. P2 priority assumed for the missing validation capability.
+- **Recommendation:** Provide a supported positive per-actor sleep/eviction transition and wake or constructor-generation signal on the pinned runtime path, preserving unknown values. Verify a natural idle eviction and correlate its next request; do not infer sleep from elapsed time. Resume the Stats after-sleep acceptance study only with positive evidence.
+- **Fix with:** root-cause
+- **Effort:** M
+
+
+### STUF-88 · P2 · Keep actor inventory available during native resource collection
+
+- **Area:** OpenOrange lifecycle observability
+- **Where:** deploy/openorange/rivet/server.py; Stats bench/native-soak.py and bench/results/2026-11-15-soak-progress/README.md; protected Lisa maintained-rollup-soak-v2.jsonl
+- **Problem:** The live 2026-11-15 Stats production soak recorded actor inventory HTTP 503 at 23 of its first 152 samples and one application-health timeout. W6 requires no unavailable groups, so the collection cannot establish plateau acceptance. This is observed diagnostic unavailability, not proof of production data loss or a classified Engine defect. P2 assumed for a repeatable gap blocking production resource validation.
+- **Recommendation:** Diagnose the failed actor-list requests using preserved sample indices without restarting the shared Engine or changing the active sampler. Establish a supported bounded inventory path that remains available during normal traffic, preserve unknown lifecycle states and explicit failures, and verify a complete 24-hour collection with zero unavailable groups. Handle the application-health timeout separately if it has an independent cause; do not hide outages with dropped samples or relaxed acceptance.
+- **Fix with:** root-cause
 - **Effort:** M
 

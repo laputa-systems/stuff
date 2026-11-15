@@ -8,6 +8,7 @@ use std::sync::OnceLock;
 
 pub const MACOS_DEPLOYMENT_TARGET: (u64, u64) = (15, 0);
 pub const MUSLLINUX_POLICY: &str = "musllinux_1_2";
+pub const RETIRED_TARGETS: &[&str] = &["macos-x86_64"];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Family {

@@ -129,7 +129,7 @@ interface AtlasSigmaOptions {
             layers: unknown[];
         };
     };
-    settings: Record<string, number | boolean | string>;
+    settings: Record<string, number | boolean | string | { margin: number }>;
     styles: {
         nodes: Record<string, unknown>;
         edges: Record<string, unknown>;

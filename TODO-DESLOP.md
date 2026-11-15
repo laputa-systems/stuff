@@ -5,18 +5,10 @@ Deslop campaign backlog ([plan](https://github.com/laputa-systems/stuff/blob/mai
 
 ## Report
 
-Not started.
+Ground: base `6257776`. PR CI already ran `make test` (the seeded fact was stale). Warm `make test` 163s, `make repomod-test` 60s (1,348 passed, 3 skipped), `make lint` 19s on macOS. stats-producer is pristine and minisearch is modified; both record their upstream. DSLP-3 to DSLP-5 are scoped to the `repomod/` component with named contracts and acceptance commands.
 
 ## Tickets
 
-### DSLP-1 · P2 · Ground: baseline, boundaries, and CI test entry point
-
-- **Area:** deslop · ground
-- **Where:** AGENTS.md, Makefile, .github/workflows/
-- **Problem:** Base 64cb5ec; code lines Rust 76.6k, Python 76.3k, TypeScript 3.3k (fleet/loc/v1, vendored included); timings not yet measured. CI does not run make test: runs tests directly on pull requests; run make test or make test-ci instead so CI and local verification share one entry point. Open fleet lint findings: mdtool 60, typescript-stack 20, python-standard 6, rust-collections 3, audit-upgrades 1, language-tags 1, topics 1. Vendored trees: /vendor/stats-producer; without an UPSTREAM record: /vendor/stats-producer. Over 50k lines, so Types, Tests, and Dead code run per component; largest first-party groups: crates/stuff (30k), tests (26k), repomod/dependencies (16k), repomod/rules (13k), crates/mynpm (13k), crates/mypypi (11k), crates/myoci (11k), repomod/(top-level files) (10k), and 2 more. Perf gate: decide in Ground whether a user-visible hot path needs a workload. Known flaky: STUF-82 (worker-runtime gateway test sees an already-read body). The stuff Calibration pass covers the repomod/ component; the other components follow in tier D.
-- **Recommendation:** Run the deslop Ground step. Accept: CI runs make test and is green, and AGENTS.md has a Verification section.
-- **Fix with:** deslop
-- **Effort:** M
 
 ### DSLP-2 · P2 · Diagnose: ultrareview into this backlog
 
@@ -30,8 +22,8 @@ Not started.
 ### DSLP-3 · P2 · Types: strict profile and typing findings
 
 - **Area:** deslop · types
-- **Where:** type checker and lint configuration; Rust/Python/TypeScript sources
-- **Problem:** The strict-profile candidates in the deslop skill's tools reference have not been measured here.
+- **Where:** repomod/ (ty and Ruff config in pyproject.toml)
+- **Problem:** Scope: the repomod/ component only (calibration); the other components follow in tier D as their own bounded tasks. Contracts: the repomod CLI (commands, flags, exit codes, JSON output), fleet/catalog.toml, fleet/dependencies/v1/ and fleet/loc/v1/, and the catalog.json reader. Consumers: the dashboard render (tests/repomod/test_dashboard_preview.py golden) and make deps; no other repository imports repomod. Python strict candidates: ty rules at error, Ruff ANN, ANN401, PGH003, TC, B, RET. Accept: make repomod-lint and make repomod-test.
 - **Recommendation:** Run the deslop Types step. Accept: clean at the adopted profile, escape hatches not increased, witnesses recorded.
 - **Fix with:** deslop
 - **Effort:** M
@@ -39,8 +31,8 @@ Not started.
 ### DSLP-4 · P2 · Tests: coverage, boundary gaps, mutation
 
 - **Area:** deslop · tests
-- **Where:** test suites and CI
-- **Problem:** Coverage and mutation results are unmeasured; no deslop mutation lane exists.
+- **Where:** repomod/ and tests/repomod/
+- **Problem:** Scope: the repomod/ component only (calibration); the other components follow in tier D as their own bounded tasks. Contracts: the repomod CLI (commands, flags, exit codes, JSON output), fleet/catalog.toml, fleet/dependencies/v1/ and fleet/loc/v1/, and the catalog.json reader. Consumers: the dashboard render (tests/repomod/test_dashboard_preview.py golden) and make deps; no other repository imports repomod. Effect-heavy code (Git, GitHub, filesystem) behind fakes; tests run under pytest-parallel, which cannot collect coverage across workers, so coverage runs serially. Mutation scope: rules and fixers (repomod/rules/), sync and removal safety (repomod/sync.py, gc), catalog parsing. Accept: make repomod-test within the cost budget (60s warm).
 - **Recommendation:** Run the deslop Tests step. Accept: no undispositioned survivor in critical code, the test cost budget holds, and the lane is green where the tools are mirrored.
 - **Fix with:** deslop
 - **Effort:** L
@@ -48,8 +40,8 @@ Not started.
 ### DSLP-5 · P2 · Dead code: tools and debloat
 
 - **Area:** deslop · dead code
-- **Where:** whole repository
-- **Problem:** No dead-code scan has run.
+- **Where:** repomod/
+- **Problem:** Scope: the repomod/ component only (calibration); the other components follow in tier D as their own bounded tasks. Contracts: the repomod CLI (commands, flags, exit codes, JSON output), fleet/catalog.toml, fleet/dependencies/v1/ and fleet/loc/v1/, and the catalog.json reader. Consumers: the dashboard render (tests/repomod/test_dashboard_preview.py golden) and make deps; no other repository imports repomod. Tools: Ruff F401/F841, vulture, deptry. Accept: make repomod-lint and make repomod-test.
 - **Recommendation:** Run the deslop Dead code step. Accept: tools clean or allowlisted with reasons; walk-backs filed as Needs owner tickets.
 - **Fix with:** deslop
 - **Effort:** M

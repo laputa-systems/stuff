@@ -17,7 +17,6 @@ const PYTHON_PLATFORMS: &[(&str, &str)] = &[
     ("linux-aarch64", "aarch64-manylinux_2_28"),
     ("linux-musl-x86_64", "x86_64-unknown-linux-musl"),
     ("linux-musl-aarch64", "aarch64-unknown-linux-musl"),
-    ("macos-x86_64", "x86_64-apple-darwin"),
     ("macos-arm64", "aarch64-apple-darwin"),
 ];
 
@@ -537,5 +536,6 @@ mod tests {
         assert_eq!(python_platform("linux-musl-x86_64"), Some("x86_64-unknown-linux-musl"));
         assert_eq!(python_platform("linux-musl-aarch64"), Some("aarch64-unknown-linux-musl"));
         assert_eq!(python_platform("linux-x86_64"), Some("x86_64-manylinux_2_28"));
+        assert_eq!(python_platform("macos-x86_64"), None);
     }
 }

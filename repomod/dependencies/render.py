@@ -1002,7 +1002,7 @@ def _risk_row(title: str, note: str, lines: Sequence[Line]) -> str:
     if len(lines) > _LIST_ROWS:
         body = ui.scope(body, limit=_LIST_ROWS, total=len(lines))
     return (
-        f'<li class="change-repo"><div><h3 class="row-title">{_e(title)} · {len(lines)}</h3>'
+        f'<li class="change-repo"><div><h3 class="row-title">{_e(title)}&nbsp;·&nbsp;{len(lines)}</h3>'
         f'<div class="note">{_e(note)}</div></div><div>{body}</div></li>'
     )
 
@@ -1977,20 +1977,6 @@ def _explore(site: _Site) -> str:
           <li><a href="packages.html">Packages</a> — every package with versions and consumers</li>
         </ul>
       </div>
-      <div class="atlas-legend" aria-hidden="true">
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#2a78d6"></span>repository</span>
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#eb6834"></span>repository with
-          coverage errors</span>
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#1c1c1a"></span>project</span>
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#d55e00"></span>cargo</span>
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#2a78d6"></span>npm</span>
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#009e73"></span>pypi</span>
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#e69f00"></span>golang</span>
-        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#9a9992"></span>other ecosystem</span>
-        <span class="atlas-legend-item"><span class="atlas-line"></span>exact edge</span>
-        <span class="atlas-legend-item"><span class="atlas-line atlas-line-strong"></span>aggregate
-          (repository → ecosystem)</span>
-      </div>
       <div id="atlas-empty" class="atlas-message" hidden>
         <p><strong>No repositories are visible.</strong> The catalog hides every repository from
           dashboards, or the inventory is empty.</p>
@@ -2005,6 +1991,21 @@ def _explore(site: _Site) -> str:
       <p class="atlas-inspector-empty">Selection details appear here with JavaScript enabled.</p>
     </aside>
   </div>
+  <div class="atlas-legend" aria-hidden="true">
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#2a78d6"></span>repository</span>
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#eb6834"></span>repository with
+      coverage errors</span>
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#1c1c1a"></span>project</span>
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#d55e00"></span>cargo</span>
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#2a78d6"></span>npm</span>
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#009e73"></span>pypi</span>
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#e69f00"></span>golang</span>
+    <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#9a9992"></span>other ecosystem</span>
+    <span class="atlas-legend-item"><span class="atlas-line"></span>exact edge</span>
+    <span class="atlas-legend-item"><span class="atlas-line atlas-line-strong"></span>aggregate
+      (repository → ecosystem)</span>
+  </div>
+
   <p class="atlas-footnote">Aggregate edges between a repository and an ecosystem sum every edge whose
     target belongs to the ecosystem; they are not runtime linkage. Exact edges appear after you focus a
     repository. Records with unknown or declared-only resolution are called out in the inspector, not

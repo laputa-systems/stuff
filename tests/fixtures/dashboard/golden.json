@@ -265,7 +265,7 @@
     "headers": [
      "Language",
      "Files",
-     "Code",
+     "Lines",
      "Comment",
      "Blank"
     ],

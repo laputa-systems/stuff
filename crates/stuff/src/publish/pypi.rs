@@ -23,12 +23,11 @@ use crate::publish::{Environment, Options, Outcome, PublishError, PypiPublish, P
 const PYTHON_SPECIFIER: &str = ">=3.15,<3.16";
 const LINUX_REPAIR_POLICY: &str = "manylinux_2_28";
 const PYPI_SIMPLE_INDEX: &str = "https://pypi.org/simple";
-const SUPPORTED_PLATFORMS: [&str; 6] = [
+const SUPPORTED_PLATFORMS: [&str; 5] = [
     "linux-x86_64",
     "linux-aarch64",
     "linux-musl-x86_64",
     "linux-musl-aarch64",
-    "macos-x86_64",
     "macos-arm64",
 ];
 
@@ -496,7 +495,6 @@ mod tests {
                 "linux-aarch64",
                 "linux-musl-x86_64",
                 "linux-musl-aarch64",
-                "macos-x86_64",
                 "macos-arm64"
             ]
         );
