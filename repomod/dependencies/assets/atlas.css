@@ -65,6 +65,9 @@
 @media (max-width: 1100px) {
   .atlas-stage { grid-template-columns: minmax(0, 1fr) 280px; }
 }
+@media (max-width: 1100px) {
+  .atlas-caption { white-space: normal; overflow: visible; text-overflow: clip; }
+}
 @media (max-width: 900px) {
   .atlas-stage { grid-template-columns: minmax(0, 1fr); height: auto; min-height: 0; }
   .atlas-canvas { height: 58vh; min-height: 380px; }

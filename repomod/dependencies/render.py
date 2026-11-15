@@ -1002,7 +1002,7 @@ def _risk_row(title: str, note: str, lines: Sequence[Line]) -> str:
     if len(lines) > _LIST_ROWS:
         body = ui.scope(body, limit=_LIST_ROWS, total=len(lines))
     return (
-        f'<li class="change-repo"><div><h3 class="row-title">{_e(title)} · {len(lines)}</h3>'
+        f'<li class="change-repo"><div><h3 class="row-title">{_e(title)}&nbsp;·&nbsp;{len(lines)}</h3>'
         f'<div class="note">{_e(note)}</div></div><div>{body}</div></li>'
     )
 
