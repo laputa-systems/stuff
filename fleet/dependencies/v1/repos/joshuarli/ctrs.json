@@ -931,10 +931,22 @@
    "purl": "pkg:docker/alpine"
   },
   {
+   "display_name": "alpine",
+   "ecosystem": "docker",
+   "name": "alpine",
+   "purl": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f"
+  },
+  {
+   "display_name": "messense/rust-musl-cross",
+   "ecosystem": "docker",
+   "name": "messense/rust-musl-cross",
+   "purl": "pkg:docker/messense/rust-musl-cross?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "docker",
    "name": "rust",
-   "purl": "pkg:docker/rust"
+   "purl": "pkg:docker/rust?digest=sha256%3Ade1e0058543a81ed7b046629167db587c67a94bdf37cce14eb27f0ec83baaffb"
   },
   {
    "display_name": "actions/checkout",
@@ -965,6 +977,12 @@
    "ecosystem": "github",
    "name": "docker/setup-buildx-action",
    "purl": "pkg:github/docker/setup-buildx-action"
+  },
+  {
+   "display_name": "docker/setup-qemu-action",
+   "ecosystem": "github",
+   "name": "docker/setup-qemu-action",
+   "purl": "pkg:github/docker/setup-qemu-action"
   },
   {
    "display_name": "swatinem/rust-cache",
@@ -1001,6 +1019,24 @@
    "ecosystem": "local",
    "name": "ctrs-vmm",
    "purl": "pkg:local/ctrs-vmm"
+  },
+  {
+   "display_name": "logmacro",
+   "ecosystem": "local",
+   "name": "logmacro",
+   "purl": "pkg:local/logmacro"
+  },
+  {
+   "display_name": "workload-app",
+   "ecosystem": "local",
+   "name": "workload-app",
+   "purl": "pkg:local/workload-app"
+  },
+  {
+   "display_name": "workload-macro",
+   "ecosystem": "local",
+   "name": "workload-macro",
+   "purl": "pkg:local/workload-macro"
   },
   {
    "display_name": "xtask",
@@ -1090,7 +1126,7 @@
   },
   {
    "condition": null,
-   "constraint": "1.100.0-alpine",
+   "constraint": "sha256:de1e0058543a81ed7b046629167db587c67a94bdf37cce14eb27f0ec83baaffb",
    "evidence": [
     {
      "locator": "L1",
@@ -1100,11 +1136,11 @@
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
+   "resolution": "resolved",
    "resolved_version": "1.100.0-alpine",
    "scope": "image",
    "source_kind": "image",
-   "to": "pkg:docker/rust@1.100.0-alpine#"
+   "to": "pkg:docker/rust@1.100.0-alpine?digest=sha256%3Ade1e0058543a81ed7b046629167db587c67a94bdf37cce14eb27f0ec83baaffb#"
   },
   {
    "condition": null,
@@ -1112,6 +1148,24 @@
    "evidence": [
     {
      "locator": "jobs.macos.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.arm64-compat.steps[0].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -1183,7 +1237,7 @@
    "constraint": "v7.0.2",
    "evidence": [
     {
-     "locator": "jobs.build.steps[9].uses",
+     "locator": "jobs.build.steps[10].uses",
      "path": ".github/workflows/release.yml"
     }
    ],
@@ -1270,10 +1324,64 @@
   },
   {
    "condition": null,
+   "constraint": "v4.4.1\n      # The qualification RUN steps for arm64 execute under a binfmt handler;\n      # ubuntu runners ship none by default. This does not (and cannot) prove\n      # handler independence — the runner reports which backend served each\n      # build; handler-free proof stays Needs environment.",
+   "evidence": [
+    {
+     "locator": "jobs.arm64-compat.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "f87e5991a6d7451dcb8d9637bfbc97413f497069",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4.4.0",
+   "evidence": [
+    {
+     "locator": "jobs.arm64-compat.steps[2].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "99012661954931238ded8c8b007157a8430204e1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1#"
+  },
+  {
+   "condition": null,
    "constraint": "v2.9.3",
    "evidence": [
     {
      "locator": "jobs.macos.steps[2].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "d1527c8f67ef9af357290475d4af4b0fab8f12e0",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0#"
+  },
+  {
+   "condition": null,
+   "constraint": "v2.9.3",
+   "evidence": [
+    {
+     "locator": "jobs.arm64-compat.steps[4].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -1321,6 +1429,122 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
+   "evidence": [
+    {
+     "locator": "L271",
+     "path": "bench/arm64/c-cpp-workload/Dockerfile"
+    }
+   ],
+   "from": "bench/arm64/c-cpp-workload:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4",
+   "evidence": [
+    {
+     "locator": "L19",
+     "path": "bench/arm64/c-cpp-workload/Dockerfile"
+    }
+   ],
+   "from": "bench/arm64/c-cpp-workload:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "aarch64-musl",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/messense/rust-musl-cross@aarch64-musl?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.17.14",
+   "evidence": [
+    {
+     "locator": "dependencies.ring",
+     "path": "bench/arm64/rust-workload/workload-app/Cargo.toml"
+    },
+    {
+     "locator": "package[name=workload-app,version=0.0.0].dependencies[0]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "bench/arm64/rust-workload/workload-app:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.17.14",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/ring@0.17.14#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.workload-macro",
+     "path": "bench/arm64/rust-workload/workload-app/Cargo.toml"
+    },
+    {
+     "locator": "package[name=workload-app,version=0.0.0].dependencies[1]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "bench/arm64/rust-workload/workload-app:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.0.0",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/workload-macro@0.0.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
+   "evidence": [
+    {
+     "locator": "L37",
+     "path": "bench/arm64/rust-workload/Dockerfile"
+    }
+   ],
+   "from": "bench/arm64/rust-workload:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4",
+   "evidence": [
+    {
+     "locator": "L18",
+     "path": "bench/arm64/rust-workload/Dockerfile"
+    }
+   ],
+   "from": "bench/arm64/rust-workload:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "aarch64-musl",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/messense/rust-musl-cross@aarch64-musl?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4#"
   },
   {
    "condition": null,
@@ -2122,6 +2346,114 @@
   },
   {
    "condition": null,
+   "constraint": "sha256:49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
+   "evidence": [
+    {
+     "locator": "L23",
+     "path": "examples/cross/c-cpp-musl/Dockerfile"
+    }
+   ],
+   "from": "examples/cross/c-cpp-musl:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4",
+   "evidence": [
+    {
+     "locator": "L10",
+     "path": "examples/cross/c-cpp-musl/Dockerfile"
+    }
+   ],
+   "from": "examples/cross/c-cpp-musl:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "aarch64-musl",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/messense/rust-musl-cross@aarch64-musl?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4#"
+  },
+  {
+   "condition": null,
+   "constraint": "1",
+   "evidence": [
+    {
+     "locator": "build-dependencies.cc",
+     "path": "examples/cross/rust-musl/app/Cargo.toml"
+    }
+   ],
+   "from": "examples/cross/rust-musl/app:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "build",
+   "source_kind": "registry",
+   "to": "pkg:cargo/cc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.logmacro",
+     "path": "examples/cross/rust-musl/app/Cargo.toml"
+    }
+   ],
+   "from": "examples/cross/rust-musl/app:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.0",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/logmacro@0.1.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "examples/cross/rust-musl/Dockerfile"
+    }
+   ],
+   "from": "examples/cross/rust-musl:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4",
+   "evidence": [
+    {
+     "locator": "L12",
+     "path": "examples/cross/rust-musl/Dockerfile"
+    }
+   ],
+   "from": "examples/cross/rust-musl:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "aarch64-musl",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/messense/rust-musl-cross@aarch64-musl?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4#"
+  },
+  {
+   "condition": null,
    "constraint": null,
    "evidence": [
     {
@@ -2580,6 +2912,42 @@
     }
    ],
    "from": "pkg:cargo/cc@1.10.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.0.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/shlex@2.0.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=cc,version=1.11.2].dependencies[0]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/cc@1.11.2#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.1.15",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/find-msvc-tools@0.1.15#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=cc,version=1.11.2].dependencies[1]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/cc@1.11.2#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -3295,6 +3663,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=getrandom,version=0.2.17].dependencies[0]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/getrandom@0.2.17#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/cfg-if@1.0.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=getrandom,version=0.2.17].dependencies[1]",
      "path": "Cargo.lock"
     }
@@ -3313,8 +3699,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=getrandom,version=0.2.17].dependencies[1]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/getrandom@0.2.17#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.191",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/libc@0.2.191#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=getrandom,version=0.2.17].dependencies[2]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/getrandom@0.2.17#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.11.1+wasi-snapshot-preview1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/wasi@0.11.1%2Bwasi-snapshot-preview1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=getrandom,version=0.2.17].dependencies[2]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/getrandom@0.2.17#",
@@ -5635,8 +6057,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=ring,version=0.17.14].dependencies[0]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/ring@0.17.14#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.11.2",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/cc@1.11.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=ring,version=0.17.14].dependencies[1]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/ring@0.17.14#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/cfg-if@1.0.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=ring,version=0.17.14].dependencies[1]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/ring@0.17.14#",
@@ -5671,8 +6129,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=ring,version=0.17.14].dependencies[2]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/ring@0.17.14#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.17",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/getrandom@0.2.17#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=ring,version=0.17.14].dependencies[3]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/ring@0.17.14#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.191",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/libc@0.2.191#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=ring,version=0.17.14].dependencies[3]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/ring@0.17.14#",
@@ -5707,8 +6201,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=ring,version=0.17.14].dependencies[4]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/ring@0.17.14#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/untrusted@0.9.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=ring,version=0.17.14].dependencies[5]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/ring@0.17.14#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows-sys@0.52.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=ring,version=0.17.14].dependencies[5]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/ring@0.17.14#",
@@ -7129,6 +7659,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=windows-sys,version=0.52.0].dependencies[0]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-sys@0.52.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows-targets@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=windows-sys,version=0.61.2].dependencies[0]",
      "path": "Cargo.lock"
     }
@@ -7165,8 +7713,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[0]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_aarch64_gnullvm@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=windows-targets,version=0.52.6].dependencies[1]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_aarch64_msvc@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[1]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/windows-targets@0.52.6#",
@@ -7201,8 +7785,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[2]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_i686_gnu@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=windows-targets,version=0.52.6].dependencies[3]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_i686_gnullvm@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[3]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/windows-targets@0.52.6#",
@@ -7237,8 +7857,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[4]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_i686_msvc@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=windows-targets,version=0.52.6].dependencies[5]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_x86_64_gnu@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[5]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/windows-targets@0.52.6#",
@@ -7273,8 +7929,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[6]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_x86_64_gnullvm@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=windows-targets,version=0.52.6].dependencies[7]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/windows-targets@0.52.6#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.52.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/windows_x86_64_msvc@0.52.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=windows-targets,version=0.52.6].dependencies[7]",
+     "path": "bench/arm64/rust-workload/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/windows-targets@0.52.6#",
@@ -7325,11 +8017,11 @@
  ],
  "inputs": [
   {
-   "blob": "2e5bbfa72241cd339bb84eda9e60ad2a9f4846b6",
+   "blob": "152836670f2a7b7478bd802ad682b62cf50a90f8",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "ec38e3aafe23d8b9973a55e1fc9bae1f6d997d01",
+   "blob": "089c75a5660e97910de116a499a8bb0a3ee60555",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -7341,8 +8033,32 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "8152cfc5f8ec64e932eed2ee2adc8419f939a69e",
+   "blob": "7d20ecba1f5dd933e3bf282668897037d864a953",
    "path": "Dockerfile"
+  },
+  {
+   "blob": "d740c888a26114c1b6e9c05997e6d1896e3034fe",
+   "path": "bench/arm64/c-cpp-workload/Dockerfile"
+  },
+  {
+   "blob": "bc0b8ff2b33390c200f1ffacd1377b819cb52288",
+   "path": "bench/arm64/rust-workload/Cargo.lock"
+  },
+  {
+   "blob": "96c6146e8a28d6340c4be6ed7787c47debf1959d",
+   "path": "bench/arm64/rust-workload/Cargo.toml"
+  },
+  {
+   "blob": "4dd259fbe50e4ccb3aefefce2d9b226ff4530a91",
+   "path": "bench/arm64/rust-workload/Dockerfile"
+  },
+  {
+   "blob": "69423f777d7343ddf889a57789e4eee0992bad1d",
+   "path": "bench/arm64/rust-workload/workload-app/Cargo.toml"
+  },
+  {
+   "blob": "ff0d8ad9382628d80d67051f450a79da220000c4",
+   "path": "bench/arm64/rust-workload/workload-macro/Cargo.toml"
   },
   {
    "blob": "1d2fdadad0f9920625a2fbaf9c387e0f328241cc",
@@ -7369,6 +8085,26 @@
    "path": "crates/ctrs/Cargo.toml"
   },
   {
+   "blob": "8e2494cea325520f5a453c3129a497a1e6407259",
+   "path": "examples/cross/c-cpp-musl/Dockerfile"
+  },
+  {
+   "blob": "5945d62c6673b71477b67bacddfe956e620f8b84",
+   "path": "examples/cross/rust-musl/Cargo.toml"
+  },
+  {
+   "blob": "8175338473f3d3da124872d79fc7361a39cc87ad",
+   "path": "examples/cross/rust-musl/Dockerfile"
+  },
+  {
+   "blob": "0091842d6567b3303d2bd21960c0986012fb715a",
+   "path": "examples/cross/rust-musl/app/Cargo.toml"
+  },
+  {
+   "blob": "32d20e9d692fd096155d4c03b526b893734ac064",
+   "path": "examples/cross/rust-musl/logmacro/Cargo.toml"
+  },
+  {
    "blob": "6fa2bd64184b4fa7fb99f54e43ccff250790ba03",
    "path": "rust-toolchain.toml"
   },
@@ -7377,7 +8113,7 @@
    "path": "xtask/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "c9291a3389f9742eb56b43ef19289d44f9a65d65f625a4034910ee1cc1250e05",
+ "inputs_fingerprint": "195efc2f010387c343539b14e43416eff1d84dd01fdde50ed66e586faf8f9093",
  "instances": [
   {
    "commit": null,
@@ -7631,6 +8367,19 @@
    "component": "pkg:cargo/cc",
    "context": "",
    "first_party": false,
+   "id": "pkg:cargo/cc#",
+   "purl": "pkg:cargo/cc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/cc",
+   "context": "",
+   "first_party": false,
    "id": "pkg:cargo/cc@1.10.0#",
    "purl": "pkg:cargo/cc@1.10.0",
    "registry_url": "https://github.com/rust-lang/crates.io-index",
@@ -7638,6 +8387,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.10.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/cc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/cc@1.11.2#",
+   "purl": "pkg:cargo/cc@1.11.2",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.11.2"
   },
   {
    "commit": null,
@@ -9422,6 +10184,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f#",
+   "purl": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "image",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:docker/alpine",
    "context": "",
    "first_party": false,
@@ -9435,11 +10210,24 @@
   },
   {
    "commit": null,
-   "component": "pkg:docker/rust",
+   "component": "pkg:docker/messense/rust-musl-cross?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4",
    "context": "",
    "first_party": false,
-   "id": "pkg:docker/rust@1.100.0-alpine#",
-   "purl": "pkg:docker/rust@1.100.0-alpine",
+   "id": "pkg:docker/messense/rust-musl-cross@aarch64-musl?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4#",
+   "purl": "pkg:docker/messense/rust-musl-cross@aarch64-musl?digest=sha256%3A02e790506c5f15a533bc05b3af8719b16a8a2314480f6f0fdc0166432035d9b4",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "image",
+   "vcs_url": null,
+   "version": "aarch64-musl"
+  },
+  {
+   "commit": null,
+   "component": "pkg:docker/rust?digest=sha256%3Ade1e0058543a81ed7b046629167db587c67a94bdf37cce14eb27f0ec83baaffb",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:docker/rust@1.100.0-alpine?digest=sha256%3Ade1e0058543a81ed7b046629167db587c67a94bdf37cce14eb27f0ec83baaffb#",
+   "purl": "pkg:docker/rust@1.100.0-alpine?digest=sha256%3Ade1e0058543a81ed7b046629167db587c67a94bdf37cce14eb27f0ec83baaffb",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "image",
@@ -9510,6 +10298,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/docker/setup-buildx-action",
    "version": "f87e5991a6d7451dcb8d9637bfbc97413f497069"
+  },
+  {
+   "commit": "99012661954931238ded8c8b007157a8430204e1",
+   "component": "pkg:github/docker/setup-qemu-action",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1#",
+   "purl": "pkg:github/docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/docker/setup-qemu-action",
+   "version": "99012661954931238ded8c8b007157a8430204e1"
   },
   {
    "commit": "d1527c8f67ef9af357290475d4af4b0fab8f12e0",
@@ -9591,6 +10392,45 @@
   },
   {
    "commit": null,
+   "component": "pkg:local/logmacro",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/logmacro@0.1.0#",
+   "purl": "pkg:local/logmacro@0.1.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.1.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/workload-app",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/workload-app@0.0.0#",
+   "purl": "pkg:local/workload-app@0.0.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.0.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/workload-macro",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/workload-macro@0.0.0#",
+   "purl": "pkg:local/workload-macro@0.0.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.0.0"
+  },
+  {
+   "commit": null,
    "component": "pkg:local/xtask",
    "context": "",
    "first_party": true,
@@ -9616,12 +10456,39 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [],
+ "issues": [
+  {
+   "kind": "missing_lock",
+   "locator": null,
+   "message": "no lockfile at examples/cross/rust-musl/Cargo.lock",
+   "path": "examples/cross/rust-musl/Cargo.lock"
+  }
+ ],
  "projects": [
   {
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": "bench/arm64/c-cpp-workload",
+   "ecosystem": "generic",
+   "id": "bench/arm64/c-cpp-workload:repo"
+  },
+  {
+   "directory": "bench/arm64/rust-workload/workload-app",
+   "ecosystem": "cargo",
+   "id": "bench/arm64/rust-workload/workload-app:cargo"
+  },
+  {
+   "directory": "bench/arm64/rust-workload/workload-macro",
+   "ecosystem": "cargo",
+   "id": "bench/arm64/rust-workload/workload-macro:cargo"
+  },
+  {
+   "directory": "bench/arm64/rust-workload",
+   "ecosystem": "generic",
+   "id": "bench/arm64/rust-workload:repo"
   },
   {
    "directory": "conformance/seccomp",
@@ -9652,6 +10519,26 @@
    "directory": "crates/ctrs",
    "ecosystem": "cargo",
    "id": "crates/ctrs:cargo"
+  },
+  {
+   "directory": "examples/cross/c-cpp-musl",
+   "ecosystem": "generic",
+   "id": "examples/cross/c-cpp-musl:repo"
+  },
+  {
+   "directory": "examples/cross/rust-musl/app",
+   "ecosystem": "cargo",
+   "id": "examples/cross/rust-musl/app:cargo"
+  },
+  {
+   "directory": "examples/cross/rust-musl/logmacro",
+   "ecosystem": "cargo",
+   "id": "examples/cross/rust-musl/logmacro:cargo"
+  },
+  {
+   "directory": "examples/cross/rust-musl",
+   "ecosystem": "generic",
+   "id": "examples/cross/rust-musl:repo"
   },
   {
    "directory": "xtask",

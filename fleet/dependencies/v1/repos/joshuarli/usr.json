@@ -16,7 +16,43 @@
  "edges": [
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.ubuntu.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.macos.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
    "evidence": [
     {
      "locator": "jobs.offline.steps[0].uses",
@@ -27,14 +63,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.0.1",
    "evidence": [
     {
      "locator": "jobs.test.steps[0].uses",
@@ -45,14 +81,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.0.1",
    "evidence": [
     {
      "locator": "jobs.policy.steps[0].uses",
@@ -63,50 +99,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.ubuntu.steps[0].uses",
-     "path": ".github/workflows/test.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.macos.steps[0].uses",
-     "path": ".github/workflows/test.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.1.0",
    "evidence": [
     {
      "locator": "jobs.offline.steps[1].uses",
@@ -117,14 +117,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "resolved_version": "949feb2413d6458794dcd2491c4babbbce0c15c1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#"
+   "to": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1#"
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.1.0",
    "evidence": [
     {
      "locator": "jobs.policy.steps[1].uses",
@@ -135,28 +135,28 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "resolved_version": "949feb2413d6458794dcd2491c4babbbce0c15c1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#"
+   "to": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1#"
   }
  ],
  "inputs": [
   {
-   "blob": "b4a5175780f09ff531948145b9c250386c769959",
+   "blob": "b7b1a07dd5c092e6aa5bfd43acc5441656d70577",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
+   "blob": "04d682b39659bbeef20633b9b4c793c7c6ffc2dd",
    "path": ".github/workflows/pi-offline-verify.yml"
   },
   {
-   "blob": "fc23482f65d5c05eae34deee9034fec82580e97f",
+   "blob": "33acf164364e9945b34639aa990d8a9cf604b125",
    "path": ".github/workflows/pk.yml"
   },
   {
-   "blob": "92672586c9cd560f85a757aa5c206f6459e6da3c",
+   "blob": "c6284283e76ff9598c1ca89bc50ce47ea50b66c3",
    "path": ".github/workflows/policy.yml"
-  },
-  {
-   "blob": "21e5a8c904bfe3ba38b96ada1ae2c65338fe5d2a",
-   "path": ".github/workflows/test.yml"
   },
   {
    "blob": "83d9738bc276149a3ccf23e271751dcfe71513f6",
@@ -195,33 +195,33 @@
    "path": "tools/usage/pyproject.toml"
   }
  ],
- "inputs_fingerprint": "b1ff9ac1b307a61c9dfc6c2c9391739909dfc697826f04a9e11062a73e044e70",
+ "inputs_fingerprint": "1a337320b48ba1058d42675ebe5ecd73425cc9ac1d17ff03a396e025e472ed96",
  "instances": [
   {
-   "commit": "11d5960a326750d5838078e36cf38b85af677262",
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#",
-   "purl": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
-   "version": "11d5960a326750d5838078e36cf38b85af677262"
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   {
-   "commit": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "commit": "949feb2413d6458794dcd2491c4babbbce0c15c1",
    "component": "pkg:github/actions/setup-node",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#",
-   "purl": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "id": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1#",
+   "purl": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/setup-node",
-   "version": "49933ea5288caeca8642d1e84afbd3f7d6820020"
+   "version": "949feb2413d6458794dcd2491c4babbbce0c15c1"
   }
  ],
  "issues": [

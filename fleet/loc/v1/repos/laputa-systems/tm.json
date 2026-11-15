@@ -1,18 +1,18 @@
 {
- "commit": "1fc0b23f720891a2409c1d19da1f25b233ae6187",
+ "commit": "d5085739741e289db613ed3add72d58925aced5e",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 1937492,
+    "bytes": 1941083,
     "file_count": 65,
     "lines": {
-     "blank": 2574,
-     "code": 51548,
+     "blank": 2575,
+     "code": 51554,
      "comment": 374,
      "shebang": 0,
-     "total": 54496
+     "total": 54503
     },
     "name": "Rust"
    },
@@ -94,14 +94,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 2174046,
+   "bytes": 2177637,
    "file_count": 80,
    "lines": {
-    "blank": 2867,
-    "code": 53405,
+    "blank": 2868,
+    "code": 53411,
     "comment": 395,
     "shebang": 1,
-    "total": 56668
+    "total": 56675
    }
   }
  },

@@ -1,5 +1,5 @@
 {
- "commit": "066bb8c9c609c66c271fc32f170181375e421551",
+ "commit": "347b1d2bd31f12dd43a23feb6c9875f831c0717a",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -17,14 +17,14 @@
     "name": "JSON"
    },
    {
-    "bytes": 5322495,
+    "bytes": 5322497,
     "file_count": 457,
     "lines": {
-     "blank": 18986,
-     "code": 115183,
-     "comment": 32594,
+     "blank": 18990,
+     "code": 115178,
+     "comment": 32593,
      "shebang": 0,
-     "total": 166763
+     "total": 166761
     },
     "name": "Rust"
    },
@@ -83,26 +83,26 @@
     "name": "Markdown"
    },
    {
-    "bytes": 192205,
+    "bytes": 192650,
     "file_count": 43,
     "lines": {
      "blank": 413,
-     "code": 4604,
-     "comment": 93,
+     "code": 4611,
+     "comment": 96,
      "shebang": 41,
-     "total": 5151
+     "total": 5161
     },
     "name": "Bash"
    },
    {
-    "bytes": 120651,
+    "bytes": 121052,
     "file_count": 14,
     "lines": {
      "blank": 348,
-     "code": 2868,
+     "code": 2879,
      "comment": 92,
      "shebang": 6,
-     "total": 3314
+     "total": 3325
     },
     "name": "Python"
    },
@@ -160,14 +160,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 66327940,
+   "bytes": 66328788,
    "file_count": 1087,
    "lines": {
-    "blank": 23722,
-    "code": 1921038,
-    "comment": 32989,
+    "blank": 23726,
+    "code": 1921051,
+    "comment": 32991,
     "shebang": 47,
-    "total": 1977796
+    "total": 1977815
    }
   }
  },

@@ -3182,7 +3182,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -3193,10 +3193,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -24311,7 +24311,7 @@
    "path": "benchmarks/Dockerfile"
   },
   {
-   "blob": "854978cb856fbc3ec903116e8af7c147d01467b8",
+   "blob": "65b981c0bcdc2950b84feff37fafcf7895bafe3c",
    "path": "pyproject.toml"
   },
   {
@@ -24639,7 +24639,7 @@
    "path": "rust-cpython/overlay/serc-lane/Cargo.toml"
   },
   {
-   "blob": "91ef517f173703878dbf044a3c17f22976f7fdf5",
+   "blob": "da0e708688e49fae17c66fe1360ff175855046b6",
    "path": "rust-toolchain.toml"
   },
   {
@@ -24647,7 +24647,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "64ef113e183afadc91ac8f96341076ee3c547e1520ffb1484d8eca3e3c90260c",
+ "inputs_fingerprint": "eb5837e293e2863cab5010c8b36fd34eaad6dc5a2e8bdb46cb83ba230b7a044a",
  "instances": [
   {
    "commit": null,
@@ -30933,13 +30933,13 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [

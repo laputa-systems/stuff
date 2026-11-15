@@ -1,5 +1,5 @@
 {
- "commit": "66afdca41384fff4f54da3b74bbcede1d498a134",
+ "commit": "2c023470a8e3f0608e9b7721fb2b49169423ef86",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -17,7 +17,7 @@
     "name": "JSON"
    },
    {
-    "bytes": 580933,
+    "bytes": 580853,
     "file_count": 32,
     "lines": {
      "blank": 1024,
@@ -106,7 +106,7 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 10048452,
+   "bytes": 10048372,
    "file_count": 49,
    "lines": {
     "blank": 1228,

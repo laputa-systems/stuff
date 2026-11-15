@@ -1,11 +1,11 @@
 {
- "commit": "31a9badb3198ec413d45e07ce8e46d5f5f6ef1c5",
+ "commit": "603672f83b97e00ec7226176fc6266716f94a718",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 1270606,
+    "bytes": 1270595,
     "file_count": 72,
     "lines": {
      "blank": 5663,
@@ -17,14 +17,14 @@
     "name": "Rust"
    },
    {
-    "bytes": 148123,
+    "bytes": 148143,
     "file_count": 4,
     "lines": {
      "blank": 548,
-     "code": 1440,
+     "code": 1441,
      "comment": 1517,
      "shebang": 0,
-     "total": 3505
+     "total": 3506
     },
     "name": "C"
    },
@@ -107,6 +107,18 @@
      "total": 68
     },
     "name": "JavaScript"
+   },
+   {
+    "bytes": 188,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 0,
+     "shebang": 0,
+     "total": 7
+    },
+    "name": "Makefile"
    }
   ],
   "paths": [
@@ -114,14 +126,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 1465750,
-   "file_count": 93,
+   "bytes": 1465947,
+   "file_count": 94,
    "lines": {
-    "blank": 6440,
-    "code": 28028,
+    "blank": 6442,
+    "code": 28034,
     "comment": 6949,
     "shebang": 0,
-    "total": 41417
+    "total": 41425
    }
   }
  },

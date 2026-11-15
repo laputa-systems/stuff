@@ -725,6 +725,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
@@ -791,6 +809,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/upload-artifact@v4#"
+  },
+  {
+   "condition": null,
+   "constraint": "v1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "683b588c487a69d01f6c6ddf40f036ff682cc2c8",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8#"
   },
   {
    "condition": null,
@@ -3807,6 +3843,10 @@
  ],
  "inputs": [
   {
+   "blob": "13a700f6091b47984999916ab8ece025784f78bf",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
    "path": ".github/workflows/lint.yml"
   },
@@ -3875,7 +3915,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "a095ac54116b729e4b41dc95425cfcc1601be04856778e48daea9179c9292113",
+ "inputs_fingerprint": "d6deb8668a96366001caa09efea8d349a32749c7fa4f03a8cd68ce4a4b889a9a",
  "instances": [
   {
    "commit": null,

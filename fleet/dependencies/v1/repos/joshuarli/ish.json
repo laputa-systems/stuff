@@ -5043,7 +5043,7 @@
  ],
  "inputs": [
   {
-   "blob": "4bbdc1533ce90d1b6497830253c2279bbe257bfb",
+   "blob": "66fe73cae442a8bf0703f68cccdc693eaa2ccb79",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -5051,7 +5051,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "d01a366ce2ab70f73b8bd56f84516e6643b95948",
+   "blob": "17c85d435016824ca1c4a400c2fe9f20bf4b5662",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -5107,7 +5107,7 @@
    "path": "vendor/fz/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "cb85380f7c900606e258898ae2d6158560249d880393dcf0a538b5ed525c34c7",
+ "inputs_fingerprint": "ff119c52c4866c54d1bb98109f3647510ccc812aece446da5d80f945a3965955",
  "instances": [
   {
    "commit": null,

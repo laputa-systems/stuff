@@ -19,6 +19,12 @@
    "purl": "pkg:apk/musl-dev"
   },
   {
+   "display_name": "jaq-aarch64-unknown-linux-gnu",
+   "ecosystem": "artifact",
+   "name": "jaq-aarch64-unknown-linux-gnu",
+   "purl": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu"
+  },
+  {
    "display_name": "arrayvec",
    "ecosystem": "cargo",
    "name": "arrayvec",
@@ -3598,7 +3604,7 @@
  "edges": [
   {
    "condition": null,
-   "constraint": "12.20.0",
+   "constraint": "12.21.0",
    "evidence": [
     {
      "locator": "importers[.].packageManagerDependencies.pnpm",
@@ -3609,10 +3615,64 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "toolchain",
    "source_kind": "registry",
-   "to": "pkg:npm/pnpm@12.20.0#"
+   "to": "pkg:npm/pnpm@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].run",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "ci",
+   "source_kind": "url",
+   "to": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.dashboard.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -3886,7 +3946,43 @@
   },
   {
    "condition": null,
-   "constraint": "v3.1.2",
+   "constraint": "v3.2.0",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[2].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v3.2.0",
+   "evidence": [
+    {
+     "locator": "jobs.dashboard.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v3.2.0",
    "evidence": [
     {
      "locator": "jobs.candidate.steps[1].uses",
@@ -3897,14 +3993,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e",
+   "resolved_version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e#"
+   "to": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#"
   },
   {
    "condition": null,
-   "constraint": "v3.1.2",
+   "constraint": "v3.2.0",
    "evidence": [
     {
      "locator": "jobs.lint.steps[1].uses",
@@ -3915,10 +4011,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e",
+   "resolved_version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e#"
+   "to": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#"
   },
   {
    "condition": null,
@@ -3958,7 +4054,7 @@
   },
   {
    "condition": null,
-   "constraint": "pnpm@12.20.0",
+   "constraint": "pnpm@12.21.0",
    "evidence": [
     {
      "locator": "packageManager",
@@ -3969,14 +4065,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/pnpm@12.20.0#"
+   "to": "pkg:toolchain/pnpm@12.21.0#"
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -3987,10 +4083,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -4504,7 +4600,7 @@
    "resolved_version": "1.6.32",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/uplot@1.6.32#"
+   "to": "pkg:npm/uplot@1.6.32#(patch_hash=63a1b6d8703916ffc69305f6e311e60a5ab4f139f652d5879aa9572a6840d193)"
   },
   {
    "condition": null,
@@ -4634,7 +4730,7 @@
   },
   {
    "condition": null,
-   "constraint": "12.20.0",
+   "constraint": "12.21.0",
    "evidence": [
     {
      "locator": "importers[.].packageManagerDependencies.pnpm",
@@ -4645,10 +4741,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "toolchain",
    "source_kind": "registry",
-   "to": "pkg:npm/pnpm@12.20.0#"
+   "to": "pkg:npm/pnpm@12.21.0#"
   },
   {
    "condition": null,
@@ -4688,7 +4784,7 @@
   },
   {
    "condition": null,
-   "constraint": "pnpm@12.20.0",
+   "constraint": "pnpm@12.21.0",
    "evidence": [
     {
      "locator": "packageManager",
@@ -4699,10 +4795,46 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/pnpm@12.20.0#"
+   "to": "pkg:toolchain/pnpm@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.93.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/platform-bridge'].devDependencies.oxlint",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/platform-bridge:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/oxlint@1.93.0#(oxlint-tsgolint@7.0.2006)"
+  },
+  {
+   "condition": null,
+   "constraint": "0.25.0-ts7.1.0-beta",
+   "evidence": [
+    {
+     "locator": "importers['packages/platform-bridge'].devDependencies.tsrs",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/platform-bridge:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta#"
   },
   {
    "condition": null,
@@ -24521,540 +24653,540 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.android-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-arm64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.android-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.android-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-x64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.android-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.android-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.android-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.netbsd-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.netbsd-x64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.netbsd-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.netbsd-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.win32-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-x64'",
      "path": "deploy/orange/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.win32-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0#"
   },
   {
    "condition": null,
@@ -29163,15 +29295,19 @@
  ],
  "inputs": [
   {
-   "blob": "8ff97ed1a5e70bd3acd67da6123cb7e2d62a5285",
+   "blob": "8eed9add369d9b08f9f9d8d1124b63565884a598",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
+   "blob": "dff84058aed9656850a3a78bede371ad9dfa66d2",
    "path": ".github/workflows/cloudflare-compat.yml"
   },
   {
-   "blob": "35522db2e4f2bfaaa32a8a9aae30d1402398b3c1",
+   "blob": "0450f46ce320525158d152bf41f0c261f9cb0ece",
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "4b8ae196a8d6b9dd8fd9f112fb100593373ca7f2",
+   "blob": "d03a2b7d4f2dfaf76b89d35faa6b33b6fe7007c4",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -29187,7 +29323,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "104dbd7bf7be39beff6844a42373b66891c68690",
+   "blob": "c3ffa7654cd64b4fce4c9c73929186c3feba77fd",
    "path": "Makefile"
   },
   {
@@ -29215,20 +29351,24 @@
    "path": "deploy/node/Dockerfile"
   },
   {
-   "blob": "3d286598b597a3b6a3a9d58486d190bdb4264c1b",
+   "blob": "f764182f74a2f95fdf2db9f21328afb7eaee9824",
    "path": "deploy/orange/Dockerfile"
   },
   {
-   "blob": "ff07d4cf72114aa70ef5b46ed2503953f4818a21",
+   "blob": "3099f220c604b6675b3cb38be5beb53317d5986e",
    "path": "deploy/orange/package.json"
   },
   {
-   "blob": "2f9993024afd479fab3f5b3f875228ec6848293e",
+   "blob": "a2cf6c7f4bf9f84900891cb1ad599ad7a213b1d8",
    "path": "deploy/orange/pnpm-lock.yaml"
   },
   {
-   "blob": "55dcf95f88fcc20638027bc0dba41f05234f072c",
+   "blob": "e7374329a6fc66d594907e679479443233d59b50",
    "path": "package.json"
+  },
+  {
+   "blob": "d08e005ac7452f5bd0dde8153e3b0bba699c56d9",
+   "path": "packages/platform-bridge/package.json"
   },
   {
    "blob": "97c4782ad07d14d1772dae21cc4898bdb9f410da",
@@ -29239,15 +29379,15 @@
    "path": "packages/stats-producer/Cargo.toml"
   },
   {
-   "blob": "03e1d910b627f4dd67f9c34fa240ceba61250c82",
+   "blob": "c546d191080db8531902d4fb9d803f0b71ff0391",
    "path": "pnpm-lock.yaml"
   },
   {
-   "blob": "689ba564e23169621b6f4b07fa76b81d043ffcae",
+   "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "0d139b4de2726a9113ee7a8be32d1853adf2a5a600f4f07dd5cedc2528db16a7",
+ "inputs_fingerprint": "4e1038c34a1f92c9d45fbaed57eb14fa09001a95824cd4cbfa447e9dc2d66c0f",
  "instances": [
   {
    "commit": null,
@@ -29285,6 +29425,19 @@
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu#",
+   "purl": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
    "vcs_url": null,
    "version": null
   },
@@ -31291,17 +31444,17 @@
    "version": "73e46992e05b19abd31f2f3c20e0e7370d762115"
   },
   {
-   "commit": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e",
+   "commit": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
    "component": "pkg:github/pnpm/setup",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e#",
-   "purl": "pkg:github/pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e",
+   "id": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#",
+   "purl": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/pnpm/setup",
-   "version": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e"
+   "version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1"
   },
   {
    "commit": "8a0cd651e5b2365bd640854a3fa5dfc70e4875f3",
@@ -34311,195 +34464,195 @@
    "component": "pkg:npm/%40pnpm/exe.android-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.android-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.android-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.android-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.android-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.android-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.darwin-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.darwin-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.freebsd-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-arm64-musl",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-ppc64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-riscv64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-s390x",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-x64-musl",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.netbsd-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.win32-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.win32-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
@@ -37873,13 +38026,13 @@
    "component": "pkg:npm/pnpm",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/pnpm@12.20.0#",
-   "purl": "pkg:npm/pnpm@12.20.0",
+   "id": "pkg:npm/pnpm@12.21.0#",
+   "purl": "pkg:npm/pnpm@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
@@ -38520,6 +38673,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/uplot",
+   "context": "(patch_hash=63a1b6d8703916ffc69305f6e311e60a5ab4f139f652d5879aa9572a6840d193)",
+   "first_party": false,
+   "id": "pkg:npm/uplot@1.6.32#(patch_hash=63a1b6d8703916ffc69305f6e311e60a5ab4f139f652d5879aa9572a6840d193)",
+   "purl": "pkg:npm/uplot@1.6.32",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.6.32"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/url-join",
    "context": "",
    "first_party": false,
@@ -38923,16 +39089,29 @@
   },
   {
    "commit": null,
-   "component": "pkg:toolchain/rust",
+   "component": "pkg:toolchain/pnpm",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/pnpm@12.21.0#",
+   "purl": "pkg:toolchain/pnpm@12.21.0",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:toolchain/rust",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [
@@ -39012,6 +39191,11 @@
    "directory": "deploy/orange",
    "ecosystem": "generic",
    "id": "deploy/orange:repo"
+  },
+  {
+   "directory": "packages/platform-bridge",
+   "ecosystem": "npm",
+   "id": "packages/platform-bridge:npm"
   },
   {
    "directory": "packages/producer",

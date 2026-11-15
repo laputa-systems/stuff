@@ -2566,7 +2566,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -2577,10 +2577,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -10399,7 +10399,7 @@
  ],
  "inputs": [
   {
-   "blob": "0ff336d053fdc311c34c22350d07f5c62efe037c",
+   "blob": "ab556fca23b12e17bcab13960d3b889038c2955d",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -10407,7 +10407,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "65c99f036429fb13922f24809565af40625b908d",
+   "blob": "edfd00301ae88659ca76489d140c4faaecbe2fb5",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -10475,7 +10475,7 @@
    "path": "crates/kache-store/Cargo.toml"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   },
   {
@@ -10923,7 +10923,7 @@
    "path": "test-projects/stale-check/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "df05431f50246fd7326a05d7e91094b92160384702249e9799d478d336152d27",
+ "inputs_fingerprint": "b6b6aa6f31b01ceb036c03eb8a687671c3fe40897465ebe01f4c875a51bd6fc2",
  "instances": [
   {
    "commit": null,
@@ -13777,13 +13777,13 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [

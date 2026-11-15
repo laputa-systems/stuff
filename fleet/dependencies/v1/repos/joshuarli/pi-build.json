@@ -2871,6 +2871,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
@@ -3027,6 +3045,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v10.3.3",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
   },
   {
    "condition": null,
@@ -42685,6 +42721,10 @@
  ],
  "inputs": [
   {
+   "blob": "c94035640c63bc56151f2ebf5be27a9301257ebd",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "918ba05b58849a84baa0b9eb73f18dfa247abd4c",
    "path": ".github/workflows/lint.yml"
   },
@@ -42693,15 +42733,15 @@
    "path": ".github/workflows/prepare-locks.yml"
   },
   {
-   "blob": "8f006b06c78c1bb76495a12414be5c34e858185e",
+   "blob": "8dc2e8e19228025615e083cbb3a1ef7f423c490d",
    "path": ".github/workflows/release.yml"
   },
   {
-   "blob": "b27affcb10ab63d47f4f0286962b1205e88bb571",
+   "blob": "7837b6e05aa4846283fea712dd15ec9a4614d4ca",
    "path": "Makefile"
   },
   {
-   "blob": "ef929551a166b20fd4c7920dbc5cbc267e35a029",
+   "blob": "e17a92d668c961813d31bb89b676617c610e5c02",
    "path": "locks/aarch64-apple-darwin/package-lock.json"
   },
   {
@@ -42709,7 +42749,7 @@
    "path": "locks/aarch64-apple-darwin/package.json"
   },
   {
-   "blob": "ef929551a166b20fd4c7920dbc5cbc267e35a029",
+   "blob": "e17a92d668c961813d31bb89b676617c610e5c02",
    "path": "locks/aarch64-unknown-linux-musl/package-lock.json"
   },
   {
@@ -42749,7 +42789,7 @@
    "path": "locks/core-build/package.json"
   },
   {
-   "blob": "ef929551a166b20fd4c7920dbc5cbc267e35a029",
+   "blob": "e17a92d668c961813d31bb89b676617c610e5c02",
    "path": "locks/x86_64-unknown-linux-musl/package-lock.json"
   },
   {
@@ -42793,7 +42833,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "6793adfea5d2c01c1e6b7d8b5f6d327cfc2fa3680881479ece53712343800ce7",
+ "inputs_fingerprint": "ded5a1308b2e94e56d5768ec069fe7b72b1a1ef9b539b5239333653b2222ed36",
  "instances": [
   {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",

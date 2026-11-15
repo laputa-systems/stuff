@@ -718,7 +718,43 @@
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.check.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.check.steps[0].uses",
+     "path": ".github/workflows/onefile.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
    "evidence": [
     {
      "locator": "jobs.check.steps[0].uses",
@@ -729,32 +765,50 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "11d5960a326750d5838078e36cf38b85af677262",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.1.0",
    "evidence": [
     {
-     "locator": "jobs.check.steps[0].uses",
+     "locator": "jobs.check.steps[2].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.1.0",
+   "evidence": [
+    {
+     "locator": "jobs.check.steps[2].uses",
      "path": ".github/workflows/onefile.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
+   "resolution": "resolved",
+   "resolved_version": "949feb2413d6458794dcd2491c4babbbce0c15c1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
+   "to": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1#"
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.1.0",
    "evidence": [
     {
      "locator": "jobs.check.steps[2].uses",
@@ -765,32 +819,50 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "resolved_version": "949feb2413d6458794dcd2491c4babbbce0c15c1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#"
+   "to": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1#"
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v6.1.1",
    "evidence": [
     {
-     "locator": "jobs.check.steps[2].uses",
+     "locator": "jobs.check.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "73e46992e05b19abd31f2f3c20e0e7370d762115",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115#"
+  },
+  {
+   "condition": null,
+   "constraint": "v6.1.1",
+   "evidence": [
+    {
+     "locator": "jobs.check.steps[1].uses",
      "path": ".github/workflows/onefile.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
+   "resolution": "resolved",
+   "resolved_version": "73e46992e05b19abd31f2f3c20e0e7370d762115",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/setup-node@v4#"
+   "to": "pkg:github/pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115#"
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v6.1.1",
    "evidence": [
     {
      "locator": "jobs.check.steps[1].uses",
@@ -801,28 +873,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "b906affcce14559ad1aafd4ab0e942779e9f58b1",
+   "resolved_version": "73e46992e05b19abd31f2f3c20e0e7370d762115",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.check.steps[1].uses",
-     "path": ".github/workflows/onefile.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/pnpm/action-setup@v4#"
+   "to": "pkg:github/pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115#"
   },
   {
    "condition": null,
@@ -2609,11 +2663,15 @@
  ],
  "inputs": [
   {
-   "blob": "a3e3e148a360dd3941d0d6221e2f8a307f23d795",
+   "blob": "00f574726e022d42bc62350ba8b08fed202226cb",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
+   "blob": "004879a81280b047e1021da6cb5df5dc8a9b060e",
    "path": ".github/workflows/onefile.yml"
   },
   {
-   "blob": "7664f4e6a0c24948773edec3a9bf4beb28b7e0c7",
+   "blob": "330f21105ec8cbf71236ee6ca3f02fd3847e5f05",
    "path": ".github/workflows/x-bookmarks.yml"
   },
   {
@@ -2629,85 +2687,46 @@
    "path": "pnpm-lock.yaml"
   }
  ],
- "inputs_fingerprint": "abc6e0a4aac097bf4d4e7d3b517b666546b56a97368b59d733a0c2733d093763",
+ "inputs_fingerprint": "2ab4db2ed1cfd34fa0f47627b1f9937f0bed8d435d1e9546e4277fdd7d682de1",
  "instances": [
   {
-   "commit": "11d5960a326750d5838078e36cf38b85af677262",
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262#",
-   "purl": "pkg:github/actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
-   "version": "11d5960a326750d5838078e36cf38b85af677262"
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   {
-   "commit": null,
-   "component": "pkg:github/actions/checkout",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/checkout@v4#",
-   "purl": "pkg:github/actions/checkout@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "v4"
-  },
-  {
-   "commit": "49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "commit": "949feb2413d6458794dcd2491c4babbbce0c15c1",
    "component": "pkg:github/actions/setup-node",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020#",
-   "purl": "pkg:github/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "id": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1#",
+   "purl": "pkg:github/actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/setup-node",
-   "version": "49933ea5288caeca8642d1e84afbd3f7d6820020"
+   "version": "949feb2413d6458794dcd2491c4babbbce0c15c1"
   },
   {
-   "commit": null,
-   "component": "pkg:github/actions/setup-node",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/setup-node@v4#",
-   "purl": "pkg:github/actions/setup-node@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/setup-node",
-   "version": "v4"
-  },
-  {
-   "commit": "b906affcce14559ad1aafd4ab0e942779e9f58b1",
+   "commit": "73e46992e05b19abd31f2f3c20e0e7370d762115",
    "component": "pkg:github/pnpm/action-setup",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1#",
-   "purl": "pkg:github/pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1",
+   "id": "pkg:github/pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115#",
+   "purl": "pkg:github/pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/pnpm/action-setup",
-   "version": "b906affcce14559ad1aafd4ab0e942779e9f58b1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/pnpm/action-setup",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/pnpm/action-setup@v4#",
-   "purl": "pkg:github/pnpm/action-setup@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/pnpm/action-setup",
-   "version": "v4"
+   "version": "73e46992e05b19abd31f2f3c20e0e7370d762115"
   },
   {
    "commit": null,

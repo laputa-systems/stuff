@@ -167,8 +167,8 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.package.steps[0].uses",
-     "path": ".github/workflows/complete-tools-size.yml"
+     "locator": "jobs.controller.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -185,8 +185,8 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.controller.steps[0].uses",
-     "path": ".github/workflows/controller.yml"
+     "locator": "jobs.package.steps[0].uses",
+     "path": ".github/workflows/complete-tools-size.yml"
     }
    ],
    "from": ".:repo",
@@ -401,8 +401,8 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "jobs.package.steps[1].uses",
-     "path": ".github/workflows/complete-tools-size.yml"
+     "locator": "jobs.controller.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -419,8 +419,8 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "jobs.controller.steps[1].uses",
-     "path": ".github/workflows/controller.yml"
+     "locator": "jobs.package.steps[1].uses",
+     "path": ".github/workflows/complete-tools-size.yml"
     }
    ],
    "from": ".:repo",
@@ -543,12 +543,12 @@
  ],
  "inputs": [
   {
-   "blob": "5fb001d329249b3cc5cbd21bfa128430b90f2848",
-   "path": ".github/workflows/complete-tools-size.yml"
+   "blob": "becff5f121eaa0760984026ccf579a8b0bf3ef23",
+   "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "64ce62f8e5af5d986b826aacc75808a06b5f1879",
-   "path": ".github/workflows/controller.yml"
+   "blob": "5fb001d329249b3cc5cbd21bfa128430b90f2848",
+   "path": ".github/workflows/complete-tools-size.yml"
   },
   {
    "blob": "dd30fcaa4477704402703586ea40fbe5e1959efe",
@@ -599,7 +599,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "c19c2e24f85c142d4d2751a987493e55a2d140c7fccbb56bc63b15443bdc47f6",
+ "inputs_fingerprint": "c5956ad001dae2663bdab293191f903a6178d6ba1ef5b1014b221e8d0f521636",
  "instances": [
   {
    "commit": null,

@@ -2815,6 +2815,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.build.steps[0].uses",
      "path": ".github/workflows/prerelease.yml"
     }
@@ -2853,6 +2871,24 @@
     {
      "locator": "jobs.build.steps[1].uses",
      "path": ".github/workflows/android.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.0",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -2925,7 +2961,11 @@
    "path": ".github/workflows/android.yml"
   },
   {
-   "blob": "174072844aa3ff01d3fb481cecf6e8182ea46de6",
+   "blob": "74b81058e5d56e029d13768089d674fa6d988d15",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
+   "blob": "01c1b30411b3ef8a8d2b407d9ed640821a7a6b46",
    "path": ".github/workflows/prerelease.yml"
   },
   {
@@ -2989,7 +3029,7 @@
    "path": "gui/default/vendor/HumanizeDuration.js/Makefile"
   }
  ],
- "inputs_fingerprint": "590c33f89e46c279d0e1723155030302cb8ae63ac49fd239085edd5d8ff157a0",
+ "inputs_fingerprint": "0e04c4b403c4946654ae6c05704900c09821e5ae23021f6b36ed410dd73e5998",
  "instances": [
   {
    "commit": null,

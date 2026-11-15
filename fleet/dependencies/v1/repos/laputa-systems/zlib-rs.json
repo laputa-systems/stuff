@@ -13,12 +13,6 @@
    "purl": "pkg:artifact/gzip-files.zip?download_url=https%3A%2F%2Fgithub.com%2Ftrifectatechfoundation%2Fcompression-corpus%2Freleases%2Fdownload%2F2025-04-14-103007%2Fgzip-files.zip"
   },
   {
-   "display_name": "install.sh",
-   "ecosystem": "artifact",
-   "name": "install.sh",
-   "purl": "pkg:artifact/install.sh?download_url=https%3A%2F%2Fwasmtime.dev%2Finstall.sh"
-  },
-  {
    "display_name": "libz-chromium-sys",
    "ecosystem": "artifact",
    "name": "libz-chromium-sys",
@@ -29,6 +23,12 @@
    "ecosystem": "artifact",
    "name": "wasi-sdk-24.0-x86_64-linux.tar.gz",
    "purl": "pkg:artifact/wasi-sdk-24.0-x86_64-linux.tar.gz?download_url=https%3A%2F%2Fgithub.com%2FWebAssembly%2Fwasi-sdk%2Freleases%2Fdownload%2Fwasi-sdk-24%2Fwasi-sdk-24.0-x86_64-linux.tar.gz"
+  },
+  {
+   "display_name": "wasmtime-v50.0.1-x86_64-linux.tar.xz",
+   "ecosystem": "artifact",
+   "name": "wasmtime-v50.0.1-x86_64-linux.tar.xz",
+   "purl": "pkg:artifact/wasmtime-v50.0.1-x86_64-linux.tar.xz?download_url=https%3A%2F%2Fgithub.com%2Fbytecodealliance%2Fwasmtime%2Freleases%2Fdownload%2Fv50.0.1%2Fwasmtime-v50.0.1-x86_64-linux.tar.xz"
   },
   {
    "display_name": "zlib-ng.git",
@@ -331,12 +331,6 @@
    "purl": "pkg:github/codecov/codecov-action"
   },
   {
-   "display_name": "dtolnay/rust-toolchain",
-   "ecosystem": "github",
-   "name": "dtolnay/rust-toolchain",
-   "purl": "pkg:github/dtolnay/rust-toolchain"
-  },
-  {
    "display_name": "swatinem/rust-cache",
    "ecosystem": "github",
    "name": "swatinem/rust-cache",
@@ -398,7 +392,7 @@
    "evidence": [
     {
      "locator": "jobs.run-flate2-test-suite.steps[1].run",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -416,7 +410,7 @@
    "evidence": [
     {
      "locator": "jobs.fuzz-code-coverage.steps[4].run",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -427,24 +421,6 @@
    "scope": "ci",
    "source_kind": "url",
    "to": "pkg:artifact/gzip-files.zip?download_url=https%3A%2F%2Fgithub.com%2Ftrifectatechfoundation%2Fcompression-corpus%2Freleases%2Fdownload%2F2025-04-14-103007%2Fgzip-files.zip#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[5].run",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": null,
-   "scope": "ci",
-   "source_kind": "url",
-   "to": "pkg:artifact/install.sh?download_url=https%3A%2F%2Fwasmtime.dev%2Finstall.sh#"
   },
   {
    "condition": null,
@@ -469,8 +445,8 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "jobs.build.steps[5].run",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.build.steps[4].run",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -487,8 +463,26 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "jobs.symbol-versioning.steps[3].run",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.build.steps[4].run",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "ci",
+   "source_kind": "url",
+   "to": "pkg:artifact/wasmtime-v50.0.1-x86_64-linux.tar.xz?download_url=https%3A%2F%2Fgithub.com%2Fbytecodealliance%2Fwasmtime%2Freleases%2Fdownload%2Fv50.0.1%2Fwasmtime-v50.0.1-x86_64-linux.tar.xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "jobs.symbol-versioning.steps[2].run",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -499,6 +493,24 @@
    "scope": "ci",
    "source_kind": "url",
    "to": "pkg:artifact/zlib-ng.git?download_url=https%3A%2F%2Fgithub.com%2Fzlib-ng%2Fzlib-ng.git#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -524,7 +536,7 @@
    "evidence": [
     {
      "locator": "jobs.build.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -542,7 +554,7 @@
    "evidence": [
     {
      "locator": "jobs.clippy.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -559,8 +571,8 @@
    "constraint": "b4ffde65f46336ab88eb53be808477a3936bae11",
    "evidence": [
     {
-     "locator": "jobs.check-msrv.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.check-target.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -578,7 +590,7 @@
    "evidence": [
     {
      "locator": "jobs.fuzz.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -596,7 +608,7 @@
    "evidence": [
     {
      "locator": "jobs.fuzz-aarch64.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -614,7 +626,7 @@
    "evidence": [
     {
      "locator": "jobs.fuzz-code-coverage.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -632,7 +644,7 @@
    "evidence": [
     {
      "locator": "jobs.link-c-dynamic-library.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -650,7 +662,7 @@
    "evidence": [
     {
      "locator": "jobs.symbol-versioning.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -668,7 +680,7 @@
    "evidence": [
     {
      "locator": "jobs.cargo-c-dynamic-library.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -686,7 +698,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-zlib-rs.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -704,7 +716,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-libz-rs-sys.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -722,7 +734,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-avx512.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -740,7 +752,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-simd.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -758,7 +770,7 @@
    "evidence": [
     {
      "locator": "jobs.run-flate2-test-suite.steps[0].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -793,8 +805,8 @@
    "constraint": "2c09a5e66da6c8016428a2172bd76e5e4f14bb17",
    "evidence": [
     {
-     "locator": "jobs.build.steps[4].uses",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.build.steps[3].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -811,8 +823,8 @@
    "constraint": "2c09a5e66da6c8016428a2172bd76e5e4f14bb17",
    "evidence": [
     {
-     "locator": "jobs.symbol-versioning.steps[2].uses",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.symbol-versioning.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -829,8 +841,8 @@
    "constraint": "v5.4.0",
    "evidence": [
     {
-     "locator": "jobs.build.steps[12].uses",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.build.steps[11].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -848,7 +860,7 @@
    "evidence": [
     {
      "locator": "jobs.fuzz-code-coverage.steps[7].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -862,191 +874,11 @@
   },
   {
    "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.bench.steps[1].uses",
-     "path": ".github/workflows/bench.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[2].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.clippy.steps[1].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.check-msrv.steps[2].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz.steps[1].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz-aarch64.steps[1].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz-code-coverage.steps[1].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.link-c-dynamic-library.steps[1].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.symbol-versioning.steps[1].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
-   "constraint": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "evidence": [
-    {
-     "locator": "jobs.cargo-c-dynamic-library.steps[1].uses",
-     "path": ".github/workflows/checks.yaml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#"
-  },
-  {
-   "condition": null,
    "constraint": "v2.7.8",
    "evidence": [
     {
-     "locator": "jobs.clippy.steps[2].uses",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.clippy.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1063,8 +895,8 @@
    "constraint": "v2.53.2",
    "evidence": [
     {
-     "locator": "jobs.build.steps[3].uses",
-     "path": ".github/workflows/checks.yaml"
+     "locator": "jobs.build.steps[2].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1082,7 +914,7 @@
    "evidence": [
     {
      "locator": "jobs.fuzz-code-coverage.steps[3].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1100,7 +932,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-zlib-rs.steps[3].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1118,7 +950,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-libz-rs-sys.steps[3].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1136,7 +968,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-avx512.steps[2].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1154,7 +986,7 @@
    "evidence": [
     {
      "locator": "jobs.miri-simd.steps[2].uses",
-     "path": ".github/workflows/checks.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1204,7 +1036,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -1215,10 +1047,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -2673,15 +2505,19 @@
  ],
  "inputs": [
   {
-   "blob": "c34f4d1b5105404617836d619879e7ce8aed3a52",
+   "blob": "5d82c93b75bd54c943be90e489477f903118e31a",
    "path": ".github/workflows/bench.yml"
   },
   {
-   "blob": "55ffdf183885b422fbc7efd112400203dedecce1",
-   "path": ".github/workflows/checks.yaml"
+   "blob": "a92af38bb3f3b5fa3c355b9b5292ad1ba91e2d54",
+   "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "bc8bd719cfca6a987a83980fc7694feaa582dbdb",
+   "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "f429fa01120e2ac0f2df8e69294816baa4f3a27b",
    "path": ".github/workflows/zizmor.yml"
   },
   {
@@ -2691,6 +2527,10 @@
   {
    "blob": "b644561360da6750587b77b29225d64a741d5da3",
    "path": "Cargo.toml"
+  },
+  {
+   "blob": "7ea36471b295d11fabee364060731e836075e5d7",
+   "path": "Makefile"
   },
   {
    "blob": "70e17b97366cfb023820042e0d366adbcb542bd6",
@@ -2709,7 +2549,7 @@
    "path": "libz-rs-sys/Cargo.toml"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   },
   {
@@ -2721,7 +2561,7 @@
    "path": "zlib-rs/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "82ad717639a385bd777d33337552155591928f1e2ea41e797a2c50ba86a00be1",
+ "inputs_fingerprint": "cd6c003d79095d14ae67e54f33b3fe705ec15c11c8c9b70a621a95dd6f6f6095",
  "instances": [
   {
    "commit": null,
@@ -2751,19 +2591,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:artifact/install.sh?download_url=https%3A%2F%2Fwasmtime.dev%2Finstall.sh",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:artifact/install.sh?download_url=https%3A%2F%2Fwasmtime.dev%2Finstall.sh#",
-   "purl": "pkg:artifact/install.sh?download_url=https%3A%2F%2Fwasmtime.dev%2Finstall.sh",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "url",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
    "component": "pkg:artifact/libz-chromium-sys?download_url=https%3A%2F%2Fgithub.com%2Ffolkertdev%2Flibz-chromium-sys",
    "context": "",
    "first_party": false,
@@ -2782,6 +2609,19 @@
    "first_party": false,
    "id": "pkg:artifact/wasi-sdk-24.0-x86_64-linux.tar.gz?download_url=https%3A%2F%2Fgithub.com%2FWebAssembly%2Fwasi-sdk%2Freleases%2Fdownload%2Fwasi-sdk-24%2Fwasi-sdk-24.0-x86_64-linux.tar.gz#",
    "purl": "pkg:artifact/wasi-sdk-24.0-x86_64-linux.tar.gz?download_url=https%3A%2F%2Fgithub.com%2FWebAssembly%2Fwasi-sdk%2Freleases%2Fdownload%2Fwasi-sdk-24%2Fwasi-sdk-24.0-x86_64-linux.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/wasmtime-v50.0.1-x86_64-linux.tar.xz?download_url=https%3A%2F%2Fgithub.com%2Fbytecodealliance%2Fwasmtime%2Freleases%2Fdownload%2Fv50.0.1%2Fwasmtime-v50.0.1-x86_64-linux.tar.xz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/wasmtime-v50.0.1-x86_64-linux.tar.xz?download_url=https%3A%2F%2Fgithub.com%2Fbytecodealliance%2Fwasmtime%2Freleases%2Fdownload%2Fv50.0.1%2Fwasmtime-v50.0.1-x86_64-linux.tar.xz#",
+   "purl": "pkg:artifact/wasmtime-v50.0.1-x86_64-linux.tar.xz?download_url=https%3A%2F%2Fgithub.com%2Fbytecodealliance%2Fwasmtime%2Freleases%2Fdownload%2Fv50.0.1%2Fwasmtime-v50.0.1-x86_64-linux.tar.xz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
@@ -3465,6 +3305,19 @@
    "version": "0.39.0"
   },
   {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
    "commit": "b4ffde65f46336ab88eb53be808477a3936bae11",
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -3528,19 +3381,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/codecov/codecov-action",
    "version": "eaaf4bedf32dbdc6b720b63067d99c4d77d6047d"
-  },
-  {
-   "commit": "be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "component": "pkg:github/dtolnay/rust-toolchain",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248#",
-   "purl": "pkg:github/dtolnay/rust-toolchain@be73d7920c329f220ce78e0234b8f96b7ae60248",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/dtolnay/rust-toolchain",
-   "version": "be73d7920c329f220ce78e0234b8f96b7ae60248"
   },
   {
    "commit": "9d47c6ad4b02e050fd481d890b2ea34778fd09d6",
@@ -3651,16 +3491,23 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
- "issues": [],
+ "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  }
+ ],
  "projects": [
   {
    "directory": ".",

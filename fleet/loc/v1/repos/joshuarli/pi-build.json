@@ -1,23 +1,23 @@
 {
- "commit": "46c3702f2c160fe79ebdc4354dcdeb8c9950f5f7",
+ "commit": "0dedb303c17cde4f4ea7cf1d4d50a636eea9f34c",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 7209503,
+    "bytes": 7209645,
     "file_count": 482,
     "lines": {
      "blank": 10736,
      "code": 140173,
-     "comment": 4985,
+     "comment": 4987,
      "shebang": 0,
-     "total": 155894
+     "total": 155896
     },
     "name": "TypeScript"
    },
    {
-    "bytes": 697529,
+    "bytes": 699257,
     "embedded": [
      {
       "lines": {
@@ -112,23 +112,23 @@
     ],
     "file_count": 66,
     "lines": {
-     "blank": 2575,
-     "code": 6995,
+     "blank": 2580,
+     "code": 7015,
      "comment": 97,
      "shebang": 0,
-     "total": 9667
+     "total": 9692
     },
     "name": "Markdown"
    },
    {
-    "bytes": 150656,
+    "bytes": 150882,
     "file_count": 21,
     "lines": {
-     "blank": 219,
-     "code": 2854,
-     "comment": 72,
+     "blank": 220,
+     "code": 2856,
+     "comment": 73,
      "shebang": 1,
-     "total": 3146
+     "total": 3150
     },
     "name": "JavaScript"
    },
@@ -198,14 +198,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 8207092,
+   "bytes": 8209188,
    "file_count": 607,
    "lines": {
-    "blank": 13670,
-    "code": 153011,
-    "comment": 5186,
+    "blank": 13676,
+    "code": 153033,
+    "comment": 5189,
     "shebang": 4,
-    "total": 171871
+    "total": 171902
    }
   }
  },

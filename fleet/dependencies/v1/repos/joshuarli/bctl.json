@@ -62533,7 +62533,7 @@
    "path": "kernel/dev/aarch64.Dockerfile"
   },
   {
-   "blob": "8958ad89e1eac663d14a7da0cd36c404d38787c9",
+   "blob": "4a803254ea549d8951a2e02476e2cfbfd1135fbd",
    "path": "kernel/nanos/Makefile"
   },
   {
@@ -62573,7 +62573,7 @@
    "path": "kernel/nanos/test/go/go.mod"
   },
   {
-   "blob": "ea1519006faae1a8e60cb8bbb9fb8b10d1cc5b54",
+   "blob": "1ca8f8904a9e4f1663199e59e3b8b27e3c2179bd",
    "path": "kernel/nanos/test/runtime/Makefile"
   },
   {
@@ -62593,7 +62593,7 @@
    "path": "kernel/tests/helium/Makefile"
   },
   {
-   "blob": "2297dbaf9b1d80f1028e44dc920a8c33b1054d54",
+   "blob": "a3528bd2c34bde71066b6b33ed27a2314a2ea532",
    "path": "kernel/tests/mini_chromium/Makefile"
   },
   {
@@ -62873,7 +62873,7 @@
    "path": "web/pnpm-lock.yaml"
   }
  ],
- "inputs_fingerprint": "45c33cd03dc6b708df270d4cc42dc7f984590c5b4b18f50ad694b2295aba2e04",
+ "inputs_fingerprint": "7efb7bc099e89e1b41021ff8970d3260a2aec99a4822731e8eefc22b9798b770",
  "instances": [
   {
    "commit": null,

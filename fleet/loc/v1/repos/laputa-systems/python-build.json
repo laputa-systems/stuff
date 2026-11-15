@@ -1,5 +1,5 @@
 {
- "commit": "3597b8cbe5d9b40b1af93b6922504a623220ad3c",
+ "commit": "9ba07a997e6afa2583d235ad02c89cd9a953f7d4",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -17,14 +17,14 @@
     "name": "Rust"
    },
    {
-    "bytes": 7335154,
+    "bytes": 7335141,
     "file_count": 454,
     "lines": {
-     "blank": 24312,
+     "blank": 24310,
      "code": 141568,
      "comment": 22410,
      "shebang": 7,
-     "total": 188297
+     "total": 188295
     },
     "name": "Python"
    },
@@ -99,14 +99,14 @@
     "name": "Markdown"
    },
    {
-    "bytes": 38034,
+    "bytes": 38155,
     "file_count": 84,
     "lines": {
-     "blank": 252,
-     "code": 1237,
+     "blank": 253,
+     "code": 1239,
      "comment": 13,
      "shebang": 0,
-     "total": 1502
+     "total": 1505
     },
     "name": "TOML"
    },
@@ -152,14 +152,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 25961119,
+   "bytes": 25961227,
    "file_count": 973,
    "lines": {
-    "blank": 54189,
-    "code": 539764,
+    "blank": 54188,
+    "code": 539766,
     "comment": 50630,
     "shebang": 15,
-    "total": 644598
+    "total": 644599
    }
   }
  },

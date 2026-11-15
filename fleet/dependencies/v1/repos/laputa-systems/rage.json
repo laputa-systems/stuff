@@ -1531,6 +1531,12 @@
    "purl": "pkg:github/docker/setup-buildx-action"
   },
   {
+   "display_name": "dtolnay/rust-toolchain",
+   "ecosystem": "github",
+   "name": "dtolnay/rust-toolchain",
+   "purl": "pkg:github/dtolnay/rust-toolchain"
+  },
+  {
    "display_name": "swatinem/rust-cache",
    "ecosystem": "github",
    "name": "swatinem/rust-cache",
@@ -1765,6 +1771,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
@@ -1867,6 +1891,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069#"
+  },
+  {
+   "condition": null,
+   "constraint": "v1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "683b588c487a69d01f6c6ddf40f036ff682cc2c8",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8#"
   },
   {
    "condition": null,
@@ -20005,6 +20047,10 @@
  ],
  "inputs": [
   {
+   "blob": "edf96c899d90ba5b18453a5f0b3bd1f587ebc9d2",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
    "path": ".github/workflows/lint.yml"
   },
@@ -20065,7 +20111,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "cab8ed37570f40dffa0d5da88d8761d016a5e35eddaed38f629188ec4fab8085",
+ "inputs_fingerprint": "dcff616010bb7965328d9421bc2cc285856edd29e7a080fd80c4deaacbdb2aa5",
  "instances": [
   {
    "commit": null,
@@ -23407,6 +23453,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/docker/setup-buildx-action",
    "version": "f87e5991a6d7451dcb8d9637bfbc97413f497069"
+  },
+  {
+   "commit": "683b588c487a69d01f6c6ddf40f036ff682cc2c8",
+   "component": "pkg:github/dtolnay/rust-toolchain",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8#",
+   "purl": "pkg:github/dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/dtolnay/rust-toolchain",
+   "version": "683b588c487a69d01f6c6ddf40f036ff682cc2c8"
   },
   {
    "commit": "d1527c8f67ef9af357290475d4af4b0fab8f12e0",

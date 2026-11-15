@@ -1,18 +1,18 @@
 {
- "commit": "38646b8f2f6ee7256c448849edda4459842a2e10",
+ "commit": "e2762c2b67cd4265ab54772b38739b5ce4b35ed7",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 1708408,
+    "bytes": 1708530,
     "file_count": 69,
     "lines": {
      "blank": 2579,
-     "code": 44495,
+     "code": 44498,
      "comment": 3729,
      "shebang": 0,
-     "total": 50803
+     "total": 50806
     },
     "name": "Rust"
    },
@@ -51,14 +51,14 @@
     "name": "Markdown"
    },
    {
-    "bytes": 2440,
-    "file_count": 2,
+    "bytes": 2519,
+    "file_count": 3,
     "lines": {
      "blank": 13,
-     "code": 67,
+     "code": 70,
      "comment": 6,
      "shebang": 0,
-     "total": 86
+     "total": 89
     },
     "name": "TOML"
    },
@@ -73,6 +73,18 @@
      "total": 56
     },
     "name": "Python"
+   },
+   {
+    "bytes": 188,
+    "file_count": 1,
+    "lines": {
+     "blank": 2,
+     "code": 5,
+     "comment": 0,
+     "shebang": 0,
+     "total": 7
+    },
+    "name": "Makefile"
    }
   ],
   "paths": [
@@ -80,14 +92,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 1758035,
-   "file_count": 77,
+   "bytes": 1758424,
+   "file_count": 79,
    "lines": {
-    "blank": 2724,
-    "code": 44929,
+    "blank": 2726,
+    "code": 44940,
     "comment": 3740,
     "shebang": 1,
-    "total": 51394
+    "total": 51407
    }
   }
  },

@@ -1,30 +1,30 @@
 {
- "commit": "2c72290c48a3e91b8ca439eaf4de1a6830c0f922",
+ "commit": "f071f20a33597341b60ab107173b2b1e1161a2b1",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 3939947,
+    "bytes": 3939909,
     "file_count": 285,
     "lines": {
-     "blank": 9435,
+     "blank": 9436,
      "code": 89547,
      "comment": 9967,
      "shebang": 0,
-     "total": 108949
+     "total": 108950
     },
     "name": "Rust"
    },
    {
-    "bytes": 1467461,
+    "bytes": 1467495,
     "file_count": 142,
     "lines": {
      "blank": 3061,
-     "code": 33575,
+     "code": 33576,
      "comment": 822,
      "shebang": 0,
-     "total": 37458
+     "total": 37459
     },
     "name": "TypeScript"
    },
@@ -123,7 +123,7 @@
     "name": "HTML"
    },
    {
-    "bytes": 6469,
+    "bytes": 6470,
     "file_count": 4,
     "lines": {
      "blank": 0,
@@ -200,14 +200,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 5869728,
+   "bytes": 5869725,
    "file_count": 533,
    "lines": {
-    "blank": 14114,
-    "code": 133578,
+    "blank": 14115,
+    "code": 133579,
     "comment": 11037,
     "shebang": 8,
-    "total": 158737
+    "total": 158739
    }
   }
  },

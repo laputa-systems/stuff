@@ -739,12 +739,6 @@
    "purl": "pkg:github/codecov/codecov-action"
   },
   {
-   "display_name": "dtolnay/rust-toolchain",
-   "ecosystem": "github",
-   "name": "dtolnay/rust-toolchain",
-   "purl": "pkg:github/dtolnay/rust-toolchain"
-  },
-  {
    "display_name": "embarkstudios/cargo-deny-action",
    "ecosystem": "github",
    "name": "embarkstudios/cargo-deny-action",
@@ -757,22 +751,10 @@
    "purl": "pkg:github/obi1kenobi/cargo-semver-checks-action"
   },
   {
-   "display_name": "psf/black",
-   "ecosystem": "github",
-   "name": "psf/black",
-   "purl": "pkg:github/psf/black"
-  },
-  {
    "display_name": "py-actions/flake8",
    "ecosystem": "github",
    "name": "py-actions/flake8",
    "purl": "pkg:github/py-actions/flake8"
-  },
-  {
-   "display_name": "taiki-e/cache-cargo-install-action",
-   "ecosystem": "github",
-   "name": "taiki-e/cache-cargo-install-action",
-   "purl": "pkg:github/taiki-e/cache-cargo-install-action"
   },
   {
    "display_name": "taiki-e/install-action",
@@ -1326,21 +1308,21 @@
   },
   {
    "condition": null,
-   "constraint": "v7",
+   "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.rustfmt.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -1437,24 +1419,6 @@
    "constraint": "v7",
    "evidence": [
     {
-     "locator": "jobs.msrv.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
      "locator": "jobs.cross.steps[0].uses",
      "path": ".github/workflows/ci.yml"
     }
@@ -1474,24 +1438,6 @@
    "evidence": [
     {
      "locator": "jobs.semver.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.check-external-types.steps[0].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -1632,222 +1578,6 @@
   },
   {
    "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.rustdoc.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@master#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@master#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.msrv.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@master#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.check-external-types.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@master#"
-  },
-  {
-   "condition": null,
-   "constraint": "nightly",
-   "evidence": [
-    {
-     "locator": "jobs.rustfmt.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "nightly",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@nightly#"
-  },
-  {
-   "condition": null,
-   "constraint": "nightly",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz.steps[1].uses",
-     "path": ".github/workflows/cifuzz.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "nightly",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@nightly#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.clippy.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.package.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.cross.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.coverage.steps[2].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.nostd.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.feature-powerset.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
    "constraint": "Verify that documentation builds.",
    "evidence": [
     {
@@ -1884,24 +1614,6 @@
   },
   {
    "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.testgen.steps[5].uses",
-     "path": ".github/workflows/testgen.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/psf/black@stable#"
-  },
-  {
-   "condition": null,
    "constraint": "v2",
    "evidence": [
     {
@@ -1920,28 +1632,10 @@
   },
   {
    "condition": null,
-   "constraint": "v3",
-   "evidence": [
-    {
-     "locator": "jobs.check-external-types.steps[2].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v3",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/cache-cargo-install-action@v3#"
-  },
-  {
-   "condition": null,
    "constraint": "cargo-hack",
    "evidence": [
     {
-     "locator": "jobs.feature-powerset.steps[2].uses",
+     "locator": "jobs.feature-powerset.steps[1].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -1977,7 +1671,7 @@
    "constraint": "cross",
    "evidence": [
     {
-     "locator": "jobs.cross.steps[2].uses",
+     "locator": "jobs.cross.steps[1].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -1992,7 +1686,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -2003,10 +1697,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -6559,15 +6253,19 @@
  ],
  "inputs": [
   {
-   "blob": "d3f23a61c783bfc89d012618af65db86a0f8d32b",
+   "blob": "cdd080843c1789a0744114fe8ef4b39d30bbc22f",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "9d93e05c290690d537d418a20c752eee306ce005",
+   "blob": "a6ab1dc34a43864d6384e1fd28795d209c734bde",
    "path": ".github/workflows/cifuzz.yml"
   },
   {
-   "blob": "ef390432e87e4f855ed9cef06a792b9d828061fc",
+   "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "4b4b8b3966a0f04c58a75e66f3740588f52063c6",
    "path": ".github/workflows/testgen.yml"
   },
   {
@@ -6577,6 +6275,10 @@
   {
    "blob": "4499b32238f67b0421655b49fc7f0d1534cba02e",
    "path": "Cargo.toml"
+  },
+  {
+   "blob": "7ea36471b295d11fabee364060731e836075e5d7",
+   "path": "Makefile"
   },
   {
    "blob": "9f013013a7e5582302c2430d15a87d9fd2b0ce15",
@@ -6591,11 +6293,11 @@
    "path": "requirements.txt"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "0f43520bc359756eb0aaf24cc80385727b1260885edd327cb25255011db67f40",
+ "inputs_fingerprint": "8113feafa5d14f8b191af1fae779b35475b7daef3e3fc4d916373d43411ee4fd",
  "instances": [
   {
    "commit": null,
@@ -8288,6 +7990,19 @@
    "version": "1.0.23"
   },
   {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
    "commit": null,
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -8328,45 +8043,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:github/dtolnay/rust-toolchain",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/dtolnay/rust-toolchain@master#",
-   "purl": "pkg:github/dtolnay/rust-toolchain@master",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/dtolnay/rust-toolchain",
-   "version": "master"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/dtolnay/rust-toolchain",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/dtolnay/rust-toolchain@nightly#",
-   "purl": "pkg:github/dtolnay/rust-toolchain@nightly",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/dtolnay/rust-toolchain",
-   "version": "nightly"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/dtolnay/rust-toolchain",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/dtolnay/rust-toolchain@stable#",
-   "purl": "pkg:github/dtolnay/rust-toolchain@stable",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/dtolnay/rust-toolchain",
-   "version": "stable"
-  },
-  {
-   "commit": null,
    "component": "pkg:github/embarkstudios/cargo-deny-action",
    "context": "",
    "first_party": false,
@@ -8393,19 +8069,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:github/psf/black",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/psf/black@stable#",
-   "purl": "pkg:github/psf/black@stable",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/psf/black",
-   "version": "stable"
-  },
-  {
-   "commit": null,
    "component": "pkg:github/py-actions/flake8",
    "context": "",
    "first_party": false,
@@ -8416,19 +8079,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/py-actions/flake8",
    "version": "v2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/cache-cargo-install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/cache-cargo-install-action@v3#",
-   "purl": "pkg:github/taiki-e/cache-cargo-install-action@v3",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/cache-cargo-install-action",
-   "version": "v3"
   },
   {
    "commit": null,
@@ -8630,16 +8280,22 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  },
   {
    "kind": "vendored_unknown",
    "locator": null,

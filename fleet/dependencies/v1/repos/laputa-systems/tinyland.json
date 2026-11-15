@@ -715,6 +715,12 @@
    "purl": "pkg:docker/alpine?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f"
   },
   {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  },
+  {
    "display_name": "bctl-guest",
    "ecosystem": "local",
    "name": "bctl-guest",
@@ -895,6 +901,24 @@
    "scope": "image",
    "source_kind": "image",
    "to": "pkg:docker/alpine@3.22?digest=sha256%3A49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -7959,6 +7983,10 @@
  ],
  "inputs": [
   {
+   "blob": "742f3292098a4812d55a3a98f7398101495fa82b",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "9de765dec9bc38d8215250a3ea8caf0a8715c401",
    "path": "Cargo.lock"
   },
@@ -8015,7 +8043,7 @@
    "path": "tinyland/rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "f00df69ea1cef70bf4d3034279a5119c0aba250ccf7de06aba4697d3c9fdc3d4",
+ "inputs_fingerprint": "f79bd49d647cbef6a43fbaaa43620d4a5add6b8df6cf675d54ed58c653915fdf",
  "instances": [
   {
    "commit": null,
@@ -9641,6 +9669,19 @@
    "source_kind": "image",
    "vcs_url": null,
    "version": "3.22"
+  },
+  {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   {
    "commit": null,
