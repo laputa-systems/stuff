@@ -89,7 +89,18 @@ tier.
    campaign checks each repository after its tickets settle.
 8. **Fan-out needs approval.** Phase 3 starts only after the owner approves the calibration report
    (Phase 2). Until then the tooling must be proven on complex repos, not only small ones.
-9. **Skills.** Skill development in `usr` is in scope. The skills are where the campaign's lessons
+9. **Mirroring (2026-11-15).** The campaign agent may mirror the assurance dev tools to the stuff
+   registries with `stuff publish mirror`: mutmut, cosmic-ray, vulture, deptry,
+   `@stryker-mutator/core`, `@stryker-mutator/vitest-runner`, knip, and `@vitest/coverage-v8`,
+   at pinned versions after vetting license and transitive dependencies. Nothing else is published.
+10. **Unattended to the end (2026-11-15).** The owner is away and expects the campaign to finish
+    with tickets filed in every applicable repository. Filing tickets is not fanning out:
+    dispatching repo agents stays the owner's act. The campaign agent therefore finishes the
+    pilots, extracts the `deslop` skill, runs as much complex calibration as it can, and then seeds
+    `TODO-DESLOP.md` in every in-scope repository without waiting for approval. Status records how
+    far calibration got, so the owner can judge when to dispatch. This supersedes decision 8's
+    approval gate for seeding, not for dispatch.
+11. **Skills.** Skill development in `usr` is in scope. The skills are where the campaign's lessons
    end up. Repo agents follow them, and they outlive the campaign. `test-audit` changes its position
    on line coverage first (K1).
 
