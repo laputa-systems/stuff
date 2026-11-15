@@ -820,6 +820,7 @@ pub struct PackageResult {
     pub artifact_shasum: Option<String>,
     pub artifact_source_url: String,
     pub artifact_legacy_sha1_only: bool,
+    pub first_party: bool,
     pub stage_path: Option<PathBuf>,
     pub byte_count: u64,
     pub reused: bool,
@@ -1038,6 +1039,7 @@ fn acquire_package(task: PackageTask, ctx: &AcquisitionContext) -> Result<Packag
                 artifact_shasum: record.artifact.shasum.clone(),
                 artifact_source_url: record.artifact.source_url.clone(),
                 artifact_legacy_sha1_only: record.artifact.legacy_sha1_only,
+                first_party: record.artifact.first_party,
                 stage_path: None,
                 byte_count: 0,
                 reused: true,
@@ -1069,6 +1071,7 @@ fn acquire_package(task: PackageTask, ctx: &AcquisitionContext) -> Result<Packag
             artifact_shasum: record.artifact.shasum.clone(),
             artifact_source_url: record.artifact.source_url.clone(),
             artifact_legacy_sha1_only: record.artifact.legacy_sha1_only,
+            first_party: record.artifact.first_party,
             stage_path: Some(stage_path),
             byte_count,
             reused: false,
@@ -1112,6 +1115,7 @@ fn acquire_package(task: PackageTask, ctx: &AcquisitionContext) -> Result<Packag
                 },
                 artifact_source_url: dist_tarball(&metadata_dist(&metadata)).unwrap_or_default(),
                 artifact_legacy_sha1_only: legacy,
+                first_party: false,
                 stage_path: None,
                 byte_count: 0,
                 reused: true,
@@ -1131,6 +1135,7 @@ fn acquire_package(task: PackageTask, ctx: &AcquisitionContext) -> Result<Packag
         artifact_sha512: digest,
         artifact_source_url: dist_tarball(&metadata_dist(&metadata)).unwrap_or_default(),
         artifact_legacy_sha1_only: legacy,
+        first_party: false,
         task_name: task.name.clone(),
         task_version: task.version.clone(),
         metadata,
@@ -1440,7 +1445,7 @@ fn artifact_value(result: &PackageResult) -> Result<deser_value::Value> {
             shasum: result.artifact_shasum.clone(),
             source_url: result.artifact_source_url.clone(),
             legacy_sha1_only: result.artifact_legacy_sha1_only,
-            first_party: false,
+            first_party: result.first_party,
         },
     };
     validate_artifact_record(&crate::inventory::artifact_to_value(&artifact)?)?;
@@ -1909,6 +1914,45 @@ mod tests {
                 .is_file()
         );
         assert_eq!(load_inventory(&state).unwrap().artifacts.len(), 1);
+    }
+
+    #[test]
+    fn reuses_a_first_party_artifact_pinned_as_a_registry_source() {
+        let dir = tempfile::tempdir().unwrap();
+        let state = dir.path().join("state");
+        let tarball = tarball_for("@laputa-systems/ui-dashboard", "0.5.0");
+        let tarball_path = dir.path().join("ui-dashboard.tgz");
+        std::fs::write(&tarball_path, &tarball).unwrap();
+        let times = crate::first_party::FirstPartyTimes {
+            created: "2026-11-01T00:00:00.000Z",
+            published: "2026-11-01T00:00:00.000Z",
+        };
+        let record =
+            crate::first_party::first_party_artifact(&tarball_path, "https://npm.17166969.xyz", &times).unwrap();
+        let mut inv = fixture_inventory("@laputa-systems/ui-dashboard", "0.5.0", Some(&integrity_of(&tarball)));
+        inv.projects[0].packages[0].resolved = None;
+        crate::inventory_store::update_inventory(&state, |_| Ok(inv.clone())).unwrap();
+        let digest = digest_of(&tarball);
+        let objects = state.join("objects").join("sha512");
+        std::fs::create_dir_all(&objects).unwrap();
+        std::fs::write(objects.join(format!("{digest}.tgz")), &tarball).unwrap();
+        let value = crate::inventory::artifact_to_value(&record).unwrap();
+        crate::inventory_store::update_inventory(&state, |current| {
+            crate::inventory::record_verified_artifacts(current, std::slice::from_ref(&value))
+        })
+        .unwrap();
+        struct PanicOnNetwork;
+        impl Exchange for PanicOnNetwork {
+            fn fetch(&self, url: &stuff_url::Url) -> Result<FetchedResponse> {
+                panic!("unexpected network fetch {url}");
+            }
+        }
+        let summary = fetch_inventory(&state, &download_config(), &PanicOnNetwork).unwrap();
+        assert_eq!(summary.verified_count, 1);
+        assert_eq!(summary.reused_count, 1);
+        let recorded = load_inventory(&state).unwrap();
+        assert_eq!(recorded.artifacts.len(), 1);
+        assert!(recorded.artifacts[0].artifact.first_party);
     }
 
     #[test]
