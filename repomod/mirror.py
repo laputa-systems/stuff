@@ -47,7 +47,7 @@ type Runner = Callable[[Sequence[str]], subprocess.CompletedProcess[str]]
 type Served = Mapping[Ecosystem, Mapping[str, frozenset[str]]]
 
 
-@dataclass(frozen=True, order=True, slots=True)
+@dataclass(frozen=True, slots=True)
 class Package:
     ecosystem: Ecosystem
     name: str
@@ -81,7 +81,10 @@ class Plan:
         ]
 
     def missing_in(self, ecosystem: Ecosystem) -> list[Package]:
-        return sorted(package for package in self.missing if package.ecosystem is ecosystem)
+        return sorted(
+            (package for package in self.missing if package.ecosystem is ecosystem),
+            key=lambda package: (package.name, package.version),
+        )
 
 
 @dataclass(slots=True)

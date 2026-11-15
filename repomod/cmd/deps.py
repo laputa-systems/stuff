@@ -175,7 +175,7 @@ def _mirror(catalog: Catalog, repositories: Sequence[Repository], *, dry_run: bo
 def print_mirror_report(report: mirror_module.Report) -> None:
     if report.published:
         print(f"published {len(report.published)} versions to stuff")
-    for package in sorted(report.unserved):
+    for package in sorted(report.unserved, key=lambda package: (package.ecosystem.value, package.name, package.version)):
         print(f"not served after publishing: {package.label}", file=sys.stderr)
     for failure in report.failures:
         print(f"failed {failure}", file=sys.stderr)
