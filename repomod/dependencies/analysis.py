@@ -36,7 +36,12 @@ class MissingLock:
 
 
 def report(
-    graph: Graph, repositories: Iterable[str] | None = None, *, top: int = 20
+    graph: Graph,
+    repositories: Iterable[str] | None = None,
+    *,
+    top: int = 20,
+    cache: enrich_module.Enrichment | None = None,
+    now: float | None = None,
 ) -> dict[str, object]:
     selected = _selected(repositories)
     names = tuple(
@@ -87,7 +92,7 @@ def report(
         "scopes": _scopes(edges),
         "first_party": _first_party(graph, instances, located, component_of),
         "roles": _roles(graph, names),
-        "freshness": _freshness(data, component_of),
+        "freshness": _freshness(data, component_of, cache, now),
     }
 
 
@@ -169,9 +174,11 @@ _CHECKED = frozenset(
 def _freshness(
     data: tuple[RepositoryData, ...],
     component_of: Mapping[str, Component | None],
+    loaded: enrich_module.Enrichment | None = None,
+    at: float | None = None,
 ) -> dict[str, object]:
-    cache = enrich_module.load_cache()
-    now = time.time()
+    cache = loaded if loaded is not None else enrich_module.load_cache()
+    now = time.time() if at is None else at
     checked = stale = not_checked = vulnerable = 0
     total = 0
     for repository in data:

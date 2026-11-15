@@ -17,6 +17,17 @@ For a local server, `make deps` syncs the checkouts, re-snapshots the tracked in
 and serves it at `http://127.0.0.1:8765` with `srv`; use `make deps PORT=9000` for another
 port.
 
+`make preview` renders the dashboard from its canonical preview dataset and serves it, with no sync,
+network, or live status. The dataset in `tests/fixtures/dashboard/` is a frozen slice of the real
+fleet: the inventory and line counts of 18 public repositories, the enrichment entries they
+reference, their status as last collected, an earlier snapshot scripted in
+`repomod/dependencies/preview.py` for the Changes page, and a fixed render time.
+`tests/repomod/test_dashboard_preview.py` renders the same dataset and compares what every page
+presents (title, headings, tables, tiles, navigation counts) with `tests/fixtures/dashboard/golden.json`.
+After an intended change, run `REPOMOD_UPDATE_GOLDEN=1 uv run pytest tests/repomod/test_dashboard_preview.py`
+and review the golden diff. `uv run python -m repomod.dependencies.preview freeze` rebuilds the
+dataset from the current fleet.
+
 Private repositories are left out of every page, count, and change list by default. Repositories
 says how many are hidden. Use `make deps PRIVATE=1`, or `deps render --include-private`, to include
 them. Repositories the catalog no longer manages, including those marked `IGNORE`, are left out of

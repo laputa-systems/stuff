@@ -120,6 +120,9 @@ def render(
     status: Mapping[str, Sequence[StatusItem]] | None = None,
     hidden: frozenset[str] = frozenset(),
     unmanaged: frozenset[str] = frozenset(),
+    enrichment: enrich.Enrichment | None = None,
+    loc: loc_view.Data | None = None,
+    rendered_at: float | None = None,
 ) -> Dashboard:
     missing = [sheet for sheet in UI_SHEETS if not (UI_DASHBOARD / sheet).is_file()]
     if missing:
@@ -127,7 +130,7 @@ def render(
             f"the pinned @laputa-systems/ui-dashboard sheets are missing at {UI_DASHBOARD}; "
             f"run `make catalog-css`"
         )
-    site = _site(inventory, graph, root, diff_value, status, hidden, unmanaged)
+    site = _site(inventory, graph, root, diff_value, status, hidden, unmanaged, enrichment, loc, rendered_at)
     if output.is_symlink():
         raise ValueError(f"refusing to write a dashboard through a symlink: {output}")
     if output.exists():
@@ -174,12 +177,15 @@ def _site(
     status: Mapping[str, Sequence[StatusItem]] | None,
     hidden: frozenset[str],
     unmanaged: frozenset[str],
+    enrichment: enrich.Enrichment | None = None,
+    loc: loc_view.Data | None = None,
+    rendered_at: float | None = None,
 ) -> _Site:
     overlap = hidden & frozenset(graph.repositories)
     if overlap:
         raise ValueError(f"hidden repositories present in the visible graph: {len(overlap)}")
-    cache = enrich.load_cache()
-    report_value = analysis.report(graph)
+    cache = enrichment if enrichment is not None else enrich.load_cache()
+    report_value = analysis.report(graph, cache=cache, now=rendered_at)
     index: list[dict[str, object]] = []
     for purl, component in sorted(graph.components.items()):
         index.append(
@@ -224,7 +230,7 @@ def _site(
         cast(Mapping[str, Any], report_value),
         diff_value,
         tuple(index),
-        time.time(),
+        time.time() if rendered_at is None else rendered_at,
         upgradable,
         migration_rows,
         vulnerable,
@@ -243,7 +249,7 @@ def _site(
         hidden,
         world_value,
         weight.build(graph, owned_names, cache.results, world_value),
-        loc_view.load(LOC_DATA),
+        loc if loc is not None else loc_view.load(LOC_DATA),
         atlas.build(graph, hidden=hidden),
     )
 

@@ -89,15 +89,14 @@ def diff_inventory(
         new = _revision_inventory(root, inventory, to_rev)
         if new is None:
             new = Inventory(inventory, {}, {})
-    names = sorted(
-        set(old.entries) | set(new.entries), key=str.casefold
-    )
-    changes = tuple(
-        change
-        for name in names
-        if (change := _compare(name, old, new)) is not None
-    )
-    return Diff(True, from_rev, to_rev or "working tree", changes)
+    return diff_inventories(old, new, source=from_rev, target=to_rev or "working tree")
+
+
+def diff_inventories(old: Inventory, new: Inventory, *, source: str, target: str) -> Diff:
+    """Compares two loaded inventories, labelled by where each came from."""
+    names = sorted(set(old.entries) | set(new.entries), key=str.casefold)
+    changes = tuple(change for name in names if (change := _compare(name, old, new)) is not None)
+    return Diff(True, source, target, changes)
 
 
 def _validate_revision(root: Path, revision: str) -> None:
