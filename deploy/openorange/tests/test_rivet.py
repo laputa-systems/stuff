@@ -49,6 +49,8 @@ class RivetConfigurationTests(unittest.TestCase):
         self.assertIn("header_up Rivet-Gateway-Secret {$GW_SECRET_RIVET}", private)
         self.assertNotIn("{env.GW_SECRET_", private)
         self.assertLess(private.index("forward_auth"), private.index("handle @rivet"))
+        self.assertIn("@unverifiedPeer not remote_ip 0.0.0.0/0 ::/0", private)
+        self.assertLess(private.index("respond @unverifiedPeer"), private.index("forward_auth"))
         self.assertLess(private.index("handle @rivet"), private.index("reverse_proxy 172.29.80.20:8080"))
         self.assertNotIn("172.29.80.24", public)
         self.assertNotIn("rivet.17166969.xyz", text)

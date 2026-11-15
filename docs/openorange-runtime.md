@@ -526,6 +526,14 @@ fixed Engine origin; it projects known fields and rejects upstream redirects,
 malformed responses and secrets in returned fields. It has no Docker socket,
 command executor, arbitrary proxy or mutation endpoint.
 
+Every private route evaluates Caddy's `remote_ip` matcher before forwarding to
+whois. Caddy 2.11.9 intentionally withholds the remote-address placeholder
+during HTTP/3 early data; its
+[IP matcher returns HTTP 425 until the TLS handshake completes](https://github.com/caddyserver/caddy/blob/v2.11.9/modules/caddyhttp/ip_matchers.go).
+This lets the browser retry with a verified peer instead of treating an empty
+address as an authorization failure. The identity sidecar still rejects empty,
+malformed and non-tailnet peers.
+
 `oo secrets` generates `/etc/openorange/rivet/config.json` with the Engine
 credential, independent gateway secret and operator policy. The file is
 root-owned, group-readable only by container GID 10001, mode 0440 inside a

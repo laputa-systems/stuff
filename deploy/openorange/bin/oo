@@ -147,6 +147,7 @@ def render_caddyfile(cfg) -> str:
         lines += ["\tlog {", "\t\toutput stdout", "\t\tformat filter {", "\t\t\twrap console",
                   "\t\t\tfields {", "\t\t\t\trequest>headers delete", "\t\t\t\tresp_headers delete", "\t\t\t}", "\t\t}", "\t}"]
         lines += ["\troute {"]
+        lines += ["\t\t@unverifiedPeer not remote_ip 0.0.0.0/0 ::/0", "\t\trespond @unverifiedPeer 403"]
         lines += [f"\t\trequest_header -{h}" for h in CADDY_STRIP]
         lines += ["\t\trequest_header X-OO-Ingress tailnet"]
         lines += [
