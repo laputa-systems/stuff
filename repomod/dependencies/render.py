@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import shutil
 import time
 from collections import Counter, defaultdict
@@ -15,8 +14,10 @@ from packaging.version import InvalidVersion, Version
 from repomod import dependency_roles, paths
 from repomod.dependencies import (
     analysis,
+    atlas,
     enrich,
     insights,
+    jsdata,
     loc_view,
     migrations,
     triage,
@@ -34,6 +35,7 @@ from repomod.dependencies.model import (
     IndexEntry,
     Instance,
     Issue,
+    Relation,
     RepositoryData,
     SourceKind,
 )
@@ -105,6 +107,7 @@ class _Site:
     world: world.World
     package_weight: tuple[weight.Repository, ...]
     code: loc_view.Data
+    atlas: str
 
 
 def render(
@@ -139,6 +142,7 @@ def render(
             ("index", "To do", _overview),
             ("repositories", "Repositories", _repositories),
             ("world", "World", _world),
+            ("explore", "Explore", _explore),
             ("security", "Security", _security),
             ("outdated", "Upgrades", _outdated),
             ("alignment", "Alignment", _alignment),
@@ -237,6 +241,7 @@ def _site(
         world_value,
         weight.build(graph, owned_names, cache.results, world_value),
         loc_view.load(LOC_DATA),
+        atlas.build(graph, hidden=hidden),
     )
 
 
@@ -265,7 +270,11 @@ def _triage(
 
 def _page(site: _Site, title: str, page_id: str, prefix: str, body: str) -> str:
     active = "repositories" if page_id == "repository" else page_id
-    return ui.shell(title, page_id, active, prefix, _navigation(site), body)
+    stylesheets = (f"{prefix}assets/atlas.css",) if page_id == "explore" else ()
+    return ui.shell(
+        title, page_id, active, prefix, _navigation(site), body, search=page_id != "explore",
+        stylesheets=stylesheets,
+    )
 
 
 def _navigation(site: _Site) -> tuple[NavGroup, ...]:
@@ -278,7 +287,7 @@ def _navigation(site: _Site) -> tuple[NavGroup, ...]:
             ),
             heading=False,
         ),
-        NavGroup("Overview", (NavLink("world", "World"),)),
+        NavGroup("Overview", (NavLink("world", "World"), NavLink("explore", "Explore"))),
         NavGroup(
             "Review",
             (
@@ -309,8 +318,13 @@ def _write_page(path: Path, content: str) -> Path:
 
 def _write_assets(output: Path, site: _Site) -> None:
     (output / "assets" / "ui-dashboard").mkdir(parents=True)
-    for name in ("app.css", "app.js", "weight.js"):
+    for name in ("app.css", "app.js", "weight.js", "atlas.js", "atlas.css"):
         shutil.copyfile(ASSETS / name, output / "assets" / name)
+    (output / "assets" / "vendor").mkdir()
+    for item in sorted((ASSETS / "vendor").iterdir()):
+        if item.is_file():
+            shutil.copyfile(item, output / "assets" / "vendor" / item.name)
+    (output / "assets" / "atlas-data.js").write_text(site.atlas, encoding="utf-8")
     for sheet in UI_SHEETS:
         shutil.copyfile(UI_DASHBOARD / sheet, output / "assets" / "ui-dashboard" / Path(sheet).name)
     template = (ASSETS / "search.js").read_text(encoding="utf-8")
@@ -1780,14 +1794,7 @@ def _version_sort_key(ecosystem: Ecosystem, version: str) -> tuple[int, object]:
 
 
 def _json(value: object) -> str:
-    text = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-    return (
-        text.replace("<", "\\u003c")
-        .replace(">", "\\u003e")
-        .replace("&", "\\u0026")
-        .replace("\u2028", "\\u2028")
-        .replace("\u2029", "\\u2029")
-    )
+    return jsdata.dump_js(value)
 
 
 def _table(value: object) -> Mapping[str, Any]:
@@ -1825,6 +1832,154 @@ _MIRROR_LABELS = {
 }
 _REACH_BUCKETS = ((1, 1), (2, 2), (3, 5), (6, 10), (11, 20), (21, None))
 _TREEMAP_SIZE = (1200, 760)
+
+
+def _explore(site: _Site) -> str:
+    graph = site.graph
+    direct = sum(1 for edge in graph.edges if edge.edge.relation is Relation.DIRECT)
+    transitive = len(graph.edges) - direct
+    complete = sum(1 for data in graph.repositories.values() if data.state.value == "complete")
+    partial = sum(1 for data in graph.repositories.values() if data.state.value == "partial")
+    trouble = sum(
+        1
+        for data in graph.repositories.values()
+        if data.state.value in ("failed", "unavailable")
+    )
+    hidden = len(site.hidden)
+    coverage_tone = Tone.WARN if partial or trouble else None
+    tiles = ui.status_strip(
+        (
+            Tile(
+                str(len(graph.repositories)),
+                "Repositories",
+                f"{hidden} private hidden" if hidden else "visible inventory",
+                "repositories.html",
+            ),
+            Tile(
+                str(len(graph.components)),
+                "Packages",
+                f"{len(graph.instances)} recorded versions",
+                "packages.html",
+            ),
+            Tile(
+                str(len(graph.edges)),
+                "Dependency edges",
+                f"{direct} direct · {transitive} transitive",
+                "packages.html",
+            ),
+            Tile(
+                str(complete),
+                "Fully covered",
+                f"{partial} partial · {trouble} failed" if trouble else f"{partial} partial",
+                "coverage.html",
+                coverage_tone,
+            ),
+        )
+    )
+    options = "\n        ".join(
+        f'<option value="{_e(name)}">{_e(name)}</option>' for name in atlas.ecosystems(graph)
+    )
+    zero = len(graph.edges) == 0
+    notice = (
+        ui.notice(
+            "No dependency edges are recorded for the visible inventory. "
+            "Check the <a href=\"coverage.html\">coverage</a> page for the inputs that could not be read.",
+            Tone.WARN,
+        )
+        if zero
+        else ""
+    )
+    subtitle = (
+        "Actual dependency relationships across the fleet. Focus a repository to follow its "
+        "direct and transitive dependencies."
+    )
+    header = ui.page_header("Explore", subtitle)
+    stage = """
+<div class="atlas" id="atlas">
+  <div class="atlas-toolbar" role="toolbar" aria-label="Graph controls">
+    <button type="button" id="atlas-fleet" class="atlas-fleet" hidden>← Fleet</button>
+    <div class="atlas-searchbox">
+      <label class="ui-search atlas-search" for="atlas-search">
+        <span class="ui-sr-only">Search repositories and packages</span>
+        <svg class="ui-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input id="atlas-search" type="search" placeholder="Search repositories and packages  /"
+               autocomplete="off" role="combobox" aria-expanded="false"
+               aria-controls="atlas-search-results" aria-autocomplete="list">
+      </label>
+      <div class="atlas-search-results" id="atlas-search-results" role="listbox" hidden></div>
+    </div>
+    <label class="atlas-select" for="atlas-ecosystem"><span class="atlas-select-label">Ecosystem</span>
+      <select id="atlas-ecosystem">
+        <option value="all">All ecosystems</option>
+        ECOSYSTEM_OPTIONS
+      </select>
+    </label>
+    <div class="atlas-relation" id="atlas-relation" role="group" aria-label="Relation">
+      <button type="button" data-relation="all" aria-pressed="true">All</button>
+      <button type="button" data-relation="direct" aria-pressed="false">Direct</button>
+      <button type="button" data-relation="transitive" aria-pressed="false">Transitive</button>
+    </div>
+    <button type="button" id="atlas-fit" class="atlas-button">Fit</button>
+    <button type="button" id="atlas-reset" class="atlas-button">Reset view</button>
+  </div>
+  <div class="atlas-stage">
+    <div class="atlas-canvas">
+      <div id="atlas-graph" class="atlas-graph" role="application" aria-roledescription="graph visualization"
+           aria-label="Fleet dependency graph. Select a repository node to focus it.
+           Press Escape to return to the fleet overview."></div>
+      <div id="atlas-loading" class="atlas-message" role="status">Rendering the dependency graph…</div>
+      <div id="atlas-fallback" class="atlas-message atlas-message-fallback" hidden>
+        <p><strong>The graph needs WebGL2.</strong> This browser did not provide a usable
+          WebGL2 context (or the GPU context was lost). The dependency data is intact —
+          browse it without the graph:</p>
+        <ul class="plain-list">
+          <li><a href="repositories.html">Repositories</a> — every visible repository and its state</li>
+          <li><a href="world.html">World</a> — who maintains the packages you reach</li>
+          <li><a href="packages.html">Packages</a> — every package with versions and consumers</li>
+        </ul>
+      </div>
+      <div class="atlas-legend" aria-hidden="true">
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#2a78d6"></span>repository</span>
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#eb6834"></span>repository with
+          coverage errors</span>
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#1c1c1a"></span>project</span>
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#d55e00"></span>cargo</span>
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#2a78d6"></span>npm</span>
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#009e73"></span>pypi</span>
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#e69f00"></span>golang</span>
+        <span class="atlas-legend-item"><span class="atlas-dot" style="--dot:#9a9992"></span>other ecosystem</span>
+        <span class="atlas-legend-item"><span class="atlas-line"></span>exact edge</span>
+        <span class="atlas-legend-item"><span class="atlas-line atlas-line-strong"></span>aggregate
+          (repository → ecosystem)</span>
+      </div>
+      <div id="atlas-empty" class="atlas-message" hidden>
+        <p><strong>No repositories are visible.</strong> The catalog hides every repository from
+          dashboards, or the inventory is empty.</p>
+        <ul class="plain-list">
+          <li><a href="coverage.html">Coverage</a> — why inputs could not be read</li>
+        </ul>
+      </div>
+      <div class="atlas-caption" id="atlas-caption" aria-live="polite">Fleet overview</div>
+    </div>
+    <aside id="atlas-inspector" class="atlas-inspector" aria-label="Selection inspector" aria-live="polite">
+      <h2 class="atlas-inspector-title">Inspector</h2>
+      <p class="atlas-inspector-empty">Select a repository to focus its dependency graph, or select a
+        package to inspect it. Edges run from a project to the packages it declares, and onward transitively.</p>
+    </aside>
+  </div>
+  <p class="atlas-footnote">Aggregate edges between a repository and an ecosystem sum every edge whose
+    target belongs to the ecosystem; they are not runtime linkage. Exact edges appear after you focus a
+    repository. Records whose resolution is unknown are not zeros. The inventory excludes the repositories
+    the catalog hides from dashboards.</p>
+</div>
+<script src="assets/vendor/atlas.vendor.js"></script>
+<script src="assets/atlas-data.js"></script>
+<script src="assets/atlas.js"></script>
+""".replace("ECOSYSTEM_OPTIONS", options)
+    return "\n".join(part for part in (header, tiles, notice, stage) if part)
 
 
 def _world(site: _Site) -> str:
