@@ -23,9 +23,9 @@ def _load_policy() -> dict[str, Any]:
         raise RuntimeError(
             f"cannot read release policy at {_POLICY_PATH}: {error}"
         ) from error
-    if set(value) != {"cargo", "pypi", "npm", "binary"}:
-        raise RuntimeError("release-policy.toml must define cargo, pypi, npm, and binary")
-    if any(not isinstance(value[name], dict) for name in ("cargo", "pypi", "npm", "binary")):
+    if set(value) != {"cargo", "pypi", "npm", "binary", "archive"}:
+        raise RuntimeError("release-policy.toml must define cargo, pypi, npm, binary, and archive")
+    if any(not isinstance(value[name], dict) for name in ("cargo", "pypi", "npm", "binary", "archive")):
         raise RuntimeError("release-policy.toml ecosystem contracts must be tables")
     cargo = value["cargo"]
     pypi = value["pypi"]
@@ -98,6 +98,18 @@ def _load_policy() -> dict[str, Any]:
         or any(not isinstance(marker, str) for marker in binary["forbidden_target_markers"])
     ):
         raise RuntimeError("release-policy.toml has an invalid binary contract")
+    archive = value["archive"]
+    exemptions = archive.get("exemptions")
+    if (
+        archive.get("format") != "tar.xz"
+        or not isinstance(exemptions, list)
+        or any(
+            not isinstance(entry, dict)
+            or any(not isinstance(entry.get(key), str) or not entry[key] for key in ("repository", "pattern", "reason"))
+            for entry in exemptions
+        )
+    ):
+        raise RuntimeError("release-policy.toml has an invalid archive contract")
     return value
 
 

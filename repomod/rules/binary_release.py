@@ -48,7 +48,8 @@ _CHECKSUMS_FILE = re.compile(r"SHA256SUMS")
 _TRIPLE = re.compile(
     r"\b(aarch64-apple-darwin|x86_64-apple-darwin|(?:x86_64|aarch64)(?:-unknown)?-linux-(?:musl|gnu(?:eabihf)?))\b"
 )
-_NATIVE_ASSET = re.compile(r"\.(?:zip|tar\.gz|tgz|dmg|exe|msi|deb|rpm)\b", re.IGNORECASE)
+_NATIVE_ASSET = re.compile(r"\.tar\.xz\b", re.IGNORECASE)
+_RELEASE_ASSET = re.compile(r"\.(?:zip|tar\.xz|tar\.gz|tgz|dmg|exe|msi|deb|rpm)\b", re.IGNORECASE)
 _PLATFORM_TARGET = re.compile(
     r"(?:aarch64|arm64|x86_64|x64|amd64|apple-darwin|linux|windows|macos)",
     re.IGNORECASE,
@@ -310,7 +311,7 @@ def _release_kind(root: Path, source: str) -> str:
         return "package"
     native_build = _native_build(root, source)
     artifact_transfer = _ARTIFACT_UPLOAD.search(source) and _ARTIFACT_DOWNLOAD.search(source)
-    native_assets = _NATIVE_ASSET.search(source) is not None or (
+    native_assets = _RELEASE_ASSET.search(source) is not None or (
         artifact_transfer and _PLATFORM_TARGET.search(source) is not None
     )
     binary_contract = (
@@ -490,6 +491,56 @@ def _standard_target_findings(
     ]
 
 
+def _archive_template_fix(source: str) -> str | None:
+    pattern = re.compile(
+        r'(?m)^(?P<i> +)mkdir dist/zips\n'
+        r'(?P=i)for file in \\\n(?P<files>(?:(?P=i)  dist/[^\n]+\n)+)'
+        r'(?P=i)  zip -9 --junk-paths "dist/zips/\$\(basename "\$file"\)\.zip" "\$file"\n'
+        r'(?P=i)done\n(?P=i)cd dist/zips\n'
+        r'(?P=i)sha256sum \*\.zip \| LC_ALL=C sort -k2 > SHA256SUMS\n'
+        r'(?P=i)sha256sum -c SHA256SUMS'
+    )
+    matches = list(pattern.finditer(source))
+    if len(matches) != 1 or source.count("dist/zips/") != 3:
+        return None
+    match = matches[0]
+    jobs = _publish_job_ranges(source)
+    line = source[:match.start()].count("\n")
+    if not any(
+        start <= line < end
+        and re.search(r"(?m)^    runs-on: ubuntu-", "\n".join(source.splitlines()[start:end]))
+        for start, end in jobs
+    ):
+        return None
+    upload = 'dist/zips/*.zip dist/zips/SHA256SUMS'
+    if source.count(upload) != 1 or not re.search(r"gh\s+release\s+create[^\n]*" + re.escape(upload), source):
+        return None
+    indent = match.group("i")
+    replacement = (
+        f"{indent}mkdir dist/archives\n{indent}for file in \\\n{match.group('files')}"
+        f'{indent}  tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner '
+        '-cJf "dist/archives/$(basename "$file").tar.xz" -C "$(dirname "$file")" "$(basename "$file")"\n'
+        f"{indent}done\n{indent}cd dist/archives\n"
+        f"{indent}sha256sum *.tar.xz | LC_ALL=C sort -k2 > SHA256SUMS\n"
+        f"{indent}sha256sum -c SHA256SUMS"
+    )
+    return (source[:match.start()] + replacement + source[match.end():]).replace(
+        upload, "dist/archives/*.tar.xz dist/archives/SHA256SUMS"
+    )
+
+
+def _binary_release_standard_fix(root: Path, repository: Repository) -> dict[str, str]:
+    if repository.private or "fork" in repository.tags:
+        return {}
+    workflows, _ = _prerelease_workflows(root, repository)
+    plan = {}
+    for path, source in workflows:
+        fixed = _archive_template_fix(source)
+        if fixed is not None:
+            plan[path] = fixed
+    return plan
+
+
 def _standard_format_findings(
     repository: Repository, path: str, source: str
 ) -> list[Finding]:
@@ -527,8 +578,9 @@ def _standard_format_findings(
                 repository,
                 "binary-release-standard",
                 path,
-                "binary prerelease must publish per-platform zip archives with a "
+                "binary prerelease must publish per-platform .tar.xz archives with a "
                 "verified SHA256SUMS file like ish",
+                fixable=_archive_template_fix(source) is not None,
             )
         )
     if _API_TAG_CREATE.search(source) is None or _VERIFY_TAG.search(source) is None:
@@ -914,9 +966,9 @@ def binary_release_rules() -> tuple[Rule, ...]:
             "Check the standardized native binary prerelease matrix and format",
             TagPredicate(any_of=frozenset({"tool"})),
             _binary_release_standard_findings,
-            None,
-            None,
-            (),
+            _binary_release_standard_fix,
+            "fix(release): use tar.xz archives",
+            (".github/workflows/*.yml", ".github/workflows/*.yaml"),
         ),
         Rule(
             "binary-release-static",

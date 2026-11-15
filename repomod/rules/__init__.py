@@ -21,6 +21,7 @@ from repomod.rules.owned_tools import owned_tool_rules
 from repomod.rules.python_standard import python_standard_rules
 from repomod.rules.registry_sources import registry_sources_rules
 from repomod.rules.release import release_rules
+from repomod.rules.release_archive import release_archive_rules
 from repomod.rules.retention import retention_rules
 from repomod.rules.runners import runner_rules
 from repomod.rules.rust_collections import rust_collection_rules
@@ -68,6 +69,7 @@ def rules() -> tuple[Rule, ...]:
         *registry_sources_rules(),
         *laputa_rustix_rules(),
         *release_rules(),
+        *release_archive_rules(),
         *rust_toolchain_rules(),
         *rust_release_profiles_rules(),
         *rust_collection_rules(),

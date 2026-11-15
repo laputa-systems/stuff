@@ -57,7 +57,7 @@ valid `sources.lock.json` and validates `release-budgets.json` and `bootstrap.lo
 exist. `build-release-standard` requires `.github/workflows/release.yml` to be dispatch-only with a
 default-branch preflight, a `release-${{ github.sha }}` tag, the shared release-notes step, a
 `gh release create` with `--prerelease`, `--verify-tag`, `--target "$GITHUB_SHA"` and the notes file,
-a `sha256sum -c` check of `SHA256SUMS`, and `.tar.xz` archives with `.manifest.json` manifests.
+a `sha256sum -c` check of `SHA256SUMS`, and `.tar.xz` archives with `.manifest.json` manifests. `release-archive-format` checks release workflows and their invoked packaging code for nonstandard archives; named ecosystem-format exemptions live in `fleet/policy/release-policy.toml`. The `binary-release-standard` fixer converts the ish packaging template to deterministic `.tar.xz` archives; other shapes require manual changes.
 
 `binary-release-static` checks public tool prereleases that publish Linux ELF files, including fork
 workflows. It skips private repositories and tools tagged `macos`. Its release-job smoke runs
