@@ -287,8 +287,8 @@
    "state": "partial"
   },
   "laputa-systems/tinyland": {
-   "commit": "72a2f4dff743bae27f700657469aa1b6d4bb9082",
-   "inputs_fingerprint": "f79bd49d647cbef6a43fbaaa43620d4a5add6b8df6cf675d54ed58c653915fdf",
+   "commit": "d45f17b0c2374b72a8020e0e983ad2dfb5f45565",
+   "inputs_fingerprint": "c1808d87262d5f81612f35e5a529c9d399a02e8d1b52295c4567752f22cef85e",
    "state": "partial"
   },
   "laputa-systems/tm": {

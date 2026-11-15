@@ -1,5 +1,5 @@
 {
- "commit": "46fca51962f4134f8f86843c8eb4830cacd0ef9b",
+ "commit": "d42bab99f046cb3ebbe3041f1db72945a8ae5964",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -53,7 +53,7 @@
     "name": "Bash"
    },
    {
-    "bytes": 282026,
+    "bytes": 282907,
     "embedded": [
      {
       "lines": {
@@ -78,11 +78,11 @@
     ],
     "file_count": 34,
     "lines": {
-     "blank": 748,
-     "code": 2045,
+     "blank": 750,
+     "code": 2052,
      "comment": 18,
      "shebang": 0,
-     "total": 2811
+     "total": 2820
     },
     "name": "Markdown"
    },
@@ -188,14 +188,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 3308956,
+   "bytes": 3309837,
    "file_count": 299,
    "lines": {
-    "blank": 6369,
-    "code": 65874,
+    "blank": 6371,
+    "code": 65881,
     "comment": 1658,
     "shebang": 81,
-    "total": 73982
+    "total": 73991
    }
   }
  },

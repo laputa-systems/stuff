@@ -8,7 +8,7 @@
   },
   "joshuarli/ctrs": {
    "commit": "180759f824dbd8d8d7d8edcbaeebe4ded9b2a0f6",
-   "loc_fingerprint": "e4e9fe217d32acb93d2f434f7e31ecc1fa7480641411bfe4880a7e6dc783b732",
+   "loc_fingerprint": "017f688d7a75ada82605f46f23826022cf27c32a581a10cc414606a586bd8181",
    "state": "complete"
   },
   "joshuarli/defuddle-rs": {
@@ -82,8 +82,8 @@
    "state": "complete"
   },
   "joshuarli/stats": {
-   "commit": "b5978bfc99a1123d1ad6cc3ee8fccc3353e08be0",
-   "loc_fingerprint": "892b680f939960c9ae6228a59991cccf1aeeba069a6ede29e91dcac70e6aae4a",
+   "commit": "c5f0e26d946cbfd2518f87f73bb21be6a2edeeba",
+   "loc_fingerprint": "7d9fffd895f2c9aa8b75c5a2e6387f5a175834ed56b40cc3f8a54d4baf0cb726",
    "state": "complete"
   },
   "joshuarli/syncthing": {
@@ -102,8 +102,8 @@
    "state": "complete"
   },
   "joshuarli/usr": {
-   "commit": "46fca51962f4134f8f86843c8eb4830cacd0ef9b",
-   "loc_fingerprint": "a3e0f45e291e1e243fa5afa89d98b136ac87677d531df1e0ce573f9261dd31d4",
+   "commit": "d42bab99f046cb3ebbe3041f1db72945a8ae5964",
+   "loc_fingerprint": "b6b97178f3f37abb998e0a33d420a196f6f86f6358d9a3b9d35175038f7d8ffc",
    "state": "complete"
   },
   "laputa-systems/buildlib": {
@@ -282,13 +282,13 @@
    "state": "complete"
   },
   "laputa-systems/stuff": {
-   "commit": "744aadbb6cd04f7d9c7d70635bdedcf35e443eb5",
-   "loc_fingerprint": "d16ccb07e19c9ef3245bbb077eaf5bb2faff421ef56b0df70a39831c63634f05",
+   "commit": "c5a8c222d08906d266b61aa330037af77d0b9c01",
+   "loc_fingerprint": "172b329e8a4d8143b4651f74d8f4faebe4b948e718a61452d37d6b64d9d832a4",
    "state": "complete"
   },
   "laputa-systems/tinyland": {
-   "commit": "63916c25f5cb38a5ebb12ddbbb503517fcb4c908",
-   "loc_fingerprint": "e79c97f0039c3cb03986d15129c5c435d9daa9d1fbfebc9f48095927f36eb4bf",
+   "commit": "d45f17b0c2374b72a8020e0e983ad2dfb5f45565",
+   "loc_fingerprint": "f8986a94ce9a82e9c84b29e8a3c6743be43446d9c856a8e27564433978376907",
    "state": "complete"
   },
   "laputa-systems/tm": {
@@ -307,8 +307,8 @@
    "state": "complete"
   },
   "laputa-systems/xsh": {
-   "commit": "e5d4a38a9979d5b80857905871398102cd50a411",
-   "loc_fingerprint": "9c32ccbe1dad501c2797e9af507f86bbf95da2410837a9b3eec02215afecb401",
+   "commit": "b2f445b5ae361981becebc5a884f1597bb5f3435",
+   "loc_fingerprint": "67f0ff26b69ace05ea9f89e6b143854a57c7e8460f6989e752585794eb8d9520",
    "state": "complete"
   },
   "laputa-systems/zlib-rs": {

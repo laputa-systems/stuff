@@ -5,14 +5,14 @@
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 1665707,
+    "bytes": 1665271,
     "file_count": 79,
     "lines": {
-     "blank": 2675,
-     "code": 30474,
-     "comment": 5055,
+     "blank": 2676,
+     "code": 30461,
+     "comment": 5063,
      "shebang": 0,
-     "total": 38204
+     "total": 38200
     },
     "name": "Rust"
    },
@@ -29,7 +29,7 @@
     "name": "Bash"
    },
    {
-    "bytes": 416463,
+    "bytes": 424611,
     "embedded": [
      {
       "lines": {
@@ -64,23 +64,23 @@
     ],
     "file_count": 30,
     "lines": {
-     "blank": 732,
-     "code": 3853,
+     "blank": 756,
+     "code": 3988,
      "comment": 1,
      "shebang": 0,
-     "total": 4586
+     "total": 4745
     },
     "name": "Markdown"
    },
    {
-    "bytes": 100505,
-    "file_count": 23,
+    "bytes": 135946,
+    "file_count": 124,
     "lines": {
-     "blank": 292,
-     "code": 2202,
-     "comment": 184,
+     "blank": 629,
+     "code": 3189,
+     "comment": 321,
      "shebang": 20,
-     "total": 2698
+     "total": 4159
     },
     "name": "Python"
    },
@@ -97,6 +97,18 @@
     "name": "C"
    },
    {
+    "bytes": 12837,
+    "file_count": 15,
+    "lines": {
+     "blank": 45,
+     "code": 305,
+     "comment": 11,
+     "shebang": 0,
+     "total": 361
+    },
+    "name": "TOML"
+   },
+   {
     "bytes": 10410,
     "file_count": 2,
     "lines": {
@@ -109,16 +121,16 @@
     "name": "JSON"
    },
    {
-    "bytes": 10145,
-    "file_count": 15,
+    "bytes": 7504,
+    "file_count": 14,
     "lines": {
-     "blank": 45,
-     "code": 273,
-     "comment": 11,
+     "blank": 4,
+     "code": 107,
+     "comment": 43,
      "shebang": 0,
-     "total": 329
+     "total": 154
     },
-    "name": "TOML"
+    "name": "Dockerfile"
    },
    {
     "bytes": 6670,
@@ -131,18 +143,6 @@
      "total": 147
     },
     "name": "C++"
-   },
-   {
-    "bytes": 6436,
-    "file_count": 9,
-    "lines": {
-     "blank": 4,
-     "code": 85,
-     "comment": 36,
-     "shebang": 0,
-     "total": 125
-    },
-    "name": "Dockerfile"
    },
    {
     "bytes": 1113,
@@ -174,14 +174,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 2550239,
-   "file_count": 318,
+   "bytes": 2597152,
+   "file_count": 424,
    "lines": {
-    "blank": 4093,
-    "code": 43441,
-    "comment": 5880,
+    "blank": 4455,
+    "code": 44604,
+    "comment": 6032,
     "shebang": 50,
-    "total": 53464
+    "total": 55141
    }
   }
  },

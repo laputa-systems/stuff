@@ -1,30 +1,30 @@
 {
- "commit": "e5d4a38a9979d5b80857905871398102cd50a411",
+ "commit": "b2f445b5ae361981becebc5a884f1597bb5f3435",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 62032128,
+    "bytes": 62033926,
     "file_count": 2898,
     "lines": {
      "blank": 10,
-     "code": 815638,
+     "code": 815665,
      "comment": 0,
      "shebang": 0,
-     "total": 815648
+     "total": 815675
     },
     "name": "JSON"
    },
    {
-    "bytes": 33772521,
-    "file_count": 1118,
+    "bytes": 33775561,
+    "file_count": 1120,
     "lines": {
-     "blank": 47236,
-     "code": 715214,
-     "comment": 47243,
+     "blank": 47245,
+     "code": 715274,
+     "comment": 47245,
      "shebang": 0,
-     "total": 809693
+     "total": 809764
     },
     "name": "Rust"
    },
@@ -53,7 +53,7 @@
     "name": "Python"
    },
    {
-    "bytes": 3065768,
+    "bytes": 3067787,
     "embedded": [
      {
       "lines": {
@@ -68,10 +68,10 @@
      {
       "lines": {
        "blank": 6,
-       "code": 572,
+       "code": 574,
        "comment": 0,
        "shebang": 0,
-       "total": 578
+       "total": 580
       },
       "name": "Bash"
      },
@@ -118,11 +118,11 @@
     ],
     "file_count": 238,
     "lines": {
-     "blank": 7208,
-     "code": 37356,
+     "blank": 7213,
+     "code": 37385,
      "comment": 131,
      "shebang": 0,
-     "total": 44695
+     "total": 44729
     },
     "name": "Markdown"
    },
@@ -334,14 +334,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 127183544,
-   "file_count": 8596,
+   "bytes": 127190401,
+   "file_count": 8598,
    "lines": {
-    "blank": 119897,
-    "code": 2189053,
-    "comment": 72899,
+    "blank": 119911,
+    "code": 2189169,
+    "comment": 72901,
     "shebang": 509,
-    "total": 2382358
+    "total": 2382490
    }
   }
  },

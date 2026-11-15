@@ -1,18 +1,18 @@
 {
- "commit": "b5978bfc99a1123d1ad6cc3ee8fccc3353e08be0",
+ "commit": "c5f0e26d946cbfd2518f87f73bb21be6a2edeeba",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 3730949,
+    "bytes": 3730695,
     "file_count": 480,
     "lines": {
      "blank": 5609,
-     "code": 61956,
+     "code": 61955,
      "comment": 59,
      "shebang": 0,
-     "total": 67624
+     "total": 67623
     },
     "name": "TypeScript"
    },
@@ -41,7 +41,7 @@
     "name": "JSON"
    },
    {
-    "bytes": 489726,
+    "bytes": 497665,
     "embedded": [
      {
       "lines": {
@@ -84,13 +84,13 @@
       "name": "JSON"
      }
     ],
-    "file_count": 32,
+    "file_count": 33,
     "lines": {
-     "blank": 1199,
-     "code": 6287,
+     "blank": 1224,
+     "code": 6389,
      "comment": 2,
      "shebang": 0,
-     "total": 7488
+     "total": 7615
     },
     "name": "Markdown"
    },
@@ -232,14 +232,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 18318560,
-   "file_count": 1049,
+   "bytes": 18326245,
+   "file_count": 1050,
    "lines": {
-    "blank": 8041,
-    "code": 141638,
+    "blank": 8066,
+    "code": 141739,
     "comment": 5837,
     "shebang": 30,
-    "total": 155546
+    "total": 155672
    }
   }
  },
