@@ -196,7 +196,7 @@ mod tests {
 
     fn project(requires_python: &str) -> String {
         format!(
-            "[project]\nrequires-python = \"{requires_python}\"\n\n[tool.mypypi.targets]\nplatforms = [\"linux-x86_64\", \"linux-aarch64\", \"macos-x86_64\", \"macos-arm64\"]\nlinux_repair_policy = \"manylinux_2_28\"\n"
+            "[project]\nrequires-python = \"{requires_python}\"\n\n[tool.mypypi.targets]\nplatforms = [\"linux-x86_64\", \"linux-aarch64\", \"macos-arm64\"]\nlinux_repair_policy = \"manylinux_2_28\"\n"
         )
     }
 

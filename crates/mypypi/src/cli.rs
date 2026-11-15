@@ -309,6 +309,9 @@ fn published_inventory(output: &Path, settings: &ProjectSettings) -> Result<FxHa
                 ));
             }
             let Some(expected) = known_map.get(target.platform.as_str()) else {
+                if crate::platforms::RETIRED_TARGETS.contains(&target.platform.as_str()) {
+                    continue;
+                }
                 return Err(Error::integrity(
                     format!("manifest target is not configured: {}", target.platform),
                     Stage::Planning,

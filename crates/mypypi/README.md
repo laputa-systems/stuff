@@ -26,7 +26,12 @@ compare them with the published wheel hashes after publishing.
 
 `stuff publish pypi` selects the glibc Linux targets `linux-x86_64` and
 `linux-aarch64`, the musl Linux targets `linux-musl-x86_64` and
-`linux-musl-aarch64`, and the macOS targets `macos-x86_64` and `macos-arm64`.
+`linux-musl-aarch64`, and the macOS target `macos-arm64`. macOS is supported
+on Apple silicon only; `macos-x86_64` is retired: never planned as a target,
+while manifest rows that record it stay served and are carried forward. The
+planner skips a retired recorded target instead of failing, so the live
+manifest needs no surgery; an unknown, never-configured target still fails
+planning.
 A glibc target accepts `manylinux_2_5` through `manylinux_2_28` tags (and their
 legacy aliases); a musl target accepts `musllinux_1_0` through `musllinux_1_2`
 and never a manylinux tag, so an Alpine host can install from the mirror only
@@ -249,7 +254,8 @@ linux_repair_policy = "manylinux_2_28"
 ```
 
 Platform names are `linux-x86_64`, `linux-aarch64`, `linux-musl-x86_64`,
-`linux-musl-aarch64`, `macos-x86_64`, and `macos-arm64`.
+`linux-musl-aarch64`, and `macos-arm64`. `macos-x86_64` is retired and never
+planned; a manifest that records it stays readable and is carried forward.
 
 The publisher writes that origin into the generation's `llms.txt`, so a
 deployment at another origin publishes pip instructions for its own index.
