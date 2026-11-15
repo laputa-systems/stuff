@@ -36,7 +36,7 @@ class BackupRecoveryTests(unittest.TestCase):
 
     def test_fence_checks_real_writer_containers(self):
         cfg = backup['oolib'].load()
-        for name in ('oo-engine', 'oo-store', cfg.orange_apps()[0].container):
+        for name in ('oo-engine', 'oo-store', cfg.orange_apps()[0].container, cfg.apps['tansu'].container):
             with self.subTest(name=name), patch.object(backup['oolib'], 'docker', return_value=SimpleNamespace(stdout=name + '\n')):
                 with self.assertRaisesRegex(RuntimeError, 'running writers'):
                     backup['assert_fenced'](cfg)
@@ -53,7 +53,7 @@ class BackupRecoveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR')) as directory:
             cfg.stack['state_dir'] = directory
             cfg.stack['run_dir'] = str(Path(directory) / 'run')
-            initially_up = {'oo-store', 'oo-engine', 'oo-identity', 'oo-ingress', 'oo-rivet', 'oo-platform', cfg.orange_apps()[0].service}
+            initially_up = {'oo-store', 'oo-engine', 'oo-identity', 'oo-ingress', 'oo-rivet', 'oo-platform', cfg.apps['tansu'].service, cfg.orange_apps()[0].service}
             running = set(initially_up)
             started = []
             handlers = {}

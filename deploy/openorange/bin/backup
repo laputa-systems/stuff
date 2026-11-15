@@ -47,7 +47,7 @@ def running(svc):
 
 
 def assert_fenced(cfg):
-    writers = {"oo-engine", "oo-store", *(app.container for app in cfg.orange_apps())}
+    writers = {"oo-engine", "oo-store", *(app.container for app in cfg.apps.values() if app.enabled)}
     result = oolib.docker("ps", "--format", "{{.Names}}")
     active = writers.intersection(result.stdout.splitlines())
     if active:
@@ -106,7 +106,7 @@ def main():
 
         out.mkdir(mode=0o700)
         copy_state(cfg, out, prev, fenced=False)
-        app_services = [app.service for app in cfg.orange_apps()]
+        app_services = [app.service for app in cfg.apps.values() if app.enabled]
         priority = [service for service in app_services if service == "oo-app.stats"]
         # Host agents spool for four minutes; reopen Stats before waiting for unrelated apps.
         services = ["oo-dns", "oo-store", "oo-engine", "oo-identity", *priority, "oo-ingress",
