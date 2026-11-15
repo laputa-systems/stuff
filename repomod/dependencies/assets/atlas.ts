@@ -723,6 +723,7 @@
       maxCameraRatio: 3,
       enableNodeDrag: false,
       stagePadding: 30,
+      label: { margin: 9 },
       antialiasEdges: false,
       antialiasNodes: false,
     },

@@ -24,7 +24,6 @@ impl World {
     fn new() -> Self {
         let platform = match (std::env::consts::OS, std::env::consts::ARCH) {
             ("macos", "aarch64") => "macos-arm64",
-            ("macos", "x86_64") => "macos-x86_64",
             ("linux", "x86_64") => "linux-x86_64",
             ("linux", "aarch64") => "linux-aarch64",
             other => panic!("unsupported host {other:?}"),

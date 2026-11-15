@@ -7,11 +7,15 @@ established, so the slop cannot return.
 
 ## Status
 
-- **State:** assurance hardening (decision 13) landed or is in review; broader dispatch waits for
-  the owner. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of scope (decision 12).
+- **State:** assurance hardening (decision 13) landed or is in review. The owner dispatched
+  diff-pretty, vault, and fz. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of
+  scope (decision 12).
 - **Method:** usr's `deslop` skill is the one procedure (usr#34, merged: pre-merge contract, consumer and
-  perf evidence, ticket revalidation, bounded component tasks; typing and mutation lessons). This
-  doc holds only scope, decisions, sequencing, and status.
+  perf evidence, ticket revalidation, bounded component tasks; typing and mutation lessons). usr#39
+  adds a `test-pyramid` audit before the Tests step's measurements, caps mutation at the Scenario
+  tier (a larger run needs the owner's request), and draws Types candidates from the
+  `refactor-python` and `refactor-ts` profiles. This doc holds only scope, decisions, sequencing,
+  and status.
 - **Repaired pilot defects:**
   - buildlib#8: `is_sha256` claimed `TypeIs[str]` but rejects most strings, so ty accepted a
     caller that raised `TypeError`. Now `TypeGuard[str]`, with a checker witness that fails lint
@@ -23,6 +27,8 @@ established, so the slop cannot return.
     instead of excluded: 21 more mutants, all caught. Two Content-Types that disagree with their
     registrations went to the owner (srv TODO-DESLOP).
   - buildlib#9: DSLP-9 no longer treats the open-ended `ELFHeader.kind` as a closed set.
+  - buildlib DSLP-10 done: node-build#15 dropped its never-firing ELF `is_64` check (with a test
+    that a 32-bit image still fails `elf-arch`), then buildlib#11 removed `elf_class` and `is_64`.
 - **Negative controls:**
   - srv#39: a failing test fails `CI`. srv#40: a test deletion plus an unrelated production
     change fails `mutants` with 19 missed. The old gate passed the same tree in 5s.
@@ -51,21 +57,19 @@ established, so the slop cannot return.
     `make test` red from setuid `ps` in `sandbox-exec`, DSLP-7).
   - stuff: Ground #11.
 - **Known red:**
-  - stuff `main` since 6257776: mycrates golden tests (`test_adopt`, `test_golden`) fail
-    deterministically. That blocks stuff#12.
   - ish, loc, and lz get new `gha-test-workflow` findings for container-wrapped `make test` once
     stuff#12 lands.
   - oxish upstream workflows, and tm's flaky macOS test.
-- **Next justified dispatch batch:** diff-pretty, vault, and fz: tier-A Rust tools under 10k
-  lines with no hardware or setuid boundary, where the qualified srv recipe applies unchanged. Hold
-  Python and TypeScript mutation steps until their lanes qualify (STUF-83 mirrored the tools). Those repos may still
-  run Ground, Diagnose, Types, and Dead code.
+- **Dispatched batch** (diff-pretty, vault, fz; tier-A Rust under 10k lines):
+  - Ground, Diagnose, and Types are merged in all three, except diff-pretty's Types PR #26
+    (`FilteredState`), which waits for its perf gate on an idle host.
+  - fz and vault are in the Tests step. Their mutation runs are serialized on one host lock, with
+    each run sized to the Scenario budget.
+  - Python and TypeScript mutation steps wait until their lanes qualify (STUF-83 mirrored the
+    tools); those repos may still run Ground, Diagnose, Types, and Dead code.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
-  1. Fix stuff `main`'s mycrates golden red (6257776 onward), then merge stuff#12.
-  2. Approve dispatch of the batch above.
-  3. Owner tickets: buildlib DSLP-10 (the ELF `is_64` walk-back), and srv's Content-Type rows.
-  4. toolbox: fix Actions billing to bring it back in scope.
+  1. toolbox: fix Actions billing to bring it back in scope.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` The
   next slices are loc's sharded lane under `cpu-guard`, then STUF-84's fixers once stuff#12 lands.
 

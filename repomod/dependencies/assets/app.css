@@ -246,3 +246,4 @@ p.zero, p.unknown { margin: 0; padding: var(--ui-inset); }
 .weight-static:hover { background: transparent; }
 .ui-notice:not(.ui-notice-warn, .ui-notice-bad, .ui-notice-ok) { background: transparent; box-shadow: inset 0 0 0 1px var(--ui-line); color: var(--ui-text-2); }
 .ui-main { min-height: 0; align-self: start; }
+#upgrades .ui-data-table { min-width: 0; }

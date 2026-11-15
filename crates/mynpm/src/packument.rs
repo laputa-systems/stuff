@@ -3,7 +3,7 @@
 use crate::error::{Error, Result};
 use crate::inventory::{canonical_json, validate_artifact_record, ArtifactRecord, MetadataOnlyRecord};
 
-pub const RENDERER_VERSION: u32 = 7;
+pub const RENDERER_VERSION: u32 = 8;
 
 #[derive(Debug, Clone)]
 pub struct PackumentFile {
@@ -52,10 +52,13 @@ fn latest_snapshot(records: &[ArtifactRecord]) -> Result<&ArtifactRecord> {
         .ok_or_else(|| Error::Corrupt("packument has no versions".to_string()))
 }
 
-fn packument_modified(record: &ArtifactRecord) -> String {    record
+fn packument_modified(record: &ArtifactRecord) -> String {
+    record
         .packument
         .as_map()
-        .and_then(|m| m.get("modified"))
+        .and_then(|m| m.get("time"))
+        .and_then(|v| v.as_map())
+        .and_then(|m| m.get("modified").or_else(|| m.get("created")))
         .and_then(|v| v.as_str())
         .unwrap_or("")
         .to_string()
@@ -286,7 +289,7 @@ pub fn render_packument_files(
     renderer: Option<u32>,
 ) -> Result<Vec<PackumentFile>> {
     let renderer = renderer.unwrap_or(RENDERER_VERSION);
-    if !(1..=7).contains(&renderer) {
+    if !(1..=RENDERER_VERSION).contains(&renderer) {
         return Err(Error::Input(format!("unsupported renderer version: {renderer}")));
     }
     if renderer < 6 && !metadata_only.is_empty() {
@@ -349,7 +352,7 @@ pub fn render_packument_files(
 mod tests {
     use super::*;
 
-    fn serde_json_like(name: &str, version: &str, sha512: &str) -> deser_value::Value {
+    fn serde_json_like_with_time(name: &str, version: &str, sha512: &str, modified: &str) -> deser_value::Value {
         use base64::Engine;
         let raw: Vec<u8> = (0..sha512.len())
             .step_by(2)
@@ -360,9 +363,13 @@ mod tests {
             base64::engine::general_purpose::STANDARD.encode(&raw)
         );
         let text = format!(
-            "{{\"name\":\"{name}\",\"version\":\"{version}\",\"packument\":{{\"name\":\"{name}\",\"dist-tags\":{{\"latest\":\"{version}\"}},\"time\":{{\"modified\":\"2026-01-01T00:00:00.000Z\"}}}},\"metadata\":{{\"name\":\"{name}\",\"version\":\"{version}\",\"dist\":{{\"tarball\":\"https://registry.npmjs.org/{name}/-/{version}.tgz\"}}}},\"artifact\":{{\"sha512\":\"{sha512}\",\"integrity\":\"{integrity}\",\"shasum\":null,\"sourceUrl\":\"https://registry.npmjs.org/{name}/-/{version}.tgz\",\"legacySha1Only\":false}}}}"
+            "{{\"name\":\"{name}\",\"version\":\"{version}\",\"packument\":{{\"name\":\"{name}\",\"dist-tags\":{{\"latest\":\"{version}\"}},\"time\":{{\"created\":\"2026-01-01T00:00:00.000Z\",\"modified\":\"{modified}\",\"{version}\":\"{modified}\"}}}},\"metadata\":{{\"name\":\"{name}\",\"version\":\"{version}\",\"dist\":{{\"tarball\":\"https://registry.npmjs.org/{name}/-/{version}.tgz\"}}}},\"artifact\":{{\"sha512\":\"{sha512}\",\"integrity\":\"{integrity}\",\"shasum\":null,\"sourceUrl\":\"https://registry.npmjs.org/{name}/-/{version}.tgz\",\"legacySha1Only\":false}}}}"
         );
         deser_json::from_str(&text).unwrap()
+    }
+
+    fn serde_json_like(name: &str, version: &str, sha512: &str) -> deser_value::Value {
+        serde_json_like_with_time(name, version, sha512, "2026-01-01T00:00:00.000Z")
     }
 
     #[test]
@@ -378,6 +385,22 @@ mod tests {
         let text = String::from_utf8(scoped_file.bytes.clone()).unwrap();
         assert!(text.contains(&format!("https://example.test/mirror/current/-/tarballs/{zeros}.tgz")));
         assert!(text.ends_with('\n'));
+    }
+
+    #[test]
+    fn latest_tag_follows_time_modified_not_canonical_order() {
+        let zeros = "0".repeat(128);
+        let first = serde_json_like_with_time("pkg", "0.9.1", &zeros, "2026-01-10T15:40:36.886Z");
+        let second = serde_json_like_with_time("pkg", "0.10.0", &zeros, "2026-02-10T15:58:25.875Z");
+        let third = serde_json_like_with_time("pkg", "0.11.3", &zeros, "2026-11-15T16:52:05.234Z");
+        let files = render_packument_files(&[first, second, third], &[], "https://example.test/mirror/", None).unwrap();
+        let text = String::from_utf8(files[0].bytes.clone()).unwrap();
+        let packument: deser_value::Value = deser_json::from_str(&text).unwrap();
+        let map = packument.as_map().unwrap();
+        let tags = map.get("dist-tags").unwrap().as_map().unwrap();
+        assert_eq!(tags.get("latest").unwrap().as_str().unwrap(), "0.11.3");
+        let time = map.get("time").unwrap().as_map().unwrap();
+        assert_eq!(time.get("modified").unwrap().as_str().unwrap(), "2026-11-15T16:52:05.234Z");
     }
 
     #[test]
