@@ -24,7 +24,6 @@ case "$(uname -s)-$(uname -m)" in
   Linux-x86_64) PLATFORM=linux-x86_64 ;;
   Linux-aarch64|Linux-arm64) PLATFORM=linux-aarch64 ;;
   Darwin-arm64) PLATFORM=macos-arm64 ;;
-  Darwin-x86_64) PLATFORM=macos-x86_64 ;;
   *) fail "unsupported host $(uname -s)-$(uname -m)" ;;
 esac
 
