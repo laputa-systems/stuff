@@ -10,6 +10,7 @@ stuff holds the infrastructure for every repository its owner maintains:
   for fixes, releases binaries, and keeps the dependency inventory in `fleet/dependencies/` with its
   dashboard. `fleet/policy/` holds its policy data and `docker/musl/` the fleet's musl toolchain
   image.
+- **OpenOrange** (`deploy/openorange/`): the shared host runtime, ingress, storage, and recovery tools.
 
 ## Commands
 
@@ -42,6 +43,7 @@ Run everything from the repository root.
 | OCI CLI, server, writer, benchmarks | [crates/myoci/README.md](crates/myoci/README.md) |
 | OCI benchmark results and the direct blob origin (A11) | [docs/oci-benchmarks.md](docs/oci-benchmarks.md), [docs/oci-a11.md](docs/oci-a11.md) |
 | Worker host, WASM build, runtime tests | [crates/stuff-worker/README.md](crates/stuff-worker/README.md) |
+| OpenOrange host stack, ingress, deployment, and recovery | [docs/openorange-runtime.md](docs/openorange-runtime.md) |
 | Shared storage and generation activation | `crates/stuff-store/src/`; `Site` is used by myoci, while mynpm/mypypi activate their own sites |
 | Shared HTTP policy and native adapter | `crates/stuff-http/src/`, `crates/stuff-server/src/` |
 | Catalog rendering and search | `crates/stuff-catalog/src/`, `crates/stuff-catalog/web/` |
@@ -57,7 +59,7 @@ Run everything from the repository root.
 | Tracked dependency model and extraction | [docs/dependency-inventory.md](docs/dependency-inventory.md) |
 | Dependency dashboard, owners, mirror coverage, browser checks, benchmarks | [docs/dependency-dashboard.md](docs/dependency-dashboard.md) |
 | Repository layout used by repomod | `repomod/paths.py` |
-| Checkout removal contract | [docs/rfc/RPMD-74-checkout-removal.md](docs/rfc/RPMD-74-checkout-removal.md) |
+| Checkout removal contract | [docs/fleet-design.md#checkout-removal](docs/fleet-design.md#checkout-removal) |
 | Campaign records | [docs/campaigns/](docs/campaigns/) |
 | Deferred fixes | [TODO.md](TODO.md) |
 
@@ -70,7 +72,7 @@ Run everything from the repository root.
 - Keep npm lifecycle scripts disabled during acquisition and validation; retain native-target execution checks for wheels.
 - Preserve published generation readability; format contracts belong in the owning registry docs.
 - Keep fixtures while parity consumers use them, including the executable examples in `crates/mycrates/README.md`.
-- Keep `crates/h12tiny-*` sources byte-identical to the imported `dcdf4f2` (the h12tiny roll-up preserves that history under `laputa-systems/smolith`); change upstream before updating the import.
+- stuff depends on the published `h12tiny-*` crates from upstream; change upstream (laputa-systems/smolith) and publish before stuff needs a newer h12tiny.
 - The registries must stay buildable when their own package registries are unavailable: Cargo, npm,
   and PyPI dependencies of the registry crates resolve from upstream, not from stuff. The catalog
   exempts stuff from repomod's `registry-sources` rule for this reason. The one exception is

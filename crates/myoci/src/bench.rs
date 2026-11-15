@@ -47,7 +47,7 @@ impl HttpResponse {
 }
 
 fn client() -> Client {
-    Client::builder().connect_timeout(CONNECT_TIMEOUT).build()
+    Client::builder().connect_timeout(CONNECT_TIMEOUT).expect("non-zero connect timeout").build()
 }
 
 fn request(

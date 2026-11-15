@@ -379,6 +379,24 @@
    "purl": "pkg:cargo/graviola"
   },
   {
+   "display_name": "h12tiny-client-normalize",
+   "ecosystem": "cargo",
+   "name": "h12tiny-client-normalize",
+   "purl": "pkg:cargo/h12tiny-client-normalize"
+  },
+  {
+   "display_name": "h12tiny-client-sync",
+   "ecosystem": "cargo",
+   "name": "h12tiny-client-sync",
+   "purl": "pkg:cargo/h12tiny-client-sync"
+  },
+  {
+   "display_name": "h12tiny-tls-system",
+   "ecosystem": "cargo",
+   "name": "h12tiny-tls-system",
+   "purl": "pkg:cargo/h12tiny-tls-system"
+  },
+  {
    "display_name": "hashbrown",
    "ecosystem": "cargo",
    "name": "hashbrown",
@@ -1165,24 +1183,6 @@
    "purl": "pkg:github/pnpm/setup"
   },
   {
-   "display_name": "h12tiny-client-normalize",
-   "ecosystem": "local",
-   "name": "h12tiny-client-normalize",
-   "purl": "pkg:local/h12tiny-client-normalize"
-  },
-  {
-   "display_name": "h12tiny-client-sync",
-   "ecosystem": "local",
-   "name": "h12tiny-client-sync",
-   "purl": "pkg:local/h12tiny-client-sync"
-  },
-  {
-   "display_name": "h12tiny-tls-system",
-   "ecosystem": "local",
-   "name": "h12tiny-tls-system",
-   "purl": "pkg:local/h12tiny-tls-system"
-  },
-  {
    "display_name": "mymirror",
    "ecosystem": "local",
    "name": "mymirror",
@@ -1567,6 +1567,12 @@
    "purl": "pkg:npm/%40esbuild/aix-ppc64"
   },
   {
+   "display_name": "@esbuild/aix-ppc64",
+   "ecosystem": "npm",
+   "name": "@esbuild/aix-ppc64",
+   "purl": "pkg:npm/%40esbuild/aix-ppc64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/android-arm",
    "ecosystem": "npm",
    "name": "@esbuild/android-arm",
@@ -1579,10 +1585,28 @@
    "purl": "pkg:npm/%40esbuild/android-arm64"
   },
   {
+   "display_name": "@esbuild/android-arm64",
+   "ecosystem": "npm",
+   "name": "@esbuild/android-arm64",
+   "purl": "pkg:npm/%40esbuild/android-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
+   "display_name": "@esbuild/android-arm",
+   "ecosystem": "npm",
+   "name": "@esbuild/android-arm",
+   "purl": "pkg:npm/%40esbuild/android-arm?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/android-x64",
    "ecosystem": "npm",
    "name": "@esbuild/android-x64",
    "purl": "pkg:npm/%40esbuild/android-x64"
+  },
+  {
+   "display_name": "@esbuild/android-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/android-x64",
+   "purl": "pkg:npm/%40esbuild/android-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/darwin-arm64",
@@ -1591,10 +1615,22 @@
    "purl": "pkg:npm/%40esbuild/darwin-arm64"
   },
   {
+   "display_name": "@esbuild/darwin-arm64",
+   "ecosystem": "npm",
+   "name": "@esbuild/darwin-arm64",
+   "purl": "pkg:npm/%40esbuild/darwin-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/darwin-x64",
    "ecosystem": "npm",
    "name": "@esbuild/darwin-x64",
    "purl": "pkg:npm/%40esbuild/darwin-x64"
+  },
+  {
+   "display_name": "@esbuild/darwin-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/darwin-x64",
+   "purl": "pkg:npm/%40esbuild/darwin-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/freebsd-arm64",
@@ -1603,10 +1639,22 @@
    "purl": "pkg:npm/%40esbuild/freebsd-arm64"
   },
   {
+   "display_name": "@esbuild/freebsd-arm64",
+   "ecosystem": "npm",
+   "name": "@esbuild/freebsd-arm64",
+   "purl": "pkg:npm/%40esbuild/freebsd-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/freebsd-x64",
    "ecosystem": "npm",
    "name": "@esbuild/freebsd-x64",
    "purl": "pkg:npm/%40esbuild/freebsd-x64"
+  },
+  {
+   "display_name": "@esbuild/freebsd-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/freebsd-x64",
+   "purl": "pkg:npm/%40esbuild/freebsd-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/linux-arm",
@@ -1621,10 +1669,28 @@
    "purl": "pkg:npm/%40esbuild/linux-arm64"
   },
   {
+   "display_name": "@esbuild/linux-arm64",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-arm64",
+   "purl": "pkg:npm/%40esbuild/linux-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
+   "display_name": "@esbuild/linux-arm",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-arm",
+   "purl": "pkg:npm/%40esbuild/linux-arm?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/linux-ia32",
    "ecosystem": "npm",
    "name": "@esbuild/linux-ia32",
    "purl": "pkg:npm/%40esbuild/linux-ia32"
+  },
+  {
+   "display_name": "@esbuild/linux-ia32",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-ia32",
+   "purl": "pkg:npm/%40esbuild/linux-ia32?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/linux-loong64",
@@ -1633,10 +1699,22 @@
    "purl": "pkg:npm/%40esbuild/linux-loong64"
   },
   {
+   "display_name": "@esbuild/linux-loong64",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-loong64",
+   "purl": "pkg:npm/%40esbuild/linux-loong64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/linux-mips64el",
    "ecosystem": "npm",
    "name": "@esbuild/linux-mips64el",
    "purl": "pkg:npm/%40esbuild/linux-mips64el"
+  },
+  {
+   "display_name": "@esbuild/linux-mips64el",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-mips64el",
+   "purl": "pkg:npm/%40esbuild/linux-mips64el?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/linux-ppc64",
@@ -1645,10 +1723,22 @@
    "purl": "pkg:npm/%40esbuild/linux-ppc64"
   },
   {
+   "display_name": "@esbuild/linux-ppc64",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-ppc64",
+   "purl": "pkg:npm/%40esbuild/linux-ppc64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/linux-riscv64",
    "ecosystem": "npm",
    "name": "@esbuild/linux-riscv64",
    "purl": "pkg:npm/%40esbuild/linux-riscv64"
+  },
+  {
+   "display_name": "@esbuild/linux-riscv64",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-riscv64",
+   "purl": "pkg:npm/%40esbuild/linux-riscv64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/linux-s390x",
@@ -1657,10 +1747,22 @@
    "purl": "pkg:npm/%40esbuild/linux-s390x"
   },
   {
+   "display_name": "@esbuild/linux-s390x",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-s390x",
+   "purl": "pkg:npm/%40esbuild/linux-s390x?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/linux-x64",
    "ecosystem": "npm",
    "name": "@esbuild/linux-x64",
    "purl": "pkg:npm/%40esbuild/linux-x64"
+  },
+  {
+   "display_name": "@esbuild/linux-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-x64",
+   "purl": "pkg:npm/%40esbuild/linux-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/netbsd-arm64",
@@ -1669,10 +1771,22 @@
    "purl": "pkg:npm/%40esbuild/netbsd-arm64"
   },
   {
+   "display_name": "@esbuild/netbsd-arm64",
+   "ecosystem": "npm",
+   "name": "@esbuild/netbsd-arm64",
+   "purl": "pkg:npm/%40esbuild/netbsd-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/netbsd-x64",
    "ecosystem": "npm",
    "name": "@esbuild/netbsd-x64",
    "purl": "pkg:npm/%40esbuild/netbsd-x64"
+  },
+  {
+   "display_name": "@esbuild/netbsd-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/netbsd-x64",
+   "purl": "pkg:npm/%40esbuild/netbsd-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/openbsd-arm64",
@@ -1681,10 +1795,22 @@
    "purl": "pkg:npm/%40esbuild/openbsd-arm64"
   },
   {
+   "display_name": "@esbuild/openbsd-arm64",
+   "ecosystem": "npm",
+   "name": "@esbuild/openbsd-arm64",
+   "purl": "pkg:npm/%40esbuild/openbsd-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/openbsd-x64",
    "ecosystem": "npm",
    "name": "@esbuild/openbsd-x64",
    "purl": "pkg:npm/%40esbuild/openbsd-x64"
+  },
+  {
+   "display_name": "@esbuild/openbsd-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/openbsd-x64",
+   "purl": "pkg:npm/%40esbuild/openbsd-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/openharmony-arm64",
@@ -1699,10 +1825,22 @@
    "purl": "pkg:npm/%40esbuild/sunos-x64"
   },
   {
+   "display_name": "@esbuild/sunos-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/sunos-x64",
+   "purl": "pkg:npm/%40esbuild/sunos-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/win32-arm64",
    "ecosystem": "npm",
    "name": "@esbuild/win32-arm64",
    "purl": "pkg:npm/%40esbuild/win32-arm64"
+  },
+  {
+   "display_name": "@esbuild/win32-arm64",
+   "ecosystem": "npm",
+   "name": "@esbuild/win32-arm64",
+   "purl": "pkg:npm/%40esbuild/win32-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@esbuild/win32-ia32",
@@ -1711,10 +1849,22 @@
    "purl": "pkg:npm/%40esbuild/win32-ia32"
   },
   {
+   "display_name": "@esbuild/win32-ia32",
+   "ecosystem": "npm",
+   "name": "@esbuild/win32-ia32",
+   "purl": "pkg:npm/%40esbuild/win32-ia32?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "@esbuild/win32-x64",
    "ecosystem": "npm",
    "name": "@esbuild/win32-x64",
    "purl": "pkg:npm/%40esbuild/win32-x64"
+  },
+  {
+   "display_name": "@esbuild/win32-x64",
+   "ecosystem": "npm",
+   "name": "@esbuild/win32-x64",
+   "purl": "pkg:npm/%40esbuild/win32-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "@google/genai",
@@ -2905,6 +3055,12 @@
    "purl": "pkg:npm/esbuild"
   },
   {
+   "display_name": "esbuild",
+   "ecosystem": "npm",
+   "name": "esbuild",
+   "purl": "pkg:npm/esbuild?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "event-target-shim",
    "ecosystem": "npm",
    "name": "event-target-shim",
@@ -2915,6 +3071,12 @@
    "ecosystem": "npm",
    "name": "events",
    "purl": "pkg:npm/events"
+  },
+  {
+   "display_name": "events",
+   "ecosystem": "npm",
+   "name": "events",
+   "purl": "pkg:npm/events?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "extend",
@@ -3011,6 +3173,24 @@
    "ecosystem": "npm",
    "name": "gopd",
    "purl": "pkg:npm/gopd"
+  },
+  {
+   "display_name": "graphology-types",
+   "ecosystem": "npm",
+   "name": "graphology-types",
+   "purl": "pkg:npm/graphology-types?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
+   "display_name": "graphology-utils",
+   "ecosystem": "npm",
+   "name": "graphology-utils",
+   "purl": "pkg:npm/graphology-utils?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
+   "display_name": "graphology",
+   "ecosystem": "npm",
+   "name": "graphology",
+   "purl": "pkg:npm/graphology?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
   },
   {
    "display_name": "has-symbols",
@@ -3523,6 +3703,12 @@
    "purl": "pkg:npm/side-channel-weakmap"
   },
   {
+   "display_name": "sigma",
+   "ecosystem": "npm",
+   "name": "sigma",
+   "purl": "pkg:npm/sigma?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F"
+  },
+  {
    "display_name": "sonic-boom",
    "ecosystem": "npm",
    "name": "sonic-boom",
@@ -3799,6 +3985,12 @@
    "purl": "pkg:service/orange-durable-object/COORDINATOR"
   },
   {
+   "display_name": "orange-namespace/agentctl/agentctl",
+   "ecosystem": "service",
+   "name": "orange-namespace/agentctl/agentctl",
+   "purl": "pkg:service/orange-namespace/agentctl/agentctl"
+  },
+  {
    "display_name": "orange-namespace/discover-preview/discover-preview",
    "ecosystem": "service",
    "name": "orange-namespace/discover-preview/discover-preview",
@@ -3811,6 +4003,12 @@
    "purl": "pkg:service/orange-namespace/discover/discover"
   },
   {
+   "display_name": "orange-namespace/nanoshop/nanoshop-storied",
+   "ecosystem": "service",
+   "name": "orange-namespace/nanoshop/nanoshop-storied",
+   "purl": "pkg:service/orange-namespace/nanoshop/nanoshop-storied"
+  },
+  {
    "display_name": "orange-namespace/stats/stats-prod",
    "ecosystem": "service",
    "name": "orange-namespace/stats/stats-prod",
@@ -3821,6 +4019,12 @@
    "ecosystem": "service",
    "name": "orange-namespace/stuff/stuff",
    "purl": "pkg:service/orange-namespace/stuff/stuff"
+  },
+  {
+   "display_name": "orange-private-host/agentctl/agentctl.17166969.xyz",
+   "ecosystem": "service",
+   "name": "orange-private-host/agentctl/agentctl.17166969.xyz",
+   "purl": "pkg:service/orange-private-host/agentctl/agentctl.17166969.xyz"
   },
   {
    "display_name": "orange-private-host/discover-preview/hq-preview-admin.17166969.xyz",
@@ -3857,6 +4061,18 @@
    "ecosystem": "service",
    "name": "orange-private-host/discover/research.17166969.xyz",
    "purl": "pkg:service/orange-private-host/discover/research.17166969.xyz"
+  },
+  {
+   "display_name": "orange-private-host/nanoshop/shop-admin.17166969.xyz",
+   "ecosystem": "service",
+   "name": "orange-private-host/nanoshop/shop-admin.17166969.xyz",
+   "purl": "pkg:service/orange-private-host/nanoshop/shop-admin.17166969.xyz"
+  },
+  {
+   "display_name": "orange-private-host/nanoshop/shop.17166969.xyz",
+   "ecosystem": "service",
+   "name": "orange-private-host/nanoshop/shop.17166969.xyz",
+   "purl": "pkg:service/orange-private-host/nanoshop/shop.17166969.xyz"
   },
   {
    "display_name": "orange-private-host/stats/stats-next.17166969.xyz",
@@ -3947,6 +4163,12 @@
    "ecosystem": "service",
    "name": "orange-public-host/discover/research.17166969.xyz",
    "purl": "pkg:service/orange-public-host/discover/research.17166969.xyz"
+  },
+  {
+   "display_name": "orange-public-host/nanoshop/shop.17166969.xyz",
+   "ecosystem": "service",
+   "name": "orange-public-host/nanoshop/shop.17166969.xyz",
+   "purl": "pkg:service/orange-public-host/nanoshop/shop.17166969.xyz"
   },
   {
    "display_name": "orange-public-host/stuff/crates-blobs.17166969.xyz",
@@ -4043,6 +4265,12 @@
    "ecosystem": "service",
    "name": "orange-r2/discover/discover-artifacts",
    "purl": "pkg:service/orange-r2/discover/discover-artifacts"
+  },
+  {
+   "display_name": "orange-r2/nanoshop/nanoshop-media-storied",
+   "ecosystem": "service",
+   "name": "orange-r2/nanoshop/nanoshop-media-storied",
+   "purl": "pkg:service/orange-r2/nanoshop/nanoshop-media-storied"
   },
   {
    "display_name": "orange-r2/stats/stats-exports",
@@ -4626,7 +4854,7 @@
   },
   {
    "condition": null,
-   "constraint": "v3.1.2",
+   "constraint": "v3.2.0",
    "evidence": [
     {
      "locator": "jobs.lint.steps[3].uses",
@@ -4637,10 +4865,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e",
+   "resolved_version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e#"
+   "to": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#"
   },
   {
    "condition": null,
@@ -4677,292 +4905,6 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.5.0",
-   "evidence": [
-    {
-     "locator": "dependencies.http",
-     "path": "crates/h12tiny-client-normalize/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-client-normalize,version=0.6.0].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-client-normalize:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.5.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/http@1.5.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.5.0",
-   "evidence": [
-    {
-     "locator": "dependencies.http",
-     "path": "crates/h12tiny-client-sync/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-client-sync,version=0.6.0].dependencies[2]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-client-sync:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.5.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/http@1.5.0#"
-  },
-  {
-   "condition": "feature:tls",
-   "constraint": "0.4.0",
-   "evidence": [
-    {
-     "locator": "dependencies.rustls-graviola",
-     "path": "crates/h12tiny-client-sync/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-client-sync,version=0.6.0].dependencies[4]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-client-sync:cargo",
-   "optional": true,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "0.4.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/rustls-graviola@0.4.0#"
-  },
-  {
-   "condition": "feature:tls",
-   "constraint": "0.103.16",
-   "evidence": [
-    {
-     "locator": "dependencies.rustls-webpki",
-     "path": "crates/h12tiny-client-sync/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-client-sync,version=0.6.0].dependencies[5]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-client-sync:cargo",
-   "optional": true,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "0.103.16",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/rustls-webpki@0.103.16#"
-  },
-  {
-   "condition": "feature:tls",
-   "constraint": "0.23.46",
-   "evidence": [
-    {
-     "locator": "dependencies.rustls",
-     "path": "crates/h12tiny-client-sync/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-client-sync,version=0.6.0].dependencies[3]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-client-sync:cargo",
-   "optional": true,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "0.23.46",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/rustls@0.23.46#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "dependencies.h12tiny-client-normalize",
-     "path": "crates/h12tiny-client-sync/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-client-sync,version=0.6.0].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-client-sync:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/h12tiny-client-normalize@0.6.0#"
-  },
-  {
-   "condition": "feature:tls",
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "dependencies.h12tiny-tls-system",
-     "path": "crates/h12tiny-client-sync/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-client-sync,version=0.6.0].dependencies[1]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-client-sync:cargo",
-   "optional": true,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/h12tiny-tls-system@0.6.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.23",
-   "evidence": [
-    {
-     "locator": "dependencies.base64",
-     "path": "crates/h12tiny-tls-system/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-tls-system,version=0.6.0].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-tls-system:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.23.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/base64@0.23.1#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.2",
-   "evidence": [
-    {
-     "locator": "dependencies.openssl-probe",
-     "path": "crates/h12tiny-tls-system/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-tls-system,version=0.6.0].dependencies[1]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-tls-system:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.2.2",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/openssl-probe@0.2.2#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.8.5",
-   "evidence": [
-    {
-     "locator": "dependencies.rustls-native-certs",
-     "path": "crates/h12tiny-tls-system/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-tls-system,version=0.6.0].dependencies[3]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-tls-system:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.8.5",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/rustls-native-certs@0.8.5#"
-  },
-  {
-   "condition": "cfg(target_vendor = \"apple\")",
-   "constraint": "0.7.1",
-   "evidence": [
-    {
-     "locator": "target.'cfg(target_vendor = \"apple\")'.dependencies.rustls-platform-verifier",
-     "path": "crates/h12tiny-tls-system/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-tls-system,version=0.6.0].dependencies[4]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-tls-system:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "0.7.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/rustls-platform-verifier@0.7.1#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.103.16",
-   "evidence": [
-    {
-     "locator": "dependencies.rustls-webpki",
-     "path": "crates/h12tiny-tls-system/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-tls-system,version=0.6.0].dependencies[5]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-tls-system:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.103.16",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/rustls-webpki@0.103.16#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.23.46",
-   "evidence": [
-    {
-     "locator": "dependencies.rustls",
-     "path": "crates/h12tiny-tls-system/Cargo.toml"
-    },
-    {
-     "locator": "package[name=h12tiny-tls-system,version=0.6.0].dependencies[2]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/h12tiny-tls-system:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.23.46",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/rustls@0.23.46#"
   },
   {
    "condition": null,
@@ -5051,6 +4993,28 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/flate2@1.1.11#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.9.0",
+   "evidence": [
+    {
+     "locator": "dependencies.h12tiny-client-sync",
+     "path": "crates/mymirror/Cargo.toml"
+    },
+    {
+     "locator": "package[name=mymirror,version=0.1.0].dependencies[4]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/mymirror:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/h12tiny-client-sync@0.9.0#"
   },
   {
    "condition": null,
@@ -5161,28 +5125,6 @@
    "scope": "dev",
    "source_kind": "registry",
    "to": "pkg:cargo/tempfile@3.27.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "dependencies.h12tiny-client-sync",
-     "path": "crates/mymirror/Cargo.toml"
-    },
-    {
-     "locator": "package[name=mymirror,version=0.1.0].dependencies[4]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/mymirror:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/h12tiny-client-sync@0.6.0#"
   },
   {
    "condition": null,
@@ -5340,6 +5282,28 @@
   },
   {
    "condition": null,
+   "constraint": "0.9.0",
+   "evidence": [
+    {
+     "locator": "dependencies.h12tiny-client-sync",
+     "path": "crates/mynpm/Cargo.toml"
+    },
+    {
+     "locator": "package[name=mynpm,version=0.1.0].dependencies[6]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/mynpm:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/h12tiny-client-sync@0.9.0#"
+  },
+  {
+   "condition": null,
    "constraint": "2.1.3",
    "evidence": [
     {
@@ -5469,28 +5433,6 @@
    "scope": "dev",
    "source_kind": "registry",
    "to": "pkg:cargo/tempfile@3.27.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "dependencies.h12tiny-client-sync",
-     "path": "crates/mynpm/Cargo.toml"
-    },
-    {
-     "locator": "package[name=mynpm,version=0.1.0].dependencies[6]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/mynpm:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/h12tiny-client-sync@0.6.0#"
   },
   {
    "condition": null,
@@ -5626,6 +5568,28 @@
   },
   {
    "condition": null,
+   "constraint": "0.9.0",
+   "evidence": [
+    {
+     "locator": "dependencies.h12tiny-client-sync",
+     "path": "crates/myoci/Cargo.toml"
+    },
+    {
+     "locator": "package[name=myoci,version=0.1.0].dependencies[3]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/myoci:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/h12tiny-client-sync@0.9.0#"
+  },
+  {
+   "condition": null,
    "constraint": "1",
    "evidence": [
     {
@@ -5711,28 +5675,6 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/toml_edit@0.25.19%2Bspec-1.1.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "dependencies.h12tiny-client-sync",
-     "path": "crates/myoci/Cargo.toml"
-    },
-    {
-     "locator": "package[name=myoci,version=0.1.0].dependencies[3]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/myoci:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/h12tiny-client-sync@0.6.0#"
   },
   {
    "condition": null,
@@ -5912,6 +5854,28 @@
   },
   {
    "condition": null,
+   "constraint": "0.9.0",
+   "evidence": [
+    {
+     "locator": "dependencies.h12tiny-client-sync",
+     "path": "crates/mypypi/Cargo.toml"
+    },
+    {
+     "locator": "package[name=mypypi,version=0.1.0].dependencies[4]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/mypypi:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/h12tiny-client-sync@0.9.0#"
+  },
+  {
+   "condition": null,
    "constraint": "0.7",
    "evidence": [
     {
@@ -6041,28 +6005,6 @@
    "scope": "dev",
    "source_kind": "registry",
    "to": "pkg:cargo/tempfile@3.27.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "dependencies.h12tiny-client-sync",
-     "path": "crates/mypypi/Cargo.toml"
-    },
-    {
-     "locator": "package[name=mypypi,version=0.1.0].dependencies[4]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/mypypi:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/h12tiny-client-sync@0.6.0#"
   },
   {
    "condition": null,
@@ -7328,6 +7270,28 @@
   },
   {
    "condition": null,
+   "constraint": "0.9.0",
+   "evidence": [
+    {
+     "locator": "dependencies.h12tiny-client-sync",
+     "path": "crates/stuff/Cargo.toml"
+    },
+    {
+     "locator": "package[name=stuff,version=0.1.0].dependencies[5]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/stuff:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/h12tiny-client-sync@0.9.0#"
+  },
+  {
+   "condition": null,
    "constraint": "0.13",
    "evidence": [
     {
@@ -7501,28 +7465,6 @@
    "scope": "dev",
    "source_kind": "registry",
    "to": "pkg:cargo/tempfile@3.27.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "dependencies.h12tiny-client-sync",
-     "path": "crates/stuff/Cargo.toml"
-    },
-    {
-     "locator": "package[name=stuff,version=0.1.0].dependencies[5]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "crates/stuff:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/h12tiny-client-sync@0.6.0#"
   },
   {
    "condition": null,
@@ -7814,6 +7756,60 @@
   },
   {
    "condition": null,
+   "constraint": "sha256:5df79989ed685e09f0a98019db4cebfb22fb9df1a53c0161664a011f7ff6b0f1",
+   "evidence": [
+    {
+     "locator": "L1",
+     "path": "deploy/openorange/platform/Dockerfile"
+    }
+   ],
+   "from": "deploy/openorange/platform:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "26.13.1-bookworm-slim",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/library/node@26.13.1-bookworm-slim?digest=sha256%3A5df79989ed685e09f0a98019db4cebfb22fb9df1a53c0161664a011f7ff6b0f1#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:5862d971d1f0ae26b258cefa4e893556b1d3aba81bd2ff30888704ad378bab67",
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "deploy/openorange/rivet/Dockerfile"
+    }
+   ],
+   "from": "deploy/openorange/rivet:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.14-alpine",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/library/python@3.14-alpine?digest=sha256%3A5862d971d1f0ae26b258cefa4e893556b1d3aba81bd2ff30888704ad378bab67#"
+  },
+  {
+   "condition": null,
+   "constraint": "agentctl",
+   "evidence": [
+    {
+     "locator": "apps.agentctl.namespace",
+     "path": "deploy/openorange/apps.toml"
+    }
+   ],
+   "from": "deploy/openorange:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "service",
+   "source_kind": "registry",
+   "to": "pkg:service/orange-namespace/agentctl/agentctl#"
+  },
+  {
+   "condition": null,
    "constraint": "discover-preview",
    "evidence": [
     {
@@ -7850,6 +7846,24 @@
   },
   {
    "condition": null,
+   "constraint": "nanoshop-storied",
+   "evidence": [
+    {
+     "locator": "apps.nanoshop.namespace",
+     "path": "deploy/openorange/apps.toml"
+    }
+   ],
+   "from": "deploy/openorange:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "service",
+   "source_kind": "registry",
+   "to": "pkg:service/orange-namespace/nanoshop/nanoshop-storied#"
+  },
+  {
+   "condition": null,
    "constraint": "stats-prod",
    "evidence": [
     {
@@ -7883,6 +7897,24 @@
    "scope": "service",
    "source_kind": "registry",
    "to": "pkg:service/orange-namespace/stuff/stuff#"
+  },
+  {
+   "condition": null,
+   "constraint": "agentctl.17166969.xyz",
+   "evidence": [
+    {
+     "locator": "apps.agentctl.hostnames[0]",
+     "path": "deploy/openorange/apps.toml"
+    }
+   ],
+   "from": "deploy/openorange:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "service",
+   "source_kind": "registry",
+   "to": "pkg:service/orange-private-host/agentctl/agentctl.17166969.xyz#"
   },
   {
    "condition": null,
@@ -7991,6 +8023,42 @@
    "scope": "service",
    "source_kind": "registry",
    "to": "pkg:service/orange-private-host/discover/research.17166969.xyz#"
+  },
+  {
+   "condition": null,
+   "constraint": "shop-admin.17166969.xyz",
+   "evidence": [
+    {
+     "locator": "apps.nanoshop.hostnames[1]",
+     "path": "deploy/openorange/apps.toml"
+    }
+   ],
+   "from": "deploy/openorange:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "service",
+   "source_kind": "registry",
+   "to": "pkg:service/orange-private-host/nanoshop/shop-admin.17166969.xyz#"
+  },
+  {
+   "condition": null,
+   "constraint": "shop.17166969.xyz",
+   "evidence": [
+    {
+     "locator": "apps.nanoshop.hostnames[0]",
+     "path": "deploy/openorange/apps.toml"
+    }
+   ],
+   "from": "deploy/openorange:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "service",
+   "source_kind": "registry",
+   "to": "pkg:service/orange-private-host/nanoshop/shop.17166969.xyz#"
   },
   {
    "condition": null,
@@ -8264,6 +8332,24 @@
   },
   {
    "condition": null,
+   "constraint": "shop.17166969.xyz",
+   "evidence": [
+    {
+     "locator": "apps.nanoshop.public_hostnames[0]",
+     "path": "deploy/openorange/apps.toml"
+    }
+   ],
+   "from": "deploy/openorange:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "service",
+   "source_kind": "registry",
+   "to": "pkg:service/orange-public-host/nanoshop/shop.17166969.xyz#"
+  },
+  {
+   "condition": null,
    "constraint": "crates-blobs.17166969.xyz",
    "evidence": [
     {
@@ -8441,6 +8527,24 @@
    "scope": "service",
    "source_kind": "registry",
    "to": "pkg:service/orange-r2/discover/discover-artifacts#"
+  },
+  {
+   "condition": null,
+   "constraint": "nanoshop-media-storied",
+   "evidence": [
+    {
+     "locator": "apps.nanoshop.buckets[0]",
+     "path": "deploy/openorange/apps.toml"
+    }
+   ],
+   "from": "deploy/openorange:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "service",
+   "source_kind": "registry",
+   "to": "pkg:service/orange-r2/nanoshop/nanoshop-media-storied#"
   },
   {
    "condition": null,
@@ -10349,6 +10453,258 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/getrandom@0.4.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-client-normalize,version=0.9.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-client-normalize@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.5.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/http@1.5.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-client-sync,version=0.9.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-client-sync@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/h12tiny-client-normalize@0.9.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-client-sync,version=0.9.0].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-client-sync@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/h12tiny-tls-system@0.9.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-client-sync,version=0.9.0].dependencies[2]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-client-sync@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.5.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/http@1.5.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-client-sync,version=0.9.0].dependencies[4]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-client-sync@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.4.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustls-graviola@0.4.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-client-sync,version=0.9.0].dependencies[5]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-client-sync@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.103.16",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustls-webpki@0.103.16#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-client-sync,version=0.9.0].dependencies[3]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-client-sync@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.23.46",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustls@0.23.46#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-tls-system,version=0.9.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.23.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/base64@0.23.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-tls-system,version=0.9.0].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.2",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/openssl-probe@0.2.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-tls-system,version=0.9.0].dependencies[2]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.1.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustc-hash@2.1.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-tls-system,version=0.9.0].dependencies[4]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.8.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustls-native-certs@0.8.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-tls-system,version=0.9.0].dependencies[5]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.7.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustls-platform-verifier@0.7.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-tls-system,version=0.9.0].dependencies[6]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.103.16",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustls-webpki@0.103.16#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=h12tiny-tls-system,version=0.9.0].dependencies[3]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.23.46",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustls@0.23.46#"
   },
   {
    "condition": null,
@@ -20234,6 +20590,456 @@
   },
   {
    "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/aix-ppc64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/aix-ppc64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/android-arm64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/android-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/android-arm'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/android-arm@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/android-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/android-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/darwin-arm64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/darwin-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/darwin-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/darwin-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/freebsd-arm64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/freebsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/freebsd-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/freebsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-arm64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-arm'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-arm@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-ia32'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-ia32@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-loong64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-loong64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-mips64el'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-mips64el@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-ppc64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-ppc64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-riscv64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-riscv64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-s390x'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-s390x@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/linux-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/linux-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/netbsd-arm64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/netbsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/netbsd-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/netbsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/openbsd-arm64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/openbsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/openbsd-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/openbsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/sunos-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/sunos-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/win32-arm64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/win32-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/win32-ia32'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/win32-ia32@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/esbuild'].optionalDependencies.'@esbuild/win32-x64'",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40esbuild/win32-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
    "constraint": null,
    "evidence": [
     {
@@ -21761,6 +22567,60 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:npm/jws@4.0.1#"
+  },
+  {
+   "condition": null,
+   "constraint": ">=0.23.0",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/graphology-utils'].peerDependencies.graphology-types",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/graphology-utils@2.5.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.8",
+   "scope": "peer",
+   "source_kind": "registry",
+   "to": "pkg:npm/graphology-types@0.24.8?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "^3.3.0",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/graphology'].dependencies.events",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/graphology@0.26.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "3.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/events@3.3.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": ">=0.24.0",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/graphology'].peerDependencies.graphology-types",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/graphology@0.26.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.24.8",
+   "scope": "peer",
+   "source_kind": "registry",
+   "to": "pkg:npm/graphology-types@0.24.8?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
   },
   {
    "condition": null,
@@ -26876,6 +27736,42 @@
   },
   {
    "condition": null,
+   "constraint": "^3.3.0",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/sigma'].dependencies.events",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/sigma@4.0.6?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "3.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/events@3.3.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "^2.5.2",
+   "evidence": [
+    {
+     "locator": "packages['node_modules/sigma'].dependencies.graphology-utils",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "pkg:npm/sigma@4.0.6?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.5.2",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/graphology-utils@2.5.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
    "constraint": null,
    "evidence": [
     {
@@ -28241,6 +29137,60 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:pypi/pygments@2.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.24.2",
+   "evidence": [
+    {
+     "locator": "packages[''].devDependencies.esbuild",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "tools/atlas-vendor:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.24.2",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.26.0",
+   "evidence": [
+    {
+     "locator": "packages[''].dependencies.graphology",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "tools/atlas-vendor:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.26.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/graphology@0.26.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": "4.0.6",
+   "evidence": [
+    {
+     "locator": "packages[''].dependencies.sigma",
+     "path": "tools/atlas-vendor/package-lock.json"
+    }
+   ],
+   "from": "tools/atlas-vendor:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "4.0.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/sigma@4.0.6?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#"
   }
  ],
  "inputs": [
@@ -28249,7 +29199,7 @@
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "b8f46b1eecee0e88126bf3dcf75ce07bf52c6086",
+   "blob": "6fecd7b154476370e781ca734b10d7439c0b9739",
    "path": ".github/workflows/lint.yml"
   },
   {
@@ -28261,43 +29211,31 @@
    "path": ".python-version"
   },
   {
-   "blob": "57b3d9f65ccb240817508ac5260de7bb90c09d8f",
+   "blob": "ce4683ca96aebb53dacb88380708fc4893f1e589",
    "path": "Cargo.lock"
   },
   {
-   "blob": "891b53300b56740ea35f1a732577420173fce752",
+   "blob": "aebde09ae5b1834f5da5ca53b73a08a3337ff62d",
    "path": "Cargo.toml"
   },
   {
-   "blob": "8efd93c947b2d384da69329c5119b7444df6c541",
+   "blob": "16435eb7778cf55e6e81b52f9443027a53eaacf5",
    "path": "Makefile"
   },
   {
-   "blob": "1bd28ccc438e88997124b53de976630efcff9601",
-   "path": "crates/h12tiny-client-normalize/Cargo.toml"
-  },
-  {
-   "blob": "368472fb71fe72ad54ff5f56007c7ceb7b8d71ff",
-   "path": "crates/h12tiny-client-sync/Cargo.toml"
-  },
-  {
-   "blob": "1166b15533e03ea07f35c9f4275605584daca0d7",
-   "path": "crates/h12tiny-tls-system/Cargo.toml"
-  },
-  {
-   "blob": "aa943ca0c2c9e898f5181342027d213085cde31e",
+   "blob": "da9ba5f41b35e1b0c04fcb3388766e96089f63f3",
    "path": "crates/mymirror/Cargo.toml"
   },
   {
-   "blob": "ec411f1a3b7ad0e83bc05eaff06af928b44a549f",
+   "blob": "3fccebf2e9d1284e34c633b0f0038a4fb232710d",
    "path": "crates/mynpm/Cargo.toml"
   },
   {
-   "blob": "60e894ba0c8c01ae94dd2fd0e01457d70b2d3f07",
+   "blob": "34340ed86c10e1a6385418ea0f7df46365d69e34",
    "path": "crates/myoci/Cargo.toml"
   },
   {
-   "blob": "f83e86836d71f0ba646155f9e56e12b372ce7106",
+   "blob": "2eec52b9313b88c805aac8e849cccdbec53a94da",
    "path": "crates/mypypi/Cargo.toml"
   },
   {
@@ -28349,7 +29287,7 @@
    "path": "crates/stuff-worker/orange/pnpm-lock.yaml"
   },
   {
-   "blob": "ee4cf51241ce8ccb1fab4c2a70f2535f63364393",
+   "blob": "ba3f93cb4b39d7141a0afcea8ef0b721e4024850",
    "path": "crates/stuff-worker/package.json"
   },
   {
@@ -28357,7 +29295,7 @@
    "path": "crates/stuff-worker/pnpm-lock.yaml"
   },
   {
-   "blob": "eabd53eff085b657fe9d77ecbcc2dba900bc516a",
+   "blob": "abee3a43d7461a08a8d7ad1050ba6bbe1b5da611",
    "path": "crates/stuff/Cargo.toml"
   },
   {
@@ -28365,7 +29303,7 @@
    "path": "deploy/mypypi-linux.Dockerfile"
   },
   {
-   "blob": "0ad4bac1805cc3e75eba19f08743f22805ce15fc",
+   "blob": "7338318da549799fd4a02410df0588d1ff6b029c",
    "path": "deploy/openorange/apps.toml"
   },
   {
@@ -28385,6 +29323,14 @@
    "path": "deploy/openorange/ingress/Dockerfile"
   },
   {
+   "blob": "a9cb6ad3b94256a1d6cd883856b5387aca59978d",
+   "path": "deploy/openorange/platform/Dockerfile"
+  },
+  {
+   "blob": "3889c5a71e8ee1e73b5b0aaff20aeaba7f405109",
+   "path": "deploy/openorange/rivet/Dockerfile"
+  },
+  {
    "blob": "61f2fc53cc7cf2a0d52835afa5ea1fbf75918c3d",
    "path": "docker/musl/Dockerfile"
   },
@@ -28401,11 +29347,19 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "afaf4b9dc8a3803afa6a01e5630b186e3b65bb3a",
+   "path": "tools/atlas-vendor/package-lock.json"
+  },
+  {
+   "blob": "06223f033deed0e8ad6831ab48404275ec315d14",
+   "path": "tools/atlas-vendor/package.json"
+  },
+  {
    "blob": "0548d81334d27124e3f79bb0e40054aeca43c3f2",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "113f94ff4bc2720b11a60caee4b898134f2af86a38a6af60f3174c78c95b7097",
+ "inputs_fingerprint": "bc8f235c1fdb69b13ee7c8cae122c36bbaf17241a0cca0f4fe56d0ba81d8e171",
  "instances": [
   {
    "commit": null,
@@ -29251,6 +30205,45 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.4.4"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/h12tiny-client-normalize",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/h12tiny-client-normalize@0.9.0#",
+   "purl": "pkg:cargo/h12tiny-client-normalize@0.9.0",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.9.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/h12tiny-client-sync",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/h12tiny-client-sync@0.9.0#",
+   "purl": "pkg:cargo/h12tiny-client-sync@0.9.0",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.9.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/h12tiny-tls-system",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/h12tiny-tls-system@0.9.0#",
+   "purl": "pkg:cargo/h12tiny-tls-system@0.9.0",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.9.0"
   },
   {
    "commit": null,
@@ -31021,56 +32014,17 @@
    "version": "73e46992e05b19abd31f2f3c20e0e7370d762115"
   },
   {
-   "commit": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e",
+   "commit": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
    "component": "pkg:github/pnpm/setup",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e#",
-   "purl": "pkg:github/pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e",
+   "id": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#",
+   "purl": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/pnpm/setup",
-   "version": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/h12tiny-client-normalize",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/h12tiny-client-normalize@0.6.0#",
-   "purl": "pkg:local/h12tiny-client-normalize@0.6.0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.6.0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/h12tiny-client-sync",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/h12tiny-client-sync@0.6.0#",
-   "purl": "pkg:local/h12tiny-client-sync@0.6.0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.6.0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/h12tiny-tls-system",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/h12tiny-tls-system@0.6.0#",
-   "purl": "pkg:local/h12tiny-tls-system@0.6.0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.6.0"
+   "version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1"
   },
   {
    "commit": null,
@@ -32088,6 +33042,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/aix-ppc64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/aix-ppc64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/aix-ppc64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/aix-ppc64",
    "context": "",
    "first_party": false,
@@ -32111,6 +33078,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/android-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/android-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/android-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32140,6 +33120,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/android-arm?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/android-arm@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/android-arm@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/android-arm",
    "context": "",
    "first_party": false,
@@ -32163,6 +33156,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/android-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/android-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/android-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32192,6 +33198,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/darwin-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/darwin-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/darwin-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/darwin-arm64",
    "context": "",
    "first_party": false,
@@ -32215,6 +33234,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/darwin-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/darwin-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/darwin-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32244,6 +33276,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/freebsd-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/freebsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/freebsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/freebsd-arm64",
    "context": "",
    "first_party": false,
@@ -32267,6 +33312,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/freebsd-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/freebsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/freebsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32296,6 +33354,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/linux-arm64",
    "context": "",
    "first_party": false,
@@ -32319,6 +33390,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-arm?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-arm@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-arm@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32348,6 +33432,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-ia32?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-ia32@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-ia32@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/linux-ia32",
    "context": "",
    "first_party": false,
@@ -32371,6 +33468,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-loong64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-loong64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-loong64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32400,6 +33510,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-mips64el?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-mips64el@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-mips64el@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/linux-mips64el",
    "context": "",
    "first_party": false,
@@ -32423,6 +33546,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-ppc64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-ppc64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-ppc64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32452,6 +33588,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-riscv64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-riscv64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-riscv64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/linux-riscv64",
    "context": "",
    "first_party": false,
@@ -32475,6 +33624,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-s390x?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-s390x@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-s390x@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32504,6 +33666,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/linux-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/linux-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/linux-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/linux-x64",
    "context": "",
    "first_party": false,
@@ -32527,6 +33702,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/netbsd-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/netbsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/netbsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32556,6 +33744,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/netbsd-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/netbsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/netbsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/netbsd-x64",
    "context": "",
    "first_party": false,
@@ -32582,6 +33783,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/openbsd-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/openbsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/openbsd-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/openbsd-arm64",
    "context": "",
    "first_party": false,
@@ -32605,6 +33819,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/openbsd-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/openbsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/openbsd-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32660,6 +33887,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/sunos-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/sunos-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/sunos-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/sunos-x64",
    "context": "",
    "first_party": false,
@@ -32683,6 +33923,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/win32-arm64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/win32-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/win32-arm64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -32712,6 +33965,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40esbuild/win32-ia32?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/win32-ia32@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/win32-ia32@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40esbuild/win32-ia32",
    "context": "",
    "first_party": false,
@@ -32735,6 +34001,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.28.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40esbuild/win32-x64?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40esbuild/win32-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/%40esbuild/win32-x64@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
   },
   {
    "commit": null,
@@ -35806,6 +37085,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/esbuild?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/esbuild@0.24.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.2"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/esbuild",
    "context": "",
    "first_party": false,
@@ -35852,6 +37144,19 @@
    "purl": "pkg:npm/events@3.3.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "3.3.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/events?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/events@3.3.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/events@3.3.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
    "source_kind": "registry",
    "vcs_url": null,
    "version": "3.3.0"
@@ -36115,6 +37420,45 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.2.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/graphology-types?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/graphology-types@0.24.8?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/graphology-types@0.24.8?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.24.8"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/graphology-utils?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/graphology-utils@2.5.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/graphology-utils@2.5.2?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "2.5.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/graphology?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/graphology@0.26.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/graphology@0.26.0?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.26.0"
   },
   {
    "commit": null,
@@ -37392,6 +38736,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/sigma?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/sigma@4.0.6?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F#",
+   "purl": "pkg:npm/sigma@4.0.6?repository_url=https%3A%2F%2Fsfw.security.sentry.io%2F",
+   "registry_url": "https://sfw.security.sentry.io/",
+   "repository_url": "https://sfw.security.sentry.io/",
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "4.0.6"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/sonic-boom",
    "context": "",
    "first_party": false,
@@ -38081,6 +39438,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:service/orange-namespace/agentctl/agentctl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:service/orange-namespace/agentctl/agentctl#",
+   "purl": "pkg:service/orange-namespace/agentctl/agentctl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:service/orange-namespace/discover-preview/discover-preview",
    "context": "",
    "first_party": false,
@@ -38107,6 +39477,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:service/orange-namespace/nanoshop/nanoshop-storied",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:service/orange-namespace/nanoshop/nanoshop-storied#",
+   "purl": "pkg:service/orange-namespace/nanoshop/nanoshop-storied",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:service/orange-namespace/stats/stats-prod",
    "context": "",
    "first_party": false,
@@ -38125,6 +39508,19 @@
    "first_party": false,
    "id": "pkg:service/orange-namespace/stuff/stuff#",
    "purl": "pkg:service/orange-namespace/stuff/stuff",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:service/orange-private-host/agentctl/agentctl.17166969.xyz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:service/orange-private-host/agentctl/agentctl.17166969.xyz#",
+   "purl": "pkg:service/orange-private-host/agentctl/agentctl.17166969.xyz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
@@ -38203,6 +39599,32 @@
    "first_party": false,
    "id": "pkg:service/orange-private-host/discover/research.17166969.xyz#",
    "purl": "pkg:service/orange-private-host/discover/research.17166969.xyz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:service/orange-private-host/nanoshop/shop-admin.17166969.xyz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:service/orange-private-host/nanoshop/shop-admin.17166969.xyz#",
+   "purl": "pkg:service/orange-private-host/nanoshop/shop-admin.17166969.xyz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:service/orange-private-host/nanoshop/shop.17166969.xyz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:service/orange-private-host/nanoshop/shop.17166969.xyz#",
+   "purl": "pkg:service/orange-private-host/nanoshop/shop.17166969.xyz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
@@ -38398,6 +39820,19 @@
    "first_party": false,
    "id": "pkg:service/orange-public-host/discover/research.17166969.xyz#",
    "purl": "pkg:service/orange-public-host/discover/research.17166969.xyz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:service/orange-public-host/nanoshop/shop.17166969.xyz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:service/orange-public-host/nanoshop/shop.17166969.xyz#",
+   "purl": "pkg:service/orange-public-host/nanoshop/shop.17166969.xyz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
@@ -38614,6 +40049,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:service/orange-r2/nanoshop/nanoshop-media-storied",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:service/orange-r2/nanoshop/nanoshop-media-storied#",
+   "purl": "pkg:service/orange-r2/nanoshop/nanoshop-media-storied",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:service/orange-r2/stats/stats-exports",
    "context": "",
    "first_party": false,
@@ -38791,6 +40239,12 @@
    "locator": "L99",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "docker/musl/Dockerfile"
+  },
+  {
+   "kind": "vendored_unknown",
+   "locator": null,
+   "message": "vendored tree has no recognized manifest",
+   "path": "repomod/dependencies/assets/vendor"
   }
  ],
  "projects": [
@@ -38803,21 +40257,6 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
-  },
-  {
-   "directory": "crates/h12tiny-client-normalize",
-   "ecosystem": "cargo",
-   "id": "crates/h12tiny-client-normalize:cargo"
-  },
-  {
-   "directory": "crates/h12tiny-client-sync",
-   "ecosystem": "cargo",
-   "id": "crates/h12tiny-client-sync:cargo"
-  },
-  {
-   "directory": "crates/h12tiny-tls-system",
-   "ecosystem": "cargo",
-   "id": "crates/h12tiny-tls-system:cargo"
   },
   {
    "directory": "crates/mymirror",
@@ -38920,6 +40359,16 @@
    "id": "deploy/openorange/ingress:repo"
   },
   {
+   "directory": "deploy/openorange/platform",
+   "ecosystem": "generic",
+   "id": "deploy/openorange/platform:repo"
+  },
+  {
+   "directory": "deploy/openorange/rivet",
+   "ecosystem": "generic",
+   "id": "deploy/openorange/rivet:repo"
+  },
+  {
    "directory": "deploy/openorange",
    "ecosystem": "generic",
    "id": "deploy/openorange:repo"
@@ -38933,6 +40382,11 @@
    "directory": "docker/musl",
    "ecosystem": "generic",
    "id": "docker/musl:repo"
+  },
+  {
+   "directory": "tools/atlas-vendor",
+   "ecosystem": "npm",
+   "id": "tools/atlas-vendor:npm"
   }
  ],
  "repository": "laputa-systems/stuff",

@@ -283,3 +283,33 @@ fn large_body_survives_a_slow_reader() {
     let header_end = raw.windows(4).position(|w| w == b"\r\n\r\n").unwrap() + 4;
     assert_eq!(raw.len() - header_end, body.len());
 }
+
+#[test]
+fn validator_changes_for_same_size_same_second_generations() {
+    let (tmp, site_dir, _) = fixture_site();
+    let site = Site::new(site_dir.clone());
+    let timestamp = std::time::UNIX_EPOCH + Duration::from_secs(1_800_000_000);
+    for (id, body) in [("v1", br#"{ "value":1 }"#), ("v2", br#"{ "value":2 }"#)] {
+        let staged = site.stage().unwrap();
+        let path = staged.path().join("catalog.json");
+        fs::write(&path, body).unwrap();
+        fs::File::options().write(true).open(&path).unwrap()
+            .set_times(fs::FileTimes::new().set_modified(timestamp)).unwrap();
+        site.activate(staged.into_path(), id, &|_: &Path| Ok(true)).unwrap();
+    }
+    fs::remove_file(site_dir.join("current")).unwrap();
+    std::os::unix::fs::symlink("generations/v1", site_dir.join("current")).unwrap();
+    let server = TestServer::boot(&site_dir, tmp);
+    let first = get(&server, "/current/catalog.json", &[]);
+    assert_eq!(first.status, 200);
+    let conditional = format!("If-None-Match: {}", first.headers["etag"]);
+    assert_eq!(get(&server, "/current/catalog.json", &[&conditional]).status, 304);
+    fs::remove_file(site_dir.join("current")).unwrap();
+    std::os::unix::fs::symlink("generations/v2", site_dir.join("current")).unwrap();
+    let second = get(&server, "/current/catalog.json", &[&conditional]);
+    assert_eq!(second.status, 200);
+    assert_eq!(second.body, br#"{ "value":2 }"#);
+    assert_ne!(first.headers["etag"], second.headers["etag"]);
+    let conditional = format!("If-None-Match: {}", second.headers["etag"]);
+    assert_eq!(get(&server, "/current/catalog.json", &[&conditional]).status, 304);
+}

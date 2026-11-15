@@ -775,10 +775,10 @@
    "purl": "pkg:github/actions/upload-artifact"
   },
   {
-   "display_name": ".github/workflows/linux.yml",
+   "display_name": ".github/workflows/ci.yml",
    "ecosystem": "local",
-   "name": ".github/workflows/linux.yml",
-   "purl": "pkg:local/.github/workflows/linux.yml"
+   "name": ".github/workflows/ci.yml",
+   "purl": "pkg:local/.github/workflows/ci.yml"
   },
   {
    "display_name": ".github/workflows/macos.yml",
@@ -986,7 +986,7 @@
    "evidence": [
     {
      "locator": "jobs.linux.steps[1].uses",
-     "path": ".github/workflows/linux.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1021,8 +1021,8 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[0].uses",
-     "path": ".github/workflows/lint.yml"
+     "locator": "jobs.linux.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1039,8 +1039,8 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.linux.steps[0].uses",
-     "path": ".github/workflows/linux.yml"
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
     }
    ],
    "from": ".:repo",
@@ -1076,7 +1076,7 @@
    "evidence": [
     {
      "locator": "jobs.linux.steps[6].uses",
-     "path": ".github/workflows/linux.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1122,7 +1122,7 @@
    "resolved_version": null,
    "scope": "ci",
    "source_kind": "path",
-   "to": "pkg:local/.github/workflows/linux.yml#"
+   "to": "pkg:local/.github/workflows/ci.yml#"
   },
   {
    "condition": null,
@@ -1144,7 +1144,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -1155,10 +1155,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -6531,19 +6531,19 @@
  ],
  "inputs": [
   {
-   "blob": "35ce6a09f14e0dd345848f59ccab1e6bdebdc22a",
-   "path": ".github/workflows/lint.yml"
+   "blob": "7a3f5ac3e010a26c1f92a339f20b9ce1886bb16f",
+   "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "7a3f5ac3e010a26c1f92a339f20b9ce1886bb16f",
-   "path": ".github/workflows/linux.yml"
+   "blob": "35ce6a09f14e0dd345848f59ccab1e6bdebdc22a",
+   "path": ".github/workflows/lint.yml"
   },
   {
    "blob": "2b71cbf388d6827a922b3d7b7656a5df9189941a",
    "path": ".github/workflows/macos.yml"
   },
   {
-   "blob": "26e7680100b26c4470799636796f54a645b936fa",
+   "blob": "80378434ab56b67bad0915b02fb78c9e9811b6c8",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -6615,7 +6615,7 @@
    "path": "native/spirv-cross/meson.build"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   },
   {
@@ -6727,7 +6727,7 @@
    "path": "vendor/symphonia/symphonia/fuzz/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "7cc73edc10b8f5b122853b15eddc02e02d47ea43a449ed1bd6c183429c0d8859",
+ "inputs_fingerprint": "df734b1f9fb35d2a7f5adb101c85759acce64d8704a896f3756de902178e6853",
  "instances": [
   {
    "commit": null,
@@ -8499,11 +8499,11 @@
   },
   {
    "commit": null,
-   "component": "pkg:local/.github/workflows/linux.yml",
+   "component": "pkg:local/.github/workflows/ci.yml",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/.github/workflows/linux.yml#",
-   "purl": "pkg:local/.github/workflows/linux.yml",
+   "id": "pkg:local/.github/workflows/ci.yml#",
+   "purl": "pkg:local/.github/workflows/ci.yml",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "path",
@@ -8987,9 +8987,22 @@
    "purl": "pkg:toolchain/rust@nightly-2026-09-15",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "url",
+   "source_kind": "vendored",
    "vcs_url": null,
    "version": "nightly-2026-09-15"
+  },
+  {
+   "commit": null,
+   "component": "pkg:toolchain/rust",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [

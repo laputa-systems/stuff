@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import tomllib
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import cache
 from pathlib import Path
 from typing import Any, cast
@@ -315,7 +316,47 @@ def _ecosystem(value: str) -> Ecosystem:
     return ecosystem
 
 
+def _source_identity(repository: str, instance: Instance) -> tuple[object, ...]:
+    local = instance.source_kind in {SourceKind.PATH, SourceKind.WORKSPACE, SourceKind.VENDORED}
+    return (
+        instance.source_kind.value,
+        repository if local else None,
+        instance.repository_url if instance.source_kind is not SourceKind.REGISTRY else None,
+        instance.vcs_url,
+        instance.commit,
+        instance.first_party,
+    )
+
+
+def _graph_repositories(repositories: Mapping[str, RepositoryData]) -> dict[str, RepositoryData]:
+    identities: dict[str, set[tuple[object, ...]]] = {}
+    for name, data in repositories.items():
+        for instance in data.instances:
+            identities.setdefault(instance.id, set()).add(_source_identity(name, instance))
+    result: dict[str, RepositoryData] = {}
+    for name, data in repositories.items():
+        ids = {}
+        for instance in data.instances:
+            identity = _source_identity(name, instance)
+            if len(identities[instance.id]) > 1:
+                digest = hashlib.sha256(json.dumps(identity, separators=(",", ":")).encode()).hexdigest()
+                ids[instance.id] = f"{instance.id}:{digest}"
+            else:
+                ids[instance.id] = instance.id
+        result[name] = replace(
+            data,
+            instances=tuple(replace(instance, id=ids[instance.id]) for instance in data.instances),
+            edges=tuple(
+                replace(edge, from_id=ids.get(edge.from_id, edge.from_id),
+                        to_id=ids.get(edge.to_id, edge.to_id))
+                for edge in data.edges
+            ),
+        )
+    return result
+
+
 def build_graph(inventory: Inventory, catalog: Catalog | None = None) -> Graph:
+    repositories = _graph_repositories(inventory.repositories)
     projects: dict[NodeKey, Project] = {}
     instances: dict[str, Instance] = {}
     instance_repositories: dict[str, set[str]] = {}
@@ -325,7 +366,7 @@ def build_graph(inventory: Inventory, catalog: Catalog | None = None) -> Graph:
     incoming: dict[NodeKey, list[Edge]] = {}
     tags: dict[str, tuple[str, ...]] = {}
     names: dict[Ecosystem, set[str]] = {ecosystem: set() for ecosystem in Ecosystem}
-    for name, data in inventory.repositories.items():
+    for name, data in repositories.items():
         tags[name] = data.tags
         for project in data.projects:
             projects[(name, project.id)] = project
@@ -343,7 +384,7 @@ def build_graph(inventory: Inventory, catalog: Catalog | None = None) -> Graph:
         if catalog is not None
         else {}
     )
-    for name, data in inventory.repositories.items():
+    for name, data in repositories.items():
         effective = catalog_by_id.get(name.casefold())
         effective_tags = effective.tags if effective is not None else data.tags
         tags[name] = effective_tags
@@ -360,7 +401,7 @@ def build_graph(inventory: Inventory, catalog: Catalog | None = None) -> Graph:
                         normalize_name(Ecosystem.PYPI, _component_name(components, instance))
                     )
     return Graph(
-        repositories=inventory.repositories,
+        repositories=repositories,
         catalog=catalog,
         projects=projects,
         instances=instances,

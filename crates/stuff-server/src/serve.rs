@@ -140,10 +140,10 @@ pub fn content_type_for_path(path: &Path) -> &'static str {
     content_type_for(name)
 }
 
-pub fn etag_for(size: u64, modified: Option<std::time::SystemTime>) -> Option<String> {
-    modified
-        .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
-        .map(|d| format!("\"{size}-{}\"", d.as_secs()))
+pub fn etag_for(path: &Path) -> Option<String> {
+    stuff_store::stream_file_hash(path, stuff_store::HashAlg::Sha256)
+        .ok()
+        .map(|digest| format!("\"{digest}\""))
 }
 
 pub fn cache_header_for(kind: RouteKind) -> String {
@@ -235,7 +235,7 @@ pub fn respond(
         _ => return FileResponse::text(404, "Not Found", "not found"),
     };
     let size = meta.len();
-    let etag = etag_for(size, meta.modified().ok());
+    let etag = etag_for(&canon);
 
     match evaluate_preconditions(
         etag.as_deref(),

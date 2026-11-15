@@ -1,6 +1,6 @@
 # OpenOrange shared host stack (`deploy/openorange/`)
 
-Runbook for the stack that hosts Stats, Stuff, Discover and fronts Tansu on
+Runbook for the shared stack and applications declared in `apps.toml` on
 `lisa` (Alpine 3.25, musl, x86_64, OpenRC, Docker, tailnet address
 `100.68.104.43`). Stats, Stuff and Tansu use this ingress in production.
 Stuff pulls are anonymous and public; publishing uses
@@ -108,8 +108,8 @@ The resolver is stateless and stays up during application data fencing.
 DNS routes and global nameservers. Preserve the old values before applying it.
 
 CoreDNS is Apache-2.0 and ships as one Go binary in the upstream image; no
-language package closure is installed on Lisa. Version 1.15.0 is the current
-upstream release and includes the fixes listed in its
+language package closure is installed on Lisa. The pinned version is 1.15.0;
+its fixes are listed in the
 [release record](https://github.com/coredns/coredns/releases/tag/v1.15.0).
 Only UDP/TCP DNS, templates and forwarding are enabled; there are no custom
 transport listeners, query logs or dynamic update endpoints.
@@ -337,20 +337,21 @@ for the Cloudflare plugin).
   interface, that 443 is bound only on the tailnet address, that no container
   publishes a port, free space (Engine refuses to start below 10% / 4 GiB) and
   backup age. Exit 1 on any FAIL.
-* **Drain / start:** `bin/drain` stops ingress -> apps -> identity -> engine ->
-  store, each SIGTERM first (observed 1-3 s each; Caddy's `grace_period` 15 s);
-  `bin/drain --start` reverses it and continues past failures; `--apps` stops
-  only ingress and apps. OpenRC dependencies make `rc-service oo-engine restart`
-  bounce the apps and `oo-identity restart` bounce ingress.
+* **Drain / start:** `bin/drain` stops the tunnel, ingress, dashboard and telemetry
+  bridge before apps, identity, Engine and Store. Failed app discovery aborts;
+  failed stops or services that remain running make it return nonzero.
+  `bin/drain --start` starts dependencies first and reports failures; `--apps`
+  stops the tunnel, ingress, bridge and apps. OpenRC dependencies make
+  `rc-service oo-engine restart` bounce the apps and `oo-identity restart` bounce ingress.
 * **Logs:** `/var/log/openorange/*.log` (root-readable); Caddy writes access
   logs without request or response headers.
 * **Disk accounting:** `bin/disk-usage [--json]`: Engine log, Engine objects,
   each app's bucket set (incl. versions), store total, caddy, backups, restore
   rehearsals, logs, free space, Docker.
 * **Backup:** `bin/backup [--dest DIR] [--keep N] [--no-restart]` pre-copies
-  Engine and Store while applications run, then fences the stack and reconciles
-  every file by checksum before copying configuration, app declarations and image
-  pins. The live pre-copy alone is unusable. Stats and private ingress restart
+  Engine and Store while applications run, then drains the stack and verifies
+  writer containers are absent. It reconciles every file by checksum before copying
+  configuration, app declarations and image pins. The live pre-copy alone is unusable. Stats and private ingress restart
   before unrelated apps so host agents can drain their four-minute queues.
   Online copies use Linux idle I/O priority and reduced CPU priority. Application
   readiness requires HTTP 200 with the declared Host and trusted local gateway

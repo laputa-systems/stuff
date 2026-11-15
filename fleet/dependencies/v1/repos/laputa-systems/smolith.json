@@ -22973,7 +22973,7 @@
  ],
  "inputs": [
   {
-   "blob": "160c16b070b4cfe13480d2c5e1399cce40704682",
+   "blob": "e4ecb5c6907034b417739d90bd34ffe5ec01b86c",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -23237,7 +23237,7 @@
    "path": "tests/qualify/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "1b45a88a3e1e0de39dbb53802a64cf208ce31261b1fdb359e727de42921df854",
+ "inputs_fingerprint": "a019530726023e4a85adadc5ba5ea5742d105a6983613f799d202c744d7c77d6",
  "instances": [
   {
    "commit": null,

@@ -514,7 +514,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -525,10 +525,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -789,7 +789,7 @@
  ],
  "inputs": [
   {
-   "blob": "9e26404de8d50dbab927d5b92e8b05df0aa238cf",
+   "blob": "2a42c3b2149e84f5705cd8a489c291cebad55cf6",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -817,11 +817,11 @@
    "path": "macros/Cargo.toml"
   },
   {
-   "blob": "689ba564e23169621b6f4b07fa76b81d043ffcae",
+   "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "38515a5e1bb470a3568512ed699d70acc8cb2948e7398daa7ef0446ed912635a",
+ "inputs_fingerprint": "1f323598643b23555ac40e94f45b7d86c4055b8de039c1b60bd3d7df28df1da8",
  "instances": [
   {
    "commit": null,
@@ -1166,13 +1166,13 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [

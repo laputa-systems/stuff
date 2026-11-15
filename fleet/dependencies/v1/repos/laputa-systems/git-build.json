@@ -163,6 +163,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.fetch.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
@@ -439,11 +457,15 @@
  ],
  "inputs": [
   {
+   "blob": "79a7a3ac34582a44f9bb2ac64e2d6a96ad6de708",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "fce3d5e51d06965883a727e5520e100895d4bd46",
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "2f78c5c85913a362163d48d9292a0525b554aadf",
+   "blob": "c956caaada24a12a3844748f1499d63ee24d98ca",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -467,7 +489,7 @@
    "path": "tools/make-archive/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "cf3c0f07154fe67d6e2498f44c5e2d27c3b3d4a93260db61a77533ff7e537e54",
+ "inputs_fingerprint": "4c263168c5f0b240f11e77852ab4a64ecdeb2b9da1d657a2dd4296bc08c3d917",
  "instances": [
   {
    "commit": null,

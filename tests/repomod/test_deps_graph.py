@@ -12,8 +12,8 @@ import pytest
 
 from repomod.catalog import Catalog, load_catalog
 from repomod.cmd import common, deps
+from repomod.dependencies import atlas, snapshot
 from repomod.dependencies import graph as graph_module
-from repomod.dependencies import snapshot
 from repomod.dependencies.analysis import report, report_text
 from repomod.dependencies.model import (
     Component,
@@ -740,3 +740,46 @@ def _dict(value: object) -> dict[str, object]:
 def _list(value: object) -> list[object]:
     assert isinstance(value, list)
     return cast(list[object], value)
+
+
+def test_source_identity_survives_fleet_merge_in_either_order(tmp_path: Path) -> None:
+    project = _project(".", Ecosystem.CARGO)
+    registry = _instance(Ecosystem.CARGO, "criterion", "1.0")
+    vendored = replace(registry, source_kind=SourceKind.VENDORED)
+    repositories = [
+        _repository("acme/registry", (), (project,), (registry,), (_edge(project.id, registry),)),
+        _repository("acme/vendor", (), (project,), (vendored,), (_edge(project.id, vendored),)),
+    ]
+    inventory = graph_module.load_inventory(_write_inventory(tmp_path, repositories))
+    for ordered in (repositories, list(reversed(repositories))):
+        built = graph_module.build_graph(replace(inventory, repositories={r.repository: r for r in ordered}))
+        risk = _dict(report(built)["source_risk"])
+        assert _dict(risk["vendored"])["value"] == 1
+        payload = atlas._payload(built, hidden=frozenset())
+        for repo in payload["repositories"]:
+            edge = repo["e"][0]
+            instance = payload["instances"][edge[3]]
+            assert payload["source_kinds"][instance[3]] == payload["source_kinds"][edge[8]]
+            assert payload["source_kinds"][instance[3]] == (
+                "registry" if repo["n"] == "acme/registry" else "vendored"
+            )
+
+
+def test_graph_scopes_local_sources_and_preserves_registry_mirrors(tmp_path: Path) -> None:
+    project = _project(".", Ecosystem.CARGO)
+    local = _instance(Ecosystem.CARGO, "local", "1.0", source_kind=SourceKind.PATH)
+    registry = _instance(Ecosystem.CARGO, "shared", "1.0")
+    mirror = replace(registry, registry_url="https://mirror.example/")
+    repositories = [
+        _repository("acme/one", (), (project,), (local, registry),
+                    (_edge(project.id, local), _edge(project.id, registry))),
+        _repository("acme/two", (), (project,), (local, mirror),
+                    (_edge(project.id, local), _edge(project.id, mirror))),
+    ]
+    built = _graph(tmp_path, repositories)
+    local_ids = [item.id for item in built.instances.values() if item.source_kind is SourceKind.PATH]
+    registry_ids = [item.id for item in built.instances.values() if item.source_kind is SourceKind.REGISTRY]
+    assert len(local_ids) == 2
+    assert all(len(built.instance_repositories[item]) == 1 for item in local_ids)
+    assert len(registry_ids) == 1
+    assert built.instance_repositories[registry_ids[0]] == frozenset({"acme/one", "acme/two"})

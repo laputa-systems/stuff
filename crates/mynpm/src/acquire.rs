@@ -134,7 +134,7 @@ pub struct HttpsExchange {
 impl HttpsExchange {
     pub fn new() -> Self {
         let client = Client::builder()
-            .connect_timeout(Duration::from_millis(limits::REQUEST_MILLISECONDS))
+            .connect_timeout(Duration::from_millis(limits::REQUEST_MILLISECONDS)).expect("non-zero connect timeout")
             .build();
         Self { client }
     }

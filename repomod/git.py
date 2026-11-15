@@ -365,6 +365,7 @@ def fetch_default(path: Path, branch: str, deepen: int | None = None) -> None:
         arguments.append("--depth=1" if deepen == 1 else f"--deepen={deepen}")
     arguments.extend(["origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}"])
     run_git(arguments, cwd=path)
+    run_git(["symbolic-ref", "refs/remotes/origin/HEAD", f"refs/remotes/origin/{branch}"], cwd=path)
 
 
 UPSTREAM_REMOTE = "upstream"

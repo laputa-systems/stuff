@@ -619,6 +619,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
@@ -639,24 +657,6 @@
     {
      "locator": "jobs.build.steps[0].uses",
      "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7.0.1",
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[0].uses",
-     "path": ".github/workflows/test.yml"
     }
    ],
    "from": ".:repo",
@@ -710,7 +710,7 @@
    "evidence": [
     {
      "locator": "jobs.test.steps[1].uses",
-     "path": ".github/workflows/test.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -4265,16 +4265,16 @@
  ],
  "inputs": [
   {
+   "blob": "f8f59c06fa4af9c9f8028bd51d34a675192976ed",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
    "path": ".github/workflows/lint.yml"
   },
   {
    "blob": "36c3da3d563a3bc7aba65d3d61ffc76cae23f461",
    "path": ".github/workflows/release.yml"
-  },
-  {
-   "blob": "f8f59c06fa4af9c9f8028bd51d34a675192976ed",
-   "path": ".github/workflows/test.yml"
   },
   {
    "blob": "4d5da237eb5cc6812e78e8b3a4a33a29358297c3",
@@ -4329,7 +4329,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "81e844b34f7ffc1309f12e84cea3c1c6c01b3f68c932cda12dc916fd1ffcfbe3",
+ "inputs_fingerprint": "198b6c554b8ba6c7baf3169872fa2ed1e2444e4c4644399a55a94d9d6081a57f",
  "instances": [
   {
    "commit": null,

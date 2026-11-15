@@ -20,11 +20,11 @@ test("Orange OCI HTTP publication shares coordinator authority and retains manif
   const worker = join(workerDir, "build/orange/workers/default/bundle/entry.js");
   const wrapper = join(directory, "wrapper.mjs");
   writeFileSync(wrapper, `import worker, {PublicationCoordinator as Base} from ${JSON.stringify(worker)};
-let loseActivation=false, failPut=false;
+let loseActivation=false, failPut=false, secureOrigin=false;
 export class PublicationCoordinator extends Base {
  async fetch(req) {const response=await super.fetch(req);if(new URL(req.url).pathname.endsWith('/activate')&&response.ok&&loseActivation){loseActivation=false;return new Response('lost acknowledgement',{status:503});}return response;}
 }
-export default {async fetch(req,env,ctx){const url=new URL(req.url);if(url.pathname==='/__seed'){for(const item of await req.json())await env[item.binding].put(item.key,item.value);return new Response('ok');}if(url.pathname==='/__lose'){loseActivation=true;return new Response('ok');}if(url.pathname==='/__fail'){failPut=true;return new Response('ok');}const actual=env.OCI;const proxy=new Proxy(actual,{get(target,key){if(key==='put')return async(name,...args)=>{if(failPut&&name.startsWith('generations/')){failPut=false;throw new Error('injected publication failure');}return target.put(name,...args);};const value=target[key];return typeof value==='function'?value.bind(target):value;}});return worker.fetch(req,{...env,OCI:proxy},ctx);}};`);
+export default {async fetch(req,env,ctx){const url=new URL(req.url);if(url.pathname==='/__seed'){for(const item of await req.json())await env[item.binding].put(item.key,item.value);return new Response('ok');}if(url.pathname==='/__lose'){loseActivation=true;return new Response('ok');}if(url.pathname==='/__fail'){failPut=true;return new Response('ok');}if(url.pathname==='/__origin'){secureOrigin=true;return new Response('ok');}if(secureOrigin){url.protocol='https:';req=new Request(url,req);}const actual=env.OCI;const proxy=new Proxy(actual,{get(target,key){if(key==='put')return async(name,...args)=>{if(failPut&&name.startsWith('generations/')){failPut=false;throw new Error('injected publication failure');}return target.put(name,...args);};const value=target[key];return typeof value==='function'?value.bind(target):value;}});return worker.fetch(req,{...env,OCI:proxy},ctx);}};`);
   config.main = wrapper;
   Object.assign(config.vars, { STUFF_COORDINATOR_ENABLED: "true", STUFF_COORDINATOR_TOKEN: "management", STUFF_OCI_PUSH_TOKEN: "write-secret" });
   writeFileSync(configPath, JSON.stringify(config));
@@ -81,4 +81,18 @@ export default {async fetch(req,env,ctx){const url=new URL(req.url);if(url.pathn
   for (const content of [first, second]) assert.ok(inventory.objects.some(object => object.key === `oci/manifests/sha256/${hash(content)}`), "every referenced immutable manifest must remain protected from GC");
   assert.equal((await call("PUT", path, second)).status, 201);
   assert.equal((await manage("current")).revision, 2, "repeating the same OCI PUT is idempotent");
+  const oldLlmsPath = `/generations/${activated.generation}/llms.txt`;
+  const oldLlms = await call("GET", oldLlmsPath);
+  assert.equal(oldLlms.status, 200);
+  assert.match(oldLlms.body, /http:\/\/oci\.17166969\.xyz/);
+  await call("POST", "/__origin");
+  assert.equal((await call("PUT", path, second)).status, 201, logs);
+  const changedOrigin = await manage("current");
+  assert.equal(changedOrigin.revision, 3);
+  assert.notEqual(changedOrigin.generation, activated.generation);
+  assert.equal((await call("GET", oldLlmsPath)).body, oldLlms.body);
+  const newLlms = await call("GET", `/generations/${changedOrigin.generation}/llms.txt`);
+  assert.equal(newLlms.status, 200);
+  assert.match(newLlms.body, /https:\/\/oci\.17166969\.xyz/);
+
 });

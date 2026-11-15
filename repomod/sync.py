@@ -174,6 +174,7 @@ def sync_one(
                 notes.append(upstream_note)
             trailer = "".join(f"; {note}" for note in notes)
             starting_head = head(path)
+            fetch_default(path, remote.default_branch, 1 if shallow(path) else None)
             if (
                 not current.dirty
                 and not current.detached
@@ -182,7 +183,6 @@ def sync_one(
                 and starting_head.casefold() == remote.sha.casefold()
             ):
                 return SyncResult(name, "current", f"already at GitHub's reported default branch tip{trailer}")
-            fetch_default(path, remote.default_branch, 1 if shallow(path) else None)
             if current.dirty:
                 return SyncResult(name, "fetched", f"worktree is dirty; checked out files were not changed{trailer}")
             if current.detached:

@@ -252,7 +252,7 @@
   },
   {
    "condition": null,
-   "constraint": "v4.2.2",
+   "constraint": "v7.0.1",
    "evidence": [
     {
      "locator": "jobs.alpine.steps[0].uses",
@@ -263,10 +263,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "11bd71901bbe5b1630ceea73d27597364c9af683",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -433,7 +433,7 @@
  ],
  "inputs": [
   {
-   "blob": "b3f4797e091806a433128e7de9010984f92f119f",
+   "blob": "c1afc10cb0107a856fc7c59ec550bf8b4d1f86c7",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -453,7 +453,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "757b2b19be6fe4b1989a01dc719b8b77227cea599c11bd53cba7153c9a75e603",
+ "inputs_fingerprint": "70cd57791018b238580efbcb3ceb94905626be29f105d5831465118db968d74e",
  "instances": [
   {
    "commit": null,
@@ -625,17 +625,17 @@
    "version": "edge"
   },
   {
-   "commit": "11bd71901bbe5b1630ceea73d27597364c9af683",
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683#",
-   "purl": "pkg:github/actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
-   "version": "11bd71901bbe5b1630ceea73d27597364c9af683"
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   {
    "commit": null,

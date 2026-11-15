@@ -1,5 +1,5 @@
 {
- "commit": "693a816908d9aa5495dff16fccdc4b4c237bbc7c",
+ "commit": "7b176b538558aa46f0f0a9cdc74a10670c9397d4",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -17,51 +17,51 @@
     "name": "Rust"
    },
    {
-    "bytes": 7268749,
-    "file_count": 99,
+    "bytes": 7618371,
+    "file_count": 107,
     "lines": {
      "blank": 1,
-     "code": 228046,
+     "code": 240259,
      "comment": 0,
      "shebang": 0,
-     "total": 228047
+     "total": 240260
     },
     "name": "JSON"
    },
    {
-    "bytes": 6461238,
-    "file_count": 644,
+    "bytes": 6472436,
+    "file_count": 648,
     "lines": {
-     "blank": 21312,
-     "code": 162179,
+     "blank": 21338,
+     "code": 162504,
      "comment": 17031,
      "shebang": 0,
-     "total": 200522
+     "total": 200873
     },
     "name": "C"
    },
    {
-    "bytes": 1053164,
+    "bytes": 1053793,
     "file_count": 131,
     "lines": {
      "blank": 3369,
-     "code": 19336,
+     "code": 19349,
      "comment": 3326,
      "shebang": 130,
-     "total": 26161
+     "total": 26174
     },
     "name": "Bash"
    },
    {
-    "bytes": 993665,
+    "bytes": 1008874,
     "embedded": [
      {
       "lines": {
        "blank": 25,
-       "code": 334,
+       "code": 335,
        "comment": 39,
        "shebang": 0,
-       "total": 398
+       "total": 399
       },
       "name": "Bash"
      },
@@ -136,37 +136,37 @@
       "name": "TypeScript"
      }
     ],
-    "file_count": 82,
+    "file_count": 83,
     "lines": {
-     "blank": 2841,
-     "code": 13165,
+     "blank": 2874,
+     "code": 13376,
      "comment": 54,
      "shebang": 0,
-     "total": 16060
+     "total": 16304
     },
     "name": "Markdown"
    },
    {
-    "bytes": 477606,
+    "bytes": 477744,
     "file_count": 74,
     "lines": {
      "blank": 1245,
-     "code": 9197,
+     "code": 9199,
      "comment": 287,
      "shebang": 25,
-     "total": 10754
+     "total": 10756
     },
     "name": "Python"
    },
    {
-    "bytes": 111432,
+    "bytes": 111932,
     "file_count": 26,
     "lines": {
-     "blank": 612,
-     "code": 3106,
+     "blank": 616,
+     "code": 3121,
      "comment": 132,
      "shebang": 0,
-     "total": 3850
+     "total": 3869
     },
     "name": "Makefile"
    },
@@ -390,14 +390,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 36242677,
-   "file_count": 2060,
+   "bytes": 36619973,
+   "file_count": 2073,
    "lines": {
-    "blank": 71577,
-    "code": 844894,
+    "blank": 71640,
+    "code": 857673,
     "comment": 91945,
     "shebang": 156,
-    "total": 1008572
+    "total": 1021414
    }
   }
  },

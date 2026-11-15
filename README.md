@@ -8,6 +8,9 @@ Infrastructure for every repository I maintain:
   checkouts, checks policy and opens pull requests for fixes, releases binaries, and keeps a
   dependency inventory with a dashboard (`make deps`) that shows what the fleet depends on, who
   owns it, and how much of it these registries mirror.
+- **[OpenOrange host stack](docs/openorange-runtime.md):** runs the shared application runtime,
+  public and tailnet ingress, storage, and backup operations.
+
 `stuff` publishes immutable generations, serves a searchable catalog, and supports rollback to retained generations. Package resolution and installation use the ecosystem tools: Cargo, npm/pnpm, uv/CPython, and oras.
 
 ## Install

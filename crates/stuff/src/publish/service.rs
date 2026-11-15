@@ -29,7 +29,7 @@ impl PublishingService {
             return Ok(Some(Self {
                 endpoint: endpoint.trim_end_matches('/').into(),
                 coordinator_token: required(names[1])?, access_key_id: required(names[2])?,
-                secret_access_key: required(names[3])?, region: env.non_empty("STUFF_S3_REGION").unwrap_or("auto").into(),
+                secret_access_key: required(names[3])?, region: service_region(env.non_empty("STUFF_S3_REGION").unwrap_or("auto"))?,
             }));
         }
         let path = env.non_empty("STUFF_CREDENTIAL_FILE").map(PathBuf::from)
@@ -62,8 +62,15 @@ impl PublishingService {
             .ok_or_else(|| PublishError::Config(format!("publishing credentials require {key}")));
         let endpoint = required("endpoint")?;
         validate_endpoint(&endpoint)?;
-        Ok(Some(Self { endpoint: endpoint.trim_end_matches('/').into(), coordinator_token: required("coordinator_token")?, access_key_id: required("access_key_id")?, secret_access_key: required("secret_access_key")?, region: required("region")? }))
+        Ok(Some(Self { endpoint: endpoint.trim_end_matches('/').into(), coordinator_token: required("coordinator_token")?, access_key_id: required("access_key_id")?, secret_access_key: required("secret_access_key")?, region: service_region(&required("region")?)? }))
     }
+}
+
+fn service_region(region: &str) -> Result<String, PublishError> {
+    if region != "auto" {
+        return Err(PublishError::Config("publishing service region must be auto".into()));
+    }
+    Ok(region.into())
 }
 
 fn validate_endpoint(endpoint: &str) -> Result<(), PublishError> {
@@ -81,6 +88,29 @@ fn validate_endpoint(endpoint: &str) -> Result<(), PublishError> {
 mod tests {
     use super::*;
     use std::fs;
+    #[test]
+    fn service_configuration_accepts_only_gateway_region() {
+        for region in ["auto", "us-east-1"] {
+            let env = Environment::from_pairs([
+                ("STUFF_COORDINATOR_URL", "https://stuff.example"),
+                ("STUFF_COORDINATOR_TOKEN", "token"),
+                ("STUFF_S3_ACCESS_KEY_ID", "service"),
+                ("STUFF_S3_SECRET_ACCESS_KEY", "secret"),
+                ("STUFF_S3_REGION", region),
+            ]);
+            assert_eq!(PublishingService::configured(&env).is_ok(), region == "auto");
+            let directory = tempfile::tempdir().unwrap();
+            let path = directory.path().join("credentials.json");
+            fs::write(&path, format!(r#"{{"schema":1,"endpoint":"https://stuff.example","coordinator_token":"token","access_key_id":"service","secret_access_key":"secret","region":"{region}"}}"#)).unwrap();
+            #[cfg(unix)] {
+                use std::os::unix::fs::PermissionsExt;
+                fs::set_permissions(&path, fs::Permissions::from_mode(0o600)).unwrap();
+            }
+            let env = Environment::from_pairs([("STUFF_CREDENTIAL_FILE", path.to_str().unwrap())]);
+            assert_eq!(PublishingService::configured(&env).is_ok(), region == "auto");
+        }
+    }
+
     #[test]
     fn owner_credentials_load_without_global_environment_and_reject_leaks() {
         let directory = tempfile::tempdir().unwrap();

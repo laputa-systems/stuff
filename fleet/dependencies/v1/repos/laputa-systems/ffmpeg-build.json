@@ -317,6 +317,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
@@ -563,6 +581,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v10.3.3",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
   },
   {
    "condition": null,
@@ -1125,6 +1161,10 @@
  ],
  "inputs": [
   {
+   "blob": "efd346b823f6f81700a774e6a9455dcf5be1dde6",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "c49ab201d4cbcf7b1a16d6463cce3cfed6fe05a3",
    "path": ".github/workflows/lint.yml"
   },
@@ -1149,7 +1189,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "ee4147f80a8645cb798276df644bfdc626f595687061a37f1c1ab430ef128223",
+ "inputs_fingerprint": "5e40d6ae650fd405c8ecfb3f0393ed71c18073b055643ddc722e2cdaf524a60f",
  "instances": [
   {
    "commit": null,

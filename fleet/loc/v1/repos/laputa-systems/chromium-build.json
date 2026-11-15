@@ -1,5 +1,5 @@
 {
- "commit": "933c02721ee9c5506c47ab1b2c02679a3485f4d8",
+ "commit": "3922c8d6d28b9b20130b7ccfad14a13bb903f160",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -29,7 +29,7 @@
     "name": "JSON"
    },
    {
-    "bytes": 71897,
+    "bytes": 73179,
     "embedded": [
      {
       "lines": {
@@ -44,11 +44,11 @@
     ],
     "file_count": 8,
     "lines": {
-     "blank": 177,
-     "code": 935,
+     "blank": 179,
+     "code": 942,
      "comment": 0,
      "shebang": 0,
-     "total": 1112
+     "total": 1121
     },
     "name": "Markdown"
    },
@@ -188,14 +188,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 988752,
+   "bytes": 990034,
    "file_count": 101,
    "lines": {
-    "blank": 2020,
-    "code": 20422,
+    "blank": 2022,
+    "code": 20429,
     "comment": 160,
     "shebang": 47,
-    "total": 22649
+    "total": 22658
    }
   }
  },

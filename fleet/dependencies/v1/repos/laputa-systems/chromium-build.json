@@ -1188,6 +1188,24 @@
    "evidence": [
     {
      "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
    ],
@@ -1199,6 +1217,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v8.0.2",
+   "evidence": [
+    {
+     "locator": "jobs.publish.steps[0].uses",
+     "path": ".github/workflows/release-linux.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "9000827ccba6bdab643e8b6fd33ac0654aef8333",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333#"
   },
   {
    "condition": null,
@@ -1241,6 +1277,24 @@
    "constraint": "v7.0.2",
    "evidence": [
     {
+     "locator": "jobs.build.steps[4].uses",
+     "path": ".github/workflows/release-linux.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.2",
+   "evidence": [
+    {
      "locator": "jobs.build.steps[15].uses",
      "path": ".github/workflows/release.yml"
     }
@@ -1253,6 +1307,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v10.3.3",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
   },
   {
    "condition": null,
@@ -1293,15 +1365,23 @@
  ],
  "inputs": [
   {
+   "blob": "117e221e7e9b9a15f46361172c4920aaec4d507d",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "d5bb9a53d68589348c6b4d9b7eb7edfe49a8bda4",
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "372aebf71f0aef19ede296c947ff71bed2e9304b",
+   "blob": "10b97914701eaf8910e386094fe2ebc23503c670",
    "path": ".github/workflows/macos-26-smoke.yml"
   },
   {
-   "blob": "85f14af484741221880df2fdc59298c9288eb11b",
+   "blob": "9e8a73bed56eb9a878405f07cf04a75efdc30992",
+   "path": ".github/workflows/release-linux.yml"
+  },
+  {
+   "blob": "ab814e9f69e6713b30a00309a8b09159d3d45454",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -1321,7 +1401,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "c55ee80396a6d975adc692448447f62496b3fc238b8395db74b94d3550840b3a",
+ "inputs_fingerprint": "49e6894ff79dddc010eb7aab616b247f85759fd53dd9608aa27a5f1505b02d16",
  "instances": [
   {
    "commit": null,

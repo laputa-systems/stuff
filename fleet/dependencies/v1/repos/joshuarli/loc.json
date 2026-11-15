@@ -1422,7 +1422,7 @@
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -1433,10 +1433,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -3637,7 +3637,7 @@
  ],
  "inputs": [
   {
-   "blob": "2292721b8d3bf35480d4d97b8c7e66f94273271a",
+   "blob": "b948de91d0fda125c08809e1d379ed8937f38464",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -3645,7 +3645,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "7c6f420f040450d277078d263c70cd40fe7e118d",
+   "blob": "6aeb22af62638f105fdd94315b364682bf3f0e1f",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -3665,11 +3665,11 @@
    "path": "Makefile"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "9eb3f9d8e7550907047eb477a20d1523c3aa6f07ff001d0608e4da4b58a744ef",
+ "inputs_fingerprint": "f4fad42c79e9b61e42690bd1cf9f1ccd1e1c8c7ea7f0d8bc7cd5715002d7eec2",
  "instances": [
   {
    "commit": null,
@@ -4898,13 +4898,13 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [

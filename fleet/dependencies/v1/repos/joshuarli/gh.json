@@ -2287,6 +2287,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.dispatch.steps[0].uses",
      "path": ".github/workflows/dependabot-triage-schedule.yml"
     }
@@ -2338,24 +2356,6 @@
   },
   {
    "condition": null,
-   "constraint": "v7.0.1",
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[0].uses",
-     "path": ".github/workflows/test.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
-  },
-  {
-   "condition": null,
    "constraint": "v8.0.2",
    "evidence": [
     {
@@ -2371,6 +2371,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.0",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e#"
   },
   {
    "condition": null,
@@ -2410,24 +2428,6 @@
   },
   {
    "condition": null,
-   "constraint": "v7.0.0",
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[1].uses",
-     "path": ".github/workflows/test.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e#"
-  },
-  {
-   "condition": null,
    "constraint": "v7.0.2",
    "evidence": [
     {
@@ -2447,6 +2447,10 @@
  ],
  "inputs": [
   {
+   "blob": "b8b7d8d529f524e59dc5ba7c5ce84fa40c1bd2a6",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "5e04cc83b32050b7fdd53d6c55e74fbe276e3566",
    "path": ".github/workflows/dependabot-triage-schedule.yml"
   },
@@ -2457,10 +2461,6 @@
   {
    "blob": "cacb5d75799f13e18ca4763a13d93cd586adafe8",
    "path": ".github/workflows/prerelease.yml"
-  },
-  {
-   "blob": "b8b7d8d529f524e59dc5ba7c5ce84fa40c1bd2a6",
-   "path": ".github/workflows/test.yml"
   },
   {
    "blob": "a582025e4f95f63a6d83c9ba960ed3afffb98153",
@@ -2475,7 +2475,7 @@
    "path": "go.sum"
   }
  ],
- "inputs_fingerprint": "4bfc5760e663053996f760c8edd2eaf1401e84d2473fd6cc59be6f2636881a67",
+ "inputs_fingerprint": "ca1b538736c0479f6ea03b496290a445e02e77467f603bf45af423fcc973a7a7",
  "instances": [
   {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",

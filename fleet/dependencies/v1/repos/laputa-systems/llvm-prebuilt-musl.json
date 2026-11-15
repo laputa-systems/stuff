@@ -128,7 +128,7 @@
    "evidence": [
     {
      "locator": "jobs.build.steps[0].uses",
-     "path": ".github/workflows/build.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -218,7 +218,7 @@
    "evidence": [
     {
      "locator": "jobs.build.steps[1].uses",
-     "path": ".github/workflows/build.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -629,8 +629,8 @@
  ],
  "inputs": [
   {
-   "blob": "dfea4da541386ca32af1e340ed012d67a923ac45",
-   "path": ".github/workflows/build.yml"
+   "blob": "669dbdf370f0440a7518df23418393e11d48b497",
+   "path": ".github/workflows/ci.yml"
   },
   {
    "blob": "cc712ab5ff5672b5b0f72dcd3390821bf34d559c",
@@ -653,7 +653,7 @@
    "path": "docker/validate.Dockerfile"
   }
  ],
- "inputs_fingerprint": "c652d82090fc09f1d0a002d1a1f1577346adf79be6b1f2976cb5ea88a5db17c2",
+ "inputs_fingerprint": "83dddbfd7ec3ecf2dba242f3ef83981fda6469bf4b485bcf9e02b4059247e4d6",
  "instances": [
   {
    "commit": null,

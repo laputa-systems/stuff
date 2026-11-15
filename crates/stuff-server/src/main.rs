@@ -7,7 +7,7 @@ use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 use stuff_server::admission::try_admit;
-use stuff_server::{etag_for, respond, Config, ResponseBody, Route};
+use stuff_server::{respond, Config, ResponseBody, Route};
 
 const DEFAULT_MAX_CONNECTIONS: usize = 64;
 const REQUEST_TIMEOUT: Duration = Duration::from_secs(30);
@@ -230,13 +230,12 @@ fn handle_connection(mut stream: TcpStream, config: &Config) {
         ResponseBody::Empty => send_response(&mut stream, &resp, None),
         ResponseBody::Inline(bytes) => send_response(&mut stream, &resp, Some(&bytes)),
         ResponseBody::File { path, offset, len } => {
-            let (mut file, fd_size, fd_mtime) = match open_verified(&path) {
+            let (mut file, fd_size) = match open_verified(&path) {
                 Some(opened) => {
                     let meta = opened.metadata().ok();
                     (
                         opened,
                         meta.as_ref().map(|m| m.len()).unwrap_or(0),
-                        meta.and_then(|m| m.modified().ok()),
                     )
                 }
                 None => {
@@ -255,8 +254,8 @@ fn handle_connection(mut stream: TcpStream, config: &Config) {
                         )],
                         body: ResponseBody::Empty,
                     };
-                    if let Some(e) = etag_for(fd_size, fd_mtime) {
-                        r.headers.push(("etag".to_string(), e));
+                    if let Some((_, etag)) = resp.headers.iter().find(|(name, _)| name == "etag") {
+                        r.headers.push(("etag".to_string(), etag.clone()));
                     }
                     send_response(&mut stream, &r, None);
                     return;
@@ -278,9 +277,6 @@ fn handle_connection(mut stream: TcpStream, config: &Config) {
             resp.status = status;
             resp.reason = reason;
             set_header(&mut resp.headers, "content-length", send_len.to_string());
-            if let Some(e) = etag_for(fd_size, fd_mtime) {
-                set_header(&mut resp.headers, "etag", e);
-            }
             if let Some(cr) = content_range {
                 set_header(&mut resp.headers, "content-range", cr);
             } else {

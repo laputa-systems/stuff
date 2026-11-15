@@ -1,18 +1,18 @@
 {
- "commit": "52f0a7cfff063f7878125516e656a94e9107a794",
+ "commit": "c2a8286b2c10da31d05e821637a5ec67c02fa0ec",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 4281734,
-    "file_count": 720,
+    "bytes": 4294270,
+    "file_count": 721,
     "lines": {
-     "blank": 15118,
-     "code": 105404,
-     "comment": 4450,
+     "blank": 15146,
+     "code": 105675,
+     "comment": 4454,
      "shebang": 92,
-     "total": 125064
+     "total": 125367
     },
     "name": "XSH"
    },
@@ -41,15 +41,15 @@
     "name": "C"
    },
    {
-    "bytes": 879885,
+    "bytes": 883061,
     "embedded": [
      {
       "lines": {
        "blank": 14,
-       "code": 476,
+       "code": 477,
        "comment": 16,
        "shebang": 0,
-       "total": 506
+       "total": 507
       },
       "name": "Bash"
      },
@@ -106,35 +106,35 @@
     ],
     "file_count": 92,
     "lines": {
-     "blank": 2468,
-     "code": 12600,
+     "blank": 2476,
+     "code": 12646,
      "comment": 51,
      "shebang": 0,
-     "total": 15119
+     "total": 15173
     },
     "name": "Markdown"
    },
    {
-    "bytes": 396358,
+    "bytes": 397217,
     "file_count": 47,
     "lines": {
-     "blank": 1075,
-     "code": 8068,
+     "blank": 1076,
+     "code": 8076,
      "comment": 177,
      "shebang": 19,
-     "total": 9339
+     "total": 9348
     },
     "name": "Python"
    },
    {
-    "bytes": 394191,
+    "bytes": 394609,
     "file_count": 72,
     "lines": {
      "blank": 579,
-     "code": 7802,
+     "code": 7812,
      "comment": 133,
      "shebang": 70,
-     "total": 8584
+     "total": 8594
     },
     "name": "Bash"
    },
@@ -175,14 +175,14 @@
     "name": "TOML"
    },
    {
-    "bytes": 21987,
+    "bytes": 22304,
     "file_count": 2,
     "lines": {
      "blank": 69,
      "code": 292,
-     "comment": 117,
+     "comment": 119,
      "shebang": 0,
-     "total": 478
+     "total": 480
     },
     "name": "Makefile"
    },
@@ -336,14 +336,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 10902762,
-   "file_count": 1467,
+   "bytes": 10920068,
+   "file_count": 1468,
    "lines": {
-    "blank": 33264,
-    "code": 257013,
-    "comment": 15761,
+    "blank": 33301,
+    "code": 257348,
+    "comment": 15767,
     "shebang": 181,
-    "total": 306219
+    "total": 306597
    }
   }
  },

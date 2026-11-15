@@ -107,6 +107,12 @@
    "ecosystem": "local",
    "name": "laputa-rustix",
    "purl": "pkg:local/laputa-rustix"
+  },
+  {
+   "display_name": "rust",
+   "ecosystem": "toolchain",
+   "name": "rust",
+   "purl": "pkg:toolchain/rust"
   }
  ],
  "edges": [
@@ -422,7 +428,7 @@
    "evidence": [
     {
      "locator": "jobs.test_vmactions.steps[2].run",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -440,7 +446,7 @@
    "evidence": [
     {
      "locator": "jobs.test.steps[3].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -458,7 +464,7 @@
    "evidence": [
     {
      "locator": "jobs.test_use_libc.steps[3].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -476,7 +482,7 @@
    "evidence": [
     {
      "locator": "jobs.test_rustix_use_experimental_asm.steps[3].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -688,21 +694,21 @@
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.rustfmt.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -710,7 +716,7 @@
    "evidence": [
     {
      "locator": "jobs.check.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -728,7 +734,7 @@
    "evidence": [
     {
      "locator": "jobs.check_no_default_features.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -746,7 +752,7 @@
    "evidence": [
     {
      "locator": "jobs.check_nightly.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -764,7 +770,7 @@
    "evidence": [
     {
      "locator": "jobs.check_tier3.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -782,7 +788,7 @@
    "evidence": [
     {
      "locator": "jobs.test.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -800,7 +806,7 @@
    "evidence": [
     {
      "locator": "jobs.test_use_libc.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -818,7 +824,7 @@
    "evidence": [
     {
      "locator": "jobs.test_rustix_use_experimental_asm.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1466,7 +1472,7 @@
    "evidence": [
     {
      "locator": "jobs.test_vmactions.steps[0].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1484,7 +1490,7 @@
    "evidence": [
     {
      "locator": "jobs.test_vmactions.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1501,26 +1507,8 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "jobs.rustfmt.steps[1].uses",
-     "path": ".github/workflows/main.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": null,
-   "scope": "ci",
-   "source_kind": "path",
-   "to": "pkg:local/.github/actions/install-rust#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
      "locator": "jobs.check.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1538,7 +1526,7 @@
    "evidence": [
     {
      "locator": "jobs.check_no_default_features.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1556,7 +1544,7 @@
    "evidence": [
     {
      "locator": "jobs.check_nightly.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1574,7 +1562,7 @@
    "evidence": [
     {
      "locator": "jobs.check_tier3.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1592,7 +1580,7 @@
    "evidence": [
     {
      "locator": "jobs.test.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1610,7 +1598,7 @@
    "evidence": [
     {
      "locator": "jobs.test_use_libc.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1628,7 +1616,7 @@
    "evidence": [
     {
      "locator": "jobs.test_rustix_use_experimental_asm.steps[1].uses",
-     "path": ".github/workflows/main.yml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1948,6 +1936,24 @@
   },
   {
    "condition": null,
+   "constraint": "nightly-2026-11-09",
+   "evidence": [
+    {
+     "locator": "L1",
+     "path": "rust-toolchain.toml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "nightly-2026-11-09",
+   "scope": "toolchain",
+   "source_kind": "url",
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
    "constraint": null,
    "evidence": [
     {
@@ -2003,11 +2009,15 @@
  ],
  "inputs": [
   {
-   "blob": "53c5e5417d6fc9c3ba1f8266a3acd954e4a5aac6",
-   "path": ".github/workflows/main.yml"
+   "blob": "9cc472fac47a1737c7016f008ae051081b64bdf5",
+   "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "c13b1d69c6af581707187acc252c17f0e17425fa",
+   "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "0ef014b51489b4d9179865053c924bab0c0cee9e",
    "path": ".github/workflows/test-users.yml"
   },
   {
@@ -2015,8 +2025,12 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "ab2cc817d387a08587d6b75adacfd0a9da3722c1",
+   "blob": "75c48c59efbe68b2a123bc6c9d84831536625490",
    "path": "Makefile"
+  },
+  {
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
+   "path": "rust-toolchain.toml"
   },
   {
    "blob": "53372af4630e353f2fefe9c40d096029e222f0b9",
@@ -2031,7 +2045,7 @@
    "path": "test-crates/use-libc/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "bcf666f280e3f26647f59408afe5e8021ae593e28706c84362d9d7e90cb864fc",
+ "inputs_fingerprint": "7ee2c204ab4f46adc35b521c01652a1821dd2117cb711f221ac6d6fa66686d65",
  "instances": [
   {
    "commit": null,
@@ -2216,6 +2230,19 @@
    "version": "v4"
   },
   {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
    "commit": null,
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -2279,6 +2306,19 @@
    "source_kind": "path",
    "vcs_url": null,
    "version": "1.1.6"
+  },
+  {
+   "commit": null,
+   "component": "pkg:toolchain/rust",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [
@@ -2286,19 +2326,19 @@
    "kind": "dynamic_value",
    "locator": "jobs.test.steps[6].run",
    "message": "artifact URL 'https://download.qemu.org/qemu-$QEMU_BUILD_VERSION.tar.xz' is not literal",
-   "path": ".github/workflows/main.yml"
+   "path": ".github/workflows/ci.yml"
   },
   {
    "kind": "dynamic_value",
    "locator": "jobs.test_rustix_use_experimental_asm.steps[6].run",
    "message": "artifact URL 'https://download.qemu.org/qemu-$QEMU_BUILD_VERSION.tar.xz' is not literal",
-   "path": ".github/workflows/main.yml"
+   "path": ".github/workflows/ci.yml"
   },
   {
    "kind": "dynamic_value",
    "locator": "jobs.test_use_libc.steps[6].run",
    "message": "artifact URL 'https://download.qemu.org/qemu-$QEMU_BUILD_VERSION.tar.xz' is not literal",
-   "path": ".github/workflows/main.yml"
+   "path": ".github/workflows/ci.yml"
   },
   {
    "kind": "dynamic_value",

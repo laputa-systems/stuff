@@ -1,43 +1,43 @@
 {
- "commit": "d61e9ff1372da00f395ae15b0011f65d9a53cefb",
+ "commit": "180759f824dbd8d8d7d8edcbaeebe4ded9b2a0f6",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 1545089,
-    "file_count": 72,
+    "bytes": 1663962,
+    "file_count": 79,
     "lines": {
-     "blank": 2476,
-     "code": 28177,
-     "comment": 4784,
+     "blank": 2675,
+     "code": 30446,
+     "comment": 5054,
      "shebang": 0,
-     "total": 35437
+     "total": 38175
     },
     "name": "Rust"
    },
    {
-    "bytes": 214830,
-    "file_count": 30,
+    "bytes": 284803,
+    "file_count": 31,
     "lines": {
-     "blank": 232,
-     "code": 3108,
-     "comment": 499,
-     "shebang": 29,
-     "total": 3868
+     "blank": 326,
+     "code": 4335,
+     "comment": 588,
+     "shebang": 30,
+     "total": 5279
     },
     "name": "Bash"
    },
    {
-    "bytes": 294314,
+    "bytes": 416463,
     "embedded": [
      {
       "lines": {
        "blank": 0,
-       "code": 48,
+       "code": 55,
        "comment": 1,
        "shebang": 0,
-       "total": 49
+       "total": 56
       },
       "name": "Bash"
      },
@@ -62,75 +62,111 @@
       "name": "INI"
      }
     ],
-    "file_count": 26,
+    "file_count": 30,
     "lines": {
-     "blank": 564,
-     "code": 2743,
+     "blank": 732,
+     "code": 3853,
      "comment": 1,
      "shebang": 0,
-     "total": 3308
+     "total": 4586
     },
     "name": "Markdown"
    },
    {
-    "bytes": 39968,
-    "file_count": 18,
+    "bytes": 100505,
+    "file_count": 23,
     "lines": {
-     "blank": 109,
-     "code": 871,
-     "comment": 94,
-     "shebang": 17,
-     "total": 1091
+     "blank": 292,
+     "code": 2202,
+     "comment": 184,
+     "shebang": 20,
+     "total": 2698
     },
     "name": "Python"
    },
    {
-    "bytes": 9037,
-    "file_count": 1,
-    "lines": {
-     "blank": 0,
-     "code": 319,
-     "comment": 0,
-     "shebang": 0,
-     "total": 319
-    },
-    "name": "JSON"
-   },
-   {
-    "bytes": 5499,
-    "file_count": 8,
-    "lines": {
-     "blank": 27,
-     "code": 152,
-     "comment": 6,
-     "shebang": 0,
-     "total": 185
-    },
-    "name": "TOML"
-   },
-   {
-    "bytes": 3490,
-    "file_count": 1,
+    "bytes": 47629,
+    "file_count": 125,
     "lines": {
      "blank": 12,
-     "code": 89,
+     "code": 1668,
      "comment": 0,
      "shebang": 0,
-     "total": 101
+     "total": 1680
     },
     "name": "C"
    },
    {
-    "bytes": 966,
-    "file_count": 5,
+    "bytes": 10410,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 356,
+     "comment": 0,
+     "shebang": 0,
+     "total": 356
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 10145,
+    "file_count": 15,
+    "lines": {
+     "blank": 45,
+     "code": 273,
+     "comment": 11,
+     "shebang": 0,
+     "total": 329
+    },
+    "name": "TOML"
+   },
+   {
+    "bytes": 6670,
+    "file_count": 2,
     "lines": {
      "blank": 2,
-     "code": 18,
-     "comment": 1,
+     "code": 145,
+     "comment": 0,
      "shebang": 0,
-     "total": 21
+     "total": 147
+    },
+    "name": "C++"
+   },
+   {
+    "bytes": 6436,
+    "file_count": 9,
+    "lines": {
+     "blank": 4,
+     "code": 85,
+     "comment": 36,
+     "shebang": 0,
+     "total": 125
     },
     "name": "Dockerfile"
+   },
+   {
+    "bytes": 1113,
+    "file_count": 1,
+    "lines": {
+     "blank": 4,
+     "code": 41,
+     "comment": 3,
+     "shebang": 0,
+     "total": 48
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 358,
+    "file_count": 1,
+    "lines": {
+     "blank": 1,
+     "code": 9,
+     "comment": 2,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "SQL"
    }
   ],
   "paths": [
@@ -138,14 +174,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 2113193,
-   "file_count": 161,
+   "bytes": 2548494,
+   "file_count": 318,
    "lines": {
-    "blank": 3422,
-    "code": 35477,
-    "comment": 5385,
-    "shebang": 46,
-    "total": 44330
+    "blank": 4093,
+    "code": 43413,
+    "comment": 5879,
+    "shebang": 50,
+    "total": 53435
    }
   }
  },

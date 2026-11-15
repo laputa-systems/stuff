@@ -41,13 +41,9 @@ move is safe. Dirty, detached, non-default, ahead, and divergent checkouts keep 
 local commits. A fetch may update the matching remote-tracking ref. GitHub is the source of truth
 for archival: when GitHub reports a catalogued repository as archived, sync removes its local
 checkout instead of cloning or fetching it and adds `IGNORE` to its entry, preserving tags and overrides, so later
-runs stop tracking it. Removal and untracking require a verified checkout whose origin
-matches the catalogued repository and refuse dirty, detached, ahead, stashed, or otherwise
-unverifiable checkouts without deleting anything. It verifies retained refs against live remotes
-and refuses recovery refs or shared worktree storage. The same inspection protects unforced GC.
-Both paths recheck local identities and state before deletion. Non-cooperating writers can still
-race after that check. A checkout that cannot be safely removed stays tracked. See the
-[removal contract](rfc/RPMD-74-checkout-removal.md). Dry-run fetches GitHub metadata and inspects
+runs stop tracking it. The shared [checkout removal](#checkout-removal) inspection protects both
+archived sync and unforced GC. A checkout that cannot be safely removed stays tracked.
+Dry-run fetches GitHub metadata and inspects
 remote publication for archived checkouts but does not
 mutate checkouts; it reports what would be cloned, updated, removed, or untracked. For repositories that GitHub reports as forks of a parent, sync also
 ensures a conventional `upstream` remote pointing at the parent and fetches the parent's default
@@ -87,6 +83,28 @@ reflog last switched onto that branch (omitted if the reflog has no such entry).
 or more turns the item red and sets `stale_local_work` in `--json`, which also carries the raw
 `branch_checked_out_at` and `oldest_unpushed_commit_at` timestamps.
 
+## Checkout removal
+
+Ordinary removal requires a verified path and catalogued origin, with no tracked changes,
+nonignored untracked files, detached HEAD, unknown upstream, commits ahead of upstream, or stashes.
+Every local branch and tag must match a ref currently advertised by origin. A local branch may
+instead be an ancestor of that advertised branch when the remote object is available locally.
+Every remote-tracking tip must be advertised by a configured remote or be an ancestor of an
+advertised branch whose object is available locally. Remote errors and unknown publication state
+refuse ordinary removal; stale remote-tracking refs alone do not prove publication.
+
+Recovery and unrecognized refs block removal. Shared Git storage and another registered worktree
+also block it; missing and locked worktrees still count. `gc --force` overrides dirty-checkout,
+current-branch, stash, and publication checks and permits stray-file removal. It cannot override
+shared-storage, registered-worktree, recovery-ref, symlink, path, or catalogued-origin protection.
+
+`git.py` owns inspection and remote queries; `clean.py` owns the shared removal decision.
+Mutating removal holds repomod's repository lock and rechecks checkout and Git-directory
+identities, HEAD, refs, origin, worktrees, and status before deletion. The lock excludes cooperating
+repomod commands. Other writers can race after the final check, and remote refs can change after
+advertisement; the inspection guarantees neither atomic exclusion nor permanent remote retention.
+Dry-run applies the same eligibility checks without deleting files.
+
 ## Dependency inventory
 
 `repomod/dependencies/` owns the tracked inventory at `fleet/dependencies/v1/`.
@@ -102,8 +120,8 @@ directory.
 The inventory records `{path, blob}` inputs and a fingerprint over their sorted list plus
 `PARSER_VERSION`. It never records absolute paths, timestamps, commands, credentials, auth
 tokens, environment values, or unredacted userinfo and download queries. The dashboard is
-static output under `.work/dependencies/dashboard/`; it is disposable and uses no fetch, CDN,
-framework, or chart library.
+static output under `.work/dependencies/dashboard/`; it is disposable and needs no runtime data
+fetch or CDN. Explore uses the vendored graph renderer described in [dependency dashboard](dependency-dashboard.md#source-and-verification).
 
 `cmd/deps.py` imports `repomod.dependencies` inside its handler, so other commands do not load
 `ruamel.yaml` or `packaging`. Policy rules stay read-only, and fixers keep explicit, validated

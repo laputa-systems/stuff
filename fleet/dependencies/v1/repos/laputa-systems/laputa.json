@@ -30745,7 +30745,7 @@
    "path": "Dockerfile.package-tools"
   },
   {
-   "blob": "0512e7ae58149d100db2cd885d2a46f8fc440ac7",
+   "blob": "ab830d0b0b0d5d43df08174d3de33b169efcc36f",
    "path": "Makefile"
   },
   {
@@ -30937,11 +30937,11 @@
    "path": "seed/Dockerfile.host-tools"
   },
   {
-   "blob": "98e1af762b58a8252c18d6c872b8bb714508c8c6",
+   "blob": "4879c31ab24602a7d3d04734d20d1562f732911f",
    "path": "tests/docker/closed_build.Dockerfile"
   }
  ],
- "inputs_fingerprint": "e6061cdc09aa3d54b0219a5679fbe8b3c7e622566d32ecee10671d49a0368335",
+ "inputs_fingerprint": "465e1e233e241832409d80464e449f23bf9c852c77a82cbfde68156b2568038e",
  "instances": [
   {
    "commit": null,
@@ -36924,7 +36924,7 @@
    "version": "3.24.1"
   },
   {
-   "commit": "9ebef8747b9ae4c18bf1382b37c1ac8f1acde8e7",
+   "commit": "6cc3e64717b398077a02b5f161f0aa99949b4143",
    "component": "pkg:github/joshuarli/asterinas",
    "context": "",
    "first_party": false,

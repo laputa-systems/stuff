@@ -53,8 +53,8 @@ uv run repomod sync
 
 Sync also removes archived checkouts when its removal guard passes, then marks their catalog
 entries `IGNORE`. Removal verifies publication of retained refs against live remotes and protects
-untracked files, recovery refs, and shared worktree storage. See the
-[removal contract](rfc/RPMD-74-checkout-removal.md).
+nonignored untracked files, recovery refs, and shared worktree storage. See the
+[removal contract](fleet-design.md#checkout-removal).
 
 Tag edits need a separate publish step: `sync` only manages checkouts and never
 touches GitHub topics. Preview the difference with `topics diff`, then publish

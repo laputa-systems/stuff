@@ -1,42 +1,42 @@
 {
- "commit": "295419ff600af8d34219eca7d6cfe7cdd0f54ff1",
+ "commit": "ccd43458e692ef206d6eaf0d4d4ee29cbb0dd3d2",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 62031510,
+    "bytes": 62032128,
     "file_count": 2898,
     "lines": {
      "blank": 10,
-     "code": 815629,
+     "code": 815638,
      "comment": 0,
      "shebang": 0,
-     "total": 815639
+     "total": 815648
     },
     "name": "JSON"
    },
    {
-    "bytes": 33765647,
-    "file_count": 1116,
+    "bytes": 33772622,
+    "file_count": 1118,
     "lines": {
-     "blank": 47222,
-     "code": 715077,
-     "comment": 47242,
+     "blank": 47236,
+     "code": 715220,
+     "comment": 47243,
      "shebang": 0,
-     "total": 809541
+     "total": 809699
     },
     "name": "Rust"
    },
    {
-    "bytes": 18925186,
+    "bytes": 18926437,
     "file_count": 2192,
     "lines": {
-     "blank": 46496,
-     "code": 438051,
+     "blank": 46498,
+     "code": 438077,
      "comment": 20326,
      "shebang": 310,
-     "total": 505183
+     "total": 505211
     },
     "name": "XSH"
    },
@@ -53,7 +53,7 @@
     "name": "Python"
    },
    {
-    "bytes": 3056931,
+    "bytes": 3065768,
     "embedded": [
      {
       "lines": {
@@ -68,10 +68,10 @@
      {
       "lines": {
        "blank": 6,
-       "code": 570,
+       "code": 572,
        "comment": 0,
        "shebang": 0,
-       "total": 576
+       "total": 578
       },
       "name": "Bash"
      },
@@ -118,11 +118,11 @@
     ],
     "file_count": 238,
     "lines": {
-     "blank": 7189,
-     "code": 37241,
+     "blank": 7208,
+     "code": 37356,
      "comment": 131,
      "shebang": 0,
-     "total": 44561
+     "total": 44695
     },
     "name": "Markdown"
    },
@@ -334,14 +334,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 127165964,
-   "file_count": 8594,
+   "bytes": 127183645,
+   "file_count": 8596,
    "lines": {
-    "blank": 119862,
-    "code": 2188766,
-    "comment": 72898,
+    "blank": 119897,
+    "code": 2189059,
+    "comment": 72899,
     "shebang": 509,
-    "total": 2382035
+    "total": 2382364
    }
   }
  },

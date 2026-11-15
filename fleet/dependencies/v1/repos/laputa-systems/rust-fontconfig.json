@@ -61,16 +61,16 @@
    "purl": "pkg:github/actions/upload-artifact"
   },
   {
-   "display_name": "dtolnay/rust-toolchain",
-   "ecosystem": "github",
-   "name": "dtolnay/rust-toolchain",
-   "purl": "pkg:github/dtolnay/rust-toolchain"
-  },
-  {
    "display_name": "ilammy/msvc-dev-cmd",
    "ecosystem": "github",
    "name": "ilammy/msvc-dev-cmd",
    "purl": "pkg:github/ilammy/msvc-dev-cmd"
+  },
+  {
+   "display_name": "rust",
+   "ecosystem": "toolchain",
+   "name": "rust",
+   "purl": "pkg:toolchain/rust"
   }
  ],
  "edges": [
@@ -199,6 +199,24 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/xmlparser#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -331,6 +349,24 @@
    "constraint": "v4",
    "evidence": [
     {
+     "locator": "jobs.c-bindings.steps[18].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": "v4",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/upload-artifact@v4#"
+  },
+  {
+   "condition": null,
+   "constraint": "v4",
+   "evidence": [
+    {
      "locator": "jobs.c-bindings.steps[19].uses",
      "path": ".github/workflows/ci.yml"
     }
@@ -403,25 +439,7 @@
    "constraint": "v4",
    "evidence": [
     {
-     "locator": "jobs.c-bindings.steps[23].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-library.steps[4].uses",
+     "locator": "jobs.c-library.steps[3].uses",
      "path": ".github/workflows/release.yml"
     }
    ],
@@ -433,103 +451,13 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.feature-matrix.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.cross-check.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.check.steps[1].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
-  },
-  {
-   "condition": null,
-   "constraint": "stable",
-   "evidence": [
-    {
-     "locator": "jobs.c-library.steps[1].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "stable",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@stable#"
   },
   {
    "condition": null,
    "constraint": "v1",
    "evidence": [
     {
-     "locator": "jobs.c-bindings.steps[10].uses",
+     "locator": "jobs.c-bindings.steps[9].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -541,15 +469,37 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/ilammy/msvc-dev-cmd@v1#"
+  },
+  {
+   "condition": null,
+   "constraint": "nightly-2026-11-09",
+   "evidence": [
+    {
+     "locator": "L1",
+     "path": "rust-toolchain.toml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "nightly-2026-11-09",
+   "scope": "toolchain",
+   "source_kind": "url",
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   }
  ],
  "inputs": [
   {
-   "blob": "754097a5931b979f736fba51f73bb3b31c10bb1a",
+   "blob": "05335407fd5f642dfdcfd4489b2717965b17dc50",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "6ab57d790bc5f2b02e6ec74aa83c21bdabe080f3",
+   "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "82f89b288e6b7516041edd67d2e46fe8a8f69a05",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -557,11 +507,15 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "642777cfe26acdf28758332e1809477cbdfd3662",
+   "blob": "0a2307f3cb2b03f18338499cf88640f92c677cb0",
    "path": "Makefile"
+  },
+  {
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
+   "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "8e70a8aed8b3e2234cc9535b99c13e65b5184a97630b3aabc6c9e6f067b4c4ae",
+ "inputs_fingerprint": "c70b0683cd49e5e63c56ea15e620946e1174edaeadcb38cabebede66fec03288",
  "instances": [
   {
    "commit": null,
@@ -655,6 +609,19 @@
    "version": null
   },
   {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
    "commit": null,
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -695,19 +662,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:github/dtolnay/rust-toolchain",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/dtolnay/rust-toolchain@stable#",
-   "purl": "pkg:github/dtolnay/rust-toolchain@stable",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/dtolnay/rust-toolchain",
-   "version": "stable"
-  },
-  {
-   "commit": null,
    "component": "pkg:github/ilammy/msvc-dev-cmd",
    "context": "",
    "first_party": false,
@@ -718,6 +672,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/ilammy/msvc-dev-cmd",
    "version": "v1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:toolchain/rust",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "nightly-2026-11-09"
   }
  ],
  "issues": [

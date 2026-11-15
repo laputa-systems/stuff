@@ -10569,11 +10569,11 @@
  ],
  "inputs": [
   {
-   "blob": "42f51105efb233783ed3708a39cdd2ab601fa5ac",
+   "blob": "e71825aca3ffb7044088fa5ca845efa7ea97fbee",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "307cd5f45ca9d618db8005aa885a5b17a7eea10b",
+   "blob": "80e232fac5f938461ececf2665f8866e456f29da",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -10605,7 +10605,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "ef57020501f39c318ac7acfcd2d33404e59280db2e0dbe9277ecda9f27a62d4b",
+ "inputs_fingerprint": "7bcac215f1da980f1ad980b81316560854a3bb54f37dd1c4645ea717f10aba39",
  "instances": [
   {
    "commit": null,

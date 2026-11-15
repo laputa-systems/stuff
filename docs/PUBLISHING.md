@@ -40,7 +40,7 @@ stuff publish pypi --wheel dist/laputa_buildlib-0.1.0-py3-none-any.whl
 
 `stuff publish cargo` publishes the `-p` crates in the order given. Each crate's verification resolves a dependency on an earlier crate of the same run from the registry being published to, so list dependencies before their dependents; the mirror need not hold the new versions. A crate version already in that registry's index, including one a failed earlier run recorded locally but did not promote, is skipped, so rerunning the same command completes the remaining crates.
 
-`--dry-run` stages the requested change without uploading or promoting. `stuff` prepares against the live generation rather than replacing it with a local subset. Validation and drop checks precede uploads; an upload failure can leave unactivated objects. Keep one publishing machine per registry, as described under conditional promotion below. PyPI acquisition can currently populate persistent wheel state during a dry run; the candidate/cache separation issue is tracked in [TODO.md](../TODO.md).
+`--dry-run` stages the requested change without uploading or promoting. `stuff` prepares against the live generation rather than replacing it with a local subset. Validation and drop checks precede uploads; an upload failure can leave unactivated objects. Keep one publishing machine per registry, as described under conditional promotion below. PyPI acquisition can currently populate persistent wheel state during a dry run.
 
 Every writer of a registry holds one lock file: `$STUFF_STATE_HOME/<registry>/publish.lock` for `cargo`, `npm`, and `pypi`, and `$STUFF_STATE_HOME/oci/transaction/publish.lock` for OCI publish and rollback. `stuff lock-path BUCKET` prints it for any bucket in the configuration, including custom names and the OCI blob bucket; `stuff lock-path --registry NAME` prints it by registry. `r2-gc.py`, `r2-gc-blobs.py`, and `mypypi-container.sh` resolve their lock through it and fail on an unconfigured bucket, so the `stuff` on `PATH` (or `$STUFF`) must include `lock-path`; `make install` rebuilds it into `$PREFIX/bin` (default `~/.local/bin`).
 
@@ -355,7 +355,7 @@ The mirror's `catalog.json` carries the artifact manifest itself (`artifacts` wi
 
 ## Republish without new packages
 
-A renderer or catalog change reaches a registry's pages only when that registry publishes again. `stuff republish cargo|npm|pypi|oci` does that without package inputs: it reads the live generation, renders it again under the current renderer, and promotes it. `stuff republish mirror` re-derives the mirror generation from the manifest instead — cached upstream downloads make that an unchanged no-op when the manifest did not change. Unchanged output reports no new generation. The bucket keeps older manifests until `make gc` prunes generations outside its retention window.
+A renderer or catalog change reaches a registry's pages only when that registry publishes again. `stuff republish cargo|npm|pypi` reads the live generation, renders it again, and promotes it without package inputs. OCI also has a republish command, but renderer-only or public-origin changes currently reuse its generation ID and conflict with immutable output ([STUF-78](../TODO.md)). `stuff republish mirror` re-derives its generation from the manifest; an unchanged manifest uses cached downloads and produces no new generation. Older manifests remain until `make gc` prunes them outside its retention window.
 
 Republish uses the observed live generation as its promotion base even when this machine's last promoted generation is older. If another publisher changes `current` during the operation, republish refuses the competing update; rerun it to render the new live generation.
 
@@ -416,7 +416,7 @@ crates/mycrates/bin/mycrates migrate-state --state-dir "$H/mycrates/state"
 
 This describes the legacy Python write path, kept as the parity oracle. `mycrates` writes require the publish token, whether `--token-file` supplies it or you set `MYCRATES_TOKEN`. Reads follow `auth_required` in `config.json`, and the generated `current/registry/config.json` advertises the same value as `auth-required`.
 
-Keep `auth_required` false for archive static servers. Production read authentication belongs to the tailnet ingress. The publish server serves `blobs/` for Cargo verification, so a dependent native crate publishes without `--no-verify`.
+Keep `auth_required` false for archive static servers. Production registry reads are anonymous; the publishing service authenticates mutations behind the tailnet ingress. The publish server serves `blobs/` for Cargo verification, so a dependent native crate publishes without `--no-verify`.
 
 ## Deploy the serving application
 
@@ -433,10 +433,11 @@ on the host; image deployment does not publish registry content.
 
 ## Registry access
 
-Every registry and blob hostname resolves directly to Lisa's private tailnet
-ingress. The ingress verifies the peer's tailnet identity before forwarding a
-request. Package clients use the existing HTTPS URLs without Cloudflare login
-or browser challenges. No public proxy or tunnel fronts Stuff.
+Registry and blob hostnames accept anonymous GET and HEAD through the public
+tunnel and loopback ingress. Package clients need no Tailscale connection,
+Cloudflare login, or browser challenge. `stuff-publish.17166969.xyz` resolves
+directly to Lisa's tailnet ingress for authenticated publication. The
+[host runbook](openorange-runtime.md#public-listener) defines both listeners.
 
 Cargo downloads `.crate` files from `crates-blobs.17166969.xyz`; that reader
 accepts only `/blobs/` paths. OCI redirects blob reads to
@@ -481,7 +482,7 @@ can be uploaded safely. Bucket versioning must be enabled and verified.
 | `exceeds the 300 MB single-PUT cap` | Large object without S3 credentials | Set `R2_S3_*` |
 | `differs from its manifest ETag` | A pulled object does not match the generation's manifest | Rerun the pull; if it repeats, the bucket is inconsistent |
 | `publish: waiting for active writer` | Another publish, rollback, or gc holds the lock | Wait for it to finish |
-| `remote current is '...', expected '...'; refusing to overwrite a competing publication` | Another machine published, or rolled back, since this machine's last promotion | Publish again; `stuff` prepares the change against the new live generation |
+| `remote current is '...', expected '...'; refusing to overwrite a competing publication` | Another machine published, or rolled back, since this machine's last promotion | Stop local publishers and GC, inspect the live generation, then switch all local writers to the same fresh `STUFF_STATE_HOME` and `STUFF_CACHE_HOME` directories. Repeating publish does not clear the stale record, and a no-op republish does not refresh it. |
 | `generation ... drops N versions served by live generation ...` | The proposed catalog lacks served versions | Re-plan against the current publication; use explicit rollback for a deliberate generation switch |
 
 ## Copy a registry bucket to another store
@@ -556,14 +557,16 @@ Store service credentials in `~/.config/stuff/credentials.json` with mode 600
 (or select a file with `STUFF_CREDENTIAL_FILE`). `STUFF_CONFIG_HOME` and
 `XDG_CONFIG_HOME` follow the existing configuration directory rules. The JSON
 has schema 1 and requires `endpoint`, `coordinator_token`, `access_key_id`,
-`secret_access_key`, and `region`. The endpoint is the management origin, for
+`secret_access_key`, and `region`. Use `auto` for the service region; the client
+currently accepts other values that the gateway rejects ([STUF-81](../TODO.md)).
+The endpoint is the management origin, for
 example `https://stuff-publish.17166969.xyz`; its S3 route is derived from that origin.
 These are service credentials, distinct from the backing store credentials.
 The service must be enabled and verified before installing this file.
 
 For isolated runs the equivalent bindings are `STUFF_COORDINATOR_URL`,
 `STUFF_COORDINATOR_TOKEN`, `STUFF_S3_ACCESS_KEY_ID`, `STUFF_S3_SECRET_ACCESS_KEY`,
-and optional `STUFF_S3_REGION` (default `auto`). Partial service configuration
+and optional `STUFF_S3_REGION` (must be `auto`). Partial service configuration
 fails before publishing. Endpoint URLs require HTTPS except for local test
 servers. Service tokens and secret keys are omitted from debug output.
 
@@ -591,3 +594,6 @@ requests emit `registry.publication.attempt.<registry>`; other requests emit
 `registry.request`. Receipt retries count as attempts. Operation names contain
 no package names, paths or tokens. Delivery is bounded and does not gate serving
 or publication when Stats is unavailable.
+
+The publishing service signing region is `auto`. Both credential-file `region` and
+`STUFF_S3_REGION` reject other values before any network request, matching the gateway.

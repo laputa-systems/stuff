@@ -32,17 +32,17 @@
    "evidence": [
     {
      "locator": "jobs.test.steps[0].uses",
-     "path": ".github/workflows/ci.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
+   "resolution": "resolved",
+   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v2#"
+   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
   },
   {
    "condition": null,
@@ -50,17 +50,17 @@
    "evidence": [
     {
      "locator": "jobs.test_wasi.steps[0].uses",
-     "path": ".github/workflows/ci.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
+   "resolution": "resolved",
+   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v2#"
+   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
   },
   {
    "condition": null,
@@ -68,17 +68,17 @@
    "evidence": [
     {
      "locator": "jobs.fuzz.steps[0].uses",
-     "path": ".github/workflows/ci.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
+   "resolution": "resolved",
+   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v2#"
+   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
   },
   {
    "condition": null,
@@ -86,21 +86,39 @@
    "evidence": [
     {
      "locator": "jobs.lint.steps[0].uses",
-     "path": ".github/workflows/ci.yaml"
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
+   "resolution": "resolved",
+   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v2#"
+   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
   },
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -111,10 +129,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -155,23 +173,31 @@
  ],
  "inputs": [
   {
-   "blob": "97b0f128d6712f327f312350a337a0339e80c490",
-   "path": ".github/workflows/ci.yaml"
+   "blob": "4191f582158f0c34e700bc507a2aafa93525ac81",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
+   "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
+   "path": ".github/workflows/lint.yml"
   },
   {
    "blob": "70fbaa9605ca64643a98864ae11ec2fc847bd45a",
    "path": "Cargo.toml"
   },
   {
+   "blob": "57614ec0d91852b8c831d607f438d380377d084c",
+   "path": "Makefile"
+  },
+  {
    "blob": "b53eda13d7bc0dd11e91019b9824304c4b4ed60b",
    "path": "fuzz/Cargo.toml"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "be5f11a098f8f0f8033c62014fd55e68572db2e88828837717fe88e8b7bdbcf3",
+ "inputs_fingerprint": "f58e1e286e2d74e21cb09ea16df2bb5197f6c843a8ae3bbebe4f8fd2bdbb47d6",
  "instances": [
   {
    "commit": null,
@@ -187,17 +213,30 @@
    "version": null
   },
   {
-   "commit": null,
+   "commit": "0717577d45739eb3c851188b29f50ed6c0b2194e",
    "component": "pkg:github/actions/checkout",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/actions/checkout@v2#",
-   "purl": "pkg:github/actions/checkout@v2",
+   "id": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#",
+   "purl": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
-   "version": "v2"
+   "version": "0717577d45739eb3c851188b29f50ed6c0b2194e"
+  },
+  {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   {
    "commit": null,
@@ -217,16 +256,23 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   }
  ],
- "issues": [],
+ "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  }
+ ],
  "projects": [
   {
    "directory": ".",

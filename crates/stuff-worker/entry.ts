@@ -307,6 +307,10 @@ async function unifiedIndex(req: Request, env: WorkerEnv): Promise<Response> {
   if (catalogs.some((text) => text === null)) {
     return unifiedNotReady();
   }
+  const completed = renderedPages.get(renderKey);
+  if (completed !== undefined) {
+    return new Response(req.method === "HEAD" ? null : completed.body, { status: 200, headers });
+  }
   const body = renderUnified(env, url, catalogs as string[]);
   const size = new TextEncoder().encode(body).byteLength;
   if (size <= RENDER_CACHE_BYTES) {
