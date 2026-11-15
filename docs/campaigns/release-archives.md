@@ -8,12 +8,11 @@ repomod rule keeps it that way, and every consumer reads them. Owner request, 20
 - **State:** started. Phases 1 and 2 and the mirror lane are in progress.
 - **Already `.tar.xz`:** the build and toolchain repos (via buildlib) and llvm-prebuilt-musl.
 - **To switch from zip:** the ish-template tool family (ish, loc, kache, lz, ctrs, soulseek-rs,
-  syncthing, mactop, e, fz, fastermod, diff-pretty, srv, vault, tm, rage, zzz), gluon, gh, fd, rg,
+  syncthing, mactop, e, fz, fastermod, diff-pretty, srv, vault, tm, rage), gluon, gh, fd, rg,
   jaq, img, git-build and ssh-build (rawzip `make-archive`), and stuff's mirror (`<id>.zip`).
 - **To switch from other tar formats:** play's Linux `.tar.gz`, img's source `.tar.gz`, and
   rust-fontconfig's `.tar.gz`.
 - **Already broken:**
-  - usr's `zzz` installer fetches a raw binary that zzz no longer publishes.
   - laputa's oxish recipe expects a `.tar.xz` that ssh-build no longer publishes.
 - **Needs you:** approve each producer's first `.tar.xz` release and the mirror publish. These
   are remote-write publishes.
@@ -38,6 +37,8 @@ repomod rule keeps it that way, and every consumer reads them. Owner request, 20
    manifests, `SHA256SUMS`) are not release archives.
 4. **Archives are deterministic:** sorted entries, fixed mtimes, uid and gid 0. Consumers reject
    symlinks and paths that escape the extraction root.
+5. **zzz is out** (owner, 2026-11-15): it keeps its zip archives. The catalog ignores
+   `release-archive-format` and `binary-release-standard` for it.
 
 ## Sequence
 
@@ -48,7 +49,7 @@ breaks.
    `.tar.xz`, apart from the exemptions. `binary-release-standard` requires `.tar.xz` for tools,
    and a fixer rewrites the ish-template packaging step. `build-release-standard` keeps `.tar.xz`.
 2. **Consumers accept `.tar.xz`** alongside today's zip.
-   - usr's installer: the ish family, img and lz, zzz, kache, and the bundles.
+   - usr's installer: the ish family, img and lz, kache, gluon, Player, and the bundles.
    - Repos that fetch tool zips: ssh-build's `fetch-ish`, play's `fetch-gluon`, img's kache,
      mactop's swift-bylaws, and the laputa recipes.
    - Symlink-escape checks in both extractors.
@@ -61,4 +62,5 @@ breaks.
 ## Not in scope
 
 - `joshuarli/mold` and `joshuarli/ghostty`, which are `IGNORE` in the catalog.
+- `laputa-systems/zzz` (decision 5).
 - Third-party archives we only consume.
