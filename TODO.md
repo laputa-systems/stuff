@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 87
+Next: 88
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -32,6 +32,16 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Effort:** M
 
 
+
+
+### STUF-87 · P1 · Diagnose private Engine volume fencing during acknowledged Stats import
+
+- **Area:** OpenOrange Engine durability
+- **Where:** Stats bench/results/2026-11-15-scale-prep-review/README.md; protected Lisa /home/josh/.work/stats-perf-campaign/production-engine-20261115/engine-stdout.log and campaign-rebuild-20261115/
+- **Problem:** Isolated Stats fixture using image stats:6cc06db247a3, private Engine binary SHA256 0b6e8c031ce2d2d3259b540a4ae55c6f8d4bb367001406110ce5dc62bcd7357f, two CPUs and 3 GiB repeatedly fails canonical snapshot import with HTTP 500. Engine logs QuorumUnavailable at 18:03:23 UTC and staged_write_abort_failed fencing at 18:03:30, 18:18:35 and 19:08:47 on 2026-11-15. A fresh-namespace single campaign rebuild with 250ms import pacing stopped at 70500 acknowledged rows; memory limit events occurred but zero OOM kills. Blocks tenfold acceptance and repeated recovery. Underlying defect versus Engine configuration/resource limits is unproven; P1 assumed for the blocked durable recovery path, not a claim of production data loss.
+- **Recommendation:** Preserve failed state and logs; reproduce the volume-layer failure in an isolated pinned runtime, distinguish resource/configuration misuse from Engine defect, and verify acknowledged rows survive reopening and ten ordinary restarts under 15 seconds. Do not restart the shared Engine or repair it within the Stats campaign. Check cross-namespace actor identity handling: actor-list results in two fixture namespaces returned the same actor ID.
+- **Fix with:** root-cause
+- **Effort:** M
 
 
 ### STUF-82 · P2 · Worker gateway test intermittently sees an already-read body
