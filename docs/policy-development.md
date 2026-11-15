@@ -394,6 +394,19 @@ template with a `make test` step; one without a `test` target, or with an existi
 manual finding. The rule reads every workflow, skips forks unless they are tagged `fork-diverged`,
 and reports unreadable workflows or undeterminable triggers as operational findings.
 
+The supported `gha-test-workflow` shape uses an unrestricted `pull_request` trigger, or
+`branches` including the known default branch and `types` including opened, synchronize and
+reopened. Path filters and `branches-ignore` are unsupported. The test job has no `if`, reusable
+workflow call, or enabled `continue-on-error`; its test step has no `if` or enabled
+`continue-on-error`, uses bash or sh, and runs a single `make test` or `make test-ci` command.
+Make variable assignments may appear before or after the target. Put container execution in a
+Make target and call that target in its own step.
+
+`fleet/policy/retention.toml` lists repositories holding mutation, coverage, and strict-profile
+guarantees. `mutation-lane`, `coverage-target`, and `strict-profile` check those guarantees
+without fixers. Eligibility is independent of repository files so deleting a campaign record,
+target, workflow, or configuration cannot disable its own check.
+
 `github-protection` requires zero approving reviews on protected branches so owner-only
 automation never waits on reviews. It also reports required GitHub Actions status checks that no workflow produces, expanding job
 `name:` templates over `strategy.matrix` (including `include` and `exclude`) and falling back to

@@ -22,14 +22,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** durable-state
 - **Effort:** M
 
-### STUF-85 · P1 · First-party packuments freeze dist-tags.latest at the lexicographic max instead of the newest publish
-
-- **Area:** npm
-- **Where:** crates/mynpm/src/packument.rs packument_modified / latest_snapshot
-- **Problem:** latest_snapshot sorts candidate snapshots by a top-level "modified" key no record carries (first-party packuments nest time.modified under "time"; upstream packuments have no top-level modified either), so dist-tags.latest and time.modified froze at the lexicographic max packument (0.9.1 for @laputa-systems/ui-dashboard) after publishes of 0.10.0-0.11.3. Renderer fix merged in PR #14 with regression test; mynpm suite + clippy green. BLOCKER to shipping it to the live npm registry: the registry seals its current generation by re-hashing base+artifacts+packument bytes with the running renderer, so ANY packument-byte change makes the live generation unsealable by the fixed binary ("integrity: generation identity does not match its contents"). stuff republish npm routes through the same Seal::Current check and cannot cross it either (verified: its only steps are pull -> publish_site -> read_current(Seal::Current)). The npm registry has no adopt/re-seat entry point wired into republish (myoci and mycrates have adopt; see docs/PUBLISHING.md 296-321 for OCI). Advancing dist-tags.latest on the live registry requires, ONCE, an operator-run migration: r2-pull the npm bucket into a site, mynpm adopt --site-dir SITE to re-render + verify + switch the local current to a new generation, then stuff republish npm to stage and promote it, then verify npm view @laputa-systems/ui-dashboard dist-tags. Pulling the whole mirror may be large; verify disk and window before starting, run it supervised rather than unattended. Do NOT install a #14-built stuff (cargo install / usr sync) before that re-seat lands: the seal then rejects the pre-re-seat generation used for every subsequent npm publication on this machine until the migration lands.
-- **Recommendation:** merge #14 (done) and record the exact completion path: operator (Joshua) runs the one-time pull -> adopt -> republish migration against the npm bucket, supervised, then npm view @laputa-systems/ui-dashboard dist-tags must report 0.11.3 and stuff publish npm --tarball must succeed again; then close this ticket. Alternatively, the tool gains a wired npm adopt (republish does adopt-then-promote), after which republish is a no-op-safe renderer catch-up; that is the durable fix for the missing command but is a bigger change than a one-time migration and wants its own review.
-- **Fix with:** worker
-- **Effort:** M
 
 
 
