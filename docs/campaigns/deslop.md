@@ -7,53 +7,68 @@ established, so the slop cannot return.
 
 ## Status
 
-- **State:** paused, waiting for the owner to dispatch. Every in-scope repository (46) has
-  `TODO-DESLOP.md` on its default branch. Dispatch is the owner's act (decision 10).
-- **Accepted foundations:**
-  - F1 (the `fork-diverged` tag).
-  - F2 (`gha-test-workflow`, stuff#9). It fixed a mypypi sandbox defect that skipped tests had
-    hidden.
-  - K0 (`todo --file`), K1 (test-audit coverage and mutation).
-  - K3 (the `deslop` skill, usr#28; lessons in usr#31 and usr#33).
-  - Vulture and deptry mirrored.
-- **srv, the complete pilot:** every ticket closed and the Report filled (srv#35, srv#37).
-  - Mutants missed: 61 → 0. Branch coverage: 66.8% → 87.9%. Unsafe code: 3 → 0.
-  - Five real defects fixed. Four came from review and mutation: an idle-connection stall, the
-    16-header 400, no reply for a path beneath a file, and backslash docs paths. The fifth, the
-    unbounded connection threads the fix left behind, came from the independent completion
-    review.
-  - The CI mutation lane works, and treats exit 3 (timeouts only) as detected.
-- **buildlib (Python pilot):**
-  - Done: Types (escape hatches 16 → 11), first mutmut tests (survivors 235 → 216), Dead code,
-    and the DSLP-6 fix.
-  - Open: DSLP-4 (remaining survivors), DSLP-9 (Target model), and DSLP-10 (a `Needs owner`
-    walk-back).
-- **extensions (TypeScript pilot):** seeded only. Stryker and knip are scratch installs until
-  STUF-83.
-- **Calibration measured, not run:**
-  - loc (Rust, 12k): 93.0% / 84.5% coverage; a full mutation run is about 2.3 hours, so its
-    Tests step targets critical modules. A 1/20 sample missed 19 of 73 viable mutants.
-  - toolbox (Python, 19k): coverage runs only serially (68%); all 40 skipped tests need host
-    tools (ffmpeg encoders, fio).
-  - Both facts are in those repos' tickets. stats and stuff `repomod/` were not measured.
-- **Open campaign work:**
-  - STUF-84: fleet retention rules (coverage target, mutation lane, strict profiles).
-  - STUF-83: mirror mutmut, Stryker, and knip.
-  - STUF-82: a flaky Worker test.
+- **State:** assurance hardening (decision 13) landed or is in review; broader dispatch waits for
+  the owner. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of scope (decision 12).
+- **Method:** usr's `deslop` skill is the one procedure (usr#34: pre-merge contract, consumer and
+  perf evidence, ticket revalidation, bounded component tasks; typing and mutation lessons). This
+  doc holds only scope, decisions, sequencing, and status.
+- **Repaired pilot defects:**
+  - buildlib#8: `is_sha256` claimed `TypeIs[str]` but rejects most strings, so ty accepted a
+    caller that raised `TypeError`. Now `TypeGuard[str]`, with a checker witness that fails lint
+    if the narrowing turns unsound again. This was an escaped regression from buildlib#4. No other
+    custom narrowing predicate appears in any deslop PR.
+  - srv#38: the mutation gate diffed only `*.rs`, used the whole crate only as a fallback, and
+    passed exit 3 unread. It now classifies the whole change, selects a union, reads the results,
+    confirms timeouts by rerun, and fails on missing or empty evidence. `mime` is contract-tested
+    instead of excluded: 21 more mutants, all caught. Two Content-Types that disagree with their
+    registrations went to the owner (srv TODO-DESLOP).
+  - buildlib#9: DSLP-9 no longer treats the open-ended `ELFHeader.kind` as a closed set.
+- **Negative controls:**
+  - srv#39: a failing test fails `CI`. srv#40: a test deletion plus an unrelated production
+    change fails `mutants` with 19 missed. The old gate passed the same tree in 5s.
+  - Local controls: a docs-only change passes as irrelevant, Cargo.toml selects the scope,
+    budget exhaustion fails, and a deletion-only hunk goes whole-file.
+  - stuff#12: `gha-test-workflow` rejects `if: false`, impossible job conditions,
+    `continue-on-error`, `|| true`, `make -n`, path filters, and wrapped commands, each by name.
+- **Retention:** stuff#12 keeps eligibility in `fleet/policy/retention.toml` (srv's mutation lane
+  and coverage target; srv and buildlib strict settings). Removing `TODO-DESLOP.md` leaves verdicts
+  unchanged; removing a target, the job, a step condition, or a strict setting is reported. The
+  rules are read-only, and none is rolled out.
+- **Readiness by language and shape** (macOS arm64 unless CI):
+
+  | Shape | Recipe | Measured | Verdict |
+  | --- | --- | --- | --- |
+  | Rust, small single crate (srv, 2k) | srv#38 gate | 235 mutants, 9m43s in CI; controls fail as intended | Qualified |
+  | Rust, large crate (loc, 12k) | same gate, bounded scope | critical scope is 916 of 2,433 mutants (about 50 min on 4 jobs). Its counting core (229) left 29 survivors. Timeout reruns held about 10 cores each and were stopped. | Not a lane yet: needs sharding, a CPU cap (`cpu-guard`, usr#36), and suite threads capped in mutation runs |
+  | Python, plain pytest (buildlib) | mutmut 3.8.1 scratch | earlier pilot: 235 → 216 survivors | Blocked for CI by STUF-83 |
+  | Python, pytest-parallel consumers (stuff `repomod/`) | mutmut | rejected by pytest-parallel before workers start; serial (`-p no:parallel`) is the only route, and pytest-parallel's own repo also hits its TMPDIR defect | Blocked: STUF-83, plus a serial-only recipe |
+  | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 scratch | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Blocked by STUF-83 and extensions DSLP-6 (Vitest/coverage-v8 mismatch); the browser runtime is unqualified |
+
+- **Calibration landed:**
+  - loc: Ground #5, Diagnose #6 (a stdin path list counts a file once per spelling, DSLP-6 P1),
+    and Types (#7, open; no setting adopted).
+  - stats: Ground #16 (CI runs `make test-ci`, an interrupted-import test repaired, and macOS
+    `make test` red from setuid `ps` in `sandbox-exec`, DSLP-7).
+  - stuff: Ground #11.
 - **Known red:**
-  - toolbox CI on main (likely the private shadowdriver dependency).
-  - oxish upstream workflows (`cargo fmt` missing; recorded in its DSLP-1).
-  - tm's flaky macOS test (its DSLP-6).
+  - stuff `main` since 6257776: mycrates golden tests (`test_adopt`, `test_golden`) fail
+    deterministically. That blocks stuff#12.
+  - ish, loc, and lz get new `gha-test-workflow` findings for container-wrapped `make test` once
+    stuff#12 lands.
+  - oxish upstream workflows, and tm's flaky macOS test.
+- **Next justified dispatch batch:** diff-pretty, vault, and fz: tier-A Rust tools under 10k
+  lines with no hardware or setuid boundary, where the qualified srv recipe applies unchanged. Hold
+  Python and TypeScript mutation steps until STUF-83 and their lanes qualify. Those repos may still
+  run Ground, Diagnose, Types, and Dead code.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
-  1. Fast-forward `~/usr`; it has one local change, which the campaign left alone. That installs
-     `todo --file` and the `deslop` skill.
-  2. Dispatch repo agents with `/deslop` in a repository. Recommended order: tier A and the
-     calibration repos first, then B; hold C to E until loc or toolbox has settled.
-  3. Answer buildlib DSLP-10, a walk-back of the always-true ELF `is_64`.
-  4. Decide how STUF-83 is solved: native wheels for mutmut, or a pure-Python tool.
+  1. Fix stuff `main`'s mycrates golden red (6257776 onward), then merge stuff#12.
+  2. Review and merge usr#34 (method), usr#35 (bridge ticket), and usr#36 (`cpu-guard`).
+  3. Approve dispatch of the batch above.
+  4. Owner tickets: buildlib DSLP-10 (the ELF `is_64` walk-back), and srv's Content-Type rows.
+  5. toolbox: fix Actions billing to bring it back in scope.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` The
-  next campaign-agent slices are STUF-84, then a check-up of each repository whose tickets settle.
+  next slices are loc's sharded lane under `cpu-guard`, then STUF-84's fixers once stuff#12 lands.
 
 ## How the campaign runs
 
@@ -133,6 +148,13 @@ tier.
 11. **Skills.** Skill development in `usr` is in scope. The skills are where the campaign's lessons
    end up. Repo agents follow them, and they outlive the campaign. `test-audit` changes its position
    on line coverage first (K1).
+12. **toolbox is out of scope (2026-11-15).** It is private, and GitHub starts no Actions job there
+    (the account's payments or spending limit), so no PR can merge on green. Its `TODO-DESLOP.md`
+    stays; an unpushed local branch in `~/d/toolbox` fixes its Linux ffmpeg install condition.
+13. **Assurance hardening before broader dispatch (2026-11-15).** Repair the pilot defects, qualify
+    the enforcement and mutation gates with negative controls, keep retention eligibility in fleet
+    policy, make the `deslop` skill the one procedure, and measure readiness per language before the
+    next dispatch batch.
 
 ### Prescribed
 
@@ -143,23 +165,13 @@ tier.
 - **Repos over 50k lines are worked by component.** Ground and Diagnose cover the whole repo. Types,
   Tests, and Dead code run per component (a crate, a package, or a subsystem of at most about 20k
   lines), one PR each. The Ground ticket lists the components.
-- **Mutation tools:** `cargo-mutants` with `--in-diff` for Rust (kache's `make mutants-diff`,
-  `~/repos/kache/Makefile:110`, is the prior art). mutmut for Python, with cosmic-ray as the fallback
-  if mutmut cannot run the suite. Stryker with its Vitest runner for TypeScript, using line-range
-  `--mutate`. Python diff scoping may be per file.
-- **Coverage tools:** `cargo-llvm-cov`, with nightly branch coverage where the pinned toolchain
-  supports it. coverage.py with branch coverage and subprocess patching. `@vitest/coverage-v8` with
-  an explicit first-party `include`, so that files no test imports still appear. Each repo exposes
-  `make coverage`, which prints line and branch totals and writes its report under `.work/`.
-- **Dead-code tools:** rustc `dead_code` plus `unreachable_pub` in binary crates, `cargo-machete`,
-  and `cargo-udeps` (nightly) to confirm a disputed case. For Python, Ruff, then vulture for
-  discovery, then deptry for dependencies. For TypeScript, knip in both default and `--production`
-  mode, after its configuration hints are resolved.
+- **Tool recipes** (mutation, coverage, dead code, strict-profile candidates, escape-hatch counts)
+  live in the deslop skill's [tools reference](https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/skills/deslop/references/tools.md).
 - **Joining `make lint`:** a dead-code tool joins a repo's lint only when the repo is clean under it
   with an allowlist of at most 5 entries, each with a reason.
 - **A strict-profile setting joins the fleet profile only on evidence.** On pilot repos it must have
   rejected at least one real defect or deleted at least one escape hatch, while needing at most one
-  false-positive suppression per 5k lines. The starting candidates are listed under Reference.
+  false-positive suppression per 5k lines.
 - **The perf gate covers perf-sensitive repos.** These are the rustybench repos (fastermod, lz, loc,
   e, ish) and any repo whose Ground ticket declares a workload. The gate runs on every refactor
   slice and on the repo's final state. Measure only when `perf-gate-ready` passes, with at least 5
@@ -170,8 +182,7 @@ tier.
 - **Test cost budget.** A Tests step may raise warm `make test` time by at most 20% or 30 seconds,
   whichever is larger. Repos already slower than 5 minutes warm fix their drag first.
 - **The mutation lane runs on Linux only,** on PRs that change source. Its CI-time p50 target is
-  10 minutes or less, and each lane sets explicit per-mutant timeouts. A PR that changes only tests
-  selects the production files those tests cover, so a test deletion cannot pass with zero mutants.
+  10 minutes or less. Its selection and result contract is the test-audit mutation reference.
 - **Libraries.** Changes to a published or consumed library (smolith, ptytest, hi-lite, rustybench,
   laputa-ui-dashboard, buildlib, pytest-parallel) also run their known consumers' tests against the
   candidate, using `repomod deps` to find consumers. Repos stay disjoint because consumers pin
@@ -330,56 +341,13 @@ when no F item is open.
 
 ## Repo pass
 
-This section is the method until K3 moves it into the `deslop` skill. Work in a fresh clone at
-`.work/wt/deslop/<repo>` (never the canonical checkout), on branches named
-`deslop/<step>-<topic>`. Every step ends on its acceptance command plus `make test` and `make lint`
-on the merged result.
+The procedure is the `deslop` skill in usr ([SKILL.md](https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/skills/deslop/SKILL.md)).
+This doc does not restate its steps. Campaign-specific additions:
 
-1. **Ground.** Record the base SHA, plus `make test` (cold and warm) and `make lint` with their times
-   and known reds. Fix reds whose cause is clear within two attempts, and file the rest. Add a
-   `## Verification` section of at most 25 lines to the repo's AGENTS.md. It lists the commands with
-   their costs, the public boundaries (CLI commands, flags, exit codes, and outputs; the public API;
-   file and wire formats; endpoints) with the test that guards each one or `none`, the perf workload
-   or `none` with a reason, and the components for repos over 50k lines. For each vendored tree,
-   record the upstream URL and revision in an `UPSTREAM` file (ish's `vendor/fz/UPSTREAM` is the
-   pattern), and classify the tree as pristine or modified.
-   *Accept:* CI runs `make test` and is green, and the Verification section exists.
-2. **Diagnose.** Run `ultrareview`, with its tickets going to `TODO-DESLOP.md` (via `todo --file`).
-   *Accept:* `git diff --stat` touches only docs, comments, and `TODO-DESLOP.md`, and every finding
-   names its `Fix with`.
-3. **Types.** Turn on the strict profile for the repo's language. Fix what it reports truthfully,
-   following `typing-audit`, then fix the top-ranked typing findings from Diagnose. A runtime change
-   needed for a truthful type ships in a separate commit, with a test that failed before it.
-   *Accept:* the checker is clean at the profile, the escape-hatch count (Reference) did not rise,
-   and every fixed contract has a witness (a negative type test where a harness exists, otherwise in
-   the PR body).
-4. **Tests.** Run `make coverage` and record the numbers. Apply `test-audit`:
-   - Cut vacuous and redundant tests, and fix execution drag.
-   - Give every boundary from Ground that has no test a boundary test. Give every unreached region
-     in critical code one disposition: a test, a dead-code candidate for step 5, or unreachable by
-     design with a reason.
-   - Run the mutation tool on the whole repo if it is under 10k lines and fits in 20 minutes.
-     Otherwise run it on the critical modules Diagnose named (parsing, validation, state
-     transitions, persistence, error propagation). Disposition every survivor.
-   - Prove each new boundary test with one injected fault, and record it in the PR body.
-   - Add `make mutants-diff` and the CI lane, unless the fleet fixer already added them.
-
-   *Accept:* no undispositioned survivor in the critical scope, the test cost budget holds, and the
-   mutation lane is green on the PR.
-5. **Dead code.** Run the dead-code tools, then `debloat`. Apply the cuts. File walk-backs under
-   tickets whose area starts with `Needs owner ·`. Every PR body carries the deletion record for each removal: the finding; the
-   entry points, registrations, build and package references, and consumers checked; the platforms
-   and features covered; and the consumer tests run.
-   *Accept:* the tools are clean or allowlisted under the rule above, and consumer tests are green.
-6. **Findings.** Work every open P1 and P2 ticket filed by steps 2 to 5 with its `Fix with` skill,
-   one PR per ticket. The perf gate applies. P3 and P4 tickets stay open.
-   *Accept:* each ticket's own acceptance passes, and the perf verdict is within bound.
-7. **Report.** Run `review` on the cumulative diff from the base SHA to HEAD, and fix the defects it
-   demonstrates. Fill in `## Report` in the header of `TODO-DESLOP.md`: the scorecard values (Reference); for each
-   step, what it found and what it cost; method feedback (a skill rule that would have caught
-   something that slipped through, a tool that misfired, a step that found nothing); and gaps in the
-   shared files.
-   *Accept:* `review` leaves no undisputed P1/P2 defect, and the Report has every scorecard field.
+- Calibration and pilot repos are worked by the campaign agent, in fresh checkouts under
+  `~/d/<repo>/.work/wt/<step>` (a no-checkout host clone, so no enclosing workspace or config leaks
+  into the worktree).
+- A repo agent works only its own repository and reports gaps in shared files in its `## Report`.
 
 ## Seeding
 
@@ -505,24 +473,6 @@ Every other contract change is a walk-back.
 - Resyncing oxish's vendored copies in ssh-build and xsh.
 
 ## Reference
-
-**Strict-profile candidates.** Each is adopted only on evidence, per Prescribed.
-
-- *Rust:* workspace `[lints]` with `unsafe_code = "forbid"`, plus `clippy::wildcard_enum_match_arm`,
-  `match_wildcard_for_single_variants`, `cast_possible_truncation`, `cast_sign_loss`,
-  `unwrap_used` and `expect_used` outside tests, `redundant_clone`, and `needless_pass_by_value`.
-- *Python:* ty with every rule at error severity, plus Ruff `ANN`, `ANN401`, `PGH003`, `TC`, `B`,
-  and `RET`. Start from stuff's `pyproject.toml`.
-- *TypeScript:* `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`,
-  `noImplicitOverride`, and `noPropertyAccessFromIndexSignature`, plus the type-aware Oxlint rules
-  `no-explicit-any`, `no-unsafe-*`, `no-non-null-assertion`, `no-floating-promises`, and
-  `switch-exhaustiveness-check`.
-
-**Escape-hatch count** (scorecard). Run it on first-party, non-vendored sources:
-
-- Rust: `rg -c '\bunsafe\b|#!?\[allow\(|\.unwrap\(\)|\.expect\('`
-- Python: `rg -c 'cast\(|# type: ignore|# ty: ignore|\bAny\b|# noqa'`
-- TypeScript: `rg -Pc '\bas (?!const\b)|\bany\b|@ts-(ignore|expect-error)|(oxlint|eslint)-disable'`
 
 **Scorecard fields.** Each is recorded before and after:
 

@@ -130,6 +130,7 @@ claude-or = { exempt = "harness launcher; arguments, including --help, pass thro
 "close-stale-prs.py" = { help = { source = "tools/close-stale-prs/src/close_stale_prs.py", test = "tools/close-stale-prs/tests/test_close_stale_prs.py" } }
 "codex-campaign-closeout.py" = { help = { source = "dotfiles/base/.local/bin/codex-campaign-closeout.py", test = "dotfiles/codex-campaign-closeout-test.py" } }
 codex-or = { exempt = "harness launcher; arguments, including --help, pass through to the launched harness" }
+cpu-guard = { help = { source = "dotfiles/base/.local/bin/cpu-guard", test = "dotfiles/cpu-guard-test.py" } }
 decide = { help = { source = "tools/decide/src/decide.py", test = "tools/decide/tests/test_decide.py" } }
 dsh = { exempt = "harness launcher; arguments, including --help, pass through to the launched harness" }
 ecount = { help = { source = "dotfiles/base/.local/bin/ecount", test = "dotfiles/owned-help-test.sh" } }
