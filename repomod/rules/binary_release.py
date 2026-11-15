@@ -532,9 +532,11 @@ def _archive_template_fix(source: str) -> str | None:
 def _binary_release_standard_fix(root: Path, repository: Repository) -> dict[str, str]:
     if repository.private or "fork" in repository.tags:
         return {}
-    workflows, _ = _prerelease_workflows(root, repository)
+    sources, _ = read_workflow_sources(root, repository)
     plan = {}
-    for path, source in workflows:
+    for path, source in sources:
+        if not _has_prerelease_intent(_workflow_without_comments(source)):
+            continue
         fixed = _archive_template_fix(source)
         if fixed is not None:
             plan[path] = fixed

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import difflib
 import shutil
 import struct
 import subprocess
@@ -1022,7 +1023,9 @@ def test_static_fixer_replaces_a_stale_embedded_verifier(tmp_path: Path) -> None
 
 def test_ish_archive_fixer_produces_valid_file_plan(tmp_path: Path) -> None:
     fixture = Path(__file__).parent / "fixtures/binary_release/ish_archive/release.yml"
-    write_workflow(tmp_path, fixture.read_text())
+    source = fixture.read_text().replace("jobs:\n", "jobs:\n  # Release jobs.\n", 1)
+    assert source.endswith("\n") and "  # Release jobs.\n" in source
+    write_workflow(tmp_path, source)
     repo = Repository(RepoId("joshuarli", "ish"), ("tool",))
     findings = _binary_release_standard_findings(tmp_path, repo)
     assert any(f.fixable and ".tar.xz archives" in f.message for f in findings)
@@ -1033,6 +1036,11 @@ def test_ish_archive_fixer_produces_valid_file_plan(tmp_path: Path) -> None:
     assert 'sha256sum *.tar.xz | LC_ALL=C sort -k2 > SHA256SUMS' in fixed
     assert 'dist/archives/*.tar.xz dist/archives/SHA256SUMS' in fixed
     assert 'dist/zips' not in fixed
+    removed = [
+        line for line in difflib.ndiff(source.splitlines(keepends=True), fixed.splitlines(keepends=True))
+        if line.startswith("- ")
+    ]
+    assert removed and all("zip" in line for line in removed), removed
     write_workflow(tmp_path, fixed)
     assert _binary_release_standard_findings(tmp_path, repo) == []
     assert archive_findings(tmp_path, repo) == []
