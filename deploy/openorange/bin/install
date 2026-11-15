@@ -20,7 +20,7 @@ python3 -c 'import sys; assert sys.version_info >= (3, 11)' || { echo "install: 
 "$HERE/bin/oo" validate
 mkdir -p /etc/openorange /var/lib/openorange /var/log/openorange /run/openorange
 chmod 700 /etc/openorange
-for s in oo-store oo-engine oo-identity oo-ingress oo-tunnel oo-dns oo-rivet oo-app; do
+for s in oo-store oo-engine oo-identity oo-ingress oo-tunnel oo-dns oo-rivet oo-platform oo-app; do
 	install -m 0755 "$HERE/openrc/$s" "/etc/init.d/$s"
 done
 install -m 0755 "$HERE/bin/logrotate" /etc/periodic/daily/oo-logrotate
@@ -37,6 +37,7 @@ if [ "${1:-}" != "--no-boot" ]; then
 	if "$HERE/bin/oo" tunnel-enabled; then rc-update add oo-tunnel default >/dev/null; fi
 	if "$HERE/bin/oo" dns-enabled; then rc-update add oo-dns default >/dev/null; fi
 	if "$HERE/bin/oo" rivet-enabled; then rc-update add oo-rivet default >/dev/null; fi
+	if "$HERE/bin/oo" platform-enabled; then rc-update add oo-platform default >/dev/null; fi
 	for a in $("$HERE/bin/oo" apps-list); do rc-update add "oo-app.$a" default >/dev/null; done
 fi
 echo "install: ok. Next: rc-service oo-store start && rc-service oo-engine start && oo provision && deploy app images (see runbook)"

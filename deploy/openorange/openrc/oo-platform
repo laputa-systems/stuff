@@ -1,0 +1,31 @@
+#!/sbin/openrc-run
+. /opt/openorange/openrc/oo-common.sh
+
+description="Stats native runtime telemetry bridge"
+supervisor=supervise-daemon
+command=/usr/bin/docker
+respawn_delay=3
+respawn_max=0
+respawn_period=60
+output_log="$OO_LOGDIR/platform.log"
+error_log="$OO_LOGDIR/platform.log"
+retry="TERM/15/KILL/5"
+
+depend() {
+	need docker net
+	after oo-app.stats
+}
+
+start_pre() {
+	"$OO_BIN" prepare platform || return 1
+	oo_remove_container oo-platform
+	command_args="$("$OO_BIN" run-args platform)" || return 1
+}
+
+start_post() {
+	oo_wait platform 30 || { eerror "oo-platform did not become ready"; oo_fail_stop oo-platform; return 1; }
+}
+
+stop_post() {
+	oo_remove_container oo-platform
+}

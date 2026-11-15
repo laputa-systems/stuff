@@ -175,6 +175,18 @@ class App:
         return self.name.upper().replace("-", "_")
 
 
+@dataclass(frozen=True)
+class PlatformBridge:
+    source_app: str
+    ip: str
+    port: int
+    sample_ppm: int
+    resource_service: str
+    openorange_version: str
+    rivetkit_version: str
+    native_version: str
+
+
 @dataclass
 class Config:
     raw: dict
@@ -186,6 +198,7 @@ class Config:
     tunnel: dict = field(default_factory=dict)
     dns: dict = field(default_factory=dict)
     rivet: RivetDashboard | None = None
+    platform_bridge: PlatformBridge | None = None
 
     # --- paths -----------------------------------------------------------
     def p(self, key: str, *parts: str) -> Path:
@@ -269,7 +282,7 @@ def load(path: str | os.PathLike | None = None, overlay: str | os.PathLike | Non
 
 
 def validate(raw: dict) -> Config:
-    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel", "dns", "rivet"}, "apps.toml")
+    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel", "dns", "rivet", "platform_bridge"}, "apps.toml")
     if raw.get("schema") != 1:
         raise ConfigError("schema must be 1")
     stack, net, ing, store = (raw.get(k, {}) for k in ("stack", "network", "ingress", "store"))
@@ -441,7 +454,36 @@ def validate(raw: dict) -> Config:
         if len(set(operators)) != len(operators):
             raise ConfigError("rivet.operators must be distinct")
         rivet = RivetDashboard(hostname, ip, port, tuple(operators))
-    return Config(raw, stack, net, ing, store, apps, tunnel, dns, rivet)
+    bridge = raw.get("platform_bridge", {})
+    if not isinstance(bridge, dict):
+        raise ConfigError("platform_bridge must be a table")
+    _only(bridge, {"enabled", "source_app", "ip", "port", "sample_ppm", "resource_service", "openorange_version", "rivetkit_version", "native_version"}, "platform_bridge")
+    platform = None
+    if bridge and _req(bridge, "enabled", bool, "platform_bridge"):
+        enabled = True
+        source = _req(bridge, "source_app", str, "platform_bridge")
+        ip = _req(bridge, "ip", str, "platform_bridge")
+        port = _req(bridge, "port", int, "platform_bridge")
+        sample = _req(bridge, "sample_ppm", int, "platform_bridge")
+        service = _req(bridge, "resource_service", str, "platform_bridge")
+        orange = _req(bridge, "openorange_version", str, "platform_bridge")
+        kit = _req(bridge, "rivetkit_version", str, "platform_bridge")
+        native = _req(bridge, "native_version", str, "platform_bridge")
+        if source != "stats" or source not in apps or apps[source].kind != "orange" or not apps[source].enabled:
+            raise ConfigError("platform_bridge source must be enabled Stats")
+        try:
+            address = ipaddress.ip_address(ip)
+        except ValueError as error:
+            raise ConfigError("platform_bridge.ip invalid") from error
+        if address not in subnet or ip in used_ips or (rivet is not None and ip == rivet.ip) or address in (subnet.network_address, subnet.broadcast_address) or not net["internal"]:
+            raise ConfigError("platform_bridge requires an unused internal bridge address")
+        if not 1024 <= port <= 65535 or not 1 <= sample <= 1000000:
+            raise ConfigError("platform_bridge port or sample out of range")
+        if not all(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}", x) for x in (service, orange, kit, native)):
+            raise ConfigError("invalid platform_bridge resource or version")
+        if enabled:
+            platform = PlatformBridge(source, ip, port, sample, service, orange, kit, native)
+    return Config(raw, stack, net, ing, store, apps, tunnel, dns, rivet, platform)
 
 
 def dns_routes(cfg: Config) -> dict[str, list[str]]:
@@ -579,6 +621,20 @@ def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
                          "-v", "/var/run/tailscale:/var/run/tailscale:ro",
                          "-v", f"{cfg.run}/identity:/run/identity",
                          "--memory", "64m", "--pids-limit", "32", local_tag("identity")]
+    if service == "platform":
+        bridge = cfg.platform_bridge
+        if bridge is None:
+            raise ConfigError("platform bridge is disabled")
+        image_file = cfg.etc / "platform.image"
+        if not image_file.is_file():
+            raise ConfigError("platform bridge image missing")
+        image = image_file.read_text().strip()
+        if not re.fullmatch(r"sha256:[0-9a-f]{64}", image):
+            raise ConfigError("platform bridge requires a pinned image ID")
+        return COMMON + ["--name", "oo-platform", *_net(cfg, bridge.ip), "--read-only", "--user", f"{UID}:{UID}",
+                         "--env-file", str(cfg.etc / "platform.env"), "--env", f"PLATFORM_BRIDGE_RELEASE=platform-{image[7:19]}",
+                         "--memory", "128m", "--cpus", "0.5", "--pids-limit", "64", "--stop-timeout", "15",
+                         "-v", f"{cfg.etc}/platform/policy.json:/run/secrets/platform-policy.json:ro", image]
     if service == "rivet":
         if cfg.rivet is None:
             raise ConfigError("Rivet dashboard is disabled")
@@ -613,10 +669,15 @@ def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
         deployment = read_app_deployment(img_file)
         network = (["--network", f"name={n['name']},ip={a.ip}", "--network", cfg.egress_network]
                    if a.internet else _net(cfg, a.ip))
+        attributes = []
+        if cfg.platform_bridge is not None and a.name == cfg.platform_bridge.source_app:
+            reference = deployment.image.rsplit("/", 1)[-1]
+            tag = reference.replace(":", "-")
+            attributes = ["--env", f"OTEL_RESOURCE_ATTRIBUTES=service.version={tag},openorange.version={cfg.platform_bridge.openorange_version}"]
         return COMMON + ["--name", a.container, *network, "--read-only", "--stop-timeout", "30",
                          "--user", "1000:1000", "--memory", a.memory, "--cpus", str(a.cpus), "--pids-limit", "512",
                          "--env-file", str(cfg.app_env(a)), *(["--env-file", str(cfg.app_extra_env(a))] if cfg.app_extra_env(a).exists() else []), "--tmpfs", "/tmp", "--tmpfs", "/app/.open-orange", "--tmpfs", "/home/node:uid=1000,gid=1000",
-                         "--env", f"PORT={a.port}", "--env", f"RIVET_NODE_VERSION={deployment.version}", deployment.image]
+                         "--env", f"PORT={a.port}", "--env", f"RIVET_NODE_VERSION={deployment.version}", *attributes, deployment.image]
     raise ConfigError(f"unknown service {service!r}")
 
 

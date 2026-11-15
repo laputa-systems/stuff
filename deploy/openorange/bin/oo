@@ -23,6 +23,9 @@ Must run as root for anything that touches /etc/openorange.
 from __future__ import annotations
 
 import json
+import hashlib
+import secrets
+import tempfile
 import os
 import re
 import shlex
@@ -30,6 +33,7 @@ import socket
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -40,7 +44,7 @@ import deployments  # noqa: E402
 from oo_s3 import S3  # noqa: E402
 from oolib import UID, ConfigError  # noqa: E402
 
-SERVICES = ("store", "engine", "identity", "ingress", "tunnel", "dns", "rivet", "app")
+SERVICES = ("store", "engine", "identity", "ingress", "tunnel", "dns", "rivet", "platform", "app")
 
 
 def die(msg: str, code: int = 1):
@@ -56,6 +60,81 @@ def chown_dir(path: Path, mode: int, uid: int | None = int(UID)) -> None:
 
 
 # ------------------------------------------------------------------ secrets
+def replace_platform_file(path: Path, text: str) -> None:
+    path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    path.parent.chmod(0o700)
+    fd, temporary = tempfile.mkstemp(dir=path.parent, prefix=".platform-")
+    try:
+        with os.fdopen(fd, "w") as out:
+            out.write(text)
+            out.flush()
+            os.fsync(out.fileno())
+        os.chown(temporary, 0, int(UID))
+        os.chmod(temporary, 0o440)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def cmd_configure_platform(cfg, actors) -> None:
+    bridge = cfg.platform_bridge
+    if bridge is None or not isinstance(actors, list) or len(actors) != 2:
+        raise ConfigError("platform bridge requires two explicit Stats actor selectors")
+    roles = set()
+    for actor in actors:
+        if not isinstance(actor, dict) or set(actor) != {"role", "name", "key"}:
+            raise ConfigError("invalid platform actor selector")
+        prefix = {"installation": "installation-", "observation": "observation-store-"}.get(actor["role"])
+        if prefix is None or not isinstance(actor["name"], str) or not re.fullmatch(prefix + r"[a-f0-9]{8}", actor["name"]) or not isinstance(actor["key"], str) or not re.fullmatch(r"[a-f0-9]{64}", actor["key"]):
+            raise ConfigError("invalid platform actor selector")
+        roles.add(actor["role"])
+    if roles != {"installation", "observation"}:
+        raise ConfigError("both Stats actor roles are required")
+    policy = {"resourceService": bridge.resource_service, "openorangeVersion": bridge.openorange_version,
+              "rivetkitVersion": bridge.rivetkit_version, "nativeVersion": bridge.native_version,
+              "samplePpm": bridge.sample_ppm, "actors": actors}
+    replace_platform_file(cfg.etc / "platform/policy.json", json.dumps(policy) + "\n")
+
+
+def cmd_discover_platform(cfg) -> None:
+    bridge = cfg.platform_bridge
+    if bridge is None or bridge.openorange_version != "1.0.2":
+        raise ConfigError("platform selector discovery requires pinned OpenOrange 1.0.2")
+    script = r'''import fs from "node:fs";
+import { createHash } from "node:crypto";
+import { pathToFileURL } from "node:url";
+const base = "/orange/node_modules/open-orange";
+if (JSON.parse(fs.readFileSync(base + "/package.json", "utf8")).version !== "1.0.2") throw new Error("unsupported OpenOrange selector version");
+const chunks = fs.readdirSync(base + "/dist/runtime/chunks").filter(name => name.endsWith(".js") && fs.readFileSync(base + "/dist/runtime/chunks/" + name, "utf8").includes("function createDurableObjectIdScope("));
+if (chunks.length !== 1) throw new Error("ambiguous pinned selector implementation");
+const helpers = await import(pathToFileURL(base + "/dist/runtime/chunks/" + chunks[0]).href);
+const actors = [];
+for (const [role, file, worker, className, objectName] of [["installation", "stats", "stats", "Installation", "installation"], ["observation", "observe", "stats-observe", "ObservationStore", "stats"]]) {
+ if (JSON.parse(fs.readFileSync("/app/" + file + ".jsonc", "utf8")).name !== worker) throw new Error("unexpected Stats worker descriptor");
+ const deployment = createHash("sha256").update("open-orange-deployment\0").update("\0").update(worker).update("\0").digest("hex");
+ const hash = createHash("sha256").update("open-orange-durable-object\0").update(deployment).update("\0").update(className).digest("hex").slice(0, 8);
+ const name = (role === "installation" ? "installation-" : "observation-store-") + hash;
+ const key = helpers.createDurableObjectIdScope({ namespaceKey: helpers.durableObjectNamespaceKey(deployment, className) }).idFromName(objectName).toString();
+ actors.push({ role, name, key });
+}
+console.log(JSON.stringify(actors));'''
+    result = oolib.docker("exec", "-i", cfg.apps[bridge.source_app].container, "node", "--input-type=module", input=script, check=False)
+    if result.returncode != 0:
+        raise ConfigError("cannot derive selectors from the pinned Stats image")
+    actors = json.loads(result.stdout)
+    namespace = urllib.parse.quote(cfg.apps[bridge.source_app].namespace, safe="")
+    for actor in actors:
+        status, payload = engine_call(cfg, "GET", f"/actors?namespace={namespace}&name={urllib.parse.quote(actor['name'], safe='')}&limit=100")
+        if status != 200 or not isinstance(payload, dict):
+            raise ConfigError("cannot verify production actor selectors")
+        matches = [row for row in payload.get("actors", []) if row.get("name") == actor["name"] and row.get("key") == actor["key"] and row.get("destroy_ts") is None]
+        if len(matches) != 1:
+            raise ConfigError("selector must match exactly one live Stats actor")
+    cmd_configure_platform(cfg, actors)
+    print("platform: two live Stats actor selectors verified and stored")
+
+
 def cmd_secrets(cfg) -> None:
     etc = cfg.etc
     etc.mkdir(parents=True, exist_ok=True)
@@ -91,6 +170,16 @@ def cmd_secrets(cfg) -> None:
         temporary.chmod(0o440)
         os.replace(temporary, file)
 
+    platform_env = {}
+    if cfg.platform_bridge is not None:
+        bridge = cfg.platform_bridge
+        platform_env = oolib.read_env(etc / "platform.env")
+        platform_env.setdefault("PLATFORM_OTLP_TOKEN", secrets.token_urlsafe(32))
+        platform_env.setdefault("STATS_INGEST_TOKEN", "nft_" + secrets.token_urlsafe(32))
+        stats = cfg.apps[bridge.source_app]
+        platform_env.update(STATS_ORIGIN=f"http://{stats.ip}:{stats.port}", PLATFORM_POLICY_FILE="/run/secrets/platform-policy.json", PLATFORM_HOST="0.0.0.0", PLATFORM_PORT=str(bridge.port))
+        oolib.write_env(etc / "platform.env", platform_env)
+
     for app in cfg.apps.values():
         path = cfg.app_env(app)
         cur = oolib.read_env(path)
@@ -109,6 +198,16 @@ def cmd_secrets(cfg) -> None:
                 ORANGE_WORKER_SECRETS=",".join(["GATEWAY_SECRET", *app.secrets, *app.vars, *(["S3_ENDPOINT", "S3_REGION", "S3_ACCESS_KEY_ID", "S3_SECRET_ACCESS_KEY"] if app.worker_s3 else [])]),
             )
             env.update(app.vars)
+            if cfg.platform_bridge is not None and app.name == cfg.platform_bridge.source_app:
+                bridge = cfg.platform_bridge
+                env.update(PLATFORM_BRIDGE_TOKEN_SHA256=hashlib.sha256(platform_env["STATS_INGEST_TOKEN"].encode()).hexdigest(),
+                           OTEL_SERVICE_NAME=bridge.resource_service,
+                           OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=f"http://{bridge.ip}:{bridge.port}/v1/traces",
+                           OTEL_EXPORTER_OTLP_TRACES_PROTOCOL="http/json",
+                           OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer " + platform_env["PLATFORM_OTLP_TOKEN"],
+                           OTEL_TRACES_SAMPLER="parentbased_traceidratio", OTEL_TRACES_SAMPLER_ARG=str(bridge.sample_ppm / 1000000),
+                           OTEL_BSP_MAX_QUEUE_SIZE="256", OTEL_BSP_MAX_EXPORT_BATCH_SIZE="64", OTEL_EXPORTER_OTLP_TRACES_TIMEOUT="1000")
+                env["ORANGE_WORKER_SECRETS"] += ",PLATFORM_BRIDGE_TOKEN_SHA256"
             # Orange maps each R2 binding onto an S3 endpoint through these
             # variables (runtime-node r2/s3-backend); the bucket name is the
             # R2 `bucket_name` of the binding.
@@ -280,6 +379,10 @@ def cmd_prepare(cfg, service: str, app: str | None) -> None:
         sock = cfg.run / "identity" / "identity.sock"
         if sock.exists():
             sock.unlink()
+    elif service == "platform":
+        if cfg.platform_bridge is None or not all((cfg.etc / p).is_file() for p in ("platform.env", "platform.image", "platform/policy.json")):
+            die("platform bridge disabled or image, policy, or secrets missing")
+        oolib.run_args(cfg, "platform")
     elif service == "rivet":
         if cfg.rivet is None or not (cfg.etc / "rivet/config.json").is_file() or not (cfg.etc / "rivet.image").is_file():
             die("Rivet dashboard configuration/image missing: run `oo secrets && bin/build-rivet`")
@@ -516,6 +619,15 @@ def http_ok(url: str, headers=None, timeout=3, ok=lambda s: 200 <= s < 300) -> b
 
 
 def ready(cfg, service: str, app: str | None) -> bool:
+    if service == "platform":
+        bridge = cfg.platform_bridge
+        if bridge is None or not all((cfg.etc / p).is_file() for p in ("platform.env", "platform.image", "platform/policy.json")):
+            return False
+        try:
+            oolib.run_args(cfg, "platform")
+            return http_ok(f"http://{bridge.ip}:{bridge.port}/health", ok=lambda status: status == 200)
+        except (OSError, ConfigError):
+            return False
     if service == "rivet":
         if cfg.rivet is None:
             return False
@@ -607,6 +719,18 @@ def main(argv: list[str]) -> None:
             sys.exit(0 if cfg.tunnel.get("enabled") else 1)
         elif cmd == "dns-enabled":
             sys.exit(0 if cfg.dns.get("enabled") else 1)
+        elif cmd == "platform-enabled":
+            sys.exit(0 if cfg.platform_bridge is not None else 1)
+        elif cmd == "set-platform-image":
+            if len(rest) != 1 or not re.fullmatch(r"sha256:[0-9a-f]{64}", rest[0]):
+                die("usage: oo set-platform-image sha256:IMAGE_ID")
+            replace_platform_file(cfg.etc / "platform.image", rest[0] + "\n")
+        elif cmd == "discover-platform":
+            cmd_discover_platform(cfg)
+        elif cmd == "configure-platform":
+            if len(rest) != 1 or cfg.platform_bridge is None:
+                die("usage: oo configure-platform ACTORS.json (bridge must be enabled)")
+            cmd_configure_platform(cfg, json.loads(Path(rest[0]).read_text()))
         elif cmd == "rivet-enabled":
             sys.exit(0 if cfg.rivet is not None else 1)
         elif cmd == "set-rivet-image":
