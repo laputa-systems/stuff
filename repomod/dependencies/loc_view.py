@@ -457,7 +457,7 @@ def page(
                         (
                             Column("Language"),
                             Column("Files", numeric=True),
-                            Column("Code", numeric=True),
+                            Column("Lines", numeric=True),
                             Column("Comment", numeric=True),
                             Column("Blank", numeric=True),
                         ),
