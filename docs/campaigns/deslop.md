@@ -28,8 +28,8 @@ established, so the slop cannot return.
     and the DSLP-6 fix.
   - Open: DSLP-4 (remaining survivors), DSLP-9 (Target model), and DSLP-10 (a `Needs owner`
     walk-back).
-- **extensions (TypeScript pilot):** seeded only. Stryker and knip are scratch installs until
-  STUF-83.
+- **extensions (TypeScript pilot):** seeded only. Stryker and knip are now on the npm mirror
+  (STUF-83 closed 2026-11-15): `stuff publish npm --lockfile` with project id `deslop-tools`.
 - **Calibration measured, not run:**
   - loc (Rust, 12k): 93.0% / 84.5% coverage; a full mutation run is about 2.3 hours, so its
     Tests step targets critical modules. A 1/20 sample missed 19 of 73 viable mutants.
@@ -38,7 +38,6 @@ established, so the slop cannot return.
   - Both facts are in those repos' tickets. stats and stuff `repomod/` were not measured.
 - **Open campaign work:**
   - STUF-84: fleet retention rules (coverage target, mutation lane, strict profiles).
-  - STUF-83: mirror mutmut, Stryker, and knip.
   - STUF-82: a flaky Worker test.
 - **Known red:**
   - toolbox CI on main (likely the private shadowdriver dependency).
@@ -51,7 +50,10 @@ established, so the slop cannot return.
   2. Dispatch repo agents with `/deslop` in a repository. Recommended order: tier A and the
      calibration repos first, then B; hold C to E until loc or toolbox has settled.
   3. Answer buildlib DSLP-10, a walk-back of the always-true ELF `is_64`.
-  4. Decide how STUF-83 is solved: native wheels for mutmut, or a pure-Python tool.
+  4. STUF-83 is solved: both halves mirrored (2026-11-15). macOS x86-64 is retired from the
+     pypi targets, so libcst planned cleanly; pyyaml 6.0.3 (no cp315 wheels anywhere) was
+     built per target and imported in-container; the npm failure was a first-party record
+     revalidated as an upstream fetch, fixed by carrying `first_party` on the reused result.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` The
   next campaign-agent slices are STUF-84, then a check-up of each repository whose tickets settle.
 

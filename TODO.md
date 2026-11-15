@@ -32,14 +32,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Effort:** M
 
 
-### STUF-83 · P2 · Mirror the deslop mutation and dead-code tools for Python and TypeScript
-
-- **Area:** Registries
-- **Where:** stuff publish pypi, stuff publish npm --lockfile (crates/mynpm/src/inventory.rs:850)
-- **Problem:** The deslop campaign mirrored vulture 2.16 and deptry 0.25.1, but mutmut 3.8.1 fails planning because libcst 1.9.0 has no macos-x86_64 wheel (setproctitle and pyyaml are native too), and a lockfile of @stryker-mutator/core 10.1.1, @stryker-mutator/vitest-runner 10.1.1, knip 6.45.1, and @vitest/coverage-v8 5.1.0 resolved from npmjs fails with integrity: verified artifact.artifact.sourceUrl must be a public npm HTTPS URL, without naming the package (lockfile kept at .work/tmp/npm-tools in the campaign clone). Until both are mirrored, Python and TypeScript repositories run mutation and knip from scratch installs and have no CI mutation lane.
-- **Recommendation:** Make the npm error name the offending package and fix or exempt its source URL; for mutmut either build the missing wheels with --allow-sdist on a matching host or choose a pure-Python mutation tool. Then pin the tools in the deslop skill tools reference and add the Python and TypeScript lanes.
-- **Fix with:** root-cause
-- **Effort:** M
 
 
 ### STUF-84 · P2 · Retain deslop gains with fleet rules for coverage, the mutation lane, and strict profiles
