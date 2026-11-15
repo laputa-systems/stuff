@@ -647,3 +647,8 @@ read starts. Without cleanup, unread bodies exhausted the native adapter's
 with a two-connection streaming store: 60 rounds of HEAD, 304 and 412 responses,
 a normal body, a moved pointer and a missing pointer. It verifies zero retained
 bodies. The same test fails against the previous Worker when the pool fills.
+
+Production image `stuff:062beac2bcc7` passed 182 anonymous HTTPS reads against
+Lisa's real S3 store after deployment: 62 responses with 200, 60 with 304 and
+60 with 412, including 60 HEAD requests. The final full read still succeeded;
+shared health returned 92 passes, one disk-capacity warning and no failures.
