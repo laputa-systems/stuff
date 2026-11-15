@@ -224,6 +224,10 @@ fn npm(
     pull::pull(pending.client(), &bucket, &mirror, PullOptions::default())?;
     materialize_objects(&mirror.join("tarballs"), &work_state)?;
     materialize_npm_aliases(&mirror)?;
+    // A generation sealed by an older renderer cannot be extended by this binary;
+    // re-seat the pulled site onto the current renderer first (a no-op when it
+    // already seals) so the publication can be promoted.
+    mynpm::publish::adopt_site(&site_dir).map_err(library_error)?;
     mynpm::publish::publish_site(&mynpm::publish::PublishOptions {
         state_directory: &work_state,
         site_directory: &site_dir,
