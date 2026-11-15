@@ -142,8 +142,8 @@
    "state": "complete"
   },
   "laputa-systems/e": {
-   "commit": "8b4b9f737e909e5fbdcea6cce4ca1331e898ed17",
-   "inputs_fingerprint": "f9d7bba8b7cb222d0a5f17765151448ac6c12aa135d4801194a391b1a3acead8",
+   "commit": "222a48dee4699b636735d1586dd3296069a1ed72",
+   "inputs_fingerprint": "2ce240cb9f14c72e6b687e668f097db0660e2ec7297209430f61d0978892a441",
    "state": "partial"
   },
   "laputa-systems/fastermod": {
@@ -192,8 +192,8 @@
    "state": "partial"
   },
   "laputa-systems/laputa-ui-dashboard": {
-   "commit": "56df8af1c9a81781cede8059713e2f901bb5e9d6",
-   "inputs_fingerprint": "3dfaa2baad20cbf527e26d75ccdb8dbb1f5bf9d24d98226786199fca2c9c09ad",
+   "commit": "6053a2c51f31811345242328a0aea30e61ef625c",
+   "inputs_fingerprint": "ff841ab024b5c253db85b1ca8d1b13a0aca73065dc0b0b1a6ba13ad1bc826358",
    "state": "partial"
   },
   "laputa-systems/lexopt": {
@@ -307,8 +307,8 @@
    "state": "partial"
   },
   "laputa-systems/xsh": {
-   "commit": "295419ff600af8d34219eca7d6cfe7cdd0f54ff1",
-   "inputs_fingerprint": "ff062ebb496affff71cb13669f094c83278a6c1acb23440bf2e3646566c6f1bc",
+   "commit": "71882507d19a755087aeb35860a10989aa00a01d",
+   "inputs_fingerprint": "d2f2f5f676cedbac2c0851b04bd1d1a875301f72901baba66a633b54e636e5a7",
    "state": "partial"
   },
   "laputa-systems/zlib-rs": {

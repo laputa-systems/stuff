@@ -5,7 +5,7 @@
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 1665271,
+    "bytes": 1665273,
     "file_count": 79,
     "lines": {
      "blank": 2676,
@@ -29,7 +29,7 @@
     "name": "Bash"
    },
    {
-    "bytes": 424611,
+    "bytes": 429115,
     "embedded": [
      {
       "lines": {
@@ -64,23 +64,23 @@
     ],
     "file_count": 30,
     "lines": {
-     "blank": 756,
-     "code": 3988,
+     "blank": 773,
+     "code": 4066,
      "comment": 1,
      "shebang": 0,
-     "total": 4745
+     "total": 4840
     },
     "name": "Markdown"
    },
    {
-    "bytes": 135946,
+    "bytes": 153928,
     "file_count": 124,
     "lines": {
-     "blank": 629,
-     "code": 3189,
-     "comment": 321,
+     "blank": 650,
+     "code": 3524,
+     "comment": 364,
      "shebang": 20,
-     "total": 4159
+     "total": 4558
     },
     "name": "Python"
    },
@@ -97,14 +97,14 @@
     "name": "C"
    },
    {
-    "bytes": 12837,
+    "bytes": 15321,
     "file_count": 15,
     "lines": {
      "blank": 45,
-     "code": 305,
+     "code": 330,
      "comment": 11,
      "shebang": 0,
-     "total": 361
+     "total": 386
     },
     "name": "TOML"
    },
@@ -121,14 +121,14 @@
     "name": "JSON"
    },
    {
-    "bytes": 7504,
-    "file_count": 14,
+    "bytes": 7932,
+    "file_count": 15,
     "lines": {
      "blank": 4,
-     "code": 107,
-     "comment": 43,
+     "code": 113,
+     "comment": 46,
      "shebang": 0,
-     "total": 154
+     "total": 163
     },
     "name": "Dockerfile"
    },
@@ -174,14 +174,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 2597152,
-   "file_count": 424,
+   "bytes": 2622552,
+   "file_count": 425,
    "lines": {
-    "blank": 4455,
-    "code": 44604,
-    "comment": 6032,
+    "blank": 4493,
+    "code": 45048,
+    "comment": 6078,
     "shebang": 50,
-    "total": 55141
+    "total": 55669
    }
   }
  },

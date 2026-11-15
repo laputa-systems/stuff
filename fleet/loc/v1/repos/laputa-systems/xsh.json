@@ -1,5 +1,5 @@
 {
- "commit": "b2f445b5ae361981becebc5a884f1597bb5f3435",
+ "commit": "71882507d19a755087aeb35860a10989aa00a01d",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -17,7 +17,7 @@
     "name": "JSON"
    },
    {
-    "bytes": 33775561,
+    "bytes": 33775572,
     "file_count": 1120,
     "lines": {
      "blank": 47245,
@@ -29,7 +29,7 @@
     "name": "Rust"
    },
    {
-    "bytes": 18926437,
+    "bytes": 18926406,
     "file_count": 2192,
     "lines": {
      "blank": 46498,
@@ -151,14 +151,14 @@
     "name": "Bash"
    },
    {
-    "bytes": 324555,
+    "bytes": 324914,
     "file_count": 265,
     "lines": {
-     "blank": 1006,
-     "code": 4045,
-     "comment": 4083,
+     "blank": 1007,
+     "code": 4048,
+     "comment": 4087,
      "shebang": 0,
-     "total": 9134
+     "total": 9142
     },
     "name": "INI"
    },
@@ -334,14 +334,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 127190401,
+   "bytes": 127190740,
    "file_count": 8598,
    "lines": {
-    "blank": 119911,
-    "code": 2189169,
-    "comment": 72901,
+    "blank": 119912,
+    "code": 2189172,
+    "comment": 72905,
     "shebang": 509,
-    "total": 2382490
+    "total": 2382498
    }
   }
  },

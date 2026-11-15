@@ -3695,6 +3695,24 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[0].uses",
      "path": ".github/workflows/lint.yml"
     }
@@ -3733,24 +3751,6 @@
     {
      "locator": "jobs.release.steps[0].uses",
      "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7.0.1",
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[0].uses",
-     "path": ".github/workflows/test.yml"
     }
    ],
    "from": ".:repo",
@@ -16095,16 +16095,16 @@
  ],
  "inputs": [
   {
+   "blob": "3d4d7998216fb264879bda42778f701b3db460b3",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
    "blob": "cf3af2d8c7e1ae370b3531a887fafed2b0bf27b8",
    "path": ".github/workflows/lint.yml"
   },
   {
    "blob": "4d315180cfb94a5a5fc8528e671fb84d339ef97d",
    "path": ".github/workflows/release.yml"
-  },
-  {
-   "blob": "6cb0420625825b461948a0ad6a94b49f3e0a882b",
-   "path": ".github/workflows/test.yml"
   },
   {
    "blob": "1f3c575cc85d348e318f96b030468ae1bf0e1885",
@@ -16267,7 +16267,7 @@
    "path": "third_party/rustybench/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "ff062ebb496affff71cb13669f094c83278a6c1acb23440bf2e3646566c6f1bc",
+ "inputs_fingerprint": "d2f2f5f676cedbac2c0851b04bd1d1a875301f72901baba66a633b54e636e5a7",
  "instances": [
   {
    "commit": null,
