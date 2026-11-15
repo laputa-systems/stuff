@@ -504,6 +504,16 @@ Worker, Durable Object namespace, empty bucket, Access app and dedicated
 service token were deleted. The owner explicitly discarded the old test data;
 the native shop uses the repository fixture.
 
+## agentctl
+
+`agentctl` (`joshuarli/agentctl`, `apps/orange`) is a private-only Orange app
+on `agentctl.17166969.xyz`: tailnet listener with whois identity, no public
+hostname, no tunnel route, no internet egress, no buckets and no extra
+secrets. The Worker enforces its own owner allowlist on top of the gateway
+identity. Execution hosts connect to it outbound (`/api/uplink`, per-host
+credential), so no execution host needs a listener. The image is built by
+`apps/orange/deploy/build-image.sh lisa` in that repository.
+
 ## Public connector
 
 `oo-tunnel` runs cloudflared 2026.10.7 by digest under OpenRC. Its only
