@@ -508,8 +508,9 @@ the native shop uses the repository fixture.
 
 `agentctl` (`joshuarli/agentctl`, `apps/orange`) is a private-only Orange app
 on `agentctl.17166969.xyz`: tailnet listener with whois identity, no public
-hostname, no tunnel route, no internet egress, no buckets and no extra
-secrets. The Worker enforces its own owner allowlist on top of the gateway
+hostname, no tunnel route, no internet egress and no buckets. It sends
+application events to Stats on its private address with the `agentctl`
+service's ingest token (`APPLICATION_EVENTS_TOKEN` in `apps/agentctl.extra.env`). The Worker enforces its own owner allowlist on top of the gateway
 identity. Execution hosts connect to it outbound (`/api/uplink`, per-host
 credential), so no execution host needs a listener. The image is built by
 `apps/orange/deploy/build-image.sh lisa` in that repository.

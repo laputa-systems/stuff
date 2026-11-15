@@ -188,6 +188,8 @@ cpus = 1.0
 [apps.agentctl]
 kind = "orange"
 display = "agentctl"
+vars = { APPLICATION_EVENTS_ENDPOINT = "http://172.29.80.20:8080", APPLICATION_EVENTS_SERVICE = "agentctl" }
+secrets = ["APPLICATION_EVENTS_TOKEN"]
 namespace = "agentctl"
 ip = "172.29.80.26"
 port = 8080

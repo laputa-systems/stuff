@@ -16,13 +16,15 @@ class AgentctlConfigurationTests(unittest.TestCase):
         app = cfg.apps["agentctl"]
         self.assertEqual((app.kind, app.namespace, app.ip, app.port, app.health_path),
                          ("orange", "agentctl", "172.29.80.26", 8080, "/healthz"))
-        self.assertEqual((app.buckets, app.internet, app.public_hostnames, app.secrets), ((), False, (), ()))
+        self.assertEqual((app.buckets, app.internet, app.public_hostnames, app.secrets), ((), False, (), ("APPLICATION_EVENTS_TOKEN",)))
+        self.assertEqual(app.vars, {"APPLICATION_EVENTS_ENDPOINT": "http://172.29.80.20:8080", "APPLICATION_EVENTS_SERVICE": "agentctl"})
         with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as directory:
             cfg.stack["etc_dir"] = directory
             with patch.object(os, "chown"):
                 commands["cmd_secrets"](cfg)
             env = oolib.read_env(cfg.app_env(app))
             self.assertTrue(env["GATEWAY_SECRET"])
+            self.assertIn("APPLICATION_EVENTS_TOKEN", env["ORANGE_WORKER_SECRETS"].split(","))
             oolib.set_app_deployment(cfg.app_image_file(app), "agentctl:test")
             text = commands["render_caddyfile"](cfg)
             args = oolib.run_args(cfg, "app", "agentctl")

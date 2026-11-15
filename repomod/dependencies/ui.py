@@ -332,9 +332,27 @@ def shell(
     prefix: str,
     navigation: Sequence[NavGroup],
     body: str,
+    *,
+    search: bool = True,
+    stylesheets: Sequence[str] = (),
 ) -> str:
     groups = "".join(
         _nav_group(group, index, prefix, active) for index, group in enumerate(navigation)
+    )
+    stylesheet_markup = "".join(
+        f'<link rel="stylesheet" href="{escape(href)}">\n' for href in stylesheets
+    )
+    search_script = (
+        f'<script src="{prefix}assets/search.js"></script>\n' if search else ""
+    )
+    search_markup = (
+        '<div class="page-search"><label class="ui-search">'
+        '<span class="ui-sr-only">Search packages</span>'
+        f"{_SEARCH_ICON}"
+        '<input id="search" type="search" placeholder="Search packages  /" autocomplete="off">'
+        '</label><div id="search-results"></div></div>'
+        if search
+        else ""
     )
     return (
         "<!doctype html>\n"
@@ -345,19 +363,16 @@ def shell(
         f'<link rel="stylesheet" href="{prefix}assets/ui-dashboard/layout.css">\n'
         f'<link rel="stylesheet" href="{prefix}assets/ui-dashboard/data.css">\n'
         f'<link rel="stylesheet" href="{prefix}assets/app.css">\n'
+        f"{stylesheet_markup}"
         "</head>\n"
         f'<body data-page="{escape(page_id)}" data-prefix="{prefix}">\n'
         '<div class="ui-shell">\n<aside class="ui-side">'
         f'<div class="ui-side-top"><a class="ui-side-brand" href="{prefix}index.html">Dependencies</a></div>'
         f'<div class="ui-side-body">{groups}</div></aside>\n'
         '<main class="ui-main" id="main" tabindex="-1"><div class="page ui-page-section">'
-        '<div class="page-search"><label class="ui-search">'
-        '<span class="ui-sr-only">Search packages</span>'
-        f"{_SEARCH_ICON}"
-        '<input id="search" type="search" placeholder="Search packages  /" autocomplete="off">'
-        '</label><div id="search-results"></div></div>'
+        f"{search_markup}"
         f"{body}</div></main>\n</div>\n"
-        f'<script src="{prefix}assets/search.js"></script>\n'
+        f"{search_script}"
         f'<script src="{prefix}assets/app.js"></script>\n'
         "</body>\n</html>\n"
     )

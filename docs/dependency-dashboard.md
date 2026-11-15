@@ -35,8 +35,8 @@ tokens.
 
 The sidebar groups pages by the work they support. A page shows something only when it tells
 you what to change or decide. Everything else is a counter or is left out. Package pages are the
-one lookup surface, reached through search. World is the one orientation page and sits alone under
-Overview.
+one lookup surface, reached through search. World is the orientation page and sits under
+Overview next to Explore, the interactive dependency graph.
 
 - **To do** (`index.html`) starts with open work per repository, then groups each change once:
   **Fix now** for vulnerable packages with a clean upgrade, **Decide** for those without one,
@@ -70,6 +70,25 @@ Overview.
   the owner, the origin, and a per-package deep link to its package section. Reach
   buckets and an owner list, with direct and transitive-only counts, repeat the charted values
   as text.
+- **Explore** (`explore.html`) is the fleet dependency graph, drawn with Sigma.js on WebGL2.
+  The fleet overview groups repositories by owner and shows repositories, packages, and
+  aggregate edges to ecosystem clusters — each aggregate sums a repository's edges whose target
+  belongs to that ecosystem (direct and transitive counts included); they are not runtime
+  linkage or first-party relationships. Selecting a repository focuses its exact, directed
+  project → dependency subgraph: direct edges thicker, transitive thinner, and the inspector
+  reports inbound/outbound optional, conditional, declared-only, and unknown-resolution edge
+  counts plus scope tallies, with the same semantics as the inventory. Colour encodes ecosystem: cargo orange, npm blue, PyPI teal,
+  Go yellow, other ecosystems ghost grey; near-black nodes are the repository's projects, and
+  node size tracks recorded consumer counts. Coverage errors colour a repository orange.
+  The layout is deterministic: aggregate view positions clusters on a fixed grid; focused
+  views lay out nodes in BFS layers from the project roots (barycenter-ordered, no physics).
+  Positions are stable across selections and filter changes. Controls fit, reset, filter by
+  ecosystem and by direct/transitive, and search the visible graph. Escape clears the selection
+  and then returns to the fleet overview. The URL carries `repo`, `node`, `ecosystem`, and
+  `relation`, so a view is bookmarkable and browser back works. The page explains the graph
+  when WebGL2 is unavailable and links to Repositories, World, and Packages instead of showing
+  a blank canvas. Aggregates are labelled as aggregate everywhere they appear. With JavaScript
+  disabled, the page links to the same three destinations and the graph never loads.
 - **Repository pages** (`repos/OWNER/REPO/index.html`) hold what to do in that repository,
   including coverage issues with a link to the file, and the repository's status with `--status`.
 - **Security** has one card per owned repository listing its vulnerable packages. A latest
@@ -180,7 +199,10 @@ declarations count. `repomod deps report` lists the repositories that mix option
 
 ## Interaction
 
-- `/` focuses search. Search matches package names, ecosystems, and PURLs.
+- `/` focuses search. Search matches package names, ecosystems, and PURLs. On Explore, `/` focuses
+  the atlas search, which matches repositories and ecosystems in the fleet overview and projects
+  and packages inside a focused repository. `Escape` closes the dropdown, then clears the
+  selection, then returns to the fleet overview.
 - Filter boxes and "Show N more" narrow long lists. Every item stays visible when JavaScript
   does not run.
 - On Repositories, `j` and `k` move through the cards, and `Enter` opens the selected card.
@@ -214,11 +236,18 @@ mistyped `--output` cannot delete unrelated files.
 ## Source and verification
 
 The browser scripts under `repomod/dependencies/assets/` (`app.js`, `search.js`, and
-`weight.js`, loaded only by the Weight page) are committed and maintained directly. The renderer
-copies the pinned library's base `styles.css` and `tokens.css` and the `layout.css` and `data.css`
-family sheets from `crates/stuff-catalog/assets/ui-dashboard/`, refreshed from the pinned
-`@laputa-systems/ui-dashboard` in `crates/stuff-worker/package.json` by `make catalog-css`.
-Rendering needs no Node install. `make deps` syncs the checkouts and re-snapshots the inventory
+`weight.js`, loaded only by the Weight page) are committed and maintained directly. The Explore
+page loads `assets/atlas.js` (the view controller), `assets/atlas.css`, a generated
+`assets/atlas-data.js` (the filtered fleet projected to the graph format at render time;
+regenerate by re-rendering), and `assets/vendor/atlas.vendor.js`. The vendor bundle is a
+minified IIFE of pinned MIT packages (sigma 4.0.6, graphology 0.26.0, and their pinned
+dependencies) built by `tools/atlas-vendor` with esbuild; the pins, license texts, and the
+bundle's sha256 live in `repomod/dependencies/assets/vendor/VENDORED.md`. Rendering needs no
+Node install; rebuilding the vendor bundle does (`cd tools/atlas-vendor && npm ci && npm run build`).
+The renderer copies the pinned library's base `styles.css` and `tokens.css` and the `layout.css`
+and `data.css` family sheets from `crates/stuff-catalog/assets/ui-dashboard/`, refreshed from the
+pinned `@laputa-systems/ui-dashboard` in `crates/stuff-worker/package.json` by `make catalog-css`.
+`make deps` syncs the checkouts and re-snapshots the inventory
 and line counts (committing any changes) before it renders; it does not run Node.
 
 ## Budgets and verification
@@ -227,11 +256,25 @@ The output budget is 10 MB. The initial overview-render target is 1.5 seconds.
 Measure the generated fleet and the browser load when validating these targets; old fleet
 sizes and timings are not current guarantees.
 
+Measured on the current fleet (62 visible of 64 repositories, 726 projects, 3,084 components,
+4,284 instances, 22,338 edges): the full render writes 75 pages totalling about 14.2 MB
+(before Explore it wrote 74 pages totalling 12.3 MB), of which `assets/atlas-data.js` is
+1.4 MB, the vendor bundle 0.45 MB, and the atlas controller and stylesheet 50 KB together.
+Warm render is about 2.0 s (render only; the full `make deps` path was not re-measured). The
+overview's load does not pay for the atlas on other pages.
+Both figures breach the 10 MB budget: the pre-Explore dashboard already did (12.3 MB), and
+Explore adds 1.9 MB on top; only dropping or moving dashboard output would close the gap.
+
 The browser checks use agent-browser at 1440×900 and 390×844. They verify no console errors, no
-horizontal page overflow, search for `serde`, the `#pkg=pkg:cargo/serde` route, and a back link
-on every repository page. Screenshots are written under `.work/dependencies/shots/`. Tables
+horizontal page overflow, search for `serde`, the `#pkg=pkg:cargo/serde` route, a back link
+on every repository page, and the Explore flows (fleet overview, repository focus, selection,
+filters, back navigation, mobile layout). Screenshots are written under `.work/dependencies/shots/`. Tables
 wider than a narrow viewport scroll inside their own container; the page itself must not
-overflow.
+overflow. Measured on the fleet view with real data: 60 fps steady pan/zoom (p95 frame
+interval 17.4 ms, max 17.5 ms), a 61 ms worst-case main-thread task entering the largest
+repository's focus (2,484 transitive edges), and no long tasks switching views. Synthetic
+stress scenes (see the campaign notes) show the renderer holding 60 fps at ~10k edges and
+degrading to ~85–110 ms interaction frames at ~50k edges, far beyond any real repository.
 
 ## Measuring the render
 
