@@ -9,9 +9,9 @@ use crate::error::{Error, Result};
 use crate::acquire::sha256_hex;
 use crate::json::{canonical_string, render_pretty, seq, string_map};
 use crate::manifest::Manifest;
-use crate::zip::write_zip;
+use crate::tar_xz::write_tar_xz;
 
-pub const RENDERER_VERSION: u64 = 1;
+pub const RENDERER_VERSION: u64 = 2;
 pub const SCHEMA_VERSION: u64 = 1;
 pub const REGISTRY: &str = "mirror";
 
@@ -91,11 +91,12 @@ pub fn build(
     for artifact in &manifest.artifacts {
         let bytes = acquire::fetch_verified(acquire, cache_dir, &artifact.url, &artifact.sha256)?;
         let members = extract(artifact, &bytes)?;
-        let zip = write_zip(&members)?;
-        let path = staging_dir.join(format!("{}.zip", artifact.id));
+        let archive = write_tar_xz(&members)?;
+        let name = artifact.file_name();
+        let path = staging_dir.join(&name);
         let mut file = std::fs::File::create(&path)?;
-        file.write_all(&zip)?;
-        let sha256 = sha256_hex(&zip);
+        file.write_all(&archive)?;
+        let sha256 = sha256_hex(&archive);
         artifacts.push(BuiltArtifact {
             id: artifact.id.clone(),
             version: artifact.version.clone(),
@@ -103,10 +104,10 @@ pub fn build(
             upstream_sha256: artifact.sha256.clone(),
             strip_components: artifact.strip_components,
             keep: artifact.keep.clone(),
-            file: format!("{}.zip", artifact.id),
+            file: name,
             files: members.into_iter().map(|member| member.path).collect(),
             sha256,
-            bytes: zip.len() as u64,
+            bytes: archive.len() as u64,
             path,
         });
     }

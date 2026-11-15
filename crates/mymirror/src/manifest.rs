@@ -57,7 +57,7 @@ impl Artifact {
     }
 
     pub fn file_name(&self) -> String {
-        format!("{}.zip", self.id)
+        format!("{}.tar.xz", self.id)
     }
 }
 

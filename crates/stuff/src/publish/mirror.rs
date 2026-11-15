@@ -175,7 +175,7 @@ fn expected_generation_keys(manifest: &mymirror::manifest::Manifest, generation:
         format!("manifests/{generation}.json"),
     ];
     for artifact in &manifest.artifacts {
-        keys.push(format!("generations/{generation}/{}.zip", artifact.id));
+        keys.push(format!("generations/{generation}/{}", artifact.file_name()));
     }
     keys
 }

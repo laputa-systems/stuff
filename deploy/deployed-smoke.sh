@@ -61,7 +61,7 @@ echo "--- mirror SHA256SUMS and one artifact"
 sums=$(curl -fsS "$MIRROR_BASE/current/SHA256SUMS") || fail "mirror SHA256SUMS fetch failed"
 line=$(printf '%s\n' "$sums" | sed -n 1p)
 case "$line" in
-  *"  "*.zip) ;;
+  *"  "*.zip|*"  "*.tar.xz) ;;
   *) fail "mirror SHA256SUMS line is malformed: $line" ;;
 esac
 set -- $line

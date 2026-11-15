@@ -56,7 +56,9 @@ fn tar_xz(entries: &[(&str, &[u8], u32, u8)]) -> Vec<u8> {
     }
     let tar_bytes = builder.into_inner().unwrap();
     let mut out = Vec::new();
-    lzma_rs::xz_compress(&mut std::io::Cursor::new(tar_bytes), &mut out).unwrap();
+    let mut encoder = lzma_rust2::XzWriter::new(&mut out, lzma_rust2::XzOptions::with_preset(0)).unwrap();
+    encoder.write_all(&tar_bytes).unwrap();
+    encoder.finish().unwrap();
     out
 }
 
@@ -134,7 +136,7 @@ fn work_dirs() -> (tempfile::TempDir, PathBuf, PathBuf) {
 }
 
 #[test]
-fn a_tar_gz_upstream_becomes_a_zip_with_stripped_members() {
+fn a_tar_gz_upstream_becomes_a_tar_xz_with_stripped_members() {
     let archive = tar_gz(&[
         ("pkg-1.0.0/bin/app", b"#!/bin/sh\n", 0o755, b'0'),
         ("pkg-1.0.0/bin/tool", b"tool", 0o644, b'0'),
@@ -153,13 +155,14 @@ fn a_tar_gz_upstream_becomes_a_zip_with_stripped_members() {
     assert_eq!(built.artifacts.len(), 1);
     let artifact = &built.artifacts[0];
     assert_eq!(artifact.files, vec!["bin/app", "bin/tool", "lib/helper.so"]);
-    assert_eq!(artifact.file, "app.zip");
+    assert_eq!(artifact.file, "app.tar.xz");
     let zip_bytes = std::fs::read(&artifact.path).unwrap();
     assert_eq!(zip_bytes.len() as u64, artifact.bytes);
     assert_eq!(sha256_hex(&zip_bytes), artifact.sha256);
     let sums_text = &built.sums;
-    assert_eq!(sums_text, &format!("{}  app.zip\n", artifact.sha256));
+    assert_eq!(sums_text, &format!("{}  app.tar.xz\n", artifact.sha256));
     assert!(built.catalog.contains("\"registry\": \"mirror\""));
+    assert!(built.catalog.contains("\"file\": \"app.tar.xz\""));
     assert!(built.catalog.contains(&format!("\"generation\": \"{}\"", built.generation)));
 }
 
@@ -176,6 +179,7 @@ fn builds_are_deterministic() {
     let (_root2, staging2, cache2) = work_dirs();
     let second = build(&manifest, "https://mirror.example.test", &sums, Some(&cache2), &staging2).unwrap();
     assert_eq!(first.generation, second.generation);
+    assert_eq!(std::fs::read(&first.artifacts[0].path).unwrap(), std::fs::read(&second.artifacts[0].path).unwrap());
     assert_eq!(first.artifacts[0].sha256, second.artifacts[0].sha256);
     assert_eq!(first.catalog, second.catalog);
     assert_eq!(first.sums, second.sums);
@@ -281,7 +285,7 @@ fn symlinks_escaping_the_root_are_rejected() {
 #[test]
 fn symlinks_inside_the_root_are_kept() {
     let archive = tar_gz(&[
-        ("pkg-1.0.0/lib/real.js", b"js", 0o644, b'0'),
+        ("pkg-1.0.0/lib/real.js", b"js", 0o755, b'0'),
         ("pkg-1.0.0/bin/link", b"../lib/real.js", 0o777, b'2'),
     ]);
     let url = artifact_url("ok.tar.gz");
@@ -294,6 +298,23 @@ fn symlinks_inside_the_root_are_kept() {
     let (_root, staging, cache) = work_dirs();
     let built = build(&manifest, "https://mirror.example.test", &sums, Some(&cache), &staging).unwrap();
     assert_eq!(built.artifacts[0].files, vec!["bin/link", "lib/real.js"]);
+    let bytes = std::fs::read(&built.artifacts[0].path).unwrap();
+    let decoder = lzma_rust2::XzReader::new(bytes.as_slice(), false);
+    let mut archive = tar::Archive::new(decoder);
+    let entries: Vec<_> = archive.entries().unwrap().map(|entry| {
+        let entry = entry.unwrap();
+        let header = entry.header();
+        assert_eq!(header.uid().unwrap(), 0);
+        assert_eq!(header.gid().unwrap(), 0);
+        assert_eq!(header.mtime().unwrap(), 0);
+        assert_eq!(header.username().unwrap(), Some(""));
+        assert_eq!(header.groupname().unwrap(), Some(""));
+        (entry.path().unwrap().to_string_lossy().into_owned(), header.entry_type(), header.mode().unwrap(), entry.link_name().unwrap().map(|v| v.to_string_lossy().into_owned()))
+    }).collect();
+    assert_eq!(entries, vec![
+        ("bin/link".into(), tar::EntryType::symlink(), 0o777, Some("../lib/real.js".into())),
+        ("lib/real.js".into(), tar::EntryType::file(), 0o755, None),
+    ]);
 }
 
 #[test]
@@ -329,7 +350,7 @@ fn assembling_switches_the_current_link_and_verifies() {
     assert!(!first);
     let current = std::fs::read_link(site_dir.join("current")).unwrap();
     assert_eq!(current, Path::new("generations").join(&built.generation));
-    assert!(site_dir.join("generations").join(&built.generation).join("app.zip").is_file());
+    assert!(site_dir.join("generations").join(&built.generation).join("app.tar.xz").is_file());
     assert!(site_dir.join("generations").join(&built.generation).join("catalog.json").is_file());
     assert!(site_dir.join("generations").join(&built.generation).join("SHA256SUMS").is_file());
     let second = mymirror::assemble(&site_dir, &built).unwrap();
@@ -362,4 +383,11 @@ fn a_zip_with_upstream_layout_is_supported() {
     let (_root, staging, cache) = work_dirs();
     let built = build(&manifest, "https://mirror.example.test", &sums, Some(&cache), &staging).unwrap();
     assert_eq!(built.artifacts[0].files, vec!["opencode"]);
+}
+
+#[test]
+fn tar_xz_generation_differs_from_the_previous_zip_generation() {
+    let manifest = manifest_for(&[("app", &artifact_url("app.tar.gz"), &"0".repeat(64))]);
+    let generation = mymirror::generation_id(&manifest, "https://mirror.example.test").unwrap();
+    assert_ne!(generation, "3319d98fcbae8855ede80ff13d07f041fdcc534489faddd75b1bb1a3fe76b41d");
 }

@@ -179,8 +179,8 @@ fn publish_builds_the_mirror_and_is_idempotent() {
     let prefix = format!("generations/{generation}/");
     let keys = remote_keys(&fake);
     for expected in [
-        format!("{prefix}app.zip"),
-        format!("{prefix}tool-install.zip"),
+        format!("{prefix}app.tar.xz"),
+        format!("{prefix}tool-install.tar.xz"),
         format!("{prefix}catalog.json"),
         format!("{prefix}SHA256SUMS"),
         format!("manifests/{generation}.json"),
@@ -303,26 +303,15 @@ fn the_upstream_bytes_are_verified_before_anything_is_uploaded() {
 }
 
 #[test]
-fn the_zip_members_survive_the_round_trip() {
+fn published_tar_xz_matches_the_built_artifact() {
     let fake = FakeS3::start_verified();
     let work = tempfile::tempdir().unwrap();
     let manifest = setup(work.path());
     let environment = environment(work.path(), &fake);
     publish(&manifest, false, false, &environment, &acquire(work.path())).unwrap();
     let generation = String::from_utf8(remote_body(&fake, "current").unwrap()).unwrap();
-    let zip = remote_body(&fake, &format!("generations/{generation}/app.zip")).unwrap();
-    let archive = rawzip::ZipArchive::from_slice(&zip).unwrap();
-    let names: Vec<String> = archive
-        .entries()
-        .map(|entry| {
-            entry
-                .unwrap()
-                .file_path()
-                .try_normalize()
-                .unwrap()
-                .as_str()
-                .to_string()
-        })
-        .collect();
-    assert_eq!(names, vec!["bin/app", "bin/helper", "docs/guide.txt"]);
+    let bytes = remote_body(&fake, &format!("generations/{generation}/app.tar.xz")).unwrap();
+    let parsed = mymirror::manifest::Manifest::parse(&fs::read_to_string(&manifest).unwrap()).unwrap();
+    let expected = mymirror::build(&parsed, "https://mirror.example.test", &acquire(work.path()), None, &work.path().join("expected")).unwrap();
+    assert_eq!(bytes, fs::read(&expected.artifacts[0].path).unwrap());
 }

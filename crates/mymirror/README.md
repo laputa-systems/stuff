@@ -1,14 +1,16 @@
 # mymirror
 
-Builds the static artifact mirror: a flat set of deterministic `.zip` downloads for
+Builds the static artifact mirror: a flat set of deterministic `.tar.xz` downloads for
 binaries and scripts whose upstreams ship in incompatible formats and layouts.
 
 Each manifest entry names an upstream URL, the upstream SHA-256, and an optional
 keep list of files to retain. The builder downloads the upstream once (verifying
 the SHA-256), extracts it, drops everything outside the keep list, and re-writes
-the survivors as a deterministic DEFLATE zip with fixed timestamps, Unix file
-types and permissions, and symlink targets that stay inside the archive root.
-Consumers only ever handle zip files.
+the survivors as a deterministic tar.xz with sorted entries, fixed timestamps, zero
+uid and gid, empty owner and group names, Unix file types and permissions, and
+symlink targets that stay inside the archive root. Long names use deterministic
+GNU extensions; no PAX headers are written.
+Consumers extract the new generations with tar.xz support; older generations retain their zip files.
 
 `stuff publish mirror` is the entry point; the manifest lives in
 `mirror/manifest.toml` in this repository.
@@ -29,7 +31,7 @@ keep = ["LICENSE", "bin/**", "lib/**"]
 
 Every entry:
 
-- `id`: path-safe slug (`^[a-z0-9][a-z0-9._-]{0,127}$`); the published file is `<id>.zip`.
+- `id`: path-safe slug (`^[a-z0-9][a-z0-9._-]{0,127}$`); the published file is `<id>.tar.xz`.
 - `version`: advertised in the catalog; bumping it is a version drop like in the other registries.
 - `url`: `https` only, public host. The archive format comes from the URL path:
   `.tar.gz`/`.tgz`, `.tar.xz`/`.txz`, `.zip`, anything else is stored as a raw file.
@@ -44,21 +46,21 @@ One immutable generation, advanced through `current` like the other registries:
 
 ```
 generations/<sha256 of the canonical payload>/
-  <id>.zip          one zip per entry, members at their stripped, kept paths
+  <id>.tar.xz       one archive per entry, members at their stripped, kept paths
   catalog.json      schemaVersion, registry, generation, artifacts (sha256/bytes/files/
                     upstream provenance), and a `packages` list for the shared drop guard
-  SHA256SUMS        `<zip sha256>  <id>.zip`, sorted by file name
+  SHA256SUMS        `<archive sha256>  <id>.tar.xz`, sorted by file name
 current             pointer to the live generation
 ```
 
-The generation id is a hash of the manifest plus the base URL and renderer version,
+The generation id is a hash of the manifest plus the base URL and renderer version (including the archive format),
 so republishing an unchanged manifest is a no-op and changed inputs produce a fresh
 generation. The published `catalog.json` is the drop-guard input: entries share the
 other registries' `packages` shape, so a version bump requires `--allow-drops`,
 exactly like bumping a package in npm or PyPI.
 
 Upstream hard links are rejected; extended attributes, ACLs and ownership are not
-preserved. Zip timestamps are pinned to 1980-01-01 for reproducibility. The decompressor
+preserved. Tar timestamps are pinned to zero for reproducibility. The decompressor
 is pure Rust and capped at 1 GiB per artifact (raw upstream cap 2 GiB).
 
 ## Local behavior

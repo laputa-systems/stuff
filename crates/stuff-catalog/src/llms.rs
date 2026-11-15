@@ -110,10 +110,10 @@ pub(crate) fn setup(registry: Registry, origin: &str) -> Setup {
             code: format!("docker pull {}/<repository>:<tag>", host_of(origin)),
         },
         Registry::Mirror => Setup {
-            lead: "Download `<id>.zip` artifacts from `current/` and verify them against `current/SHA256SUMS`:",
+            lead: "Download `<id>.tar.xz` artifacts from `current/` and verify them against `current/SHA256SUMS`:",
             fence: "sh",
             code: format!(
-                "curl -fLO {origin}/current/SHA256SUMS\ncurl -fLO {origin}/current/<id>.zip\nsha256sum --ignore-missing -c SHA256SUMS"
+                "curl -fLO {origin}/current/SHA256SUMS\ncurl -fLO {origin}/current/<id>.tar.xz\nsha256sum --ignore-missing -c SHA256SUMS"
             ),
         },
     }
@@ -150,7 +150,7 @@ fn use_section(registry: Registry, generation: &str, origin: &str) -> String {
             Inventory: [catalog.json]({catalog}). Browser: [index.html]({index}). {pin}"
         ),
         Registry::Mirror => format!(
-            "The pins (upstream URL + upstream SHA-256) live in `mirror/manifest.toml` in the stuff repo; the published zip SHA-256 values live in [SHA256SUMS](/generations/{generation}/SHA256SUMS). \n\
+            "The pins (upstream URL + upstream SHA-256) live in `mirror/manifest.toml` in the stuff repo; the published archive SHA-256 values live in [SHA256SUMS](/generations/{generation}/SHA256SUMS). \n\
             Inventory: [catalog.json]({catalog}). \n\
             {pin}"
         ),
@@ -427,6 +427,7 @@ mod tests {
         let text = render_llms_txt(&catalog, DEFAULT_MIRROR_ORIGIN);
         assert!(text.starts_with("# Static artifact mirror\n"));
         assert!(text.contains("curl -fLO https://mirror.17166969.xyz/current/SHA256SUMS"));
+        assert!(text.contains("curl -fLO https://mirror.17166969.xyz/current/<id>.tar.xz"));
         assert!(text.contains("sha256sum --ignore-missing -c SHA256SUMS"));
         assert!(text.contains("`node-v26.13.1-darwin-arm64`"));
         assert!(text.contains("mirror/manifest.toml"));
