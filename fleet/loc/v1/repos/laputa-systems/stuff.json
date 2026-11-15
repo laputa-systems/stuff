@@ -1,30 +1,30 @@
 {
- "commit": "b25bcb2dfd405400c55c9337d553bde18c0bc28c",
+ "commit": "744aadbb6cd04f7d9c7d70635bdedcf35e443eb5",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 17835037,
-    "file_count": 174,
+    "bytes": 17913023,
+    "file_count": 175,
     "lines": {
      "blank": 0,
-     "code": 673897,
+     "code": 676103,
      "comment": 0,
      "shebang": 0,
-     "total": 673897
+     "total": 676103
     },
     "name": "JSON"
    },
    {
-    "bytes": 3345682,
-    "file_count": 271,
+    "bytes": 3355998,
+    "file_count": 273,
     "lines": {
-     "blank": 11113,
-     "code": 76096,
-     "comment": 584,
-     "shebang": 30,
-     "total": 87823
+     "blank": 11132,
+     "code": 76264,
+     "comment": 585,
+     "shebang": 31,
+     "total": 88012
     },
     "name": "Python"
    },
@@ -53,15 +53,15 @@
     "name": "JavaScript"
    },
    {
-    "bytes": 426340,
+    "bytes": 429029,
     "embedded": [
      {
       "lines": {
        "blank": 11,
-       "code": 221,
+       "code": 223,
        "comment": 0,
        "shebang": 0,
-       "total": 232
+       "total": 234
       },
       "name": "Bash"
      },
@@ -98,11 +98,11 @@
     ],
     "file_count": 40,
     "lines": {
-     "blank": 1147,
-     "code": 5022,
+     "blank": 1157,
+     "code": 5062,
      "comment": 0,
      "shebang": 0,
-     "total": 6169
+     "total": 6219
     },
     "name": "Markdown"
    },
@@ -304,14 +304,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 26124609,
-   "file_count": 903,
+   "bytes": 26215600,
+   "file_count": 906,
    "lines": {
-    "blank": 19803,
-    "code": 850773,
-    "comment": 2587,
-    "shebang": 78,
-    "total": 873241
+    "blank": 19832,
+    "code": 853187,
+    "comment": 2588,
+    "shebang": 79,
+    "total": 875686
    }
   }
  },

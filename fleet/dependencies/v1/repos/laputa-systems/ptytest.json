@@ -448,6 +448,28 @@
   },
   {
    "condition": null,
+   "constraint": "1.1.6",
+   "evidence": [
+    {
+     "locator": "dependencies.rustix",
+     "path": "Cargo.toml"
+    },
+    {
+     "locator": "package[name=laputa-ptytest,version=0.4.0].dependencies[3]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.1.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustix@1.1.6#"
+  },
+  {
+   "condition": null,
    "constraint": "0.18",
    "evidence": [
     {
@@ -455,7 +477,7 @@
      "path": "Cargo.toml"
     },
     {
-     "locator": "package[name=laputa-ptytest,version=0.4.0].dependencies[3]",
+     "locator": "package[name=laputa-ptytest,version=0.4.0].dependencies[4]",
      "path": "Cargo.lock"
     }
    ],
@@ -2181,7 +2203,7 @@
  ],
  "inputs": [
   {
-   "blob": "86e95468e1c558c1eff1728a0b62e194f4121b6d",
+   "blob": "c7f6a8c1adc7a015e2dd6c2307a95c4069d8f9db",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -2189,11 +2211,11 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "9f25cf0c70fe0a2793f6cd46cdb18a69ff8f9db5",
+   "blob": "29235d5cd6364e8275c1bbace27faa8d4ecd2f20",
    "path": "Cargo.lock"
   },
   {
-   "blob": "07e1a213433c97acb00429892b29081348bfdcd5",
+   "blob": "1f01c60ad984ca7fdeb7da1e214b51461e0a53fd",
    "path": "Cargo.toml"
   },
   {
@@ -2205,7 +2227,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "d9aecaf39245d018e97001bb29b3c94412b327a3787d80d973edb30911e4f5d9",
+ "inputs_fingerprint": "4c8cf54003455fc3a86f88a38e1f6ffee3bc3960111581c3e6914c037c093906",
  "instances": [
   {
    "commit": null,

@@ -1,5 +1,5 @@
 {
- "commit": "9ba07a997e6afa2583d235ad02c89cd9a953f7d4",
+ "commit": "ef8a01d7b5c3a7b445416b62d9d90fc087b040d3",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -17,14 +17,14 @@
     "name": "Rust"
    },
    {
-    "bytes": 7335141,
+    "bytes": 7335644,
     "file_count": 454,
     "lines": {
      "blank": 24310,
-     "code": 141568,
-     "comment": 22410,
+     "code": 141571,
+     "comment": 22412,
      "shebang": 7,
-     "total": 188295
+     "total": 188300
     },
     "name": "Python"
    },
@@ -152,14 +152,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 25961227,
+   "bytes": 25961730,
    "file_count": 973,
    "lines": {
     "blank": 54188,
-    "code": 539766,
-    "comment": 50630,
+    "code": 539769,
+    "comment": 50632,
     "shebang": 15,
-    "total": 644599
+    "total": 644604
    }
   }
  },

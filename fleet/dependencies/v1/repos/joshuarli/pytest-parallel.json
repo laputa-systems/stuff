@@ -453,7 +453,7 @@
  ],
  "inputs": [
   {
-   "blob": "98cd95637e37287338c2e63f7e86f7dc7717a22b",
+   "blob": "a87e9aa9c7bf69f0e8808a1321a86f5c51b9ab51",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -481,7 +481,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "2e54133cb052d4911c09600b3f1b7deaf028ad5cabfb38628a1f1f5f3cbb976d",
+ "inputs_fingerprint": "c9d087bf7e9dd34ba511c2d214313ab1b620a0409490b8381f9d98783ae66f15",
  "instances": [
   {
    "commit": null,

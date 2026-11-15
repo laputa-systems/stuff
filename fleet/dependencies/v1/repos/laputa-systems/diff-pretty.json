@@ -1231,7 +1231,7 @@
  ],
  "inputs": [
   {
-   "blob": "f35d85a526e3e560e61e2bdba5f9d0930ee4adcb",
+   "blob": "179cf16f75ad41340c7d59ec702157fa1360778c",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -1239,7 +1239,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "39419a02d0115f129965b3d9d90a6a3589255e8b",
+   "blob": "626ab2554b97c9af7d815c88d338918b8772bdbe",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -1267,7 +1267,7 @@
    "path": "scrl/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "0ad61bd9768e73966a75734bb82dd64c6a306f64113ea4a71729e8101892159c",
+ "inputs_fingerprint": "5e85ba0dfd55be7b73949ff5af3ce2590b322d50479deeba8950835ed4f97857",
  "instances": [
   {
    "commit": null,

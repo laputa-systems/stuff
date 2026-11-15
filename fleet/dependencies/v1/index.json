@@ -72,8 +72,8 @@
    "state": "partial"
   },
   "joshuarli/pytest-parallel": {
-   "commit": "bde8faff34539f5db8ce84433b509cae82af781b",
-   "inputs_fingerprint": "2e54133cb052d4911c09600b3f1b7deaf028ad5cabfb38628a1f1f5f3cbb976d",
+   "commit": "b94019e0beb4e330fa25e1cdf4bb449e608ad42a",
+   "inputs_fingerprint": "c9d087bf7e9dd34ba511c2d214313ab1b620a0409490b8381f9d98783ae66f15",
    "state": "partial"
   },
   "joshuarli/soulseek-rs": {
@@ -132,8 +132,8 @@
    "state": "partial"
   },
   "laputa-systems/diff-pretty": {
-   "commit": "3a046f2fdef3ed32109296c0f61cc78cdd16bdb5",
-   "inputs_fingerprint": "0ad61bd9768e73966a75734bb82dd64c6a306f64113ea4a71729e8101892159c",
+   "commit": "3ac8d2f6abb2a166f7096522afe26daf59ed19fb",
+   "inputs_fingerprint": "5e85ba0dfd55be7b73949ff5af3ce2590b322d50479deeba8950835ed4f97857",
    "state": "partial"
   },
   "laputa-systems/doas-rs": {
@@ -222,13 +222,13 @@
    "state": "partial"
   },
   "laputa-systems/ptytest": {
-   "commit": "4301e09fe1438e8d749c15aa02da10eb96b11c61",
-   "inputs_fingerprint": "d9aecaf39245d018e97001bb29b3c94412b327a3787d80d973edb30911e4f5d9",
+   "commit": "d8a2867756de483d2f63df2a4f7aaf729603e314",
+   "inputs_fingerprint": "4c8cf54003455fc3a86f88a38e1f6ffee3bc3960111581c3e6914c037c093906",
    "state": "partial"
   },
   "laputa-systems/python-build": {
-   "commit": "9ba07a997e6afa2583d235ad02c89cd9a953f7d4",
-   "inputs_fingerprint": "eb5837e293e2863cab5010c8b36fd34eaad6dc5a2e8bdb46cb83ba230b7a044a",
+   "commit": "ef8a01d7b5c3a7b445416b62d9d90fc087b040d3",
+   "inputs_fingerprint": "c47ffe28ef3babbb4f41e497e80a268a4c10cd6376506529d3e07cab720da083",
    "state": "partial"
   },
   "laputa-systems/rage": {

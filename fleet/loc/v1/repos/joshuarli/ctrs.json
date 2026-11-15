@@ -5,14 +5,14 @@
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 1663962,
+    "bytes": 1665707,
     "file_count": 79,
     "lines": {
      "blank": 2675,
-     "code": 30446,
-     "comment": 5054,
+     "code": 30474,
+     "comment": 5055,
      "shebang": 0,
-     "total": 38175
+     "total": 38204
     },
     "name": "Rust"
    },
@@ -174,14 +174,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 2548494,
+   "bytes": 2550239,
    "file_count": 318,
    "lines": {
     "blank": 4093,
-    "code": 43413,
-    "comment": 5879,
+    "code": 43441,
+    "comment": 5880,
     "shebang": 50,
-    "total": 53435
+    "total": 53464
    }
   }
  },

@@ -1,5 +1,5 @@
 {
- "commit": "ccd43458e692ef206d6eaf0d4d4ee29cbb0dd3d2",
+ "commit": "e5d4a38a9979d5b80857905871398102cd50a411",
  "error": null,
  "loc": {
   "hidden_languages": 0,
@@ -17,14 +17,14 @@
     "name": "JSON"
    },
    {
-    "bytes": 33772622,
+    "bytes": 33772521,
     "file_count": 1118,
     "lines": {
      "blank": 47236,
-     "code": 715220,
+     "code": 715214,
      "comment": 47243,
      "shebang": 0,
-     "total": 809699
+     "total": 809693
     },
     "name": "Rust"
    },
@@ -334,14 +334,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 127183645,
+   "bytes": 127183544,
    "file_count": 8596,
    "lines": {
     "blank": 119897,
-    "code": 2189059,
+    "code": 2189053,
     "comment": 72899,
     "shebang": 509,
-    "total": 2382364
+    "total": 2382358
    }
   }
  },

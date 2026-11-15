@@ -1,18 +1,18 @@
 {
- "commit": "4301e09fe1438e8d749c15aa02da10eb96b11c61",
+ "commit": "d8a2867756de483d2f63df2a4f7aaf729603e314",
  "error": null,
  "loc": {
   "hidden_languages": 0,
   "languages": [
    {
-    "bytes": 238543,
+    "bytes": 238688,
     "file_count": 14,
     "lines": {
-     "blank": 437,
+     "blank": 438,
      "code": 6189,
      "comment": 207,
      "shebang": 0,
-     "total": 6833
+     "total": 6834
     },
     "name": "Rust"
    },
@@ -85,14 +85,14 @@
     "name": "C"
    },
    {
-    "bytes": 693,
+    "bytes": 757,
     "file_count": 2,
     "lines": {
      "blank": 4,
-     "code": 22,
+     "code": 23,
      "comment": 2,
      "shebang": 0,
-     "total": 28
+     "total": 29
     },
     "name": "TOML"
    },
@@ -114,14 +114,14 @@
   ],
   "schema_version": 2,
   "totals": {
-   "bytes": 276957,
+   "bytes": 277166,
    "file_count": 32,
    "lines": {
-    "blank": 566,
-    "code": 6779,
+    "blank": 567,
+    "code": 6780,
     "comment": 223,
     "shebang": 1,
-    "total": 7569
+    "total": 7571
    }
   }
  },
