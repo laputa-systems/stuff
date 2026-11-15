@@ -5,7 +5,10 @@ artifact=${1:?usage: build-platform-bridge /path/to/main.mjs}
 HERE=$(cd "$(dirname "$0")/.." && pwd)
 mkdir -p "$HERE/.work"
 context=$(mktemp -d "$HERE/.work/platform-build.XXXXXX")
-trap 'rm -rf "$context"' 0 HUP INT TERM
+trap 'rm -rf "$context"' 0
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
 cp "$HERE/platform/Dockerfile" "$context/Dockerfile"
 cp "$artifact" "$context/main.mjs"
 docker build --platform linux/amd64 -t openorange/platform-bridge:local "$context"
