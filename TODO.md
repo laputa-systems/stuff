@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 75
+Next: 76
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -11,3 +11,11 @@ Evidence for the 2026-11-11 ultrareview refers to `5ab165462999f71c11788ea9a2c6b
 - **Cargo publish 403** (`PUT .../crates-io/gi/ml/gimli: HTTP 403: forbidden`): blocks the cargo mirror backlog (435 crates, 87 npm, 4 pypi still unpublished), the `h12tiny-client-sync` publish, and the audit-upgrades sweep. Bucket/IAM intent unresolved; do not retry until the owner answers.
 - **Mirror pollution**: 2006-era packages remain on the mirror, unactioned.
 - **npm mirror 500s**: recurring HTTP 500s (outages ~16:26-01:00 UTC and ~02:14 UTC on 2026-11-14); mirror packages (pnpm 12.20/12.21, playwright-core 1.65.1, vitest 5.0.3, ws 8.23.0, vite 8.3.6) still absent. Snapshots of deps/loc must wait for merges and a healthy mirror.
+### STUF-75 · P1 · Add integrity-verified S3 backup copies and isolated restore proof
+
+- **Area:** OpenOrange durability
+- **Where:** deploy/openorange/bin/backup, bin/restore-rehearsal, docs/openorange-runtime.md; Engine filesystem log and object tier are one recovery unit
+- **Problem:** Current recurring backups live on Lisa's disk and known off-host Mac copies are manually made; there is no recurring independently verified S3 backup copy or restore freshness guarantee. Host or disk loss can lose writes after the latest independently verified off-host fence. The owner explicitly defers S3 backup implementation as P1 while repository hardening proceeds.
+- **Recommendation:** Use existing fenced backup artifacts to add protected recurring S3 copies with complete manifests and integrity checks, retention and freshness monitoring, plus a non-production full restore rehearsal measuring RPO/RTO. Keep Engine log and object state together, distinguish backup storage from the Engine storage backend, and obtain an explicit deployment handoff/approval before credentials, scheduling or production changes.
+- **Fix with:** durable-state
+- **Effort:** M

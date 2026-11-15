@@ -46,6 +46,14 @@ def running(svc):
     return subprocess.run(["rc-service", svc, "status"], capture_output=True).returncode == 0
 
 
+def assert_fenced(cfg):
+    writers = {"oo-engine", "oo-store", *(app.container for app in cfg.orange_apps())}
+    result = oolib.docker("ps", "--format", "{{.Names}}")
+    active = writers.intersection(result.stdout.splitlines())
+    if active:
+        raise RuntimeError("backup fence still has running writers: " + ", ".join(sorted(active)))
+
+
 def du(path):
     r = subprocess.run(["du", "-sk", str(path)], capture_output=True, text=True)
     return int(r.stdout.split()[0]) * 1024 if r.returncode == 0 else 0
@@ -103,7 +111,8 @@ def main():
         # Host agents spool for four minutes; reopen Stats before waiting for unrelated apps.
         services = ["oo-dns", "oo-store", "oo-engine", "oo-identity", *priority, "oo-ingress",
                     *(service for service in app_services if service not in priority),
-                    *(["oo-rivet"] if cfg.rivet is not None else []), "oo-tunnel"]
+                    *(["oo-rivet"] if cfg.rivet is not None else []),
+                    *(["oo-platform"] if cfg.platform_bridge is not None else []), "oo-tunnel"]
         was = {service: running(service) for service in services}
         t0 = time.time()
         print("fencing: draining stack (ingress -> apps -> identity -> engine -> store)")
@@ -114,6 +123,7 @@ def main():
             signal.signal(sig, interrupted)
         try:
             run(str(HERE / "drain"))
+            assert_fenced(cfg)
             copy_state(cfg, out, prev, fenced=True)
             deployments.snapshot(cfg, out)
             run("rsync", "-a", "--numeric-ids", f"{cfg.etc}/", f"{out / 'etc'}/")

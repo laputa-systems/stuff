@@ -34,6 +34,18 @@ class BackupRecoveryTests(unittest.TestCase):
             self.assertEqual((out / 'store/data/object').read_bytes(), b'after!')
             self.assertFalse((out / 'store/data/deleted').exists())
 
+    def test_fence_checks_real_writer_containers(self):
+        cfg = backup['oolib'].load()
+        for name in ('oo-engine', 'oo-store', cfg.orange_apps()[0].container):
+            with self.subTest(name=name), patch.object(backup['oolib'], 'docker', return_value=SimpleNamespace(stdout=name + '\n')):
+                with self.assertRaisesRegex(RuntimeError, 'running writers'):
+                    backup['assert_fenced'](cfg)
+        with patch.object(backup['oolib'], 'docker', return_value=SimpleNamespace(stdout='oo-platform\nunrelated-container\n')):
+            backup['assert_fenced'](cfg)
+        with patch.object(backup['oolib'], 'docker', side_effect=subprocess.CalledProcessError(1, ['docker', 'ps'])):
+            with self.assertRaises(subprocess.CalledProcessError):
+                backup['assert_fenced'](cfg)
+
     def exercise_failure(self, failure):
         main = backup['main']
         scope = main.__globals__
@@ -41,7 +53,7 @@ class BackupRecoveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR')) as directory:
             cfg.stack['state_dir'] = directory
             cfg.stack['run_dir'] = str(Path(directory) / 'run')
-            initially_up = {'oo-store', 'oo-engine', 'oo-identity', 'oo-ingress', 'oo-rivet', cfg.orange_apps()[0].service}
+            initially_up = {'oo-store', 'oo-engine', 'oo-identity', 'oo-ingress', 'oo-rivet', 'oo-platform', cfg.orange_apps()[0].service}
             running = set(initially_up)
             started = []
             handlers = {}
