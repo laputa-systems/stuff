@@ -350,7 +350,7 @@ impl FakeS3 {
             builder = builder.header(*name, *value);
         }
         let request = builder.body(body.to_vec()).expect("build request");
-        let client = Client::builder().connect_timeout(TIMEOUT).build();
+        let client = Client::builder().connect_timeout(TIMEOUT).expect("non-zero connect timeout").build();
         let mut response = client
             .request_with_timeout(request, Some(TIMEOUT))
             .expect("request fake s3");

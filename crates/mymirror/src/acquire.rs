@@ -23,7 +23,7 @@ pub struct HttpsAcquire {
 impl HttpsAcquire {
     pub fn new() -> Self {
         Self {
-            client: Client::builder().connect_timeout(CONNECT_TIMEOUT).build(),
+            client: Client::builder().connect_timeout(CONNECT_TIMEOUT).expect("non-zero connect timeout").build(),
         }
     }
 }

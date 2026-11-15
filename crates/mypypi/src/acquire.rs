@@ -195,7 +195,7 @@ const MAX_DOWNLOAD_BYTES: u64 = 1024 * 1024 * 1024;
 
 fn http_client() -> h12tiny_client_sync::Client {
     h12tiny_client_sync::Client::builder()
-        .connect_timeout(Duration::from_secs(30))
+        .connect_timeout(Duration::from_secs(30)).expect("non-zero connect timeout")
         .build()
 }
 

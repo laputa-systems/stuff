@@ -25,9 +25,6 @@ strip = "debuginfo"
 resolver = "2"
 exclude = [".work"]
 members = [
-  "crates/h12tiny-client-normalize",
-  "crates/h12tiny-tls-system",
-  "crates/h12tiny-client-sync",
   "crates/myoci",
   "crates/mymirror",
   "crates/mynpm",
