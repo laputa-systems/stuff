@@ -1981,8 +1981,7 @@ def _explore(site: _Site) -> str:
     </div>
     <aside id="atlas-inspector" class="atlas-inspector" aria-label="Selection inspector" aria-live="polite">
       <h2 class="atlas-inspector-title">Inspector</h2>
-      <p class="atlas-inspector-empty">Select a repository to focus its dependency graph, or select a
-        package to inspect it. Edges run from a project to the packages it declares, and onward transitively.</p>
+      <p class="atlas-inspector-empty">Selection details appear here with JavaScript enabled.</p>
     </aside>
   </div>
   <p class="atlas-footnote">Aggregate edges between a repository and an ecosystem sum every edge whose

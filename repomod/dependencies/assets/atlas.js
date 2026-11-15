@@ -836,12 +836,17 @@
         ecosystemSelect.value = view.ecosystem;
         syncRelationButtons();
         const node = params.get("node");
+        let selected = false;
         if (node !== null && node.length <= 512) {
           const key = findNodeKey(node);
           const candidate = key === null ? undefined : scene.nodes.get(key);
           if (key !== null && candidate !== undefined && nodeSelectable(candidate)) {
             selectNode(key, false);
+            selected = true;
           }
+        }
+        if (!selected) {
+          renderInspector(null);
         }
         return;
       }
@@ -860,6 +865,7 @@
     updateFleetButton();
     ecosystemSelect.value = view.ecosystem;
     syncRelationButtons();
+    renderInspector(null);
   }
 
   function nodeSelectable(node) {
