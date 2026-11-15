@@ -24,8 +24,9 @@ every page as well. Their inventory files remain until the next unfiltered `deps
 them. With `--repo` or `--tag`, pages, search, counts, changes, and status include only the selected
 reportable repositories. Explicit `--repo` selection includes that repository even when it is private.
 
-The site has no fetch, CDN, web font, or chart library, and it works from `file://`. Python
-precomputes every page. The browser only filters, searches, routes, and expands.
+The site needs no runtime data fetch, CDN, or web font, and works from `file://`. Python prepares
+the pages and data. Explore renders its graph with the vendored Sigma.js and Graphology bundle
+described below; the other pages use static markup and browser filters.
 
 The pages use the CSS-only mode of `@laputa-systems/ui-dashboard`. `repomod/dependencies/ui.py`
 owns the `ui-*` markup. `assets/app.css` holds only what the library lacks, built from `--ui-*`

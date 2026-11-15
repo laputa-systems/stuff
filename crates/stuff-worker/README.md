@@ -1,7 +1,7 @@
 # stuff-worker
 
-OpenOrange Worker that serves the registry layouts and the static artifact
-mirror from R2. URL routing
+OpenOrange Worker that serves the registry layouts and static artifact mirror
+through R2-compatible bindings backed by the host's S3 store. URL routing
 and response planning are Rust (`src/map.rs`, `src/api.rs`, shared `stuff-http`
 semantics, `deser` for config parsing), with no `worker` SDK and no async
 runtime in the dependency tree. Routes match on the request hostname, so each
@@ -73,7 +73,7 @@ Worker's compatibility date. They cover cold-HEAD caching, root links, pinned
 artifact aliases, OCI reads, and OCI writes.
 
 `pnpm run check` builds the Worker, runs Oxlint and the TypeScript checker, and
-runs the Worker tests. It requires Node.js 26.13.0 or newer.
+runs the Worker tests. The Node.js requirement is `engines.node` in `package.json`.
 
 ## Bench
 
@@ -119,12 +119,10 @@ publication state are retained. Publish registry changes separately with the
 native `stuff` publisher. Run
 `make worker-deploy-test` for the local deployment and rollback regression.
 
-The image `stuff:463f8d96a4bd` is staged on `lisa` (2026-11-14), with
-production DNS unchanged. A temporary object in the real S3 store verified
-HTTPS GET bytes, HEAD length and ranged reads through the tailnet ingress.
-The object was removed and its URL returned 404. Registry data migration,
-publication coordination, blob-host routing and deployment drain still need
-verification before cutover.
+The [shared host runbook](../../docs/openorange-runtime.md) owns ingress,
+storage, credentials, and recovery. The checked-in app configuration enables
+the coordinator and private publishing host, with anonymous public registry
+reads. Optional OCI HTTP pushes require separate configuration.
 
 Cloudflare-specific surfaces and what replaced them:
 

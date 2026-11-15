@@ -1,6 +1,6 @@
 # AGENTS.md
 
-`mycrates` is a self-hosted Cargo sparse registry and dependency archive in standard-library-only Python 3.11. Run it as `crates/mycrates/bin/mycrates` or `python3 -m mycrates` with `crates/mycrates` on `PYTHONPATH`. Tests are `unittest`: `make test-mycrates` (from `crates/mycrates`: `python3 -m unittest discover -t . -s tests`). No third-party packages, no formatter. Wire and on-disk formats are in [docs/mycrates-contracts.md](../../docs/mycrates-contracts.md) and pinned by `tests/golden/`; change a format, its contract text, and its golden together.
+`mycrates` is a Cargo sparse registry archive and maintenance tool using only the Python 3.11 standard library at runtime. Run it as `crates/mycrates/bin/mycrates` or `python3 -m mycrates` with `crates/mycrates` on `PYTHONPATH`. Run `make test-mycrates` from the repository root; it uses the repository's pytest environment and needs Cargo for the native publication proof. Do not run formatters. Wire and on-disk formats are in [docs/mycrates-contracts.md](../../docs/mycrates-contracts.md) and pinned by `tests/golden/`; change a format, its contract text, and its golden together.
 
 `stuff publish cargo` is the only Cargo publishing entry point. The Python publish path (`publish.py`, and `server.py` behind `serve-publish`) is the legacy parity oracle for the golden tests and a dependency of the kept maintenance commands; it is not a publishing entry point.
 
