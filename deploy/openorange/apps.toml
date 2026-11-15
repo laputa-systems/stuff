@@ -57,7 +57,7 @@ port = 8080
 operators = ["user:joshua.r.li.98@gmail.com"]
 
 [platform_bridge]
-enabled = false
+enabled = true
 source_app = "stats"
 ip = "172.29.80.27"
 port = 4318
