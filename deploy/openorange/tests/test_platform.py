@@ -28,7 +28,9 @@ def selectors():
 
 class PlatformBridgeTests(unittest.TestCase):
     def test_disabled_is_optional_and_bad_active_configuration_is_rejected(self):
-        self.assertIsNone(oolib.load().platform_bridge)
+        disabled = copy.deepcopy(oolib.load().raw)
+        disabled["platform_bridge"]["enabled"] = False
+        self.assertIsNone(oolib.validate(disabled).platform_bridge)
         for change in ({"source_app": "stuff"}, {"ip": "172.29.80.20"}, {"ip": "172.29.80.24"}, {"ip": "0.0.0.0"}, {"ip": "172.29.80.0"}, {"port": True}, {"port": 80}, {"sample_ppm": 0}, {"sample_ppm": 1000001}, {"native_version": "unsafe\nversion"}, {"hostname": "platform.example.com"}):
             with self.subTest(change=change):
                 raw = copy.deepcopy(enabled().raw)

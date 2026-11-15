@@ -678,3 +678,65 @@ Production image `stuff:062beac2bcc7` passed 182 anonymous HTTPS reads against
 Lisa's real S3 store after deployment: 62 responses with 200, 60 with 304 and
 60 with 412, including 60 HEAD requests. The final full read still succeeded;
 shared health returned 92 passes, one disk-capacity warning and no failures.
+
+## Stats runtime telemetry
+
+Build the bridge bundle from a clean Stats checkout with its pinned Node and
+workspace dependencies:
+
+```sh
+node cloudflare/scripts/build-platform-bridge.mjs --out .work/tmp/platform-bundle
+```
+
+Copy `main.mjs` to Lisa. Build and pin the separate container there:
+
+```sh
+doas /opt/openorange/bin/build-platform-bridge /path/to/main.mjs
+```
+
+Enable `[platform_bridge]` in `apps.toml` after deploying a Stats image that
+supports the reserved platform sink. Keep `source_app = "stats"` and the
+validated runtime versions. Refresh only the relevant configuration:
+
+```sh
+doas /opt/openorange/bin/oo secrets
+doas /opt/openorange/bin/oo discover-platform
+doas install -m 0755 /opt/openorange/openrc/oo-platform /etc/init.d/oo-platform
+doas rc-update add oo-platform default
+doas rc-service oo-app.stats restart
+doas rc-service oo-platform start
+doas /opt/openorange/bin/oo wait platform 30
+```
+
+Discovery uses the pinned Stats image to derive named-object keys and verifies
+exactly one live Engine actor for each selector. It writes the protected policy
+without printing keys or Engine credentials. OpenOrange 1.0.2's internal ID
+format is a constraint of this helper. Revalidate discovery when changing the
+runtime pin. `configure-platform ACTORS.json` accepts separately verified
+selectors when automatic discovery is unavailable.
+
+The bridge accepts OTLP HTTP/JSON on its private Docker address. No hostname,
+Caddy route or host port is added. Its only ingest credential authorizes the
+reserved `stats-platform` sink. Stats verifies its SHA-256 locally, so these
+writes do not invoke the Installation actor being observed. The bridge excludes
+its destination ObservationStore actor. It never receives the Engine token.
+
+Stats' two Worker processes use 10% root sampling. Native queues and receiver
+buffers are bounded. Other applications receive no exporter configuration.
+The Engine continues using its filesystem tier. No Engine setting or image is
+changed. The first-Worker-only metrics endpoint is not enabled because it would
+omit ObservationStore.
+
+The Platform tab lives under the Stats project. It shows observed counts,
+failures, source releases, microsecond histograms and delivery reports. Histogram
+percentiles are upper bounds. Sampled counts are not complete request totals,
+and upstream exporter loss is unknown. See the
+[Stats contract](https://github.com/joshuarli/stats/blob/master/docs/platform-observability.md).
+
+Restarting `oo-platform` does not restart the Engine or apps. A collector outage
+can lose observations but does not fail actor requests. To disable collection,
+set the table's `enabled` flag to false, run `oo secrets`, restart only Stats and
+stop `oo-platform`. Protected credentials and policy remain available for a
+later activation. Full stack backups already include `/etc/openorange`; preserve
+`platform.env`, `platform.image`, `platform/policy.json` and the selected image
+in the off-host copy as well.
