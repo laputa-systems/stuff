@@ -3,11 +3,13 @@
 use crate::digest::Digest;
 use rustc_hash::FxHashMap;
 
-pub const GENERATION_SCHEMA: &[u8] = b"stuff-oci-generation-v1\0";
+pub const GENERATION_SCHEMA: &[u8] = b"stuff-oci-generation-v2\0";
 pub const GENERATION_ID_LEN: usize = 24;
 
-pub fn generation_id(files: &FxHashMap<String, Vec<u8>>) -> String {
+pub fn generation_id(files: &FxHashMap<String, Vec<u8>>, catalog_fingerprint: &str) -> String {
     let mut payload = GENERATION_SCHEMA.to_vec();
+    payload.extend_from_slice(catalog_fingerprint.as_bytes());
+    payload.push(0);
     let mut entries: Vec<_> = files.iter().collect();
     entries.sort_unstable_by(|a, b| a.0.cmp(b.0));
     for (relative, bytes) in entries {
@@ -27,12 +29,13 @@ mod tests {
     fn generation_ids_are_content_addressed() {
         let mut files = FxHashMap::default();
         files.insert("a".to_string(), b"one".to_vec());
-        let first = generation_id(&files);
+        let first = generation_id(&files, "catalog");
         assert_eq!(first.len(), GENERATION_ID_LEN);
-        assert_eq!(generation_id(&files), first);
+        assert_eq!(generation_id(&files, "catalog"), first);
         files.insert("a".to_string(), b"two".to_vec());
-        assert_ne!(generation_id(&files), first);
+        assert_ne!(generation_id(&files, "catalog"), first);
+        assert_ne!(generation_id(&files, "other catalog"), generation_id(&files, "catalog"));
         files.insert("b".to_string(), b"one".to_vec());
-        assert_ne!(generation_id(&files), first);
+        assert_ne!(generation_id(&files, "catalog"), first);
     }
 }

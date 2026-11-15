@@ -199,9 +199,11 @@ fn render_generation(
             provenance.render().into_bytes(),
         );
     }
-    let generation = stuff_oci::generation_id(&files);
-    let catalog = oci_catalog(&generation, inputs)
+    let mut catalog = oci_catalog(stuff_catalog::FINGERPRINT_GENERATION, inputs)
         .map_err(|error| Error::Integrity(format!("catalog: {error}")))?;
+    let fingerprint = stuff_catalog::catalog_fingerprint(&catalog, public_url);
+    let generation = stuff_oci::generation_id(&files, &fingerprint);
+    catalog.generation = generation.clone();
     files.insert("catalog.json".to_string(), render_catalog_json(&catalog).into_bytes());
     files.insert("index.html".to_string(), render_html(&catalog).into_bytes());
     files.insert("llms.txt".to_string(), render_llms_txt(&catalog, public_url).into_bytes());
@@ -450,6 +452,20 @@ mod tests {
         assert!(String::from_utf8(actual["index.html"].clone()).unwrap().contains("example/app"));
         assert!(String::from_utf8(actual["llms.txt"].clone()).unwrap().contains(DEFAULT_PUBLIC_URL));
         drop(state_dir);
+    }
+
+    #[test]
+    fn origin_change_publishes_a_new_generation_and_preserves_the_old_one() {
+        let (_state_dir, state) = fixture_state();
+        let site = tempfile::tempdir().unwrap();
+        let first = publish(&state, site.path(), "https://first.example").unwrap();
+        let old_dir = site.path().join("generations").join(&first.generation);
+        let old_files = tree(&old_dir);
+        let second = publish(&state, site.path(), "https://second.example").unwrap();
+        assert_ne!(first.generation, second.generation);
+        assert_eq!(tree(&old_dir), old_files);
+        assert!(std::fs::read_to_string(old_dir.join("llms.txt")).unwrap().contains("https://first.example"));
+        assert!(std::fs::read_to_string(site.path().join("current/llms.txt")).unwrap().contains("https://second.example"));
     }
 
     fn summary_digests(state: &State) -> Vec<Digest> {

@@ -594,3 +594,6 @@ requests emit `registry.publication.attempt.<registry>`; other requests emit
 `registry.request`. Receipt retries count as attempts. Operation names contain
 no package names, paths or tokens. Delivery is bounded and does not gate serving
 or publication when Stats is unavailable.
+
+The publishing service signing region is `auto`. Both credential-file `region` and
+`STUFF_S3_REGION` reject other values before any network request, matching the gateway.

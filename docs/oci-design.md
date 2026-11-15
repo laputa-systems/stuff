@@ -90,8 +90,11 @@ CDN can expose it without exposing metadata, GC prunes it independently, and a
 
 A tag is a mutable reference inside an immutable generation. A publish or
 push that changes any tag, manifest, or referrer produces a new
-content-derived generation (`sha256` over the canonical repository view, first
-24 hex). Re-publishing the identical view is a no-op. A tag move is activated
+content-derived generation (first 24 hex of SHA-256). Generation identity v2
+includes repository, blob and provenance files plus the catalog fingerprint of
+normalized catalog JSON, HTML, llms.txt and public origin. Re-publishing the
+identical view and rendered content is a no-op. Older generation IDs remain
+readable; only newly published generations use v2. A tag move is activated
 atomically with `current`; rollback is
 `stuff rollback oci <id>`.
 

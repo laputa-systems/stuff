@@ -353,7 +353,6 @@ pub fn oci_generation_json(
         );
     }
     files.insert("blobs.json".to_string(), render_blobs_json(&blobs).into_bytes());
-    let generation = generation_id(&files);
     let mut inputs = Vec::new();
     for name in &order {
         let view = match RepositoryName::parse(name)
@@ -367,10 +366,13 @@ pub fn oci_generation_json(
             tags: view.tags.keys().map(|tag| tag.as_str().to_string()).collect(),
         });
     }
-    let catalog = match oci_catalog(&generation, inputs) {
+    let mut catalog = match oci_catalog(stuff_catalog::FINGERPRINT_GENERATION, inputs) {
         Ok(catalog) => catalog,
         Err(error) => return internal_error(&format!("catalog: {error}")),
     };
+    let fingerprint = stuff_catalog::catalog_fingerprint(&catalog, public_url);
+    let generation = generation_id(&files, &fingerprint);
+    catalog.generation = generation.clone();
     files.insert("catalog.json".to_string(), render_catalog_json(&catalog).into_bytes());
     files.insert("index.html".to_string(), render_html(&catalog).into_bytes());
     files.insert("llms.txt".to_string(), render_llms_txt(&catalog, public_url).into_bytes());
@@ -451,6 +453,25 @@ fn repository_text(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn origin_change_produces_distinct_generation_files() {
+        let digest = format!("sha256:{}", "1".repeat(64));
+        let manifest = format!(r#"{{"schemaVersion":2,"mediaType":"application/vnd.oci.image.manifest.v1+json","config":{{"mediaType":"application/vnd.oci.image.config.v1+json","digest":"{digest}","size":2}},"layers":[]}}"#);
+        let available = format!(r#"["{digest}"]"#);
+        let plan = |origin| oci_generation_json("example/app", "[]", "", "[]", &manifest, "stable", &available, "[]", origin);
+        let first = plan("https://first.example");
+        let second = plan("https://second.example");
+        let first_value = parse(&first, "plan").unwrap();
+        let second_value = parse(&second, "plan").unwrap();
+        let first_map = first_value.as_map().unwrap();
+        let second_map = second_value.as_map().unwrap();
+        assert_eq!(first_map.get("kind").unwrap().as_str(), Some("ok"), "{first}");
+        assert_eq!(second_map.get("kind").unwrap().as_str(), Some("ok"), "{second}");
+        assert_ne!(first_map.get("generation").unwrap().as_str(), second_map.get("generation").unwrap().as_str());
+        assert!(first.contains("https://first.example"));
+        assert!(second.contains("https://second.example"));
+    }
 
     #[test]
     fn issues_a_session_plan() {

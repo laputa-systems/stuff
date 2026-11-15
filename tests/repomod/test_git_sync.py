@@ -194,3 +194,29 @@ def test_sync_shallow_unshallow_failure_fails(
     assert result.action == "failed"
     assert result.failed is True
     assert "could not complete history from shallow clone" in result.message
+
+@pytest.mark.parametrize("already_current", [False, True])
+def test_sync_refreshes_remote_default_without_changing_checkout(
+    tmp_path: Path, git_environment: None, already_current: bool,
+) -> None:
+    from repomod.dependencies.git_tree import default_commit
+
+    bare, seed, _ = make_remote(tmp_path)
+    catalog, repository = make_catalog(tmp_path)
+    sync_one(catalog, repository, RemoteRepository(str(repository.id), "main", "unused", False))
+    checkout = repository_path(catalog, repository)
+    original = head(checkout)
+    git("checkout", "-b", "trunk", cwd=seed)
+    (seed / "README.md").write_text("new default\n", encoding="utf-8")
+    git("commit", "-am", "new default", cwd=seed)
+    git("push", "origin", "trunk", cwd=seed)
+    git("symbolic-ref", "HEAD", "refs/heads/trunk", cwd=bare)
+    expected = head(seed)
+    if already_current:
+        git("fetch", "origin", "trunk", cwd=checkout)
+        git("checkout", "-b", "trunk", "FETCH_HEAD", cwd=checkout)
+    result = sync_one(catalog, repository, RemoteRepository(str(repository.id), "trunk", expected, False))
+    assert not result.failed
+    assert default_commit(checkout) == expected
+    assert head(checkout) == (expected if already_current else original)
+    assert git("branch", "--show-current", cwd=checkout) == ("trunk" if already_current else "main")
