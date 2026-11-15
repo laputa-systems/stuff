@@ -344,7 +344,7 @@ def page(
     if failed:
         notes.append(f"{failed} not counted")
     tiles = (
-        Tile(_count(code), "Code", f"lines in {len(code_totals)} languages", "#languages"),
+        Tile(_count(code), "Code", f"lines in {len(code_totals)} programming languages", "#languages"),
         Tile(
             f"{round(100 * comment / code) if code else 0}%",
             "Commented",
@@ -467,7 +467,7 @@ def page(
                     search="Filter languages",
                 ),
                 count=len(language_rows),
-                note="exact counts, for lookup",
+                note="programming languages, docs and data formats, exact counts for lookup",
                 group_id="all-languages",
             ),
         )
