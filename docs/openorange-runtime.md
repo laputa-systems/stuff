@@ -752,6 +752,44 @@ and the protected Mac copy. Collection is best effort: slow writes under load
 can exhaust the bounded delivery budget, and the dashboard reports abandoned
 observations. A healthy receiver does not imply complete telemetry delivery.
 
+### Stats scale-fixture ingress
+
+The Stats performance campaign temporarily routes `stats-next.17166969.xyz` to
+its disposable fixture through the existing tailnet listener. The canonical
+`stats.17166969.xyz` route and Rivet explorer retain their production upstreams.
+[stats-performance.toml](../deploy/openorange/fixtures/stats-performance.toml)
+is the host-local overlay; it preserves every hostname and adds a native
+`stats-perf` upstream at `172.31.90.2:8787`. It has no public hostname.
+
+The fixture is the only container on the dedicated internal `stats-perf-ingress`
+bridge. It has no published ports or default gateway. Runtime checks confirm it
+cannot connect to the production Engine or the Internet. Its existing private
+Engine remains bound to loopback and keeps the same process. This uses Docker's
+[internal bridge isolation](https://docs.docker.com/reference/cli/docker/network/create/#internal).
+
+Prepare the fixture and its dedicated gateway credential before installing the
+overlay. `/etc/openorange/apps/stats-perf.env` and the fixture's two Worker
+descriptors must share that credential. Keep it out of commands and assets.
+`oo validate` checks the overlay, and `oo reload-ingress` loads its gateway
+environment into a graceful Caddy reload. No Engine or production app restart
+is required. The overlay is not enabled by the repository's default stack.
+
+The November 15 rehearsal loads the exact `stats:6cc06db247a3` application bundles
+and assets over valid HTTPS. Real-browser 1h, 6h and 24h selections show matching
+data and three charts against the 203,950-event fixture. Direct requests without
+a gateway credential, including forged identity headers, receive HTTP 401.
+The public listener rejects the fixture hostname with HTTP 404. The 45 served
+asset files contain neither fixture gateway nor ingestion credentials. These
+are functional checks; concurrent browser and ingestion acceptance remains open.
+
+Restore the original hostname route before retiring the fixture. The rehearsal
+started without an existing host-local overlay. Remove only its unchanged
+`/etc/openorange/overlay.toml`, then run `oo reload-ingress`; preserve any later
+operator edits. The rehearsal overlay SHA-256 is
+`6c60a7b894e9ac2b389c7a1dc64500662f23f4c8fed9ecff559d69a5cef8dcaa`.
+Then retire the owned fixture network and gateway credential after their final
+consumer stops. Keep the active Stats resource sampler and its evidence.
+
 ## Runtime hardening (2026-11-14)
 
 `bin/drain` fails if application discovery fails, an OpenRC stop fails or a
