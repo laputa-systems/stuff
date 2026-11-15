@@ -233,3 +233,28 @@ def test_ubuntu_latest_stays_x86_for_jobs_that_run_amd64_images(tmp_path: Path) 
     assert repaired.splitlines()[6] == "    runs-on: ubuntu-26.04-arm"
     assert repaired.splitlines()[12] == "          - runner: ubuntu-26.04"
     assert repaired.splitlines()[14] == "          - runner: ubuntu-26.04-arm"
+
+
+def test_arm_runner_for_an_amd64_image_is_reported_and_moved_to_x86(tmp_path: Path) -> None:
+    workflow(
+        tmp_path,
+        "jobs:\n"
+        "  release:\n"
+        "    runs-on: ${{ matrix.runner }}\n"
+        "    strategy:\n"
+        "      matrix:\n"
+        "        include:\n"
+        "          - runner: ubuntu-26.04-arm\n"
+        "            target: x86_64-unknown-linux-musl\n"
+        "            docker_platform: linux/amd64\n"
+        "          - runner: ubuntu-26.04-arm\n"
+        "            target: aarch64-unknown-linux-musl\n"
+        "            docker_platform: linux/arm64\n",
+    )
+
+    current = findings(_UBUNTU_POLICY, tmp_path)
+    repaired = _UBUNTU_POLICY.fix(tmp_path, repository())[".github/workflows/ci.yml"]
+
+    assert [finding.line for finding in current] == [7]
+    assert repaired.splitlines()[6] == "          - runner: ubuntu-26.04"
+    assert repaired.splitlines()[9] == "          - runner: ubuntu-26.04-arm"

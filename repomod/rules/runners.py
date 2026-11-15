@@ -42,7 +42,7 @@ def _runner_line(pattern: re.Pattern[str], code: str) -> bool:
     return pattern.fullmatch(item.group("value").strip("'\"")) is not None
 
 
-def _macos_accepted(match: re.Match[str]) -> bool:
+def _macos_accepted(match: re.Match[str], _amd64: bool) -> bool:
     suffix = str(match.group("suffix"))
     if suffix.endswith("-intel"):
         return True
@@ -53,22 +53,24 @@ def _macos_accepted(match: re.Match[str]) -> bool:
     )
 
 
-def _macos_repaired(match: re.Match[str], _amd64: bool) -> str:
-    if _macos_accepted(match):
+def _macos_repaired(match: re.Match[str], amd64: bool) -> str:
+    if _macos_accepted(match, amd64):
         return str(match.group(0))
     if str(match.group("suffix")).endswith("-xlarge"):
         return _XCODE_XLARGE_RUNNER
     return _XCODE_RUNNER
 
 
-def _ubuntu_accepted(match: re.Match[str]) -> bool:
-    return str(match.group("version")) == "26.04"
+def _ubuntu_accepted(match: re.Match[str], amd64: bool) -> bool:
+    return str(match.group("version")) == "26.04" and not (amd64 and match.group("arm") is not None)
 
 
 def _ubuntu_repaired(match: re.Match[str], amd64: bool) -> str:
-    if _ubuntu_accepted(match):
+    if _ubuntu_accepted(match, amd64):
         return str(match.group(0))
-    if match.group("arm") is not None or (str(match.group("version")) == "latest" and not amd64):
+    if amd64:
+        return _UBUNTU_X86_RUNNER
+    if match.group("arm") is not None or str(match.group("version")) == "latest":
         return _UBUNTU_ARM_RUNNER
     return _UBUNTU_X86_RUNNER
 
@@ -106,7 +108,7 @@ class RunnerPolicy:
     family: str
     pattern: re.Pattern[str]
     guidance: str
-    accepted: Callable[[re.Match[str]], bool]
+    accepted: Callable[[re.Match[str], bool], bool]
     repaired: Callable[[re.Match[str], bool], str]
 
     def findings(self, root: Path, repository: Repository) -> list[Finding]:
@@ -116,12 +118,14 @@ class RunnerPolicy:
             for path, message in problems
         ]
         for relative, source in sources:
-            for line_number, line in enumerate(source.splitlines(), start=1):
+            lines = source.splitlines()
+            for line_number, line in enumerate(lines, start=1):
                 code = _code_portion(line)
                 if not _runner_line(self.pattern, code):
                     continue
+                amd64 = _runs_amd64(lines, line_number - 1)
                 for match in self.pattern.finditer(code):
-                    if self.accepted(match):
+                    if self.accepted(match, amd64):
                         continue
                     findings.append(
                         violation(
