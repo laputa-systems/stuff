@@ -383,6 +383,17 @@ duplicate commands, producers missing from the catalog, and catalog overrides th
 
 ## Other policy rules
 
+`gha-test-workflow` requires a workflow triggered by `pull_request` to run `make test` or
+`make test-ci` as a command, so CI and local verification share the repository's own test entry
+point. Other `make test-*` targets do not count. A pull request workflow that calls a test runner
+directly (`cargo test`, `pytest`, `vitest`, a package-manager test script, `node --test`, or
+`go test`) is reported per workflow for manual repair, because its setup or matrix is
+repository-specific. Without any test step, a repository that has a `test` target and no `ci.yml`
+gets a fixer that writes `.github/workflows/ci.yml` from the lint workflow
+template with a `make test` step; one without a `test` target, or with an existing `ci.yml`, is a
+manual finding. The rule reads every workflow, skips forks unless they are tagged `fork-diverged`,
+and reports unreadable workflows or undeterminable triggers as operational findings.
+
 `github-protection` requires zero approving reviews on protected branches so owner-only
 automation never waits on reviews. It also reports required GitHub Actions status checks that no workflow produces, expanding job
 `name:` templates over `strategy.matrix` (including `include` and `exclude`) and falling back to

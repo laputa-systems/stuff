@@ -7,8 +7,8 @@ from repomod.rules import rules
 from repomod.rules.lint import (
     _gha_lint_workflow_findings,
     _lint_workflow_fix,
-    _lint_workflow_source,
     _make_lint_target_findings,
+    workflow_source,
 )
 from repomod.types import RepoId, Repository
 
@@ -50,7 +50,7 @@ def test_missing_lint_workflow_is_fixable_and_template_runs_make_lint(
 def test_lint_template_provisions_python_and_typescript_toolchains(tmp_path: Path) -> None:
     (tmp_path / "package.json").write_text('{"name": "demo"}\n', encoding="utf-8")
     (tmp_path / "pnpm-lock.yaml").write_text("lockfileVersion: 9\n", encoding="utf-8")
-    rendered = _lint_workflow_source(tmp_path, {"python", "typescript"})
+    rendered = workflow_source(tmp_path, {"python", "typescript"}, name="lint", step="lint", target="lint")
 
     assert "astral-sh/setup-uv@" in rendered
     assert "uv python install 3.15" in rendered
@@ -61,7 +61,7 @@ def test_lint_template_provisions_python_and_typescript_toolchains(tmp_path: Pat
 
 
 def test_lint_template_needs_no_setup_for_rust_only(tmp_path: Path) -> None:
-    rendered = _lint_workflow_source(tmp_path, {"rust"})
+    rendered = workflow_source(tmp_path, {"rust"}, name="lint", step="lint", target="lint")
 
     assert "setup-uv" not in rendered
     assert "pnpm/setup" not in rendered
@@ -71,14 +71,14 @@ def test_lint_template_needs_no_setup_for_rust_only(tmp_path: Path) -> None:
 
 def test_lint_template_installs_without_a_lockfile(tmp_path: Path) -> None:
     (tmp_path / "package.json").write_text('{"name": "demo"}\n', encoding="utf-8")
-    rendered = _lint_workflow_source(tmp_path, {"typescript"})
+    rendered = workflow_source(tmp_path, {"typescript"}, name="lint", step="lint", target="lint")
 
     assert "run: pnpm install\n" in rendered
     assert "--frozen-lockfile" not in rendered
 
 
 def test_lint_template_skips_install_without_a_root_package(tmp_path: Path) -> None:
-    rendered = _lint_workflow_source(tmp_path, {"typescript"})
+    rendered = workflow_source(tmp_path, {"typescript"}, name="lint", step="lint", target="lint")
 
     assert "pnpm install" not in rendered
     assert "pnpm/setup@" in rendered

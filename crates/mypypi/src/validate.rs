@@ -683,7 +683,7 @@ fn run_validation(
             "--no-config".to_string(),
             "--quiet".to_string(),
             "--python-preference=only-system".to_string(),
-            format!("--python={python_exe}"),
+            format!("--python={}", base_python.executable.display()),
             venv_dir.display().to_string(),
         ],
         "environment creation",
