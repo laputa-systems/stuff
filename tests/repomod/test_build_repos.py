@@ -281,7 +281,7 @@ def replaced(old: str, new: str) -> str:
         (replaced(' --target "$GITHUB_SHA"', " --target main"), "must pass --target"),
         (replaced("SHA256SUMS", "CHECKSUMS"), "SHA256SUMS file"),
         (replaced("sha256sum -c SHA256SUMS", "true"), "sha256sum -c"),
-        (replaced(".tar.xz", ".tar.gz"), ".tar.xz archives"),
+        (replaced(".tar.xz", ".zip"), ".tar.xz archives"),
         (replaced(".manifest.json", ".json"), ".manifest.json manifests"),
     ],
 )

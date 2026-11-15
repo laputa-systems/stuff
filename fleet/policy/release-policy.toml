@@ -21,3 +21,21 @@ macos_targets = ["aarch64-apple-darwin"]
 linux_arches = ["x86_64", "aarch64"]
 linux_musl_suffix = "-linux-musl"
 forbidden_target_markers = ["unknown-linux-gnu", "gnueabi"]
+
+[archive]
+format = "tar.xz"
+
+[[archive.exemptions]]
+repository = "laputa-systems/python-build"
+pattern = "cpython-*-install_only_stripped.tar.gz"
+reason = "uv python install requires this layout"
+
+[[archive.exemptions]]
+repository = "joshuarli/pi-build"
+pattern = "agent-intercom-*.tgz"
+reason = "npm pack tarballs, an npm package format"
+
+[[archive.exemptions]]
+repository = "*"
+pattern = "*.whl"
+reason = "Python wheel format"

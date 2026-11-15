@@ -16,9 +16,12 @@ from repomod.rules.binary_release import (
     _binary_release_notes_findings,
     _binary_release_notes_fix,
     _binary_release_standard_findings,
+    _binary_release_standard_fix,
     _binary_release_static_findings,
     _binary_release_static_fix,
+    has_binary_release_contract,
 )
+from repomod.rules.release_archive import _findings as archive_findings
 from repomod.types import RepoId, Repository
 
 STATIC_FIXTURES = Path(__file__).parent / "fixtures" / "static_elf"
@@ -87,9 +90,9 @@ def standard_workflow(targets: list[str]) -> str:
         "            echo ok\n"
         "          fi\n"
         "      - run: |\n"
-        "          zip -9 dist/demo.zip demo\n"
-        "          sha256sum dist/demo.zip > dist/SHA256SUMS\n"
-        "          gh release create \"$RELEASE_TAG\" dist/demo.zip dist/SHA256SUMS "
+        "          tar -cJf dist/demo.tar.xz demo\n"
+        "          sha256sum dist/demo.tar.xz > dist/SHA256SUMS\n"
+        "          gh release create \"$RELEASE_TAG\" dist/demo.tar.xz dist/SHA256SUMS "
         "--prerelease --verify-tag --title \"$RELEASE_TAG\"\n"
     )
 
@@ -285,7 +288,7 @@ def test_captured_c_makefile_fixture_passes_binary_policy(tmp_path: Path) -> Non
     repository = Repository(RepoId("laputa-systems", "git-build"), ("tool", "c"))
 
     assert _binary_release_findings(root, repository) == []
-    assert _binary_release_standard_findings(root, repository) == []
+    assert any(".tar.xz archives" in f.message for f in _binary_release_standard_findings(root, repository))
 
     plan = _binary_release_static_fix(root, repository)
     assert set(plan) == {".github/workflows/release.yml"}
@@ -842,7 +845,7 @@ def test_release_notes_fixer_writes_the_changelog_before_publication(tmp_path: P
 
     release_job = workflow.split("  release:\n", 1)[1]
     assert release_job.count("- name: Write release notes") == 1
-    assert release_job.index("Write release notes") < release_job.index("zip -9 dist/demo.zip")
+    assert release_job.index("Write release notes") < release_job.index("tar -cJf dist/demo.tar.xz")
     assert (
         '--prerelease --notes-file "$RUNNER_TEMP/release-notes.md" --verify-tag' in release_job
     )
@@ -1015,3 +1018,40 @@ def test_static_fixer_replaces_a_stale_embedded_verifier(tmp_path: Path) -> None
     write_workflow(tmp_path, refreshed)
     assert _binary_release_static_findings(tmp_path, tool) == []
     assert _binary_release_static_fix(tmp_path, tool) == {}
+
+
+def test_ish_archive_fixer_produces_valid_file_plan(tmp_path: Path) -> None:
+    fixture = Path(__file__).parent / "fixtures/binary_release/ish_archive/release.yml"
+    write_workflow(tmp_path, fixture.read_text())
+    repo = Repository(RepoId("joshuarli", "ish"), ("tool",))
+    findings = _binary_release_standard_findings(tmp_path, repo)
+    assert any(f.fixable and ".tar.xz archives" in f.message for f in findings)
+    plan = _binary_release_standard_fix(tmp_path, repo)
+    assert set(plan) == {".github/workflows/release.yml"}
+    fixed = plan[".github/workflows/release.yml"]
+    assert 'tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -cJf' in fixed
+    assert 'sha256sum *.tar.xz | LC_ALL=C sort -k2 > SHA256SUMS' in fixed
+    assert 'dist/archives/*.tar.xz dist/archives/SHA256SUMS' in fixed
+    assert 'dist/zips' not in fixed
+    write_workflow(tmp_path, fixed)
+    assert _binary_release_standard_findings(tmp_path, repo) == []
+    assert archive_findings(tmp_path, repo) == []
+    assert _binary_release_standard_fix(tmp_path, repo) == {}
+
+
+def test_tar_xz_tool_is_not_a_build_release(tmp_path: Path) -> None:
+    write_rust_executable(tmp_path)
+    source = binary_workflow("cargo build --release").replace(".zip", ".tar.xz")
+    write_workflow(tmp_path, source)
+    tool = Repository(RepoId("acme", "demo"), ("tool",))
+    assert has_binary_release_contract(tmp_path, tool)
+    assert _binary_release_findings(tmp_path, tool) == []
+
+
+def test_non_template_archive_is_not_fixed(tmp_path: Path) -> None:
+    write_workflow(tmp_path, standard_workflow(["aarch64-apple-darwin"]).replace(".tar.xz", ".zip"))
+    repo = Repository(RepoId("acme", "demo"), ("tool",))
+    assert any(
+        ".tar.xz archives" in f.message and not f.fixable for f in _binary_release_standard_findings(tmp_path, repo)
+    )
+    assert _binary_release_standard_fix(tmp_path, repo) == {}

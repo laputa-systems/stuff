@@ -75,7 +75,7 @@ and changes no fork exemption by itself; a rule that should also cover our chang
 
 The supported native binary prerelease workflow follows `ish`: a manual dispatch guarded by
 a preflight default-branch check, a build matrix over exactly the scope's targets, and
-per-platform zip archives with a verified `SHA256SUMS` file published under a
+per-platform .tar.xz archives with a verified `SHA256SUMS` file published under a
 SHA-derived tag targeting the source commit. The tag is created at the triggering commit
 through the GitHub API and `gh release create` passes `--verify-tag`. Portable tools
 build `aarch64-apple-darwin`, `x86_64-unknown-linux-musl`, and
