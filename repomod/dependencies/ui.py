@@ -4,7 +4,6 @@ import html
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from enum import Enum
-from math import sqrt
 
 _SEARCH_ICON = (
     '<svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" '
@@ -32,6 +31,12 @@ class Mark(Enum):
     PYPI = "pypi"
     GO = "go"
     OTHER = "other"
+    # Categorical series for things with no state, such as languages.
+    SERIES_0 = "s0"
+    SERIES_1 = "s1"
+    SERIES_2 = "s2"
+    SERIES_3 = "s3"
+    SERIES_4 = "s4"
 
 
 @dataclass(frozen=True, slots=True)
@@ -49,14 +54,7 @@ class Bar:
     tip: str = ""
     tail: str = ""
     href: str = ""
-
-
-@dataclass(frozen=True, slots=True)
-class Stop:
-    label: str
-    repositories: int
-    target: bool
-    tip: str
+    value: str = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -139,6 +137,15 @@ def badge(label: str, tone: Tone = Tone.NEUTRAL, *, dot: bool = False, running: 
     dot_class = "ui-badge-dot dot-running" if running else "ui-badge-dot"
     mark = f'<span class="{dot_class}" aria-hidden="true"></span>' if dot else ""
     return f'<span class="ui-badge ui-badge-{tone.value}">{mark}{escape(label)}</span>'
+
+
+def state(label: str, tone: Tone, *, running: bool = False) -> str:
+    """A label with a dot whose color carries the state; the text stays plain."""
+    dot_class = "ui-badge-dot dot-running" if running else "ui-badge-dot"
+    return (
+        f'<span class="state state-{tone.value}"><span class="{dot_class}" aria-hidden="true"></span>'
+        f"{escape(label)}</span>"
+    )
 
 
 def note(content: str) -> str:
@@ -241,18 +248,9 @@ def segments(parts: Sequence[Segment], scale: int) -> str:
     return f'<div class="track">{_fill(parts, f"{width:.1f}%", "thin")}</div>'
 
 
-def bar_list(bars: Sequence[Bar], scale: int, label: str) -> str:
+def bar_list(bars: Sequence[Bar], scale: int | None, label: str) -> str:
+    """Bars on one shared scale, or with `scale=None` each bar showing its own composition at full width."""
     return f'<ul class="bar-list" aria-label="{escape(label)}">{"".join(_bar(bar, scale) for bar in bars)}</ul>'
-
-
-def lane(stops: Sequence[Stop]) -> str:
-    cells = "".join(
-        f'<div class="stop{" stop-target" if stop.target else ""}" data-tip="{escape(stop.tip)}">'
-        f'<span class="stop-dot" style="--dot:{_dot_size(stop.repositories)}px"></span>'
-        f'<span class="stop-label">{escape(stop.label)}</span></div>'
-        for stop in stops
-    )
-    return f'<div class="lane">{cells}</div>'
 
 
 def lines(items: Sequence[Line]) -> str:
@@ -295,7 +293,7 @@ def static_table(columns: Sequence[Column], rows: Sequence[Sequence[str]], *, la
     head = "".join(f'<th scope="col"{_cell_class(column)}>{escape(column.label)}</th>' for column in columns)
     classes = [_cell_class(column) for column in columns]
     body = "".join(
-        f"<tr>{''.join(f'<td{name}>{cell}</td>' for name, cell in zip(classes, row, strict=True))}</tr>"
+        f"<tr data-item>{''.join(f'<td{name}>{cell}</td>' for name, cell in zip(classes, row, strict=True))}</tr>"
         for row in rows
     )
     return (
@@ -392,24 +390,23 @@ def _fill(parts: Sequence[Segment], width: str, variant: str) -> str:
     )
 
 
-def _bar(bar: Bar, scale: int) -> str:
+def _bar(bar: Bar, scale: int | None) -> str:
     total = sum(part.value for part in bar.parts)
-    width = 0.0 if scale <= 0 else min(100.0, total / scale * 100)
+    if scale is None:
+        width = 100.0 if total else 0.0
+    else:
+        width = 0.0 if scale <= 0 else min(100.0, total / scale * 100)
     note_text = f'<span class="bar-note">{bar.note}</span>' if bar.note else ""
     hint = f' data-tip="{escape(bar.tip)}"' if bar.tip else ""
     tail = f'<div class="bar-tail">{bar.tail}</div>' if bar.tail else ""
     content = (
         f'<div class="bar-label"><span>{bar.label}</span>{note_text}</div>'
         f'<div class="bar-cell">{_fill(bar.parts, f"calc((100% - 3em) * {width / 100:.3f})", "bar")}'
-        f'<span class="bar-value">{total}</span></div>{tail}'
+        f'<span class="bar-value">{escape(bar.value) if bar.value else total}</span></div>{tail}'
     )
     if bar.href:
         return f'<li data-item{hint}><a class="bar-row bar-link" href="{escape(bar.href)}">{content}</a></li>'
     return f'<li class="bar-row" data-item{hint}>{content}</li>'
-
-
-def _dot_size(repositories: int) -> int:
-    return min(24, 10 + round(4 * sqrt(max(0, repositories - 1))))
 
 
 def _panel_head(title: str, meta: str) -> str:

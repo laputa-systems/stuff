@@ -62,6 +62,7 @@ PREVIOUS_VERSIONS = (
     ("joshuarli/lz", "libc", "0.2.160"),
     ("laputa-systems/srv", "rustix", "1.0.8"),
     ("joshuarli/extensions", "vite", "7.1.4"),
+    ("laputa-systems/doas-rs", "bitflags", "2.14.0"),
 )
 ADDED = (("laputa-systems/xsh", "anyhow"),)
 

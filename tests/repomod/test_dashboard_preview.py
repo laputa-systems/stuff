@@ -42,6 +42,7 @@ class _Summary(HTMLParser):
         self.tiles: list[str] = []
         self.nav: list[str] = []
         self.tables: list[_Table] = []
+        self.items: list[str] = []
         self._stack: list[tuple[str, dict[str, str]]] = []
         self._text: list[list[str]] = []
         self._table: _Table | None = None
@@ -90,6 +91,8 @@ class _Summary(HTMLParser):
         elif tag == "table" and self._table is not None:
             self.tables.append(self._table)
             self._table = None
+        elif tag == "li" and "data-item" in attributes:
+            self.items.append(text)
         elif "tile" in classes.split():
             self.tiles.append(text)
         elif tag == "a" and any("ui-side-nav" in parent.get("class", "").split() for _, parent in self._stack):
@@ -112,6 +115,7 @@ def summarize(output: Path) -> dict[str, object]:
             "tiles": parser.tiles,
             "nav": parser.nav,
             "tables": [asdict(table) for table in parser.tables],
+            "items": {"count": len(parser.items), "first": parser.items[:_ROWS_KEPT]},
         }
     return pages
 
@@ -125,6 +129,33 @@ def test_preview_pages_match_the_golden(tmp_path: Path) -> None:
     assert sorted(actual) == sorted(golden), "the set of pages changed"
     for page, summary in golden.items():
         assert actual[page] == summary, f"{page} presents something different from the golden"
+
+
+def test_changes_lists_every_change_the_header_counts(tmp_path: Path) -> None:
+    preview.render_preview(tmp_path / "dashboard")
+    page = (tmp_path / "dashboard" / "changes.html").read_text(encoding="utf-8")
+    text = re.sub(r"<[^>]+>", "", page)
+    assert "5 repositories · 5 upgraded · 1 downgraded · 1 added" in text
+    for change in (
+        "vite 7.1.4 → 8.3.2",
+        "libc 0.2.160 → 0.2.182",
+        "rustix 1.0.8 → 1.1.6",
+        "regex 1.11.1 → 1.13.0",
+        "serde 1.0.210 → 1.0.228",
+        "anyhow 1.0.102",
+    ):
+        assert change in text, change
+    needs = text.split("Needs a look", 1)[1].split("Every change", 1)[0]
+    assert "bitflags 2.14.0 → 2.13.2 · downgrade" in needs
+    assert "anyhow" not in needs
+    assert "ADDED · 1" in text.upper()
+
+
+def test_a_searchable_table_counts_its_rows_so_it_is_not_reported_empty(tmp_path: Path) -> None:
+    preview.render_preview(tmp_path / "dashboard")
+    page = (tmp_path / "dashboard" / "lines.html").read_text(encoding="utf-8")
+    scoped = page.split("data-table-scope", 1)[1].split("data-empty", 1)[0]
+    assert scoped.count("<tr data-item>") == 26
 
 
 def test_the_preview_renders_the_same_pages_twice(tmp_path: Path) -> None:

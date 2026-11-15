@@ -518,7 +518,7 @@ def test_choices_show_which_repositories_deviate_from_preferred(
     ("newer", "older"),
     [("1.10.0", "1.9.0"), ("3.0.0-next.57", "3.0.0-next.9")],
 )
-def test_alignment_orders_versions_oldest_to_newest_and_marks_the_target(
+def test_alignment_targets_the_newest_version_in_use_and_lists_the_rest(
     tmp_path: Path, newer: str, older: str,
 ) -> None:
     repositories = []
@@ -548,11 +548,14 @@ def test_alignment_orders_versions_oldest_to_newest_and_marks_the_target(
     inventory = graph.load_inventory(write_inventory(tmp_path, repositories))
     result = render.render(inventory, graph.build_graph(inventory), tmp_path / "dashboard")
     alignment = (result.output / "alignment.html").read_text(encoding="utf-8")
-    lane = alignment.split('class="lane"', 1)[1].split("</section>", 1)[0]
-    assert lane.index(f">{older}<") < lane.index(f">{newer}<")
-    assert lane.count("stop-target") == 1
-    assert lane.index("stop-target") > lane.index(f">{older}<")
-    assert "Newest in use · latest release not confirmed" in lane
+    row = alignment.split('class="change-repo"', 1)[1].split("</li></ul></li>", 1)[0]
+    target, *others = row.split("<li>")[1:]
+    assert f">{newer}<" in target
+    assert "target" in target
+    assert len(others) == 1
+    assert f">{older}<" in others[0]
+    assert "move · old" in others[0]
+    assert "newest in use; latest release not confirmed" in row
 
 
 def test_coverage_shows_fixable_issues_and_only_counts_known_limits(tmp_path: Path) -> None:
@@ -651,10 +654,10 @@ def test_status_appears_on_repositories_and_the_repository_page(tmp_path: Path) 
         },
     )
     repositories = _page_text(result, "repositories.html")
-    assert repositories.index("FAIL build") < repositories.index("v1.2.3 · 7 since")
+    assert repositories.index("build failed") < repositories.index("v1.2.3 · 7 since")
     assert 'href="https://github.com/acme/broken/actions/runs/1"' in repositories
     assert "not collected" not in repositories
-    assert "FAIL build" in _page_text(result, "repos", "acme", "broken", "index.html")
+    assert "build failed" in _page_text(result, "repos", "acme", "broken", "index.html")
     assert "nothing flagged" in _page_text(result, "repos", "acme", "hostile", "index.html")
 
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import shutil
 import time
 from collections import Counter, defaultdict
@@ -40,7 +41,7 @@ from repomod.dependencies.model import (
     SourceKind,
 )
 from repomod.dependencies.triage import ActionKind
-from repomod.dependencies.ui import Bar, Block, Cell, Column, Line, Mark, NavGroup, NavLink, Segment, Stop, Tile, Tone
+from repomod.dependencies.ui import Bar, Block, Cell, Column, Line, Mark, NavGroup, NavLink, Segment, Tile, Tone
 from repomod.dependencies.ui import escape as _e
 from repomod.rules import actions as actions_rule
 from repomod.rules.python_standard import PYTHON_TOOL_NAMES
@@ -54,17 +55,17 @@ UI_SHEETS = ("styles.css", "tokens.css", "layout.css", "data.css")
 _LIST_ROWS = 25
 _PREVIEW_ROWS = 8
 _SHOWN_REPOSITORIES = 4
-_STATUS_CARDS = 12
 _STATUS_TONES = {
     StatusLevel.OK: Tone.OK,
     StatusLevel.ATTENTION: Tone.WARN,
     StatusLevel.FAILING: Tone.BAD,
     StatusLevel.MUTED: Tone.NEUTRAL,
 }
+_STATUS_RANK = {StatusLevel.MUTED: 0, StatusLevel.OK: 1, StatusLevel.ATTENTION: 2, StatusLevel.FAILING: 3}
 _CLEAN_TIER = "Clean"
 _TIERS = (
-    ("Vulnerable", "Security issues first"),
-    ("Maintenance", "Upgrades, version drift, or role conflicts"),
+    ("Vulnerable", "vulnerable packages first"),
+    ("Maintenance", "upgrades, version drift or role conflicts"),
 )
 _CONSUMER_ROWS = 20
 _KIND_LABELS = {
@@ -371,7 +372,9 @@ def _overview_tiles(site: _Site) -> tuple[Tile, ...]:
         Tile(
             str(len(security)) if checked else "—",
             "Security",
-            f"{affected} repositories · {blocked} with no clean upgrade" if checked else "not checked",
+            f"{_plural(affected, 'repository', 'repositories')} · {blocked} with no clean upgrade"
+            if checked
+            else "not checked",
             "security.html",
             Tone.BAD if security else None,
         ),
@@ -390,7 +393,12 @@ def _overview_tiles(site: _Site) -> tuple[Tile, ...]:
             Tone.WARN if missing else None,
         ),
         Tile(str(len(site.drift)), "Version drift", "packages upgrades will not align", "alignment.html"),
-        Tile(str(len(contested)), "Role conflicts", f"{off_preferred} repositories off preferred", "choices.html"),
+        Tile(
+            str(len(contested)),
+            "Role conflicts",
+            f"{_plural(off_preferred, 'repository', 'repositories')} off preferred",
+            "choices.html",
+        ),
     )
 
 
@@ -411,6 +419,8 @@ def _short_ref(version: str) -> str:
     if "@sha256:" in version:
         tag, digest = version.split("@sha256:", 1)
         return f"{tag}@sha256:{digest[:12]}…"
+    if len(version) == 40 and all(character in "0123456789abcdef" for character in version):
+        return version[:12]
     return version
 
 
@@ -568,7 +578,13 @@ _WORK_LEGEND = (("Vulnerable", Mark.BAD), ("Upgrades", Mark.GHOST))
 
 
 def _work_panel(site: _Site) -> str:
-    cards = [card for card in site.scorecards if _work_total(card)][:_PREVIEW_ROWS]
+    working = [card for card in site.scorecards if _work_total(card)]
+    cards = working[:_PREVIEW_ROWS]
+    shown = (
+        f"{len(cards)} of {len(working)} repositories with work · "
+        if len(working) > len(cards)
+        else f"{_plural(len(cards), 'repository', 'repositories')} with work · "
+    )
     scale = max((_work_total(card) for card in cards), default=0)
     bars = [
         Bar(
@@ -580,7 +596,7 @@ def _work_panel(site: _Site) -> str:
     return ui.panel(
         "Where the work is",
         ui.legend(_WORK_LEGEND) + ui.bar_list(bars, scale, "Open work by repository"),
-        meta='<a href="repositories.html">All repositories</a>',
+        meta=f'{shown}<a href="repositories.html">all repositories</a>',
     )
 
 
@@ -764,23 +780,24 @@ def _outdated(site: _Site) -> str:
         )
         body.append(ui.panel("Upgrades", message, flush=True))
         return "\n".join(body)
-    body.append(_ecosystem_upgrades_panel(site))
+    counts = Counter(row.component.ecosystem for row in site.outdated)
+    by_ecosystem = " · ".join(
+        f"{count} {ecosystem.value}"
+        for ecosystem, count in sorted(counts.items(), key=lambda item: (-item[1], item[0].value))
+    )
     body.append(
         ui.notice(
             f'Apply upgrades with <span class="mono">{triage.ROUTINE_COMMAND}</span>, which '
             "opens one pull request per repository."
         )
     )
-    scale = max(row.repositories for row in site.outdated)
-    bars = [_upgrade_bar(row) for row in site.outdated]
-    listing = ui.scope(ui.bar_list(bars, scale, "Upgrades"), limit=_PREVIEW_ROWS, total=len(bars))
+    rows = "".join(_upgrade_row(row) for row in site.outdated)
     body.append(
-        ui.group(
+        ui.panel(
             "Upgrades",
-            f'<div class="ui-panel"><div class="ui-panel-body">{listing}</div></div>',
-            count=len(site.outdated),
-            note="Direct dependencies by repositories affected",
-            group_id="upgrades",
+            ui.scope(f'<ul class="todo-columns upgrade-list">{rows}</ul>', search="Filter upgrades"),
+            meta=f"{len(site.outdated)} direct dependencies · {by_ecosystem} · most repositories first",
+            panel_id="upgrades",
         )
     )
     return "\n".join(body)
@@ -816,22 +833,13 @@ def _migrations_panel(site: _Site) -> str:
     )
 
 
-def _ecosystem_upgrades_panel(site: _Site) -> str:
-    counts = Counter(row.component.ecosystem for row in site.outdated)
-    ordered = sorted(counts.items(), key=lambda item: (-item[1], item[0].value))
-    scale = max(counts.values())
-    bars = [Bar(_e(ecosystem.value), (Segment("Upgrades", count, Mark.ACCENT),)) for ecosystem, count in ordered]
-    return ui.panel("By ecosystem", ui.bar_list(bars, scale, "Upgrades by ecosystem"))
-
-
-def _upgrade_bar(row: insights.Outdated) -> Bar:
+def _upgrade_row(row: insights.Outdated) -> str:
     versions = ", ".join(use.version for use in row.uses)
-    names = sorted(_short_repository(name) for use in row.uses for name in use.repositories)
-    return Bar(
-        _package_link(row.component.purl, "", row.component.display_name),
-        (Segment("Repositories", row.repositories, Mark.ACCENT),),
-        note=f"{_e(versions)} → {_e(row.latest)}",
-        tip=", ".join(names),
+    names = sorted({_short_repository(name) for use in row.uses for name in use.repositories}, key=str.casefold)
+    return (
+        f"<li data-item>{_package_link(row.component.purl, '', row.component.display_name)} "
+        f'<span class="line-detail">{_e(versions)} → {_e(row.latest)}</span>'
+        f'<div class="line-detail">{_e(", ".join(names))}</div></li>'
     )
 
 
@@ -843,28 +851,18 @@ def _alignment(site: _Site) -> str:
             '<p class="zero">no drift is left once pending upgrades are applied</p>',
             flush=True,
         )
-    groups: dict[Ecosystem, list[insights.Split]] = defaultdict(list)
-    for row in site.drift:
-        groups[row.component.ecosystem].append(row)
-    sections = [
-        ui.group(
-            ecosystem.value,
-            ui.card_grid(
-                _lane_card(row)
-                for row in sorted(rows, key=lambda row: (-len(set(row.off_target)), row.component.name.casefold()))
-            ),
-            count=len(rows),
-        )
-        for ecosystem, rows in sorted(groups.items(), key=lambda item: (-len(item[1]), item[0].value))
-    ]
+    rows = sorted(site.drift, key=lambda row: (-len(set(row.off_target)), row.component.name.casefold()))
     return "\n".join(
         (
             header,
-            ui.legend(
-                (("Target version", Mark.OK), ("Off target", Mark.GHOST)),
-                "Oldest to newest. Bigger dots mean more repositories.",
+            ui.panel(
+                "Version drift",
+                ui.scope(
+                    f'<ul class="change-list">{"".join(_drift_row(row) for row in rows)}</ul>', search="Filter packages"
+                ),
+                meta=f"{_plural(len(rows), 'package')} · most repositories off target first",
+                flush=True,
             ),
-            ui.scope("".join(sections), search="Filter packages"),
         )
     )
 
@@ -1131,17 +1129,18 @@ def _todo_panel(site: _Site, name: str) -> str:
     sections = _repository_todo(site, name)
     if not sections:
         return ui.panel("To do here", '<p class="zero">nothing flagged</p>', panel_id="todo", flush=True)
-    return ui.group(
+    body = "".join(
+        f'<section class="todo-section"><div class="change-group">{_e(title)} · {len(lines)}</div>'
+        '<ul class="todo-columns">'
+        + "".join(f'<li>{line.primary} <span class="line-detail">{line.detail}</span></li>' for line in lines)
+        + "</ul></section>"
+        for title, _tone, lines in sections
+    )
+    return ui.panel(
         "To do here",
-        ui.card_grid(
-            (
-                ui.card(f"<span>{_e(title)}</span>", ui.lines(lines), meta=ui.badge(str(len(lines)), tone))
-                for title, tone, lines in sections
-            ),
-            wide=True,
-        ),
-        count=sum(len(lines) for _title, _tone, lines in sections),
-        group_id="todo",
+        body,
+        meta=_plural(sum(len(lines) for _title, _tone, lines in sections), "item"),
+        panel_id="todo",
     )
 
 
@@ -1213,11 +1212,11 @@ def _repository_todo(site: _Site, name: str) -> list[tuple[str, Tone, list[Line]
         (title, tone, lines)
         for title, tone, lines in (
             ("Security", Tone.BAD, security),
-            ("Migrate", Tone.NEUTRAL, migrated),
-            ("Upgrades", Tone.NEUTRAL, upgrades),
-            ("Version drift", Tone.NEUTRAL, drift),
-            ("Role conflicts", Tone.NEUTRAL, roles),
             ("Coverage", Tone.WARN, coverage),
+            ("Migrate", Tone.NEUTRAL, migrated),
+            ("Role conflicts", Tone.NEUTRAL, roles),
+            ("Version drift", Tone.NEUTRAL, drift),
+            ("Upgrades", Tone.NEUTRAL, upgrades),
         )
         if lines
     ]
@@ -1228,14 +1227,16 @@ def _repositories(site: _Site) -> str:
     tiers: dict[str, list[insights.Scorecard]] = defaultdict(list)
     for card in site.scorecards:
         tiers[_tier(card)].append(card)
-    groups = [
-        ui.group(
+    for cards in tiers.values():
+        cards.sort(key=lambda card: -_failing(site, card.repository))
+    panels = [
+        ui.panel(
             title,
-            ui.card_grid(_repository_card(card, scale) for card in tiers[title]),
-            count=len(tiers[title]),
-            note=note,
+            f'<ul class="change-list">{"".join(_repository_row(site, card, scale) for card in tiers[title])}</ul>',
+            meta=f"{_plural(len(tiers[title]), 'repository', 'repositories')} · {note}",
+            flush=True,
         )
-        for title, note in _TIERS
+        for title, note in (*_TIERS, (_CLEAN_TIER, "nothing to upgrade or align"))
         if tiers[title]
     ]
     exposure = _fork_exposure(site)
@@ -1243,13 +1244,21 @@ def _repositories(site: _Site) -> str:
         (name for name in site.forks if exposure[name]), key=lambda item: (-exposure[item], item.casefold())
     )
     if exposed:
-        groups.append(
-            ui.group(
+        panels.append(
+            ui.panel(
                 "Forks with vulnerable versions",
                 ui.chip_links(_repository_chip(name, exposure[name]) for name in exposed),
-                count=len(exposed),
+                meta="tracked only; vulnerable packages per fork",
             )
         )
+    collected = (
+        ""
+        if site.status is not None
+        else ui.notice(
+            "CI, releases, upstreams, and checkouts are not collected. Run "
+            '<span class="mono">make deps</span> to include them.'
+        )
+    )
     return "\n".join(
         (
             ui.page_header(
@@ -1258,64 +1267,85 @@ def _repositories(site: _Site) -> str:
                 f"{len(site.forks)} forks · {_enrichment_stamp(site)}"
                 + (f" · {len(site.hidden)} private hidden" if site.hidden else ""),
             ),
-            _status_section(site),
-            ui.legend(_WORK_LEGEND),
-            ui.scope("".join(groups), search="Filter repositories"),
+            collected,
+            ui.legend(_WORK_LEGEND, "open work per repository, one scale"),
+            ui.scope("".join(panels), search="Filter repositories"),
         )
     )
 
 
-def _status_section(site: _Site) -> str:
-    if site.status is None:
-        return ui.notice(
-            'CI, releases, upstreams, and checkouts are not collected. Run '
-            '<span class="mono">make deps</span> to include them.'
+def _failing(site: _Site, name: str) -> int:
+    """How many of a repository's status checks are failing; a broken build ranks it first in its tier."""
+    items = site.status.get(name, ()) if site.status is not None else ()
+    return sum(1 for item in items if item.level is StatusLevel.FAILING)
+
+
+def _repository_row(site: _Site, card: insights.Scorecard, scale: int) -> str:
+    roles = len({*card.mixed_roles, *card.off_preferred})
+    work = " · ".join(
+        part
+        for part in (
+            _plural_if(card.vulnerable, "vulnerable package"),
+            _plural_if(card.behind, "upgrade"),
+            f"{card.off_target} off target" if card.off_target else "",
+            _plural_if(roles, "role conflict"),
         )
-    flagged = sorted(((name, items) for name, items in site.status.items() if items), key=_status_rank)
-    if not flagged:
-        return ui.panel("Status", ui.empty_state("Nothing flagged"), flush=True)
-    cards = [
-        ui.card(
-            f'<a href="repos/{_e(name)}/index.html">{_e(_short_repository(name))}</a>',
-            _status_lines(items),
-        )
-        for name, items in flagged
-    ]
-    return ui.scope(
-        ui.group(
-            "Status",
-            ui.card_grid(cards),
-            count=len(cards),
-            note="CI, releases, upstreams, pull request conflicts, and local checkouts",
-            group_id="status",
-        ),
-        limit=_STATUS_CARDS,
-        total=len(cards),
+        if part
+    )
+    items = site.status.get(card.repository, ()) if site.status is not None else ()
+    status = _status_lines(items) if items else '<p class="note">nothing flagged</p>'
+    bar = ui.segments(_work_parts(card), scale) if _work_total(card) else ""
+    return (
+        f'<li class="change-repo" data-item><div>'
+        f'<a href="repos/{_e(card.repository)}/index.html">{_e(card.repository)}</a>'
+        f'<div class="note">{_e(work) or "clean"}</div>{bar}</div><div>{status}</div></li>'
     )
 
 
-def _status_rank(item: tuple[str, Sequence[StatusItem]]) -> tuple[int, int, str]:
-    name, items = item
-    levels = Counter(entry.level for entry in items)
-    return (-levels[StatusLevel.FAILING], -levels[StatusLevel.ATTENTION], name.casefold())
+_HEX_ID = re.compile(r"\b([0-9a-f]{12})[0-9a-f]{28}\b")
+_CACHED = re.compile(r"\(?cached (\d+)s\)?")
+_RUN_STATES = {"RUN": "running", "FAIL": "failed", "PASS": "passed"}
+
+
+def _age(seconds: int) -> str:
+    if seconds < 120:
+        return f"{seconds}s"
+    if seconds < 7200:
+        return f"{seconds // 60} min"
+    if seconds < 172_800:
+        return f"{seconds // 3600} h"
+    return f"{seconds // 86_400} d"
+
+
+def _status_text(label: str) -> str:
+    """A status label from `repomod status` made readable: short commit ids, plain states and ages."""
+    text = _HEX_ID.sub(lambda match: match.group(1), label)
+    text = _CACHED.sub(lambda match: f"checked {_age(int(match.group(1)))} ago", text)
+    state, _, rest = text.partition(" ")
+    if state in _RUN_STATES and rest:
+        text = f"{rest} {_RUN_STATES[state]}"
+    return " ".join(text.split()).replace(" · checked", ", checked")
 
 
 def _status_lines(items: Sequence[StatusItem]) -> str:
-    return ui.lines(
-        [
-            Line(
-                ui.badge(item.area.value, _STATUS_TONES[item.level], dot=True, running=item.running),
-                _status_label(item),
-            )
-            for item in items
-        ]
-    )
+    areas: dict[str, list[StatusItem]] = defaultdict(list)
+    for item in items:
+        areas[item.area.value].append(item)
+    rows = []
+    for area, grouped in areas.items():
+        worst = max(grouped, key=lambda item: _STATUS_RANK[item.level])
+        rows.append(
+            f"<dt>{ui.state(area, _STATUS_TONES[worst.level], running=any(item.running for item in grouped))}</dt>"
+            f"<dd>{' · '.join(_status_label(item) for item in grouped)}</dd>"
+        )
+    return f'<dl class="status-rows">{"".join(rows)}</dl>'
 
 
 def _status_label(item: StatusItem) -> str:
+    text = _e(_status_text(item.label))
     if item.url is None or not item.url.startswith("https://"):
-        return _e(item.label)
-    return f'<a href="{_e(item.url)}">{_e(item.label)}</a>'
+        return text
+    return f'<a href="{_e(item.url)}">{text}</a>'
 
 
 def _repository_status_panel(site: _Site, name: str) -> str:
@@ -1326,25 +1356,6 @@ def _repository_status_panel(site: _Site, name: str) -> str:
         "Status",
         _status_lines(items) if items else '<p class="zero">nothing flagged</p>',
         panel_id="status",
-    )
-
-
-def _repository_card(card: insights.Scorecard, scale: int) -> str:
-    extras = [
-        (card.vulnerable, "vulnerable"),
-        (card.behind, "behind"),
-    ]
-    summary = " · ".join(f"{count} {label}" for count, label in extras if count)
-    roles = len({*card.mixed_roles, *card.off_preferred})
-    off_target = f"{card.off_target} off target" if card.off_target else ""
-    drift = " · ".join(part for part in (off_target, _plural_if(roles, "role conflict")) if part)
-    return ui.card(
-        f'<a class="row-link" href="repos/{_e(card.repository)}/index.html">'
-        f"{_e(_short_repository(card.repository))}</a>",
-        (ui.segments(_work_parts(card), scale) if _work_total(card) else "")
-        + (f'<div class="card-foot">{_e(summary)}</div>' if summary else "")
-        + (f'<div class="card-foot quiet">{_e(drift)}</div>' if drift else ""),
-        href=f"repos/{card.repository}/index.html",
     )
 
 
@@ -1376,33 +1387,35 @@ def _forks_panel(site: _Site) -> str:
     )
 
 
-def _lane_card(row: insights.Split) -> str:
-    in_use = {use.version for use in row.uses}
-    ordered = tuple(reversed(row.uses))
-    if row.target not in in_use:
-        ordered += (insights.VersionUse(row.target, ()),)
-    stops = [
-        Stop(
-            _lane_label(use.version),
-            len(use.repositories),
-            use.version == row.target,
-            f"{_short_ref(use.version)}: target"
-            if use.version == row.target
-            else f"{_short_ref(use.version)}: {len(use.repositories)} off target",
+_TARGET_BASIS = {
+    insights.TargetBasis.APPROVED_PIN: "approved pin",
+    insights.TargetBasis.LATEST: "latest release",
+    insights.TargetBasis.NEWEST_IN_USE: "newest in use; latest release not confirmed",
+    insights.TargetBasis.MOST_COMMON: "most common ref; latest release not confirmed",
+}
+
+
+def _drift_row(row: insights.Split) -> str:
+    """One package: the target first, then every other version with the repositories on it."""
+    target = next((use for use in row.uses if use.version == row.target), insights.VersionUse(row.target, ()))
+    others = sorted(
+        (use for use in row.uses if use.version != row.target), key=lambda use: (-len(use.repositories), use.version)
+    )
+    def version_line(use: insights.VersionUse, tone: Tone, label: str) -> str:
+        names = _e(", ".join(sorted((_short_repository(name) for name in use.repositories), key=str.casefold)))
+        return (
+            f'<li>{ui.state(_lane_label(use.version), tone)} <span class="line-detail">{label}'
+            f"{' · ' + names if names else ''}</span></li>"
         )
-        for use in ordered
-    ]
-    off_target = sorted(set(row.off_target), key=str.casefold)
-    basis = {
-        insights.TargetBasis.APPROVED_PIN: "Approved pin",
-        insights.TargetBasis.LATEST: "Latest release",
-        insights.TargetBasis.NEWEST_IN_USE: "Newest in use · latest release not confirmed",
-        insights.TargetBasis.MOST_COMMON: "Most common ref · latest release not confirmed",
-    }[row.basis]
-    return ui.card(
-        _package_link(row.component.purl, "", row.component.display_name),
-        ui.lane(stops) + f'<div class="card-foot">{basis}<br>Move {_repository_names(off_target)}</div>',
-        meta=ui.note(f"{len(off_target)} off target"),
+    versions = version_line(target, Tone.OK, "target") + "".join(
+        version_line(use, Tone.NEUTRAL, "move") for use in others
+    )
+    off_target = len(set(row.off_target))
+    return (
+        f'<li class="change-repo" data-item><div>{_package_link(row.component.purl, "", row.component.display_name)}'
+        f'<div class="note">{_e(row.component.ecosystem.value)} · {_plural(off_target, "repository", "repositories")} '
+        f"off target · target is the {_TARGET_BASIS[row.basis]}</div></div>"
+        f'<ul class="plain-list">{versions}</ul></li>'
     )
 
 
@@ -1520,46 +1533,100 @@ def _packages(site: _Site) -> str:
     return f'<div id="package-index" class="ui-page-section">{header}{mix}</div>{sections}'
 
 
+_CHANGE_KINDS: tuple[tuple[str, frozenset[str]], ...] = (
+    ("Downgraded", frozenset({"downgrade"})),
+    ("Changed, not comparable", frozenset({"changed"})),
+    ("Upgraded", frozenset({"upgrade"})),
+    ("Added", frozenset({"added"})),
+    ("Removed", frozenset({"removed"})),
+)
+_NEEDS_A_LOOK = frozenset({"downgrade", "changed"})
+
+
+def _version_change(item: diff_module.VersionChange) -> str:
+    name = f'<span class="mono">{_e(item.name)}</span>'
+    if item.old is None:
+        return f"{name} {_e(item.new or '')}"
+    if item.new is None:
+        return f"{name} {_e(item.old)}"
+    return f"{name} {_e(item.old)} → {_e(item.new)}"
+
+
+def _source_change(item: diff_module.SourceChange) -> str:
+    return f'<span class="mono">{_e(item.component)}</span> {_e(item.old.value)} → {_e(item.new.value)}'
+
+
+def _issue_change(item: Issue) -> str:
+    if item.path is None or not item.path:
+        return _e(item.kind.value)
+    return f'{_e(item.kind.value)} <span class="mono">{_e(item.path)}</span>'
+
+
 def _changes(site: _Site) -> str:
     value = site.diff_value
     if value is None or not value.baseline:
         return ui.page_header("Changes") + (
             '<p class="unknown">no baseline: the previous revision has no dependency inventory</p>'
         )
-    body = [ui.page_header("Changes", _summary_metrics(value))]
-    flagged = False
+    body = [ui.page_header("Changes", f"{_e(value.source)} → {_e(value.target)} · {_summary_metrics(value)}")]
+    if not value.repositories:
+        body.append(ui.panel("Changes", ui.empty_state("Nothing changed"), flush=True))
+        return "\n".join(body)
+
+    attention = [
+        Line(_repo_link(change.repository, ""), text)
+        for change in value.repositories
+        for text in (
+            *(
+                f"{_version_change(item)} · {item.direction}"
+                for item in change.versions
+                if item.direction in _NEEDS_A_LOOK
+            ),
+            *(f"{_source_change(item)} · source changed" for item in change.sources),
+            *(f"{_issue_change(item)} · new issue" for item in change.new_issues),
+        )
+    ]
+    body.append(
+        ui.panel(
+            "Needs a look",
+            ui.lines(attention) if attention else ui.empty_state("No downgrades, source changes or new issues"),
+            meta="downgrades, source changes and new issues",
+            flush=not attention,
+        )
+    )
+    rows = []
     for change in value.repositories:
         groups = "".join(
-            (
-                _change_group(
-                    "Downgrades and other version changes",
-                    [
-                        f'<span class="mono">{_e(item.name)}</span>: {_e(item.old or "—")} → {_e(item.new or "—")}'
-                        for item in change.versions
-                        if item.direction != "upgrade"
-                    ],
+            _change_group(f"{title} · {len(items)}", items)
+            for title, items in (
+                *(
+                    (title, [_version_change(item) for item in change.versions if item.direction in directions])
+                    for title, directions in _CHANGE_KINDS
                 ),
-                _change_group(
-                    "Sources",
-                    [
-                        f'<span class="mono">{_e(item.component)}</span>: {_e(item.old.value)} → {_e(item.new.value)}'
-                        for item in change.sources
-                    ],
-                ),
-                _change_group(
-                    "New issues",
-                    [
-                        f'<span class="finding">{_e(item.kind.value)} {_e(item.path or "")}</span>'
-                        for item in change.new_issues
-                    ],
-                ),
+                ("Sources changed", [_source_change(item) for item in change.sources]),
+                ("New issues", [_issue_change(item) for item in change.new_issues]),
+                ("Resolved issues", [_issue_change(item) for item in change.resolved_issues]),
             )
         )
-        if groups:
-            flagged = True
-            body.append(ui.panel(change.repository, groups))
-    if not flagged:
-        body.append(ui.panel("Review", ui.empty_state("Nothing to review"), flush=True))
+        counted = len(change.versions) + len(change.sources) + len(change.new_issues) + len(change.resolved_issues)
+        notes = [_plural(counted, "change", "changes")]
+        if change.status != "changed":
+            notes.append(f"repository {change.status}")
+        if change.old_state != change.new_state:
+            notes.append(f"scan {_e(change.old_state or 'absent')} → {_e(change.new_state or 'absent')}")
+        rows.append(
+            f'<li class="change-repo"><div>{_repo_link(change.repository, "")}'
+            f'<div class="note">{" · ".join(notes)}</div></div>'
+            f"<div>{groups or '<p class=\"note\">only the recorded commit moved</p>'}</div></li>"
+        )
+    body.append(
+        ui.panel(
+            "Every change",
+            f'<ul class="change-list">{"".join(rows)}</ul>',
+            meta=f"{_plural(len(value.repositories), 'repository', 'repositories')}, by name",
+            flush=True,
+        )
+    )
     return "\n".join(body)
 
 
@@ -1736,27 +1803,23 @@ def _evidence_path(
 
 
 def _summary_metrics(value: diff_module.Diff) -> str:
-    summary = diff_module.diff_dict(value)["summary"]
-    record = _table(summary)
-    keys = (
-        "repositories",
-        "instances_added",
-        "instances_removed",
-        "versions_upgraded",
-        "versions_downgraded",
-        "versions_changed",
-        "sources_changed",
-        "issues_new",
-        "issues_resolved",
-    )
-    if sum(_value(record.get(key)) for key in keys) == 0:
+    """What changed, in words: repositories touched, then each kind of change that happened."""
+    if not value.repositories:
         return "no changes"
-    parts = [
-        f"{_value(_table(record.get(key)))} {_table(record.get(key)).get('unit')}"
-        for key in keys
-        if _value(_table(record.get(key))) > 0
-    ]
-    return " · ".join(parts) if parts else "no changes"
+    directions = Counter(item.direction for change in value.repositories for item in change.versions)
+    counts = (
+        (directions["upgrade"], "upgraded"),
+        (directions["downgrade"], "downgraded"),
+        (directions["changed"], "changed"),
+        (directions["added"], "added"),
+        (directions["removed"], "removed"),
+        (sum(len(change.sources) for change in value.repositories), "source changes"),
+        (sum(len(change.new_issues) for change in value.repositories), "new issues"),
+        (sum(len(change.resolved_issues) for change in value.repositories), "resolved issues"),
+    )
+    parts = [_plural(len(value.repositories), "repository", "repositories")]
+    parts.extend(f"{count} {label}" for count, label in counts if count)
+    return " · ".join(parts)
 
 
 def _repo_link(name: str, prefix: str) -> str:
@@ -2134,7 +2197,7 @@ def _ecosystem_drilldowns(site: _Site, groups: Mapping[Ecosystem, Sequence[world
         meta = f"{yours} yours · {len(rows) - yours} third-party or unknown"
         panels.append(
             ui.collapsed_panel(
-                f"{ecosystem.value} · {len(rows)} {_plural(len(rows), 'package', 'packages')}",
+                f"{ecosystem.value} · {_plural(len(rows), 'package')}",
                 table + more,
                 meta=meta,
                 panel_id=f"ecosystem-{ecosystem.value}",
@@ -2421,7 +2484,7 @@ def _owners_panel(value: world.World) -> str:
                     Segment("Direct", direct, Mark.ACCENT),
                     Segment("Transitive only", len(owned) - direct, Mark.GHOST),
                 ),
-                note=_e(f"{len(reached)} repositories · {', '.join(ecosystems)}"),
+                note=_e(f"{_plural(len(reached), 'repository', 'repositories')} · {', '.join(ecosystems)}"),
             )
         )
     unknown = sum(1 for package in packages if package.owner is None)

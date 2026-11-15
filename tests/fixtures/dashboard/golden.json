@@ -2,19 +2,16 @@
  "alignment.html": {
   "headings": [
    "h1: Alignment",
-   "h2: github",
-   "h3: actions/checkout",
-   "h3: actions/download-artifact",
-   "h3: actions/upload-artifact",
-   "h3: swatinem/rust-cache",
-   "h2: docker",
-   "h3: alpine",
-   "h3: python",
-   "h2: cargo",
-   "h3: rustix",
-   "h2: toolchain",
-   "h3: pnpm"
+   "h2: Version drift"
   ],
+  "items": {
+   "count": 8,
+   "first": [
+    "alpine docker \u00b7 9 repositories off target \u00b7 target is the newest in use; latest release not confirmed 3.24.4@f59abe6 target \u00b7 python-build 3.24.2@294b683 move \u00b7 img, kache, lz, srv, ssh-build 3.22 move \u00b7 ssh-build, xsh edge move \u00b7 doas-rs, xsh 3.20 move \u00b7 ctrs latest@260479a move \u00b7 python-build latest@49340b3 move \u00b7 ctrs latest@d56c381 move \u00b7 python-build",
+    "actions/checkout github \u00b7 1 repository off target \u00b7 target is the approved pin 3d3c42e target \u00b7 ctrs, doas-rs, extensions, img, kache, laputa-ui-dashboard, lz, mactop, pytest-parallel, python-build, srv, ssh-build, xsh, zzz 11bd719 move \u00b7 mdevd-rs",
+    "actions/download-artifact github \u00b7 1 repository off target \u00b7 target is the approved pin 9000827 target \u00b7 ctrs, img, kache, lz, mactop, pytest-parallel, python-build, srv, ssh-build, zzz 3e5f45b move \u00b7 xsh"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -37,8 +34,15 @@
  "changes.html": {
   "headings": [
    "h1: Changes",
-   "h2: laputa-systems/xsh"
+   "h2: Needs a look",
+   "h2: Every change"
   ],
+  "items": {
+   "count": 1,
+   "first": [
+    "laputa-systems/doas-rs bitflags 2.14.0 \u2192 2.13.2 \u00b7 downgrade"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -76,6 +80,14 @@
    "h2: docker",
    "h3: base-image"
   ],
+  "items": {
+   "count": 24,
+   "first": [
+    "libc 9",
+    "rustix 3",
+    "serde serde_json 5"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -107,6 +119,14 @@
    "h3: Unpinned artifacts",
    "h3: Vendored code"
   ],
+  "items": {
+   "count": 19,
+   "first": [
+    "Git sources 5",
+    "Floating image tags 4",
+    "Missing locks 2"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -131,6 +151,10 @@
    "h1: Explore",
    "h2: Inspector"
   ],
+  "items": {
+   "count": 0,
+   "first": []
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -168,6 +192,14 @@
    "h3: rustix \u2192 laputa-rustix",
    "h3: 49 upgrades"
   ],
+  "items": {
+   "count": 7,
+   "first": [
+    "python-build 14",
+    "xsh 30",
+    "lz 6"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -196,10 +228,19 @@
  "lines.html": {
   "headings": [
    "h1: Lines",
-   "h2: Where the code lives",
-   "h2: By language",
-   "h2: By repository"
+   "h2: What the fleet is written in",
+   "h2: Repositories by size",
+   "h2: Docs and data",
+   "h2: Every language"
   ],
+  "items": {
+   "count": 29,
+   "first": [
+    "Rust 10 repositories \u00b7 2,171 files 1.3M",
+    "XSH 2 repositories \u00b7 2,193 files 438k",
+    "Python 9 repositories \u00b7 837 files 280k"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -218,40 +259,26 @@
   "tables": [
    {
     "first": [
-     "JSON | 2,983 | 1,664,385 | 0 | 11",
-     "Rust | 2,171 | 1,309,934 | 112,575 | 89,165",
-     "XSH | 2,193 | 438,078 | 20,326 | 46,498"
+     "JSON | data | 2,983 | 1,664,385 | 0 | 11",
+     "Rust | code | 2,171 | 1,309,934 | 112,575 | 89,165",
+     "XSH | code | 2,193 | 438,078 | 20,326 | 46,498"
     ],
     "headers": [
      "Language",
+     "Kind",
      "Files",
      "Code",
      "Comment",
      "Blank"
     ],
-    "rows": 27
-   },
-   {
-    "first": [
-     "laputa-systems/xsh | 2,189,172 | 72,905 | 8,598 | JSON",
-     "joshuarli/lz | 623,672 | 324 | 49 | JSON",
-     "laputa-systems/python-build | 539,769 | 50,632 | 973 | Rust"
-    ],
-    "headers": [
-     "Repository",
-     "Code",
-     "Comment",
-     "Files",
-     "Leading language"
-    ],
-    "rows": 15
+    "rows": 26
    }
   ],
   "tiles": [
-   "Code 4,018,787 lines across the fleet",
-   "Comment 181,985 lines in comments",
-   "Files 11,752 text files counted",
-   "Languages 26 distinct languages"
+   "Code 2,247,746 lines in 20 languages",
+   "Commented 8% 175,392 comment lines beside the code",
+   "Docs 57,260 lines of Markdown and other prose",
+   "Data and config 1,713,781 JSON, YAML, TOML, lockfiles"
   ],
   "title": "Lines \u00b7 dependencies"
  },
@@ -260,9 +287,16 @@
    "h1: Upgrades",
    "h2: Migrate, don't bump",
    "h3: rustix",
-   "h2: By ecosystem",
    "h2: Upgrades"
   ],
+  "items": {
+   "count": 49,
+   "first": [
+    "libc 0.2.189, 0.2.186, 0.2.182 \u2192 0.2.191 img, lz, xsh",
+    "sha2 0.11.0, 0.10.9 \u2192 0.11.1 img, ssh-build, xsh",
+    "flate2 1.1.10, 1.1.9 \u2192 1.1.11 ctrs, xsh"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -3039,6 +3073,14 @@
    "h1: rust",
    "h2: Versions"
   ],
+  "items": {
+   "count": 10,
+   "first": [
+    "cargo 720",
+    "local 198",
+    "golang 175"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34378,13 +34420,17 @@
    "h1: joshuarli/ctrs",
    "h2: Status",
    "h2: To do here",
-   "h3: Upgrades",
-   "h3: Version drift",
-   "h3: Role conflicts",
-   "h3: Coverage",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 6,
+   "first": [
+    "Rust 76% \u00b7 79 files 30k",
+    "Bash 11% \u00b7 31 files 4.3k",
+    "Python 9% \u00b7 124 files 3.5k"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34413,11 +34459,17 @@
    "h1: joshuarli/extensions",
    "h2: Status",
    "h2: To do here",
-   "h3: Upgrades",
-   "h3: Version drift",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 5,
+   "first": [
+    "TypeScript 91% \u00b7 95 files 9.6k",
+    "HTML 5% \u00b7 14 files 521",
+    "CSS 2% \u00b7 6 files 225"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34446,9 +34498,16 @@
    "h1: joshuarli/gh",
    "h2: Status",
    "h2: To do here",
-   "h3: Security",
    "h2: Code"
   ],
+  "items": {
+   "count": 4,
+   "first": [
+    "Go 99% \u00b7 733 files 185k",
+    "Bash 1% \u00b7 10 files 1.3k",
+    "ZSH 0% \u00b7 1 file 92"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34473,12 +34532,17 @@
    "h1: joshuarli/img",
    "h2: Status",
    "h2: To do here",
-   "h3: Upgrades",
-   "h3: Version drift",
-   "h3: Role conflicts",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 5,
+   "first": [
+    "Rust 99% \u00b7 152 files 43k",
+    "Python 0% \u00b7 5 files 187",
+    "Bash 0% \u00b7 5 files 88"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34507,11 +34571,17 @@
    "h1: joshuarli/kache",
    "h2: Status",
    "h2: To do here",
-   "h3: Version drift",
-   "h3: Role conflicts",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 6,
+   "first": [
+    "Rust 96% \u00b7 343 files 233k",
+    "Python 3% \u00b7 35 files 7.6k",
+    "Bash 1% \u00b7 19 files 1.4k"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34540,12 +34610,17 @@
    "h1: joshuarli/lz",
    "h2: Status",
    "h2: To do here",
-   "h3: Upgrades",
-   "h3: Version drift",
-   "h3: Role conflicts",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 4,
+   "first": [
+    "Rust 97% \u00b7 32 files 11k",
+    "Python 2% \u00b7 3 files 222",
+    "Makefile 1% \u00b7 1 file 93"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34576,6 +34651,13 @@
    "h2: To do here",
    "h2: Code"
   ],
+  "items": {
+   "count": 2,
+   "first": [
+    "Swift 98% \u00b7 33 files 5.6k",
+    "Makefile 2% \u00b7 1 file 91"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34604,11 +34686,17 @@
    "h1: joshuarli/pytest-parallel",
    "h2: Status",
    "h2: To do here",
-   "h3: Version drift",
-   "h3: Role conflicts",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 3,
+   "first": [
+    "Python 99% \u00b7 17 files 4.4k",
+    "Makefile 1% \u00b7 1 file 29",
+    "Dockerfile 0% \u00b7 1 file 10"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34637,9 +34725,16 @@
    "h1: joshuarli/syncthing",
    "h2: Status",
    "h2: To do here",
-   "h3: Security",
    "h2: Code"
   ],
+  "items": {
+   "count": 6,
+   "first": [
+    "Go 51% \u00b7 531 files 82k",
+    "JavaScript 25% \u00b7 37 files 39k",
+    "Java 9% \u00b7 93 files 15k"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34664,10 +34759,17 @@
    "h1: laputa-systems/doas-rs",
    "h2: Status",
    "h2: To do here",
-   "h3: Version drift",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 3,
+   "first": [
+    "Rust 97% \u00b7 14 files 5.4k",
+    "Bash 3% \u00b7 2 files 180",
+    "Dockerfile 0% \u00b7 1 file 12"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34699,6 +34801,14 @@
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 5,
+   "first": [
+    "TypeScript 87% \u00b7 163 files 14k",
+    "HTML 6% \u00b7 75 files 1.0k",
+    "CSS 5% \u00b7 30 files 863"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34727,11 +34837,17 @@
    "h1: laputa-systems/mdevd-rs",
    "h2: Status",
    "h2: To do here",
-   "h3: Version drift",
-   "h3: Role conflicts",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 6,
+   "first": [
+    "Rust 74% \u00b7 32 files 5.4k",
+    "Bash 23% \u00b7 21 files 1.7k",
+    "C 2% \u00b7 2 files 182"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34760,14 +34876,17 @@
    "h1: laputa-systems/python-build",
    "h2: Status",
    "h2: To do here",
-   "h3: Security",
-   "h3: Upgrades",
-   "h3: Version drift",
-   "h3: Role conflicts",
-   "h3: Coverage",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 6,
+   "first": [
+    "Rust 42% \u00b7 237 files 219k",
+    "Python 27% \u00b7 454 files 142k",
+    "C 24% \u00b7 56 files 123k"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34796,9 +34915,16 @@
    "h1: laputa-systems/rage",
    "h2: Status",
    "h2: To do here",
-   "h3: Security",
    "h2: Code"
   ],
+  "items": {
+   "count": 4,
+   "first": [
+    "Rust 97% \u00b7 59 files 12k",
+    "Bash 2% \u00b7 3 files 200",
+    "Dockerfile 1% \u00b7 1 file 118"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34823,10 +34949,17 @@
    "h1: laputa-systems/srv",
    "h2: Status",
    "h2: To do here",
-   "h3: Version drift",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 3,
+   "first": [
+    "Rust 91% \u00b7 2 files 1.7k",
+    "Dockerfile 7% \u00b7 1 file 125",
+    "Makefile 2% \u00b7 1 file 39"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34855,12 +34988,17 @@
    "h1: laputa-systems/ssh-build",
    "h2: Status",
    "h2: To do here",
-   "h3: Upgrades",
-   "h3: Version drift",
-   "h3: Role conflicts",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 6,
+   "first": [
+    "Rust 95% \u00b7 160 files 46k",
+    "Bash 3% \u00b7 30 files 1.7k",
+    "Python 1% \u00b7 1 file 557"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34889,14 +35027,17 @@
    "h1: laputa-systems/xsh",
    "h2: Status",
    "h2: To do here",
-   "h3: Security",
-   "h3: Migrate",
-   "h3: Upgrades",
-   "h3: Version drift",
-   "h3: Role conflicts",
    "h2: Dependency weight",
    "h2: Code"
   ],
+  "items": {
+   "count": 6,
+   "first": [
+    "Rust 55% \u00b7 1,120 files 715k",
+    "XSH 34% \u00b7 2,192 files 438k",
+    "Python 9% \u00b7 197 files 122k"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34927,6 +35068,13 @@
    "h2: To do here",
    "h2: Code"
   ],
+  "items": {
+   "count": 2,
+   "first": [
+    "Zig 86% \u00b7 1 file 132",
+    "Makefile 14% \u00b7 1 file 22"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -34953,33 +35101,19 @@
  "repositories.html": {
   "headings": [
    "h1: Repositories",
-   "h2: Status",
-   "h3: ctrs",
-   "h3: img",
-   "h3: mdevd-rs",
-   "h3: xsh",
-   "h3: gh",
-   "h3: kache",
-   "h3: pytest-parallel",
-   "h3: syncthing",
-   "h3: python-build",
-   "h3: rage",
    "h2: Vulnerable",
-   "h3: python-build",
-   "h3: xsh",
    "h2: Maintenance",
-   "h3: lz",
-   "h3: img",
-   "h3: extensions",
-   "h3: ssh-build",
-   "h3: ctrs",
-   "h3: kache",
-   "h3: pytest-parallel",
-   "h3: mdevd-rs",
-   "h3: doas-rs",
-   "h3: srv",
+   "h2: Clean",
    "h2: Forks with vulnerable versions"
   ],
+  "items": {
+   "count": 15,
+   "first": [
+    "laputa-systems/python-build 2 vulnerable packages \u00b7 12 upgrades \u00b7 1 off target \u00b7 3 role conflicts release release-6f7c0d46e2ed (prerelease) \u00b7 78 since checked 78 min ago",
+    "laputa-systems/xsh 1 vulnerable package \u00b7 29 upgrades \u00b7 5 off target \u00b7 4 role conflicts CI pending checked 78 min ago sha 71882507d19a workflows Lint running \u00b7 Test running \u00b7 Test running release release-d09c6c3305ab (prerelease) \u00b7 7076 since checked 78 min ago",
+    "joshuarli/ctrs 1 upgrade \u00b7 1 off target \u00b7 4 role conflicts local diverged 28/2 (last fetch), oldest unpushed 0d workflows ci failed \u00b7 lint failed"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -35007,6 +35141,14 @@
    "h3: xsh",
    "h2: Forks"
   ],
+  "items": {
+   "count": 3,
+   "first": [
+    "pyo3 0.28.3 \u2192 0.30.1 \u00b7 Upgrade the requirement",
+    "rustls-webpki 0.103.15 \u2192 0.103.17 \u00b7 Update the lockfile",
+    "zstd 0.13.3 \u2192 0.14.0 \u00b7 Upgrade the requirement"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -35038,6 +35180,14 @@
    "h2: Duplicate versions",
    "h2: Table view"
   ],
+  "items": {
+   "count": 10,
+   "first": [
+    "python-build 49 Packages aes 0.8.4, 0.9.4 asn1-rs 0.6.2, 0.7.2 asn1-rs-derive 0.5.1, 0.6.0 base64 0.22.1, 0.23.1 block-buffer 0.10.4, 0.12.1 block-padding 0.3.3, 0.4.2 cbc 0.1.2, 0.2.1 cc 1.4.3, 1.6.0, 1.11.1 cfg-if 1.0.4, 1.0.5 cipher 0.4.4, 0.5.2 const-oid 0.9.6, 0.10.3 cpufeatures 0.2.17, 0.3.1 crypto-common 0.1.7, 0.2.2 der 0.7.10, 0.8.3 der-parser 9.0.0, 10.0.0 deranged 0.5.8, 0.5.9 digest 0.10.7, 0.11.3 find-msvc-tools 0.1.11, 0.1.14, 0.1.15 getrandom 0.2.17, 0.3.4, 0.4.3 hmac 0.12.1, 0.13.0 inout 0.1.4, 0.2.5, 0.2.6 libc 0.2.189, 0.2.190, 0.2.191 md-5 0.10.6, 0.11.0 oid-registry 0.7.1, 0.8.1 pbkdf2 0.12.2, 0.13.0 pem-rfc7468 0.7.0, 1.0.0 pkcs5 0.7.1, 0.8.1 pkcs8 0.10.2, 0.11.0 powerfmt 0.2.0, 0.2.1 pyo3-build-config 0.28.3, 0.30.1 pyo3-ffi 0.28.3, 0.30.1 r-efi 5.3.0, 6.0.0 rand 0.8.8, 0.9.5 rand_chacha 0.3.1, 0.9.0 rand_core 0.6.4, 0.9.5, 0.10.1 salsa20 0.10.2, 0.11.0 scrypt 0.11.0, 0.12.0 sha2 0.10.9, 0.11.1 spki 0.7.3, 0.8.1 syn 2.0.119, 3.0.6, 3.0.10 synstructure 0.13.2, 0.14.0 thiserror 1.0.69, 2.0.21 thiserror-impl 1.0.69, 2.0.21 unicode-ident 1.0.26, 1.0.27 wasip2 1.0.4+wasi-0.2.12, 2.0.0+wasi-0.2.12 windows-sys 0.52.0, 0.61.2 wit-bindgen 0.57.1, 0.61.1 x509-parser 0.16.0, 0.18.1 zeroize 1.9.0, 1.9.1",
+    "ssh-build 16 Packages cfg-if 1.0.4, 1.0.5 const-oid 0.10.2, 0.10.3 errno 0.3.14, 0.3.15 getrandom 0.3.4, 0.4.3 libc 0.2.186, 0.2.191 proc-macro2 1.0.106, 1.0.107 quote 1.0.46, 1.0.47 r-efi 5.3.0, 6.0.0 sha2 0.11.0, 0.11.1 syn 2.0.119, 3.0.9, 3.0.10 thiserror 2.0.18, 2.0.21 thiserror-impl 2.0.18, 2.0.21 unicode-ident 1.0.24, 1.0.27 wasip2 1.0.1+wasi-0.2.4, 1.0.4+wasi-0.2.12 wit-bindgen 0.46.0, 0.57.1 zeroize 1.9.0, 1.9.1",
+    "xsh 14 Packages bitflags 1.3.2, 2.13.0 foldhash 0.1.5, 0.2.0 getrandom 0.2.17, 0.3.4, 0.4.2 hashbrown 0.15.5, 0.17.1 laputa-ptytest 0.1.1, 0.4.0 quote 1.0.46, 1.0.47 r-efi 5.3.0, 6.0.0 shlex 1.3.0, 2.0.1 syn 2.0.118, 3.0.9 unicode-ident 1.0.24, 1.0.27 vt100 0.16.2, 0.18.1 windows-sys 0.52.0, 0.61.2 wit-bindgen 0.51.0, 0.57.1 alpine 3.22, edge"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",
@@ -35482,21 +35632,29 @@
   "headings": [
    "h1: World",
    "h2: How much is yours",
-   "h2: cargo \u00b7 643 643 packages",
-   "h2: local \u00b7 192 192 packages",
-   "h2: npm \u00b7 169 169 packages",
-   "h2: apk \u00b7 67 67 packages",
-   "h2: github \u00b7 13 13 packages",
-   "h2: docker \u00b7 11 11 packages",
-   "h2: pypi \u00b7 10 10 packages",
-   "h2: artifact \u00b7 3 3 packages",
-   "h2: toolchain \u00b7 3 3 packages",
+   "h2: cargo \u00b7 643 packages",
+   "h2: local \u00b7 192 packages",
+   "h2: npm \u00b7 169 packages",
+   "h2: apk \u00b7 67 packages",
+   "h2: github \u00b7 13 packages",
+   "h2: docker \u00b7 11 packages",
+   "h2: pypi \u00b7 10 packages",
+   "h2: artifact \u00b7 3 packages",
+   "h2: toolchain \u00b7 3 packages",
    "h2: Mirrored on stuff",
    "h2: Map",
    "h2: Your packages your repositories use \u00b7 29",
    "h2: Reach",
    "h2: Owners \u00b7 214"
   ],
+  "items": {
+   "count": 507,
+   "first": [
+    "Packages each package counted once 1111",
+    "Package uses each package counted once per repository that reaches it 1894",
+    "cargo 643"
+   ]
+  },
   "nav": [
    "To do 6",
    "Repositories",

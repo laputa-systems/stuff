@@ -3,6 +3,11 @@
     "use strict";
     const page = document.body.getAttribute("data-page") ?? "";
     const prefix = document.body.getAttribute("data-prefix") ?? "";
+    const current = document.querySelector(".ui-side-nav a[aria-current]");
+    const strip = current?.closest(".ui-side-body");
+    if (current instanceof HTMLElement && strip instanceof HTMLElement && strip.scrollWidth > strip.clientWidth) {
+        strip.scrollLeft = current.offsetLeft - (strip.clientWidth - current.offsetWidth) / 2;
+    }
     document.addEventListener("keydown", (event) => {
         const target = event.target;
         const typing = target instanceof HTMLElement &&
