@@ -44,7 +44,8 @@ LANGUAGE_TAGS = frozenset(
 )
 PUBLISHING_TAGS = frozenset({"crates-io", "pypi", "npm"})
 PLATFORM_TAGS = frozenset({"linux", "macos"})
-TAGS = PRIMARY_TAGS | LANGUAGE_TAGS | PUBLISHING_TAGS | PLATFORM_TAGS | frozenset({"fork"})
+FORK_TAGS = frozenset({"fork", "fork-diverged"})
+TAGS = PRIMARY_TAGS | LANGUAGE_TAGS | PUBLISHING_TAGS | PLATFORM_TAGS | FORK_TAGS
 REPOSITORY_IGNORE = "IGNORE"
 _IDENTIFIER = re.compile(r"[A-Za-z0-9_.-]+\Z")
 DEPENDENCY_IGNORE_PREFIX = "audit-upgrades:"
@@ -65,6 +66,12 @@ LOCAL_SOURCE_IGNORE_PREFIX = "registry-sources:path:"
 _LOCAL_SOURCE_IGNORE = re.compile(r"registry-sources:path:([A-Za-z0-9@_./+-]+)\Z")
 LOCKFILE_IGNORE_PREFIX = "rust-project:lockfile:"
 _LOCKFILE_IGNORE = re.compile(r"rust-project:lockfile:([A-Za-z0-9_+-]+(?:/[A-Za-z0-9_.+-]+)*)\Z")
+
+
+def fork_tag_error(tags: list[str] | tuple[str, ...]) -> str | None:
+    if "fork-diverged" in tags and "fork" not in tags:
+        return "fork-diverged requires the fork tag"
+    return None
 
 
 def parse_git_source_ignore(value: str) -> str | None:
@@ -203,6 +210,9 @@ def load_catalog(path: Path, environ: dict[str, str] | None = None) -> Catalog:
             unknown_tags = set(tags) - TAGS - {REPOSITORY_IGNORE}
             if unknown_tags:
                 raise CatalogError(f"unknown tags for {repo_id}: {', '.join(sorted(unknown_tags))}")
+            fork_error = fork_tag_error(tags)
+            if fork_error is not None:
+                raise CatalogError(f"{repo_id}: {fork_error}")
             if REPOSITORY_IGNORE in tags:
                 ignored.append(Repository(repo_id, tuple(tag for tag in tags if tag != REPOSITORY_IGNORE)))
                 continue
@@ -414,6 +424,9 @@ def add_repository(catalog: Catalog, owner: str, name: str, tags: list[str]) -> 
         raise CatalogError(f"unknown tags: {', '.join(sorted(set(tags) - TAGS))}")
     if not set(tags) & PRIMARY_TAGS:
         raise CatalogError("add requires at least one primary tag")
+    fork_error = fork_tag_error(tags)
+    if fork_error is not None:
+        raise CatalogError(fork_error)
     repo_id = RepoId(owner, name)
     if any(str(repo.id).casefold() == str(repo_id).casefold() for repo in catalog.repositories):
         return False

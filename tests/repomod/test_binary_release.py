@@ -190,6 +190,7 @@ def test_captured_binary_releases_allow_fork_platform_and_language_tags(
 ) -> None:
     allowed = [
         ("tool", "fork"),
+        ("tool", "fork", "fork-diverged", "rust"),
         ("tool", "linux"),
         ("tool", "macos", "swift"),
         ("tool", "rust"),

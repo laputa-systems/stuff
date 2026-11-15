@@ -5,7 +5,7 @@ import re
 import tomllib
 from pathlib import Path
 
-from repomod.catalog import LANGUAGE_TAGS, PLATFORM_TAGS
+from repomod.catalog import FORK_TAGS, LANGUAGE_TAGS, PLATFORM_TAGS
 from repomod.rules.release import _POLICY as _RELEASE_POLICY
 from repomod.rules.release_notes import (
     RELEASE_NOTES_FLAG,
@@ -23,7 +23,7 @@ _LINUX_ARCHES = frozenset(_BINARY_POLICY["linux_arches"])
 _LINUX_MUSL_SUFFIX = _BINARY_POLICY["linux_musl_suffix"]
 _FORBIDDEN_TARGET_MARKERS = tuple(_BINARY_POLICY["forbidden_target_markers"])
 _NON_NATIVE_RELEASE_TAGS = frozenset({"extension", "build"})
-_BINARY_TOOL_EXTRA_TAGS = frozenset({"fork"}) | PLATFORM_TAGS | LANGUAGE_TAGS
+_BINARY_TOOL_EXTRA_TAGS = FORK_TAGS | PLATFORM_TAGS | LANGUAGE_TAGS
 
 _PRERELEASE_COMMAND = re.compile(
     r"\bgh\s+release\s+create\b[\s\S]*?(?:^|\s)--prerelease\b",
@@ -393,7 +393,7 @@ def _binary_release_findings(root: Path, repository: Repository) -> list[Finding
                     "binary-release-tags",
                     path,
                     "standard binary prerelease repositories allow only tool with fork, "
-                    "platform, and language tags: remove " + ", ".join(extras),
+                    "fork-diverged, platform, and language tags: remove " + ", ".join(extras),
                 )
             )
     return findings

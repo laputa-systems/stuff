@@ -128,6 +128,19 @@ def test_language_tags_require_a_semantic_role_and_support_multilanguage_repos(t
         load_catalog(path, {"HOME": str(tmp_path)})
 
 
+def test_fork_diverged_requires_the_fork_tag(tmp_path: Path) -> None:
+    path = write_catalog(tmp_path / "catalog.toml", '[repos.acme]\nfd = ["tool", "rust", "fork", "fork-diverged"]')
+    catalog = load_catalog(path, {"HOME": str(tmp_path)})
+    assert set(find_repository(catalog, "fd").tags) == {"tool", "rust", "fork", "fork-diverged"}
+    with pytest.raises(CatalogError, match="fork-diverged requires the fork tag"):
+        add_repository(catalog, "acme", "jaq", ["tool", "fork-diverged"])
+
+    for tags in ('["tool", "fork-diverged"]', '["IGNORE", "tool", "fork-diverged"]'):
+        write_catalog(path, f"[repos.acme]\nrg = {tags}")
+        with pytest.raises(CatalogError, match="acme/rg: fork-diverged requires the fork tag"):
+            load_catalog(path, {"HOME": str(tmp_path)})
+
+
 def test_sync_reports_all_missing_primary_tags_before_fetching(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:

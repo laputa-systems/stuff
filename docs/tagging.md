@@ -66,6 +66,11 @@ Fork workflow checks and status include only files named `lint`, `prerelease`, o
 `.github/workflows/`, except `gha-syntax`, which skips forks. `status` also reports how many commits each fork is behind its upstream
 parent, regardless of tagging, whenever GitHub reports a parent.
 
+`fork-diverged` marks a `fork` whose own changes against its upstream merge base are substantial
+enough to maintain as first-party code, such as a ported CLI or added modules. It requires `fork`
+and changes no fork exemption by itself; a rule that should also cover our changes in a fork selects
+`fork-diverged` explicitly. Forks without it are treated as upstream code.
+
 ## Binary prereleases
 
 The supported native binary prerelease workflow follows `ish`: a manual dispatch guarded by
@@ -79,15 +84,15 @@ Linux-only tools build the musl targets for both `x86_64` and `aarch64`. No glib
 targets are supported. The expected target sets live in the `[binary]` section of
 `fleet/policy/release-policy.toml`.
 
-Repositories using that contract carry the `tool` role with only `fork`, platform, and
-language tags. A wheel prerelease is a package release, not a binary-tool release.
+Repositories using that contract carry the `tool` role with only `fork`, `fork-diverged`,
+platform, and language tags. A wheel prerelease is a package release, not a binary-tool release.
 Private repositories are exempt from the prerelease policy. `fork` repositories
 defer matrix and format standardization while their upstream workflows stay outside
 local policy. The `binary-release-tags` rule checks the artifact and release contract
 and curated tags. It reports ambiguous workflows for review, except in repositories tagged
 `extension` or `build`, which publish plugin archives or build archives rather than native tools.
 A workflow in those repositories that does establish the binary contract still requires the
-`tool` role and allows only `fork`, platform, and language tags beside it, so `extension` or
+`tool` role and allows only `fork`, `fork-diverged`, platform, and language tags beside it, so `extension` or
 `build` on such a repository is reported. A `build` repository without `tool` whose workflow
 publishes `.tar.xz` archives and `.manifest.json` manifests follows the
 [build repository contract](build-repos.md) instead and is not reported as a tool release. The
