@@ -10,8 +10,13 @@ established, so the slop cannot return.
 - **State:** running.
 - **Accepted:** F1 (`fe04fa2`; topics published to the eight forks), K0 (usr `5994013`), K1 (usr
   `ed0ff67`).
-- **In review:** F2, [stuff#9](https://github.com/laputa-systems/stuff/pull/9) (waiting on CI).
-- **Next slice:** Phase 1 tool qualification on srv, buildlib, and extensions (in progress).
+- **In review:** F2, [stuff#9](https://github.com/laputa-systems/stuff/pull/9). Running `make test`
+  in CI exposed a mypypi sandbox defect on macOS, now fixed in the PR. A flaky Worker test is
+  STUF-82.
+- **Pilots:** srv Ground and Diagnose merged (srv#26); Types in review (srv#27); Tests in progress.
+  buildlib and extensions have not started.
+- **Next slice:** srv Tests (DSLP-4).
+- **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Phase:** 0 (foundations).
 - **Seeded tiers:** none.
 - **Settled repositories:** none. The scorecard is [deslop-scorecard.md](deslop-scorecard.md).
@@ -40,6 +45,8 @@ tier.
 ## Charter
 
 - Decide and keep going. Record a decision here only when a later slice depends on it.
+- Every campaign PR carries the `deslop` label (owner request, 2026-11-15). Create it first with
+  `gh label create deslop -R <repo> --color 5319e7 --force`.
 - Work inside the grant in **Execution boundary**. A plan does not supply missing permission. Park
   an item that needs authority outside the grant and list it under **Needs you** in Status.
 - Fix the cause before you retry. A failing item gets two attempts after `root-cause`. Then park it
@@ -327,7 +334,7 @@ on the merged result.
    one PR per ticket. The perf gate applies. P3 and P4 tickets stay open.
    *Accept:* each ticket's own acceptance passes, and the perf verdict is within bound.
 7. **Report.** Run `review` on the cumulative diff from the base SHA to HEAD, and fix the defects it
-   demonstrates. Fill in `## Report` in `TODO-DESLOP.md`: the scorecard values (Reference); for each
+   demonstrates. Fill in `## Report` in the header of `TODO-DESLOP.md`: the scorecard values (Reference); for each
    step, what it found and what it cost; method feedback (a skill rule that would have caught
    something that slipped through, a tool that misfired, a step that found nothing); and gaps in the
    shared files.
@@ -347,8 +354,9 @@ Each one carries:
 
 The file opens with three lines saying that one agent works the file and takes the lowest-numbered
 open ticket whose area does not start with `Needs owner ·`, that steps 6 and 7 follow DSLP-5, and
-that `## Report` comes last. Owner items use the area prefix instead of a heading, because
-`todo fmt` reorders tickets around fixed free text. Findings that steps 2 to 5 discover are appended as DSLP-6 and later, so ticket order still
+that `## Report` sits in the header above `## Tickets`. Owner items use the area prefix instead of
+a heading, and the Report stays in the header, because `todo fmt` reorders tickets around fixed
+free text and `todo add` appends after the last ticket's trailing text. Findings that steps 2 to 5 discover are appended as DSLP-6 and later, so ticket order still
 matches step order. Fleet-wide or shared-file work never becomes a repo ticket.
 
 ## Check-up
