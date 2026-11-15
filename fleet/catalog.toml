@@ -176,3 +176,7 @@ ignore_reason = "plan.md P2 prescribes an offline builder from the Alpine 3.25.0
 [overrides."joshuarli/pi-build"]
 ignore = ["language-tags", "make-lint-target"]
 ignore_reason = "sources/ holds preserved upstream TypeScript snapshots that the build packs unchanged; the first-party code is the Python build tooling in tools/, which detection does not reach because those snapshots carry npm manifests. The same detection asks make lint to run oxlint over those snapshots; make lint runs ruff and ty over the build tooling instead."
+
+[overrides."laputa-systems/zzz"]
+ignore = ["release-archive-format", "binary-release-standard"]
+ignore_reason = "The owner excluded zzz from the tar.xz release-archive campaign: it keeps its zip release archives. binary-release-standard is ignored whole because its archive check, and its fixer, would rewrite the packaging to tar.xz."
