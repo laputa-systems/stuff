@@ -1024,7 +1024,8 @@ def test_static_fixer_replaces_a_stale_embedded_verifier(tmp_path: Path) -> None
 def test_ish_archive_fixer_produces_valid_file_plan(tmp_path: Path) -> None:
     fixture = Path(__file__).parent / "fixtures/binary_release/ish_archive/release.yml"
     source = fixture.read_text().replace("jobs:\n", "jobs:\n  # Release jobs.\n", 1)
-    assert source.endswith("\n") and "  # Release jobs.\n" in source
+    assert source.endswith("\n")
+    assert "  # Release jobs.\n" in source
     write_workflow(tmp_path, source)
     repo = Repository(RepoId("joshuarli", "ish"), ("tool",))
     findings = _binary_release_standard_findings(tmp_path, repo)
