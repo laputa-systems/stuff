@@ -123,7 +123,6 @@ ingest_pypi() {
     case "$(uname -s)-$(uname -m)" in
       Linux-x86_64) platform=linux-x86_64 ;;
       Linux-aarch64 | Linux-arm64) platform=linux-aarch64 ;;
-      Darwin-x86_64) platform=macos-x86_64 ;;
       Darwin-arm64 | Darwin-arm64e) platform=macos-arm64 ;;
       *) echo "fleet-ingest: unsupported host for mypypi" >&2; return 1 ;;
     esac
@@ -137,7 +136,7 @@ version = "0.1.0"
 requires-python = "$PYTHON_REQ"
 
 [tool.mypypi.targets]
-platforms = ["linux-x86_64", "linux-aarch64", "macos-x86_64", "macos-arm64"]
+platforms = ["linux-x86_64", "linux-aarch64", "macos-arm64"]
 linux_repair_policy = "manylinux_2_28"
 CONFIG
   reqs=$(entries "$PYPI_LIST" | tr '\n' ' ')
