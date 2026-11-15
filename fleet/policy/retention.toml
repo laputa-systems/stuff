@@ -1,0 +1,13 @@
+version = 1
+
+[mutation-lane]
+repositories = ["laputa-systems/srv"]
+
+[coverage-target]
+repositories = ["laputa-systems/srv"]
+
+[strict-profile."laputa-systems/srv"]
+settings = ["rust.unsafe_code=forbid"]
+
+[strict-profile."laputa-systems/buildlib"]
+settings = ["ty.missing-type-argument=error", "ty.unsound-return-statement=error", "ty.unused-ignore-comment=error", "ruff.ANN401=selected"]
