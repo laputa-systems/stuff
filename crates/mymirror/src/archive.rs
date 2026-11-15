@@ -26,10 +26,10 @@ pub(crate) fn extract(artifact: &Artifact, bytes: &[u8]) -> Result<Vec<Member>> 
         ArchiveFormat::TarGzip => tar_members(flate2::read::GzDecoder::new(bytes), artifact)?,
         ArchiveFormat::TarXz => {
             let mut decompressed = Vec::new();
-            let mut input = std::io::Cursor::new(bytes);
-            lzma_rs::xz_decompress(&mut input, &mut decompressed).map_err(|error| {
-                Error::archive(format!("{}: could not decompress xz: {error}", artifact.id))
-            })?;
+            lzma_rust2::XzReader::new(bytes, false)
+                .take(MAX_DECOMPRESSED + 1)
+                .read_to_end(&mut decompressed)
+                .map_err(|error| Error::archive(format!("{}: could not decompress xz: {error}", artifact.id)))?;
             enforce_cap(artifact, decompressed.len() as u64)?;
             tar_members(std::io::Cursor::new(decompressed), artifact)?
         }

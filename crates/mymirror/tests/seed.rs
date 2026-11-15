@@ -1,6 +1,6 @@
 //! Opt-in check that the checked-in mirror manifest builds against the real
 //! upstreams: every pinned SHA-256 verifies, every keep list matches files,
-//! and each entry produces a deterministic zip. Run with
+//! and each entry produces a deterministic tar.xz. Run with
 //! `cargo test -p mymirror -- --ignored seed` — it downloads the real
 //! artifacts.
 
@@ -24,9 +24,9 @@ fn the_checked_in_manifest_builds_against_the_real_upstreams() {
             "{} kept no files",
             artifact.id
         );
-        let zip = std::fs::read(&artifact.path).unwrap();
-        assert_eq!(zip.len() as u64, artifact.bytes);
-        assert_eq!(mymirror::sha256_hex(&zip), artifact.sha256);
+        let archive = std::fs::read(&artifact.path).unwrap();
+        assert_eq!(archive.len() as u64, artifact.bytes);
+        assert_eq!(mymirror::sha256_hex(&archive), artifact.sha256);
     }
     println!(
         "{} artifacts, generation {}",

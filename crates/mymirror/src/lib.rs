@@ -7,7 +7,7 @@ mod build;
 mod glob;
 mod json;
 pub mod manifest;
-mod zip;
+mod tar_xz;
 
 pub use acquire::{fetch_verified, Acquire, HttpsAcquire, sha256_hex};
 pub use build::{
