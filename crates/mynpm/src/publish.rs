@@ -248,7 +248,7 @@ fn parse_manifest(text: &str, path: &Path) -> Result<GenerationManifest> {
         }
     }
     let schema_ok = record.get("schemaVersion").unwrap_or(&null).as_u64() == Some(1);
-    let renderer_ok = (1..=7).contains(&renderer);
+    let renderer_ok = (1..=u64::from(RENDERER_VERSION)).contains(&renderer);
     let base_ok = record.get("publicBaseUrl").unwrap_or(&null).as_str().is_some();
     let gen_id = record.get("generationId").unwrap_or(&null).as_str().unwrap_or("").to_string();
     let artifacts_ok = record.get("artifacts").unwrap_or(&null).as_seq().is_some();
@@ -419,6 +419,23 @@ fn validate_generation_sealed(
     )
         .map_err(|_| Error::Corrupt(format!("could not render generation packuments: {id}")))?;
     let corrupt_render = || Error::Corrupt(format!("could not render generation packuments: {id}"));
+    if seal == Seal::Adopted && manifest.renderer_version != RENDERER_VERSION {
+        // An older renderer is the migration path, not corruption: the pulled
+        // generation cannot seal against this binary's rendering by design.
+        // The artifacts are verified exactly as for a fresh publish; the site
+        // is re-rendered under the current renderer. Renderer 1 and 2
+        // generations are refused.
+        if manifest.renderer_version < 3 {
+            return Err(Error::Corrupt(format!("renderer {} generations are refused", manifest.renderer_version)));
+        }
+        let mut digests: Vec<String> = manifest.artifacts.iter().map(|record| record.artifact.sha512.clone()).collect();
+        digests.sort();
+        digests.dedup();
+        for digest in &digests {
+            hash_file(&mirror_root.join("tarballs").join(format!("{digest}.tgz")), digest)?;
+        }
+        return Ok(Some((manifest, false, files.len())));
+    }
     let identity_for = |seal: CatalogSeal<'_>| {
         generation_id_for_renderer(&manifest.public_base_url, &manifest.artifacts, &files, manifest.renderer_version, seal)
     };
@@ -1321,7 +1338,14 @@ mod tests {
         let (dir, legacy_id_2, _) = legacy_site(b"fake-npm-tarball");
         assert_eq!(legacy_id, legacy_id_2);
         std::fs::write(dir.path().join("mirror/generations").join(&legacy_id).join("flatdemo"), b"{}").unwrap();
-        assert!(matches!(adopt_site(dir.path()).unwrap_err(), Error::Corrupt(_)));
+        // A generation from an older renderer is re-rendered, so a tampered
+        // packument is replaced by this renderer's rendering; the artifact
+        // bytes are the trust anchor.
+        let summary = adopt_site(dir.path()).unwrap();
+        assert!(!summary.no_op);
+        assert_ne!(summary.generation_id, legacy_id);
+        let adopted = std::fs::read(dir.path().join("mirror/generations").join(&summary.generation_id).join("flatdemo")).unwrap();
+        assert_ne!(adopted, b"{}");
     }
 
     #[test]
