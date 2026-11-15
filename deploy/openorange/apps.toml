@@ -158,6 +158,22 @@ buckets = ["discover-preview-artifacts"]
 memory = "512m"
 cpus = 1.0
 
+[apps.nanoshop]
+kind = "orange"
+display = "Nanoshop"
+vars = { NANOSHOP_ADMIN_ORIGIN = "https://shop-admin.17166969.xyz", NANOSHOP_OWNER_IDENTITIES = '["user:joshua.r.li.98@gmail.com"]' }
+secrets = ["NANOSHOP_OPERATOR_SHA256", "APPLICATION_EVENTS_TOKEN", "APPLICATION_EVENTS_ENDPOINT", "APPLICATION_EVENTS_SERVICE"]
+namespace = "nanoshop-storied"
+ip = "172.29.80.25"
+port = 8080
+health_path = "/healthz"
+hostnames = ["shop.17166969.xyz", "shop-admin.17166969.xyz"]
+public_hostnames = ["shop.17166969.xyz"]
+public_deny_paths = ["/admin"]
+buckets = ["nanoshop-media-storied"]
+memory = "1g"
+cpus = 1.0
+
 [tunnel]
 enabled = true
 id = "5656ecc8-b9bd-4d70-8adb-14ff8cc91631"

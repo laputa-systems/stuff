@@ -488,6 +488,18 @@ private admin form origin and CSRF checks pass. Their protected snapshots,
 runtime contexts and final configuration overlay live under `discover/` and
 `discover-preview/` in the Mac backup directory.
 
+## Nanoshop staging
+
+Nanoshop is declared in the shared stack but has not been deployed by this
+change. Its public shop hostname permits storefront, cart and webhook methods;
+`/admin` is denied on the public listener. The admin hostname is private and
+uses tailnet whois. Before startup, the operator must supply
+`NANOSHOP_OPERATOR_SHA256`, `APPLICATION_EVENTS_TOKEN`,
+`APPLICATION_EVENTS_ENDPOINT`, and `APPLICATION_EVENTS_SERVICE` in the
+root-owned `apps/nanoshop.extra.env`. Shared infrastructure generates the
+gateway secret. The app has no internet egress and uses its own namespace and
+bucket.
+
 ## Public connector
 
 `oo-tunnel` runs cloudflared 2026.10.7 by digest under OpenRC. Its only
