@@ -8,9 +8,9 @@
     "build:wasm": "sh scripts/build-wasm.sh",
     "dev": "node scripts/dev.mjs",
     "typecheck": "tsrs -p tsconfig.json --noEmit --fast",
-    "test:runtime": "node --test test/runtime.test.mjs",
+    "test:runtime": "node --test test/runtime.test.mjs test/body-lifecycle.test.mjs",
     "lint": "oxlint --type-aware entry.ts src",
-    "check": "node scripts/build.mjs && oxlint --type-aware entry.ts src && tsrs -p tsconfig.json --noEmit --fast && node --test test/runtime.test.mjs"
+    "check": "node scripts/build.mjs && oxlint --type-aware entry.ts src && tsrs -p tsconfig.json --noEmit --fast && node --test test/runtime.test.mjs test/body-lifecycle.test.mjs"
   },
   "devDependencies": {
     "@laputa-systems/ui-dashboard": "0.9.1",

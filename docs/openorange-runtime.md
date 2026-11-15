@@ -633,3 +633,17 @@ standalone cluster dashboard with a verified self-hosted deployment was found
 in these images, source packages or deployment instructions. The selected
 explorer uses the validated Engine read API without introducing a SaaS
 dependency, obsolete frontend, or browser-held cluster credential.
+
+### Registry body ownership
+
+Anonymous HEAD and conditional reads must not retain an S3 GET body. The Worker
+uses metadata reads for HEAD, tracks speculative/content reads for each request,
+and joins and cancels every stream it does not hand to the HTTP response. This
+also covers an authoritative pointer moving or disappearing after a speculative
+read starts. Without cleanup, unread bodies exhausted the native adapter's
+50-connection S3 pool and made publication-coordinator reads time out.
+
+`crates/stuff-worker/test/body-lifecycle.test.mjs` exercises the compiled Worker
+with a two-connection streaming store: 60 rounds of HEAD, 304 and 412 responses,
+a normal body, a moved pointer and a missing pointer. It verifies zero retained
+bodies. The same test fails against the previous Worker when the pool fills.

@@ -933,9 +933,31 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
       return notFound();
     }
     const store = bucket(env, mapped.bucket_binding);
+    const opened = new Set<R2ObjectLike>();
+    const pending: Promise<R2ObjectLike | null>[] = [];
+    let finished = false;
+    let handedOff: ReadableStream | null = null;
+    const read = (key: string, options?: { range: { offset: number; length: number } }): Promise<R2ObjectLike | null> => {
+      const request = (async () => {
+      const object = await store.get(key, options);
+      if (object?.body) {
+        if (finished) await object.body.cancel().catch(() => undefined);
+        else opened.add(object);
+      }
+      return object;
+      })();
+      pending.push(request);
+      return request;
+    };
+    const forward = (body: ReadableStream | null, status: number, headers: Headers): Response => {
+      const result = new Response(body, { status, headers });
+      handedOff = body;
+      return result;
+    };
+    try {
     const wantsRange = req.headers.get("range") !== null;
     const fetchObject = (key: string): Promise<R2ObjectLike | null> =>
-      wantsRange ? store.head(key) : store.get(key);
+      wantsRange || req.method === "HEAD" ? store.head(key) : read(key);
     let key: string;
     let route: "immutable" | "pointer";
     let aliasKey: string | undefined;
@@ -1021,7 +1043,7 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
       }
     }
     if (object === null && npmPackumentKey && npmVersion !== undefined && mapped.pointer_key) {
-      const packument = await store.get(npmPackumentKey);
+      const packument = await read(npmPackumentKey);
       if (packument !== null) {
         const tarball = JSON.parse(
           resolve_npm_tarball_json(mapped.pointer_key, await packument.text(), npmVersion),
@@ -1091,22 +1113,29 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
       return new Response(null, { status: plan.status, headers });
     }
     if (plan.range_start !== undefined && plan.range_length !== undefined) {
-      const ranged = await store.get(key, {
+      const ranged = await read(key, {
         range: { offset: plan.range_start, length: plan.range_length },
       });
       if (ranged === null) {
         throw new Error("object vanished");
       }
-      return new Response(ranged.body, { status: plan.status, headers });
+      return forward(ranged.body, plan.status, headers);
     }
     if (wantsRange) {
-      const full = await store.get(key);
+      const full = await read(key);
       if (full === null) {
         throw new Error("object vanished");
       }
       object = full;
     }
-    return new Response(object.body, { status: plan.status, headers });
+    return forward(object.body, plan.status, headers);
+    } finally {
+      finished = true;
+      await Promise.allSettled(pending);
+      await Promise.all([...opened].map(async object => {
+        if (object.body !== handedOff) await object.body?.cancel().catch(() => undefined);
+      }));
+    }
 }
 
 export default {
