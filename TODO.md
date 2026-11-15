@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 88
+Next: 89
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -70,6 +70,16 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Where:** deploy/openorange/rivet/server.py; Stats docs/CAMPAIGN-STATS-PERFORMANCE.md W3 and bench/results/2026-11-15-scale-prep-review/README.md; protected Lisa /home/josh/.work/stats-perf-campaign/
 - **Problem:** Pinned Engine 3.1.2-rc.1 in the isolated stats-perf-scale-server fixture returns null sleep_ts, start_ts and connectable_ts for the active observation-store actor on repeated API inspection. Stats exposes no constructor-generation signal. This prevents confirming the after-sleep condition for 200 uncached browser selections per range; idle elapsed time and forced restarts cannot substitute. P2 priority assumed for the missing validation capability.
 - **Recommendation:** Provide a supported positive per-actor sleep/eviction transition and wake or constructor-generation signal on the pinned runtime path, preserving unknown values. Verify a natural idle eviction and correlate its next request; do not infer sleep from elapsed time. Resume the Stats after-sleep acceptance study only with positive evidence.
+- **Fix with:** root-cause
+- **Effort:** M
+
+
+### STUF-88 · P2 · Keep actor inventory available during native resource collection
+
+- **Area:** OpenOrange lifecycle observability
+- **Where:** deploy/openorange/rivet/server.py; Stats bench/native-soak.py and bench/results/2026-11-15-soak-progress/README.md; protected Lisa maintained-rollup-soak-v2.jsonl
+- **Problem:** The live 2026-11-15 Stats production soak recorded actor inventory HTTP 503 at 23 of its first 152 samples and one application-health timeout. W6 requires no unavailable groups, so the collection cannot establish plateau acceptance. This is observed diagnostic unavailability, not proof of production data loss or a classified Engine defect. P2 assumed for a repeatable gap blocking production resource validation.
+- **Recommendation:** Diagnose the failed actor-list requests using preserved sample indices without restarting the shared Engine or changing the active sampler. Establish a supported bounded inventory path that remains available during normal traffic, preserve unknown lifecycle states and explicit failures, and verify a complete 24-hour collection with zero unavailable groups. Handle the application-health timeout separately if it has an independent cause; do not hide outages with dropped samples or relaxed acceptance.
 - **Fix with:** root-cause
 - **Effort:** M
 
