@@ -75,4 +75,10 @@
   .atlas-searchbox { flex-basis: 100%; order: -1; }
   .atlas-select-label { display: none; }
   .atlas-caption { position: static; max-width: 100%; overflow: visible; white-space: normal; background: transparent; backdrop-filter: none; padding-left: 0; }
+  .atlas-canvas { height: 320px; min-height: 0; }
+  .atlas-inspector { order: -1; }
 }
+.atlas-repo-list { margin: var(--ui-space-xs) 0 0; padding: 0; list-style: none; }
+.atlas-repo-button { display: flex; width: 100%; justify-content: space-between; gap: var(--ui-space-sm); padding: var(--ui-space-2xs) 0; border: 0; background: none; color: var(--ui-accent); font: inherit; font-size: var(--ui-fs-meta); text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+.atlas-repo-button:hover { text-decoration: underline; }
+.atlas-repo-count { color: var(--ui-muted); font-variant-numeric: tabular-nums; }

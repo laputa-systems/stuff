@@ -367,7 +367,7 @@ def _overview_tiles(site: _Site) -> tuple[Tile, ...]:
     locks = _of_kind(site, ActionKind.LOCKFILE)
     missing = len(locks[0].repositories) if locks else 0
     contested = _contested_roles(site)
-    off_preferred = sum(len(use.off_preferred) for use in contested)
+    off_preferred = len({name for use in contested for name in use.off_preferred})
     return (
         Tile(
             str(len(security)) if checked else "—",
@@ -926,57 +926,13 @@ def _duplicate_bar(site: _Site, name: str, found: Sequence[tuple[str, list[str]]
     )
 
 
-def _risk_bars(counts: Sequence[tuple[str, int]]) -> str:
-    bars = [
-        Bar(_e(label), (Segment("Count", value, Mark.GHOST),))
-        for label, value in sorted(counts, key=lambda item: -item[1])
-    ]
-    return ui.bar_list(bars, max((value for _label, value in counts), default=0), "Source risk")
-
-
 _RISK_CATEGORIES = (
-    (
-        "git_sources",
-        "Git sources",
-        "A git ref can move or disappear; a registry is stable.",
-        "git",
-        Tone.NEUTRAL,
-    ),
-    (
-        "unpinned_actions",
-        "Unpinned Actions",
-        "A moving tag can change what CI runs.",
-        "unpinned",
-        Tone.WARN,
-    ),
-    (
-        "floating_images",
-        "Floating image tags",
-        "A tag can point at a new image.",
-        "floating",
-        Tone.WARN,
-    ),
-    (
-        "missing_locks",
-        "Missing locks",
-        "Dependencies can resolve differently over time.",
-        "no lockfile",
-        Tone.WARN,
-    ),
-    (
-        "unpinned_artifacts",
-        "Unpinned artifacts",
-        "A download can change without a version or checksum.",
-        "unpinned",
-        Tone.WARN,
-    ),
-    (
-        "vendored",
-        "Vendored code",
-        "A vendored tree has no manifest to track its versions.",
-        "vendored",
-        Tone.NEUTRAL,
-    ),
+    ("git_sources", "Git sources", "A git ref can move or disappear; a registry is stable."),
+    ("unpinned_actions", "Unpinned Actions", "A moving tag can change what CI runs."),
+    ("floating_images", "Floating image tags", "A tag can point at a new image."),
+    ("missing_locks", "Missing locks", "Dependencies can resolve differently over time."),
+    ("unpinned_artifacts", "Unpinned artifacts", "A download can change without a version or checksum."),
+    ("vendored", "Vendored code", "A vendored tree has no manifest to track its versions."),
 )
 
 
@@ -984,25 +940,25 @@ def _risk_section(site: _Site) -> str:
     details = _table(_table(site.report["source_risk"]).get("details"))
     cards: list[str] = []
     counts: list[tuple[str, int]] = []
-    for key, title, note, badge, tone in _RISK_CATEGORIES:
+    for key, title, note in _RISK_CATEGORIES:
         items = details.get(key)
         if not isinstance(items, (tuple, list)) or not items:
             continue
         kept = _without_forks(site, key, items)
         if not kept:
             continue
-        lines = _risk_lines(site, key, kept, badge, tone)
+        lines = _risk_lines(site, key, kept)
         if not lines:
             continue
         counts.append((title, len(lines)))
-        cards.append(_risk_card(title, note, lines))
+        cards.append(_risk_row(title, note, lines))
     if not cards:
         return ui.panel("Source risk", ui.empty_state("No source risk"), flush=True)
-    return ui.group(
+    return ui.panel(
         "Source risk",
-        _risk_bars(counts) + ui.card_grid(cards, wide=True),
-        count=sum(value for _label, value in counts),
-        note="Every source that can change without a new commit.",
+        f'<ul class="change-list">{"".join(cards)}</ul>',
+        meta=f"{_plural(sum(value for _label, value in counts), 'source')} that can change without a new commit",
+        flush=True,
     )
 
 
@@ -1026,36 +982,36 @@ def _without_forks(site: _Site, key: str, items: Sequence[object]) -> list[objec
     ]
 
 
-def _risk_card(title: str, note: str, lines: Sequence[Line]) -> str:
-    body = ui.lines(lines)
+def _risk_row(title: str, note: str, lines: Sequence[Line]) -> str:
+    """One kind of source risk: what it is and why it matters, then every item, without a badge per item."""
+    items = "".join(
+        f'<li data-item>{line.primary} <span class="line-detail">{line.detail}</span></li>' for line in lines
+    )
+    body = f'<ul class="plain-list">{items}</ul>'
     if len(lines) > _LIST_ROWS:
         body = ui.scope(body, limit=_LIST_ROWS, total=len(lines))
-    return ui.card(
-        f"<span>{_e(title)}</span>",
-        f'<div class="card-change">{_e(note)}</div>{body}',
-        meta=ui.badge(_plural(len(lines), "item"), Tone.WARN),
+    return (
+        f'<li class="change-repo"><div><h3 class="row-title">{_e(title)} · {len(lines)}</h3>'
+        f'<div class="note">{_e(note)}</div></div><div>{body}</div></li>'
     )
 
-
-def _risk_lines(site: _Site, key: str, items: Sequence[object], badge: str, tone: Tone) -> list[Line]:
+def _risk_lines(site: _Site, key: str, items: Sequence[object]) -> list[Line]:
     if key == "missing_locks":
-        return _missing_lock_lines(items, badge, tone)
-    return _instance_risk_lines(site, items, badge, tone)
+        return _missing_lock_lines(items)
+    return _instance_risk_lines(site, items)
 
 
-def _instance_risk_lines(
-    site: _Site, items: Sequence[object], badge: str, tone: Tone
-) -> list[Line]:
+def _instance_risk_lines(site: _Site, items: Sequence[object]) -> list[Line]:
     instances = [
         instance
         for item in items
         if isinstance(item, str) and (instance := site.graph.instances.get(item)) is not None
     ]
     instances.sort(key=lambda instance: (instance.purl.casefold(), instance.version or ""))
-    return [_instance_risk_line(site, instance, badge, tone) for instance in instances]
+    return [_instance_risk_line(site, instance) for instance in instances]
 
 
-def _instance_risk_line(site: _Site, instance: Instance, badge: str, tone: Tone) -> Line:
+def _instance_risk_line(site: _Site, instance: Instance) -> Line:
     component = site.graph.components.get(instance.component)
     name = component.display_name if component is not None else instance.component
     version = f"@{instance.version}" if instance.version is not None else ""
@@ -1069,15 +1025,10 @@ def _instance_risk_line(site: _Site, instance: Instance, badge: str, tone: Tone)
     )
     source = _risk_source(instance)
     detail = source + (" · " + _repository_names(repositories) if repositories else "")
-    return Line(
-        _package_link(instance.purl, "", f"{name}{version}"),
-        detail,
-        ui.badge(badge, tone, dot=True),
-        source,
-    )
+    return Line(_package_link(instance.purl, "", f"{name}{version}"), detail, tip=source)
 
 
-def _missing_lock_lines(items: Sequence[object], badge: str, tone: Tone) -> list[Line]:
+def _missing_lock_lines(items: Sequence[object]) -> list[Line]:
     locks: list[tuple[str, Mapping[str, object]]] = []
     for item in items:
         if isinstance(item, Mapping):
@@ -1094,8 +1045,7 @@ def _missing_lock_lines(items: Sequence[object], badge: str, tone: Tone) -> list
             Line(
                 f'<a href="repos/{_e(name)}/index.html">{_e(_short_repository(name))}</a>',
                 detail,
-                ui.badge(badge, tone, dot=True),
-                name,
+                tip=name,
             )
         )
     return lines
@@ -1429,87 +1379,70 @@ def _choices(site: _Site) -> str:
         )
     ]
     if contested:
-        groups: dict[Ecosystem, list[insights.RoleUse]] = defaultdict(list)
-        for use in contested:
-            groups[use.role.ecosystem].append(use)
-        body.append(ui.legend((("Preferred", Mark.OK), ("Other option", Mark.WARN), ("Banned", Mark.BAD))))
-        body.extend(
-            ui.group(
-                ecosystem.value,
-                ui.card_grid(
-                    _role_card(use)
-                    for use in sorted(
-                        uses,
-                        key=lambda item: (
-                            -len(item.off_preferred),
-                            -len(item.overlapping),
-                            item.role.name.casefold(),
-                        ),
-                    )
+        ordered = sorted(
+            contested,
+            key=lambda item: (-len(item.off_preferred), -len(item.overlapping), item.role.name.casefold()),
+        )
+        body.append(
+            ui.panel(
+                "Roles to settle",
+                ui.scope(
+                    f'<ul class="change-list">{"".join(_role_row(use) for use in ordered)}</ul>',
+                    search="Filter roles",
                 ),
-                count=len(uses),
+                meta="most repositories off the preferred option first",
+                flush=True,
             )
-            for ecosystem, uses in sorted(groups.items(), key=lambda item: (-len(item[1]), item[0].value))
         )
     else:
         body.append(ui.panel("Choices", ui.empty_state("Nothing to change"), flush=True))
     return "\n".join(body)
 
 
-def _role_card(use: insights.RoleUse) -> str:
-    options = sorted(use.in_use, key=lambda option: -len(use.options[option]))
-    scale = max(len(use.options[option]) for option in options)
-    bars = [_role_bar(use, option) for option in options]
-    pressure = [
+def _role_row(use: insights.RoleUse) -> str:
+    preferred = use.role.preferred
+    options = sorted(use.in_use, key=lambda option: (option != preferred, -len(use.options[option]), option))
+    if preferred is not None and preferred not in options:
+        options.insert(0, preferred)
+    pressure = " · ".join(
         label
         for count, label in (
             (len(use.off_preferred), f"{len(use.off_preferred)} off preferred"),
             (len(use.overlapping), f"{len(use.overlapping)} mixed"),
         )
         if count
-    ]
-    preferred = use.role.preferred
-    heading = f"Move to {preferred}" if preferred is not None else "Pick one option"
-    movers = "".join(
-        f'<div class="version-use">{_repo_link(repository, "")} '
-        f"{ui.note(_e('uses ' + ', '.join(_other_options(use, repository))))}</div>"
-        for repository in sorted({*use.off_preferred, *use.overlapping}, key=str.casefold)
     )
-    return ui.card(
-        f"<span>{_e(use.role.name)}</span>",
-        ui.bar_list(bars, scale, f"{use.role.name} adoption")
-        + f'<div class="card-label">{_e(heading)}</div>{movers}',
-        meta=ui.badge(" · ".join(pressure), Tone.WARN),
-        card_id=f"role-{use.role.name}",
+    action = f"move to {preferred}" if preferred is not None else "pick one option"
+    return (
+        f'<li class="change-repo" data-item id="role-{_e(use.role.name)}"><div>'
+        f'<h3 class="row-title">{_e(use.role.name)}</h3>'
+        f'<div class="note">{_e(use.role.ecosystem.value)} · {_e(pressure)} · {_e(action)}</div></div>'
+        f'<ul class="plain-list">{"".join(_role_option(use, option) for option in options)}</ul></li>'
     )
 
 
-def _other_options(use: insights.RoleUse, repository: str) -> list[str]:
-    return [
-        option
-        for option, repositories in use.options.items()
-        if repository in repositories and option != use.role.preferred
-    ] or ["none of the options"]
-
-
-def _role_bar(use: insights.RoleUse, option: str) -> Bar:
-    repositories = use.options[option]
-    packages = (
-        []
-        if option == use.role.preferred
-        else sorted(
-            {
-                package
-                for repository in repositories
-                for package in use.packages.get((repository, option), ())
-                if package != option
-            }
-        )
+def _role_option(use: insights.RoleUse, option: str) -> str:
+    repositories = sorted(use.options.get(option, ()), key=str.casefold)
+    if option == use.role.preferred:
+        tone, label = Tone.OK, "preferred"
+    elif option in use.role.bans:
+        tone, label = Tone.BAD, "banned"
+    else:
+        tone, label = Tone.WARN, "other option"
+    packages = sorted(
+        {
+            package
+            for repository in repositories
+            for package in use.packages.get((repository, option), ())
+            if package != option
+        }
     )
-    more = f" +{len(packages) - 2}" if len(packages) > 2 else ""
-    note = _e(f"{', '.join(packages[:2])}{more}") if packages else ""
-    mark = Mark.OK if option == use.role.preferred else Mark.BAD if option in use.role.bans else Mark.WARN
-    return Bar(_e(option), (Segment("Repositories", len(repositories), mark),), note=note)
+    via = f" · via {', '.join(packages)}" if packages and option != use.role.preferred else ""
+    if option == use.role.preferred:
+        names = _plural(len(repositories), "repository", "repositories") if repositories else "not used yet"
+    else:
+        names = ", ".join(_repo_link(name, "") for name in repositories)
+    return f'<li>{ui.state(option, tone)} <span class="line-detail">{label} · {names}{_e(via)}</span></li>'
 
 
 def _packages(site: _Site) -> str:
@@ -1741,7 +1674,7 @@ def _changes_line(site: _Site) -> str:
     value = site.diff_value
     if value is None or not value.baseline:
         return '<a href="changes.html">no change baseline</a>'
-    return f'<a href="changes.html">{_summary_metrics(value)}</a>'
+    return f'<a href="changes.html">changes: {_summary_metrics(value)}</a>'
 
 
 def _duplicates(site: _Site, data: RepositoryData) -> list[tuple[str, list[str]]]:
@@ -2210,7 +2143,10 @@ def _ecosystem_drilldowns(site: _Site, groups: Mapping[Ecosystem, Sequence[world
 def _version_summary(instances: Sequence[Instance]) -> str:
     counts = Counter(instance.version or "unknown" for instance in instances)
     ordered = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
-    parts = [f"{version} ({count})" if count > 1 else version for version, count in ordered[:_DRILLDOWN_VERSIONS]]
+    parts = [
+        f"{_short_ref(version)} ({count})" if count > 1 else _short_ref(version)
+        for version, count in ordered[:_DRILLDOWN_VERSIONS]
+    ]
     if len(ordered) > _DRILLDOWN_VERSIONS:
         parts.append(f"+{len(ordered) - _DRILLDOWN_VERSIONS}")
     return ", ".join(parts)
@@ -2309,6 +2245,8 @@ def _world_map(site: _Site) -> str:
     body = (
         f'<div class="world-map">{modes}<div class="legend-ownership">{ownership}</div>'
         f'<div class="legend-mirror">{mirror}</div><div class="treemap-frame">{chart}</div></div>'
+        '<p class="note map-narrow">The map needs a wider screen. The ecosystem, owner and package lists on '
+        "this page hold the same packages.</p>"
     )
     return ui.panel("Map", body, panel_id="map")
 

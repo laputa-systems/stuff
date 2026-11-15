@@ -65,27 +65,26 @@
  "choices.html": {
   "headings": [
    "h1: Choices",
-   "h2: cargo",
+   "h2: Roles to settle",
    "h3: system-calls",
    "h3: serialization",
    "h3: base-encoding",
    "h3: async-runtime",
+   "h3: base-image",
    "h3: logging",
    "h3: fast-hash",
    "h3: file-walking",
    "h3: cli-arguments",
    "h3: crypto-backend",
    "h3: datetime",
-   "h3: regex",
-   "h2: docker",
-   "h3: base-image"
+   "h3: regex"
   ],
   "items": {
-   "count": 24,
+   "count": 12,
    "first": [
-    "libc 9",
-    "rustix 3",
-    "serde serde_json 5"
+    "system-calls cargo \u00b7 6 off preferred \u00b7 move to rustix rustix preferred \u00b7 3 repositories libc other option \u00b7 joshuarli/ctrs , joshuarli/img , joshuarli/kache , joshuarli/lz , laputa-systems/doas-rs , laputa-systems/mdevd-rs , laputa-systems/python-build , laputa-systems/ssh-build , laputa-systems/xsh",
+    "serialization cargo \u00b7 5 off preferred \u00b7 1 mixed \u00b7 move to deser deser preferred \u00b7 2 repositories serde other option \u00b7 joshuarli/ctrs , joshuarli/img , joshuarli/kache , joshuarli/lz , laputa-systems/ssh-build \u00b7 via serde_json",
+    "base-encoding cargo \u00b7 3 off preferred \u00b7 1 mixed \u00b7 move to base64 base64 preferred \u00b7 1 repository data-encoding other option \u00b7 laputa-systems/python-build , laputa-systems/ssh-build , laputa-systems/xsh"
    ]
   },
   "nav": [
@@ -113,18 +112,18 @@
    "h2: What to fix",
    "h3: No lockfile",
    "h2: Source risk",
-   "h3: Git sources",
-   "h3: Floating image tags",
-   "h3: Missing locks",
-   "h3: Unpinned artifacts",
-   "h3: Vendored code"
+   "h3: Git sources \u00b7 5",
+   "h3: Floating image tags \u00b7 4",
+   "h3: Missing locks \u00b7 2",
+   "h3: Unpinned artifacts \u00b7 1",
+   "h3: Vendored code \u00b7 2"
   ],
   "items": {
-   "count": 19,
+   "count": 14,
    "first": [
-    "Git sources 5",
-    "Floating image tags 4",
-    "Missing locks 2"
+    "crabtables@0.1.0 commit 38646b8 \u00b7 ctrs",
+    "laputa-ptytest@0.4.0 commit 2efca1c \u00b7 lz",
+    "ruff_python_parser@0.0.15 commit 9d0f58b \u00b7 python-build"
    ]
   },
   "nav": [
@@ -221,7 +220,7 @@
    "Upgrades 49 direct dependencies behind",
    "No lockfile 2 repositories with unknown versions",
    "Version drift 8 packages upgrades will not align",
-   "Role conflicts 12 27 repositories off preferred"
+   "Role conflicts 12 9 repositories off preferred"
   ],
   "title": "To do \u00b7 dependencies"
  },
@@ -259,13 +258,12 @@
   "tables": [
    {
     "first": [
-     "JSON | data | 2,983 | 1,664,385 | 0 | 11",
-     "Rust | code | 2,171 | 1,309,934 | 112,575 | 89,165",
-     "XSH | code | 2,193 | 438,078 | 20,326 | 46,498"
+     "JSON data | 2,983 | 1,664,385 | 0 | 11",
+     "Rust | 2,171 | 1,309,934 | 112,575 | 89,165",
+     "XSH | 2,193 | 438,078 | 20,326 | 46,498"
     ],
     "headers": [
      "Language",
-     "Kind",
      "Files",
      "Code",
      "Comment",
@@ -35737,9 +35735,9 @@
    },
    {
     "first": [
-     "actions/checkout | 11bd71901bbe5b1630ceea73d27597364c9af683, 3d3c42e5aac5ba805825da76410c181273ba90b1 | actions | third-party | 15 | yes",
-     "actions/download-artifact | 3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c, 9000827ccba6bdab643e8b6fd33ac0654aef8333 | actions | third-party | 11 | yes",
-     "actions/upload-artifact | 043fb46d1a93c77aae656e7c1c64a875d1fc6a0a, cf430e030ddbb5b0abf93d22962f4752f3646cd9 | actions | third-party | 11 | yes"
+     "actions/checkout | 11bd71901bbe, 3d3c42e5aac5 | actions | third-party | 15 | yes",
+     "actions/download-artifact | 3e5f45b2cfb9, 9000827ccba6 | actions | third-party | 11 | yes",
+     "actions/upload-artifact | 043fb46d1a93, cf430e030ddb | actions | third-party | 11 | yes"
     ],
     "headers": [
      "Package",

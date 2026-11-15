@@ -385,7 +385,7 @@
           kind: "cluster",
           id: null,
           label: cluster.owner.toUpperCase(),
-          labelPosition: "over",
+          labelPosition: "above",
           x: cluster.x,
           y: cluster.y,
           size: cluster.size,
@@ -631,6 +631,11 @@
     },
     nodeReducer(key, data, attrs) {
       const out = {};
+      if (view.mode === "overview" && (attrs.kind === "ecosystem" || attrs.kind === "cluster")) {
+        out.labelVisibility = "visible";
+      } else if (view.mode === "overview" && attrs.kind === "repo" && key !== view.selected) {
+        out.labelVisibility = "hidden";
+      }
       if (view.selected !== null) {
         if (key === view.selected) {
           out.size = attrs.size * 1.4;
@@ -988,6 +993,20 @@
             : "Select a project or package in the graph. Escape clears the selection and then returns to the fleet overview.",
         ),
       );
+      if (view.mode === "overview") {
+        const list = element("ul", "atlas-repo-list");
+        const ranked = [...repos].sort((left, right) => right.d + right.x - (left.d + left.x) || left.n.localeCompare(right.n));
+        for (const repo of ranked) {
+          const item = element("li", null);
+          const button = element("button", "atlas-repo-button", repo.n);
+          button.type = "button";
+          button.append(element("span", "atlas-repo-count", String(repo.d + repo.x)));
+          button.addEventListener("click", () => focusRepo(repo.n));
+          item.append(button);
+          list.append(item);
+        }
+        inspector.append(element("p", "atlas-inspector-kind", "Repositories, most edges first"), list);
+      }
       if (view.mode === "focus" && view.repo !== null && repoByName.has(view.repo)) {
         const linkRow = element("p", "atlas-inspector-actions");
         linkRow.append(link("atlas-inspector-link", reposPage(view.repo), "Open repository page →"));

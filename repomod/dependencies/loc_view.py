@@ -411,8 +411,8 @@ def page(
     )
     language_rows = [
         (
-            _e(total.name),
-            total.kind.value,
+            _e(total.name)
+            + (f' <span class="cell-note">{total.kind.value}</span>' if total.kind is not Kind.CODE else ""),
             _count(total.files),
             _count(total.code),
             _count(total.comment),
@@ -451,7 +451,6 @@ def page(
                     ui.static_table(
                         (
                             Column("Language"),
-                            Column("Kind"),
                             Column("Files", numeric=True),
                             Column("Code", numeric=True),
                             Column("Comment", numeric=True),
