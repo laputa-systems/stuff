@@ -44,7 +44,7 @@
 .atlas-legend-item { display: inline-flex; align-items: center; gap: var(--ui-space-xs); white-space: nowrap; }
 .atlas-dot { width: var(--ui-dot-sm); height: var(--ui-dot-sm); border-radius: 50%; display: inline-block; background: var(--dot, var(--ui-viz-ghost)); }
 .atlas-line { width: 14px; height: 0; border-top: 2px solid var(--ui-viz-ghost); display: inline-block; }
-.atlas-line-strong { border-top-width: 3px; border-top-color: var(--ui-accent); opacity: .5; }
+.atlas-line-strong { border-top-width: 3px; border-top-color: #8f8e88; opacity: .6; }
 
 .atlas-inspector { min-width: 0; overflow: auto; padding: var(--ui-inset); border-radius: var(--ui-radius-xl); box-shadow: var(--ui-shadow-card); background: var(--ui-surface); }
 .atlas-inspector-title { margin: 0; font-size: var(--ui-fs-label); letter-spacing: var(--ui-caps-tracking); text-transform: uppercase; color: var(--ui-muted); font-weight: var(--ui-weight-medium); }

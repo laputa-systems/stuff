@@ -1246,7 +1246,7 @@ def _repository_row(site: _Site, card: insights.Scorecard, scale: int) -> str:
     status = _status_lines(items) if items else '<p class="note">nothing flagged</p>'
     bar = ui.segments(_work_parts(card), scale) if _work_total(card) else ""
     return (
-        f'<li class="change-repo" data-item><div>'
+        f'<li class="change-repo" data-item data-row data-href="repos/{_e(card.repository)}/index.html"><div>'
         f'<a href="repos/{_e(card.repository)}/index.html">{_e(card.repository)}</a>'
         f'<div class="note">{_e(work) or "clean"}</div>{bar}</div><div>{status}</div></li>'
     )
@@ -1857,7 +1857,15 @@ def _explore(site: _Site) -> str:
             Tile(
                 str(len(graph.repositories)),
                 "Repositories",
-                f"{hidden} private hidden" if hidden else "visible inventory",
+                " · ".join(
+                    part
+                    for part in (
+                        f"{len(graph.repositories) - len(site.forks)} owned",
+                        _plural_if(len(site.forks), "fork"),
+                        f"{hidden} private hidden" if hidden else "",
+                    )
+                    if part
+                ),
                 "repositories.html",
             ),
             Tile(

@@ -31,12 +31,9 @@ class Mark(Enum):
     PYPI = "pypi"
     GO = "go"
     OTHER = "other"
-    # Categorical series for things with no state, such as languages.
-    SERIES_0 = "s0"
-    SERIES_1 = "s1"
-    SERIES_2 = "s2"
-    SERIES_3 = "s3"
-    SERIES_4 = "s4"
+    # Okabe-Ito hues for languages with no ecosystem of their own.
+    SKY = "sky"
+    PURPLE = "purple"
 
 
 @dataclass(frozen=True, slots=True)

@@ -33,6 +33,7 @@ details > summary { cursor: pointer; color: var(--ui-text-2); }
 .ui-panel-body > [data-table-scope] > .ui-table-toolbar { padding-top: 0; }
 .ui-data-table :is(td, th).wrap { white-space: normal; }
 .card.selected { box-shadow: 0 0 0 2px var(--ui-accent); }
+.change-repo.selected { box-shadow: inset 2px 0 0 var(--ui-accent); background: var(--ui-hover); }
 .note { margin: var(--ui-space-sm) 0 0; color: var(--ui-muted); font-size: var(--ui-fs-meta); overflow-wrap: anywhere; }
 .cell-note { color: var(--ui-muted); font-size: var(--ui-fs-meta); }
 .version-use + .version-use { margin-top: var(--ui-space-xs); }
@@ -95,11 +96,8 @@ p.zero, p.unknown { margin: 0; padding: var(--ui-inset); }
   --ui-lang-go: #e69f00;
   --ui-lang-other: var(--ui-viz-ghost);
 }
-.mark-s0 { --mark: var(--ui-s0); }
-.mark-s1 { --mark: var(--ui-s1); }
-.mark-s2 { --mark: var(--ui-s2); }
-.mark-s3 { --mark: var(--ui-s3); }
-.mark-s4 { --mark: var(--ui-s4); }
+.mark-sky { --mark: #56b4e9; }
+.mark-purple { --mark: #cc79a7; }
 .mark-npm { --mark: var(--ui-lang-npm); }
 .mark-cargo { --mark: var(--ui-lang-cargo); }
 .mark-pypi { --mark: var(--ui-lang-pypi); }
@@ -249,3 +247,4 @@ p.zero, p.unknown { margin: 0; padding: var(--ui-inset); }
 }
 .weight-static { cursor: default; }
 .weight-static:hover { background: transparent; }
+.ui-notice:not(.ui-notice-warn, .ui-notice-bad, .ui-notice-ok) { background: transparent; box-shadow: inset 0 0 0 1px var(--ui-line); color: var(--ui-text-2); }

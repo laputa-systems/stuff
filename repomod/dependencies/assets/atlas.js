@@ -313,6 +313,7 @@
     ecosystem: "all",
     relation: "all",
   };
+  let hovered = null;
   let scene = { nodes: new Map(), edges: [], adjacency: new Map() };
 
   function fleetPositions() {
@@ -448,9 +449,9 @@
             ecosystem: name,
             direct: dCount,
             transitive: tCount,
-            size: 2.2 + 8.5 * Math.sqrt(count / maxAggregate),
-            color: "#2a78d6",
-            opacity: 0.5,
+            size: 1 + 6 * Math.sqrt(count / maxAggregate),
+            color: "#8f8e88",
+            opacity: 0.12 + 0.5 * Math.sqrt(count / maxAggregate),
             zIndex: 1,
             head: "arrow",
           });
@@ -631,9 +632,15 @@
     },
     nodeReducer(key, data, attrs) {
       const out = {};
+      if (key === hovered) {
+        out.zIndex = 9;
+        out.depth = "topNodes";
+        out.labelVisibility = "visible";
+        if (view.mode === "overview" && attrs.kind === "repo") out.labelPosition = "above";
+      }
       if (view.mode === "overview" && (attrs.kind === "ecosystem" || attrs.kind === "cluster")) {
         out.labelVisibility = "visible";
-      } else if (view.mode === "overview" && attrs.kind === "repo" && key !== view.selected) {
+      } else if (view.mode === "overview" && attrs.kind === "repo" && key !== view.selected && key !== hovered) {
         out.labelVisibility = "hidden";
       }
       if (view.selected !== null) {
@@ -752,8 +759,16 @@
         fallback.hidden = true;
       }
     });
-    sigma.on("enterNode", () => { canvas.style.cursor = "pointer"; });
-    sigma.on("leaveNode", () => { canvas.style.cursor = ""; });
+    sigma.on("enterNode", ({ node }) => {
+      canvas.style.cursor = "pointer";
+      hovered = node;
+      sigma.refresh();
+    });
+    sigma.on("leaveNode", () => {
+      canvas.style.cursor = "";
+      hovered = null;
+      sigma.refresh();
+    });
     sigma.on("clickNode", onClickNode);
     sigma.on("clickStage", () => clearSelection());
   }

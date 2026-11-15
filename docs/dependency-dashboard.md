@@ -23,7 +23,8 @@ fleet: the inventory and line counts of 18 public repositories, the enrichment e
 reference, their status as last collected, an earlier snapshot scripted in
 `repomod/dependencies/preview.py` for the Changes page, and a fixed render time.
 `tests/repomod/test_dashboard_preview.py` renders the same dataset and compares what every page
-presents (title, headings, tables, tiles, navigation counts) with `tests/fixtures/dashboard/golden.json`.
+presents (title, headings, tables, list rows, tiles, navigation counts) with
+`tests/fixtures/dashboard/golden.json`.
 After an intended change, run `REPOMOD_UPDATE_GOLDEN=1 uv run pytest tests/repomod/test_dashboard_preview.py`
 and review the golden diff. `uv run python -m repomod.dependencies.preview freeze` rebuilds the
 dataset from the current fleet.
@@ -57,12 +58,14 @@ Overview next to Explore, the interactive dependency graph.
   rather than bumps: `rustix` (the laputa-systems fork, through `laputa-rustix`) and
   `oxlint-tsgolint` (Oxlint loads tsrs-lint from the `tsrs` package). They appear on To do and
   under **Migrate, don't bump** on Upgrades, never as an upgrade.
-- **Repositories** groups repositories with work to do as Vulnerable or Maintenance, with bars
-  on one scale. Clean repositories are a count. Forks appear only when they carry vulnerable
-  versions. With `--status`, a Status group comes first: one card for each
-  repository, forks included, with whatever `repomod status` flags (CI and workflows, releases,
-  upstreams, pull request conflicts, and local checkout state), most failures first. A pulsing dot
-  marks CI or a workflow that was running when the page was rendered.
+- **Repositories** ranks every owned repository in three panels, Vulnerable, Maintenance and
+  Clean, one row each: its open work in words with a bar on one scale, and beside it whatever
+  `repomod status` flags with `--status` (CI and workflows, releases, upstreams, pull request
+  conflicts, and local checkout state). Within a panel, a repository with failing checks comes
+  first. Status text shows commit ids to 12 characters, plain states (`Lint running`,
+  `ci failed`), and data ages (`checked 78 min ago`). A dot carries the state, and a pulsing dot
+  marks CI or a workflow that was running when the page was rendered. Forks appear only when
+  they carry vulnerable versions.
 - **World** (`world.html`) shows every package that owned repositories reach, split into yours,
   third-party, and owner unknown. Forks are left out. Yours means a package built inside one of
   your repositories, a package `graph.is_first_party` recognizes, or one whose source repository
@@ -101,27 +104,33 @@ Overview next to Explore, the interactive dependency graph.
   when WebGL2 is unavailable and links to Repositories, World, and Packages instead of showing
   a blank canvas. Aggregates are labelled as aggregate everywhere they appear. With JavaScript
   disabled, the page links to the same three destinations and the graph never loads.
-- **Repository pages** (`repos/OWNER/REPO/index.html`) hold what to do in that repository,
-  including coverage issues with a link to the file, and the repository's status with `--status`.
+- **Repository pages** (`repos/OWNER/REPO/index.html`) hold the repository's status with
+  `--status`, then one **To do here** panel with every item in that repository, most urgent kind
+  first (security, coverage with a link to the file, migrations, role conflicts, version drift,
+  upgrades), each kind in compact columns. Weight and Code panels follow; Code draws the
+  repository's languages with the Lines colours.
 - **Security** has one card per owned repository listing its vulnerable packages. A latest
   release counts as a clean upgrade only when it is newer than the vulnerable version and has no
   advisories of its own. Forks with vulnerable versions sit in a collapsed panel.
-- **Upgrades** (`outdated.html`) charts upgrades by ecosystem, then lists them with bars for
-  repositories affected. Upgrades are not classified by version component, because packages do not
+- **Upgrades** (`outdated.html`) lists every upgrade, most repositories first, with the versions
+  in use, the latest release and the repositories, in a filterable list; the panel header counts
+  them by ecosystem. Upgrades are not classified by version component, because packages do not
   reliably follow semver. Needs `repomod deps enrich`. A direct dependency the fleet replaces
   appears under **Migrate, don't bump** instead of as a release bump, and is left out of the
   upgrade counts.
-- **Alignment** groups version drift by ecosystem, leaving out repositories that an upgrade to
-  the latest release already moves. Those appear on Upgrades. Each card draws the versions from
-  oldest to newest, with the target in green, and names the repositories to move.
+- **Alignment** lists version drift, one row per package, most repositories off target first,
+  leaving out repositories that an upgrade to the latest release already moves. Those appear on
+  Upgrades. Each row gives the target first, with a green dot, then every other version with the
+  repositories to move.
   The target is the approved pin, else the newest of the upstream release and versions in use,
   else the most common ref for tags and commits. Stale release metadata never recommends a downgrade.
-  Cards state when the latest release is unconfirmed. Docker images prefer the newest versioned
+  Rows state when the latest release is unconfirmed. Docker images prefer the newest versioned
   tag over the most common tag and are compared by tag and digest combined
   (a bare name counts as `latest`). Alpine (apk) packages follow their base image and are left
   out.
-- **Choices** shows roles where a repository must change, with one adoption bar per option and
-  the repositories to move. Compliant repositories, accepted exceptions, and settled roles are
+- **Choices** lists roles where a repository must change, one row per role: the preferred option
+  with how many repositories use it, then each other option, marked other or banned, with the
+  repositories to move and the packages that pull it in. Compliant repositories, accepted exceptions, and settled roles are
   not listed.
 - **Weight** (`weight.html`) shows which owned repositories carry the most third-party code, so you
   can choose where to slim and which dependency to drop. **By repository** draws one bar per
@@ -167,26 +176,34 @@ Overview next to Explore, the interactive dependency graph.
   default: every language, macOS arm64, no dev dependencies. A table view repeats the numbers.
   Each repository page links its per-language totals, for that default, to this page.
 - **Coverage** has one card per fixable issue kind with the action and the repositories. Its
-  **Source risk** group lists every git source, unpinned action, floating image, missing lock,
+  **Source risk** panel has one row per kind and lists every git source, unpinned action, floating image, missing lock,
   unpinned artifact, and vendored tree, with the repositories that use it. Known limits, such as
   formats with no parser, are counts. In forks, only checkout problems count.
-- **Changes** counts everything since `HEAD~1` of `data/` and lists only downgrades, source
-  changes, and new issues. It says `no baseline` when the previous revision has no inventory.
+- **Changes** compares with `HEAD~1` of `data/`. **Needs a look** lists downgrades, changes
+  whose versions cannot be ordered, source changes, and new issues; **Every change** lists each
+  changed repository with every version upgraded, downgraded, added or removed, source changes,
+  and new and resolved issues. The header counts each kind. It says `no baseline` when the
+  previous revision has no inventory.
 - **Packages** counts packages per ecosystem. Fleet-local packages are `local`; toolchains,
   downloads, system packages, service bindings, and git dependencies each have their own
   ecosystem. Search (`/`) finds any package.
   `packages.html#pkg=pkg:cargo/serde` deep-links to its versions and consumers.
 - **Lines** (`lines.html`) counts lines of code by language, from
   `fleet/loc/v1`, which `repomod loc snapshot` writes from `loc --git . -o json` in each
-  selected catalogued checkout. The table lists languages with files, code, comment, and blank
-  lines, and a second table lists every repository with its leading language. Forks and hidden
-  private repositories are counted into the snapshot but left out of the page's totals and
-  tables. `make deps` refreshes the snapshot alongside the dependency inventory; the committed
+  selected catalogued checkout. Docs (Markdown and other prose) and data and config (JSON,
+  YAML, TOML, lockfiles and similar) are counted apart from code. The page ranks the fleet's
+  programming languages, then draws every repository's language mix as a full-width bar with its
+  size in text, then the docs and data formats; an **Every language** table keeps the exact
+  files, code, comment and blank counts for lookup. A language with a package ecosystem takes
+  that ecosystem's colour from Weight (Rust vermillion, TypeScript blue, Python green, Go
+  orange); the two leading languages without one take sky blue and purple, and the rest are grey.
+  Forks and hidden private repositories are counted into the snapshot but left out of the page's
+  totals and rows. `make deps` refreshes the snapshot alongside the dependency inventory; the committed
   files record each repository's commit and `loc` version, and re-running against an unchanged
   tree writes nothing.
 
-Charts use status colors only where color means severity, and one hue or emphasis elsewhere; weight.html is the
-exception, coloring bar segments by language with colorblind-safe Okabe-Ito hues. The library's categorical
+Charts use status colors only where color means severity, and one hue or emphasis elsewhere; weight.html and
+lines.html are the exceptions, coloring bar segments by language with colorblind-safe Okabe-Ito hues. The library's categorical
 series colors fail the normal-vision separation check. Hovering a mark shows
 its value, and every charted value also appears as text.
 
@@ -217,8 +234,11 @@ declarations count. `repomod deps report` lists the repositories that mix option
   selection, then returns to the fleet overview.
 - Filter boxes and "Show N more" narrow long lists. Every item stays visible when JavaScript
   does not run.
-- On Repositories, `j` and `k` move through the cards, and `Enter` opens the selected card.
+- On Repositories, `j` and `k` move through the rows, and `Enter` opens the selected repository.
 - Copy buttons copy a command or a PURL.
+- Below 720 px the navigation is one scrolling row that opens on the current page. Below 560 px
+  the World treemap gives way to a note, and Explore puts its inspector, which lists every
+  repository as a way into focus mode, above a shorter graph.
 
 ## Coverage and zero states
 

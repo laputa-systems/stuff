@@ -174,7 +174,10 @@ _DATA = frozenset({
     "Protocol Buffers", "Plain Text", "Text", "Lockfile", "Nix",
 })
 _DOCS = frozenset({"Markdown", "reStructuredText", "AsciiDoc", "Org", "TeX", "Typst", "Groff", "Man"})
-_PALETTE = (Mark.SERIES_0, Mark.SERIES_1, Mark.SERIES_2, Mark.SERIES_3, Mark.SERIES_4)
+# A language with a package ecosystem takes that ecosystem's hue, as on Weight;
+# the two leading languages without one take the remaining Okabe-Ito hues.
+_ECOSYSTEM_MARKS = {"Rust": Mark.CARGO, "TypeScript": Mark.NPM, "Python": Mark.PYPI, "Go": Mark.GO}
+_SPARE_MARKS = (Mark.SKY, Mark.PURPLE)
 _SHOWN_LANGUAGES = 8
 _SHOWN_REPOSITORY_LANGUAGES = 6
 
@@ -217,11 +220,11 @@ def language_totals(repositories: Sequence[Repository]) -> tuple[LanguageTotal, 
 
 
 def palette(repositories: Sequence[Repository]) -> dict[str, Mark]:
-    """One color per language that makes up most of the repositories, fixed across the page.
+    """One color per language, fixed across the page; languages past the spare hues share "other".
 
-    Languages are ranked by their summed share of each repository's code, so a
-    language that dominates a small repository outranks one that is a sliver of
-    a large one; the rest share "other".
+    Languages without an ecosystem hue are ranked by their summed share of each
+    repository's code, so a language that dominates a small repository outranks
+    one that is a sliver of a large one.
     """
     shares: dict[str, float] = defaultdict(float)
     for repository in repositories:
@@ -229,8 +232,10 @@ def palette(repositories: Sequence[Repository]) -> dict[str, Mark]:
         total = sum(language.code for language in languages)
         for language in languages:
             shares[language.name] += language.code / total
-    leading = sorted(shares, key=lambda name: (-shares[name], name))[: len(_PALETTE)]
-    return dict(zip(leading, _PALETTE, strict=False))
+    colors = {name: mark for name, mark in _ECOSYSTEM_MARKS.items() if name in shares}
+    spare = sorted((name for name in shares if name not in colors), key=lambda name: (-shares[name], name))
+    colors.update(zip(spare, _SPARE_MARKS, strict=False))
+    return colors
 
 
 def _count(value: int) -> str:
@@ -475,7 +480,7 @@ def repository_panel(repository: Repository, _prefix: str = "") -> str:
         return ui.panel("Code", f'<p class="unknown">not counted: {detail}</p>', panel_id="code")
     languages = _code(repository)
     total = sum(language.code for language in languages)
-    colors = dict(zip([language.name for language in languages][: len(_PALETTE)], _PALETTE, strict=False))
+    colors = palette((repository,))
     extra = [
         f"{_count(lines)} {label}"
         for label, lines in (
