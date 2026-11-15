@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 84
+Next: 85
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -39,5 +39,15 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Problem:** The deslop campaign mirrored vulture 2.16 and deptry 0.25.1, but mutmut 3.8.1 fails planning because libcst 1.9.0 has no macos-x86_64 wheel (setproctitle and pyyaml are native too), and a lockfile of @stryker-mutator/core 10.1.1, @stryker-mutator/vitest-runner 10.1.1, knip 6.45.1, and @vitest/coverage-v8 5.1.0 resolved from npmjs fails with integrity: verified artifact.artifact.sourceUrl must be a public npm HTTPS URL, without naming the package (lockfile kept at .work/tmp/npm-tools in the campaign clone). Until both are mirrored, Python and TypeScript repositories run mutation and knip from scratch installs and have no CI mutation lane.
 - **Recommendation:** Make the npm error name the offending package and fix or exempt its source URL; for mutmut either build the missing wheels with --allow-sdist on a matching host or choose a pure-Python mutation tool. Then pin the tools in the deslop skill tools reference and add the Python and TypeScript lanes.
 - **Fix with:** root-cause
+- **Effort:** M
+
+
+### STUF-84 · P2 · Retain deslop gains with fleet rules for coverage, the mutation lane, and strict profiles
+
+- **Area:** Fleet policy
+- **Where:** repomod/rules/ (new), fleet/policy/rust-tools.toml (new), docs/policy-development.md; reference implementation laputa-systems/srv Makefile coverage and mutants-diff targets, .github/workflows/ci.yml mutants job, .cargo/mutants.toml
+- **Problem:** The deslop campaign proved the Rust recipe in srv (branch coverage, cargo-mutants 27.1.0 diff lane through taiki-e/install-action, exit 3 counted as detected, a whole-crate run for test-only diffs) and adopted strict settings per repository on evidence (Rust unsafe_code forbid; ty missing-type-argument and unsound-return-statement; Ruff ANN401). Nothing in repomod requires them, so a repository can drop its lane or profile, and every Rust repository copies the same Makefile block by hand.
+- **Recommendation:** Add rules that apply only to repositories whose TODO-DESLOP.md Tests step is closed (or that already have the targets): make-coverage-target, mutants-diff-lane (job present, pinned tool, base ref through env), and strict-typing-profile for the settings adopted fleet-wide; give mutants-diff-lane a fixer that writes srv's Makefile block and job. Python and TypeScript lanes follow STUF-83.
+- **Fix with:** none
 - **Effort:** M
 
