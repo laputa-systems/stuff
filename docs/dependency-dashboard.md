@@ -75,9 +75,9 @@ Overview next to Explore, the interactive dependency graph.
   aggregate edges to ecosystem clusters — each aggregate sums a repository's edges whose target
   belongs to that ecosystem (direct and transitive counts included); they are not runtime
   linkage or first-party relationships. Selecting a repository focuses its exact, directed
-  project → dependency dependency subgraph: direct edges thicker, transitive thinner, optional
-  and conditional edges marked as such in the inspector, with the same resolution and scope
-  semantics as the inventory. Colour encodes ecosystem: cargo orange, npm blue, PyPI teal,
+  project → dependency subgraph: direct edges thicker, transitive thinner, and the inspector
+  reports inbound/outbound optional, conditional, declared-only, and unknown-resolution edge
+  counts plus scope tallies, with the same semantics as the inventory. Colour encodes ecosystem: cargo orange, npm blue, PyPI teal,
   Go yellow, other ecosystems ghost grey; near-black nodes are the repository's projects, and
   node size tracks recorded consumer counts. Coverage errors colour a repository orange.
   The layout is deterministic: aggregate view positions clusters on a fixed grid; focused
@@ -87,8 +87,8 @@ Overview next to Explore, the interactive dependency graph.
   and then returns to the fleet overview. The URL carries `repo`, `node`, `ecosystem`, and
   `relation`, so a view is bookmarkable and browser back works. The page explains the graph
   when WebGL2 is unavailable and links to Repositories, World, and Packages instead of showing
-  a blank canvas. Aggregates are labelled as aggregate everywhere they appear; unknown records
-  are never rendered as zeros.
+  a blank canvas. Aggregates are labelled as aggregate everywhere they appear. With JavaScript
+  disabled, the page links to the same three destinations and the graph never loads.
 - **Repository pages** (`repos/OWNER/REPO/index.html`) hold what to do in that repository,
   including coverage issues with a link to the file, and the repository's status with `--status`.
 - **Security** has one card per owned repository listing its vulnerable packages. A latest
@@ -260,7 +260,8 @@ Measured on the current fleet (62 visible of 64 repositories, 726 projects, 3,08
 4,284 instances, 22,338 edges): the full render writes 75 pages totalling about 14.2 MB
 (before Explore it wrote 74 pages totalling 12.3 MB), of which `assets/atlas-data.js` is
 1.4 MB, the vendor bundle 0.45 MB, and the atlas controller and stylesheet 50 KB together.
-Warm render is about 2.0 s; the overview's load does not pay for the atlas on other pages.
+Warm render is about 2.0 s (render only; the full `make deps` path was not re-measured). The
+overview's load does not pay for the atlas on other pages.
 Both figures breach the 10 MB budget: the pre-Explore dashboard already did (12.3 MB), and
 Explore adds 1.9 MB on top; only dropping or moving dashboard output would close the gap.
 

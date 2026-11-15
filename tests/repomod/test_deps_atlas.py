@@ -214,8 +214,17 @@ def test_complete_zero_is_distinct_from_unknown(tmp_path: Path) -> None:
 
 def test_hidden_repositories_are_counted_not_rendered(tmp_path: Path) -> None:
     built = _shared_graph(tmp_path)
-    write_inventory(
-        tmp_path / "inventory",
+    payload = _payload(atlas.build(built, hidden=frozenset({"acme/secret"})))
+    assert payload["summary"]["hidden"] == 1
+    text = atlas.build(built, hidden=frozenset({"acme/secret"}))
+    assert "private-thing" not in text
+    names = [entry["n"] for entry in payload["repositories"]]
+    assert names == ["acme/one", "acme/two"]
+
+
+def test_render_rejects_a_hidden_repository_in_the_graph(tmp_path: Path) -> None:
+    inventory = write_inventory(
+        tmp_path,
         [
             repository(
                 "acme/secret",
@@ -224,12 +233,15 @@ def test_hidden_repositories_are_counted_not_rendered(tmp_path: Path) -> None:
             )
         ],
     )
-    payload = _payload(atlas.build(built, hidden=frozenset({"acme/secret"})))
-    assert payload["summary"]["hidden"] == 1
-    text = atlas.build(built, hidden=frozenset({"acme/secret"}))
-    assert "private-thing" not in text
-    names = [entry["n"] for entry in payload["repositories"]]
-    assert names == ["acme/one", "acme/two"]
+    graph_value = graph.load_inventory(inventory)
+    built = graph.build_graph(graph_value)
+    with pytest.raises(ValueError, match="hidden"):
+        render.render(
+            graph_value,
+            built,
+            tmp_path / "dashboard",
+            hidden=frozenset({"acme/secret"}),
+        )
 
 
 def test_consumers_count_is_scoped_to_visible_repositories(tmp_path: Path) -> None:
@@ -314,6 +326,9 @@ def test_explore_page_and_assets_render(tmp_path: Path) -> None:
     assert "assets/vendor/atlas.vendor.js" in page
     assert "assets/atlas-data.js" in page
     assert "assets/atlas.js" in page
+    assert "assets/search.js" not in page
+    other = (result.output / "repositories.html").read_text(encoding="utf-8")
+    assert "assets/search.js" in other
     data = (result.output / "assets" / "atlas-data.js").read_text(encoding="utf-8")
     assert data.startswith("/* atlas.js")
     assert "</script>" not in data

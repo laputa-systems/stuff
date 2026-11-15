@@ -175,6 +175,9 @@ def _site(
     hidden: frozenset[str],
     unmanaged: frozenset[str],
 ) -> _Site:
+    overlap = hidden & frozenset(graph.repositories)
+    if overlap:
+        raise ValueError(f"hidden repositories present in the visible graph: {len(overlap)}")
     cache = enrich.load_cache()
     report_value = analysis.report(graph)
     index: list[dict[str, object]] = []
@@ -1927,10 +1930,22 @@ def _explore(site: _Site) -> str:
   </div>
   <div class="atlas-stage">
     <div class="atlas-canvas">
-      <div id="atlas-graph" class="atlas-graph" role="application" aria-roledescription="graph visualization"
-           aria-label="Fleet dependency graph. Select a repository node to focus it.
-           Press Escape to return to the fleet overview."></div>
+      <div id="atlas-graph" class="atlas-graph" role="img"
+           aria-label="Fleet dependency graph. Use the search field to find and focus
+           repositories and packages. Press Escape to clear a selection or return to the fleet overview."></div>
       <div id="atlas-loading" class="atlas-message" role="status">Rendering the dependency graph…</div>
+      <noscript>
+        <style>#atlas-loading{display:none}</style>
+        <div class="atlas-message">
+          <p><strong>The Explore graph needs JavaScript.</strong> The inventory is still readable
+            without it:</p>
+          <ul class="plain-list">
+            <li><a href="repositories.html">Repositories</a> — every visible repository and its state</li>
+            <li><a href="world.html">World</a> — who maintains the packages you reach</li>
+            <li><a href="packages.html">Packages</a> — every package with versions and consumers</li>
+          </ul>
+        </div>
+      </noscript>
       <div id="atlas-fallback" class="atlas-message atlas-message-fallback" hidden>
         <p><strong>The graph needs WebGL2.</strong> This browser did not provide a usable
           WebGL2 context (or the GPU context was lost). The dependency data is intact —
@@ -1972,8 +1987,8 @@ def _explore(site: _Site) -> str:
   </div>
   <p class="atlas-footnote">Aggregate edges between a repository and an ecosystem sum every edge whose
     target belongs to the ecosystem; they are not runtime linkage. Exact edges appear after you focus a
-    repository. Records whose resolution is unknown are not zeros. The inventory excludes the repositories
-    the catalog hides from dashboards.</p>
+    repository. Records with unknown or declared-only resolution are called out in the inspector, not
+    counted as zeros. The inventory excludes the repositories the catalog hides from dashboards.</p>
 </div>
 <script src="assets/vendor/atlas.vendor.js"></script>
 <script src="assets/atlas-data.js"></script>

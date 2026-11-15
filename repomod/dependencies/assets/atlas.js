@@ -313,7 +313,6 @@
     ecosystem: "all",
     relation: "all",
   };
-  let pushed = 0;
   let scene = { nodes: new Map(), edges: [], adjacency: new Map() };
 
   function fleetPositions() {
@@ -387,7 +386,6 @@
           id: null,
           label: cluster.owner.toUpperCase(),
           labelPosition: "over",
-          labelSize: 13,
           x: cluster.x,
           y: cluster.y,
           size: cluster.size,
@@ -707,7 +705,7 @@
       return;
     }
     if (entry.kind === "ecosystem") {
-      setEcosystem(entry.id ?? node.slice(4), true);
+      setEcosystem(entry.id ?? node.slice(4));
       return;
     }
     if (entry.kind === "cluster") {
@@ -731,7 +729,24 @@
       edgeEndpoints.set(key, [graph.source(key), graph.target(key)]);
     }
     sigma = new Sigma(graph, canvas, SIGMA_OPTIONS);
-    sigma.on("webglContextLost", () => fail("context"));
+    let contextLossPending = false;
+    sigma.on("webglContextLost", () => {
+      contextLossPending = true;
+      canvas.hidden = true;
+      if (fallback !== null) {
+        fallback.hidden = false;
+      }
+    });
+    sigma.on("webglContextRestored", () => {
+      if (!contextLossPending) {
+        return;
+      }
+      contextLossPending = false;
+      canvas.hidden = false;
+      if (fallback !== null) {
+        fallback.hidden = true;
+      }
+    });
     sigma.on("enterNode", () => { canvas.style.cursor = "pointer"; });
     sigma.on("leaveNode", () => { canvas.style.cursor = ""; });
     sigma.on("clickNode", onClickNode);
@@ -751,14 +766,20 @@
 
   function captionText() {
     if (view.mode === "overview") {
-      const suffix = view.ecosystem === "all" ? "" : ` · ecosystem: ${view.ecosystem}`;
+      const suffixParts = [];
+      if (view.ecosystem !== "all") {
+        suffixParts.push(`ecosystem: ${view.ecosystem}`);
+      }
+      if (view.relation !== "all") {
+        suffixParts.push(`${view.relation} only`);
+      }
+      const suffix = suffixParts.length > 0 ? ` · ${suffixParts.join(" · ")}` : "";
       return `Fleet overview · ${summary.repositories} repositories · ${summary.components} packages · aggregate edges${suffix}`;
     }
     const repo = repoByName.get(view.repo);
     if (repo === undefined) {
       return "Repository not visible";
     }
-    const hiddenEdges = view.relation === "all" ? 0 : repo.e.filter((edge) => relations[edge[4]] === view.relation).length;
     const parts = [`${repo.n} · ${repo.p.length} projects/workspaces`];
     parts.push(`${repo.d} direct · ${repo.x} transitive edges`);
     if (view.relation !== "all") {
@@ -793,7 +814,6 @@
       history.replaceState({ atlas: true }, "", url);
     } else {
       history.pushState({ atlas: true }, "", url);
-      pushed += 1;
     }
   }
 
@@ -818,12 +838,18 @@
         const node = params.get("node");
         if (node !== null && node.length <= 512) {
           const key = findNodeKey(node);
-          if (key !== null) {
+          const candidate = key === null ? undefined : scene.nodes.get(key);
+          if (key !== null && candidate !== undefined && nodeSelectable(candidate)) {
             selectNode(key, false);
           }
         }
         return;
       }
+      const clean = new URLSearchParams();
+      if (view.ecosystem !== "all") clean.set("ecosystem", view.ecosystem);
+      if (view.relation !== "all") clean.set("relation", view.relation);
+      const query = clean.toString();
+      history.replaceState({ atlas: true }, "", query ? `${location.pathname}?${query}` : location.pathname);
     }
     view.mode = "overview";
     view.repo = null;
@@ -834,6 +860,21 @@
     updateFleetButton();
     ecosystemSelect.value = view.ecosystem;
     syncRelationButtons();
+  }
+
+  function nodeSelectable(node) {
+    if (
+      view.mode === "focus" &&
+      view.ecosystem !== "all" &&
+      node.kind === "instance"
+    ) {
+      return (
+        node.ecosystem !== null &&
+        node.ecosystem !== undefined &&
+        ecosystems[node.ecosystem] === view.ecosystem
+      );
+    }
+    return true;
   }
 
   function findNodeKey(id) {
@@ -937,61 +978,15 @@
           "p",
           "atlas-inspector-empty",
           view.mode === "overview"
-            ? "Select a repository to focus its dependency graph, or an ecosystem to gauge its share. Aggregate edges sum a repository's target ecosystem; they are not runtime linkage."
-            : "Select a project or package in the graph. Edges are exact, directed inventory records for this repository.",
+            ? "Select a repository to focus its dependency graph. Selecting an ecosystem filters the view to it. Aggregate edges sum a repository's target ecosystem; they are not runtime linkage."
+            : "Select a project or package in the graph. Escape clears the selection and then returns to the fleet overview.",
         ),
       );
-      return;
-    }
-    if (node.kind === "cluster") {
-      inspector.append(element("p", "atlas-inspector-kind", "Owner cluster"));
-      inspector.append(element("h3", "atlas-inspector-heading", node.label));
-      inspector.append(element("p", null, `${node.repos} repositories in the visible inventory.`));
-      return;
-    }
-    if (node.kind === "ecosystem") {
-      const index = ecosystems.indexOf(node.label);
-      const direct = sumEco(index, 1);
-      const transitive = sumEco(index, 2);
-      inspector.append(element("p", "atlas-inspector-kind", "Ecosystem"));
-      inspector.append(element("h3", "atlas-inspector-heading", node.label));
-      const list = element("dl", "atlas-inspector-grid");
-      addRow(list, "Repositories", String(reposWithEco(index)));
-      addRow(list, "Direct edges", direct);
-      addRow(list, "Transitive edges", transitive);
-      inspector.append(list);
-      inspector.append(element("p", "atlas-inspector-note", "Aggregate across every visible repository. Focus a repository for the exact edges."));
-      return;
-    }
-    if (node.kind === "repo") {
-      const repo = repoByName.get(node.id ?? "");
-      if (repo === undefined) {
-        return;
+      if (view.mode === "focus" && view.repo !== null && repoByName.has(view.repo)) {
+        const linkRow = element("p", "atlas-inspector-actions");
+        linkRow.append(link("atlas-inspector-link", reposPage(view.repo), "Open repository page →"));
+        inspector.append(linkRow);
       }
-      inspector.append(element("p", "atlas-inspector-kind", "Repository"));
-      inspector.append(element("h3", "atlas-inspector-heading", repo.n));
-      inspector.append(stateBadge(repo.s));
-      const list = element("dl", "atlas-inspector-grid");
-      addRow(list, "Projects", String(repo.p.length));
-      addRow(list, "Direct edges", String(repo.d));
-      addRow(list, "Transitive edges", String(repo.x));
-      addRow(list, "Coverage issues", repo.c === 0 ? "none" : `${repo.c} (${repo.r} errors)`);
-      if (repo.t.length > 0) {
-        addRow(list, "Tags", repo.t.join(", "));
-      }
-      inspector.append(list);
-      const top = repo.a
-        .map((row) => [ecosystems[row[0]], row[1], row[2]])
-        .sort((a, b) => b[1] + b[2] - (a[1] + a[2]))
-        .slice(0, 4);
-      if (top.length > 0) {
-        const eco = element("p", "atlas-inspector-note");
-        eco.textContent = "Top ecosystems: " + top.map(([name, d, t]) => `${name} (${d} direct · ${t} transitive)`).join(", ");
-        inspector.append(eco);
-      }
-      const linkRow = element("p", "atlas-inspector-actions");
-      linkRow.append(link("atlas-inspector-link", reposPage(repo.n), "Open repository page →"));
-      inspector.append(linkRow);
       return;
     }
     if (node.kind === "project") {
@@ -1006,6 +1001,7 @@
       addRow(list, "Ecosystem", ecosystems[project[1]]);
       addRow(list, "Directory", project[2]);
       addRow(list, "Declares", `${countEdges(node.key, "out", repo)} direct dependencies`);
+      appendSemantics(list, "declared", edgeSemantics(node.key, repo, "out"));
       inspector.append(list);
       return;
     }
@@ -1022,6 +1018,7 @@
     const stats = degreeSplit(node.key, repo);
     addRow(list, "Direct dependents (this repository)", String(stats.direct));
     addRow(list, "Transitive dependents (this repository)", String(stats.transitive));
+    appendSemantics(list, "inbound", edgeSemantics(node.key, repo, "in"));
     inspector.append(list);
     const idRow = element("p", "atlas-inspector-id mono");
     idRow.textContent = item.id;
@@ -1033,11 +1030,6 @@
 
   function reposPage(name) {
     return "repos/" + name.split("/").map(encodeURIComponent).join("/") + "/index.html";
-  }
-
-  function stateBadge(state) {
-    const badge = element("span", `atlas-state atlas-state-${state}`, state);
-    return badge;
   }
 
   function addRow(list, term, value) {
@@ -1076,29 +1068,61 @@
     return split;
   }
 
-  function sumEco(index, slot) {
-    let total = 0;
-    for (const repo of repos) {
-      for (const row of repo.a) {
-        if (row[0] === index) {
-          total += slot === 1 ? row[1] : row[2];
-        }
-      }
+  function edgeSemantics(key, repo, direction) {
+    const counts = { optional: 0, conditional: 0, unknown: 0, declaredOnly: 0 };
+    const scopeTally = new Map();
+    if (repo === undefined) {
+      return { counts, scopes: [] };
     }
-    return String(total);
+    for (const edge of repo.e) {
+      const endpoint = direction === "out"
+        ? (edge[0] === 0 ? "p" : "i") + edge[1]
+        : (edge[2] === 0 ? "p" : "i") + edge[3];
+      if (endpoint !== key) {
+        continue;
+      }
+      if (edge[6] === 1) {
+        counts.optional += 1;
+      }
+      const resolution = resolutions[edge[7]];
+      if (resolution === "conditional" || edge[11] !== -1) {
+        counts.conditional += 1;
+      }
+      if (resolution === "unknown") {
+        counts.unknown += 1;
+      }
+      if (resolution === "declared_only") {
+        counts.declaredOnly += 1;
+      }
+      const scope = scopes[edge[5]];
+      scopeTally.set(scope, (scopeTally.get(scope) ?? 0) + 1);
+    }
+    const scopeSummary = [...scopeTally.entries()]
+      .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+      .map(([scope, count]) => `${scope} ×${count}`);
+    return { counts, scopes: scopeSummary };
   }
 
-  function reposWithEco(index) {
-    let count = 0;
-    for (const repo of repos) {
-      if (repo.a.some((row) => row[0] === index)) {
-        count += 1;
-      }
+  function appendSemantics(list, label, summary) {
+    const { counts, scopes: scopeSummary } = summary;
+    if (counts.optional > 0) {
+      addRow(list, `Optional ${label}`, String(counts.optional));
     }
-    return count;
+    if (counts.conditional > 0) {
+      addRow(list, `Conditional ${label}`, String(counts.conditional));
+    }
+    if (counts.unknown > 0) {
+      addRow(list, `Unknown resolution ${label}`, String(counts.unknown));
+    }
+    if (counts.declaredOnly > 0) {
+      addRow(list, `Declared only ${label}`, String(counts.declaredOnly));
+    }
+    if (scopeSummary.length > 0) {
+      addRow(list, `Scopes ${label}`, scopeSummary.join(", "));
+    }
   }
 
-  function setEcosystem(name, push) {
+  function setEcosystem(name) {
     view.ecosystem = data.ecosystems.includes(name) || name === "all" ? name : "all";
     if (ecosystemSelect !== null) {
       ecosystemSelect.value = view.ecosystem;
@@ -1107,15 +1131,12 @@
     view.selected = null;
     setCaption(captionText());
     rebuild();
-    if (push) {
-      pushURL(true);
-    } else {
-      pushURL(true);
-    }
+    closeResults();
+    pushURL(true);
     renderInspector(null);
   }
 
-  function setRelation(value, push) {
+  function setRelation(value) {
     if (value !== "all" && value !== "direct" && value !== "transitive") {
       return;
     }
@@ -1124,23 +1145,20 @@
     view.selected = null;
     setCaption(captionText());
     rebuild();
+    closeResults();
     syncRelationButtons();
-    if (push) {
-      pushURL(true);
-    } else {
-      pushURL(true);
-    }
+    pushURL(true);
     renderInspector(null);
   }
 
   if (ecosystemSelect !== null) {
-    ecosystemSelect.addEventListener("change", () => setEcosystem(ecosystemSelect.value, true));
+    ecosystemSelect.addEventListener("change", () => setEcosystem(ecosystemSelect.value));
   }
   if (relationToggle !== null) {
     relationToggle.addEventListener("click", (event) => {
       const button = event.target.closest("button[data-relation]");
       if (button !== null) {
-        setRelation(button.dataset.relation, true);
+        setRelation(button.dataset.relation);
       }
     });
   }
@@ -1176,11 +1194,7 @@
         return;
       }
       if (view.mode === "focus") {
-        if (pushed > 0) {
-          history.back();
-        } else {
-          enterOverview(true);
-        }
+        enterOverview(false);
       }
       return;
     }
@@ -1193,7 +1207,6 @@
   });
 
   window.addEventListener("popstate", () => {
-    pushed = 0;
     applyParams(new URLSearchParams(location.search));
   });
 
@@ -1209,6 +1222,7 @@
     }
     if (searchInput !== null) {
       searchInput.setAttribute("aria-expanded", "false");
+      searchInput.removeAttribute("aria-activedescendant");
     }
   }
 
@@ -1221,6 +1235,7 @@
       const row = element("button", "atlas-result");
       row.type = "button";
       row.dataset.index = String(index);
+      row.id = `atlas-result-${index}`;
       row.setAttribute("role", "option");
       row.append(element("span", "atlas-result-label", item.label));
       if (item.hint) {
@@ -1242,6 +1257,12 @@
     for (const row of resultsBox.querySelectorAll(".atlas-result")) {
       row.classList.toggle("active", Number(row.dataset.index) === activeResult);
     }
+    if (searchInput === null) return;
+    if (activeResult >= 0) {
+      searchInput.setAttribute("aria-activedescendant", `atlas-result-${activeResult}`);
+    } else {
+      searchInput.removeAttribute("aria-activedescendant");
+    }
   }
 
   function activateResult(index) {
@@ -1255,11 +1276,14 @@
       return;
     }
     if (item.type === "ecosystem") {
-      setEcosystem(item.key.slice(4), true);
+      setEcosystem(item.key.slice(4));
       return;
     }
     if (item.type === "node") {
-      selectNode(item.key, true);
+      const candidate = scene.nodes.get(item.key);
+      if (candidate !== undefined && nodeSelectable(candidate)) {
+        selectNode(item.key, true);
+      }
     }
   }
 
@@ -1308,6 +1332,9 @@
         if (node.kind !== "instance" || node.ref === undefined) {
           continue;
         }
+        if (!nodeSelectable(node)) {
+          continue;
+        }
         const item = instances[node.ref];
         const component = components[item.component];
         const haystack = `${component.display} ${item.version ?? ""} ${component.purl}`.toLowerCase();
@@ -1328,10 +1355,17 @@
     searchInput.addEventListener("input", () => searchAll(searchInput.value));
     searchInput.addEventListener("focus", () => searchAll(searchInput.value));
     searchInput.addEventListener("keydown", (event) => {
-      if (resultsBox === null || resultsBox.hidden) {
-        if (event.key === "Escape") {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        if (resultsBox !== null && !resultsBox.hidden) {
+          closeResults();
+        } else {
           searchInput.blur();
         }
+        return;
+      }
+      if (resultsBox === null || resultsBox.hidden) {
         return;
       }
       if (event.key === "ArrowDown" || event.key === "ArrowUp") {
@@ -1343,14 +1377,11 @@
       }
       if (event.key === "Enter") {
         event.preventDefault();
+        event.stopPropagation();
         if (activeResult >= 0) {
           activateResult(activeResult);
         }
         return;
-      }
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeResults();
       }
     });
     document.addEventListener("click", (event) => {
@@ -1365,10 +1396,6 @@
     });
   }
 
-  scene = buildScene();
-  setCaption(captionText());
-  rebuild();
-  updateFleetButton();
   applyParams(new URLSearchParams(location.search));
 
   if (loading !== null) {

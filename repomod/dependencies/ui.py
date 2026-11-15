@@ -342,6 +342,9 @@ def shell(
     stylesheet_markup = "".join(
         f'<link rel="stylesheet" href="{escape(href)}">\n' for href in stylesheets
     )
+    search_script = (
+        f'<script src="{prefix}assets/search.js"></script>\n' if search else ""
+    )
     search_markup = (
         '<div class="page-search"><label class="ui-search">'
         '<span class="ui-sr-only">Search packages</span>'
@@ -369,7 +372,7 @@ def shell(
         '<main class="ui-main" id="main" tabindex="-1"><div class="page ui-page-section">'
         f"{search_markup}"
         f"{body}</div></main>\n</div>\n"
-        f'<script src="{prefix}assets/search.js"></script>\n'
+        f"{search_script}"
         f'<script src="{prefix}assets/app.js"></script>\n'
         "</body>\n</html>\n"
     )

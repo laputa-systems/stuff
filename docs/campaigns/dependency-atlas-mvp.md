@@ -1,7 +1,6 @@
 # Campaign: Dependency Atlas MVP for make deps
 
 **State:** MVP ready for design review (branch `feat/dependency-atlas-mvp`, 2026-11-14).
-**Owner review gate:** The first genuinely usable web design is the terminal deliverable. **STOP after MVP** and return screenshots, a local preview link/command, metrics, and a handoff. Do not continue into a second design iteration without a fresh user request.
 **Research snapshot:** 2026-11-14. Starting observed stuff/main: 64b06213e8b8d0d2c2505b1ee2ef1f2de692216f; re-read HEAD and rebase these assumptions before implementation.
 **Owner review gate:** The first genuinely usable web design is the terminal deliverable. **STOP after MVP** and return screenshots, a local preview link/command, metrics, and a handoff. Do not continue into a second design iteration without a fresh user request.
 
@@ -144,7 +143,15 @@ projection; global instance table, per-repository edges, typed IDs, interned str
 coverage and hidden counts), `jsdata.py` (shared `<script>` JSON escaping), `explore.html`
 wired into the existing nav and renderer (Overview group, alongside World), `assets/atlas.js`,
 `assets/atlas.css`, the vendored engine, and tests (`tests/repomod/test_deps_atlas.py`,
-14 cases; render passes XSS/offline/marker contracts unchanged).
+15 cases; render passes XSS/offline/marker contracts unchanged). A read-only independent
+re-review followed; its confirmed findings were fixed (Escape now performs one action per
+keypress and no longer depends on a history counter, the search dropdown carries
+`aria-activedescendant`, unknown-repo deep links are normalized out of the URL, the
+inspector reports optional/conditional/declared-only/unknown-resolution edge counts plus
+scope tallies, ecosystem-filtered invisible nodes can no longer be selected, the missing
+no-JavaScript path was added to the page, context loss recovers when the browser restores
+the WebGL context, hidden repositories can no longer reach `render()` without tripping its
+containment check, and the Explore page no longer ships the package search bundle).
 
 **Measured (62 visible of 64 repositories, 726 projects, 3,084 components, 4,284 instances,
 22,338 edges; 1440×900 agent-browser, Chromium):** render ≈ 2.0 s warm; output 14,215,062
