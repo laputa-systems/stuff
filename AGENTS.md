@@ -32,6 +32,19 @@ Run everything from the repository root.
 - Ecosystem integration: `deploy/ecosystem-smoke.sh` needs the pinned package managers, CPython, native repair tools, and network. Use `TMPDIR="$PWD/.work/tmp"` for campaign commands.
 - OCI checks: `make test-oci-conformance`, `make test-oci-conformance-push`, `make test-oci-pull`, `make test-oci-push`, `make test-oci-publish`, `make oci-bench`.
 
+## Verification
+
+- Costs on an M-series Mac, warm: `make test` 163s, `make repomod-test` 60s (1,348 passed, 3 skipped: two opt-in live-fleet tests and the `PINACT_LAUNCHER` integration), `make repomod-lint` under 1s, `make lint` 19s. `make test`'s macOS sandbox test needs a real Python first on `PATH`, not Apple's `/usr/bin/python3` shim. PR CI runs `make test` (`.github/workflows/ci.yml:45`).
+- `stuff` CLI (`publish`, `doctor`, republish, rollback), its exit codes and output: `crates/stuff/tests/cli.rs`, `publish_output.rs`, `publish_retry.rs`, `mirror_publish.rs`.
+- Published registry formats: Cargo index and archives in `crates/stuff/tests/cargo_*.rs` and the mycrates golden generation; npm `npm_publish.rs` and `crates/mynpm/tests/`; PyPI `pypi_*.rs` and `crates/mypypi/tests/`; OCI `oci_publish.rs`, `crates/myoci/tests/`, and `make test-oci-conformance`.
+- HTTP serving (routes, caching, conditional requests, MIME): `crates/stuff-server/tests/*_compat.rs` and `crates/stuff-http` unit tests. Worker runtime: `crates/stuff-worker/test/`.
+- `<origin>/current/catalog.json`, read by repomod: `crates/stuff-catalog` tests and `tests/repomod/test_deps_world.py`.
+- R2 storage and generation activation: `crates/stuff/tests/r2_*.rs` against `fake_s3.rs`; live R2 is opt-in (`make test-r2-live`).
+- repomod CLI (`sync`, `lint`, `fix`, `push`, `merge`, `release`, `deps`, `topics`): `tests/repomod/` against local Git repositories and fake GitHub responses. File formats it owns: `fleet/catalog.toml` (`test_catalog.py`), `fleet/dependencies/v1/` and `fleet/loc/v1/` (`test_deps_snapshot.py`, `test_loc_snapshot.py`).
+- Performance workloads: `make oci-bench` (OCI serving) and `make bench` (dashboard render). Each gates only changes on its own path.
+- Vendored trees: `crates/stuff-worker/vendor/stats-producer/` is pristine (`upstream.json` records joshuarli/stats `bdf65f7`, `packages/producer`); `crates/stuff-catalog/web/minisearch/` is modified (`NOTICE.md` records its upstream).
+- Components: `crates/stuff` (30k), `crates/mynpm`, `crates/mypypi`, `crates/myoci`, the remaining crates, `repomod/dependencies`, `repomod/rules`, `repomod/` top-level, the Worker, and `deploy/`. Deslop works one component per slice; the calibration component is `repomod/`.
+
 ## Topic map
 
 | Topic | Owner |
