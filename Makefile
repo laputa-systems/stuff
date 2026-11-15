@@ -49,6 +49,9 @@ preview: ## Render the dependency dashboard from its canonical preview dataset a
 	@TMPDIR="$$PWD/.work/tmp" uv run python -m repomod.dependencies.preview render
 	@exec srv -p $(PORT) .work/preview/dashboard
 
+preview-check: ## Check the preview's layout in a real browser at 390 and 1440 px
+	@sh tools/dashboard-layout-check.sh
+
 bench: ## Measure dependency dashboard render phases, cold and warm ([RUNS=3])
 	@uv run python bench/deps_perf.py phases --mode both --runs $(RUNS)
 

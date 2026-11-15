@@ -27,7 +27,9 @@ presents (title, headings, tables, list rows, tiles, navigation counts) with
 `tests/fixtures/dashboard/golden.json`.
 After an intended change, run `REPOMOD_UPDATE_GOLDEN=1 uv run pytest tests/repomod/test_dashboard_preview.py`
 and review the golden diff. `uv run python -m repomod.dependencies.preview freeze` rebuilds the
-dataset from the current fleet.
+dataset from the current fleet. `make preview-check` renders the same dataset and checks every page in
+agent-browser at 390 and 1440 px: no horizontal page overflow, no empty state beside matching
+rows, no panel title over its meta, and no clipped heading or link.
 
 Private repositories are left out of every page, count, and change list by default. Repositories
 says how many are hidden. Use `make deps PRIVATE=1`, or `deps render --include-private`, to include
