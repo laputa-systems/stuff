@@ -7,43 +7,53 @@ established, so the slop cannot return.
 
 ## Status
 
-- **State:** running. Every in-scope repository has a seeded `TODO-DESLOP.md` (44 seeded plus
-  the srv and buildlib pilots). Dispatch stays the owner's call (decision 10).
-- **Accepted:**
-  - F1 (`fe04fa2`, topics published).
-  - F2 (stuff#9). Its macOS `make test` exposed and fixed a mypypi sandbox defect.
-  - K0 (usr#26), K1 (usr#27), K3 (the `deslop` skill, usr#28, lessons in usr#31).
+- **State:** paused, waiting for the owner to dispatch. Every in-scope repository (46) has
+  `TODO-DESLOP.md` on its default branch. Dispatch is the owner's act (decision 10).
+- **Accepted foundations:**
+  - F1 (the `fork-diverged` tag).
+  - F2 (`gha-test-workflow`, stuff#9). It fixed a mypypi sandbox defect that skipped tests had
+    hidden.
+  - K0 (`todo --file`), K1 (test-audit coverage and mutation).
+  - K3 (the `deslop` skill, usr#28; lessons in usr#31 and usr#33).
   - Vulture and deptry mirrored.
-- **srv pilot:** steps 1 to 5 and every finding are done:
-  - unsafe FFI removed
-  - CLI and HTTP boundary tests added; mutants missed fell from 61 to 0, and branch coverage rose
-    from 66.8% to 87.9%
-  - four real serving defects fixed: an idle-connection stall, the 16-header 400, no reply for
-    a path beneath a file, and backslash names in docs paths
-  - the CI mutation lane runs
-  - #30 and #32 are merging; then the Report closes the pilot.
-- **buildlib pilot:** Types merged (escape hatches 16 to 11; strict ty rules adopted). The first
-  mutmut tests merged (survivors 235 to 216); DSLP-4 holds the remaining survivors. Dead code and
-  findings are open.
-- **extensions pilot:** seeded only. Its TypeScript tools are not mirrored (STUF-83).
-- **Calibration:** not run on the complex repos (loc, toolbox, stats, stuff `repomod/`). Their
-  backlogs are seeded; run them before dispatching tiers C to E.
-- **Not started:** F3 (fleet rules for `make coverage`, the mutation lane, and strict profiles).
-  The Rust recipe is proven in srv; Python and TypeScript wait on STUF-83.
+- **srv, the complete pilot:** every ticket closed and the Report filled (srv#35, srv#37).
+  - Mutants missed: 61 → 0. Branch coverage: 66.8% → 87.9%. Unsafe code: 3 → 0.
+  - Five real defects fixed. Four came from review and mutation: an idle-connection stall, the
+    16-header 400, no reply for a path beneath a file, and backslash docs paths. The fifth, the
+    unbounded connection threads the fix left behind, came from the independent completion
+    review.
+  - The CI mutation lane works, and treats exit 3 (timeouts only) as detected.
+- **buildlib (Python pilot):**
+  - Done: Types (escape hatches 16 → 11), first mutmut tests (survivors 235 → 216), Dead code,
+    and the DSLP-6 fix.
+  - Open: DSLP-4 (remaining survivors), DSLP-9 (Target model), and DSLP-10 (a `Needs owner`
+    walk-back).
+- **extensions (TypeScript pilot):** seeded only. Stryker and knip are scratch installs until
+  STUF-83.
+- **Calibration measured, not run:**
+  - loc (Rust, 12k): 93.0% / 84.5% coverage; a full mutation run is about 2.3 hours, so its
+    Tests step targets critical modules. A 1/20 sample missed 19 of 73 viable mutants.
+  - toolbox (Python, 19k): coverage runs only serially (68%); all 40 skipped tests need host
+    tools (ffmpeg encoders, fio).
+  - Both facts are in those repos' tickets. stats and stuff `repomod/` were not measured.
+- **Open campaign work:**
+  - STUF-84: fleet retention rules (coverage target, mutation lane, strict profiles).
+  - STUF-83: mirror mutmut, Stryker, and knip.
+  - STUF-82: a flaky Worker test.
 - **Known red:**
-  - STUF-82 (flaky Worker test).
-  - tm's macOS test `window_navigation_bindings_repeat_like_the_reference` failed once on a
-    docs-only PR.
-  - oxish's upstream workflows fail on every PR (`cargo fmt` is missing from the pinned
-    toolchain).
+  - toolbox CI on main (likely the private shadowdriver dependency).
+  - oxish upstream workflows (`cargo fmt` missing; recorded in its DSLP-1).
+  - tm's flaky macOS test (its DSLP-6).
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
-  - Fast-forward `~/usr` to pick up `todo --file` and the `deslop` skill. It has one local
-    change, so the campaign left it alone.
-  - Decide when to dispatch repo agents. Tier A and the calibration repos are ready; for C to E,
-    calibration first is recommended.
-  - Decide STUF-83: mirroring native wheels for mutmut, or a pure-Python mutation tool.
-- **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.`
+  1. Fast-forward `~/usr`; it has one local change, which the campaign left alone. That installs
+     `todo --file` and the `deslop` skill.
+  2. Dispatch repo agents with `/deslop` in a repository. Recommended order: tier A and the
+     calibration repos first, then B; hold C to E until loc or toolbox has settled.
+  3. Answer buildlib DSLP-10, a walk-back of the always-true ELF `is_64`.
+  4. Decide how STUF-83 is solved: native wheels for mutmut, or a pure-Python tool.
+- **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` The
+  next campaign-agent slices are STUF-84, then a check-up of each repository whose tickets settle.
 
 ## How the campaign runs
 
