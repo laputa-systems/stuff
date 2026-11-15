@@ -1,0 +1,17 @@
+{
+  "name": "atlas-vendor",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Build-only workspace producing the pinned atlas vendor bundle. No dependency at dashboard render time.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "graphology": "0.26.0",
+    "sigma": "4.0.6"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2"
+  }
+}

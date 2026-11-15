@@ -1,6 +1,6 @@
 # Campaign: Dependency Atlas MVP for make deps
 
-**State:** Provisional; ready for an unattended execution run, **not implemented by this document**.
+**State:** MVP ready for design review (branch `feat/dependency-atlas-mvp`, 2026-11-14).
 **Research snapshot:** 2026-11-14. Starting observed stuff/main: 64b06213e8b8d0d2c2505b1ee2ef1f2de692216f; re-read HEAD and rebase these assumptions before implementation.
 **Owner review gate:** The first genuinely usable web design is the terminal deliverable. **STOP after MVP** and return screenshots, a local preview link/command, metrics, and a handoff. Do not continue into a second design iteration without a fresh user request.
 
@@ -122,3 +122,49 @@ Return a concise report containing:
 ## Operating discipline
 
 Keep a single writer/integrator and tackle S0→S3 serially. For each slice, implement the smallest verified change, run its focused tests, inspect the diff, commit only green work, then move on without requiring routine confirmations. Diagnose a failing test from concrete evidence; after three genuine failed fixes or unavailable prerequisites, park the failed slice with precise reproduction and continue only independent safe work. Do not hide regressions by relaxing tests or exceptions. Re-read source and current upstream API on resume. Do not broaden authorization to external services or mutate other repositories. The owner explicitly requested **MVP and then human design review**, not a perpetual hill-climb.
+
+## MVP execution record (2026-11-14, branch `feat/dependency-atlas-mvp`)
+
+**Engine decision: Sigma.js v4 + Graphology, confirmed.** Sigma 4.0.6 (`eba961adf8cd661ec2c29134598a735e0fbcd494944f574e72e50d95e97140b7`),
+graphology 0.26.0 (`3c0cc63556e32b9d00ea953dce29790a5e49fc448f19247e25540156caef6b98`),
+both MIT, vendored as one 0.45 MB IIFE at `repomod/dependencies/assets/vendor/atlas.vendor.js`
+with license texts and a sha256 manifest in `VENDORED.md`; built by `tools/atlas-vendor`
+(esbuild, build-only, never at render time). No cosmos.gl comparison was needed: the Sigma
+spike reached a working fleet view with exact semantics on the first attempt, and the two
+material blockers found were repaired through public v4 APIs (an edge `path` style is
+required for v4 edges to rasterize at all, and `autoRescale` is a setting in v4, not an
+option). The campaign's 200 ms no-stall target rejected ForceAtlas2 at ~100–280 ms per
+layout, so focus views use a deterministic BFS layering with a barycenter ordering pass
+(first-party code, no physics solver, instant at every real-repo size); both engines were
+measured, not guessed. No custom GLSL, no renderer internals modified, no third engine.
+
+**Landed, with evidence:** `repomod/dependencies/atlas.py` (deterministic filtered-fleet
+projection; global instance table, per-repository edges, typed IDs, interned strings,
+coverage and hidden counts), `jsdata.py` (shared `<script>` JSON escaping), `explore.html`
+wired into the existing nav and renderer (Overview group, alongside World), `assets/atlas.js`,
+`assets/atlas.css`, the vendored engine, and tests (`tests/repomod/test_deps_atlas.py`,
+15 cases; render passes XSS/offline/marker contracts unchanged). A read-only independent
+re-review followed; its confirmed findings were fixed (Escape now performs one action per
+keypress and no longer depends on a history counter, the search dropdown carries
+`aria-activedescendant`, unknown-repo deep links are normalized out of the URL, the
+inspector reports optional/conditional/declared-only/unknown-resolution edge counts plus
+scope tallies, ecosystem-filtered invisible nodes can no longer be selected, the missing
+no-JavaScript path was added to the page, context loss recovers when the browser restores
+the WebGL context, hidden repositories can no longer reach `render()` without tripping its
+containment check, and the Explore page no longer ships the package search bundle).
+
+**Measured (62 visible of 64 repositories, 726 projects, 3,084 components, 4,284 instances,
+22,338 edges; 1440×900 agent-browser, Chromium):** render ≈ 2.0 s warm; output 14,215,062
+bytes vs 12,300,297 baseline (+1.9 MB, over the already-breached 10 MB budget); 60 fps
+paced pan/zoom p95 ≈ 17 ms; entering the largest focus (`joshuarli/bctl`) ≈ 61 ms worst
+main-thread task; transient searches complete without stalls; offline `file://` works;
+390×844 layout has no horizontal overflow with the inspector stacked below. Synthetic
+10k/50k-edge scenes (seeded generator, `.work/dependencies/synth/`, documented as
+synthetic): ~60 fps at 10k, degrading at 50k (~85–110 ms interaction frames, sigma
+per-frame edge cost; real fleet maximum is 3,098 edges and shows no such stalls).
+
+**Not verified:** WebGL2 context creation is probed at runtime; the fallback path is
+implemented and linked but could not be exercised on this machine (no way to deny WebGL2
+without a browser rebuild flag). No non-Chromium browser was available. The full
+`make deps` sync path was not run against the canonical checkout (side effects);
+`uv run repomod deps render` on the tracked inventory + fixture renders were used instead.
