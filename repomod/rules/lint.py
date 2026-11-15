@@ -135,16 +135,16 @@ def _install_steps(root: Path, languages: set[str]) -> list[str]:
     return []
 
 
-def _lint_workflow_source(root: Path, languages: set[str]) -> str:
+def workflow_source(root: Path, languages: set[str], *, name: str, step: str, target: str) -> str:
     try:
         pins = load_pins()
     except ValueError as error:
-        raise GitError(f"cannot template the lint workflow: {error}") from error
+        raise GitError(f"cannot template the {name} workflow: {error}") from error
     checkout = pins.get("actions/checkout")
     if checkout is None:
-        raise GitError("cannot template the lint workflow: actions.toml has no actions/checkout pin")
+        raise GitError(f"cannot template the {name} workflow: actions.toml has no actions/checkout pin")
     lines = [
-        "name: lint",
+        f"name: {name}",
         "",
         "on:",
         "  pull_request:",
@@ -162,8 +162,8 @@ def _lint_workflow_source(root: Path, languages: set[str]) -> str:
         "    shell: bash -euo pipefail {0}",
         "",
         "jobs:",
-        "  lint:",
-        "    name: lint",
+        f"  {name}:",
+        f"    name: {name}",
         "    runs-on: ubuntu-26.04-arm",
         "    permissions:",
         "      contents: read",
@@ -173,8 +173,8 @@ def _lint_workflow_source(root: Path, languages: set[str]) -> str:
         "          persist-credentials: false",
         *_setup_steps(languages),
         *_install_steps(root, languages),
-        "      - name: lint",
-        "        run: make lint",
+        f"      - name: {step}",
+        f"        run: make {target}",
     ]
     return "\n".join(lines) + "\n"
 
@@ -182,7 +182,11 @@ def _lint_workflow_source(root: Path, languages: set[str]) -> str:
 def _lint_workflow_fix(root: Path, repository: Repository) -> dict[str, str]:
     if _lint_workflow_path(root) is not None:
         return {}
-    return {".github/workflows/lint.yml": _lint_workflow_source(root, _language_sources(root))}
+    return {
+        ".github/workflows/lint.yml": workflow_source(
+            root, _language_sources(root), name="lint", step="lint", target="lint"
+        )
+    }
 
 
 def _root_makefile(root: Path) -> Path | None:

@@ -15,7 +15,7 @@ build: ## Build the full workspace
 	cargo build --workspace
 
 test: test-mycrates repomod-test ## Run the full workspace test suite
-	cargo test --workspace
+	cargo test --locked --workspace
 
 lint: clippy repomod-lint ts-lint ## Lint the Rust workspace, repomod, and the TypeScript projects
 
