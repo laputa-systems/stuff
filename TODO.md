@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 85
+Next: 86
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -22,6 +22,18 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** durable-state
 - **Effort:** M
 
+### STUF-85 · P1 · First-party packuments freeze dist-tags.latest at the lexicographic max instead of the newest publish
+
+- **Area:** npm
+- **Where:** crates/mynpm/src/packument.rs packument_modified / latest_snapshot
+- **Problem:** latest_snapshot sorts candidate snapshots by a top-level "modified" key on the packument that no record carries (first-party packuments nest time.modified under "time"; upstream npm packuments have no top-level modified either). Every record therefore compares equal and the winner falls out of the canonical_json tiebreak, which for @laputa-systems/ui-dashboard selects 0.9.1. The published registry serves dist-tags.latest=0.9.1 and time.modified frozen at 0.9.1 even after 0.10.0-0.11.3 were published to it, so `npm view @laputa-systems/ui-dashboard dist-tags` on the stuff registry is wrong and PUBLISHING.md's documented contract ("dist-tags.latest (the newest publish)") is broken. Exact repro: curl -s https://npm.17166969.xyz/current/@laputa-systems/ui-dashboard — latest is 0.9.1 while .versions includes 0.11.3.
+- **Recommendation:** read time.modified (falling back to created) instead of a nonexistent top-level modified, and add a regression test asserting the snapshot is the record with the greatest time.modified for first-party records without a top-level modified
+- **Fix with:** worker
+- **Effort:** S
+
+
+
+
 ### STUF-82 · P2 · Worker gateway test intermittently sees an already-read body
 
 - **Area:** Worker runtime
@@ -30,8 +42,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Root-cause with repeated runs of that test (node --test with a loop) and read the gateway path that serves catalog.json for both hosts; fix the producer, not the test, and keep the test as the regression.
 - **Fix with:** root-cause
 - **Effort:** M
-
-
 
 
 ### STUF-84 · P2 · Retain deslop gains with fleet rules for coverage, the mutation lane, and strict profiles
