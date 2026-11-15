@@ -1,0 +1,467 @@
+# Campaign: deslop the fleet
+
+Goal: every in-scope repository has truthful strict types, tests that detect real defects at its
+public boundaries, no dead code, and structure that its review findings no longer fault. No repo
+loses correctness, functionality, or performance on the way. CI enforces what the work
+established, so the slop cannot return.
+
+## Status
+
+- **State:** planned. Nothing has started.
+- **Next slice:** F1.
+- **Phase:** 0 (foundations).
+- **Seeded tiers:** none.
+- **Settled repositories:** none. The scorecard is [deslop-scorecard.md](deslop-scorecard.md).
+- **Needs you:** nothing yet.
+- **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.`
+
+## How the campaign runs
+
+The campaign has two kinds of workers.
+
+- **The campaign agent** runs from this doc in `stuff`. It owns every shared file: repomod rules and
+  fleet policy in `stuff`, and the skills and `todo` tool in `usr`. It runs the foundations, the
+  pilots, the seeding of tickets, the check-ups, and the method revisions.
+- **Repo agents** are dispatched by the owner, one per repository. Each works that repository's
+  `TODO-DESLOP.md` with the `deslop` skill and touches nothing outside that repository. Repositories
+  are disjoint, so any number of repo agents can run at once.
+
+The method is proven at small scale before it is handed out. Phases 1 and 2 are run by the campaign
+agent itself. From phase 3, the campaign agent seeds one size tier at a time. It checks up on the
+settled repositories and folds what they learned into the skill before it seeds the next, larger
+tier.
+
+## Charter
+
+- Decide and keep going. Record a decision here only when a later slice depends on it.
+- Work inside the grant in **Execution boundary**. A plan does not supply missing permission. Park
+  an item that needs authority outside the grant and list it under **Needs you** in Status.
+- Fix the cause before you retry. A failing item gets two attempts after `root-cause`. Then park it
+  with its cause and a retry condition.
+- Fix egregious problems met on the way in their own commit, and record everything else as a
+  ticket. Egregious means: an existing test suite that CI never runs, a test that fails on the
+  default branch, or a `make test` slower than 5 minutes warm that has a clear drag cause.
+- Correctness before cleanup. The method orders types and tests ahead of dead code and refactors.
+  The perf gate applies from the first refactor slice.
+- Shared files have one writer, the campaign agent: `repomod/`, `fleet/`, `docs/tagging.md`, the
+  `usr` skills, and `usr/tools/todo`. Repo agents report gaps in those files in their `## Report`.
+- Lanes the campaign agent delegates follow `orchestrate`, in worktrees under `.work/wt/<lane>`.
+- Commits are Conventional Commits. The scope is the component, and the body carries the item ID
+  (`deslop F2`, or `DSLP-4` in a repo). Code comments never cite this doc or a ticket.
+
+## Decisions
+
+### Owner (2026-11-14)
+
+1. **Scope.** Rust, Python, and TypeScript code in the in-scope repositories (Reference). Vendored
+   code counts, but only code we have modified is deslopped. Pristine vendored trees and pristine
+   upstream code in forks are left alone.
+2. **Excluded:** xsh, laputa, python-build, and bctl (under heavy development elsewhere), and deser.
+   Also excluded are the forks that are effectively upstream: rg, rawzip, zlib-rs, lexopt, rustls, and
+   webpki.
+3. **Forks in scope,** limited to our changes against their upstream merge base: jaq, rust-fontconfig,
+   rustix, rage, fd, oxish, crabtables, soulseek-rs. They get a new `fork-diverged` catalog tag (F1).
+4. **Enforcement is mutation on the diff.** CI runs `make test` in every in-scope repository, plus a
+   mutation lane scoped to the changed lines. A surviving mutant fails the lane unless the repo's
+   mutation config lists it with a reason. Coverage is measured and reported, but it is never a gate
+   or a threshold.
+5. **Merging.** One PR per slice. The agent merges it when required CI is green and the slice's
+   acceptance command passed. Work parked for the owner stays unmerged.
+6. **Removals.** Behavior-preserving cuts land on their own. Removing live behavior or a public
+   contract (a CLI flag, a public API, a compatibility path, a format) is a walk-back. It is filed as
+   a ticket under the file's `## Needs owner` heading, and the owner reviews those at each tier
+   checkpoint.
+7. **Fan-out through tickets.** After the method works, the remaining work is filed as tickets in a
+   per-repo `TODO-DESLOP.md`, separate from `TODO.md`, so the owner can dispatch repo agents. The
+   campaign checks each repository after its tickets settle.
+8. **Skills.** Skill development in `usr` is in scope. The skills are where the campaign's lessons
+   end up. Repo agents follow them, and they outlive the campaign. `test-audit` changes its position
+   on line coverage first (K1).
+
+### Prescribed
+
+- **Fan out by size tier, not all at once.** The method must work at each scale before larger repos
+  get it. Seeding tier N+1 waits until three repos of tier N have settled (or all of them, if the
+  tier has fewer) and their feedback is in the skill. Stragglers keep working.
+  *Reversed if* the tier B checkpoint changes nothing in the skill. Then seed C, D, and E together.
+- **Repos over 50k lines are worked by component.** Ground and Diagnose cover the whole repo. Types,
+  Tests, and Dead code run per component (a crate, a package, or a subsystem of at most about 20k
+  lines), one PR each. The Ground ticket lists the components.
+- **Mutation tools:** `cargo-mutants` with `--in-diff` for Rust (kache's `make mutants-diff`,
+  `~/repos/kache/Makefile:110`, is the prior art). mutmut for Python, with cosmic-ray as the fallback
+  if mutmut cannot run the suite. Stryker with its Vitest runner for TypeScript, using line-range
+  `--mutate`. Python diff scoping may be per file.
+- **Coverage tools:** `cargo-llvm-cov`, with nightly branch coverage where the pinned toolchain
+  supports it. coverage.py with branch coverage and subprocess patching. `@vitest/coverage-v8` with
+  an explicit first-party `include`, so that files no test imports still appear. Each repo exposes
+  `make coverage`, which prints line and branch totals and writes its report under `.work/`.
+- **Dead-code tools:** rustc `dead_code` plus `unreachable_pub` in binary crates, `cargo-machete`,
+  and `cargo-udeps` (nightly) to confirm a disputed case. For Python, Ruff, then vulture for
+  discovery, then deptry for dependencies. For TypeScript, knip in both default and `--production`
+  mode, after its configuration hints are resolved.
+- **Joining `make lint`:** a dead-code tool joins a repo's lint only when the repo is clean under it
+  with an allowlist of at most 5 entries, each with a reason.
+- **A strict-profile setting joins the fleet profile only on evidence.** On pilot repos it must have
+  rejected at least one real defect or deleted at least one escape hatch, while needing at most one
+  false-positive suppression per 5k lines. The starting candidates are listed under Reference.
+- **The perf gate covers perf-sensitive repos.** These are the rustybench repos (fastermod, lz, loc,
+  e, ish) and any repo whose Ground ticket declares a workload. The gate runs on every refactor
+  slice and on the repo's final state. Measure only when `perf-gate-ready` passes, with at least 5
+  interleaved baseline/candidate pairs of the shipped profile.
+  - **Within bound:** the median delta is under the observed spread or under 2%.
+  - **Material regression:** the slice parks.
+  - **Deferred (host busy):** the slice stays unmerged. It never passes by default.
+- **Test cost budget.** A Tests step may raise warm `make test` time by at most 20% or 30 seconds,
+  whichever is larger. Repos already slower than 5 minutes warm fix their drag first.
+- **The mutation lane runs on Linux only,** on PRs that change source. Its CI-time p50 target is
+  10 minutes or less, and each lane sets explicit per-mutant timeouts. A PR that changes only tests
+  selects the production files those tests cover, so a test deletion cannot pass with zero mutants.
+- **Libraries.** Changes to a published or consumed library (smolith, ptytest, hi-lite, rustybench,
+  laputa-ui-dashboard, buildlib, pytest-parallel) also run their known consumers' tests against the
+  candidate, using `repomod deps` to find consumers. Repos stay disjoint because consumers pin
+  released versions. The campaign publishes nothing.
+
+### Delegated
+
+- **Merge style.** Follow each repo's recent merged PRs. Pin the merge to the head SHA
+  (`gh pr merge --match-head-commit`).
+- **Combined PRs.** Ground and Diagnose may share one PR in repos under 5k lines.
+- **Per-repo perf workloads.** A repo agent declares one only for a user-visible hot path (a CLI's
+  main operation, a server route, a parser). It records "none" with a reason otherwise.
+- **Where pins live.** Assurance tool pins go in the existing `fleet/policy/python-tools.toml` and
+  `typescript-tools.toml`. Add `fleet/policy/rust-tools.toml` only for the cargo tools.
+
+## Baseline
+
+Measured 2026-11-14 on this host, in disposable clones under `.work/tmp/deslop-baseline`, with
+`TMPDIR=.work/tmp`.
+
+| Repo | Base | `make test` cold / warm | `make lint` | Known red |
+| --- | --- | --- | --- | --- |
+| srv | `dcc7921` | 5s / 0s | 1s | none |
+| fastermod | `64cdc84` | 8s / 1s | 2s | none |
+| buildlib | `6ef86b9` | 6s / 6s | 0s | none |
+| pytest-parallel | `b94019e` | 9s / 7s | 1s | `tests/test_campaign.py::test_hooks_weights_groups_and_pin_via_plan` fails when `TMPDIR` is under a repo's `.work/tmp` and passes with the system `TMPDIR`. This is an isolation defect, and the fleet convention requires that `TMPDIR`. |
+| extensions | `ac4f9d4` | 10s / 6s | none | No `lint` target and no lint workflow |
+
+Fleet facts the plan relies on:
+
+- The fleet standard requires a lint workflow running `make lint` (`repomod/rules/lint.py`). No rule
+  requires CI to run the tests.
+- stuff's CI never runs the repomod pytest suite. `make test` includes `repomod-test`
+  (`Makefile:17`), but CI calls `cargo test --locked` directly (`.github/workflows/ci.yml:39`).
+- stuff's CI run 43684749647 took 35m40s for the Rust test step on macOS (`xcode-27`) and 2m13s on
+  Linux.
+- No assurance tool is installed on this host: none of cargo-llvm-cov, cargo-mutants, cargo-machete,
+  cargo-udeps, vulture, mutmut, or knip.
+- Mutation prior art exists only in kache, as a local target: `make mutants-diff` with cargo-mutants
+  27.1.0 and `.cargo/mutants.toml`. Its comment at `Makefile:95` says CI runs it, but no workflow
+  references it.
+- Five repos keep a rustybench baseline in `benches/baseline.json`: fastermod, lz, loc, e, and ish.
+- extensions already depends on `@vitest/coverage-v8`. stuff and toolbox run Python tests through
+  `pytest-parallel`, which has no coverage support.
+- The `todo` CLI only finds `TODO.md` (`usr/tools/todo/src/todo.py:22`).
+- The catalog tag set is closed (`repomod/catalog.py:47`).
+- Canonical checkouts are blob-less partial clones. Fetching upstream into a local clone needs
+  `--refetch`.
+
+## Sequence
+
+### Phase 0: foundations (campaign agent, serial)
+
+| ID | Repo | Owns | Deliverable | Acceptance |
+| --- | --- | --- | --- | --- |
+| F1 | stuff | `repomod/catalog.py`, `docs/tagging.md`, `tests/repomod/`, `fleet/catalog.toml` (the tag only) | The `fork-diverged` tag is valid only together with `fork`. Tag the eight in-scope forks and run `topics apply` for them. | `make repomod-test`. `uv run repomod lint --rule topics --tag fork-diverged` lists exactly the eight forks with no findings. A catalog entry with `fork-diverged` but no `fork` is rejected. |
+| F2 | stuff | `repomod/rules/workflows.py` or a new `rules/test_workflow.py`, `docs/policy-development.md`, `.github/workflows/ci.yml`, tests | Rule `gha-test-workflow`: some workflow runs `make test` or `make test-ci` on pull requests. It applies to non-fork repos and to `fork-diverged` forks. Its fixer adds a test workflow, the same way the lint fixer does. stuff's own CI starts running `make repomod-test`. | `make repomod-test` passes, with a fixture where the workflow calls `cargo test` directly and gets a finding. stuff's CI shows a passing repomod pytest step. |
+| K0 | usr | `tools/todo/` | `todo --file PATH` works for every subcommand. Without it, the tool still finds `TODO.md` as before. | usr's todo tests cover `add`, `list`, and `check` against `TODO-DESLOP.md` while a `TODO.md` exists beside it, and each file keeps its own `Prefix`/`Next`. `make skills-check` passes. |
+| K1 | usr | `test-audit/SKILL.md` and new `test-audit/references/mutation.md` | Rewrite the Coverage section. Coverage is measured routinely with `make coverage` and used to find unprotected boundaries and dead-code candidates. It is never a gate or a target. Add mutation testing: the result classes (caught, missed, unviable, timeout, budget exhausted), how to disposition a survivor, how to justify an equivalent mutant, test-only diff selection, and fault injection for each new boundary test. | `make skills-check`. `rg -n 'not a gate' test-audit/SKILL.md` still matches. The section no longer says to drop coverage reports. |
+
+F1 and K0 may run in parallel because they touch different repositories. F2 follows F1. K1 may run
+in parallel with F1 or F2.
+
+### Phase 1: pilots (campaign agent; one lane per language, in parallel)
+
+Run the full repo pass (below) on **srv** (Rust), **buildlib** (Python), and **extensions**
+(TypeScript). Each pilot also qualifies its language's tools. Pin the tools in the repo, add
+`make coverage` and `make mutants-diff`, add the CI mutation lane, and prove the lane with a
+negative control: a throwaway PR that adds an unasserted branch must fail the lane. Close the
+throwaway PR without merging.
+
+**Checkpoint M1** (campaign agent):
+
+- **F3.** Move the qualified pins into fleet policy. Add rules with fixers where the repair is
+  deterministic:
+  - `make-coverage-target`
+  - `mutants-diff-lane`
+  - `strict-typing-profile`, for the settings that met the evidence bar
+- **K2.** Write the per-language tool recipes into `test-audit/references/` and
+  `dead-code-archaeology`. Include the deletion record that `debloat` and `dead-code-archaeology`
+  require.
+- Score the pilots (see Checkpoints).
+
+### Phase 2: calibration (campaign agent)
+
+Run the pass on three repos that each test a part of the method the pilots could not:
+
+- **fastermod:** the perf gate, against a rustybench baseline.
+- **pytest-parallel:** coverage across parallel workers (this is new runner support, which unblocks
+  stuff and toolbox), plus the known red above.
+- **ptytest:** a library with consumers.
+
+**Checkpoint M2:**
+
+- **K3.** Extract the repo pass into an explicit `deslop` skill in usr. Replace the Repo pass section
+  here with a link to it. Write the ticket template into the skill.
+- Score the repos.
+
+### Phase 3: fan-out (campaign agent seeds; owner dispatches repo agents)
+
+For each tier in order:
+
+1. Sync with `uv run repomod sync`.
+2. Roll out the F2/F3 rules to the tier with `repomod fix --repo` for each repo, and merge on green.
+3. Seed each repo's `TODO-DESLOP.md` through one PR (Seeding, below), merged on green.
+4. Report the tier as ready for dispatch.
+5. Check up on each repo as its tickets settle (Check-up).
+6. Run a checkpoint once the seeding condition for the next tier is met.
+
+| Tier | Repos (Rust + Python + TS lines from `fleet/loc/v1`) |
+| --- | --- |
+| A, under 10k | pi-build (0.7k, `tools/` only), ffmpeg-build 2.8k, node-build 2.9k, fz 5.1k, doas-rs 5.4k, mdevd-rs 5.4k, diff-pretty 6.0k, vault 6.2k, cmake-build 7.0k, hi-lite 8.1k |
+| B, 10k to 30k | lz 11.1k, rustybench 11.1k, loc 12.5k, laputa-ui-dashboard 13.8k, tinyland 14.1k, chromium-build 16.1k, toolbox 18.9k, e 20.1k, defuddle-rs 20.7k, gluon 28.7k |
+| C, 30k to 80k | ctrs 32.7k, usr 42.2k, img 43.7k, tm 51.6k, stats 68.4k, discover 75.8k |
+| D, over 80k, by component | ish 89.0k, smolith 118.1k, play 122.4k, tansu 123.2k, stuff 156.1k, kache 240.1k |
+| E, forks (delta only) | jaq, rust-fontconfig, rustix, rage, fd, oxish, crabtables, soulseek-rs |
+
+Two repos share files with the campaign agent and are never dispatched to a repo agent while it is
+editing them. **usr** is worked only after K3 and between skill revisions. **stuff** is worked only
+when no F item is open.
+
+### Phase 4: close (campaign agent)
+
+1. Check up on every in-scope repo.
+2. Run `uv run repomod lint` over the in-scope set, which must be clean for F2/F3.
+3. Finish the scorecard.
+4. In each repo, move the open P3/P4 tickets from `TODO-DESLOP.md` into `TODO.md` with the `todo`
+   tool, then delete `TODO-DESLOP.md`. Do this through one PR per repo, merged on green.
+5. Run `ultrareview` on this doc's own deliverables in stuff, roll the lasting rules into
+   `docs/fleet.md` and `docs/policy-development.md`, then delete this doc.
+
+## Repo pass
+
+This section is the method until K3 moves it into the `deslop` skill. Work in a fresh clone at
+`.work/wt/deslop/<repo>` (never the canonical checkout), on branches named
+`deslop/<step>-<topic>`. Every step ends on its acceptance command plus `make test` and `make lint`
+on the merged result.
+
+1. **Ground.** Record the base SHA, plus `make test` (cold and warm) and `make lint` with their times
+   and known reds. Fix reds whose cause is clear within two attempts, and file the rest. Add a
+   `## Verification` section of at most 25 lines to the repo's AGENTS.md. It lists the commands with
+   their costs, the public boundaries (CLI commands, flags, exit codes, and outputs; the public API;
+   file and wire formats; endpoints) with the test that guards each one or `none`, the perf workload
+   or `none` with a reason, and the components for repos over 50k lines. For each vendored tree,
+   record the upstream URL and revision in an `UPSTREAM` file (ish's `vendor/fz/UPSTREAM` is the
+   pattern), and classify the tree as pristine or modified.
+   *Accept:* CI runs `make test` and is green, and the Verification section exists.
+2. **Diagnose.** Run `ultrareview`, with its tickets going to `TODO-DESLOP.md` (via `todo --file`).
+   *Accept:* `git diff --stat` touches only docs, comments, and `TODO-DESLOP.md`, and every finding
+   names its `Fix with`.
+3. **Types.** Turn on the strict profile for the repo's language. Fix what it reports truthfully,
+   following `typing-audit`, then fix the top-ranked typing findings from Diagnose. A runtime change
+   needed for a truthful type ships in a separate commit, with a test that failed before it.
+   *Accept:* the checker is clean at the profile, the escape-hatch count (Reference) did not rise,
+   and every fixed contract has a witness (a negative type test where a harness exists, otherwise in
+   the PR body).
+4. **Tests.** Run `make coverage` and record the numbers. Apply `test-audit`:
+   - Cut vacuous and redundant tests, and fix execution drag.
+   - Give every boundary from Ground that has no test a boundary test. Give every unreached region
+     in critical code one disposition: a test, a dead-code candidate for step 5, or unreachable by
+     design with a reason.
+   - Run the mutation tool on the whole repo if it is under 10k lines and fits in 20 minutes.
+     Otherwise run it on the critical modules Diagnose named (parsing, validation, state
+     transitions, persistence, error propagation). Disposition every survivor.
+   - Prove each new boundary test with one injected fault, and record it in the PR body.
+   - Add `make mutants-diff` and the CI lane, unless the fleet fixer already added them.
+
+   *Accept:* no undispositioned survivor in the critical scope, the test cost budget holds, and the
+   mutation lane is green on the PR.
+5. **Dead code.** Run the dead-code tools, then `debloat`. Apply the cuts. File walk-backs under
+   `## Needs owner`. Every PR body carries the deletion record for each removal: the finding; the
+   entry points, registrations, build and package references, and consumers checked; the platforms
+   and features covered; and the consumer tests run.
+   *Accept:* the tools are clean or allowlisted under the rule above, and consumer tests are green.
+6. **Findings.** Work every open P1 and P2 ticket filed by steps 2 to 5 with its `Fix with` skill,
+   one PR per ticket. The perf gate applies. P3 and P4 tickets stay open.
+   *Accept:* each ticket's own acceptance passes, and the perf verdict is within bound.
+7. **Report.** Run `review` on the cumulative diff from the base SHA to HEAD, and fix the defects it
+   demonstrates. Fill in `## Report` in `TODO-DESLOP.md`: the scorecard values (Reference); for each
+   step, what it found and what it cost; method feedback (a skill rule that would have caught
+   something that slipped through, a tool that misfired, a step that found nothing); and gaps in the
+   shared files.
+   *Accept:* `review` leaves no undisputed P1/P2 defect, and the Report has every scorecard field.
+
+## Seeding
+
+Seed each repo's `TODO-DESLOP.md` with `todo --file TODO-DESLOP.md`, using the prefix `DSLP`. The
+seeded tickets are DSLP-1 through DSLP-5, one per step (Ground, Diagnose, Types, Tests, Dead code).
+Each one carries:
+
+- **Problem:** the repo-specific facts the campaign agent already has. These are the baseline times,
+  the known reds, the components, the vendored trees, the consumers, and whether the perf gate
+  applies.
+- **Recommendation:** run the `deslop` skill's step, followed by its acceptance command.
+- **Fix with:** `deslop`.
+
+The file opens with three lines saying that one agent works the file and takes the lowest-numbered
+open ticket outside `## Needs owner`, that steps 6 and 7 follow DSLP-5, and that `## Report` comes
+last. Findings that steps 2 to 5 discover are appended as DSLP-6 and later, so ticket order still
+matches step order. Fleet-wide or shared-file work never becomes a repo ticket.
+
+## Check-up
+
+A repo is **settled** when all of these hold:
+
+- DSLP-1 to DSLP-5 are closed.
+- No P1 or P2 ticket is open outside `## Needs owner`.
+- `## Report` is complete.
+- CI is green on the default branch.
+- `uv run repomod lint --repo <repo>` is clean for the F2/F3 rules.
+
+The campaign agent then:
+
+1. Re-measures Ground's numbers on the default branch in a fresh clone.
+2. Runs the perf gate for perf-sensitive repos against the base SHA.
+3. Spot-checks one boundary test with an injected fault.
+4. Copies the Report into the scorecard.
+5. Moves the repo's `## Needs owner` items into Status.
+
+A repo that fails a check-up gets a new ticket. It is not settled.
+
+## Checkpoints
+
+A checkpoint runs at M1, at M2, and before each tier after A is seeded. It reads the scorecard and
+the Reports.
+
+- **Yield versus cost, per step and per tool.** A step or tool with zero confirmed yield across
+  three or more repos is narrowed or cut from the skill. A dead-code tool whose reviewed findings
+  are more than half false positives drops to discovery-only. Confirmed yield means a defect found,
+  an escape hatch deleted, a survivor killed, code deleted, or a finding fixed.
+- **Escapes.** A regression later traced to a campaign PR gets `root-cause`, a guard (a test, a
+  rule, or a skill rule), and a method change, all before the next tier is seeded.
+- **Skill revision.** Each feedback item that recurs in two or more Reports becomes a rule in
+  `deslop`, `test-audit`, `typing-audit`, `debloat`, or `dead-code-archaeology`. Each new rule cites
+  the repo and PR where the slop got through. `make skills-check` must pass.
+- **Owner batch.** Walk-backs and contract changes go into Status under **Needs you**, each with a
+  recommendation. They do not block the next tier.
+
+## Acceptance
+
+| Deliverable | Proof |
+| --- | --- |
+| Every in-scope repo has completed the pass | A scorecard row for every repo, with after-values and a check-up date |
+| CI runs the tests | `uv run repomod lint --rule gha-test-workflow` has no findings for the in-scope set |
+| Mutation on the diff is enforced | `--rule mutants-diff-lane` is clean, and the pilot negative controls failed the lane as intended |
+| Strict typing is enforced | `--rule strict-typing-profile` is clean for the in-scope set |
+| Nothing regressed | Every perf-gated repo's final verdict is within bound, consumer tests are green, and escaped regressions number zero or each has a guard |
+| The method outlives the campaign | The `deslop` skill exists, and `test-audit` contains the K1 coverage and mutation sections |
+| The tickets are gone | No `TODO-DESLOP.md` remains in any in-scope repo |
+
+## Needs environment
+
+These are run by the owner or by CI, never assumed to pass:
+
+- **Linux-only and macOS-only paths.** The CI matrix of each repo is the proof. Local runs here are
+  macOS only.
+- **Hardware or privileged tests:** doas-rs (setuid), mdevd-rs and tinyland (Linux devices). Repo agents record which boundaries only CI or the owner can exercise.
+- **Browser suites:** extensions `test:browser` and tansu's Playwright tests need the pinned browsers.
+- **Live services:** stuff's `make test-r2-live` and OpenOrange deployments stay opt-in.
+- **Timing.** A perf gate deferred because the host is busy is re-run by the owner on an idle host.
+
+## Execution boundary and non-goals
+
+**Authorized** for the campaign agent, and for repo agents inside their one repository:
+
+- Clones and worktrees under `.work/`.
+- Branches, PRs, and merges on green, per owner decision 5.
+- CI workflow edits that add the test job and the mutation lane.
+- Pinned dev-only tool dependencies from the qualified list.
+- `todo` edits to `TODO-DESLOP.md`.
+- For the campaign agent only: repomod rule and fixer changes, `repomod fix --repo` for in-scope
+  repos once the rule is merged and the canonical stuff checkout is synced, `topics apply` for the
+  eight `fork-diverged` repos, and skill and `todo` tool changes in usr.
+
+**Forbidden:**
+
+- Releases and publishing (`repomod release`, `stuff publish`, crates.io, PyPI).
+- Edits in canonical checkouts.
+- Edits in excluded repos, or in pristine vendored or upstream code.
+- Changing the pinned nightly.
+- Formatters.
+- Force pushes.
+- Changes to branch protection or repository settings.
+- Persisted or wire format changes.
+- Weakening a correct test or a checker setting.
+- `repomod fix` against the live catalog while repomod itself is being changed.
+- Catalog edits other than F1's tag.
+
+**Contract changes the owner has approved:**
+
+- The new `fork-diverged` tag and its topic.
+- The new fleet rules (F2, F3) that report findings on every in-scope repo.
+- The test-audit position on coverage.
+- `todo --file`.
+
+Every other contract change is a walk-back.
+
+**Non-goals:**
+
+- Go, Swift, Zig, and shell code.
+- Performance optimization beyond the bound: speedups are welcome, but they are not targets.
+- Coverage percentages as goals.
+- A database, dashboard, or workflow framework for tracking.
+- Resyncing oxish's vendored copies in ssh-build and xsh.
+
+## Reference
+
+**Strict-profile candidates.** Each is adopted only on evidence, per Prescribed.
+
+- *Rust:* workspace `[lints]` with `unsafe_code = "forbid"`, plus `clippy::wildcard_enum_match_arm`,
+  `match_wildcard_for_single_variants`, `cast_possible_truncation`, `cast_sign_loss`,
+  `unwrap_used` and `expect_used` outside tests, `redundant_clone`, and `needless_pass_by_value`.
+- *Python:* ty with every rule at error severity, plus Ruff `ANN`, `ANN401`, `PGH003`, `TC`, `B`,
+  and `RET`. Start from stuff's `pyproject.toml`.
+- *TypeScript:* `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`,
+  `noImplicitOverride`, and `noPropertyAccessFromIndexSignature`, plus the type-aware Oxlint rules
+  `no-explicit-any`, `no-unsafe-*`, `no-non-null-assertion`, `no-floating-promises`, and
+  `switch-exhaustiveness-check`.
+
+**Escape-hatch count** (scorecard). Run it on first-party, non-vendored sources:
+
+- Rust: `rg -c '\bunsafe\b|#!?\[allow\(|\.unwrap\(\)|\.expect\('`
+- Python: `rg -c 'cast\(|# type: ignore|# ty: ignore|\bAny\b|# noqa'`
+- TypeScript: `rg -Pc '\bas (?!const\b)|\bany\b|@ts-(ignore|expect-error)|(oxlint|eslint)-disable'`
+
+**Scorecard fields.** Each is recorded before and after:
+
+- source lines and test lines
+- warm `make test` time
+- line and branch coverage
+- mutation results on the critical scope (caught, missed, unviable, timeout)
+- escape hatches
+- dead code removed (lines and dependencies)
+- findings filed and fixed, by priority
+- perf verdict
+- escaped regressions
+
+**Fork divergence**, measured 2026-11-14 against fetched upstream. Code changes since the merge base:
+
+| Fork | Code change |
+| --- | --- |
+| soulseek-rs | +11.5k/−3.9k |
+| crabtables | +9.6k/−0.4k |
+| oxish | +4.1k/−2.6k |
+| fd | +3.1k/−1.7k (CLI ported to lexopt) |
+| rage | +1.9k/−2.5k |
+| rustix | +0.2k/−1.5k |
+| rust-fontconfig | +0.5k |
+| jaq | +55/−237 |
