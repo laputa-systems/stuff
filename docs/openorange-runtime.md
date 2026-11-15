@@ -570,6 +570,26 @@ inspection and WebSockets are unavailable; links lead to Stats' existing
 service deployments and host metrics. No SQLite inspection or cluster-wide
 actor total is inferred.
 
+#### Production acceptance (2026-11-14)
+
+Stack revision `1011f69` was deployed with explorer image
+`sha256:e487fe8adba8e159725220cffce764a4091dc6b5fc13ae0d5174628a3b1bd6ad`.
+The authorized Mac browser loaded valid HTTPS over HTTP/3, listed all eight
+production/rehearsal namespaces, and displayed real Stats actor metadata and
+lifecycle events. Stats had two connected nodes and Stuff had one. Namespace
+switching, actor selection/search, Back, reload and the 390 px layout passed.
+
+Unlisted operators and missing/forged gateway credentials received 403;
+mutations received 405. The public listener returned 404 even with forged
+identity headers. Asset/API scans found no Engine or gateway credentials.
+Restarting only `oo-rivet` preserved the Engine and application container IDs
+and start times; the Engine configuration and credential hashes were unchanged.
+Shared health reported 92 passes, one disk-capacity warning and no failures.
+
+The protected configuration and selected image were copied to the Mac's
+`~/backups/openorange/rivet/production/`. The earlier full physical backup
+predates the explorer; retain this supplement with it for recovery.
+
 #### UI selection and pinned Engine evidence
 
 On 2026-11-14, the running `oo-engine` image was inspected read-only. Its
