@@ -57,8 +57,12 @@ impl Artifact {
     }
 
     pub fn file_name(&self) -> String {
-        format!("{}.tar.xz", self.id)
+        artifact_file_name(&self.id)
     }
+}
+
+pub fn artifact_file_name(id: &str) -> String {
+    format!("{id}.tar.xz")
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
