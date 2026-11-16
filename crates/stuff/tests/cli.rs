@@ -184,3 +184,44 @@ fn primary_help_names_the_maintained_repository_and_other_output_does_not() {
     assert_ne!(error.code, 0);
     assert!(!error.stderr.contains("Maintained by"));
 }
+
+#[test]
+fn built_help_is_complete_offline_and_examples_parse() {
+    let top = stuff(&["--help"]);
+    assert_eq!(top.code, 0);
+    assert!(top.stderr.is_empty());
+    assert_eq!(stuff(&["-h"]).stdout, top.stdout);
+    let bare = stuff(&[]);
+    assert_eq!(bare.code, 0);
+    assert!(bare.stderr.is_empty());
+    assert_eq!(bare.stdout, top.stdout);
+    let footer = stuff::cli::OWNED_TOOL_FOOTER;
+    assert_eq!(top.stdout.matches(footer).count(), 1);
+    assert!(top.stdout.ends_with(footer));
+    for command in ["ls", "search", "diff", "doctor", "render", "publish", "publish cargo", "publish npm", "publish pypi", "publish oci", "publish mirror", "republish", "rollback", "credentials", "lock-path"] {
+        assert!(top.stdout.contains(&format!("  stuff {command} ")), "missing {command}");
+        let words: Vec<&str> = command.split_whitespace().collect();
+        for flag in ["-h", "--help"] {
+            let mut args = words.clone();
+            args.push(flag);
+            let result = stuff(&args);
+            assert_eq!(result.code, 0, "{args:?}: {}", result.stderr);
+            assert!(result.stderr.is_empty());
+            assert!(result.stdout.contains(&format!("stuff {command} ")));
+            assert!(!result.stdout.contains(footer));
+        }
+    }
+    for option in ["--registry", "--versions", "--json", "--sample-artifacts", "--expected-generation", "--output", "--cargo-base", "--npm-base", "--pypi-base", "--oci-base", "--mirror-base", "--cargo-dir", "--npm-dir", "--pypi-dir", "--oci-dir", "--mirror-dir", "-p NAME", "--manifest-path", "--lockfile", "--project", "--tarball", "--allow-sdist", "--wheel", "--image", "--layout", "--repository", "--tag", "--inventory", "--lock", "--manifest", "--allow-drops", "--dry-run", "--verbose"] {
+        assert!(top.stdout.contains(option), "missing {option}");
+    }
+    let examples = top.stdout.split_once("Examples:\n").unwrap().1.split_once("\n\n").unwrap().0;
+    let mut count = 0;
+    for line in examples.lines() {
+        let mut words = line.split_whitespace();
+        assert_eq!(words.next(), Some("stuff"));
+        let args: Vec<String> = words.map(str::to_owned).collect();
+        stuff::cli::parse_args(&args).unwrap_or_else(|error| panic!("{line}: {error}"));
+        count += 1;
+    }
+    assert_eq!(count, 15);
+}

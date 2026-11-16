@@ -7,10 +7,15 @@ use stuff::publish::{output, Environment, PublishError, Status};
 
 fn main() {
     let argv: Vec<String> = std::env::args().skip(1).collect();
+    if argv.is_empty() {
+        print_help();
+        return;
+    }
     if argv.iter().any(|a| a == "-h" || a == "--help") {
-        match argv.first().and_then(|command| stuff::publish::help_text(command)) {
-            Some(help) => print!("{help}"),
-            None => print_help(),
+        if argv.first().is_some_and(|arg| arg == "-h" || arg == "--help") {
+            print_help();
+        } else {
+            print!("{}", stuff::cli::command_help());
         }
         return;
     }
