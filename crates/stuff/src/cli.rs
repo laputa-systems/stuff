@@ -763,42 +763,54 @@ fn parse_rollback(args: &[String]) -> Result<Parsed> {
 }
 
 pub fn help_text() -> String {
-    "\
-stuff
-
-Usage: stuff <COMMAND> [OPTIONS]
-
-Commands:
-  ls [--registry cargo|npm|pypi|oci|mirror] [--versions] [--json]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  search <query> [--registry cargo|npm|pypi|oci|mirror] [--json]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  diff <before.json> <after.json> [--json]
-  doctor [--registry cargo|npm|pypi|oci|mirror] [--expected-generation ID] [--sample-artifacts]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  render --output FILE [--registry cargo|npm|pypi|oci|mirror]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  credentials <bucket>
-     print shell exports for the publishing service S3 gateway; use with eval
-  lock-path <bucket> | lock-path --registry cargo|npm|pypi|oci|mirror
-     print the publish lock file of a registry, or of the registry that owns
-     a configured bucket; maintenance helpers hold it while they write
-
-Sources default to the live registries (no credentials needed).
-Pass --cargo-dir/--npm-dir/--pypi-dir/--oci-dir/--mirror-dir (site, generation, or
-catalog.json) to inspect local published output offline. Registries without
-a local dir are skipped by doctor, which then refuses --expected-generation;
-naming one with --registry needs its --*-dir or --*-base, never the live default.
---output FILE ending in .txt or .md writes the aggregate llms.txt; any
-other name writes HTML.
-
-"
-    .to_string()
+    String::from("stuff\n\nUsage: stuff <COMMAND> [OPTIONS]\n\n")
+        + &reference_text()
         + OWNED_TOOL_FOOTER
+}
+
+struct HelpCommand {
+    usage: &'static str,
+    description: &'static str,
+    details: &'static str,
+    example: &'static str,
+}
+
+const HELP_COMMANDS: &[HelpCommand] = &[
+    HelpCommand { usage: "ls [OPTIONS]", description: "List registry packages.", details: "--versions includes versions; --json emits JSON. Accepts source options below.", example: "stuff ls --registry npm --versions" },
+    HelpCommand { usage: "search QUERY [OPTIONS]", description: "Search package names; QUERY is required.", details: "--json emits JSON. Accepts source options below.", example: "stuff search example --registry npm" },
+    HelpCommand { usage: "diff BEFORE AFTER [--json]", description: "Compare two required catalog paths.", details: "--json emits JSON.", example: "stuff diff before.json after.json" },
+    HelpCommand { usage: "doctor [OPTIONS]", description: "Check registry health.", details: "--sample-artifacts checks artifacts; --expected-generation ID requires a generation. Accepts source options below.", example: "stuff doctor --registry npm --sample-artifacts" },
+    HelpCommand { usage: "render --output FILE [OPTIONS]", description: "Render the catalog to the required output path.", details: "--output FILE writes text for .txt or .md, otherwise HTML. Accepts source options below.", example: "stuff render --output catalog.html" },
+    HelpCommand { usage: "publish REGISTRY [OPTIONS]", description: "Publish to one registry; choose a registry command below.", details: "REGISTRY is cargo, npm, pypi, oci, or mirror. Publication options below apply.", example: "stuff publish mirror" },
+    HelpCommand { usage: "publish cargo (-p NAME... [--manifest-path PATH] [--registry NAME] | --lockfile PATH...) [OPTIONS]", description: "Publish Cargo packages or mirror Cargo.lock files.", details: "-p NAME and --lockfile PATH may repeat; choose one mode. --manifest-path PATH selects a manifest; --registry NAME selects the Cargo registry.", example: "stuff publish cargo -p example" },
+    HelpCommand { usage: "publish npm (--lockfile PATH --project ID | --tarball PATH...) [OPTIONS]", description: "Publish npm lockfile packages or tarballs.", details: "--lockfile PATH requires --project ID; --tarball PATH may repeat and excludes both.", example: "stuff publish npm --lockfile pnpm-lock.yaml --project example" },
+    HelpCommand { usage: "publish pypi (SPEC... [--allow-sdist] | --wheel PATH...) [OPTIONS]", description: "Publish Python packages or wheels.", details: "SPEC is name==version and may repeat. --allow-sdist permits source distributions. --wheel PATH may repeat and excludes specs and --allow-sdist.", example: "stuff publish pypi example==1.0" },
+    HelpCommand { usage: "publish oci (--image REPO=REF... | --layout DIR --repository NAME [--tag TAG] | --inventory FILE --lock FILE) [OPTIONS]", description: "Publish OCI images, a layout, or an inventory.", details: "--image REPO=REF may repeat. --layout DIR requires --repository NAME and optionally --tag TAG. --inventory FILE requires --lock FILE; modes cannot be mixed.", example: "stuff publish oci --image example/app=ghcr.io/example/app:v1" },
+    HelpCommand { usage: "publish mirror [--manifest PATH] [--allow-drops] [OPTIONS]", description: "Mirror static upstream artifacts.", details: "--manifest PATH selects the manifest (default mirror/manifest.toml); --allow-drops permits removals.", example: "stuff publish mirror --manifest mirror/manifest.toml" },
+    HelpCommand { usage: "republish REGISTRY [--allow-drops] [--manifest PATH] [OPTIONS]", description: "Rebuild a registry from its published inventory.", details: "REGISTRY is cargo, npm, pypi, oci, or mirror. --allow-drops permits removals; --manifest PATH applies only to mirror. Publication options below apply.", example: "stuff republish cargo" },
+    HelpCommand { usage: "rollback REGISTRY GENERATION [OPTIONS]", description: "Activate a previous generation.", details: "REGISTRY is cargo, npm, pypi, oci, or mirror; GENERATION is required. Publication options below apply.", example: "stuff rollback cargo gen-1" },
+    HelpCommand { usage: "credentials BUCKET", description: "Print shell exports for a bucket's S3 gateway.", details: "BUCKET is required.", example: "stuff credentials stuff-cargo" },
+    HelpCommand { usage: "lock-path (BUCKET | --registry REGISTRY)", description: "Print the publishing lock path.", details: "Specify a configured BUCKET or --registry cargo|npm|pypi|oci|mirror.", example: "stuff lock-path --registry cargo" },
+];
+
+fn reference_text() -> String {
+    let mut out = String::from("Reference:\n  -h, --help  Show help offline.\n\n");
+    for command in HELP_COMMANDS {
+        let _ = writeln!(out, "  stuff {}\n    {}\n    {}", command.usage, command.description, command.details);
+    }
+    out.push_str("\nSource options (ls, search, doctor, render):\n  --registry cargo|npm|pypi|oci|mirror  Select one registry (default: all).\n  --cargo-base URL, --npm-base URL, --pypi-base URL, --oci-base URL, --mirror-base URL\n    Override the corresponding live registry URL; STUFF_CARGO_BASE, STUFF_NPM_BASE,\n    STUFF_PYPI_BASE, STUFF_OCI_BASE, STUFF_MIRROR_BASE supply defaults.\n  --cargo-dir DIR, --npm-dir DIR, --pypi-dir DIR, --oci-dir DIR, --mirror-dir DIR\n    Inspect a local site, generation, or catalog instead.\n\nPublication options (publish, republish, rollback):\n  --dry-run  Preview without publication.\n  --json     Emit JSON.\n  --verbose  Show additional details.\n  Configuration and credentials use STUFF_CONFIG_HOME, STUFF_CACHE_HOME,\n  STUFF_STATE_HOME, XDG_CONFIG_HOME, XDG_CACHE_HOME, XDG_STATE_HOME, HOME,\n  STUFF_CREDENTIAL_FILE, STUFF_COORDINATOR_URL, STUFF_COORDINATOR_TOKEN,\n  STUFF_S3_GATEWAY_URL, STUFF_S3_ACCESS_KEY_ID, STUFF_S3_SECRET_ACCESS_KEY,\n  STUFF_S3_REGION and R2_S3_*; see docs/PUBLISHING.md for their defaults.\n\nExamples:\n");
+    for command in HELP_COMMANDS {
+        let _ = writeln!(out, "  {}", command.example);
+    }
+    out.push_str("\nExit codes: 0 success; 1 health check or runtime failure; 2 usage or configuration error;\n  3 conflict; 4 integrity failure; 5 transport failure.\n\n");
+    out
+}
+
+pub fn command_help() -> String {
+    let mut help = help_text();
+    help.truncate(help.len() - OWNED_TOOL_FOOTER.len());
+    help.push_str("See stuff --help for the complete reference and repository information.\n");
+    help
 }
 
 pub const OWNED_TOOL_FOOTER: &str = "\
@@ -1028,37 +1040,13 @@ mod tests {
         let help = help_text();
         assert!(!help.contains("[sources...]"), "{help}");
         assert!(!help.contains("--remote"), "{help}");
-        let mut command: Option<&str> = None;
-        let mut advertised: Vec<String> = Vec::new();
-        let mut checked = 0;
-        for line in help.lines() {
-            let trimmed = line.trim();
-            let first = trimmed.split_whitespace().next().unwrap_or("");
-            if let Some((name, _)) = COMMANDS.iter().find(|(name, _)| *name == first) {
-                if let Some(previous) = command {
-                    check_advertised(previous, &advertised);
-                    checked += 1;
-                }
-                command = Some(name);
-                advertised.clear();
+        for (command, supported) in COMMANDS {
+            let advertised: Vec<String> = supported.iter().map(|flag| (*flag).to_string()).collect();
+            for flag in &advertised {
+                assert!(help.contains(flag), "{command} help does not advertise {flag}");
             }
-            if command.is_some() && trimmed.is_empty() {
-                break;
-            }
-            if command.is_some() {
-                for token in trimmed.split_whitespace() {
-                    let token = token.trim_matches(|c| c == '[' || c == ']');
-                    if let Some(flag) = token.strip_prefix("--") {
-                        advertised.push(format!("--{flag}"));
-                    }
-                }
-            }
+            check_advertised(command, &advertised);
         }
-        if let Some(previous) = command {
-            check_advertised(previous, &advertised);
-            checked += 1;
-        }
-        assert_eq!(checked, COMMANDS.len());
     }
 
     fn publish_request(argv: &[&str]) -> (PublishRequest, Options) {
