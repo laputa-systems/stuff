@@ -28,16 +28,30 @@ repomod rule keeps it that way, and every consumer reads them. Owner request, 20
 - **Held:**
   - ctrs: its canonical checkout has 20 unpushed commits.
   - fastermod: its canonical checkout has uncommitted work.
-  - fz: an earlier repomod fix PR (fz#27) is still open. All three also need the gha-ubuntu fix.
   - xsh: its core archive is in scope, but `binary-release-standard` also wants its tag,
     preflight, and target rewrites. The archive change waits for that work.
-- **Known gaps:**
-  - Template archives store binaries as mode `0644`. The zips did too, and usr's installer sets
-    the execute bit, but a hand-extracted binary is not executable.
-  - fd, rg, and jaq publish no `SHA256SUMS`.
-- **Phase 5 next:** pinned consumers move at their pin bumps (ssh-build's `ish.lock.json`, img's
-  kache, play's `fetch-gluon`, the laputa recipes). Then usr drops its zip fallback, except
-  for zzz.
+  - laputa needs no change: its oxish recipe already pins a tar.xz ssh-build release whose
+    checksums match. The other zip or tar.gz sources there are IGNORE producers or wait for their
+    own pin bumps.
+- **Fixed since:**
+  - fd, rg, and jaq publish a verified `SHA256SUMS` (fd#22, rg#14, jaq#14).
+  - gluon#13 passes `D` to `ar` only when the archiver lists it. release-c7c0571 broke macOS
+    static libraries with `ar csrD`; release-494abcc has the fix.
+  - fz#27 merged after the owner fixed its required check.
+- **In flight (handoff, 2026-11-16):**
+  - stuff#26: the template fixer writes `tar --mode=0755`, and `binary-release-standard` reports
+    a converted packaging step without it. Template archives store binaries as `0644` until then.
+  - play#13: `fetch-gluon.sh` pins gluon release-494abcc. Merge it once macOS CI is green.
+- **Next, in order:**
+  1. After stuff#26 merges, `uv run repomod sync`. Then, per repo, run `uv run repomod fix
+     --rule binary-release-standard --rule gha-ubuntu --no-mirror --repo R` for ish, kache, loc,
+     diff-pretty, e, srv, tm, vault, and fz. Check each PR diff touches only packaging and runner
+     lines, then merge and dispatch `release.yml`. A closed fix PR leaves its local
+     `repomod/fix/*` branch in the canonical checkout, and `fix` reuses it; delete it first.
+  2. Bump ssh-build's `ish.lock.json` to the new ish release, and switch `scripts/fetch-ish.sh`
+     from `unzip` to `tar -xJf`. Bump img's kache pins (`Dockerfile`, `scripts/install-ci-kache`).
+  3. usr's installer drops the zip fallback for every tool that now ships tar.xz. It keeps it for
+     zzz, ctrs, fastermod, and xsh.
 
 ## Decisions (owner, 2026-11-15)
 
