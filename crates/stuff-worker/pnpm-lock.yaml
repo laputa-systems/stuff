@@ -171,6 +171,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  miniflare@5.20261110.1-beta: 0f4716423eab51f921950c3b89be5afb1442c9ea0c668ad985f0b3a0f134d56a
+
 importers:
 
   .:
@@ -1733,7 +1736,7 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
 
-  miniflare@5.20261110.1-beta:
+  miniflare@5.20261110.1-beta(patch_hash=0f4716423eab51f921950c3b89be5afb1442c9ea0c668ad985f0b3a0f134d56a):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5
@@ -1906,7 +1909,7 @@ snapshots:
       '@cspotcode/source-map-support': 0.8.1
       blake3-wasm: 2.1.5
       esbuild: 0.28.2
-      miniflare: 5.20261110.1-beta
+      miniflare: 5.20261110.1-beta(patch_hash=0f4716423eab51f921950c3b89be5afb1442c9ea0c668ad985f0b3a0f134d56a)
       path-to-regexp: 6.3.0
       unenv: 2.0.0-rc.24
       workerd: 1.20261110.1

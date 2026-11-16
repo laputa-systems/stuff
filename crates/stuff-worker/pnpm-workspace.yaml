@@ -12,3 +12,5 @@ minimumReleaseAgeExclude:
   - '@tsrs/win32-arm64@0.25.0-ts7.1.0-beta'
   - '@tsrs/win32-x64@0.25.0-ts7.1.0-beta'
   - '@laputa-systems/ui-dashboard@0.11.3'
+patchedDependencies:
+  miniflare@5.20261110.1-beta: patches/miniflare@5.20261110.1-beta.patch
