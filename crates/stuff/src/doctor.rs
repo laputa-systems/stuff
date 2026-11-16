@@ -327,7 +327,7 @@ fn mirror_sums_lookup(sums: &str, want_file: &str) -> Option<String> {
 fn mirror_remote_sums_check(base: &str, catalog: &stuff_catalog::Catalog) -> Check {
     let label = "mirror SHA256SUMS".to_string();
     let first = &catalog.packages[0];
-    let want_file = format!("{}.zip", first.name);
+    let want_file = mymirror::manifest::artifact_file_name(&first.name);
     match fetch_bytes(&format!("{base}/current/SHA256SUMS")) {
         Ok((200, body)) => match String::from_utf8(body) {
             Ok(text) => match mirror_sums_lookup(&text, &want_file) {
@@ -344,7 +344,7 @@ fn mirror_remote_sums_check(base: &str, catalog: &stuff_catalog::Catalog) -> Che
 fn mirror_sums_check(gen_dir: &std::path::Path, catalog: &stuff_catalog::Catalog) -> Check {
     let label = "mirror SHA256SUMS".to_string();
     let first = &catalog.packages[0];
-    let want_file = format!("{}.zip", first.name);
+    let want_file = mymirror::manifest::artifact_file_name(&first.name);
     match std::fs::read_to_string(gen_dir.join("SHA256SUMS")) {
         Ok(sums) => match mirror_sums_lookup(&sums, &want_file) {
             Some(hash) => Check::pass(label, format!("{want_file} sha256 {hash}")),
@@ -414,7 +414,7 @@ fn run_local_checks(
             checks.extend(oci_local_checks(catalog, local));
         }
         "mirror" => {
-            let file = format!("{}.zip", first.name);
+            let file = mymirror::manifest::artifact_file_name(&first.name);
             if gen_dir.join(&file).is_file() {
                 checks.push(Check::pass(format!("{name} artifact"), format!("{file} present")));
             } else {
@@ -948,7 +948,7 @@ fn sample_local(
             }
         }
         "mirror" => {
-            let want_file = format!("{}.zip", first.name);
+            let want_file = mymirror::manifest::artifact_file_name(&first.name);
             let sums = match std::fs::read_to_string(gen_dir.join("SHA256SUMS")) {
                 Ok(text) => text,
                 Err(e) => return Check::fail(label, format!("could not read SHA256SUMS: {e}")),
@@ -1113,7 +1113,7 @@ fn sample_remote(name: &str, catalog: &stuff_catalog::Catalog, base: &str) -> Ch
         }
         "mirror" => {
             let sums_url = format!("{base}/current/SHA256SUMS");
-            let want_file = format!("{}.zip", first.name);
+            let want_file = mymirror::manifest::artifact_file_name(&first.name);
             let want_sha = match crate::source::fetch_bytes(&sums_url) {
                 Ok((200, body)) => match String::from_utf8(body) {
                     Ok(text) => match mirror_sums_lookup(&text, &want_file) {
@@ -1497,19 +1497,19 @@ mod tests {
         assert!(llms.detail.contains("does not match catalog"), "{}", llms.detail);
     }
 
-    fn mirror_fixture(dir: &std::path::Path, zip_bytes: &[u8]) -> (stuff_catalog::Catalog, std::path::PathBuf, std::path::PathBuf) {
+    fn mirror_fixture(dir: &std::path::Path, archive_bytes: &[u8]) -> (stuff_catalog::Catalog, std::path::PathBuf, std::path::PathBuf) {
         use sha2::Digest;
         let mut h = sha2::Sha256::new();
-        h.update(zip_bytes);
+        h.update(archive_bytes);
         let sha = crate::publish::lower_hex(h.finalize());
         let site = dir.to_path_buf();
         let gen_dir = site.join("generations").join("gen1");
         std::fs::create_dir_all(&gen_dir).unwrap();
-        std::fs::write(gen_dir.join("tool-1.0.zip"), zip_bytes).unwrap();
-        std::fs::write(gen_dir.join("SHA256SUMS"), format!("{sha}  tool-1.0.zip\n")).unwrap();
+        std::fs::write(gen_dir.join("tool-1.0.tar.xz"), archive_bytes).unwrap();
+        std::fs::write(gen_dir.join("SHA256SUMS"), format!("{sha}  tool-1.0.tar.xz\n")).unwrap();
         let catalog_text = format!(
             r#"{{
-  "artifacts": [{{"bytes": 10, "file": "tool-1.0.zip", "files": ["bin/tool"], "id": "tool-1.0", "sha256": "{sha}", "stripComponents": 0, "upstream": {{"sha256": "{sha}", "url": "https://example.test/tool.tar.gz"}}, "version": "1.0"}}],
+  "artifacts": [{{"bytes": 10, "file": "tool-1.0.tar.xz", "files": ["bin/tool"], "id": "tool-1.0", "sha256": "{sha}", "stripComponents": 0, "upstream": {{"sha256": "{sha}", "url": "https://example.test/tool.tar.gz"}}, "version": "1.0"}}],
   "baseUrl": "https://mirror.example.test/",
   "generation": "gen1",
   "packages": [{{"name": "tool-1.0", "source": "upstream", "versions": [{{"version": "1.0"}}]}}],
@@ -1544,7 +1544,7 @@ mod tests {
     fn local_mirror_sample_fails_on_tampered_artifact() {
         let dir = tempfile::tempdir().unwrap();
         let (catalog, site, gen_dir) = mirror_fixture(dir.path(), b"tool-bytes");
-        std::fs::write(gen_dir.join("tool-1.0.zip"), b"tampered").unwrap();
+        std::fs::write(gen_dir.join("tool-1.0.tar.xz"), b"tampered").unwrap();
         let check = sample_local("mirror", &catalog, &site, &gen_dir);
         assert_eq!(check.state, CheckState::Fail, "{}", check.detail);
     }
