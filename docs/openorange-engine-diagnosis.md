@@ -227,10 +227,30 @@ by the post gate. Neither receipt is complete or establishes the required
 ten-cycle acceptance; valid cycles from separate runs are not combined.
 Q failed a supervisor-file preflight and started no Engine or cycles.
 
+The owner subsequently reduced the required count to three restarts. R's
+first three consecutive cycles each have equal data and passing pre/post
+host gates, and meet 15 seconds at both boundaries: start-to-data
+5.686/8.057/4.646 seconds and shutdown-to-data 7.002/9.422/5.989 seconds.
+Those cycles satisfy the revised restart requirement for source `40ed954d`.
+The original ten-cycle receipt remains incomplete; its fourth busy-host
+cycle is excluded. No raw receipt or timing sample was rewritten.
+
 The protected restart receipts and logs remain in
 `/home/josh/d/stuff/.work/tmp/stuf87-restart-n-20261116/`, with separate
-O/P/Q/R filenames. All these private containers are stopped. The required
-ten-cycle performance gate is deferred because the host became busy.
+O/P/Q/R filenames. All these private containers are stopped.
+
+The later inventory-edge candidate `dc461cb` was exercised with a fresh
+depot and one-second inventory sweeps during import, rather than the original
+sixty-second collection interval. All 3,031 inventory requests succeeded,
+but import stopped at 138,500 acknowledged rows with HTTP 500. Engine warnings
+report `volume log mutation failed: QuorumUnavailable { token: None }`, with
+no staged-abort-fence message. There were 4,580 memory-limit events, zero OOM
+events and zero kills. The stopped fixture and receipt are under
+`/home/josh/d/stuff/.work/tmp/stuf88-inventory-s-20261116/`.
+This establishes an unresolved failure under the additional polling load;
+its cause and attribution to the candidate remain unproven. It does not
+replace the original canonical import/restart evidence or establish 24-hour
+availability. The failed depot is preserved and has not been retried.
 
 The first restart diagnostic recovered an equal 203,950-event summary, then
 failed the first stop-inclusive 15-second cycle. Shutdown took 7.182 seconds
