@@ -88,6 +88,9 @@ function table(id, rows, fields) {
     }
 }
 function lifecycle(row) {
+    if (row.lifecycle_phase != null) {
+        return `Engine: ${row.lifecycle_phase}${row.lifecycle_epoch == null ? '' : ` · epoch ${row.lifecycle_epoch}`}`;
+    }
     const events = [
         ['destroy_ts', 'Destroyed'],
         ['sleep_ts', 'Sleep reported'],

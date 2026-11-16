@@ -21,6 +21,8 @@ type RivetActorRow = {
   start_ts?: string | number | null;
   reschedule_ts?: string | number | null;
   pending_allocation_ts?: string | number | null;
+  lifecycle_phase?: string | null;
+  lifecycle_epoch?: number | null;
 };
 
 type RivetNodeRow = {
@@ -155,6 +157,9 @@ function table<Row>(id: string, rows: Row[], fields: Array<Field<Row>>): void {
 }
 
 function lifecycle(row: RivetActorRow): string {
+  if (row.lifecycle_phase != null) {
+    return `Engine: ${row.lifecycle_phase}${row.lifecycle_epoch == null ? '' : ` · epoch ${row.lifecycle_epoch}`}`;
+  }
   const events: Array<[string, string]> = [
     ['destroy_ts', 'Destroyed'],
     ['sleep_ts', 'Sleep reported'],

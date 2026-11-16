@@ -18,7 +18,13 @@ The BFF allows GET only: health, namespaces, pools, pool nodes, actor names, and
 
 Run tests from the repository root: `TMPDIR=$PWD/.work/tmp python3.14 -m unittest discover -s deploy/openorange/rivet -p 'test_*.py' -v`.
 
-At most 16 requests run concurrently; incoming sockets time out after five seconds of inactivity and are closed after ten seconds total. Oversized or malformed upstream data and projected values containing either secret fail closed. Integers outside JavaScript’s safe range are returned as decimal strings. The actor key is projected as a string, matching the observed Engine response. Actor lifecycle labels derive only from returned timestamps; they do not imply placement or activity. Namespace and actor selections are stored in URL hash parameters for refresh and browser history. Search filters only the displayed actor page.
+At most 16 requests run concurrently; incoming sockets time out after five seconds of inactivity and are closed after ten seconds total. Oversized or malformed upstream data and projected values containing either secret fail closed. Integers outside JavaScript’s safe range are returned as decimal strings. The actor key is projected as a string, matching the observed Engine response. Actor lifecycle labels prefer the returned Engine phase and otherwise use reported timestamps; they do not imply placement or activity. Namespace and actor selections are stored in URL hash parameters for refresh and browser history. Search filters only the displayed actor page.
 
 The frontend race and navigation regression can be run with `node deploy/openorange/rivet/test_ui.js`.
 The frontend is written in TypeScript (`app.ts`, `test_ui.ts`); `app.js` and `test_ui.js` are the committed artifacts produced by `make ts-assets`, so edit the sources and rebuild rather than the `.js` files.
+
+The private Engine lifecycle candidate projects `lifecycle_phase` and
+`lifecycle_epoch` when available and displays them before historical timestamp
+labels. Missing or null values remain unknown. The epoch is a fencing token,
+not a constructor count; a sleeping phase alone does not distinguish idle
+eviction from a crash. See [the lifecycle contract and private proof](../../../docs/openorange-actor-lifecycle.md).

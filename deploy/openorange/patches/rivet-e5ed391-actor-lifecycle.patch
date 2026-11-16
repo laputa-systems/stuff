@@ -1,0 +1,186 @@
+diff --git a/engine/packages/api-public-shim/src/routes.rs b/engine/packages/api-public-shim/src/routes.rs
+index 494812a..a6b2e24 100644
+--- a/engine/packages/api-public-shim/src/routes.rs
++++ b/engine/packages/api-public-shim/src/routes.rs
+@@ -1042,7 +1042,7 @@ async fn create_actor_inner(
+ 			return Err(DuplicateKey.build());
+ 		}
+ 		return Ok(Created::Actor(Json(
+-			json!({ "actor": actor_json(&actor.data, &namespace.name, None)?, "created": false }),
++			json!({ "actor": read_actor_json(&actor, &namespace.name, None)?, "created": false }),
+ 		)));
+ 	}
+ 
+@@ -1094,7 +1094,7 @@ async fn create_actor_inner(
+ 					return Err(DuplicateKey.build());
+ 				}
+ 				return Ok(Created::Actor(Json(
+-					json!({ "actor": actor_json(&actor.data, &namespace.name, None)?, "created": false }),
++					json!({ "actor": read_actor_json(&actor, &namespace.name, None)?, "created": false }),
+ 				)));
+ 			}
+ 		};
+@@ -1946,7 +1946,7 @@ async fn read_actor_page(ctx: &EngineContext, query: &HashMap<String, String>) -
+ 						destroy_unix_ms,
+ 					)?),
+ 					None if actor.destroyed && !include_destroyed => {}
+-					None => actors.push(actor_json(&actor.data, &namespace.name, None)?),
++					None => actors.push(read_actor_json(&actor, &namespace.name, None)?),
+ 				}
+ 			}
+ 			next_cursor = page
+@@ -1978,7 +1978,7 @@ async fn lookup_actor(
+ 		return Ok(None);
+ 	}
+ 	if !actor.destroyed {
+-		return Ok(Some(actor_json(&actor.data, &namespace.name, None)?));
++		return Ok(Some(read_actor_json(&actor, &namespace.name, None)?));
+ 	}
+ 	if !include_destroyed {
+ 		return Ok(None);
+@@ -1992,8 +1992,8 @@ async fn lookup_actor(
+ 		actor.data.create_unix_ms,
+ 	)
+ 	.await?;
+-	Ok(Some(actor_json(
+-		&actor.data,
++	Ok(Some(read_actor_json(
++		&actor,
+ 		&namespace.name,
+ 		destroy_unix_ms,
+ 	)?))
+@@ -2180,7 +2180,7 @@ pub async fn get_actor(
+ 	};
+ 
+ 	Ok(Json(
+-		json!({ "actor": actor_json(&actor.data, &namespace.name, None)? }),
++		json!({ "actor": read_actor_json(&actor, &namespace.name, None)? }),
+ 	))
+ }
+ 
+@@ -2561,6 +2561,8 @@ async fn live_envoys(ctx: &EngineContext, namespace: &str) -> Result<Vec<LiveEnv
+ /// An actor's data record and whether it is on its way out.
+ pub(super) struct ReadActor {
+ 	pub(super) data: wire::ActorData,
++	lifecycle_phase: Option<&'static str>,
++	lifecycle_epoch: Option<u32>,
+ 	/// The actor is being or has been destroyed.
+ 	destroyed: bool,
+ 	/// The V2 migrator holds the actor while its data moves in.
+@@ -2599,6 +2601,7 @@ async fn read(ctx: &EngineContext, group: Option<GroupId>, actor_id: Id) -> Resu
+ 
+ /// The actor a state volume read found, or `None` when its data write has not landed yet.
+ fn read_actor_of(res: wire::ActorReadResponse) -> Option<ReadActor> {
++	let (lifecycle_phase, lifecycle_epoch) = lifecycle_of(res.phase.as_ref(), res.epoch);
+ 	let destroyed = matches!(
+ 		res.phase,
+ 		Some(wire::ActorPhase::Destroying(_) | wire::ActorPhase::Destroyed)
+@@ -2606,11 +2609,35 @@ fn read_actor_of(res: wire::ActorReadResponse) -> Option<ReadActor> {
+ 	let held = matches!(res.phase, Some(wire::ActorPhase::MigratingFromV2(_)));
+ 	res.data.map(|data| ReadActor {
+ 		data,
++		lifecycle_phase,
++		lifecycle_epoch,
+ 		destroyed,
+ 		held,
+ 	})
+ }
+ 
++fn lifecycle_of(phase: Option<&wire::ActorPhase>, epoch: u32) -> (Option<&'static str>, Option<u32>) {
++	match phase {
++		None => (None, None),
++		Some(wire::ActorPhase::Initializing(_)) => (Some("initializing"), Some(epoch)),
++		Some(wire::ActorPhase::Starting(_)) => (Some("starting"), Some(epoch)),
++		Some(wire::ActorPhase::Running(_)) => (Some("running"), Some(epoch)),
++		Some(wire::ActorPhase::Stopping(_)) => (Some("stopping"), Some(epoch)),
++		Some(wire::ActorPhase::Sleeping(_)) => (Some("sleeping"), Some(epoch)),
++		Some(wire::ActorPhase::Destroying(_)) => (Some("destroying"), Some(epoch)),
++		Some(wire::ActorPhase::Destroyed) => (Some("destroyed"), Some(epoch)),
++		Some(wire::ActorPhase::MigratingFromV2(_)) => (Some("migrating_from_v2"), None),
++		Some(wire::ActorPhase::DelegatedToV2) => (Some("delegated_to_v2"), None),
++	}
++}
++
++fn read_actor_json(actor: &ReadActor, namespace: &str, destroy_unix_ms: Option<i64>) -> Result<Value> {
++	let mut value = actor_json(&actor.data, namespace, destroy_unix_ms)?;
++	value["lifecycle_phase"] = json!(actor.lifecycle_phase);
++	value["lifecycle_epoch"] = json!(actor.lifecycle_epoch);
++	Ok(value)
++}
++
+ /// Resolves the group `actor_id`'s volumes are keyed in for `namespace` and reads its state
+ /// volume there, reusing the read the legacy fallback made when it made one, so an actor costs
+ /// one read however it resolved, and one not yet moved two. `None` when the volume is missing or
+@@ -2783,3 +2810,72 @@ mod inventory_tests {
+ 		}
+ 	}
+ }
++
++#[cfg(test)]
++mod lifecycle_tests {
++	use super::*;
++
++	fn allocation() -> wire::ActorAllocation {
++		wire::ActorAllocation {
++			envoy_key: "fixture-envoy".into(),
++			worker_id: vec![1; 16].into(),
++			connection_id: vec![2; 16].into(),
++		}
++	}
++
++	fn response(phase: Option<wire::ActorPhase>, epoch: u32) -> wire::ActorReadResponse {
++		wire::ActorReadResponse {
++			data: Some(wire::ActorData {
++				actor_id: Id::V1([0; 18]).as_bytes().into(),
++				pool_name: "fixture-pool".into(),
++				name: "observation-store".into(),
++				key: Some("stats".into()),
++				input: None,
++				create_unix_ms: 123,
++				legacy_namespace: None,
++				forked_from: None,
++				legacy_moved_from: None,
++			}),
++			phase,
++			epoch,
++			database_origin: None,
++			command_index: Some(0),
++			legacy_move: None,
++			legacy_write_index_phase: None,
++		}
++	}
++
++	#[test]
++	fn actor_reads_preserve_positive_lifecycle_and_unknowns_without_inventing_times() {
++		let cases = [
++			(None, Value::Null, Value::Null),
++			(Some(wire::ActorPhase::Running(wire::Running { allocation: allocation() })), json!("running"), json!(7)),
++			(Some(wire::ActorPhase::Sleeping(wire::Sleeping { wake_retries: 0 })), json!("sleeping"), json!(7)),
++			(Some(wire::ActorPhase::Destroyed), json!("destroyed"), json!(7)),
++			(Some(wire::ActorPhase::MigratingFromV2(wire::MigratingFromV2 {
++				migration_id: 3, reserve_epoxy: None, alarm_due: false,
++			})), json!("migrating_from_v2"), Value::Null),
++		];
++		for (phase, expected_phase, expected_epoch) in cases {
++			let actor = read_actor_of(response(phase, 7)).unwrap();
++			let mut expected = actor_json(&actor.data, "private-fixture", None).unwrap();
++			expected["lifecycle_phase"] = expected_phase;
++			expected["lifecycle_epoch"] = expected_epoch;
++			let actual = read_actor_json(&actor, "private-fixture", None).unwrap();
++			assert_eq!(actual, expected);
++			for field in ["sleep_ts", "start_ts", "connectable_ts"] {
++				assert_eq!(actual[field], Value::Null);
++			}
++		}
++	}
++
++	#[test]
++	fn a_lifecycle_transition_keeps_the_engine_epoch_instead_of_a_constructor_count() {
++		let before = read_actor_of(response(Some(wire::ActorPhase::Running(wire::Running { allocation: allocation() })), 6)).unwrap();
++		let asleep = read_actor_of(response(Some(wire::ActorPhase::Sleeping(wire::Sleeping { wake_retries: 0 })), 7)).unwrap();
++		let awake = read_actor_of(response(Some(wire::ActorPhase::Running(wire::Running { allocation: allocation() })), 7)).unwrap();
++		let observations = [before, asleep, awake].map(|actor| read_actor_json(&actor, "private-fixture", None).unwrap());
++		assert_eq!(observations.each_ref().map(|value| value["lifecycle_phase"].clone()), [json!("running"), json!("sleeping"), json!("running")]);
++		assert_eq!(observations.each_ref().map(|value| value["lifecycle_epoch"].clone()), [json!(6), json!(7), json!(7)]);
++	}
++}

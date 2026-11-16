@@ -83,6 +83,12 @@ const context = {
     window: { addEventListener: (name, fn) => { events[name] = fn; } },
 };
 vm.runInNewContext(fs.readFileSync(__dirname + '/app.js', 'utf8'), context);
+assert.equal(vm.runInNewContext('lifecycle({ lifecycle_phase: "sleeping", lifecycle_epoch: 7, create_ts: 123 })', context), 'Engine: sleeping · epoch 7');
+assert.equal(vm.runInNewContext('lifecycle({ lifecycle_phase: "running", lifecycle_epoch: 7, sleep_ts: 123 })', context), 'Engine: running · epoch 7');
+assert.equal(vm.runInNewContext('lifecycle({ lifecycle_phase: "migrating_from_v2", lifecycle_epoch: null })', context), 'Engine: migrating_from_v2');
+assert.equal(vm.runInNewContext('lifecycle({ lifecycle_phase: null, lifecycle_epoch: null })', context), 'Unavailable');
+assert.equal(vm.runInNewContext('lifecycle({})', context), 'Unavailable');
+assert.equal(vm.runInNewContext('lifecycle({ sleep_ts: 123 })', context), 'Sleep reported');
 const tick = () => new Promise((resolve) => { setImmediate(() => resolve()); });
 (async () => {
     await tick();

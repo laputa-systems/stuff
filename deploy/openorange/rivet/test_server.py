@@ -119,6 +119,15 @@ class Tests(unittest.TestCase):
         status, html = self.request('/rivet/')
         self.assertEqual(status, 200); self.assertNotIn(b'<script>alert', html)
         self.assertIn(b'textContent', self.request('/rivet/app.js')[1])
+    def test_lifecycle_projection_preserves_positive_and_unknown_values(self):
+        base = {'actor_id': 'id', 'name': 'actor', 'sleep_ts': None, 'start_ts': None, 'connectable_ts': None}
+        for phase, epoch in [('sleeping', 7), ('running', 7), ('migrating_from_v2', None), (None, None)]:
+            row = dict(base, lifecycle_phase=phase, lifecycle_epoch=epoch)
+            self.assertEqual(app.project(row, 'actors', ['engine-secret', 'gateway-secret']), row)
+        self.assertEqual(app.project(base, 'actors', []), base)
+        for epoch in (True, -1, 4294967296, '7'):
+            with self.assertRaises(ValueError): app.project(dict(base, lifecycle_epoch=epoch), 'actors', [])
+        with self.assertRaises(ValueError): app.project(dict(base, lifecycle_phase='engine-secret'), 'actors', ['engine-secret'])
     def test_upstream_failures(self):
         for mode, status in [('404', 404), ('bad', 502), ('large', 502), ('redirect', 502)]:
             Engine.mode = mode; code, body = self.request('/rivet/api/health'); self.assertEqual(code, status); self.assertNotIn(b'secret', body)

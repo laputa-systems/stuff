@@ -19,7 +19,7 @@ FIELDS = {
     'namespaces': ('name', 'status', 'create_ts', 'archived_ts'),
     'pools': ('name',),
     'nodes': ('key', 'namespace', 'pool', 'connected', 'stopping', 'create_ts', 'last_ping_ts', 'datacenter', 'version'),
-    'actors': ('actor_id', 'name', 'namespace', 'pool', 'key', 'create_ts', 'connectable_ts', 'destroy_ts', 'pending_allocation_ts', 'reschedule_ts', 'sleep_ts', 'start_ts'),
+    'actors': ('actor_id', 'name', 'namespace', 'pool', 'key', 'create_ts', 'connectable_ts', 'destroy_ts', 'pending_allocation_ts', 'reschedule_ts', 'sleep_ts', 'start_ts', 'lifecycle_phase', 'lifecycle_epoch'),
 }
 VALUE = re.compile(r'^[A-Za-z0-9_.:@-]{1,200}$')
 
@@ -31,7 +31,7 @@ OPENER = urllib.request.build_opener(NoRedirect())
 
 REQUIRED = {'health': ('status', 'version'), 'namespaces': ('name',), 'pools': ('name',), 'nodes': ('key', 'connected'), 'actors': ('actor_id', 'name')}
 BOOLEAN = {'connected', 'stopping'}
-INTEGER = {'create_ts', 'archived_ts', 'last_ping_ts', 'version', 'connectable_ts', 'destroy_ts', 'pending_allocation_ts', 'reschedule_ts', 'sleep_ts', 'start_ts'}
+INTEGER = {'create_ts', 'archived_ts', 'last_ping_ts', 'version', 'connectable_ts', 'destroy_ts', 'pending_allocation_ts', 'reschedule_ts', 'sleep_ts', 'start_ts', 'lifecycle_epoch'}
 MAX_SAFE = 9007199254740991
 
 def safe_string(value, secrets):
@@ -53,6 +53,7 @@ def project(row, kind, secrets):
             result[key] = value
         elif key in INTEGER and not (kind == 'health' and key == 'version'):
             if type(value) is not int: raise ValueError('invalid integer')
+            if key == 'lifecycle_epoch' and not 0 <= value <= 4294967295: raise ValueError('invalid actor epoch')
             result[key] = value if abs(value) <= MAX_SAFE else safe_string(str(value), secrets)
         else:
             result[key] = safe_string(value, secrets)

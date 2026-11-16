@@ -1,0 +1,89 @@
+{
+  "probe": {
+    "sourceRevision": "197af2f08cc5f00ec9a15b5a0d3fc8965c818dda",
+    "binarySha256": "95b483cb6178627161c0fe41c420f8a71e07eebe03d302b23989dd6d0e532b44",
+    "observations": [
+      {
+        "atMs": 1794845718477,
+        "phase": "running",
+        "epoch": 3
+      },
+      {
+        "atMs": 1794845720482,
+        "phase": "running",
+        "epoch": 3
+      },
+      {
+        "atMs": 1794845722486,
+        "phase": "running",
+        "epoch": 3
+      },
+      {
+        "atMs": 1794845724488,
+        "phase": "running",
+        "epoch": 3
+      },
+      {
+        "atMs": 1794845726492,
+        "phase": "running",
+        "epoch": 3
+      },
+      {
+        "atMs": 1794845728497,
+        "phase": "sleeping",
+        "epoch": 4
+      },
+      {
+        "atMs": 1794845728873,
+        "phase": "running",
+        "epoch": 4
+      }
+    ],
+    "complete": true,
+    "naturalIdleProven": true,
+    "before": {
+      "events": 203950,
+      "summaryEqual": true,
+      "atMs": 1794845718312
+    },
+    "actor": {
+      "actor_id": "dtyvavwf0q6tova0s29jwipln1dl00",
+      "name": "observation-store-13f29dce",
+      "create_ts": 1794835129145,
+      "namespace": "stats-scale-stuf87-fresh-m-20261116"
+    },
+    "namespaceIdentity": {
+      "sameKeyedId": true,
+      "otherReadBeforeCreate": 404,
+      "distinctCreation": true,
+      "originalUnchanged": true,
+      "scope": "actor metadata and namespace resolution; not a cross-namespace SQLite write test"
+    },
+    "after": {
+      "events": 203950,
+      "summaryEqual": true,
+      "atMs": 1794845728870
+    },
+    "engineProcessUnchanged": true,
+    "sdkIdleEvent": {
+      "file": "native-app-u-stdout.log",
+      "message": "sleep idle deadline elapsed",
+      "actor_id": "dtyvavwf0q6tova0s29jwipln1dl00",
+      "lineSha256": "3f5233f44f6e44e27c52cd24fe1bb8d087c2ddd94c4da57f416eaef00549b002"
+    },
+    "capabilityObserved": true
+  },
+  "runtime": {
+    "binarySha256": "95b483cb6178627161c0fe41c420f8a71e07eebe03d302b23989dd6d0e532b44",
+    "sourceRevision": "197af2f08cc5f00ec9a15b5a0d3fc8965c818dda",
+    "cpus": 2,
+    "memoryBytes": 3221225472,
+    "complete": true,
+    "performanceAcceptance": false,
+    "containerId": "728a8af654ad9e9dc0b41224397cdf26b98ca57b17e0c9b99aee9beb138f5bb3",
+    "probeExit": 0,
+    "appProcessUnchanged": true,
+    "memoryEvents": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "stopped": true
+  }
+}
