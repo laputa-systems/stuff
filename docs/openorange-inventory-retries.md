@@ -64,11 +64,12 @@ version or shipped dependency is added. Its existing MIT-licensed service
 test adapter exercises the actual router and middleware without opening a
 listener or implementing another HTTP test stack.
 
-A source reviewer inspected the retry and timeout owners, authorization and
-read paths, and found no supported defect, but its review is incomplete:
-the reviewer lacked the commit diff and its one-attempt limit prevented a
-correction. Parent inspection covers the complete diff; do not describe this
-as a completed independent diff review. The full private release build succeeds.
+A resumed independent source review inspected the complete three-file patch
+against clean combined source `f68e0732`, both inventory handlers, every renamed
+storage-step caller, the shared retry owner, authorization and pagination.
+It found no supported source-level defect. It ran no builds or tests; this
+source-only review establishes neither natural-refusal runtime behavior nor
+production availability. The full private release build succeeds.
 Its stripped x86-64 binary is 68,746,408 bytes, SHA-256
 `77321ee6d4455d6e6e9b3f9421d54c98c9b236084fc7f0fae74f109fea8a8496`.
 The natural-refusal runtime comparison and complete 24-hour qualified collection
