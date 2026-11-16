@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Eleven repositories have landed verified source changes.
+Status: in progress. Fifteen repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -32,6 +32,10 @@ the backlog. Update a policy entry only after its source change lands with tests
 | laputa-systems/doas-rs | [PR 3](https://github.com/laputa-systems/doas-rs/pull/3) | 166 Linux container tests, clippy and CI |
 | joshuarli/ish | [PR 31](https://github.com/joshuarli/ish/pull/31) | ish/epsh built help, examples, shell regressions and Linux/macOS CI |
 | joshuarli/mactop | [PR 11](https://github.com/joshuarli/mactop/pull/11) | Built Swift help test, lint and CI |
+| joshuarli/stats | [PR 17](https://github.com/joshuarli/stats/pull/17) | Built agent help, parser examples and CI; no sampler or soak |
+| joshuarli/lz | [PR 6](https://github.com/joshuarli/lz/pull/6) | Option catalog, parser examples, built help, clippy and CI |
+| joshuarli/bctl | [PR 3](https://github.com/joshuarli/bctl/pull/3) | 62 binary tests, two built CLI tests, real web bundle and clippy |
+| joshuarli/soulseek-rs | [PR 9](https://github.com/joshuarli/soulseek-rs/pull/9) | Workspace tests, parser examples, clippy and CI |
 
 Stuff's complete reference and parser-checked command examples are committed
 locally. Its CLI and library tests pass, with clippy warnings denied. Repomod's
@@ -39,17 +43,28 @@ full suite passed: 1,410 tests, three expected skips.
 
 ## Remaining work
 
-Source review or PR checks: bctl, ctrs, lz, stats, Rust stuff.
+PR checks: [stuff 40](https://github.com/laputa-systems/stuff/pull/40),
+[ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
+[img 7](https://github.com/joshuarli/img/pull/7),
+[tansu 29](https://github.com/joshuarli/tansu/pull/29),
+[play 14](https://github.com/joshuarli/play/pull/14),
+[toolbox 14](https://github.com/joshuarli/toolbox/pull/14),
+[fz 41](https://github.com/laputa-systems/fz/pull/41),
+[srv 45](https://github.com/laputa-systems/srv/pull/45),
+[mdevd-rs 4](https://github.com/laputa-systems/mdevd-rs/pull/4),
+[zzz 16](https://github.com/laputa-systems/zzz/pull/16),
+[pi-build 6](https://github.com/joshuarli/pi-build/pull/6), and
+[syncthing 9](https://github.com/joshuarli/syncthing/pull/9).
 
-Implementation or correction: kache, xsh, play, soulseek-rs, tansu, toolbox,
-pi-build, img.
-
-Queued originals: fz, srv, gluon, mdevd-rs, tinyland, zzz.
+Implementation or correction: xsh, gluon, tinyland and gh.
+Kache's source is preserved on `fix/stuf89-help`; its required pre-PR gate blocks
+publication. Its existing footer coverage does not establish complete help.
 Existing footer coverage does not establish the
 complete-reference contract for these tools.
 
-Queued forks and distributions: gh, syncthing, chromium-build, cmake-build,
-ffmpeg-build, git-build, node-build, llvm-prebuilt-musl, jaq, rage, ssh-build.
+In progress distributions: cmake-build, ffmpeg-build and git-build.
+Queued forks and distributions: chromium-build, node-build, llvm-prebuilt-musl,
+jaq, rage and ssh-build.
 Python-build already has its maintained help patch and test; verify that existing
 source coverage when closing the batch.
 
@@ -69,8 +84,27 @@ the fixture basename. Production path validation is unchanged.
 
 Xsh's macOS build failed because directory cleanup assumed an unsigned 64-bit
 device identifier. [Issue 5](https://github.com/laputa-systems/xsh/issues/5) tracks
-the focused repair to preserve the platform's native device type. Build succeeds;
-the changed-path gate and both runner/tooling help checks remain in progress.
+the focused repair to preserve the platform's native device type. The same
+verification build also needed portable FIFO and mutable macOS PTY fixtures
+([issue 6](https://github.com/laputa-systems/xsh/issues/6),
+[issue 7](https://github.com/laputa-systems/xsh/issues/7)). Build, 64 selected core
+unit tests and 12 runner tests pass; the broader gate timed out during integration
+test discovery. The tooling help proof remains in progress.
+
+Kache's host `make check` fails fixture assumptions with repository-local scratch.
+Its separate Linux proof cannot build the pinned image because the exact Alpine
+Git package was removed ([issue 24](https://github.com/joshuarli/kache/issues/24)).
+Do not bypass its successful-check-before-PR requirement or update pins here.
+
+Ctrs's platform tests pass, but benchmark harness checks fail with absent scratch
+directories ([issue 6](https://github.com/joshuarli/ctrs/issues/6)) and a distinct
+artifact ownership fixture exception. Img's Linux ARM corpus test cannot find
+`djpeg` ([issue 8](https://github.com/joshuarli/img/issues/8)); its CLI tests pass.
+Mdevd-rs's remote gate stops because `rg` is absent before compiling the change.
+These checks block their merges; no benchmark assertion was relaxed.
+
+Stuff's macOS ecosystem smoke failed connecting to PyPI's `six` index after
+retries. Its Linux Rust and ecosystem jobs pass. No CI configuration changed.
 
 Fastermod landed through a direct push that bypassed a server-side PR requirement.
 All subsequent changes use PRs and wait for their checks. No release or managed

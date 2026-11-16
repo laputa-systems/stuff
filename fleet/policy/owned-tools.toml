@@ -7,7 +7,7 @@ install_manifest = ".local/state/sync/dl-owned.verified.json"
 [producers."joshuarli/bctl"]
 
 [producers."joshuarli/bctl".commands]
-bctl = { gap = "primary help does not print the owned-tool footer yet" }
+bctl = { help = { source = "crates/bctl/src/help.rs", test = "crates/bctl/tests/help.rs" } }
 
 [producers."joshuarli/ctrs"]
 
@@ -57,7 +57,7 @@ loc = { help = { source = "src/cli/help.rs", test = "tests/cli.rs" } }
 [producers."joshuarli/lz"]
 
 [producers."joshuarli/lz".commands]
-less = { gap = "primary help does not print the owned-tool footer yet" }
+less = { help = { source = "src/cli_help.rs", test = "tests/cli_help.rs" } }
 
 [producers."joshuarli/mactop"]
 
@@ -89,12 +89,12 @@ shellcheck = { gap = "ignored in the catalog with no checkout; ShellCheck-compat
 [producers."joshuarli/soulseek-rs"]
 
 [producers."joshuarli/soulseek-rs".commands]
-soulseek-rs = { gap = "primary help does not print the owned-tool footer yet" }
+soulseek-rs = { help = { source = "soulseek-rs/src/cli/help.rs", test = "soulseek-rs/tests/cli_e2e.rs" } }
 
 [producers."joshuarli/stats"]
 
 [producers."joshuarli/stats".commands]
-stats = { gap = "primary help does not print the owned-tool footer yet" }
+stats = { help = { source = "agent/src/main.rs", test = "agent/tests/cli_help.rs" } }
 
 [producers."joshuarli/swift-bylaws"]
 
