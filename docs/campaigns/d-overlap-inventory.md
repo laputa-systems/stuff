@@ -44,7 +44,7 @@ The scan found 29 identity overlaps, 12 retained directories, and no ambiguous i
 
 Preserve every source's local refs, every registered worktree, and every detached worktree `HEAD`. Preserve true modifications and untracked files in linked worktrees. The full ref OIDs and worktree status paths are in `.work/tmp/d-overlap-inventory.json` for the parent handoff.
 
-Keep `/Users/josh/d/vault/.work` and `/Users/josh/d/diff-pretty/.work`, including their stopped mutation receipts at `.work/tmp/deslop-cleanup-salvage`. Keep all original parked branches and the active resumed branches:
+Keep `/Users/josh/d/vault/.work` and `/Users/josh/d/diff-pretty/.work`, including the stopped mutation receipts at `/Users/josh/d/vault/.work/tmp/deslop-cleanup-salvage` and `/Users/josh/d/diff-pretty/.work/tmp/deslop-cleanup-salvage`. Keep all original parked branches and the active resumed branches:
 
 - Vault: `refs/heads/deslop/tests-resume` at `0561a3e34828db0164d2a2baedfad2c1a7b3a611` is draft PR 30. Also preserve `refs/heads/deslop/gate-negative`, `refs/heads/deslop/store-gate`, and `refs/heads/deslop/tests`.
 - Diff: `refs/heads/deslop/tests-resume` at `49a1c97d1f60932c3d860318672ecdcc545a0986` is draft PR 31. Also preserve `refs/heads/deslop/tests` and `refs/heads/deslop/types`.
