@@ -47,3 +47,39 @@ uncommitted user work, or unrelated scratch was removed. One Git fetch
 auto-followed git-build's existing release tag; it was left in place.
 
 Worktrees for open PRs and unfinished verification remain until their gates pass.
+
+## Six additional merged lanes
+
+This bounded pass used cleanup worktree head `2341c5f01601dd25649a7393d47640bae1048c71`.
+The coordinator reported all six PRs merged. For each exact lane, I confirmed the requested
+HEAD, clean tracked/untracked status, fetched the remote default branch with `git fetch
+--no-tags origin <default-ref>`, and verified the lane HEAD is an ancestor of the fetched
+default-branch commit. `lsof -nP +D <exact-path>` returned no open files for each path
+(exit 1, empty output). No lane had a live consumer in that scan.
+
+| Exact target | PR | Lane HEAD | Fetched default ref | Integration SHA | Verdict | Outcome; ignored data and disk use |
+| --- | ---: | --- | --- | --- | --- | --- |
+| `/Users/josh/repos/laputa-systems/tinyland/.work/wt/stuf89` | 4 | `8556f7fd30369b05721f72eaec16b7c61d631f0b` | `refs/heads/main` | `8a4eb0a82bab6da1149da61d124b64283f7578fe` | Ancestor; clean | Removed; ignored Kache cache under `.work/tmp` (1.6 GiB), `target` (238 MiB), and `seatd/.work/tmp`; 1,894,164 KiB before, absent after. |
+| `/Users/josh/repos/tansu/.work/wt/stuf89` | 29 | `e198c6c8364c0472df5d09f0389f5e047e3e53dc` | `refs/heads/master` | `1bf0a0dd9cd76e505ff6a607b01fd5319b34e421` | Ancestor; clean | Removed; ignored `.work/tmp`, Cargo `target`, generated `web/dist`; 682,144 KiB before, absent after. |
+| `/Users/josh/repos/play/.work/wt/stuf89` | 14 | `db63a78fbd0c8954ec2084e9be84ca69f795d7d7` | `refs/heads/main` | `bae10f91b7003e208964eab030ba024d9b6c1a49` | Ancestor; clean | Retained after helper refusal on ignored data: `.work/tools` and `.work/deps` contain downloaded tools/dependency material; `target` is generated build output. 548,044 KiB retained. |
+| `/Users/josh/repos/laputa-systems/cmake-build/.work/wt/stuf89` | 6 | `039cbb6d4a817db6323274408cd015561c30d231` | `refs/heads/main` | `538efea3512ccfd98839f2ce8aff83107c47383c` | Ancestor; clean | Retained after helper refusal: `.work/source` contains source material and `.venv` is a populated Python environment; `.work/cache`, host build output, Ruff cache, and bytecode also remain. 709,424 KiB retained. |
+| `/Users/josh/repos/laputa-systems/ssh-build/.work/wt/stuf89` | 17 | `07b57b036a508cda4dc969bf54214e28872646bf` | `refs/heads/master` | `ac7fc2db66e86ff34f3d5480a83dbfb1ab11b9fd` | Ancestor; clean | Retained after helper refusal: `.work` includes `openssh-edit`, source directories, and patch/diff files; `dist/ssh` is generated output. Preserved all ignored data; 615,588 KiB retained. |
+| `/Users/josh/repos/laputa-systems/gluon/.work/wt/stuf89` | 16 | `9837ca67245282bbd2f31865826f366f6b26bd13` | `refs/heads/main` | `ff0d5c60ffea6d361b3152a1115539207e4ec5ef` | Ancestor; clean | Removed; ignored `.work/tmp` and Cargo `target` build output; 643,624 KiB before, absent after. |
+
+For tinyland, tansu, and gluon, `worktree-retire <exact-path> --into <integration-SHA>
+--discard-ignored --dry-run` exited 0 and reported the lane as an ancestor; the matching
+non-dry-run command exited 0, removed the exact checkout, and deleted its now-unchecked-out
+`fix/stuf89-help` branch. Their ignored files were inspected as local cache, scratch, or
+generated build outputs before discard. For Play, cmake-build, and ssh-build, the exact
+`worktree-retire <path> --into <integration-SHA> --dry-run` command exited 1 with
+`review ignored files, then pass --discard-ignored`; I did not pass that option because the
+ignored trees include downloaded dependency/tool material or source/patch state. Those
+three exact checkouts remain registered and on disk, preserving all data.
+
+Post-checks ran `git worktree list --porcelain` filtered for each exact path and an exact
+filesystem existence check: tinyland, tansu, and gluon were both unregistered and absent;
+Play, cmake-build, and ssh-build remained registered at their specified heads and present.
+Before cleanup the six checkouts occupied 5,092,988 KiB total; afterward the three removed
+paths occupied 0 KiB and the three retained paths occupied 1,873,056 KiB. No other worktree,
+canonical checkout, or scratch path was removed. No unresolved integration or consumer case
+remains; three lanes are intentionally retained solely to preserve ignored data.
