@@ -1,8 +1,9 @@
 # Engine durability and lifecycle diagnosis
 
-STUF-86, STUF-87 and STUF-88 remain open. The observations below identify
-the deployed source and narrow the investigation. They establish no repair.
-STUF-75 is outside this investigation.
+This record identifies the deployed source and preserves the failed private
+attempts. The verified private SQLite repair and three-restart proof are in
+[the page-read diagnosis](openorange-sqlite-page-read.md). Production inventory
+availability remains unqualified. STUF-75 is outside this investigation.
 
 ## Source identity
 
@@ -322,6 +323,10 @@ request bounds, regression coverage and runtime verification; collector-side
 retries cannot turn these failed samples into availability acceptance.
 
 ## Investigation boundary
+
+The native flusher log narrows the later S error to a committed page read.
+[The page-read diagnosis](openorange-sqlite-page-read.md) records its
+deterministic regression, narrow retry classification and verification.
 
 Production work remains bounded and read-only. No production configuration,
 Engine, application or sampler changed. Private containers used an isolated

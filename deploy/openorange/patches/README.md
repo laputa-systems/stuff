@@ -1,4 +1,4 @@
-# Private Engine staged-write candidates
+# Private Engine SQLite repair candidates
 
 `rivet-e5ed391-staged-refusal.patch` applies to Rivet revision
 `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`, the source named by the deployed
@@ -39,6 +39,17 @@ then both paths pass in the five-test dev and release runs. The full release
 Engine build also passes. All three patches apply in sequence to a disposable
 checkout at the attested source revision.
 
+`rivet-e5ed391-page-read-refusal.patch` applies fourth. A tokenless quorum
+failure from a committed SQLite page read can be retried while the filesystem
+still owns its opening. The page protocol preserves the stage and the
+underlying structured error, then uses the existing bounded Envoy retry loop.
+The same error during a write, an admitted token or lost ownership remains
+non-retryable. Eight regressions pass in dev and release; removing each of the
+read-scope, ownership and admitted-token checks fails its intended test.
+The source review found no demonstrated introduced defect. See
+[the page-read diagnosis](../../../docs/openorange-sqlite-page-read.md) for
+the exact source, patch and runtime evidence.
+
 The retry hint has one owner in the page protocol, used by both stage
 cleanup and the Envoy caller. The existing cold-read predicate still serves
 the prefetch planner. The patch adds four test dependency edges to packages
@@ -54,6 +65,8 @@ git apply --check /path/to/rivet-e5ed391-staged-head.patch
 git apply /path/to/rivet-e5ed391-staged-head.patch
 git apply --check /path/to/rivet-e5ed391-empty-abort.patch
 git apply /path/to/rivet-e5ed391-empty-abort.patch
+git apply --check /path/to/rivet-e5ed391-page-read-refusal.patch
+git apply /path/to/rivet-e5ed391-page-read-refusal.patch
 ```
 
 The tested builder is
@@ -79,8 +92,10 @@ also passes in both profiles. The two-patch release candidate completed a
 preserved-depot import and the preparation integrity checks. The three-patch
 release candidate additionally completes a fresh 203,950-row import within
 the 1,800-second bound and passes the preparation integrity checks. It records
-4,160 memory-limit events and no OOM events or kills. Ten Engine restarts
-remain unverified. No performance acceptance follows from these builds.
+4,160 memory-limit events and no OOM events or kills. Three gated Engine-only
+restarts satisfy the owner's revised requirement on this source; the original
+ten-cycle receipt remains incomplete. No performance acceptance follows from
+these builds.
 
 The independent read-only review found no implementation defect in the
 inspected refusal and retention logic, but stopped over the added test
