@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Thirty-three repositories have landed verified source changes.
+Status: in progress. Thirty-four repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -54,6 +54,7 @@ the backlog. Update a policy entry only after its source change lands with tests
 | laputa-systems/stuff | [PR 40](https://github.com/laputa-systems/stuff/pull/40) | Complete stuff/repomod references and parser examples, local suites and every required PR check |
 | joshuarli/kache | [PR 25](https://github.com/joshuarli/kache/pull/25) | Complete reference, pinned-nightly native Linux pre-PR gate, macOS/end-to-end and both Linux musl PR checks |
 | laputa-systems/node-build | [PR 16](https://github.com/laputa-systems/node-build/pull/16) | Newly compiled native macOS Node help/version/JSON/completion proof, strict source patch tests and both required CI checks; locked distribution qualification remains separate |
+| laputa-systems/llvm-prebuilt-musl | [PR 6](https://github.com/laputa-systems/llvm-prebuilt-musl/pull/6) | Native ARM build, 219 clean-package checks, five optimizer regressions, GNU/BSD strict patch regression and both native CI build/validation jobs |
 
 Stuff's complete reference and parser-checked command examples are merged.
 Its CLI and library tests pass, with clippy warnings denied. Repomod's
@@ -73,11 +74,6 @@ complete-reference contract for these tools.
 
 Draft source with built-product proof blocked:
 [chromium-build 21](https://github.com/laputa-systems/chromium-build/pull/21).
-LLVM [PR 6](https://github.com/laputa-systems/llvm-prebuilt-musl/pull/6)
-passes the full native ARM build and 219 package validation checks. Its first
-fresh Linux CI build exposed asymmetric patch context; the corrected patch
-passes both GNU and BSD zero-fuzz regression tests and reproduces the validated
-C++ source byte for byte. Both native CI builds are pending on `2bbccee`.
 No repositories remain undispatched.
 Python-build already has its maintained footer patch and executable help/version
 test; its existing policy remains unchanged. No CPython/JIT campaign was resumed.
@@ -170,6 +166,18 @@ behavior, not locked distribution qualification; the full local controller
 suite still fails the unchanged doctor gate. No package was released or installed.
 Chromium's native doctor and smoke-preflight require the missing Xcode Metal
 Toolchain; its draft has no actual built-product proof.
+
+LLVM's first fresh Linux CI build exposed asymmetric patch context rejected by
+GNU `patch -F0`. Balanced context and `tests/clang-footer-patch.sh` repair it;
+the new regression fails on the old patch and passes with both GNU and BSD
+patch. Fresh application of the complete patch set is idempotent in Linux and
+produces C++ byte-identical to the validated native ARM package. That package
+passes 219 checks, including both actual Clang driver modes, and five optimizer
+regressions. Both native CI build/validation jobs and lint passed on `2bbccee`
+before merge `4507caa`. Reproduce the patch regression with
+`TMPDIR="$PWD/.work/tmp" bash tests/clang-footer-patch.sh <pristine Driver.cpp>`
+from the locked LLVM 23.1.5 archive; package proof uses `make build` and
+`make verify` for the native target. No package was published or installed.
 
 Stuff's first macOS ecosystem smoke timed out reaching PyPI; the next legitimate
 policy update passed every required check, including macOS Rust.

@@ -20,6 +20,12 @@ established, so the slop cannot return.
   scripts-disabled install, typecheck, 199 Node tests and coverage, plus Node 22
   CI pass. Optional binding engine metadata is preserved. This does not qualify
   its broader Ground/Tests, Stryker or browser lane.
+  Its next functional Ground slice, [#6](https://github.com/joshuarli/extensions/pull/6),
+  merged as `4137136`: CI now uses `make test` with the existing typecheck and
+  all 213 Node cases. `make lint` runs the existing typechecker, and AGENTS.md
+  maps current public boundaries. Parent evaluation of the actual
+  `gha-test-workflow` rule returns no findings; Node 22 CI passes. DSLP-1 stays
+  open for cold/warm cost measurements on a ready host.
 - **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
   passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
   closing STUF-87's private import/recovery repair. Production is unchanged.

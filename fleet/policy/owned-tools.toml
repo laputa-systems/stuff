@@ -259,7 +259,7 @@ jaq = { help = { source = "jaq/src/help.txt", test = "jaq/tests/help.rs" }, inst
 upstream = "llvm/llvm-project"
 
 [producers."laputa-systems/llvm-prebuilt-musl".commands]
-clang = { gap = "primary help does not print the owned-tool footer yet" }
+clang = { help = { source = "patches/0002-clang-primary-help-footer.patch", test = "tests/clang-help.sh" } }
 
 [producers."laputa-systems/mdevd-rs"]
 
