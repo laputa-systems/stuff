@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Thirty repositories have landed verified source changes.
+Status: in progress. Thirty-four repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -51,31 +51,30 @@ the backlog. Update a policy entry only after its source change lands with tests
 | laputa-systems/cmake-build | [PR 6](https://github.com/laputa-systems/cmake-build/pull/6) | Patched host CMake help, controller/lint CI; musl qualification remains unavailable |
 | laputa-systems/ssh-build | [PR 17](https://github.com/laputa-systems/ssh-build/pull/17) | Eight native binaries, reproducible vendor patches, crypto graph and platform/fuzz CI |
 | laputa-systems/gluon | [PR 16](https://github.com/laputa-systems/gluon/pull/16) | Shared parser/help names and defaults, release build, full parity corpus and CI |
+| laputa-systems/stuff | [PR 40](https://github.com/laputa-systems/stuff/pull/40) | Complete stuff/repomod references and parser examples, local suites and every required PR check |
+| joshuarli/kache | [PR 25](https://github.com/joshuarli/kache/pull/25) | Complete reference, pinned-nightly native Linux pre-PR gate, macOS/end-to-end and both Linux musl PR checks |
+| laputa-systems/node-build | [PR 16](https://github.com/laputa-systems/node-build/pull/16) | Newly compiled native macOS Node help/version/JSON/completion proof, strict source patch tests and both required CI checks; locked distribution qualification remains separate |
+| laputa-systems/llvm-prebuilt-musl | [PR 6](https://github.com/laputa-systems/llvm-prebuilt-musl/pull/6) | Native ARM build, 219 clean-package checks, five optimizer regressions, GNU/BSD strict patch regression and both native CI build/validation jobs |
 
-Stuff's complete reference and parser-checked command examples are committed
-locally. Its CLI and library tests pass, with clippy warnings denied. Repomod's
+Stuff's complete reference and parser-checked command examples are merged.
+Its CLI and library tests pass, with clippy warnings denied. Repomod's
 full suite passed: 1,410 tests, three expected skips.
 
 ## Remaining work
 
-PR checks: [stuff 40](https://github.com/laputa-systems/stuff/pull/40),
-[ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
+PR checks: [ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
 [img 7](https://github.com/joshuarli/img/pull/7),
 [toolbox 14](https://github.com/joshuarli/toolbox/pull/14),
 [fz 41](https://github.com/laputa-systems/fz/pull/41),
 [mdevd-rs 4](https://github.com/laputa-systems/mdevd-rs/pull/4),
 [xsh 9](https://github.com/laputa-systems/xsh/pull/9).
 
-Kache's source is preserved on `fix/stuf89-help`; its required pre-PR gate blocks
-publication. Its existing footer coverage does not establish complete help.
 Existing footer coverage does not establish the
 complete-reference contract for these tools.
 
 Draft source with built-product proof blocked:
-[node-build 16](https://github.com/laputa-systems/node-build/pull/16) and
 [chromium-build 21](https://github.com/laputa-systems/chromium-build/pull/21).
-LLVM's source patch is committed; its pinned native build prerequisites passed
-and its task-local native ARM build is running. No repositories remain undispatched.
+No repositories remain undispatched.
 Python-build already has its maintained footer patch and executable help/version
 test; its existing policy remains unchanged. No CPython/JIT campaign was resumed.
 
@@ -106,13 +105,37 @@ Remote lint formats the entire repository then reports extensive differences,
 including unchanged source trees
 ([issue 10](https://github.com/laputa-systems/xsh/issues/10)); no formatter or CI
 change was run locally.
+Its Linux test job reached the 60-minute limit during the core corpus tests
+([issue 11](https://github.com/laputa-systems/xsh/issues/11)); the last reported
+unfinished test was the desugared corpus check, without an established cause.
 
-Kache's host `make check` fails fixture assumptions with repository-local scratch.
-Its separate Linux proof cannot build the pinned image because the exact Alpine
-Git package was removed ([issue 24](https://github.com/joshuarli/kache/issues/24)).
-Do not bypass its successful-check-before-PR requirement or update pins here.
-A native GNU Linux `make check` is being verified with scratch mounted outside
-the source tree, using the pinned Rust toolchain and the image's real C compiler.
+Kache's required `make check` passed in native ARM64 GNU Linux before PR creation:
+warnings-denied workspace clippy, the client graph, resource guard, 3,094 native
+unit tests, all integration cases and the remaining workspace suites. Its three
+reference tests and both built binaries' help/version/JSON checks pass on macOS.
+The local pinned Alpine image build remains unavailable because its exact Git
+package was removed ([issue 24](https://github.com/joshuarli/kache/issues/24)).
+Both remote Linux musl checks, macOS tests, macOS end-to-end and lint passed on
+`6b44c40d` before merge. No release artifact was published or installed.
+
+To reproduce the successful GNU gate, use `rust:1.100.0-bookworm` with real
+`clang`, `lld`, `zsh` and `python3` installed in the disposable container. Install
+the repository's `nightly-2026-11-09` with clippy and rust-src. Bind the source
+worktree; separately expose its absolute Git common directory read-only;
+use a Linux-native volume for both scratch and Cargo target data. Run as the
+source owner's unprivileged UID, with scratch outside any Cargo/Git ancestor,
+`CARGO_BUILD_JOBS=2`, `RUST_TEST_THREADS=2`, and a two-CPU allocation:
+
+```sh
+make check TARGET=aarch64-unknown-linux-gnu \
+  CARGO_CMD='env CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=cc cargo'
+```
+
+Earlier root/APFS-bound attempts failed filesystem fixtures; the oversubscribed
+native-scratch run hit one four-second wall-clock assertion. The isolated case
+passed. A reused host-mounted target then lost an object file during archiving.
+The final native target/scratch, bounded, equipped environment completed every
+unchanged assertion. No timing threshold or test selection was changed.
 
 Ctrs's platform tests pass, but benchmark harness checks fail with absent scratch
 directories ([issue 6](https://github.com/joshuarli/ctrs/issues/6)) and a distinct
@@ -132,12 +155,32 @@ CMake's patched native host binary passes the help test and its required PR
 checks passed. Its separate qualified Linux build is blocked by the removed
 locked `libcrypto3-3.5.9-r0.apk`
 ([issue 7](https://github.com/laputa-systems/cmake-build/issues/7)).
-Node requires Xcode 27.1/SDK 27.0 while the host has only 27.2. Chromium's native
-doctor and smoke-preflight require the missing Xcode Metal Toolchain. Neither
-draft claims actual built-product footer behavior.
+Node's locked distribution doctor requires Xcode 27.1/SDK 27.0 while the host
+has only 27.2. The supported `build.py build --target aarch64-apple-darwin --jobs 2`
+path compiled the SHA-verified Node 26.12.1 source without changing that gate.
+The actual binary passes `buildsys.smoke.check_help_footer`: both help flags
+end with the exact footer once, version/JSON are exact and completion has no
+footer. Binary output `00 01 ff` is preserved. CI controller/lint checks passed
+on `8f77bc1`; merge `5deebd8` lands the source. This establishes host product
+behavior, not locked distribution qualification; the full local controller
+suite still fails the unchanged doctor gate. No package was released or installed.
+Chromium's native doctor and smoke-preflight require the missing Xcode Metal
+Toolchain; its draft has no actual built-product proof.
+
+LLVM's first fresh Linux CI build exposed asymmetric patch context rejected by
+GNU `patch -F0`. Balanced context and `tests/clang-footer-patch.sh` repair it;
+the new regression fails on the old patch and passes with both GNU and BSD
+patch. Fresh application of the complete patch set is idempotent in Linux and
+produces C++ byte-identical to the validated native ARM package. That package
+passes 219 checks, including both actual Clang driver modes, and five optimizer
+regressions. Both native CI build/validation jobs and lint passed on `2bbccee`
+before merge `4507caa`. Reproduce the patch regression with
+`TMPDIR="$PWD/.work/tmp" bash tests/clang-footer-patch.sh <pristine Driver.cpp>`
+from the locked LLVM 23.1.5 archive; package proof uses `make build` and
+`make verify` for the native target. No package was published or installed.
 
 Stuff's first macOS ecosystem smoke timed out reaching PyPI; the next legitimate
-policy update passed all ecosystem jobs. Its macOS Rust job remains pending.
+policy update passed every required check, including macOS Rust.
 No CI configuration changed.
 
 Gluon's parity gate needed two host-specific test repairs
@@ -146,7 +189,7 @@ global Mach-O symbols without debug-map paths, and use a Darwin linker alias for
 the C++ fixture's sentinel. The native regression test fails with the old symbol
 selection; the full corpus passes with no ledger or acceptance-assertion changes.
 
-Retired 24 completed worktrees after confirming integration and absence of live
+Retired 33 completed repository worktrees after confirming integration and absence of live
 consumers. [The cleanup record](stuf89-cleanup.md) lists exact paths and heads.
 
 Fastermod landed through a direct push that bypassed a server-side PR requirement.

@@ -47,3 +47,88 @@ uncommitted user work, or unrelated scratch was removed. One Git fetch
 auto-followed git-build's existing release tag; it was left in place.
 
 Worktrees for open PRs and unfinished verification remain until their gates pass.
+
+## Six additional merged lanes
+
+This bounded pass used cleanup worktree head `2341c5f01601dd25649a7393d47640bae1048c71`.
+The coordinator reported all six PRs merged. For each exact lane, I confirmed the requested
+HEAD, clean tracked/untracked status, fetched the remote default branch with `git fetch
+--no-tags origin <default-ref>`, and verified the lane HEAD is an ancestor of the fetched
+default-branch commit. `lsof -nP +D <exact-path>` returned no open files for each path
+(exit 1, empty output). No lane had a live consumer in that scan.
+
+| Exact target | PR | Lane HEAD | Fetched default ref | Integration SHA | Verdict | Outcome; ignored data and disk use |
+| --- | ---: | --- | --- | --- | --- | --- |
+| `/Users/josh/repos/laputa-systems/tinyland/.work/wt/stuf89` | 4 | `8556f7fd30369b05721f72eaec16b7c61d631f0b` | `refs/heads/main` | `8a4eb0a82bab6da1149da61d124b64283f7578fe` | Ancestor; clean | Removed; ignored Kache cache under `.work/tmp` (1.6 GiB), `target` (238 MiB), and `seatd/.work/tmp`; 1,894,164 KiB before, absent after. |
+| `/Users/josh/repos/tansu/.work/wt/stuf89` | 29 | `e198c6c8364c0472df5d09f0389f5e047e3e53dc` | `refs/heads/master` | `1bf0a0dd9cd76e505ff6a607b01fd5319b34e421` | Ancestor; clean | Removed; ignored `.work/tmp`, Cargo `target`, generated `web/dist`; 682,144 KiB before, absent after. |
+| `/Users/josh/repos/play/.work/wt/stuf89` | 14 | `db63a78fbd0c8954ec2084e9be84ca69f795d7d7` | `refs/heads/main` | `bae10f91b7003e208964eab030ba024d9b6c1a49` | Ancestor; clean | Removed after parent review of downloaded `.work/tools`, `.work/deps` and generated `target`; 548,044 KiB before, absent after. |
+| `/Users/josh/repos/laputa-systems/cmake-build/.work/wt/stuf89` | 6 | `039cbb6d4a817db6323274408cd015561c30d231` | `refs/heads/main` | `538efea3512ccfd98839f2ce8aff83107c47383c` | Ancestor; clean | Removed after parent review of extracted `.work/source`, `.venv`, cache and host build output; 709,424 KiB before, absent after. |
+| `/Users/josh/repos/laputa-systems/ssh-build/.work/wt/stuf89` | 17 | `07b57b036a508cda4dc969bf54214e28872646bf` | `refs/heads/master` | `ac7fc2db66e86ff34f3d5480a83dbfb1ab11b9fd` | Ancestor; clean | Removed after parent review of generated sources, build output and patch-editing copies; 615,588 KiB before, absent after. |
+| `/Users/josh/repos/laputa-systems/gluon/.work/wt/stuf89` | 16 | `9837ca67245282bbd2f31865826f366f6b26bd13` | `refs/heads/main` | `ff0d5c60ffea6d361b3152a1115539207e4ec5ef` | Ancestor; clean | Removed; ignored `.work/tmp` and Cargo `target` build output; 643,624 KiB before, absent after. |
+
+For tinyland, tansu, and gluon, `worktree-retire <exact-path> --into <integration-SHA>
+--discard-ignored --dry-run` exited 0 and reported the lane as an ancestor; the matching
+non-dry-run command exited 0, removed the exact checkout, and deleted its now-unchecked-out
+`fix/stuf89-help` branch. Their ignored files were inspected as local cache, scratch, or
+generated build outputs before discard. The helper initially requested ignored-file
+review for Play, cmake-build and ssh-build. The parent confirmed the first two held
+task-local downloaded inputs and generated outputs. SSH's reverse-patch dry run
+accepted the tracked OpenSSH footer patch against its editing copy; its OxiSH
+editing copies differ from the committed binaries' source only by the captured
+footer changes, and both vendor-check diff files were empty. These three exact
+retirement commands then exited 0 with `--discard-ignored`, removing the worktrees
+and their integrated branches. The parent repeated clean-status and open-file checks
+before retirement.
+
+Post-checks ran `git worktree list --porcelain` filtered for each exact path and an exact
+filesystem existence check: all six exact paths were unregistered and absent.
+Before cleanup the six checkouts occupied 5,092,988 KiB total; afterward they occupied
+0 KiB. No other worktree, canonical checkout or scratch path was removed. No
+integration or consumer case remains unresolved for these six lanes.
+
+The root helpers were also retired after their workers stopped and their results
+were integrated. `.work/wt/stuf89-rust` was patch-equivalent to merged Stuff head
+`f744965690bb19db88ab0ff48d72d8ae2d7e1b5d`; its branch was preserved by the helper.
+`.work/wt/stuf89-cleanup` was an ancestor of that head. Its disposable untracked
+raw report was removed after its conclusions had been committed here.
+`.work/wt/stuf89-cleanup-final` was patch-equivalent to progress head `d08def2`;
+its branch was preserved. All three exact paths are absent from the root inventory
+and filesystem. The primary checkout and unfinished lanes remain.
+
+## Kache after PR 25
+
+Retired `/Users/josh/repos/kache/.work/wt/stuf89` at `6b44c40d32fadd10e10d88888747445336553d4f`
+into fetched merge `4401c7a09498d2225ab22e7d1e74bef20211ca8f`. All required PR
+checks passed. The source status was clean, the original worker had stopped,
+and `lsof -nP +D` returned no open files. Its task-owned Linux verification
+container had exited; the named volume and image were removed separately.
+The remaining ignored files were task-local target/cache/download data and
+verification scratch. `worktree-retire` succeeded with `--discard-ignored`
+and deleted the integrated branch. The exact path is absent from Git's inventory
+and the filesystem. It occupied 5,267,692 KiB before retirement, zero afterward.
+No unrelated container, image, volume or worktree was touched.
+
+## Node and LLVM after their native proofs
+
+Retired `/Users/josh/repos/laputa-systems/node-build/.work/wt/stuf89` at
+`8f77bc1d0181d7487a9937c75f71189ba5f5e72a` into merge
+`5deebd839b66cbe4e21bc1958c53a5d651b52dad`. The source was clean, the worker
+had stopped and an open-file check from outside the worktree found no consumer.
+Ignored contents were task-local caches, Python bytecode and the isolated host
+build, including 23 GiB under `.work/`. Product proof and its locked-toolchain
+limit are preserved in [the campaign record](stuf89-help.md) and PR16.
+`worktree-retire --discard-ignored` removed the exact path and integrated branch.
+
+Retired `/Users/josh/repos/laputa-systems/llvm-prebuilt-musl/.work/wt/stuf89` at
+`2bbcceec7c7a27bcb5bd3a7b4568f84d023927a6` into merge
+`4507caa6495479c47baec25fba663f7d7f3b00ab`. The source was clean, the worker
+had stopped and the external open-file check found no consumer. The ignored
+8.9 GiB `.work/` held locked inputs, source copies, native build/cache/package
+data and verification scratch. The campaign and PR6 retain the 219-check,
+optimizer, strict-patch and both-architecture CI conclusions. The helper
+removed the exact path and integrated branch with `--discard-ignored`.
+
+Both exact source paths are absent from Git's inventory and the filesystem.
+The task-only `llvm-stuf89-build:aarch64` and `llvm-stuf89-validate:aarch64`
+images had no container consumers and were removed by tag without force.
+No shared Docker resources or managed installations were changed.

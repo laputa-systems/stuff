@@ -7,6 +7,31 @@ established, so the slop cannot return.
 
 ## Status
 
+- **Resumed (2026-11-16):** the owner resumed
+  `docs/HANDOFF-TODO-DESLOP-20261116.md` in parallel with STUF-89. Direct
+  Vault and diff-pretty Tests work runs in separate `tests-resume` worktrees,
+  each carrying its stopped checkpoint plus current main. Original worktrees
+  and partial mutation evidence remain intact. Review saved survivors and
+  qualify boundary assertions first. Host constraints defer timing/cost
+  acceptance; bounded correctness, coverage and Scenario counts use CPU guards
+  and the shared mutation lock. No fleet rollout or STUF-75 work is authorized.
+- **Resumed results:** Extensions [#5](https://github.com/joshuarli/extensions/pull/5)
+  merged as `a45dcdc`, closing DSLP-6: matching Vitest/coverage 5.0.5, frozen
+  scripts-disabled install, typecheck, 199 Node tests and coverage, plus Node 22
+  CI pass. Optional binding engine metadata is preserved. This does not qualify
+  its broader Ground/Tests, Stryker or browser lane.
+  Its next functional Ground slice, [#6](https://github.com/joshuarli/extensions/pull/6),
+  merged as `4137136`: CI now uses `make test` with the existing typecheck and
+  all 213 Node cases. `make lint` runs the existing typechecker, and AGENTS.md
+  maps current public boundaries. Parent evaluation of the actual
+  `gha-test-workflow` rule returns no findings; Node 22 CI passes. DSLP-1 stays
+  open for cold/warm cost measurements on a ready host.
+- **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
+  passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
+  closing STUF-87's private import/recovery repair. Production is unchanged.
+  STUF-88 remains open; the completed independent review of its full inventory
+  patch found no supported source-level defect. Natural-refusal runtime and full production
+  availability proof remain outstanding.
 - **State:** assurance hardening (decision 13) landed or is in review. The owner dispatched
   diff-pretty, vault, and fz. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of
   scope (decision 12).
@@ -53,7 +78,7 @@ established, so the slop cannot return.
   | Rust, large crate (loc, 12k) | same gate, bounded scope | critical scope is 916 of 2,433 mutants (about 50 min on 4 jobs). Its counting core (229) left 29 survivors. Timeout reruns held about 10 cores each and were stopped. | Not a lane yet: needs sharding, a CPU cap (`cpu-guard`, usr#36), and suite threads capped in mutation runs |
   | Python, plain pytest (buildlib) | mutmut 3.8.1 (mirrored by STUF-83) | earlier pilot: 235 → 216 survivors | Mirrored, lane not qualified: needs the whole-change gate and CI negative controls |
   | Python, pytest-parallel consumers (stuff `repomod/`) | mutmut | rejected by pytest-parallel before workers start; serial (`-p no:parallel`) is the only route, and pytest-parallel's own repo also hits its TMPDIR defect | Mirrored; serial-only recipe, lane not qualified |
-  | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 (mirrored) | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Mirrored, lane not qualified; blocked by extensions DSLP-6 (Vitest/coverage-v8 mismatch); the browser runtime is unqualified |
+  | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 (mirrored) | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Mirrored, lane not qualified; Vitest/coverage mismatch fixed in extensions #5; the browser runtime remains unqualified |
 
 - **Calibration landed:**
   - loc: Ground #5, Diagnose #6, and Types (#7; no setting adopted).
@@ -112,14 +137,46 @@ established, so the slop cannot return.
     12 misses of 55. A native process probe now exercises actual cache startup
     and cached secret operations without hardware prompts. Its bounded
     98-case component run found one seed-validation survivor; the new process
-    assertion catches that mutant, and a fresh complete selection is pending.
+    assertion catches that mutant; the final 98-case cache selection is qualified.
     A broader macOS run was interrupted, and a six-worker attempt exceeded
     `cpu-guard`; neither establishes qualification. Final coverage, test-cost
-    and remaining platform/decision-region dispositions stay open.
+    and remaining platform/decision-region dispositions stay open. The stopped
+    complementary 232-case filesystem selection completed 173: 102 caught,
+    65 missed, six unviable, zero timeouts and 59 untested. Resume by reviewing
+    those survivors; this partial run does not qualify the filesystem scope.
+    Resumed head `0561a3e` adds listing-process and literal metadata-policy
+    assertions. The complete 21-mutant directory-policy Scenario is qualified:
+    21 caught, zero missed, unviable or timed out, every identity reconciled and
+    every caught log failing a new policy assertion. This covers all seven
+    saved survivors in that region. Three hand faults fail their intended
+    assertions. An isolated-target native suite passes 44 unit, 28 integration
+    and four terminal cases, with two hardware cases ignored, plus lint. The
+    first final run reused the last mutant's shared-target artifact and was
+    rejected; ordinary verification now has a separate target. The previous
+    PR head passes the 51-case Linux store gate (45 caught, six unviable).
+    The remaining 58 original survivors, 59 untested cases, coverage and
+    quiet-host cost keep PR30 draft and DSLP-4 open. The old filtered filesystem
+    driver still must not be restarted unchanged.
   - **diff-pretty Tests started:** native CLI scenarios assert literal rendered
     and redirected output, paging flags, help, file concatenation, malformed
     input and I/O failure status. Nine process tests and lint pass; mutation
-    qualification and the rest of DSLP-4 remain open.
+    qualification and the rest of DSLP-4 remain open. Checkpoint `5834fe7` is
+    preserved; its resumed branch also contains the merged full-help contract.
+    The earlier 1,200-second workspace mutation run left 109 untested and 48
+    unconfirmed timeouts. Use a bounded Scenario selection, not that Full run.
+    The current eleven CLI process cases pass six hand-fault controls. A fresh
+    complete 24-mutant CLI selection first found one `--no-pager` survivor;
+    the new parser-contract table catches it. The same selection now reports
+    22 caught, two compiler-unviable, zero missed and zero timeouts. This
+    qualifies the CLI component only. The numeric-layout API now has literal
+    cell and decimal-boundary assertions, each proved with a hand fault. Its
+    complete 38-mutant selection at `10e3782` records 37 caught and one hang
+    confirmed by a fresh baseline and doubled timeout, zero missed or unviable.
+    Both raw tool receipts retain Timeout/exit 3; this is a confirmed detection,
+    not an ordinary caught count. All identities reconcile with the saved
+    before region, and every caught log contains a new numeric assertion
+    failure. Broader renderer/pager coverage, mutation, quiet-host cost and
+    whole-change CI enforcement remain open.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
@@ -131,7 +188,7 @@ established, so the slop cannot return.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
   1. toolbox: fix Actions billing to bring it back in scope.
-  2. Dispatching more worker lanes is the owner's call; the resume order assumes direct work.
+  2. Broader fleet dispatch remains outside the owner's resumed direct-work grant.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
   the dispatched batch, the next direct slices are loc's sharded lane under
   `cpu-guard` and the remaining calibration/pilot harness qualifications.
