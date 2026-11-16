@@ -10,6 +10,11 @@ established, so the slop cannot return.
 - **State:** assurance hardening (decision 13) landed or is in review. The owner dispatched
   diff-pretty, vault, and fz. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of
   scope (decision 12).
+- **Current authorization (2026-11-16):** finish the direct queue and non-fleet
+  calibration, pilot and harness work. Do not dispatch the remaining fleet,
+  apply retention rules across it, or begin tier-by-tier rollout. Canonical
+  checkouts were synchronized before this work; dirty and nondefault branches
+  were preserved.
 - **Method:** usr's `deslop` skill is the one procedure (usr#34, merged: pre-merge contract, consumer and
   perf evidence, ticket revalidation, bounded component tasks; typing and mutation lessons). usr#39
   adds a `test-pyramid` audit before the Tests step's measurements, caps mutation at the Scenario
@@ -51,8 +56,12 @@ established, so the slop cannot return.
   | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 (mirrored) | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Mirrored, lane not qualified; blocked by extensions DSLP-6 (Vitest/coverage-v8 mismatch); the browser runtime is unqualified |
 
 - **Calibration landed:**
-  - loc: Ground #5, Diagnose #6 (a stdin path list counts a file once per spelling, DSLP-6 P1),
-    and Types (#7, open; no setting adopted).
+  - loc: Ground #5, Diagnose #6, and Types (#7; no setting adopted).
+    The DSLP-6 P1 stdin double count is fixed in [loc#11](https://github.com/joshuarli/loc/pull/11),
+    merged as `dd84c9c`: canonical paths are counted once across direct entries,
+    directory walks and tracked-only walks. Native checks and Linux/macOS CI
+    pass; five paired release workloads remain within their observed spread.
+    The critical mutation lane and Dead code remain open.
   - stats: Ground #16 (CI runs `make test-ci`, an interrupted-import test repaired, and macOS
     `make test` red from setuid `ps` in `sandbox-exec`, DSLP-7).
   - stuff: Ground #11.
@@ -63,25 +72,32 @@ established, so the slop cannot return.
 - **Dispatched batch** (diff-pretty, vault, fz; tier-A Rust under 10k lines):
   - Ground, Diagnose, and Types are merged in all three, except diff-pretty's Types PR #26
     (`FilteredState`), which waits for its perf gate on an idle host.
-  - **Tests step stalled (handoff, 2026-11-16).** Both worker lanes used their two attempts and
-    stopped with acceptance not met. Their unreviewed work is pushed as one `wip(deslop)` commit
-    on each repo's `deslop/tests` branch (worktree `.work/wt/tests`), with no PR. Review it before
-    keeping any of it.
-    - fz (`9331858`): before-coverage 1,305/1,494 lines (87.35%), 399/544 branches (73.35%).
-      Scoring mutation reconciled to 157 caught, 18 missed, 1 unviable. DSLP-8 (orphaned
-      selectors on mutant timeouts) and the new DSLP-9 (on macOS, a failed PTY name lookup in
-      `tests/acceptance.py:221` is counted as a catch) are open. Fix DSLP-9 first: a harness error
-      must not count as a catch. Not done: survivor dispositions, public-boundary tests, after
-      measurements, the gate port, and `make test`, `make lint`, and `make mutants-selftest`.
-    - vault (`f871e81`): a mutation gate is drafted (`scripts/mutants_gate.py`, its test, and
-      `.cargo/mutants-gate.toml`) but unqualified. `cache_daemon_reports_accept_failure`
-      (`tests/integration.rs:173`) passes alone and aborts inside cargo-mutants' baseline (its
-      `ulimit -n 4` child gets SIGABRT), which blocks the full store run. Eight store mutants are
-      Linux-only. Four misses need the ignored Secure Enclave path. DSLP-8 (stale-socket race) is
-      filed and DSLP-6 is updated. Final coverage, mutation, and full-suite checks were not run.
-  - **Resume order:** finish fz's and vault's Tests steps directly (harness fixes first, then
-    measure, then land what holds). Then run diff-pretty#26's perf gate on an idle host. Then do
-    Dead code, Findings, and Report for all three.
+  - **fz Tests complete:** [#32](https://github.com/laputa-systems/fz/pull/32)
+    fixes controlling-TTY setup; [#33](https://github.com/laputa-systems/fz/pull/33)
+    reaps selectors after driver death; [#34](https://github.com/laputa-systems/fz/pull/34)
+    qualifies core boundaries; [#37](https://github.com/laputa-systems/fz/pull/37)
+    qualifies terminal and signal boundaries. The combined Linux lane selects
+    448 mutants: 432 caught, 16 unviable, zero missed or timed out, with exact
+    exclusions and rejected harness runs retained. Native macOS coverage is
+    90.94% lines / 77.49% branches. Pinned fzy runs in both CI platforms.
+    [#38](https://github.com/laputa-systems/fz/pull/38) closes DSLP-4 with test-cost,
+    ish consumer and five paired release terminal workload checks. No latency
+    regression exceeds both observed spread and 2%. DSLP-6/7/8/9 are closed;
+    Dead code, Findings and Report remain.
+  - **vault Tests in progress:** original `f871e81` is preserved. Draft
+    [#30](https://github.com/laputa-systems/vault/pull/30) targets accept refusal
+    without starving daemon startup, isolates stale-socket creation from
+    concurrent forks, requires checksum-pinned rage 0.12.1 in CI and adds native
+    macOS checks plus auditable mutation logs. Native macOS and Linux ARM64
+    musl checks pass, including rage interoperability; two Linux keyring checks
+    and two Secure Enclave tests remain unverified. The first CI store baseline
+    exhausted 60 seconds before terminal tests finished and tested no mutants.
+    A measured continuation retains every test with a 180-second timeout and
+    twenty-minute total budget. Final mutation, coverage, test-cost and platform
+    survivor dispositions remain open. No WIP or rejected run counts as acceptance.
+  - **Resume order:** finish fz Dead code/Findings/Report and vault Tests directly,
+    then run diff-pretty#26's perf gate on an idle host and finish its remaining
+    steps. Finish vault Dead code/Findings/Report after its Tests acceptance.
   - Mutation and coverage runs still take the shared host lock
     (`mkdir .work/tmp/mutation.lock` in stuff) and use `--timeout` at about 4x the baseline test
     phase.
@@ -92,8 +108,9 @@ established, so the slop cannot return.
   1. toolbox: fix Actions billing to bring it back in scope.
   2. Dispatching more worker lanes is the owner's call; the resume order assumes direct work.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
-  the dispatched batch, the next slices are loc's sharded lane under `cpu-guard`, then STUF-84's
-  fixers (stuff#12 has landed).
+  the dispatched batch, the next direct slices are loc's sharded lane under
+  `cpu-guard` and the remaining calibration/pilot harness qualifications.
+  Fleet fixer application remains outside the current authorization.
 
 ## How the campaign runs
 
