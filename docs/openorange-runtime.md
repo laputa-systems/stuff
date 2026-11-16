@@ -625,8 +625,10 @@ predates the explorer; retain this supplement with it for recovery.
 On 2026-11-14, the running `oo-engine` image was inspected read-only. Its
 image reference was the Engine index digest in `images.lock.json`; the binary
 reported `Rivet 3.1.1`, although the configured image tag is `3.1.2-rc.1`.
-The image did not expose an OCI revision label, so the source tag is not proof
-of the image's source revision. Authenticated GETs returned 200 for
+The image did not expose an OCI revision label. Its attached BuildKit
+provenance identifies source revision `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`;
+see [the Engine diagnosis](openorange-engine-diagnosis.md) for the digest
+binding and qualification. Authenticated GETs returned 200 for
 `/namespaces`, `/pools?namespace=stats-prod`,
 `/pools/default/nodes?namespace=stats-prod`,
 `/actors/names?namespace=stats-prod`, and an actor list filtered by name;
