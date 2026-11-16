@@ -107,3 +107,23 @@ verification scratch. `worktree-retire` succeeded with `--discard-ignored`
 and deleted the integrated branch. The exact path is absent from Git's inventory
 and the filesystem. It occupied 5,267,692 KiB before retirement, zero afterward.
 No unrelated container, image, volume or worktree was touched.
+
+## Node and LLVM after their native proofs
+
+Retired `/Users/josh/repos/laputa-systems/node-build/.work/wt/stuf89` at
+`8f77bc1d0181d7487a9937c75f71189ba5f5e72a` into merge
+`5deebd839b66cbe4e21bc1958c53a5d651b52dad`. The source was clean, the worker
+had stopped and an open-file check from outside the worktree found no consumer.
+Ignored contents were task-local caches, Python bytecode and the isolated host
+build, including 23 GiB under `.work/`. Product proof and its locked-toolchain
+limit are preserved in [the campaign record](stuf89-help.md) and PR16.
+`worktree-retire --discard-ignored` removed the exact path and integrated branch.
+
+Retired `/Users/josh/repos/laputa-systems/llvm-prebuilt-musl/.work/wt/stuf89` at
+`2bbcceec7c7a27bcb5bd3a7b4568f84d023927a6` into merge
+`4507caa6495479c47baec25fba663f7d7f3b00ab`. The source was clean, the worker
+had stopped and the external open-file check found no consumer. The ignored
+8.9 GiB `.work/` held locked inputs, source copies, native build/cache/package
+data and verification scratch. The campaign and PR6 retain the 219-check,
+optimizer, strict-patch and both-architecture CI conclusions. The helper
+removed the exact path and integrated branch with `--discard-ignored`.
