@@ -152,8 +152,10 @@ established, so the slop cannot return.
     assertions. An isolated-target native suite passes 44 unit, 28 integration
     and four terminal cases, with two hardware cases ignored, plus lint. The
     first final run reused the last mutant's shared-target artifact and was
-    rejected; ordinary verification now has a separate target. The previous
-    PR head passes the 51-case Linux store gate (45 caught, six unviable).
+    rejected; ordinary verification now has a separate target. All six checks
+    pass on `0561a3e`, including the fresh 51-case Linux store gate (45 caught,
+    six unviable, zero missed or timed out). That single CI scenario took
+    thirteen minutes; it does not establish the ten-minute p50 target.
     The remaining 58 original survivors, 59 untested cases, coverage and
     quiet-host cost keep PR30 draft and DSLP-4 open. The old filtered filesystem
     driver still must not be restarted unchanged.
