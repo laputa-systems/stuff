@@ -38,7 +38,7 @@ python-platform = "darwin"
 
 [tool.ty.src]
 include = ["repomod", "tests/repomod", "bench"]
-exclude = []
+exclude = ["repomod/fixers"]
 
 [tool.ty.analysis]
 strict-equality-semantics = true
@@ -84,6 +84,8 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+# byte-identical vendored payload written into target repositories by the mutants-diff-lane fixer
+"repomod/fixers/*.py" = ["ALL"]
 # the benchmark wraps module functions to time the real pipeline
 "bench/deps_perf.py" = ["B010"]
 
