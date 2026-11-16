@@ -85,3 +85,12 @@ filesystem existence check: all six exact paths were unregistered and absent.
 Before cleanup the six checkouts occupied 5,092,988 KiB total; afterward they occupied
 0 KiB. No other worktree, canonical checkout or scratch path was removed. No
 integration or consumer case remains unresolved for these six lanes.
+
+The root helpers were also retired after their workers stopped and their results
+were integrated. `.work/wt/stuf89-rust` was patch-equivalent to merged Stuff head
+`f744965690bb19db88ab0ff48d72d8ae2d7e1b5d`; its branch was preserved by the helper.
+`.work/wt/stuf89-cleanup` was an ancestor of that head. Its disposable untracked
+raw report was removed after its conclusions had been committed here.
+`.work/wt/stuf89-cleanup-final` was patch-equivalent to progress head `d08def2`;
+its branch was preserved. All three exact paths are absent from the root inventory
+and filesystem. The primary checkout and unfinished lanes remain.

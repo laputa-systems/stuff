@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Thirty repositories have landed verified source changes.
+Status: in progress. Thirty-one repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -51,15 +51,15 @@ the backlog. Update a policy entry only after its source change lands with tests
 | laputa-systems/cmake-build | [PR 6](https://github.com/laputa-systems/cmake-build/pull/6) | Patched host CMake help, controller/lint CI; musl qualification remains unavailable |
 | laputa-systems/ssh-build | [PR 17](https://github.com/laputa-systems/ssh-build/pull/17) | Eight native binaries, reproducible vendor patches, crypto graph and platform/fuzz CI |
 | laputa-systems/gluon | [PR 16](https://github.com/laputa-systems/gluon/pull/16) | Shared parser/help names and defaults, release build, full parity corpus and CI |
+| laputa-systems/stuff | [PR 40](https://github.com/laputa-systems/stuff/pull/40) | Complete stuff/repomod references and parser examples, local suites and every required PR check |
 
-Stuff's complete reference and parser-checked command examples are committed
-locally. Its CLI and library tests pass, with clippy warnings denied. Repomod's
+Stuff's complete reference and parser-checked command examples are merged.
+Its CLI and library tests pass, with clippy warnings denied. Repomod's
 full suite passed: 1,410 tests, three expected skips.
 
 ## Remaining work
 
-PR checks: [stuff 40](https://github.com/laputa-systems/stuff/pull/40),
-[ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
+PR checks: [ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
 [img 7](https://github.com/joshuarli/img/pull/7),
 [toolbox 14](https://github.com/joshuarli/toolbox/pull/14),
 [fz 41](https://github.com/laputa-systems/fz/pull/41),
@@ -106,6 +106,9 @@ Remote lint formats the entire repository then reports extensive differences,
 including unchanged source trees
 ([issue 10](https://github.com/laputa-systems/xsh/issues/10)); no formatter or CI
 change was run locally.
+Its Linux test job reached the 60-minute limit during the core corpus tests
+([issue 11](https://github.com/laputa-systems/xsh/issues/11)); the last reported
+unfinished test was the desugared corpus check, without an established cause.
 
 Kache's host `make check` fails fixture assumptions with repository-local scratch.
 Its separate Linux proof cannot build the pinned image because the exact Alpine
@@ -137,7 +140,7 @@ doctor and smoke-preflight require the missing Xcode Metal Toolchain. Neither
 draft claims actual built-product footer behavior.
 
 Stuff's first macOS ecosystem smoke timed out reaching PyPI; the next legitimate
-policy update passed all ecosystem jobs. Its macOS Rust job remains pending.
+policy update passed every required check, including macOS Rust.
 No CI configuration changed.
 
 Gluon's parity gate needed two host-specific test repairs
@@ -146,7 +149,7 @@ global Mach-O symbols without debug-map paths, and use a Darwin linker alias for
 the C++ fixture's sentinel. The native regression test fails with the old symbol
 selection; the full corpus passes with no ledger or acceptance-assertion changes.
 
-Retired 24 completed worktrees after confirming integration and absence of live
+Retired 30 completed repository worktrees after confirming integration and absence of live
 consumers. [The cleanup record](stuf89-cleanup.md) lists exact paths and heads.
 
 Fastermod landed through a direct push that bypassed a server-side PR requirement.
