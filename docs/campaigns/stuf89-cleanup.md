@@ -94,3 +94,16 @@ raw report was removed after its conclusions had been committed here.
 `.work/wt/stuf89-cleanup-final` was patch-equivalent to progress head `d08def2`;
 its branch was preserved. All three exact paths are absent from the root inventory
 and filesystem. The primary checkout and unfinished lanes remain.
+
+## Kache after PR 25
+
+Retired `/Users/josh/repos/kache/.work/wt/stuf89` at `6b44c40d32fadd10e10d88888747445336553d4f`
+into fetched merge `4401c7a09498d2225ab22e7d1e74bef20211ca8f`. All required PR
+checks passed. The source status was clean, the original worker had stopped,
+and `lsof -nP +D` returned no open files. Its task-owned Linux verification
+container had exited; the named volume and image were removed separately.
+The remaining ignored files were task-local target/cache/download data and
+verification scratch. `worktree-retire` succeeded with `--discard-ignored`
+and deleted the integrated branch. The exact path is absent from Git's inventory
+and the filesystem. It occupied 5,267,692 KiB before retirement, zero afterward.
+No unrelated container, image, volume or worktree was touched.

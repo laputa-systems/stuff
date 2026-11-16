@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Thirty-one repositories have landed verified source changes.
+Status: in progress. Thirty-two repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -52,6 +52,7 @@ the backlog. Update a policy entry only after its source change lands with tests
 | laputa-systems/ssh-build | [PR 17](https://github.com/laputa-systems/ssh-build/pull/17) | Eight native binaries, reproducible vendor patches, crypto graph and platform/fuzz CI |
 | laputa-systems/gluon | [PR 16](https://github.com/laputa-systems/gluon/pull/16) | Shared parser/help names and defaults, release build, full parity corpus and CI |
 | laputa-systems/stuff | [PR 40](https://github.com/laputa-systems/stuff/pull/40) | Complete stuff/repomod references and parser examples, local suites and every required PR check |
+| joshuarli/kache | [PR 25](https://github.com/joshuarli/kache/pull/25) | Complete reference, pinned-nightly native Linux pre-PR gate, macOS/end-to-end and both Linux musl PR checks |
 
 Stuff's complete reference and parser-checked command examples are merged.
 Its CLI and library tests pass, with clippy warnings denied. Repomod's
@@ -64,12 +65,8 @@ PR checks: [ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
 [toolbox 14](https://github.com/joshuarli/toolbox/pull/14),
 [fz 41](https://github.com/laputa-systems/fz/pull/41),
 [mdevd-rs 4](https://github.com/laputa-systems/mdevd-rs/pull/4),
-[xsh 9](https://github.com/laputa-systems/xsh/pull/9),
-[kache 25](https://github.com/joshuarli/kache/pull/25).
+[xsh 9](https://github.com/laputa-systems/xsh/pull/9).
 
-Kache's complete reference is preserved on `fix/stuf89-help` at `6b44c40d`;
-its required pre-PR gate passes and its PR awaits checks.
-Its existing footer coverage does not establish complete help.
 Existing footer coverage does not establish the
 complete-reference contract for these tools.
 
@@ -116,14 +113,15 @@ Kache's required `make check` passed in native ARM64 GNU Linux before PR creatio
 warnings-denied workspace clippy, the client graph, resource guard, 3,094 native
 unit tests, all integration cases and the remaining workspace suites. Its three
 reference tests and both built binaries' help/version/JSON checks pass on macOS.
-The pinned Alpine image remains unavailable because its exact Git package was
-removed ([issue 24](https://github.com/joshuarli/kache/issues/24)); this proof does
-not establish musl release qualification.
+The local pinned Alpine image build remains unavailable because its exact Git
+package was removed ([issue 24](https://github.com/joshuarli/kache/issues/24)).
+Both remote Linux musl checks, macOS tests, macOS end-to-end and lint passed on
+`6b44c40d` before merge. No release artifact was published or installed.
 
 To reproduce the successful GNU gate, use `rust:1.100.0-bookworm` with real
 `clang`, `lld`, `zsh` and `python3` installed in the disposable container. Install
 the repository's `nightly-2026-11-09` with clippy and rust-src. Bind the source
-worktree and its absolute Git common directory read-only for Git metadata;
+worktree; separately expose its absolute Git common directory read-only;
 use a Linux-native volume for both scratch and Cargo target data. Run as the
 source owner's unprivileged UID, with scratch outside any Cargo/Git ancestor,
 `CARGO_BUILD_JOBS=2`, `RUST_TEST_THREADS=2`, and a two-CPU allocation:
@@ -171,7 +169,7 @@ global Mach-O symbols without debug-map paths, and use a Darwin linker alias for
 the C++ fixture's sentinel. The native regression test fails with the old symbol
 selection; the full corpus passes with no ledger or acceptance-assertion changes.
 
-Retired 30 completed repository worktrees after confirming integration and absence of live
+Retired 31 completed repository worktrees after confirming integration and absence of live
 consumers. [The cleanup record](stuf89-cleanup.md) lists exact paths and heads.
 
 Fastermod landed through a direct push that bypassed a server-side PR requirement.
