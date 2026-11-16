@@ -271,7 +271,7 @@ mdevd-coldplug = { exempt = "one-shot boot helper started by mdevd's service; md
 upstream = "nodejs/node"
 
 [producers."laputa-systems/node-build".commands]
-node = { gap = "primary help does not print the owned-tool footer yet" }
+node = { help = { source = "buildsys/node.py", test = "buildsys/smoke.py" } }
 
 [producers."laputa-systems/python-build"]
 upstream = "python/cpython"

@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Thirty-two repositories have landed verified source changes.
+Status: in progress. Thirty-three repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -53,6 +53,7 @@ the backlog. Update a policy entry only after its source change lands with tests
 | laputa-systems/gluon | [PR 16](https://github.com/laputa-systems/gluon/pull/16) | Shared parser/help names and defaults, release build, full parity corpus and CI |
 | laputa-systems/stuff | [PR 40](https://github.com/laputa-systems/stuff/pull/40) | Complete stuff/repomod references and parser examples, local suites and every required PR check |
 | joshuarli/kache | [PR 25](https://github.com/joshuarli/kache/pull/25) | Complete reference, pinned-nightly native Linux pre-PR gate, macOS/end-to-end and both Linux musl PR checks |
+| laputa-systems/node-build | [PR 16](https://github.com/laputa-systems/node-build/pull/16) | Newly compiled native macOS Node help/version/JSON/completion proof, strict source patch tests and both required CI checks; locked distribution qualification remains separate |
 
 Stuff's complete reference and parser-checked command examples are merged.
 Its CLI and library tests pass, with clippy warnings denied. Repomod's
@@ -71,10 +72,13 @@ Existing footer coverage does not establish the
 complete-reference contract for these tools.
 
 Draft source with built-product proof blocked:
-[node-build 16](https://github.com/laputa-systems/node-build/pull/16) and
 [chromium-build 21](https://github.com/laputa-systems/chromium-build/pull/21).
-LLVM's source patch is committed; its pinned native build prerequisites passed
-and its task-local native ARM build is running. No repositories remain undispatched.
+LLVM [PR 6](https://github.com/laputa-systems/llvm-prebuilt-musl/pull/6)
+passes the full native ARM build and 219 package validation checks. Its first
+fresh Linux CI build exposed asymmetric patch context; the corrected patch
+passes both GNU and BSD zero-fuzz regression tests and reproduces the validated
+C++ source byte for byte. Both native CI builds are pending on `2bbccee`.
+No repositories remain undispatched.
 Python-build already has its maintained footer patch and executable help/version
 test; its existing policy remains unchanged. No CPython/JIT campaign was resumed.
 
@@ -155,9 +159,17 @@ CMake's patched native host binary passes the help test and its required PR
 checks passed. Its separate qualified Linux build is blocked by the removed
 locked `libcrypto3-3.5.9-r0.apk`
 ([issue 7](https://github.com/laputa-systems/cmake-build/issues/7)).
-Node requires Xcode 27.1/SDK 27.0 while the host has only 27.2. Chromium's native
-doctor and smoke-preflight require the missing Xcode Metal Toolchain. Neither
-draft claims actual built-product footer behavior.
+Node's locked distribution doctor requires Xcode 27.1/SDK 27.0 while the host
+has only 27.2. The supported `build.py build --target aarch64-apple-darwin --jobs 2`
+path compiled the SHA-verified Node 26.12.1 source without changing that gate.
+The actual binary passes `buildsys.smoke.check_help_footer`: both help flags
+end with the exact footer once, version/JSON are exact and completion has no
+footer. Binary output `00 01 ff` is preserved. CI controller/lint checks passed
+on `8f77bc1`; merge `5deebd8` lands the source. This establishes host product
+behavior, not locked distribution qualification; the full local controller
+suite still fails the unchanged doctor gate. No package was released or installed.
+Chromium's native doctor and smoke-preflight require the missing Xcode Metal
+Toolchain; its draft has no actual built-product proof.
 
 Stuff's first macOS ecosystem smoke timed out reaching PyPI; the next legitimate
 policy update passed every required check, including macOS Rust.

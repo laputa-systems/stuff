@@ -12,8 +12,9 @@ established, so the slop cannot return.
   Vault and diff-pretty Tests work runs in separate `tests-resume` worktrees,
   each carrying its stopped checkpoint plus current main. Original worktrees
   and partial mutation evidence remain intact. Review saved survivors and
-  qualify boundary assertions first; the busy host defers timing, coverage
-  and broad mutation runs. No fleet rollout or STUF-75 work is authorized.
+  qualify boundary assertions first. Host constraints defer timing/cost
+  acceptance; bounded correctness, coverage and Scenario counts use CPU guards
+  and the shared mutation lock. No fleet rollout or STUF-75 work is authorized.
 - **Resumed results:** Extensions [#5](https://github.com/joshuarli/extensions/pull/5)
   merged as `a45dcdc`, closing DSLP-6: matching Vitest/coverage 5.0.5, frozen
   scripts-disabled install, typecheck, 199 Node tests and coverage, plus Node 22
