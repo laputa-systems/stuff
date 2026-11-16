@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 89
+Next: 90
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -58,4 +58,14 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Diagnose the failed actor-list requests using preserved sample indices without restarting the shared Engine or changing the active sampler. Establish a supported bounded inventory path that remains available during normal traffic, preserve unknown lifecycle states and explicit failures, and verify a complete 24-hour collection with zero unavailable groups. Handle the application-health timeout separately if it has an independent cause; do not hide outages with dropped samples or relaxed acceptance.
 - **Fix with:** root-cause
 - **Effort:** M
+
+
+### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
+
+- **Area:** Owned-tool help
+- **Where:** `fleet/policy/owned-tools.toml` (every `gap` entry outside joshuarli/usr), `docs/campaigns/owned-tool-maintenance.md` (Human help and provenance contract, Remaining tools), usr `dotfiles/base/.agents/skills/design-cli/SKILL.md`
+- **Problem:** Agents learn an owned tool from its -h, but most fleet tools print no examples, many omit subcommand details from top-level help, some error on bare invocation, and about 40 commands still lack the owned-tool footer (`uv run repomod tools coverage` lists them). Sampled: fastermod, loc, xsh, vault print no or one example and no footer.
+- **Recommendation:** Run one campaign over all repos at once, one worker per repository in parallel batches, one integrator for policy and backlog. Original tools (about 28: bctl, ctrs, defuddle-rs, ish, kache, loc, lz, mactop, play, soulseek-rs, stats, tansu, toolbox, pi-build, img, diff-pretty, doas-rs, e, fastermod, fz, gluon, mdevd-rs, srv, stuff, tinyland, tm, vault, xsh, zzz) get the full design-cli contract: complete top-level reference, an Examples: section with an example per command, bare invocation printing help when a command is required, and the footer. Forks and build distributions (rg, fd, jaq, rage, gh, syncthing, git-build, ssh-build, node-build, python-build, ffmpeg-build, cmake-build, llvm-prebuilt-musl, chromium-build) get only the footer through their maintained patch path, never an upstream schema rewrite. Owner decisions: land source only through each repo's workflow and do not release just for help; flip each policy entry from gap to help with its test as it lands. No parser migrations (for example clap to lexopt) in this campaign. Skip repos with no checkout (ghostty, mold, shck, swift-bylaws, view) and parked tm (laputa-systems/tm#28). Accept when `repomod tools coverage` reports no gap except recorded exemptions and parked or checkout-less repos.
+- **Fix with:** design-cli, orchestrate
+- **Effort:** L
 
