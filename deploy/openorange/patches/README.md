@@ -30,6 +30,14 @@ stage-begin barrier and verifies rejection followed by a valid staged commit.
 The regression fails before this patch and passes after it. This is not yet
 full import or recovery acceptance.
 
+`rivet-e5ed391-empty-abort.patch` applies third. After resolving any uncertain
+admission, an empty filesystem transaction has no durable pending entry to
+abort. Release its local reservation instead of writing an unnecessary abort
+that overload can refuse. A transaction with an admitted segment still needs
+its durable abort. The strengthened regression fails before this change,
+then both paths pass in the five-test dev run. Release verification of this
+third patch is pending.
+
 The retry hint has one owner in the page protocol, used by both stage
 cleanup and the Envoy caller. The existing cold-read predicate still serves
 the prefetch planner. The patch adds four test dependency edges to packages
@@ -43,6 +51,8 @@ git apply --check /path/to/rivet-e5ed391-staged-refusal.patch
 git apply /path/to/rivet-e5ed391-staged-refusal.patch
 git apply --check /path/to/rivet-e5ed391-staged-head.patch
 git apply /path/to/rivet-e5ed391-staged-head.patch
+git apply --check /path/to/rivet-e5ed391-empty-abort.patch
+git apply /path/to/rivet-e5ed391-empty-abort.patch
 ```
 
 The tested builder is

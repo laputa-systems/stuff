@@ -168,6 +168,42 @@ This completed copy and its protected preparation proof are under
 is stopped. A read-only check still finds the shared Engine's original
 binary hash and its 2026-11-14 21:48:02 UTC start time.
 
+A fresh, empty-depot run of the two-patch candidate failed at 138,000
+acknowledged rows. It recorded no memory-limit or OOM events. At
+12:26:50 UTC, the head recheck returned `SQLite head fence mismatch`, but
+cleanup of the newly acquired empty stage attempted a journal abort that
+was refused with `Overloaded { retry_after_ms: 1102, token: None }`.
+That still fenced the volume. The copied-depot completion therefore does
+not establish fresh-import acceptance. The stopped evidence is under
+`/home/josh/d/stuff/.work/tmp/stuf87-fresh-l-20261116/`. A preceding K
+preflight had wrong file ownership and never started the Engine or imported
+rows; it remains separate from this runtime failure.
+
+The third candidate, local source `40ed954dc6a409c19c1cd72d6459ccf56b241580`,
+removes an empty transaction's local reservation after reconciliation has
+resolved uncertain admissions. No durable transaction entry exists in that
+case. An admitted segment still requires a journal abort. The strengthened
+head-race regression fails before this change by observing an unwanted abort
+admission; all five regressions pass in dev afterward. Its patch SHA-256 is
+`d2074588cf857f41c47b620ad8303562702e8f386bfe2cda58c6e458399cda02`.
+Release and private runtime verification remain pending.
+
+The first restart diagnostic recovered an equal 203,950-event summary, then
+failed the first stop-inclusive 15-second cycle. Shutdown took 7.182 seconds
+and the Engine API became ready 6.222 seconds after start; application-data
+readiness did not finish in the remaining budget. This does not provide ten
+accepted restarts. The existing fixture reports start-to-ready separately
+from shutdown, so both boundaries must remain explicit. Protected evidence
+is under `/home/josh/d/stuff/.work/tmp/stuf87-restart-j-20261116/`; it is stopped.
+
+Repeated actor IDs alone are expected in the identified grouped layout:
+`pegboard::actor_key::keyed_actor_id` hashes the actor name and key, while
+`KeyedActor` retains the namespace group separately. Actor state-volume keys
+include that group, and each Envoy SQLite session table belongs to one
+connection's namespace group. API resolution uses the request namespace.
+Source inspection therefore does not establish a cross-namespace defect
+from the repeated ID. A same-Engine runtime isolation check remains unrun.
+
 Protected Lisa evidence is under
 `/home/josh/d/stuff/.work/tmp/stuf87-debug-b-20261116/`,
 `stuf87-refusal-d-20261116/`, and `stuf87-refusal-f-reopen-20261116/`.
@@ -212,6 +248,14 @@ samples. Evidence remains under the protected Lisa directory
 `/home/josh/d/stuff/.work/tmp/stuf88-inventory-v2-20261116/`. Its 24-hour
 collection remains in progress and has already failed the zero-unavailability
 criterion; no retry substitutes for a failed sample.
+
+Inspection of 42 retained failure bodies classifies all of them as
+`volume_transition`, with a 100-ms storage retry hint. The public response
+rounds that to `Retry-After: 1`. The source already shares a bounded gateway
+retry budget with actor creation, but actor inventory routes do not use its
+storage-step retry helper. A supported read-edge repair still needs explicit
+request bounds, regression coverage and runtime verification; collector-side
+retries cannot turn these failed samples into availability acceptance.
 
 ## Investigation boundary
 
