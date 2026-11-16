@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Twenty-six repositories have landed verified source changes.
+Status: in progress. Thirty repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -47,6 +47,10 @@ the backlog. Update a policy entry only after its source change lands with tests
 | laputa-systems/ffmpeg-build | [PR 6](https://github.com/laputa-systems/ffmpeg-build/pull/6) | Real macOS tools product/audit, 73 controller tests, Ruff/ty and CI |
 | laputa-systems/tinyland | [PR 4](https://github.com/laputa-systems/tinyland/pull/4) | Five isolated Linux parser/CLI tests and CI; no host daemon or compositor |
 | joshuarli/tansu | [PR 29](https://github.com/joshuarli/tansu/pull/29) | Built help and parser examples, real frontend assets and CI |
+| joshuarli/play | [PR 14](https://github.com/joshuarli/play/pull/14) | Real native CLI, parser tests, macOS/Linux PR checks and lint |
+| laputa-systems/cmake-build | [PR 6](https://github.com/laputa-systems/cmake-build/pull/6) | Patched host CMake help, controller/lint CI; musl qualification remains unavailable |
+| laputa-systems/ssh-build | [PR 17](https://github.com/laputa-systems/ssh-build/pull/17) | Eight native binaries, reproducible vendor patches, crypto graph and platform/fuzz CI |
+| laputa-systems/gluon | [PR 16](https://github.com/laputa-systems/gluon/pull/16) | Shared parser/help names and defaults, release build, full parity corpus and CI |
 
 Stuff's complete reference and parser-checked command examples are committed
 locally. Its CLI and library tests pass, with clippy warnings denied. Repomod's
@@ -57,14 +61,11 @@ full suite passed: 1,410 tests, three expected skips.
 PR checks: [stuff 40](https://github.com/laputa-systems/stuff/pull/40),
 [ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
 [img 7](https://github.com/joshuarli/img/pull/7),
-[play 14](https://github.com/joshuarli/play/pull/14),
 [toolbox 14](https://github.com/joshuarli/toolbox/pull/14),
 [fz 41](https://github.com/laputa-systems/fz/pull/41),
 [mdevd-rs 4](https://github.com/laputa-systems/mdevd-rs/pull/4),
-[xsh 9](https://github.com/laputa-systems/xsh/pull/9), and
-[cmake-build 6](https://github.com/laputa-systems/cmake-build/pull/6).
+[xsh 9](https://github.com/laputa-systems/xsh/pull/9).
 
-Implementation or correction: gluon and ssh-build.
 Kache's source is preserved on `fix/stuf89-help`; its required pre-PR gate blocks
 publication. Its existing footer coverage does not establish complete help.
 Existing footer coverage does not establish the
@@ -73,8 +74,8 @@ complete-reference contract for these tools.
 Draft source with built-product proof blocked:
 [node-build 16](https://github.com/laputa-systems/node-build/pull/16) and
 [chromium-build 21](https://github.com/laputa-systems/chromium-build/pull/21).
-LLVM's source patch is committed; its pinned native build prerequisites are being
-checked before publication. No repositories remain undispatched.
+LLVM's source patch is committed; its pinned native build prerequisites passed
+and its task-local native ARM build is running. No repositories remain undispatched.
 Python-build already has its maintained footer patch and executable help/version
 test; its existing policy remains unchanged. No CPython/JIT campaign was resumed.
 
@@ -102,12 +103,16 @@ unit tests and 12 runner tests pass; the broader gate timed out during integrati
 test discovery ([issue 8](https://github.com/laputa-systems/xsh/issues/8)).
 The xsht schema/example and built primary/nested help checks also pass.
 Remote lint formats the entire repository then reports extensive differences,
-including unchanged source trees; no formatter or CI change was run locally.
+including unchanged source trees
+([issue 10](https://github.com/laputa-systems/xsh/issues/10)); no formatter or CI
+change was run locally.
 
 Kache's host `make check` fails fixture assumptions with repository-local scratch.
 Its separate Linux proof cannot build the pinned image because the exact Alpine
 Git package was removed ([issue 24](https://github.com/joshuarli/kache/issues/24)).
 Do not bypass its successful-check-before-PR requirement or update pins here.
+A native GNU Linux `make check` is being verified with scratch mounted outside
+the source tree, using the pinned Rust toolchain and the image's real C compiler.
 
 Ctrs's platform tests pass, but benchmark harness checks fail with absent scratch
 directories ([issue 6](https://github.com/joshuarli/ctrs/issues/6)) and a distinct
@@ -123,8 +128,10 @@ buffer-size mutant in unchanged input reading
 start because GitHub reports an account billing/spending limit. Its installed
 CLI/lint checks pass; its local broader suite has an independent loudnorm failure.
 
-CMake's patched native host binary passes the help test, but its qualified Linux
-build is blocked by the removed locked `libcrypto3-3.5.9-r0.apk`.
+CMake's patched native host binary passes the help test and its required PR
+checks passed. Its separate qualified Linux build is blocked by the removed
+locked `libcrypto3-3.5.9-r0.apk`
+([issue 7](https://github.com/laputa-systems/cmake-build/issues/7)).
 Node requires Xcode 27.1/SDK 27.0 while the host has only 27.2. Chromium's native
 doctor and smoke-preflight require the missing Xcode Metal Toolchain. Neither
 draft claims actual built-product footer behavior.
@@ -132,6 +139,15 @@ draft claims actual built-product footer behavior.
 Stuff's first macOS ecosystem smoke timed out reaching PyPI; the next legitimate
 policy update passed all ecosystem jobs. Its macOS Rust job remains pending.
 No CI configuration changed.
+
+Gluon's parity gate needed two host-specific test repairs
+([issue 17](https://github.com/laputa-systems/gluon/issues/17)): compare defined
+global Mach-O symbols without debug-map paths, and use a Darwin linker alias for
+the C++ fixture's sentinel. The native regression test fails with the old symbol
+selection; the full corpus passes with no ledger or acceptance-assertion changes.
+
+Retired 24 completed worktrees after confirming integration and absence of live
+consumers. [The cleanup record](stuf89-cleanup.md) lists exact paths and heads.
 
 Fastermod landed through a direct push that bypassed a server-side PR requirement.
 All subsequent changes use PRs and wait for their checks. No release or managed

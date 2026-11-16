@@ -194,7 +194,7 @@ chromium = { gap = "the shipped browser's About/support surface is not migrated"
 upstream = "Kitware/CMake"
 
 [producers."laputa-systems/cmake-build".commands]
-cmake = { gap = "primary help does not print the owned-tool footer yet" }
+cmake = { help = { source = "patches/0002-cmake-owned-help-footer.patch", test = "tests/acceptance/basic/help_contract.py" } }
 cpack = { exempt = "ships with cmake; cmake --help is its support route" }
 ctest = { exempt = "ships with cmake; cmake --help is its support route" }
 
@@ -245,9 +245,9 @@ git = { help = { source = "patches/owned-help.patch", test = "test/runtime.sh" }
 [producers."laputa-systems/gluon"]
 
 [producers."laputa-systems/gluon".commands]
-gluon-build = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
-meson = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
-ninja = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
+gluon-build = { help = { source = "owned-help.txt", test = "tests/help.py" }, record = "gluon" }
+meson = { help = { source = "owned-help.txt", test = "tests/help.py" }, record = "gluon" }
+ninja = { help = { source = "owned-help.txt", test = "tests/help.py" }, record = "gluon" }
 
 [producers."laputa-systems/jaq"]
 upstream = "01mf02/jaq"
@@ -302,14 +302,14 @@ upstream = "openssh/openssh-portable"
 sources = ["laputa-systems/oxish"]
 
 [producers."laputa-systems/ssh-build".commands]
-oxish-server = { gap = "primary help does not print the owned-tool footer yet", record = "oxish" }
-oxish-session = { gap = "primary help does not print the owned-tool footer yet", record = "oxish" }
-scp = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-sftp = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh-add = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh-agent = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh-keygen = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+oxish-server = { help = { source = "patches/oxish/0007-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "oxish" }
+oxish-session = { help = { source = "patches/oxish/0007-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "oxish" }
+scp = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+sftp = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh-add = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh-agent = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh-keygen = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
 
 [producers."laputa-systems/stuff"]
 
