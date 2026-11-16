@@ -70,9 +70,12 @@ established, so the slop cannot return.
     stuff#12 lands.
   - oxish upstream workflows, and tm's flaky macOS test.
 - **Dispatched batch** (diff-pretty, vault, fz; tier-A Rust under 10k lines):
-  - Ground, Diagnose, and Types are merged in all three, except diff-pretty's Types PR #26
-    (`FilteredState`), which waits for its perf gate on an idle host.
-  - **fz Tests complete:** [#32](https://github.com/laputa-systems/fz/pull/32)
+  - Ground, Diagnose, and Types are merged in all three. diff-pretty
+    [Types #26](https://github.com/laputa-systems/diff-pretty/pull/26) merged
+    as `251c68ae`: five interleaved pairs for renderer and pager workloads,
+    including filtered streaming at three sizes, satisfy the idle-host gate;
+    allocation counts and binary sizes are unchanged, and RSS ranges overlap.
+  - **fz complete through Report:** [#32](https://github.com/laputa-systems/fz/pull/32)
     fixes controlling-TTY setup; [#33](https://github.com/laputa-systems/fz/pull/33)
     reaps selectors after driver death; [#34](https://github.com/laputa-systems/fz/pull/34)
     qualifies core boundaries; [#37](https://github.com/laputa-systems/fz/pull/37)
@@ -83,7 +86,16 @@ established, so the slop cannot return.
     [#38](https://github.com/laputa-systems/fz/pull/38) closes DSLP-4 with test-cost,
     ish consumer and five paired release terminal workload checks. No latency
     regression exceeds both observed spread and 2%. DSLP-6/7/8/9 are closed;
-    Dead code, Findings and Report remain.
+    [#39](https://github.com/laputa-systems/fz/pull/39) removes five unread
+    benchmark lines and completes Dead code; no walk-back was established.
+    [#40](https://github.com/laputa-systems/fz/pull/40), merged as `202a211b`,
+    records the cumulative review and final scorecard with no open findings.
+    Ish's library-only importer is repaired in
+    [ish#30](https://github.com/joshuarli/ish/pull/30). Its fresh full consumer
+    run separately timed out in unchanged input framing; worker contracts and
+    Clippy pass with final fz loaded, and the earlier full run covers identical
+    shipped Rust. [ish#29](https://github.com/joshuarli/ish/issues/29) retains
+    the timeout with cause unproven.
   - **vault Tests in progress:** original `f871e81` is preserved. Draft
     [#30](https://github.com/laputa-systems/vault/pull/30) targets accept refusal
     without starving daemon startup, isolates stale-socket creation from
@@ -93,11 +105,24 @@ established, so the slop cannot return.
     and two Secure Enclave tests remain unverified. The first CI store baseline
     exhausted 60 seconds before terminal tests finished and tested no mutants.
     A measured continuation retains every test with a 180-second timeout and
-    twenty-minute total budget. Final mutation, coverage, test-cost and platform
-    survivor dispositions remain open. No WIP or rejected run counts as acceptance.
-  - **Resume order:** finish fz Dead code/Findings/Report and vault Tests directly,
-    then run diff-pretty#26's perf gate on an idle host and finish its remaining
-    steps. Finish vault Dead code/Findings/Report after its Tests acceptance.
+    twenty-minute total budget. The Linux store lane at `a0337e2` selects 51:
+    45 caught, six unviable, zero missed or timed out. Closed, unmerged control
+    [#31](https://github.com/laputa-systems/vault/pull/31) deletes a real test
+    and adds an uncovered branch: ordinary checks pass, mutations fail with
+    12 misses of 55. A native process probe now exercises actual cache startup
+    and cached secret operations without hardware prompts. Its bounded
+    98-case component run found one seed-validation survivor; the new process
+    assertion catches that mutant, and a fresh complete selection is pending.
+    A broader macOS run was interrupted, and a six-worker attempt exceeded
+    `cpu-guard`; neither establishes qualification. Final coverage, test-cost
+    and remaining platform/decision-region dispositions stay open.
+  - **diff-pretty Tests started:** native CLI scenarios assert literal rendered
+    and redirected output, paging flags, help, file concatenation, malformed
+    input and I/O failure status. Nine process tests and lint pass; mutation
+    qualification and the rest of DSLP-4 remain open.
+  - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
+    their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
+    hardware recovery and fleet-rollout boundaries below.
   - Mutation and coverage runs still take the shared host lock
     (`mkdir .work/tmp/mutation.lock` in stuff) and use `--timeout` at about 4x the baseline test
     phase.
