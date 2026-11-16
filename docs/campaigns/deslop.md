@@ -63,15 +63,37 @@ established, so the slop cannot return.
 - **Dispatched batch** (diff-pretty, vault, fz; tier-A Rust under 10k lines):
   - Ground, Diagnose, and Types are merged in all three, except diff-pretty's Types PR #26
     (`FilteredState`), which waits for its perf gate on an idle host.
-  - fz and vault are in the Tests step. Their mutation runs are serialized on one host lock, with
-    each run sized to the Scenario budget.
+  - **Tests step stalled (handoff, 2026-11-16).** Both worker lanes used their two attempts and
+    stopped with acceptance not met. Their unreviewed work is pushed as one `wip(deslop)` commit
+    on each repo's `deslop/tests` branch (worktree `.work/wt/tests`), with no PR. Review it before
+    keeping any of it.
+    - fz (`9331858`): before-coverage 1,305/1,494 lines (87.35%), 399/544 branches (73.35%).
+      Scoring mutation reconciled to 157 caught, 18 missed, 1 unviable. DSLP-8 (orphaned
+      selectors on mutant timeouts) and the new DSLP-9 (on macOS, a failed PTY name lookup in
+      `tests/acceptance.py:221` is counted as a catch) are open. Fix DSLP-9 first: a harness error
+      must not count as a catch. Not done: survivor dispositions, public-boundary tests, after
+      measurements, the gate port, and `make test`, `make lint`, and `make mutants-selftest`.
+    - vault (`f871e81`): a mutation gate is drafted (`scripts/mutants_gate.py`, its test, and
+      `.cargo/mutants-gate.toml`) but unqualified. `cache_daemon_reports_accept_failure`
+      (`tests/integration.rs:173`) passes alone and aborts inside cargo-mutants' baseline (its
+      `ulimit -n 4` child gets SIGABRT), which blocks the full store run. Eight store mutants are
+      Linux-only. Four misses need the ignored Secure Enclave path. DSLP-8 (stale-socket race) is
+      filed and DSLP-6 is updated. Final coverage, mutation, and full-suite checks were not run.
+  - **Resume order:** finish fz's and vault's Tests steps directly (harness fixes first, then
+    measure, then land what holds). Then run diff-pretty#26's perf gate on an idle host. Then do
+    Dead code, Findings, and Report for all three.
+  - Mutation and coverage runs still take the shared host lock
+    (`mkdir .work/tmp/mutation.lock` in stuff) and use `--timeout` at about 4x the baseline test
+    phase.
   - Python and TypeScript mutation steps wait until their lanes qualify (STUF-83 mirrored the
     tools); those repos may still run Ground, Diagnose, Types, and Dead code.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
   1. toolbox: fix Actions billing to bring it back in scope.
-- **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` The
-  next slices are loc's sharded lane under `cpu-guard`, then STUF-84's fixers once stuff#12 lands.
+  2. Dispatching more worker lanes is the owner's call; the resume order assumes direct work.
+- **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
+  the dispatched batch, the next slices are loc's sharded lane under `cpu-guard`, then STUF-84's
+  fixers (stuff#12 has landed).
 
 ## How the campaign runs
 
