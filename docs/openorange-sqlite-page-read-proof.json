@@ -1,0 +1,171 @@
+{
+  "sourceRevision": "f68e0732f44c1d0ec64e96dc425f585eeef8c255",
+  "patchSha256": "c756a9f95c64a00bf5fac77e9bf96205ffd4a16c10b009fe0286448c91e5b769",
+  "binarySha256": "611b08f609d625ad5379c3b0801f23fc76ab4e17cc3ee0210ba608bf53ae1b01",
+  "binaryBytes": 81276368,
+  "binaryStripped": false,
+  "verification": {
+    "regressions": 8,
+    "profiles": [
+      "dev",
+      "release"
+    ],
+    "failedBefore": true,
+    "handFaultsCaught": [
+      "read scope",
+      "ownership",
+      "admitted token"
+    ],
+    "independentSourceReview": "no demonstrated introduced defect"
+  },
+  "privateImport": {
+    "cpus": 2,
+    "memoryBytes": 3221225472,
+    "importBudgetSeconds": 1800,
+    "importStatus": 0,
+    "timedOut": false,
+    "lastAcknowledgedRows": 203950,
+    "preparationProofPresent": true,
+    "memoryEventsBeforeStop": "low 0\nhigh 0\nmax 13303\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "stopped": true
+  },
+  "integrity": {
+    "events": 203950,
+    "fixtureSha256": "c4c682b2d8cbd62ad7e1a574378ad6b38207827d7feeb357599ad5ea13a85e64",
+    "tableSha256": "065f8f729eaef6ecd2f59984667cfabf6f7fca1b29b6eb827f5f26cde3618b51",
+    "duplicate": 64,
+    "changedDuplicateStatus": 409,
+    "restoredSummaryEqual": true,
+    "referenceWindows": [
+      {
+        "hours": 1,
+        "events": 10860,
+        "fromMs": 1794845688790,
+        "toMs": 1794849288790,
+        "completeReferenceEqual": true
+      },
+      {
+        "hours": 6,
+        "events": 74630,
+        "fromMs": 1794827688790,
+        "toMs": 1794849288790,
+        "completeReferenceEqual": true
+      },
+      {
+        "hours": 24,
+        "events": 198400,
+        "fromMs": 1794762888790,
+        "toMs": 1794849288790,
+        "completeReferenceEqual": true
+      },
+      {
+        "hours": 168,
+        "events": 203950,
+        "fromMs": 1794245117497,
+        "toMs": 1794849288790,
+        "completeReferenceEqual": true
+      }
+    ]
+  },
+  "inventory": {
+    "requestCount": 4617,
+    "failedRequests": 0,
+    "sampleCount": 521,
+    "intervalMs": 1000,
+    "complete": true,
+    "twentyFourHourAcceptance": false
+  },
+  "recovery": {
+    "requestedCycles": 3,
+    "restartBoundary": "Engine process only; application and Envoy preserved",
+    "idleBetweenCyclesSeconds": 60,
+    "complete": true,
+    "timingAcceptance": true,
+    "allStartToDataUnder15s": true,
+    "allShutdownToDataUnder15s": true,
+    "stopped": true,
+    "cycles": [
+      {
+        "cycle": 1,
+        "gateBefore": 0,
+        "gateAfter": 0,
+        "stopMs": 1287.7459729788825,
+        "engineReadyFromStartMs": 1857.6262940187007,
+        "startToDataMs": 2631.448218016885,
+        "shutdownToDataMs": 3919.21500407625,
+        "startToDataUnder15s": true,
+        "shutdownToDataUnder15s": true,
+        "memoryEvents": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+        "forcedKill": false,
+        "proof": {
+          "events": 203950,
+          "summaryEqual": true,
+          "summarySha256": "a9a234561d978bd7decbef26e124327d5def3411f41d3df7ba804f8a4978717f",
+          "queryMs": 579.345013,
+          "attempts": [
+            {
+              "afterMs": 572.974922,
+              "status": 200
+            }
+          ]
+        }
+      },
+      {
+        "cycle": 2,
+        "gateBefore": 0,
+        "gateAfter": 0,
+        "stopMs": 1292.3739409307018,
+        "engineReadyFromStartMs": 1786.8414419936016,
+        "startToDataMs": 2554.595688940026,
+        "shutdownToDataMs": 3846.988556906581,
+        "startToDataUnder15s": true,
+        "shutdownToDataUnder15s": true,
+        "memoryEvents": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+        "forcedKill": false,
+        "proof": {
+          "events": 203950,
+          "summaryEqual": true,
+          "summarySha256": "a9a234561d978bd7decbef26e124327d5def3411f41d3df7ba804f8a4978717f",
+          "queryMs": 585.478971,
+          "attempts": [
+            {
+              "afterMs": 574.018073,
+              "status": 200
+            }
+          ]
+        }
+      },
+      {
+        "cycle": 3,
+        "gateBefore": 0,
+        "gateAfter": 0,
+        "stopMs": 1309.9518249509856,
+        "engineReadyFromStartMs": 1729.204228031449,
+        "startToDataMs": 4470.239483984187,
+        "shutdownToDataMs": 5780.215963022783,
+        "startToDataUnder15s": true,
+        "shutdownToDataUnder15s": true,
+        "memoryEvents": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+        "forcedKill": false,
+        "proof": {
+          "events": 203950,
+          "summaryEqual": true,
+          "summarySha256": "a9a234561d978bd7decbef26e124327d5def3411f41d3df7ba804f8a4978717f",
+          "queryMs": 2575.191488,
+          "attempts": [
+            {
+              "afterMs": 2008.164117,
+              "error": "TimeoutError"
+            },
+            {
+              "afterMs": 2560.264084,
+              "status": 200
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "productionChanged": false,
+  "productionAvailabilityQualified": false
+}
