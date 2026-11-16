@@ -17,6 +17,10 @@ uv run repomod --help
 
 ## Catalog and checkouts
 
+`uv run repomod` and `uv run repomod -h` print the complete command reference,
+including nested command options and an example for each command. Command-specific
+help remains available, for example `uv run repomod deps why -h`.
+
 `fleet/catalog.toml` selects repositories and policy tags. Checkouts live under `~/repos` by default.
 Set `REPOMOD_ROOT` to use another absolute path. Personal-owner repositories use a flat path.
 Other owners use `OWNER/REPO`.
