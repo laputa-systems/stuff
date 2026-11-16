@@ -75,8 +75,7 @@ def _targets(root: Path, repository: Repository, rule: str, target: str) -> list
     ]
 
 
-def _mutation(root: Path, repository: Repository) -> list[Finding]:
-    rule = 'mutation-lane'
+def _mutation(root: Path, repository: Repository, rule: str = 'mutation-lane', pin: str | None = None) -> list[Finding]:
     findings = _targets(root, repository, rule, 'mutants-diff')
     sources, problems = read_workflow_sources(root)
     findings.extend(operational(repository, rule, path, message) for path, message in problems)
@@ -111,23 +110,28 @@ def _mutation(root: Path, repository: Repository) -> list[Finding]:
                     and isinstance(item.get('with'), dict) and item['with'].get('fetch-depth') == 0
                     for item in setup
                 )
+                tool_pattern = (
+                    rf'cargo-mutants@{re.escape(pin)}' if pin is not None
+                    else r'cargo-mutants@\d+\.\d+\.\d+'
+                )
                 tool = any(
                     isinstance(item.get('uses'), str)
                     and re.fullmatch(r'taiki-e/install-action@[0-9a-f]{40}', item['uses'])
                     and isinstance(item.get('with'), dict)
-                    and re.fullmatch(r'cargo-mutants@\d+\.\d+\.\d+', str(item['with'].get('tool', '')))
+                    and re.fullmatch(tool_pattern, str(item['with'].get('tool', '')))
                     for item in setup
                 )
                 if checkout and tool:
                     return findings
-    findings.append(violation(
-        repository, rule, '.github/workflows',
-        'missing supported pull_request mutants-diff job with full checkout and pinned cargo-mutants',
-    ))
+    message = 'missing supported pull_request mutants-diff job with full checkout and pinned cargo-mutants'
+    if pin is not None:
+        message = ('missing supported pull_request mutants-diff job with full checkout '
+                    f'and cargo-mutants pinned at {pin}')
+    findings.append(violation(repository, rule, '.github/workflows', message))
     return findings
 
 
-def _strict(root: Path, repository: Repository, settings: list[str]) -> list[Finding]:
+def _strict(root: Path, repository: Repository, settings: list[str], rule: str = 'strict-profile') -> list[Finding]:
     findings = []
     for setting in settings:
         name, level = setting.split('=')
@@ -137,7 +141,7 @@ def _strict(root: Path, repository: Repository, settings: list[str]) -> list[Fin
         except FileNotFoundError:
             data = {}
         except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
-            findings.append(operational(repository, 'strict-profile', relative, str(error)))
+            findings.append(operational(repository, rule, relative, str(error)))
             continue
         if name.startswith('rust.'):
             value = data.get('lints', {}).get('rust', {}).get('unsafe_code')
@@ -149,7 +153,7 @@ def _strict(root: Path, repository: Repository, settings: list[str]) -> list[Fin
             lint = data.get('tool', {}).get('ruff', {}).get('lint', {})
             valid = 'ANN401' in lint.get('select', []) and 'ANN401' not in lint.get('ignore', [])
         if not valid:
-            findings.append(violation(repository, 'strict-profile', relative, f'missing strict setting {setting}'))
+            findings.append(violation(repository, rule, relative, f'missing strict setting {setting}'))
     return findings
 
 

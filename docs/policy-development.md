@@ -407,6 +407,23 @@ guarantees. `mutation-lane`, `coverage-target`, and `strict-profile` check those
 without fixers. Eligibility is independent of repository files so deleting a campaign record,
 target, workflow, or configuration cannot disable its own check.
 
+`fleet/policy/rust-tools.toml` records the approved cargo-mutants release;
+`mutants-diff-lane` pins the job to it.
+
+`make-coverage-target`, `mutants-diff-lane`, and `strict-typing-profile` extend the same
+guarantees to Rust repositories whose deslop pass reached the Tests step (`TODO-DESLOP.md`
+without an open DSLP-4 ticket) or that already carry a `coverage` or `mutants-diff` target;
+plain forks are excluded unless they are tagged `fork-diverged`. `mutants-diff-lane`
+additionally requires the pull-request workflow job to pin cargo-mutants at the approved
+release, to check out with full history, and to pass `BASE_REF` through `env`
+(`github.base_ref`). Its fixer writes the reference gate
+(`scripts/mutants_gate.py` and its test, vendored byte-identically from
+`laputa-systems/srv` for this purpose), a `.cargo/mutants-gate.toml` scoped to `src/`, the
+`BASE ?= origin/main`, `mutants-selftest`, and `mutants-diff` Makefile block, and the srv job
+inserted as the first job after the workflow's `jobs:` key; a repository without a
+pull_request workflow keeps the tooling but needs a test workflow first (`gha-test-workflow`).
+Neither rule fixes Python or TypeScript repositories; those lanes follow STUF-83.
+
 `github-protection` requires zero approving reviews on protected branches so owner-only
 automation never waits on reviews. It also reports required GitHub Actions status checks that no workflow produces, expanding job
 `name:` templates over `strategy.matrix` (including `include` and `exclude`) and falling back to

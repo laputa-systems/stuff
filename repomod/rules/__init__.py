@@ -10,6 +10,7 @@ from repomod.rules.build_repos import build_repo_rules
 from repomod.rules.ci_workflow import ci_workflow_rules
 from repomod.rules.consistency import consistency_rules
 from repomod.rules.conventional_commits import conventional_commits_rules
+from repomod.rules.deslop import deslop_rules
 from repomod.rules.formatters import formatter_rules
 from repomod.rules.languages import language_rules
 from repomod.rules.laputa_rustix import laputa_rustix_rules
@@ -55,6 +56,7 @@ def rules() -> tuple[Rule, ...]:
         *language_rules(),
         *lint_rules(),
         *ci_workflow_rules(),
+        *deslop_rules(),
         *retention_rules(),
         *runner_rules(),
         *mdtool_rules(),
