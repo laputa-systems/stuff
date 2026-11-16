@@ -186,7 +186,25 @@ case. An admitted segment still requires a journal abort. The strengthened
 head-race regression fails before this change by observing an unwanted abort
 admission; all five regressions pass in dev afterward. Its patch SHA-256 is
 `d2074588cf857f41c47b620ad8303562702e8f386bfe2cda58c6e458399cda02`.
-Release and private runtime verification remain pending.
+All five regressions also pass in release, and the full release Engine builds.
+The binary SHA-256 is
+`45f20f1d38c7f34414ff6e344346cf775980ae51b1d1dd365c4c40cc50d156e6`.
+All three patches apply in sequence to a clean checkout of the attested base.
+
+The fresh M fixture starts with an empty depot and new namespace and credentials.
+It acknowledges all 203,950 rows in 602.182 seconds, exits successfully within
+its 1,800-second bound, and writes the preparation proof after manifest,
+reference-window, duplicate/conflict and application-reopen checks. Its 2-CPU,
+3-GiB cgroup records 4,160 memory-limit events, zero OOM events and zero kills;
+socket throttling is four. This establishes fresh-import correctness for this
+private candidate, not a performance or production acceptance. The stopped
+fixture is `/home/josh/d/stuff/.work/tmp/stuf87-fresh-m-20261116/`.
+
+A copied-depot restart attempt N verifies the complete summary but stops before
+its first restart because the host gate returns 75. It contributes zero accepted
+cycles. Its 14.402-second initial query is diagnostic only. Both stop-to-data
+and start-to-data boundaries remain required in the next bounded receipt;
+failed or busy-host evidence is never converted into a pass.
 
 The first restart diagnostic recovered an equal 203,950-event summary, then
 failed the first stop-inclusive 15-second cycle. Shutdown took 7.182 seconds

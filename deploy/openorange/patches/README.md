@@ -35,8 +35,9 @@ admission, an empty filesystem transaction has no durable pending entry to
 abort. Release its local reservation instead of writing an unnecessary abort
 that overload can refuse. A transaction with an admitted segment still needs
 its durable abort. The strengthened regression fails before this change,
-then both paths pass in the five-test dev run. Release verification of this
-third patch is pending.
+then both paths pass in the five-test dev and release runs. The full release
+Engine build also passes. All three patches apply in sequence to a disposable
+checkout at the attested source revision.
 
 The retry hint has one owner in the page protocol, used by both stage
 cleanup and the Envoy caller. The existing cold-read predicate still serves
@@ -75,9 +76,11 @@ fences, conflicts and deadline failures. All three pass in the builder.
 The refusal candidate's full Engine dev and release builds pass, as do
 its three regressions in both profiles. The additional head regression
 also passes in both profiles. The two-patch release candidate completed a
-preserved-depot import and the preparation integrity checks; ten Engine
-restarts and a fresh full import remain unverified. No performance
-acceptance follows from these builds.
+preserved-depot import and the preparation integrity checks. The three-patch
+release candidate additionally completes a fresh 203,950-row import within
+the 1,800-second bound and passes the preparation integrity checks. It records
+4,160 memory-limit events and no OOM events or kills. Ten Engine restarts
+remain unverified. No performance acceptance follows from these builds.
 
 The independent read-only review found no implementation defect in the
 inspected refusal and retention logic, but stopped over the added test
