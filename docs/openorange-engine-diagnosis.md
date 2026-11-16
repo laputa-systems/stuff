@@ -206,6 +206,32 @@ cycles. Its 14.402-second initial query is diagnostic only. Both stop-to-data
 and start-to-data boundaries remain required in the next bounded receipt;
 failed or busy-host evidence is never converted into a pass.
 
+Whole-container diagnostic O completed ten data-equal restart cycles. Every
+cycle passed both host gates, but start-to-data took 44.939–46.033 seconds
+and shutdown-to-data 47.090–47.527 seconds: neither meets 15 seconds. Engine
+API readiness was 1.962–8.724 seconds. This boundary also replaces the
+application and its Envoy. Logs show failed stop commands, then expiry of
+the old Envoy's lost threshold before the actor restarts. The source's
+`envoy_check.rs` and actor executor retain that lease protection. Shortening
+it to pass this diagnostic would change ownership semantics.
+
+The Engine-only diagnostics preserve the application and Envoy while an
+owned supervisor stops and starts only the frozen Engine wrapper. Ordinary
+TERM completion, a changed child PID, no forced kill, exact summary equality,
+both readiness boundaries and pre/post host gates are recorded per cycle.
+P has four valid cycles: start-to-data 2.325–6.092 seconds and shutdown-to-data
+3.627–7.785 seconds. Its fifth cycle was invalidated by a busy post gate.
+R adds 60 seconds of idle spacing and has three valid cycles: 4.646–8.057
+and 5.989–9.422 seconds, respectively. Its fourth cycle was also invalidated
+by the post gate. Neither receipt is complete or establishes the required
+ten-cycle acceptance; valid cycles from separate runs are not combined.
+Q failed a supervisor-file preflight and started no Engine or cycles.
+
+The protected restart receipts and logs remain in
+`/home/josh/d/stuff/.work/tmp/stuf87-restart-n-20261116/`, with separate
+O/P/Q/R filenames. All these private containers are stopped. The required
+ten-cycle performance gate is deferred because the host became busy.
+
 The first restart diagnostic recovered an equal 203,950-event summary, then
 failed the first stop-inclusive 15-second cycle. Shutdown took 7.182 seconds
 and the Engine API became ready 6.222 seconds after start; application-data
