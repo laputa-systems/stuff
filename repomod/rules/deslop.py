@@ -51,10 +51,15 @@ def _has_target(root: Path, target: str) -> bool:
     try:
         if not path.is_file():
             return False
+        source = path.read_text(encoding='utf-8')
         declared = _declared_make_targets(path)
     except (OSError, UnicodeError):
         return False
-    return bool(declared) and target in declared
+    if declared is None or target not in declared:
+        return False
+    rules = (line.partition(':')[0].split() for line in source.splitlines()
+             if line and not line[0].isspace() and ':' in line and not line.startswith('#'))
+    return any(target in names and '.PHONY' not in names for names in rules)
 
 
 def _eligible(root: Path, repository: Repository) -> bool:
