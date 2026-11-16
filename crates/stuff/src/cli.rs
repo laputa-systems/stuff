@@ -8,6 +8,40 @@ use crate::publish::{
     PypiPublish, PypiSpec, Registry, Request,
 };
 
+const OPT_PACKAGE: &str = "-p";
+const OPT_VERSIONS: &str = "--versions";
+const OPT_JSON: &str = "--json";
+const OPT_SAMPLE_ARTIFACTS: &str = "--sample-artifacts";
+const OPT_REGISTRY: &str = "--registry";
+const OPT_CARGO_BASE: &str = "--cargo-base";
+const OPT_NPM_BASE: &str = "--npm-base";
+const OPT_PYPI_BASE: &str = "--pypi-base";
+const OPT_OCI_BASE: &str = "--oci-base";
+const OPT_MIRROR_BASE: &str = "--mirror-base";
+const OPT_CARGO_DIR: &str = "--cargo-dir";
+const OPT_NPM_DIR: &str = "--npm-dir";
+const OPT_PYPI_DIR: &str = "--pypi-dir";
+const OPT_OCI_DIR: &str = "--oci-dir";
+const OPT_MIRROR_DIR: &str = "--mirror-dir";
+const OPT_OUTPUT: &str = "--output";
+const OPT_EXPECTED_GENERATION: &str = "--expected-generation";
+const OPT_DRY_RUN: &str = "--dry-run";
+const OPT_VERBOSE: &str = "--verbose";
+const OPT_MANIFEST_PATH: &str = "--manifest-path";
+const OPT_LOCKFILE: &str = "--lockfile";
+const OPT_PROJECT: &str = "--project";
+const OPT_TARBALL: &str = "--tarball";
+const OPT_ALLOW_SDIST: &str = "--allow-sdist";
+const OPT_WHEEL: &str = "--wheel";
+const OPT_IMAGE: &str = "--image";
+const OPT_LAYOUT: &str = "--layout";
+const OPT_REPOSITORY: &str = "--repository";
+const OPT_TAG: &str = "--tag";
+const OPT_INVENTORY: &str = "--inventory";
+const OPT_LOCK: &str = "--lock";
+const OPT_MANIFEST: &str = "--manifest";
+const OPT_ALLOW_DROPS: &str = "--allow-drops";
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RegistryFilter {
     Cargo,
@@ -20,22 +54,21 @@ pub enum RegistryFilter {
 impl RegistryFilter {
     pub fn as_str(&self) -> &'static str {
         match self {
-            RegistryFilter::Cargo => "cargo",
-            RegistryFilter::Npm => "npm",
-            RegistryFilter::Pypi => "pypi",
-            RegistryFilter::Oci => "oci",
-            RegistryFilter::Mirror => "mirror",
-        }
+            Self::Cargo => Registry::Cargo,
+            Self::Npm => Registry::Npm,
+            Self::Pypi => Registry::Pypi,
+            Self::Oci => Registry::Oci,
+            Self::Mirror => Registry::Mirror,
+        }.as_str()
     }
 
     pub fn parse(s: &str) -> Option<Self> {
-        match s {
-            "cargo" => Some(RegistryFilter::Cargo),
-            "npm" => Some(RegistryFilter::Npm),
-            "pypi" => Some(RegistryFilter::Pypi),
-            "oci" => Some(RegistryFilter::Oci),
-            "mirror" => Some(RegistryFilter::Mirror),
-            _ => None,
+        match Registry::parse(s)? {
+            Registry::Cargo => Some(Self::Cargo),
+            Registry::Npm => Some(Self::Npm),
+            Registry::Pypi => Some(Self::Pypi),
+            Registry::Oci => Some(Self::Oci),
+            Registry::Mirror => Some(Self::Mirror),
         }
     }
 }
@@ -68,6 +101,12 @@ impl Command {
             Command::Credentials => "credentials",
             Command::LockPath => "lock-path",
         }
+    }
+
+    fn parse(name: &str) -> Option<Self> {
+        [Self::Ls, Self::Search, Self::Diff, Self::Doctor, Self::Render, Self::Publish,
+         Self::Republish, Self::Rollback, Self::Credentials, Self::LockPath]
+            .into_iter().find(|command| command.name() == name)
     }
 
     fn allowed_flags(self) -> AllowedFlags {
@@ -167,25 +206,20 @@ fn ensure_allowed(command: Command, flag: &str, present: bool, allowed: bool) ->
 }
 
 pub fn parse_args(argv: &[String]) -> Result<Parsed> {
-    match argv.first().map(String::as_str) {
-        Some("publish") => parse_publish(&argv[1..]),
-        Some("republish") => parse_republish(&argv[1..]),
-        Some("rollback") => parse_rollback(&argv[1..]),
-        Some("credentials") => parse_bucket(Command::Credentials, &argv[1..]),
-        Some("lock-path") => parse_lock_path(&argv[1..]),
+    match argv.first().and_then(|name| Command::parse(name)) {
+        Some(Command::Publish) => parse_publish(&argv[1..]),
+        Some(Command::Republish) => parse_republish(&argv[1..]),
+        Some(Command::Rollback) => parse_rollback(&argv[1..]),
+        Some(Command::Credentials) => parse_bucket(Command::Credentials, &argv[1..]),
+        Some(Command::LockPath) => parse_lock_path(&argv[1..]),
         _ => parse_read_only(argv),
     }
 }
 
 fn parse_read_only(argv: &[String]) -> Result<Parsed> {
     let mut args = argv.iter().peekable();
-    let command = match args.next().map(|s| s.as_str()) {
-        Some("ls") => Command::Ls,
-        Some("search") => Command::Search,
-        Some("diff") => Command::Diff,
-        Some("doctor") => Command::Doctor,
-        Some("render") => Command::Render,
-        Some(other) => return Err(usage_error(format!("unknown command '{other}'"))),
+    let command = match args.next() {
+        Some(name) => Command::parse(name).ok_or_else(|| usage_error(format!("unknown command '{name}'")))?,
         None => return Err(usage_error("a command is required")),
     };
     let mut parsed = Parsed {
@@ -212,10 +246,10 @@ fn parse_read_only(argv: &[String]) -> Result<Parsed> {
     let mut seen_registry = false;
     while let Some(arg) = args.next() {
         match arg.as_str() {
-            "--versions" => parsed.versions = true,
-            "--json" => parsed.json = true,
-            "--sample-artifacts" => parsed.sample_artifacts = true,
-            "--registry" => {
+            OPT_VERSIONS => parsed.versions = true,
+            OPT_JSON => parsed.json = true,
+            OPT_SAMPLE_ARTIFACTS => parsed.sample_artifacts = true,
+            OPT_REGISTRY => {
                 let value = args.next().ok_or_else(|| usage_error("--registry requires a value"))?;
                 if seen_registry {
                     return Err(usage_error("--registry may only be specified once"));
@@ -225,21 +259,21 @@ fn parse_read_only(argv: &[String]) -> Result<Parsed> {
                     RegistryFilter::parse(value).ok_or_else(|| usage_error(format!("unsupported registry '{value}'")))?,
                 );
             }
-            "--cargo-base" | "--npm-base" | "--pypi-base" | "--oci-base" | "--mirror-base" | "--cargo-dir" | "--npm-dir"
-            | "--pypi-dir" | "--oci-dir" | "--mirror-dir" | "--output" | "--expected-generation" => {
+            OPT_CARGO_BASE | OPT_NPM_BASE | OPT_PYPI_BASE | OPT_OCI_BASE | OPT_MIRROR_BASE | OPT_CARGO_DIR | OPT_NPM_DIR
+            | OPT_PYPI_DIR | OPT_OCI_DIR | OPT_MIRROR_DIR | OPT_OUTPUT | OPT_EXPECTED_GENERATION => {
                 let value = args.next().ok_or_else(|| usage_error(format!("{arg} requires a value")))?;
                 let slot = match arg.as_str() {
-                    "--cargo-base" => &mut parsed.cargo_base,
-                    "--npm-base" => &mut parsed.npm_base,
-                    "--pypi-base" => &mut parsed.pypi_base,
-                    "--oci-base" => &mut parsed.oci_base,
-                    "--mirror-base" => &mut parsed.mirror_base,
-                    "--cargo-dir" => &mut parsed.cargo_dir,
-                    "--npm-dir" => &mut parsed.npm_dir,
-                    "--pypi-dir" => &mut parsed.pypi_dir,
-                    "--oci-dir" => &mut parsed.oci_dir,
-                    "--mirror-dir" => &mut parsed.mirror_dir,
-                    "--output" => &mut parsed.output,
+                    OPT_CARGO_BASE => &mut parsed.cargo_base,
+                    OPT_NPM_BASE => &mut parsed.npm_base,
+                    OPT_PYPI_BASE => &mut parsed.pypi_base,
+                    OPT_OCI_BASE => &mut parsed.oci_base,
+                    OPT_MIRROR_BASE => &mut parsed.mirror_base,
+                    OPT_CARGO_DIR => &mut parsed.cargo_dir,
+                    OPT_NPM_DIR => &mut parsed.npm_dir,
+                    OPT_PYPI_DIR => &mut parsed.pypi_dir,
+                    OPT_OCI_DIR => &mut parsed.oci_dir,
+                    OPT_MIRROR_DIR => &mut parsed.mirror_dir,
+                    OPT_OUTPUT => &mut parsed.output,
                     _ => &mut parsed.expected_generation,
                 };
                 if slot.is_some() {
@@ -253,23 +287,23 @@ fn parse_read_only(argv: &[String]) -> Result<Parsed> {
     }
     let allowed = parsed.command.allowed_flags();
     for (flag, present, allowed) in [
-        ("--registry", parsed.registry.is_some(), allowed.registry),
-        ("--versions", parsed.versions, allowed.versions),
-        ("--json", parsed.json, allowed.json),
-        ("--sample-artifacts", parsed.sample_artifacts, allowed.sample_artifacts),
-        ("--cargo-base", parsed.cargo_base.is_some(), allowed.base_urls),
-        ("--npm-base", parsed.npm_base.is_some(), allowed.base_urls),
-        ("--pypi-base", parsed.pypi_base.is_some(), allowed.base_urls),
-        ("--oci-base", parsed.oci_base.is_some(), allowed.base_urls),
-        ("--mirror-base", parsed.mirror_base.is_some(), allowed.base_urls),
-        ("--cargo-dir", parsed.cargo_dir.is_some(), allowed.local_dirs),
-        ("--npm-dir", parsed.npm_dir.is_some(), allowed.local_dirs),
-        ("--pypi-dir", parsed.pypi_dir.is_some(), allowed.local_dirs),
-        ("--oci-dir", parsed.oci_dir.is_some(), allowed.local_dirs),
-        ("--mirror-dir", parsed.mirror_dir.is_some(), allowed.local_dirs),
-        ("--output", parsed.output.is_some(), allowed.output),
+        (OPT_REGISTRY, parsed.registry.is_some(), allowed.registry),
+        (OPT_VERSIONS, parsed.versions, allowed.versions),
+        (OPT_JSON, parsed.json, allowed.json),
+        (OPT_SAMPLE_ARTIFACTS, parsed.sample_artifacts, allowed.sample_artifacts),
+        (OPT_CARGO_BASE, parsed.cargo_base.is_some(), allowed.base_urls),
+        (OPT_NPM_BASE, parsed.npm_base.is_some(), allowed.base_urls),
+        (OPT_PYPI_BASE, parsed.pypi_base.is_some(), allowed.base_urls),
+        (OPT_OCI_BASE, parsed.oci_base.is_some(), allowed.base_urls),
+        (OPT_MIRROR_BASE, parsed.mirror_base.is_some(), allowed.base_urls),
+        (OPT_CARGO_DIR, parsed.cargo_dir.is_some(), allowed.local_dirs),
+        (OPT_NPM_DIR, parsed.npm_dir.is_some(), allowed.local_dirs),
+        (OPT_PYPI_DIR, parsed.pypi_dir.is_some(), allowed.local_dirs),
+        (OPT_OCI_DIR, parsed.oci_dir.is_some(), allowed.local_dirs),
+        (OPT_MIRROR_DIR, parsed.mirror_dir.is_some(), allowed.local_dirs),
+        (OPT_OUTPUT, parsed.output.is_some(), allowed.output),
         (
-            "--expected-generation",
+            OPT_EXPECTED_GENERATION,
             parsed.expected_generation.is_some(),
             allowed.expected_generation,
         ),
@@ -316,7 +350,7 @@ fn parse_bucket(command: Command, args: &[String]) -> Result<Parsed> {
 
 fn parse_lock_path(args: &[String]) -> Result<Parsed> {
     match args {
-        [flag, name] if flag == "--registry" => {
+        [flag, name] if flag == OPT_REGISTRY => {
             let registry = RegistryFilter::parse(name)
                 .ok_or_else(|| usage_error(format!("unknown registry: {name}")))?;
             Ok(Parsed {
@@ -382,12 +416,22 @@ fn assign_once(slot: &mut Option<String>, flag: &str, value: &str) -> Result<()>
 
 fn take_common_option(arg: &str, options: &mut Options) -> bool {
     match arg {
-        "--dry-run" => options.dry_run = true,
-        "--json" => options.json = true,
-        "--verbose" => options.verbose = true,
+        OPT_DRY_RUN => options.dry_run = true,
+        OPT_JSON => options.json = true,
+        OPT_VERBOSE => options.verbose = true,
         _ => return false,
     }
     true
+}
+
+fn check_publish_option(command: Command, registry: Option<Registry>, arg: &str) -> Result<()> {
+    if arg.starts_with('-') {
+        let spec = HELP_COMMANDS.iter().find(|entry| entry.command == command && entry.registry == registry).unwrap();
+        if !command_options(spec).contains(&arg) {
+            return Err(usage_error(format!("unknown option: {arg}")));
+        }
+    }
+    Ok(())
 }
 
 fn parse_publish(args: &[String]) -> Result<Parsed> {
@@ -417,7 +461,8 @@ fn parse_cargo_publish(args: &[String], index: &mut usize) -> Result<(PublishReq
     let mut seen_common: Vec<&str> = Vec::new();
     while *index < args.len() {
         let arg = args[*index].as_str();
-        if matches!(arg, "--dry-run" | "--json" | "--verbose") {
+        check_publish_option(Command::Publish, Some(Registry::Cargo), arg)?;
+        if matches!(arg, OPT_DRY_RUN | OPT_JSON | OPT_VERBOSE) {
             if seen_common.contains(&arg) {
                 return Err(usage_error(format!("{arg} may only be specified once")));
             }
@@ -427,23 +472,23 @@ fn parse_cargo_publish(args: &[String], index: &mut usize) -> Result<(PublishReq
             continue;
         }
         match arg {
-            "-p" => {
-                let value = next_value(args, index, "-p")?;
+            OPT_PACKAGE => {
+                let value = next_value(args, index, OPT_PACKAGE)?;
                 if value.is_empty() {
                     return Err(usage_error("-p requires a package name"));
                 }
                 cargo.packages.push(value.to_string());
             }
-            "--manifest-path" => {
-                let value = next_value(args, index, "--manifest-path")?;
-                assign_once(&mut cargo.manifest_path, "--manifest-path", value)?;
+            OPT_MANIFEST_PATH => {
+                let value = next_value(args, index, OPT_MANIFEST_PATH)?;
+                assign_once(&mut cargo.manifest_path, OPT_MANIFEST_PATH, value)?;
             }
-            "--registry" => {
-                let value = next_value(args, index, "--registry")?;
-                assign_once(&mut cargo.registry, "--registry", value)?;
+            OPT_REGISTRY => {
+                let value = next_value(args, index, OPT_REGISTRY)?;
+                assign_once(&mut cargo.registry, OPT_REGISTRY, value)?;
             }
-            "--lockfile" => {
-                let value = next_value(args, index, "--lockfile")?;
+            OPT_LOCKFILE => {
+                let value = next_value(args, index, OPT_LOCKFILE)?;
                 if value.is_empty() {
                     return Err(usage_error("--lockfile requires a path"));
                 }
@@ -481,21 +526,22 @@ fn parse_npm_publish(args: &[String], index: &mut usize) -> Result<(PublishReque
     let mut options = Options::default();
     while *index < args.len() {
         let arg = args[*index].as_str();
+        check_publish_option(Command::Publish, Some(Registry::Npm), arg)?;
         if take_common_option(arg, &mut options) {
             *index += 1;
             continue;
         }
         match arg {
-            "--lockfile" => {
-                let value = next_value(args, index, "--lockfile")?;
-                assign_once(&mut lockfile, "--lockfile", value)?;
+            OPT_LOCKFILE => {
+                let value = next_value(args, index, OPT_LOCKFILE)?;
+                assign_once(&mut lockfile, OPT_LOCKFILE, value)?;
             }
-            "--project" => {
-                let value = next_value(args, index, "--project")?;
-                assign_once(&mut project, "--project", value)?;
+            OPT_PROJECT => {
+                let value = next_value(args, index, OPT_PROJECT)?;
+                assign_once(&mut project, OPT_PROJECT, value)?;
             }
-            "--tarball" => {
-                let value = next_value(args, index, "--tarball")?;
+            OPT_TARBALL => {
+                let value = next_value(args, index, OPT_TARBALL)?;
                 tarballs.push(value.to_string());
             }
             other if other.starts_with('-') => {
@@ -530,17 +576,18 @@ fn parse_pypi_publish(args: &[String], index: &mut usize) -> Result<(PublishRequ
     let mut options = Options::default();
     while *index < args.len() {
         let arg = args[*index].as_str();
+        check_publish_option(Command::Publish, Some(Registry::Pypi), arg)?;
         if take_common_option(arg, &mut options) {
             *index += 1;
             continue;
         }
-        if arg == "--allow-sdist" {
+        if arg == OPT_ALLOW_SDIST {
             allow_sdist = true;
             *index += 1;
             continue;
         }
-        if arg == "--wheel" {
-            let value = next_value(args, index, "--wheel")?;
+        if arg == OPT_WHEEL {
+            let value = next_value(args, index, OPT_WHEEL)?;
             if value.is_empty() {
                 return Err(usage_error("--wheel requires a path"));
             }
@@ -580,37 +627,38 @@ fn parse_oci_publish(args: &[String], index: &mut usize) -> Result<(OciSource, O
     let mut options = Options::default();
     while *index < args.len() {
         let arg = args[*index].as_str();
+        check_publish_option(Command::Publish, Some(Registry::Oci), arg)?;
         if take_common_option(arg, &mut options) {
             *index += 1;
             continue;
         }
         match arg {
-            "--image" => {
-                let value = next_value(args, index, "--image")?;
+            OPT_IMAGE => {
+                let value = next_value(args, index, OPT_IMAGE)?;
                 let image = OciImage::parse(value).ok_or_else(|| {
                     usage_error(format!("invalid image '{value}': expected REPO=REF"))
                 })?;
                 images.push(image);
             }
-            "--layout" => {
-                let value = next_value(args, index, "--layout")?;
-                assign_once(&mut layout, "--layout", value)?;
+            OPT_LAYOUT => {
+                let value = next_value(args, index, OPT_LAYOUT)?;
+                assign_once(&mut layout, OPT_LAYOUT, value)?;
             }
-            "--repository" => {
-                let value = next_value(args, index, "--repository")?;
-                assign_once(&mut repository, "--repository", value)?;
+            OPT_REPOSITORY => {
+                let value = next_value(args, index, OPT_REPOSITORY)?;
+                assign_once(&mut repository, OPT_REPOSITORY, value)?;
             }
-            "--tag" => {
-                let value = next_value(args, index, "--tag")?;
-                assign_once(&mut tag, "--tag", value)?;
+            OPT_TAG => {
+                let value = next_value(args, index, OPT_TAG)?;
+                assign_once(&mut tag, OPT_TAG, value)?;
             }
-            "--inventory" => {
-                let value = next_value(args, index, "--inventory")?;
-                assign_once(&mut inventory, "--inventory", value)?;
+            OPT_INVENTORY => {
+                let value = next_value(args, index, OPT_INVENTORY)?;
+                assign_once(&mut inventory, OPT_INVENTORY, value)?;
             }
-            "--lock" => {
-                let value = next_value(args, index, "--lock")?;
-                assign_once(&mut mirror_lock, "--lock", value)?;
+            OPT_LOCK => {
+                let value = next_value(args, index, OPT_LOCK)?;
+                assign_once(&mut mirror_lock, OPT_LOCK, value)?;
             }
             other if other.starts_with('-') => {
                 return Err(usage_error(format!("unknown option: {other}")));
@@ -664,19 +712,20 @@ fn parse_mirror_publish(args: &[String], index: &mut usize) -> Result<(MirrorPub
     let mut options = Options::default();
     while *index < args.len() {
         let arg = args[*index].as_str();
+        check_publish_option(Command::Publish, Some(Registry::Mirror), arg)?;
         if take_common_option(arg, &mut options) {
             *index += 1;
             continue;
         }
         match arg {
-            "--manifest" => {
-                let value = next_value(args, index, "--manifest")?;
+            OPT_MANIFEST => {
+                let value = next_value(args, index, OPT_MANIFEST)?;
                 if value.is_empty() {
                     return Err(usage_error("--manifest requires a path"));
                 }
-                assign_once(&mut manifest, "--manifest", value)?;
+                assign_once(&mut manifest, OPT_MANIFEST, value)?;
             }
-            "--allow-drops" => allow_drops = true,
+            OPT_ALLOW_DROPS => allow_drops = true,
             other if other.starts_with('-') => {
                 return Err(usage_error(format!("unknown option: {other}")));
             }
@@ -698,21 +747,22 @@ fn parse_republish(args: &[String]) -> Result<Parsed> {
     let mut options = Options::default();
     while index < args.len() {
         let arg = args[index].as_str();
+        check_publish_option(Command::Republish, None, arg)?;
         if take_common_option(arg, &mut options) {
             index += 1;
             continue;
         }
         match arg {
-            "--allow-drops" => allow_drops = true,
-            "--manifest" => {
+            OPT_ALLOW_DROPS => allow_drops = true,
+            OPT_MANIFEST => {
                 if registry != Registry::Mirror {
                     return Err(usage_error("--manifest only applies to the mirror registry"));
                 }
-                let value = next_value(args, &mut index, "--manifest")?;
+                let value = next_value(args, &mut index, OPT_MANIFEST)?;
                 if value.is_empty() {
                     return Err(usage_error("--manifest requires a path"));
                 }
-                assign_once(&mut manifest, "--manifest", value)?;
+                assign_once(&mut manifest, OPT_MANIFEST, value)?;
             }
             other if other.starts_with('-') => {
                 return Err(usage_error(format!("unknown option: {other}")));
@@ -737,6 +787,7 @@ fn parse_rollback(args: &[String]) -> Result<Parsed> {
     let mut options = Options::default();
     while index < args.len() {
         let arg = args[index].as_str();
+        check_publish_option(Command::Rollback, None, arg)?;
         if take_common_option(arg, &mut options) {
             index += 1;
             continue;
@@ -763,42 +814,101 @@ fn parse_rollback(args: &[String]) -> Result<Parsed> {
 }
 
 pub fn help_text() -> String {
-    "\
-stuff
-
-Usage: stuff <COMMAND> [OPTIONS]
-
-Commands:
-  ls [--registry cargo|npm|pypi|oci|mirror] [--versions] [--json]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  search <query> [--registry cargo|npm|pypi|oci|mirror] [--json]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  diff <before.json> <after.json> [--json]
-  doctor [--registry cargo|npm|pypi|oci|mirror] [--expected-generation ID] [--sample-artifacts]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  render --output FILE [--registry cargo|npm|pypi|oci|mirror]
-     [--cargo-base URL] [--npm-base URL] [--pypi-base URL] [--oci-base URL] [--mirror-base URL]
-     [--cargo-dir DIR] [--npm-dir DIR] [--pypi-dir DIR] [--oci-dir DIR] [--mirror-dir DIR]
-  credentials <bucket>
-     print shell exports for the publishing service S3 gateway; use with eval
-  lock-path <bucket> | lock-path --registry cargo|npm|pypi|oci|mirror
-     print the publish lock file of a registry, or of the registry that owns
-     a configured bucket; maintenance helpers hold it while they write
-
-Sources default to the live registries (no credentials needed).
-Pass --cargo-dir/--npm-dir/--pypi-dir/--oci-dir/--mirror-dir (site, generation, or
-catalog.json) to inspect local published output offline. Registries without
-a local dir are skipped by doctor, which then refuses --expected-generation;
-naming one with --registry needs its --*-dir or --*-base, never the live default.
---output FILE ending in .txt or .md writes the aggregate llms.txt; any
-other name writes HTML.
-
-"
-    .to_string()
+    String::from("stuff\n\nUsage: stuff <COMMAND> [OPTIONS]\n\n")
+        + &reference_text()
         + OWNED_TOOL_FOOTER
+}
+
+struct HelpCommand {
+    command: Command,
+    registry: Option<Registry>,
+    arguments: &'static str,
+    description: &'static str,
+    example: &'static str,
+}
+
+const HELP_COMMANDS: &[HelpCommand] = &[
+    HelpCommand { command: Command::Ls, registry: None, arguments: "[OPTIONS]", description: "List registry packages.", example: "stuff ls --registry npm --versions" },
+    HelpCommand { command: Command::Search, registry: None, arguments: "QUERY [OPTIONS]", description: "Search package names; QUERY is required.", example: "stuff search example --registry npm" },
+    HelpCommand { command: Command::Diff, registry: None, arguments: "BEFORE AFTER [OPTIONS]", description: "Compare two required catalog paths.", example: "stuff diff before.json after.json" },
+    HelpCommand { command: Command::Doctor, registry: None, arguments: "[OPTIONS]", description: "Check registry health.", example: "stuff doctor --registry npm --sample-artifacts" },
+    HelpCommand { command: Command::Render, registry: None, arguments: "[OPTIONS]", description: "Render the catalog; an output path is required.", example: "stuff render --output catalog.html" },
+    HelpCommand { command: Command::Publish, registry: None, arguments: "REGISTRY [OPTIONS]", description: "Publish to a registry using one of the modes below.", example: "stuff publish mirror" },
+    HelpCommand { command: Command::Publish, registry: Some(Registry::Cargo), arguments: "[OPTIONS]", description: "Publish packages or mirror lockfiles; choose packages or lockfiles, not both.", example: "stuff publish cargo -p example" },
+    HelpCommand { command: Command::Publish, registry: Some(Registry::Npm), arguments: "[OPTIONS]", description: "Publish lockfile packages or tarballs; lockfile requires project and excludes tarballs.", example: "stuff publish npm --lockfile pnpm-lock.yaml --project example" },
+    HelpCommand { command: Command::Publish, registry: Some(Registry::Pypi), arguments: "[SPEC...] [OPTIONS]", description: "Supply at least one name==version spec or wheel; wheels exclude specs and source distributions.", example: "stuff publish pypi example==1.0" },
+    HelpCommand { command: Command::Publish, registry: Some(Registry::Oci), arguments: "[OPTIONS]", description: "Supply images, a layout, or an inventory. Layout requires repository; inventory requires lock. Modes cannot be mixed.", example: "stuff publish oci --image example/app=ghcr.io/example/app:v1" },
+    HelpCommand { command: Command::Publish, registry: Some(Registry::Mirror), arguments: "[OPTIONS]", description: "Mirror static upstream artifacts.", example: "stuff publish mirror --manifest mirror/manifest.toml" },
+    HelpCommand { command: Command::Republish, registry: None, arguments: "REGISTRY [OPTIONS]", description: "Rebuild a registry from its published inventory.", example: "stuff republish cargo" },
+    HelpCommand { command: Command::Rollback, registry: None, arguments: "REGISTRY GENERATION [OPTIONS]", description: "Activate a previous generation.", example: "stuff rollback cargo gen-1" },
+    HelpCommand { command: Command::Credentials, registry: None, arguments: "BUCKET", description: "Print shell exports for a bucket's S3 gateway.", example: "stuff credentials stuff-cargo" },
+    HelpCommand { command: Command::LockPath, registry: None, arguments: "BUCKET | [OPTIONS]", description: "Print the lock path for a configured bucket or registry.", example: "stuff lock-path --registry cargo" },
+];
+
+fn option_help(flag: &str) -> &'static str {
+    match flag {
+        OPT_REGISTRY => "NAME  Select cargo, npm, pypi, oci, or mirror (default: all for reads); Cargo publish selects its Cargo registry.",
+        OPT_VERSIONS => "Include versions.", OPT_JSON => "Emit JSON.",
+        OPT_SAMPLE_ARTIFACTS => "Check artifacts.", OPT_EXPECTED_GENERATION => "ID  Require a generation.",
+        OPT_OUTPUT => "FILE  Required output; .txt or .md writes text, otherwise HTML.",
+        OPT_CARGO_BASE | OPT_NPM_BASE | OPT_PYPI_BASE | OPT_OCI_BASE | OPT_MIRROR_BASE => "URL  Override the registry URL; corresponding STUFF_*_BASE environment variable supplies the default, otherwise the live URL.",
+        OPT_CARGO_DIR | OPT_NPM_DIR | OPT_PYPI_DIR | OPT_OCI_DIR | OPT_MIRROR_DIR => "DIR  Inspect a local site, generation, or catalog.",
+        OPT_DRY_RUN => "Preview without publication.", OPT_VERBOSE => "Show additional details.",
+        OPT_PACKAGE => "NAME  Required unless lockfiles are supplied; repeatable.", OPT_MANIFEST_PATH => "PATH  Select a Cargo manifest.",
+        OPT_LOCKFILE => "PATH  Select lockfile; repeatable for Cargo. Required unless another input mode is selected.",
+        OPT_PROJECT => "ID  Select the project for the npm lockfile.", OPT_TARBALL => "PATH  Publish a tarball; repeatable.",
+        OPT_ALLOW_SDIST => "Permit source distributions.", OPT_WHEEL => "PATH  Publish a wheel; repeatable.",
+        OPT_IMAGE => "REPO=REF  Publish an image; repeatable.", OPT_LAYOUT => "DIR  Publish an OCI layout.", OPT_REPOSITORY => "NAME  Destination for the layout.", OPT_TAG => "TAG  Tag the layout.", OPT_INVENTORY => "FILE  Mirror an inventory.", OPT_LOCK => "FILE  Lock file for the inventory.",
+        OPT_MANIFEST => "PATH  Select the mirror manifest (default mirror/manifest.toml); republish accepts this only for mirror.", OPT_ALLOW_DROPS => "Permit removals.",
+        _ => unreachable!(),
+    }
+}
+
+fn command_options(command: &HelpCommand) -> Vec<&'static str> {
+    let mut flags = Vec::new();
+    let allowed = command.command.allowed_flags();
+    if allowed.registry || command.command == Command::LockPath { flags.push(OPT_REGISTRY); }
+    if allowed.versions { flags.push(OPT_VERSIONS); }
+    if allowed.json { flags.push(OPT_JSON); }
+    if allowed.sample_artifacts { flags.push(OPT_SAMPLE_ARTIFACTS); }
+    if allowed.expected_generation { flags.push(OPT_EXPECTED_GENERATION); }
+    if allowed.output { flags.push(OPT_OUTPUT); }
+    if allowed.base_urls { flags.extend([OPT_CARGO_BASE, OPT_NPM_BASE, OPT_PYPI_BASE, OPT_OCI_BASE, OPT_MIRROR_BASE]); }
+    if allowed.local_dirs { flags.extend([OPT_CARGO_DIR, OPT_NPM_DIR, OPT_PYPI_DIR, OPT_OCI_DIR, OPT_MIRROR_DIR]); }
+    match (command.command, command.registry) {
+        (Command::Publish, Some(Registry::Cargo)) => flags.extend([OPT_PACKAGE, OPT_MANIFEST_PATH, OPT_REGISTRY, OPT_LOCKFILE]),
+        (Command::Publish, Some(Registry::Npm)) => flags.extend([OPT_LOCKFILE, OPT_PROJECT, OPT_TARBALL]),
+        (Command::Publish, Some(Registry::Pypi)) => flags.extend([OPT_ALLOW_SDIST, OPT_WHEEL]),
+        (Command::Publish, Some(Registry::Oci)) => flags.extend([OPT_IMAGE, OPT_LAYOUT, OPT_REPOSITORY, OPT_TAG, OPT_INVENTORY, OPT_LOCK]),
+        (Command::Publish, Some(Registry::Mirror)) => flags.extend([OPT_MANIFEST, OPT_ALLOW_DROPS]),
+        (Command::Republish, _) => flags.extend([OPT_ALLOW_DROPS, OPT_MANIFEST]),
+        _ => {},
+    }
+    if matches!(command.command, Command::Publish | Command::Republish | Command::Rollback) {
+        flags.extend([OPT_DRY_RUN, OPT_JSON, OPT_VERBOSE]);
+    }
+    flags
+}
+
+fn reference_text() -> String {
+    let mut out = String::from("Reference:\n  -h, --help  Show help offline.\n\n");
+    let mut described = Vec::new();
+    for command in HELP_COMMANDS {
+        let registry = command.registry.map(|registry| format!(" {}", registry.as_str())).unwrap_or_default();
+        let _ = writeln!(out, "  stuff {}{} {}\n    {}", command.command.name(), registry, command.arguments, command.description);
+        for flag in command_options(command) {
+            let description = if described.contains(&flag) { "Described above." } else {
+                described.push(flag);
+                option_help(flag)
+            };
+            let _ = writeln!(out, "    {flag} {description}");
+        }
+        out.push('\n');
+    }
+    out.push_str("REGISTRY is cargo, npm, pypi, oci, or mirror. Read sources accept STUFF_CARGO_BASE, STUFF_NPM_BASE, STUFF_PYPI_BASE, STUFF_OCI_BASE, and STUFF_MIRROR_BASE. Publishing configuration and credentials use STUFF_CONFIG_HOME, STUFF_CACHE_HOME, STUFF_STATE_HOME, XDG_CONFIG_HOME, XDG_CACHE_HOME, XDG_STATE_HOME, HOME, STUFF_CREDENTIAL_FILE, STUFF_COORDINATOR_URL, STUFF_COORDINATOR_TOKEN, STUFF_S3_GATEWAY_URL, STUFF_S3_ACCESS_KEY_ID, STUFF_S3_SECRET_ACCESS_KEY, STUFF_S3_REGION and R2_S3_*; see docs/PUBLISHING.md for defaults.\n\nExamples:\n");
+    for command in HELP_COMMANDS { let _ = writeln!(out, "  {}", command.example); }
+    out.push_str("\nExit codes: 0 success; 1 health check or runtime failure; 2 usage or configuration error;\n  3 conflict; 4 integrity failure; 5 transport failure.\n\n");
+    out
 }
 
 pub const OWNED_TOOL_FOOTER: &str = "\
@@ -1028,37 +1138,53 @@ mod tests {
         let help = help_text();
         assert!(!help.contains("[sources...]"), "{help}");
         assert!(!help.contains("--remote"), "{help}");
-        let mut command: Option<&str> = None;
-        let mut advertised: Vec<String> = Vec::new();
-        let mut checked = 0;
-        for line in help.lines() {
-            let trimmed = line.trim();
-            let first = trimmed.split_whitespace().next().unwrap_or("");
-            if let Some((name, _)) = COMMANDS.iter().find(|(name, _)| *name == first) {
-                if let Some(previous) = command {
-                    check_advertised(previous, &advertised);
-                    checked += 1;
+        let reference = help.split_once("Examples:\n").unwrap().0;
+        for (command, _) in COMMANDS {
+            let prefix = format!("  stuff {command} ");
+            let block = reference.split_once(&prefix).unwrap().1.split_once("\n\n").unwrap().0;
+            let advertised: Vec<String> = block.lines().filter_map(|line| {
+                let text = line.strip_prefix("    --")?;
+                Some(format!("--{}", text.split_whitespace().next().unwrap()))
+            }).collect();
+            check_advertised(command, &advertised);
+        }
+    }
+
+    #[test]
+    fn publishing_help_options_match_parser() {
+        let help = help_text();
+        let reference = help.split_once("Examples:\n").unwrap().0;
+        let cases: &[(&str, &[&str])] = &[
+            ("publish cargo", &["publish", "cargo", "-p", "example"]),
+            ("publish npm", &["publish", "npm", "--tarball", "example.tgz"]),
+            ("publish pypi", &["publish", "pypi", "example==1.0"]),
+            ("publish oci", &["publish", "oci", "--image", "example=example:v1"]),
+            ("publish mirror", &["publish", "mirror"]),
+            ("republish", &["republish", "mirror"]),
+            ("rollback", &["rollback", "cargo", "gen-1"]),
+        ];
+        let flags = ["-p", "--manifest-path", "--registry", "--lockfile", "--project", "--tarball", "--allow-sdist", "--wheel", "--image", "--layout", "--repository", "--tag", "--inventory", "--lock", "--manifest", "--allow-drops", "--dry-run", "--json", "--verbose", "--output"];
+        for (command, base) in cases {
+            let prefix = format!("  stuff {command} ");
+            let block = reference.split_once(&prefix).unwrap().1.split_once("\n\n").unwrap().0;
+            let advertised: Vec<&str> = block.lines().filter_map(|line| {
+                let line = line.strip_prefix("    -")?;
+                Some(line.split_whitespace().next().unwrap())
+            }).collect();
+            for flag in flags {
+                let mut argv = base.to_vec();
+                argv.push(flag);
+                if !matches!(flag, "--allow-sdist" | "--allow-drops" | "--dry-run" | "--json" | "--verbose") {
+                    argv.push("example");
                 }
-                command = Some(name);
-                advertised.clear();
-            }
-            if command.is_some() && trimmed.is_empty() {
-                break;
-            }
-            if command.is_some() {
-                for token in trimmed.split_whitespace() {
-                    let token = token.trim_matches(|c| c == '[' || c == ']');
-                    if let Some(flag) = token.strip_prefix("--") {
-                        advertised.push(format!("--{flag}"));
-                    }
-                }
+                let parsed = parse_args(&args(&argv));
+                let recognized = match parsed {
+                    Ok(_) => true,
+                    Err(error) => !error.to_string().contains("unknown option:"),
+                };
+                assert_eq!(advertised.contains(&&flag[1..]), recognized, "{command} {flag}: {argv:?}");
             }
         }
-        if let Some(previous) = command {
-            check_advertised(previous, &advertised);
-            checked += 1;
-        }
-        assert_eq!(checked, COMMANDS.len());
     }
 
     fn publish_request(argv: &[&str]) -> (PublishRequest, Options) {

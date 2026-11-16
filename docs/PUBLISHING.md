@@ -1,5 +1,8 @@
 # Publish
 
+For the complete publication command reference and examples, run `stuff --help` offline.
+
+
 `stuff publish cargo|npm|pypi|oci|mirror` is the normal entry point. `stuff publish --help` is authoritative for its grammar, options, and exit codes. A publish reads the live generation and manifest, prepares the requested packages against them, validates the complete result, uploads only missing objects, activates the generation through the durable coordinator, reads back, and reports; a request whose bytes are already published reports `unchanged` and promotes nothing.
 
 ## Check prerequisites

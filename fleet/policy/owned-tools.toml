@@ -7,7 +7,7 @@ install_manifest = ".local/state/sync/dl-owned.verified.json"
 [producers."joshuarli/bctl"]
 
 [producers."joshuarli/bctl".commands]
-bctl = { gap = "primary help does not print the owned-tool footer yet" }
+bctl = { help = { source = "crates/bctl/src/help.rs", test = "crates/bctl/tests/help.rs" } }
 
 [producers."joshuarli/ctrs"]
 
@@ -18,13 +18,13 @@ ctrs-init = { exempt = "runs as PID 1 inside containers; ctrs --help is its supp
 [producers."joshuarli/defuddle-rs"]
 
 [producers."joshuarli/defuddle-rs".commands]
-defuddle = { gap = "primary help does not print the owned-tool footer yet" }
+defuddle = { help = { source = "crates/defuddle-cli/src/main.rs", test = "crates/defuddle-cli/tests/cli_tests.rs" } }
 
 [producers."joshuarli/gh"]
 upstream = "cli/cli"
 
 [producers."joshuarli/gh".commands]
-gh = { gap = "primary help does not print the owned-tool footer yet" }
+gh = { help = { source = "pkg/cmd/root/help.go", test = "cmd/gh/footer_test.go" } }
 
 [producers."joshuarli/ghostty"]
 upstream = "ghostty-org/ghostty"
@@ -40,8 +40,8 @@ img = { help = { source = "src/cli/mod.rs", test = "tests/cli.rs" } }
 [producers."joshuarli/ish"]
 
 [producers."joshuarli/ish".commands]
-epsh = { gap = "primary help does not print the owned-tool footer yet" }
-ish = { gap = "primary help does not print the owned-tool footer yet" }
+epsh = { help = { source = "crates/epsh/src/main.rs", test = "crates/epsh/tests/cli_help.rs" } }
+ish = { help = { source = "src/main.rs", test = "tests/cli_help.rs" } }
 
 [producers."joshuarli/kache"]
 
@@ -52,17 +52,17 @@ kache-engine = { help = { source = "src/cli_args.rs", test = "tests/owned_help_t
 [producers."joshuarli/loc"]
 
 [producers."joshuarli/loc".commands]
-loc = { gap = "primary help does not print the owned-tool footer yet" }
+loc = { help = { source = "src/cli/help.rs", test = "tests/cli.rs" } }
 
 [producers."joshuarli/lz"]
 
 [producers."joshuarli/lz".commands]
-less = { gap = "primary help does not print the owned-tool footer yet" }
+less = { help = { source = "src/cli_help.rs", test = "tests/cli_help.rs" } }
 
 [producers."joshuarli/mactop"]
 
 [producers."joshuarli/mactop".commands]
-mactop = { gap = "primary help does not print the owned-tool footer yet" }
+mactop = { help = { source = "Sources/mactop/UI/CommandHelp.swift", test = "Tests/mactopTests/CommandHelpTests.swift" } }
 
 [producers."joshuarli/mold"]
 upstream = "rui314/mold"
@@ -74,7 +74,7 @@ mold = { gap = "ignored in the catalog with no checkout; help is not migrated" }
 [producers."joshuarli/pi-build"]
 
 [producers."joshuarli/pi-build".commands]
-pi = { gap = "primary help does not print the owned-tool footer yet" }
+pi = { help = { source = "overlays/pi-cli/help.mjs", test = "tests/pi-help.test.mjs" } }
 
 [producers."joshuarli/play"]
 
@@ -89,12 +89,12 @@ shellcheck = { gap = "ignored in the catalog with no checkout; ShellCheck-compat
 [producers."joshuarli/soulseek-rs"]
 
 [producers."joshuarli/soulseek-rs".commands]
-soulseek-rs = { gap = "primary help does not print the owned-tool footer yet" }
+soulseek-rs = { help = { source = "soulseek-rs/src/cli/help.rs", test = "soulseek-rs/tests/cli_e2e.rs" } }
 
 [producers."joshuarli/stats"]
 
 [producers."joshuarli/stats".commands]
-stats = { gap = "primary help does not print the owned-tool footer yet" }
+stats = { help = { source = "agent/src/main.rs", test = "agent/tests/cli_help.rs" } }
 
 [producers."joshuarli/swift-bylaws"]
 
@@ -105,12 +105,12 @@ bylaws = { gap = "ignored in the catalog with no checkout; help is not migrated"
 upstream = "syncthing/syncthing"
 
 [producers."joshuarli/syncthing".commands]
-syncthing = { gap = "primary help does not print the owned-tool footer yet" }
+syncthing = { help = { source = "cmd/syncthing/main.go", test = "cmd/syncthing/help_footer_test.go" } }
 
 [producers."joshuarli/tansu"]
 
 [producers."joshuarli/tansu".commands]
-tansu = { gap = "primary help does not print the owned-tool footer yet" }
+tansu = { help = { source = "src/main.rs", test = "tests/cli_help.rs" } }
 
 [producers."joshuarli/toolbox"]
 
@@ -194,19 +194,19 @@ chromium = { gap = "the shipped browser's About/support surface is not migrated"
 upstream = "Kitware/CMake"
 
 [producers."laputa-systems/cmake-build".commands]
-cmake = { gap = "primary help does not print the owned-tool footer yet" }
+cmake = { help = { source = "patches/0002-cmake-owned-help-footer.patch", test = "tests/acceptance/basic/help_contract.py" } }
 cpack = { exempt = "ships with cmake; cmake --help is its support route" }
 ctest = { exempt = "ships with cmake; cmake --help is its support route" }
 
 [producers."laputa-systems/diff-pretty"]
 
 [producers."laputa-systems/diff-pretty".commands]
-diff-pretty = { gap = "primary help does not print the owned-tool footer yet" }
+diff-pretty = { help = { source = "src/main.rs", test = "tests/cli.rs" } }
 
 [producers."laputa-systems/doas-rs"]
 
 [producers."laputa-systems/doas-rs".commands]
-doas = { gap = "primary help does not print the owned-tool footer yet" }
+doas = { help = { source = "src/cli.rs", test = "tests/cli.rs" } }
 
 [producers."laputa-systems/e"]
 
@@ -216,20 +216,20 @@ e = { help = { source = "src/main.rs", test = "tests/help.rs" } }
 [producers."laputa-systems/fastermod"]
 
 [producers."laputa-systems/fastermod".commands]
-fastermod = { gap = "primary help does not print the owned-tool footer yet" }
+fastermod = { help = { source = "src/cli.rs", test = "tests/cli.rs" } }
 
 [producers."laputa-systems/fd"]
 upstream = "sharkdp/fd"
 
 [producers."laputa-systems/fd".commands]
-fd = { gap = "primary help does not print the owned-tool footer yet", installed_from = "sharkdp/fd" }
+fd = { help = { source = "src/cli/help.rs", test = "tests/tests.rs" }, installed_from = "sharkdp/fd" }
 
 [producers."laputa-systems/ffmpeg-build"]
 upstream = "FFmpeg/FFmpeg"
 
 [producers."laputa-systems/ffmpeg-build".commands]
-ffmpeg = { gap = "primary help does not print the owned-tool footer yet" }
-ffprobe = { gap = "primary help does not print the owned-tool footer yet" }
+ffmpeg = { help = { source = "patches/ffmpeg-owned-help.patch", test = "tests/owned-help.sh" } }
+ffprobe = { help = { source = "patches/ffmpeg-owned-help.patch", test = "tests/owned-help.sh" } }
 
 [producers."laputa-systems/fz"]
 
@@ -240,20 +240,20 @@ fz = { help = { source = "src/cli.rs", test = "tests/cli.rs" } }
 upstream = "git/git"
 
 [producers."laputa-systems/git-build".commands]
-git = { gap = "primary help does not print the owned-tool footer yet" }
+git = { help = { source = "patches/owned-help.patch", test = "test/runtime.sh" } }
 
 [producers."laputa-systems/gluon"]
 
 [producers."laputa-systems/gluon".commands]
-gluon-build = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
-meson = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
-ninja = { gap = "primary help does not print the owned-tool footer yet", record = "gluon" }
+gluon-build = { help = { source = "owned-help.txt", test = "tests/help.py" }, record = "gluon" }
+meson = { help = { source = "owned-help.txt", test = "tests/help.py" }, record = "gluon" }
+ninja = { help = { source = "owned-help.txt", test = "tests/help.py" }, record = "gluon" }
 
 [producers."laputa-systems/jaq"]
 upstream = "01mf02/jaq"
 
 [producers."laputa-systems/jaq".commands]
-jaq = { gap = "primary help does not print the owned-tool footer yet", installed_from = "01mf02/jaq" }
+jaq = { help = { source = "jaq/src/help.txt", test = "jaq/tests/help.rs" }, installed_from = "01mf02/jaq" }
 
 [producers."laputa-systems/llvm-prebuilt-musl"]
 upstream = "llvm/llvm-project"
@@ -283,14 +283,14 @@ python3 = { help = { source = "patches/cpython/0007-owned-tool-help.patch", test
 upstream = "str4d/rage"
 
 [producers."laputa-systems/rage".commands]
-rage = { gap = "primary help does not print the owned-tool footer yet" }
-rage-keygen = { gap = "primary help does not print the owned-tool footer yet" }
+rage = { help = { source = "rage/src/bin/shared/owned_footer.txt", test = "rage/tests/owned_footer.rs" } }
+rage-keygen = { help = { source = "rage/src/bin/shared/owned_footer.txt", test = "rage/tests/owned_footer.rs" } }
 
 [producers."laputa-systems/rg"]
 upstream = "BurntSushi/ripgrep"
 
 [producers."laputa-systems/rg".commands]
-rg = { gap = "primary help does not print the owned-tool footer yet", installed_from = "BurntSushi/ripgrep" }
+rg = { help = { source = "crates/core/flags/doc/owned.footer", test = "tests/owned_help.rs" }, installed_from = "BurntSushi/ripgrep" }
 
 [producers."laputa-systems/srv"]
 
@@ -302,14 +302,14 @@ upstream = "openssh/openssh-portable"
 sources = ["laputa-systems/oxish"]
 
 [producers."laputa-systems/ssh-build".commands]
-oxish-server = { gap = "primary help does not print the owned-tool footer yet", record = "oxish" }
-oxish-session = { gap = "primary help does not print the owned-tool footer yet", record = "oxish" }
-scp = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-sftp = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh-add = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh-agent = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
-ssh-keygen = { gap = "primary help does not print the owned-tool footer yet", record = "ssh" }
+oxish-server = { help = { source = "patches/oxish/0007-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "oxish" }
+oxish-session = { help = { source = "patches/oxish/0007-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "oxish" }
+scp = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+sftp = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh-add = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh-agent = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
+ssh-keygen = { help = { source = "patches/openssh/0001-owned-help-footer.patch", test = "test/owned-help.sh" }, record = "ssh" }
 
 [producers."laputa-systems/stuff"]
 
@@ -320,7 +320,7 @@ stuff = { help = { source = "crates/stuff/src/cli.rs", test = "crates/stuff/test
 [producers."laputa-systems/tinyland"]
 
 [producers."laputa-systems/tinyland".commands]
-tinyland = { gap = "primary help does not print the owned-tool footer yet" }
+tinyland = { help = { source = "tinyland/src/main.rs", test = "tinyland/tests/cli.rs" } }
 
 [producers."laputa-systems/tm"]
 
@@ -330,7 +330,7 @@ tm = { gap = "footer branch feat/owned-help is parked until main builds again (l
 [producers."laputa-systems/vault"]
 
 [producers."laputa-systems/vault".commands]
-vault = { gap = "primary help does not print the owned-tool footer yet" }
+vault = { help = { source = "src/main.rs", test = "tests/integration.rs" } }
 
 [producers."laputa-systems/xsh"]
 
@@ -340,7 +340,7 @@ xsh = { gap = "primary help does not print the owned-tool footer yet" }
 [producers."laputa-systems/zzz"]
 
 [producers."laputa-systems/zzz".commands]
-zzz = { gap = "primary help does not print the owned-tool footer yet" }
+zzz = { help = { source = "zzz.zig", test = "Makefile" } }
 
 [not_applicable]
 "joshuarli/discover" = "web application; its support link belongs in the app, not a command"
