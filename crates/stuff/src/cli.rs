@@ -892,11 +892,16 @@ fn command_options(command: &HelpCommand) -> Vec<&'static str> {
 
 fn reference_text() -> String {
     let mut out = String::from("Reference:\n  -h, --help  Show help offline.\n\n");
+    let mut described = Vec::new();
     for command in HELP_COMMANDS {
         let registry = command.registry.map(|registry| format!(" {}", registry.as_str())).unwrap_or_default();
         let _ = writeln!(out, "  stuff {}{} {}\n    {}", command.command.name(), registry, command.arguments, command.description);
         for flag in command_options(command) {
-            let _ = writeln!(out, "    {} {}", flag, option_help(flag));
+            let description = if described.contains(&flag) { "Described above." } else {
+                described.push(flag);
+                option_help(flag)
+            };
+            let _ = writeln!(out, "    {flag} {description}");
         }
         out.push('\n');
     }

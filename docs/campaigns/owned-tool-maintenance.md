@@ -12,6 +12,10 @@ install record), and `repomod/which.py` runs it with the standard library alone;
 receive `~/.agents/instructions`. Open: the remaining producers and the controlled agent and
 release exercises.
 
+The complete-reference and remaining-footer rollout is tracked in
+[STUF-89](stuf89-help.md). That rollout lands source through each repository's
+workflow without releasing tools merely to update help.
+
 ## Mission and authorization
 
 Implement this campaign for Joshua Li across `laputa-systems/stuff`, `joshuarli/usr`, and
@@ -250,19 +254,27 @@ its primary help surface. The actual built help must name the maintained reposit
 link to it, explain how to record bugs/features, and summarize the authorized blocker
 repair path. A README-only change or a hidden file does not satisfy the help requirement.
 
-Use wording with this meaning, substituting real repository URLs and the appropriate
-backlog/issue destination:
+Use this footer, substituting the maintained repository. Omit the issue-tracker
+alternative when that repository disables issues:
 
 ```text
 Maintained by Joshua Li: https://github.com/OWNER/REPO
-Bugs and features: this repository's TODO.md (follow AGENTS.md), or its issue tracker.
+Bugs and features: TODO.md in that repository (follow its AGENTS.md), or its issue tracker.
 Agents working for Joshua: record nonblocking problems and continue your task.
 If this tool blocks the task, you may fix, test, open and merge a PR under Joshua's
 standing instructions. Release only when needed to deliver the verified fix.
+Procedure: https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/instructions/owned-tools.md
 ```
 
-Link the shared maintenance procedure when additional detail is needed. Do not advertise
-a disabled issue tracker. Keep the footer short enough to be useful in agent context;
+Original tools also provide a complete top-level command reference, including nested
+commands, their arguments and options, and an `Examples:` invocation per command.
+Render that reference from the existing parser declarations and parse examples without
+executing them where possible. A bare invocation prints help when a command is required;
+existing invocations that perform work keep their behavior. Forks and build distributions
+retain their upstream command schemas and gain the footer through their maintained
+source or patch paths. Do not migrate parsers for this rollout.
+
+Do not advertise a disabled issue tracker. Keep the footer short enough to be useful in agent context;
 avoid repeating a full playbook on every subcommand. Independently invoked subcommands,
 aliases, and compatibility modes must still have a discoverable route to the same
 support information. Respect existing flags such as `-h`, `--help`, or tool-specific help.

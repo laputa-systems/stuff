@@ -18,7 +18,7 @@ ctrs-init = { exempt = "runs as PID 1 inside containers; ctrs --help is its supp
 [producers."joshuarli/defuddle-rs"]
 
 [producers."joshuarli/defuddle-rs".commands]
-defuddle = { gap = "primary help does not print the owned-tool footer yet" }
+defuddle = { help = { source = "crates/defuddle-cli/src/main.rs", test = "crates/defuddle-cli/tests/cli_tests.rs" } }
 
 [producers."joshuarli/gh"]
 upstream = "cli/cli"
@@ -40,8 +40,8 @@ img = { help = { source = "src/cli/mod.rs", test = "tests/cli.rs" } }
 [producers."joshuarli/ish"]
 
 [producers."joshuarli/ish".commands]
-epsh = { gap = "primary help does not print the owned-tool footer yet" }
-ish = { gap = "primary help does not print the owned-tool footer yet" }
+epsh = { help = { source = "crates/epsh/src/main.rs", test = "crates/epsh/tests/cli_help.rs" } }
+ish = { help = { source = "src/main.rs", test = "tests/cli_help.rs" } }
 
 [producers."joshuarli/kache"]
 
@@ -52,7 +52,7 @@ kache-engine = { help = { source = "src/cli_args.rs", test = "tests/owned_help_t
 [producers."joshuarli/loc"]
 
 [producers."joshuarli/loc".commands]
-loc = { gap = "primary help does not print the owned-tool footer yet" }
+loc = { help = { source = "src/cli/help.rs", test = "tests/cli.rs" } }
 
 [producers."joshuarli/lz"]
 
@@ -62,7 +62,7 @@ less = { gap = "primary help does not print the owned-tool footer yet" }
 [producers."joshuarli/mactop"]
 
 [producers."joshuarli/mactop".commands]
-mactop = { gap = "primary help does not print the owned-tool footer yet" }
+mactop = { help = { source = "Sources/mactop/UI/CommandHelp.swift", test = "Tests/mactopTests/CommandHelpTests.swift" } }
 
 [producers."joshuarli/mold"]
 upstream = "rui314/mold"
@@ -201,12 +201,12 @@ ctest = { exempt = "ships with cmake; cmake --help is its support route" }
 [producers."laputa-systems/diff-pretty"]
 
 [producers."laputa-systems/diff-pretty".commands]
-diff-pretty = { gap = "primary help does not print the owned-tool footer yet" }
+diff-pretty = { help = { source = "src/main.rs", test = "tests/cli.rs" } }
 
 [producers."laputa-systems/doas-rs"]
 
 [producers."laputa-systems/doas-rs".commands]
-doas = { gap = "primary help does not print the owned-tool footer yet" }
+doas = { help = { source = "src/cli.rs", test = "tests/cli.rs" } }
 
 [producers."laputa-systems/e"]
 
@@ -216,13 +216,13 @@ e = { help = { source = "src/main.rs", test = "tests/help.rs" } }
 [producers."laputa-systems/fastermod"]
 
 [producers."laputa-systems/fastermod".commands]
-fastermod = { gap = "primary help does not print the owned-tool footer yet" }
+fastermod = { help = { source = "src/cli.rs", test = "tests/cli.rs" } }
 
 [producers."laputa-systems/fd"]
 upstream = "sharkdp/fd"
 
 [producers."laputa-systems/fd".commands]
-fd = { gap = "primary help does not print the owned-tool footer yet", installed_from = "sharkdp/fd" }
+fd = { help = { source = "src/cli/help.rs", test = "tests/tests.rs" }, installed_from = "sharkdp/fd" }
 
 [producers."laputa-systems/ffmpeg-build"]
 upstream = "FFmpeg/FFmpeg"
@@ -290,7 +290,7 @@ rage-keygen = { gap = "primary help does not print the owned-tool footer yet" }
 upstream = "BurntSushi/ripgrep"
 
 [producers."laputa-systems/rg".commands]
-rg = { gap = "primary help does not print the owned-tool footer yet", installed_from = "BurntSushi/ripgrep" }
+rg = { help = { source = "crates/core/flags/doc/owned.footer", test = "tests/owned_help.rs" }, installed_from = "BurntSushi/ripgrep" }
 
 [producers."laputa-systems/srv"]
 
@@ -330,7 +330,7 @@ tm = { gap = "footer branch feat/owned-help is parked until main builds again (l
 [producers."laputa-systems/vault"]
 
 [producers."laputa-systems/vault".commands]
-vault = { gap = "primary help does not print the owned-tool footer yet" }
+vault = { help = { source = "src/main.rs", test = "tests/integration.rs" } }
 
 [producers."laputa-systems/xsh"]
 
