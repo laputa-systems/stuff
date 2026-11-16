@@ -147,6 +147,27 @@ All four staged-write regressions pass in the dev profile. This establishes
 a source defect that fits the diagnostic sequence; a full isolated import
 and restart proof must still establish whether it resolves the observed run.
 
+The release build of that source also passes all four regressions. Its binary
+SHA-256 is `e1cf359f16c2a442388603170c68553579dc6e5223eed928e73929bbebc0646b`;
+the additional patch SHA-256 is
+`f94e5474e879b225b2bcb6873c4cea2f9debf1207b8d41b94e7c9ad86a379732`.
+A new copy of the stopped depot recovered 160,500 rows against the previous
+160,000-row acknowledgment, then completed all 203,950 rows with the same
+two-CPU, 3-GiB limits and 500-row/250-ms pacing. Preparation exited zero
+inside its fixed 1,200-second budget. The manifest row hash matched, all
+four reference windows matched, 64 duplicate events were recognized, a
+changed duplicate returned 409, and a separate application stop/start
+returned the identical summary. The container recorded 1,635 memory-limit
+events, zero OOM events and zero OOM kills. These are correctness results;
+the initial source image's build profile and performance parity remain
+unproven. A fresh import from zero, ten Engine restarts and cross-namespace
+identity handling remain open.
+
+This completed copy and its protected preparation proof are under
+`/home/josh/d/stuff/.work/tmp/stuf87-stage-head-i-20261116/`. Its container
+is stopped. A read-only check still finds the shared Engine's original
+binary hash and its 2026-11-14 21:48:02 UTC start time.
+
 Protected Lisa evidence is under
 `/home/josh/d/stuff/.work/tmp/stuf87-debug-b-20261116/`,
 `stuf87-refusal-d-20261116/`, and `stuf87-refusal-f-reopen-20261116/`.

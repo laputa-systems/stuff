@@ -64,15 +64,19 @@ bytes. A third test rejects retry hints for admitted-token overloads,
 fences, conflicts and deadline failures. All three pass in the builder.
 The refusal candidate's full Engine dev and release builds pass, as do
 its three regressions in both profiles. The additional head regression
-passes in the dev profile. Release diagnostics still failed the import;
-no performance or durable recovery acceptance follows from these builds.
+also passes in both profiles. The two-patch release candidate completed a
+preserved-depot import and the preparation integrity checks; ten Engine
+restarts and a fresh full import remain unverified. No performance
+acceptance follows from these builds.
 
 The independent read-only review found no implementation defect in the
 inspected refusal and retention logic, but stopped over the added test
 dependency edges and flagged the absence of an integrated admitted-token
 scenario. That review was incomplete. The parent checked the lockfile diff:
-only those four edges changed. The token test covers classification, not
-an end-to-end unknown-outcome recovery.
+only those four edges changed. That token test covers classification. The
+later staged-head regression additionally exercises an admitted finalize
+whose outcome is unknown and settles in the next acquisition barrier.
+The independent review did not cover this later patch and remains incomplete.
 
 Private import and recovery evidence, its limits and the remaining checks
 are recorded in [the diagnosis](../../../docs/openorange-engine-diagnosis.md).
