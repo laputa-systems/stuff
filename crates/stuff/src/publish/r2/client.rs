@@ -15,6 +15,7 @@ use super::xml::{self, ListedObject};
 
 const CONNECT_TIMEOUT: Duration = Duration::from_secs(10);
 const REQUEST_TIMEOUT: Duration = Duration::from_secs(60);
+const MIN_UPLOAD_BYTES_PER_SECOND: u64 = 256 * 1024;
 const DEFAULT_ATTEMPTS: u32 = 6;
 const DEFAULT_LIST_PAGE: usize = 1000;
 const MAX_BACKOFF_SECONDS: u64 = 60;
@@ -385,9 +386,10 @@ impl R2Client {
 
     fn send_once(&self, request: &RawRequest<'_>) -> Result<RawResponse, PublishError> {
         let (url, http_request) = self.build_http_request(request)?;
+        let timeout = upload_timeout(self.request_timeout, request.body.len());
         let mut response = self
             .http
-            .request_with_timeout(http_request, Some(self.request_timeout))
+            .request_with_timeout(http_request, Some(timeout))
             .map_err(|error| {
                 PublishError::Transport(format!("{} {url}: {error}", request.method))
             })?;
@@ -558,6 +560,11 @@ fn now_seconds() -> u64 {
         .unwrap_or(0)
 }
 
+fn upload_timeout(base: Duration, body_len: usize) -> Duration {
+    let body_len = u64::try_from(body_len).unwrap_or(u64::MAX);
+    base.saturating_add(Duration::from_secs(body_len / MIN_UPLOAD_BYTES_PER_SECOND))
+}
+
 fn backoff(attempt: u32) -> Duration {
     let seconds = 2_u64
         .checked_pow(attempt)
@@ -640,6 +647,15 @@ mod tests {
             assert_eq!(error.classification(), ExitCode::Usage, "{missing}");
             assert!(error.to_string().contains(missing), "{error}");
         }
+    }
+
+    #[test]
+    fn upload_timeout_grows_with_the_body() {
+        let base = Duration::from_secs(60);
+        assert_eq!(upload_timeout(base, 0), base);
+        assert_eq!(upload_timeout(base, 1024), base);
+        let hundred_mib = 100 * 1024 * 1024;
+        assert_eq!(upload_timeout(base, hundred_mib), Duration::from_secs(60 + 400));
     }
 
     #[test]
