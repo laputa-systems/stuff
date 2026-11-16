@@ -1,0 +1,25 @@
+diff --git a/dist/src/index.js b/dist/src/index.js
+index e1df0fc5af130c5bfc6ff79b6cfe598802ff2b1a..fe68033dca278e7c100d610afa58bcdce39d6b10 100644
+--- a/dist/src/index.js
++++ b/dist/src/index.js
+@@ -87814,6 +87814,10 @@ var Request2 = class _Request extends import_undici2.Request {
+ 
+ // src/http/response.ts
+ var import_undici3 = require("undici");
++// undici cancels an unread body when the Response that owns it is
++// collected; the wrapper returned to callers shares that body without
++// keeping the owner alive.
++const responseBodyOwners = new WeakMap();
+ var kWebSocket = /* @__PURE__ */ Symbol("kWebSocket");
+ var Response2 = class _Response extends import_undici3.Response {
+   // We should be able to use a private `#webSocket` property here instead of a
+@@ -87851,6 +87855,9 @@ var Response2 = class _Response extends import_undici3.Response {
+       init2 = { ...init2, status: 200 };
+     }
+     super(body, init2);
++    if (body != null && init2 instanceof import_undici3.Response && body === init2.body) {
++      responseBodyOwners.set(this, init2);
++    }
+     this[kWebSocket] = init2?.webSocket ?? null;
+   }
+   // JSDoc comment so retained when bundling types with api-extractor
