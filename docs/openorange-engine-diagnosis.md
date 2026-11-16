@@ -117,11 +117,45 @@ transaction's cause would not establish a repair. Full import, exact row
 equality, cross-namespace identity handling and ten ordinary restart cycles
 remain unverified.
 
+A release-profile build of the same refusal candidate failed at 138,500
+acknowledged rows. Its log records `SQLite stage fenced`, followed by a
+tokenless overload refusal of the abort. The container recorded 470
+memory-limit events, zero OOM events and zero OOM kills. This disproves
+complete-import acceptance for that candidate beyond the earlier cutoff.
+
+A stopped-depot copy reopened with 139,000 imported rows and reached
+160,000 acknowledged rows before failing again. The extra 500 rows match
+one page that could commit before its response failed; they do not show a
+lost acknowledged write. Diagnostic source
+`8e8698cfee2518fa51fc3644c6906790314728bc` records, at
+2026-11-16 11:02:04 UTC, the SQLite head changing from 24,766 to 24,917
+while a stage remained open. Its first segment had matching stage and
+request IDs, 24,767, and no previously accepted segments. The head check,
+rather than a request-ID mismatch, rejected it. The abort then returned
+`Overloaded { retry_after_ms: 1484, token: None }`. This run recorded
+77 memory-limit events and zero OOM events or kills.
+
+Source inspection found a corresponding race: stage-begin reads the committed
+head before acquiring its filesystem transaction. Acquisition can settle an
+older undecided commit, making that head stale. A deterministic regression
+holds a prior finalize undecided, lets the next acquisition barrier settle
+it, and demonstrates that stage-begin accepts the obsolete head. The candidate
+at local source commit `b99b9d4` reads and checks the head again after acquiring
+the inode footprint. The regression then rejects the stale request through
+the existing head-fence error and permits a subsequent valid staged commit.
+All four staged-write regressions pass in the dev profile. This establishes
+a source defect that fits the diagnostic sequence; a full isolated import
+and restart proof must still establish whether it resolves the observed run.
+
 Protected Lisa evidence is under
 `/home/josh/d/stuff/.work/tmp/stuf87-debug-b-20261116/`,
 `stuf87-refusal-d-20261116/`, and `stuf87-refusal-f-reopen-20261116/`.
 Their containers are stopped. The original deployed binary and earlier failed
 depots were not replaced.
+
+The additional stopped-depot evidence is under
+`/home/josh/d/stuff/.work/tmp/stuf87-release-g-20261116/` and
+`stuf87-head-h-20261116/`.
 
 ## Inventory availability
 
@@ -147,11 +181,24 @@ failure time. It must retain failed samples rather than replace them with
 retries or cached success. A complete 24-hour collection with zero
 unavailable groups remains required.
 
+The subsequent bounded, read-only collector preserves each failed endpoint,
+HTTP status, safe error code, retry header and protected error body. At sample
+73 on 2026-11-16 it captured three actor-list failures: observation-store,
+the Stats cron actor and the observation cron actor each returned HTTP 503,
+`x-rivet-error: depot.overloaded` and `Retry-After: 1`. The other six
+requests succeeded. This classifies these new failures, not the historical
+samples. Evidence remains under the protected Lisa directory
+`/home/josh/d/stuff/.work/tmp/stuf88-inventory-v2-20261116/`. Its 24-hour
+collection remains in progress and has already failed the zero-unavailability
+criterion; no retry substitutes for a failed sample.
+
 ## Investigation boundary
 
 Production work remains bounded and read-only. No production configuration,
 Engine, application or sampler changed. Private containers used an isolated
 network, two CPUs and 3 GiB, with preserved depots and protected credentials.
 The source's Rust pin and the attested builder image were retained. The
-diagnostic binaries use the dev profile; no release or performance acceptance
-follows from them.
+initial diagnostic binaries use the dev profile. Later release-profile
+diagnostics retain the same resource bounds; no performance acceptance follows
+from these failure investigations. The deployed image's exact build profile
+has not been independently established.

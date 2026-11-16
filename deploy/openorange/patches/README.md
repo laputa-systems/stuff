@@ -1,4 +1,4 @@
-# Private Engine refusal candidate
+# Private Engine staged-write candidates
 
 `rivet-e5ed391-staged-refusal.patch` applies to Rivet revision
 `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`, the source named by the deployed
@@ -21,6 +21,15 @@ Existing abort and fence behavior remains for other errors and for an
 exhausted refusal budget. Two diagnostic sites retain the request and abort
 causes. No persisted format changes.
 
+`rivet-e5ed391-staged-head.patch` applies after the refusal patch. Stage
+acquisition may settle an older undecided commit after the request read its
+head. This patch rechecks the head while holding the new inode footprint,
+rejecting an obsolete base through the existing head-fence error. Its
+regression holds an admitted finalize undecided, settles it in the next
+stage-begin barrier and verifies rejection followed by a valid staged commit.
+The regression fails before this patch and passes after it. This is not yet
+full import or recovery acceptance.
+
 The retry hint has one owner in the page protocol, used by both stage
 cleanup and the Envoy caller. The existing cold-read predicate still serves
 the prefetch planner. The patch adds four test dependency edges to packages
@@ -32,6 +41,8 @@ Apply the patch in a disposable source checkout at the exact revision:
 ```sh
 git apply --check /path/to/rivet-e5ed391-staged-refusal.patch
 git apply /path/to/rivet-e5ed391-staged-refusal.patch
+git apply --check /path/to/rivet-e5ed391-staged-head.patch
+git apply /path/to/rivet-e5ed391-staged-head.patch
 ```
 
 The tested builder is
@@ -51,8 +62,10 @@ because it loses the stage after refusal. With the patch, both retain the
 stage, issue no abort, resend successfully and read the committed page
 bytes. A third test rejects retry hints for admitted-token overloads,
 fences, conflicts and deadline failures. All three pass in the builder.
-The full Engine dev build passes. No release or performance acceptance
-follows from a dev build.
+The refusal candidate's full Engine dev and release builds pass, as do
+its three regressions in both profiles. The additional head regression
+passes in the dev profile. Release diagnostics still failed the import;
+no performance or durable recovery acceptance follows from these builds.
 
 The independent read-only review found no implementation defect in the
 inspected refusal and retention logic, but stopped over the added test
