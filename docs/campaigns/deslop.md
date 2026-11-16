@@ -17,8 +17,8 @@ established, so the slop cannot return.
 - **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
   passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
   closing STUF-87's private import/recovery repair. Production is unchanged.
-  STUF-88 remains open; its inventory patch is undergoing the missing complete
-  independent source review. Natural-refusal runtime and full production
+  STUF-88 remains open; the completed independent review of its full inventory
+  patch found no supported source-level defect. Natural-refusal runtime and full production
   availability proof remain outstanding.
 - **State:** assurance hardening (decision 13) landed or is in review. The owner dispatched
   diff-pretty, vault, and fz. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of
