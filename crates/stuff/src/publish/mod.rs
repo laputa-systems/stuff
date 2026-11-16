@@ -55,14 +55,9 @@ impl Registry {
     }
 
     pub fn parse(text: &str) -> Option<Self> {
-        match text {
-            "cargo" => Some(Registry::Cargo),
-            "npm" => Some(Registry::Npm),
-            "pypi" => Some(Registry::Pypi),
-            "oci" => Some(Registry::Oci),
-            "mirror" => Some(Registry::Mirror),
-            _ => None,
-        }
+        [Self::Cargo, Self::Npm, Self::Pypi, Self::Oci, Self::Mirror]
+            .into_iter()
+            .find(|registry| registry.as_str() == text)
     }
 }
 

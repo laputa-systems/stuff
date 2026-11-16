@@ -15,7 +15,8 @@ fn main() {
         if argv.first().is_some_and(|arg| arg == "-h" || arg == "--help") {
             print_help();
         } else {
-            print!("{}", stuff::cli::command_help());
+            let help = stuff::cli::help_text();
+            println!("{}See stuff --help for the complete reference and repository information.", help.strip_suffix(stuff::cli::OWNED_TOOL_FOOTER).unwrap());
         }
         return;
     }
