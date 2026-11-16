@@ -1021,6 +1021,21 @@ def test_static_fixer_replaces_a_stale_embedded_verifier(tmp_path: Path) -> None
     assert _binary_release_static_fix(tmp_path, tool) == {}
 
 
+def test_converted_archive_without_executable_mode_is_reported_and_fixed(tmp_path: Path) -> None:
+    fixture = Path(__file__).parent / "fixtures/binary_release/ish_archive/release.yml"
+    repo = Repository(RepoId("joshuarli", "ish"), ("tool",))
+    write_workflow(tmp_path, fixture.read_text())
+    converted = _binary_release_standard_fix(tmp_path, repo)[".github/workflows/release.yml"]
+    plain = converted.replace(" --mode=0755", "", 1)
+    assert plain != converted
+    write_workflow(tmp_path, plain)
+    findings = _binary_release_standard_findings(tmp_path, repo)
+    assert [f.message for f in findings if f.fixable] == [
+        "binary prerelease archives must store executable binaries (tar --mode=0755) like ish"
+    ]
+    assert _binary_release_standard_fix(tmp_path, repo) == {".github/workflows/release.yml": converted}
+
+
 def test_ish_archive_fixer_produces_valid_file_plan(tmp_path: Path) -> None:
     fixture = Path(__file__).parent / "fixtures/binary_release/ish_archive/release.yml"
     source = fixture.read_text().replace("jobs:\n", "jobs:\n  # Release jobs.\n", 1)
@@ -1033,7 +1048,7 @@ def test_ish_archive_fixer_produces_valid_file_plan(tmp_path: Path) -> None:
     plan = _binary_release_standard_fix(tmp_path, repo)
     assert set(plan) == {".github/workflows/release.yml"}
     fixed = plan[".github/workflows/release.yml"]
-    assert 'tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -cJf' in fixed
+    assert 'tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner --mode=0755 -cJf' in fixed
     assert 'sha256sum *.tar.xz | LC_ALL=C sort -k2 > SHA256SUMS' in fixed
     assert 'dist/archives/*.tar.xz dist/archives/SHA256SUMS' in fixed
     assert 'dist/zips' not in fixed

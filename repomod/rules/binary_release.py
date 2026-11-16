@@ -491,6 +491,19 @@ def _standard_target_findings(
     ]
 
 
+_TEMPLATE_TAR = (
+    'tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner '
+    '-cJf "dist/archives/$(basename "$file").tar.xz" -C "$(dirname "$file")" "$(basename "$file")"'
+)
+_EXECUTABLE_TEMPLATE_TAR = _TEMPLATE_TAR.replace("--numeric-owner ", "--numeric-owner --mode=0755 ")
+
+
+def _executable_archive_fix(source: str) -> str | None:
+    if source.count(_TEMPLATE_TAR) != 1:
+        return None
+    return source.replace(_TEMPLATE_TAR, _EXECUTABLE_TEMPLATE_TAR)
+
+
 def _archive_template_fix(source: str) -> str | None:
     pattern = re.compile(
         r'(?m)^(?P<i> +)mkdir dist/zips\n'
@@ -518,8 +531,7 @@ def _archive_template_fix(source: str) -> str | None:
     indent = match.group("i")
     replacement = (
         f"{indent}mkdir dist/archives\n{indent}for file in \\\n{match.group('files')}"
-        f'{indent}  tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner '
-        '-cJf "dist/archives/$(basename "$file").tar.xz" -C "$(dirname "$file")" "$(basename "$file")"\n'
+        f"{indent}  {_EXECUTABLE_TEMPLATE_TAR}\n"
         f"{indent}done\n{indent}cd dist/archives\n"
         f"{indent}sha256sum *.tar.xz | LC_ALL=C sort -k2 > SHA256SUMS\n"
         f"{indent}sha256sum -c SHA256SUMS"
@@ -537,8 +549,9 @@ def _binary_release_standard_fix(root: Path, repository: Repository) -> dict[str
     for path, source in sources:
         if not _has_prerelease_intent(_workflow_without_comments(source)):
             continue
-        fixed = _archive_template_fix(source)
-        if fixed is not None:
+        fixed = _archive_template_fix(source) or source
+        fixed = _executable_archive_fix(fixed) or fixed
+        if fixed != source:
             plan[path] = fixed
     return plan
 
@@ -583,6 +596,16 @@ def _standard_format_findings(
                 "binary prerelease must publish per-platform .tar.xz archives with a "
                 "verified SHA256SUMS file like ish",
                 fixable=_archive_template_fix(source) is not None,
+            )
+        )
+    if _TEMPLATE_TAR in source:
+        findings.append(
+            violation(
+                repository,
+                "binary-release-standard",
+                path,
+                "binary prerelease archives must store executable binaries (tar --mode=0755) like ish",
+                fixable=_executable_archive_fix(source) is not None,
             )
         )
     if _API_TAG_CREATE.search(source) is None or _VERIFY_TAG.search(source) is None:
