@@ -1,0 +1,121 @@
+diff --git a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs
+index 7e80b9a..d7446f1 100644
+--- a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs
++++ b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs
+@@ -7,10 +7,10 @@ use anyhow::{Result, ensure};
+ use rivet_envoy_protocol as p;
+ pub use stage::Stage;
+ 
+-/// Runs one request against the database. The request reads the file's head once, here, and
+-/// every check, read and commit in it uses that head; a commit then carries its own new head,
+-/// so nothing in a request reads the inode again. The caller serializes requests and owns the
+-/// volume, so the head cannot move under a request; the next request reads it afresh.
++/// Runs one request against the database. Requests read the committed head before checking
++/// it. A new stage reads it again after acquiring its transaction, since acquisition can
++/// settle an earlier undecided commit. Commits carry their own new head. The caller
++/// serializes requests and owns the volume.
+ pub async fn execute(
+ 	stage: &mut Option<Stage>,
+ 	pages: &mut database::Database,
+diff --git a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs
+index 2ceee03..9785dcc 100644
+--- a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs
++++ b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs
+@@ -42,6 +42,10 @@ pub(super) async fn execute(
+ 					bytes: 0,
+ 					prefetch: pages.prefetcher.commit_builder(),
+ 				});
++				// Acquiring the transaction can settle an older undecided commit. Its inode
++				// footprint now excludes another writer, so validate the base after that wait.
++				pages.refresh().await?;
++				super::check_head(Some(base), pages.root.txid)?;
+ 			}
+ 			Ok(p::ToEnvoy::ToEnvoySqliteCommitStageBeginResponse(
+ 				p::ToEnvoySqliteCommitStageBeginResponse {
+diff --git a/engine/packages/sqlite-embedded-filesystem/tests/staged_refusal.rs b/engine/packages/sqlite-embedded-filesystem/tests/staged_refusal.rs
+index 92c9a83..0a9b88c 100644
+--- a/engine/packages/sqlite-embedded-filesystem/tests/staged_refusal.rs
++++ b/engine/packages/sqlite-embedded-filesystem/tests/staged_refusal.rs
+@@ -8,7 +8,7 @@ use futures_util::future::BoxFuture;
+ use rivet_data::generated::{depot_log_shard_v1::*, shared_depot_types_v1::*};
+ use rivet_envoy_protocol as p;
+ use sqlite_embedded_filesystem::page_protocol::{self, database::Database};
+-use std::sync::{Arc, Mutex, atomic::{AtomicBool, AtomicUsize, Ordering}};
++use std::sync::{Arc, Mutex, atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering}};
+ 
+ #[derive(Default)]
+ struct Log {
+@@ -16,6 +16,8 @@ struct Log {
+     refuse: AtomicBool,
+     fenced: AtomicBool,
+     attempts: AtomicUsize,
++    held_committed: AtomicU64,
++    settle_on_barrier: AtomicBool,
+ }
+ 
+ fn position(sequence: u64) -> VolumeLogPosition {
+@@ -35,7 +37,9 @@ impl Journal for Log {
+                 volume_key: VolumeKey { partition_key: b"test".to_vec().into(), name: None },
+                 volume_incarnation: [1; 16],
+             }),
+-            cold: position(0), committed: sequence, next_seq: sequence + 1,
++            cold: position(0), committed: match self.held_committed.load(Ordering::SeqCst) {
++                0 => sequence, held => held,
++            }, next_seq: sequence + 1,
+             client_epoch: 1, max_payload_bytes: 8 * 1024 * 1024, retained_bytes: 0,
+         })
+     }
+@@ -73,6 +77,12 @@ impl Journal for Log {
+         })
+     }
+     fn barrier(&self) -> fs::Result<CommitTicket> {
++        if self.settle_on_barrier.swap(false, Ordering::SeqCst) {
++            self.held_committed.store(0, Ordering::SeqCst);
++        }
++        if self.held_committed.load(Ordering::SeqCst) != 0 {
++            return Ok(Box::pin(async { Err(WriteError::Overloaded { retry_after_ms: 275, token: None }) }));
++        }
+         let committed = self.status()?.committed;
+         Ok(Box::pin(async move { Ok(committed) }))
+     }
+@@ -149,6 +159,40 @@ async fn overloaded_segment_retains_stage_without_abort() { refusal_keeps_stage(
+ #[tokio::test]
+ async fn overloaded_finalize_retains_stage_without_abort() { refusal_keeps_stage(true).await; }
+ 
++#[tokio::test]
++async fn stage_begin_rechecks_head_after_settling_an_undecided_commit() {
++    let log = Arc::new(Log::default());
++    let filesystem = fs::Filesystem::open_staging_empty(log.clone(), Arc::new(NoColdReads),
++        Arc::new(rivet_env::TokioClock::new().unwrap()), fs::Config::default(), None,
++        OpenPrefetch::default()).await.unwrap();
++    let mut database = Database::from_filesystem(filesystem).await.unwrap();
++    let mut stage = None;
++    let base = database.root.txid;
++    page_protocol::execute(&mut stage, &mut database, begin(base)).await.unwrap();
++    page_protocol::execute(&mut stage, &mut database, segment(base + 1)).await.unwrap();
++    log.held_committed.store(log.status().unwrap().committed, Ordering::SeqCst);
++    let error = page_protocol::execute(&mut stage, &mut database, finalize(base + 1)).await.unwrap_err();
++    assert!(matches!(error.downcast_ref::<fs::Error>(),
++        Some(fs::Error::Log(WriteError::QuorumUnavailable { token: Some(_) }))));
++    assert!(stage.is_none());
++    database.refresh().await.unwrap();
++    let stale_head = database.root.txid;
++    log.settle_on_barrier.store(true, Ordering::SeqCst);
++    let error = page_protocol::execute(&mut stage, &mut database, begin(stale_head)).await
++        .expect_err("stage begin must reject the head that its own barrier made stale");
++    assert!(error.is::<page_protocol::HeadFenceMismatch>(), "{error:#}");
++    assert!(stage.is_none());
++    assert!(!log.fenced.load(Ordering::SeqCst));
++    database.refresh().await.unwrap();
++    let committed_head = database.root.txid;
++    assert!(committed_head > stale_head);
++    page_protocol::execute(&mut stage, &mut database, begin(committed_head)).await.unwrap();
++    page_protocol::execute(&mut stage, &mut database, segment(committed_head + 1)).await.unwrap();
++    page_protocol::execute(&mut stage, &mut database, finalize(committed_head + 1)).await.unwrap();
++    assert!(stage.is_none());
++    assert_eq!(database.read_pages(&[1]).await.unwrap()[0].as_deref(), Some(&[42; 4096][..]));
++}
++
+ #[test]
+ fn admitted_overload_never_allows_a_new_staged_request() {
+     let token = WriteToken { payload_digest: [3; 16], volume_incarnation: [1; 16],
