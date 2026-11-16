@@ -1,0 +1,382 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index f67e69a..e8076ac 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -4349,6 +4349,7 @@ dependencies = [
+  "serde_html_form",
+  "serde_json",
+  "tokio",
++ "tower 0.5.3",
+  "tower-http",
+  "tracing",
+  "url",
+diff --git a/engine/packages/api-public-shim/Cargo.toml b/engine/packages/api-public-shim/Cargo.toml
+index 9a7e6de..d2bf8e5 100644
+--- a/engine/packages/api-public-shim/Cargo.toml
++++ b/engine/packages/api-public-shim/Cargo.toml
+@@ -39,3 +39,6 @@ tokio.workspace = true
+ tower-http.workspace = true
+ tracing.workspace = true
+ 
++[dev-dependencies]
++tower = { workspace = true, features = ["util"] }
++
+diff --git a/engine/packages/api-public-shim/src/routes.rs b/engine/packages/api-public-shim/src/routes.rs
+index 3da058d..494812a 100644
+--- a/engine/packages/api-public-shim/src/routes.rs
++++ b/engine/packages/api-public-shim/src/routes.rs
+@@ -35,6 +35,9 @@ use crate::ApiError;
+ /// How long a create waits for the actor's data record, across retries.
+ const CREATE_TIMEOUT: Duration = Duration::from_secs(30);
+ 
++/// Inventory reads finish before callers' four-second availability probes expire.
++const INVENTORY_READ_TIMEOUT: Duration = Duration::from_secs(3);
++
+ /// How long before an actor fork's deadline its last read of the forked actor starts, so the
+ /// read answers before the deadline does.
+ const FORK_LAST_READ_MARGIN: Duration = Duration::from_secs(2);
+@@ -58,10 +61,10 @@ const NODE_READ_CONCURRENCY: usize = 16;
+ const CREATE_POLL_INTERVAL: Duration = Duration::from_millis(100);
+ 
+ /// Retry only a refused storage step at the HTTP edge, within the request's shared budget.
+-/// The caller retains the actor id and create body; a successful mutation is never replayed
++/// Mutating callers retain the actor id and body and never replay an acknowledged mutation
+ /// to recover a subsequent read.
+-async fn create_step<T, F, Fut>(
+-	ctx: &EngineContext,
++async fn storage_step<T, F, Fut>(
++	env: &dyn rivet_env::Env,
+ 	retries: &mut pegboard_gateway::Retries<'_>,
+ 	operation: &'static str,
+ 	mut step: F,
+@@ -74,13 +77,37 @@ where
+ 		match step().await {
+ 			Ok(value) => return Ok(value),
+ 			Err(error) => {
+-				retries.retry(ctx.env().as_ref(), error).await?;
++				retries.retry(env, error).await?;
+ 				tracing::debug!(operation, "retrying refused actor API storage step");
+ 			}
+ 		}
+ 	}
+ }
+ 
++async fn inventory_read<T, F, Fut>(
++	env: &dyn rivet_env::Env,
++	budget: &pegboard_gateway::RetryBudget,
++	read: F,
++) -> Result<T>
++where
++	F: FnMut() -> Fut,
++	Fut: std::future::Future<Output = Result<T>>,
++{
++	let clock = env.clock();
++	let deadline = rivet_env::deadline_after(clock.as_ref(), INVENTORY_READ_TIMEOUT)?;
++	budget.deposit();
++	let mut retries = budget.retries(deadline);
++	match rivet_env::timeout_at(
++		clock.as_ref(),
++		deadline,
++		storage_step(env, &mut retries, "actor_inventory", read),
++	).await {
++		Ok(result) => result,
++		Err(rivet_env::TimeoutError::Elapsed) => Err(depot_client::RequestDeadlineExceeded.build()),
++		Err(rivet_env::TimeoutError::Clock(error)) => Err(error.into()),
++	}
++}
++
+ /// Whether this HTTP request may already have submitted its actor's create.
+ #[derive(Clone, Copy, Debug)]
+ enum CreateProgress {
+@@ -326,11 +353,16 @@ fn parse_node_cursor(cursor: &str) -> Result<String> {
+ 
+ pub async fn list_actor_names(
+ 	State(ctx): State<EngineContext>,
++	Extension(budget): Extension<Arc<pegboard_gateway::RetryBudget>>,
+ 	Query(query): Query<NamespaceQuery>,
+ ) -> Result<Json<Value>, ApiError> {
+-	let namespace = namespace(&ctx, query.namespace.as_deref()).await?;
++	Ok(inventory_read(ctx.env().as_ref(), &budget, || read_actor_names(&ctx, &query)).await?)
++}
++
++async fn read_actor_names(ctx: &EngineContext, query: &NamespaceQuery) -> Result<Json<Value>> {
++	let namespace = namespace(ctx, query.namespace.as_deref()).await?;
+ 	Ok(Json(
+-		json!({ "names": actor_names(&ctx, &namespace.name).await? }),
++		json!({ "names": actor_names(ctx, &namespace.name).await? }),
+ 	))
+ }
+ 
+@@ -819,7 +851,7 @@ async fn create_or_proxy(
+ 			rivet_env::timeout_at(
+ 				clock.as_ref(),
+ 				deadline,
+-				create_step(ctx, &mut retries, "namespace", || {
++				storage_step(ctx.env().as_ref(), &mut retries, "namespace", || {
+ 					namespace(ctx, query.namespace.as_deref())
+ 				}),
+ 			)
+@@ -946,7 +978,7 @@ async fn create_actor_inner(
+ 	retries: &mut pegboard_gateway::Retries<'_>,
+ 	progress: &mut CreateProgress,
+ ) -> Result<Created> {
+-	let namespace = create_step(ctx, retries, "namespace", || {
++	let namespace = storage_step(ctx.env().as_ref(), retries, "namespace", || {
+ 		namespace(ctx, query.namespace.as_deref())
+ 	})
+ 	.await?;
+@@ -967,7 +999,7 @@ async fn create_actor_inner(
+ 		// A keyless actor has a drawn id and nothing to reserve.
+ 		let actor_id = ctx.env().rng("actor.id").id_v1(ctx.config().dc_label());
+ 		*progress = CreateProgress::Submitted(actor_id);
+-		create_step(ctx, retries, "actor_create", || {
++		storage_step(ctx.env().as_ref(), retries, "actor_create", || {
+ 			create(
+ 				ctx,
+ 				actor_id,
+@@ -993,7 +1025,7 @@ async fn create_actor_inner(
+ 	// group reads the namespace again, so the create below agrees with processes that
+ 	// already see its group; see `legacy_find_keyed_actor`. Removed in 3.1 with the backfill.
+ 	// The lookup only reads, so a refused attempt is retried whole.
+-	let (namespace, existing) = create_step(ctx, retries, "actor_lookup", || {
++	let (namespace, existing) = storage_step(ctx.env().as_ref(), retries, "actor_lookup", || {
+ 		legacy_find_keyed_actor(
+ 			namespace.clone(),
+ 			|namespace| find_keyed_actor(ctx, namespace, &body.name, &key),
+@@ -1033,7 +1065,7 @@ async fn create_actor_inner(
+ 		*progress = CreateProgress::Submitted(actor_id);
+ 		// The create and the lookup after a `Destroyed` answer are separate storage steps, so a
+ 		// refused lookup never sends the create again.
+-		let sent = create_step(ctx, retries, "actor_create", || {
++		let sent = storage_step(ctx.env().as_ref(), retries, "actor_create", || {
+ 			create(
+ 				ctx,
+ 				actor_id,
+@@ -1049,7 +1081,7 @@ async fn create_actor_inner(
+ 		let step = legacy_create_or_find(
+ 			|| std::future::ready(Ok(sent)),
+ 			|| {
+-				create_step(ctx, retries, "actor_lookup", || {
++				storage_step(ctx.env().as_ref(), retries, "actor_lookup", || {
+ 					find_keyed_actor(ctx, namespace.clone(), &body.name, &key)
+ 				})
+ 			},
+@@ -1309,7 +1341,7 @@ async fn wait_for_data(
+ ) -> Result<Option<wire::ActorData>> {
+ 	let clock = ctx.env().clock();
+ 	loop {
+-		match create_step(ctx, retries, "read_created_actor", || {
++		match storage_step(ctx.env().as_ref(), retries, "read_created_actor", || {
+ 			read(ctx, group, actor_id)
+ 		})
+ 		.await?
+@@ -1799,10 +1831,15 @@ fn fork_outcome(res: &wire::ActorReadResponse) -> ForkOutcome {
+ 
+ pub async fn list_actors(
+ 	State(ctx): State<EngineContext>,
++	Extension(budget): Extension<Arc<pegboard_gateway::RetryBudget>>,
+ 	Query(query): Query<HashMap<String, String>>,
+ ) -> Result<Json<Value>, ApiError> {
+-	let selector = actor_listing_selector(&query)?;
+-	let namespace = namespace(&ctx, query.get("namespace").map(String::as_str)).await?;
++	Ok(inventory_read(ctx.env().as_ref(), &budget, || read_actor_page(&ctx, &query)).await?)
++}
++
++async fn read_actor_page(ctx: &EngineContext, query: &HashMap<String, String>) -> Result<Json<Value>> {
++	let selector = actor_listing_selector(query)?;
++	let namespace = namespace(ctx, query.get("namespace").map(String::as_str)).await?;
+ 	let include_destroyed =
+ 		parse_include_destroyed(query.get("include_destroyed").map(String::as_str))?;
+ 	let limit = parse_limit(query.get("limit").map(String::as_str))?;
+@@ -1812,7 +1849,7 @@ pub async fn list_actors(
+ 		.transpose()?;
+ 
+ 	// Actors this cluster does not hold are looked up in V2 while a V2 namespace migrates in.
+-	let dynamic = migrate_from_v2::snapshot(&ctx);
++	let dynamic = migrate_from_v2::snapshot(ctx);
+ 	let migration = migrate_from_v2::applies(dynamic.as_deref(), &namespace.name);
+ 
+ 	let mut actors = Vec::new();
+@@ -1822,8 +1859,8 @@ pub async fn list_actors(
+ 			let mut missing = Vec::new();
+ 			for id in ids.split(',') {
+ 				let actor_id = Id::parse(id)?;
+-				let (_group, read) = resolve_actor(&ctx, &namespace, actor_id).await?;
+-				match lookup_actor(&ctx, actor_id, read, &namespace, include_destroyed).await? {
++				let (_group, read) = resolve_actor(ctx, &namespace, actor_id).await?;
++				match lookup_actor(ctx, actor_id, read, &namespace, include_destroyed).await? {
+ 					Some(actor) => actors.push(actor),
+ 					None => missing.push(id),
+ 				}
+@@ -1832,7 +1869,7 @@ pub async fn list_actors(
+ 				&& !missing.is_empty()
+ 			{
+ 				let missing = missing.join(",");
+-				actors.extend(v2_actors(&ctx, config, &[("actor_ids", &missing)]).await?);
++				actors.extend(v2_actors(ctx, config, &[("actor_ids", &missing)]).await?);
+ 			}
+ 		}
+ 		ActorListing::Key { name, key } => {
+@@ -1841,7 +1878,7 @@ pub async fn list_actors(
+ 			let v2_key = key;
+ 			let key = canonical_key(key)?;
+ 			let found = pegboard::actor_key::resolve_keyed_actor(
+-				&ctx,
++				ctx,
+ 				ctx.config().dc_label(),
+ 				&namespace,
+ 				name,
+@@ -1853,7 +1890,7 @@ pub async fn list_actors(
+ 				.into_read(&ctx.depot(), found.actor.group, found.actor.actor_id)
+ 				.await?;
+ 			if let Some(actor) = lookup_actor(
+-				&ctx,
++				ctx,
+ 				found.actor.actor_id,
+ 				read,
+ 				&namespace,
+@@ -1863,12 +1900,12 @@ pub async fn list_actors(
+ 			{
+ 				actors.push(actor);
+ 			} else if let Some(config) = migration {
+-				actors.extend(v2_actors(&ctx, config, &[("name", name), ("key", v2_key)]).await?);
++				actors.extend(v2_actors(ctx, config, &[("name", name), ("key", v2_key)]).await?);
+ 			}
+ 		}
+ 		ActorListing::Name(name) => {
+ 			let page = pegboard::index::list_actors(
+-				&ctx,
++				ctx,
+ 				&namespace,
+ 				name,
+ 				after,
+@@ -1879,7 +1916,7 @@ pub async fn list_actors(
+ 
+ 			// Join each entry with its actor's record. The reads run in parallel and keep the
+ 			// index order.
+-			let ctx_ref = &ctx;
++			let ctx_ref = ctx;
+ 			let namespace_ref = &namespace;
+ 			let reads = futures_util::stream::iter(page.actors.iter().cloned())
+ 				.map(|entry| async move {
+@@ -2629,3 +2666,120 @@ pub fn actor_json(
+ 		"forked_from": forked_from_json(actor)?,
+ 	}))
+ }
++
++#[cfg(test)]
++mod inventory_tests {
++	use super::*;
++	use std::cell::Cell;
++
++	fn refused() -> anyhow::Error {
++		depot_client::Overloaded { reason: "volume_transition".into(), retry_after_ms: 1 }.build()
++	}
++
++	#[tokio::test]
++	async fn a_refused_page_returns_the_complete_page_and_original_cursor() {
++		let env = rivet_env::ProductionEnv::new().unwrap();
++		let budget = pegboard_gateway::RetryBudget::new(0, 10);
++		let calls = Cell::new(0);
++		let expected = json!({ "actors": [{ "id": "actor-one" }], "pagination": { "cursor": "next-page" } });
++		let actual = inventory_read(&env, &budget, || {
++			calls.set(calls.get() + 1);
++			std::future::ready(if calls.get() < 3 { Err(refused()) } else { Ok(expected.clone()) })
++		}).await.unwrap();
++		assert_eq!(actual, expected);
++		assert_eq!(calls.get(), 3);
++	}
++
++	#[tokio::test]
++	async fn an_uncertain_error_is_returned_without_replaying_the_read() {
++		let env = rivet_env::ProductionEnv::new().unwrap();
++		let budget = pegboard_gateway::RetryBudget::new(0, 10);
++		let calls = Cell::new(0);
++		let error = inventory_read(&env, &budget, || {
++			calls.set(calls.get() + 1);
++			std::future::ready(Err::<Value, _>(depot_client::Unavailable { reason: "unknown outcome".into() }.build()))
++		}).await.unwrap_err();
++		assert_eq!(calls.get(), 1);
++		assert_eq!(rivet_error::RivetError::extract(&error).code(), "unavailable");
++	}
++
++	#[tokio::test]
++	async fn persistent_refusals_stop_at_the_request_cap_and_keep_the_hint() {
++		let env = rivet_env::ProductionEnv::new().unwrap();
++		let budget = pegboard_gateway::RetryBudget::new(0, 100);
++		let calls = Cell::new(0);
++		let error = inventory_read(&env, &budget, || {
++			calls.set(calls.get() + 1);
++			std::future::ready(Err::<Value, _>(refused()))
++		}).await.unwrap_err();
++		assert_eq!(calls.get(), 5);
++		assert_eq!(depot_client::retry_after_ms(&error), Some(1));
++	}
++
++	#[tokio::test]
++	async fn requests_share_the_process_budget() {
++		let env = rivet_env::ProductionEnv::new().unwrap();
++		let budget = pegboard_gateway::RetryBudget::new(0, 2);
++		for expected_calls in [3, 1] {
++			let calls = Cell::new(0);
++			let error = inventory_read(&env, &budget, || {
++				calls.set(calls.get() + 1);
++				std::future::ready(Err::<Value, _>(refused()))
++			}).await.unwrap_err();
++			assert_eq!(calls.get(), expected_calls);
++			assert_eq!(depot_client::retry_after_ms(&error), Some(1));
++		}
++	}
++
++	#[tokio::test]
++	async fn a_hint_beyond_the_deadline_is_not_retried() {
++		let env = rivet_env::ProductionEnv::new().unwrap();
++		let budget = pegboard_gateway::RetryBudget::new(0, 10);
++		let calls = Cell::new(0);
++		let error = inventory_read(&env, &budget, || {
++			calls.set(calls.get() + 1);
++			std::future::ready(Err::<Value, _>(depot_client::Overloaded {
++				reason: "volume_transition".into(), retry_after_ms: 60_000,
++			}.build()))
++		}).await.unwrap_err();
++		assert_eq!(calls.get(), 1);
++		assert_eq!(depot_client::retry_after_ms(&error), Some(60_000));
++	}
++
++	#[tokio::test]
++	async fn a_stalled_read_returns_the_existing_deadline_error() {
++		let env = rivet_env::ProductionEnv::new().unwrap();
++		let budget = pegboard_gateway::RetryBudget::new(0, 10);
++		let error = inventory_read(&env, &budget, std::future::pending::<Result<Value>>).await.unwrap_err();
++		assert_eq!(rivet_error::RivetError::extract(&error).code(), "request_deadline_exceeded");
++	}
++
++	#[tokio::test]
++	async fn exhausted_refusals_keep_the_wire_error_and_method_specific_status() {
++		use axum::{body::Body, middleware, routing::get, Router};
++		use tower::ServiceExt;
++
++		async fn handler() -> Result<Json<Value>, ApiError> {
++			let env = rivet_env::ProductionEnv::new().unwrap();
++			let budget = pegboard_gateway::RetryBudget::new(0, 0);
++			Ok(Json(inventory_read(&env, &budget, || std::future::ready(Err::<Value, _>(
++				depot_client::Overloaded { reason: "volume_transition".into(), retry_after_ms: 100 }.build(),
++			))).await?))
++		}
++
++		let app = Router::new().route("/actors", get(handler).post(handler))
++			.layer(middleware::from_fn(crate::classify_retry_safe_refusal));
++		for (method, status) in [("GET", 503), ("POST", 400)] {
++			let response = app.clone().oneshot(http::Request::builder()
++				.method(method).uri("/actors").body(Body::empty()).unwrap()).await.unwrap();
++			assert_eq!(response.status().as_u16(), status);
++			assert_eq!(response.headers()["x-rivet-error"], "depot.overloaded");
++			assert_eq!(response.headers()["retry-after"], "1");
++			let body = axum::body::to_bytes(response.into_body(), 4096).await.unwrap();
++			let actual: Value = serde_json::from_slice(&body).unwrap();
++			assert_eq!(actual["group"], "depot");
++			assert_eq!(actual["code"], "overloaded");
++			assert_eq!(actual["metadata"], json!({ "reason": "volume_transition", "retry_after_ms": 100 }));
++		}
++	}
++}
