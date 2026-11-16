@@ -13,7 +13,12 @@ established, so the slop cannot return.
   each carrying its stopped checkpoint plus current main. Original worktrees
   and partial mutation evidence remain intact. Review saved survivors and
   qualify boundary assertions first; the busy host defers timing, coverage
-  and mutation runs. No fleet rollout or STUF-75 work is authorized.
+  and broad mutation runs. No fleet rollout or STUF-75 work is authorized.
+- **Resumed results:** Extensions [#5](https://github.com/joshuarli/extensions/pull/5)
+  merged as `a45dcdc`, closing DSLP-6: matching Vitest/coverage 5.0.5, frozen
+  scripts-disabled install, typecheck, 199 Node tests and coverage, plus Node 22
+  CI pass. Optional binding engine metadata is preserved. This does not qualify
+  its broader Ground/Tests, Stryker or browser lane.
 - **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
   passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
   closing STUF-87's private import/recovery repair. Production is unchanged.
@@ -66,7 +71,7 @@ established, so the slop cannot return.
   | Rust, large crate (loc, 12k) | same gate, bounded scope | critical scope is 916 of 2,433 mutants (about 50 min on 4 jobs). Its counting core (229) left 29 survivors. Timeout reruns held about 10 cores each and were stopped. | Not a lane yet: needs sharding, a CPU cap (`cpu-guard`, usr#36), and suite threads capped in mutation runs |
   | Python, plain pytest (buildlib) | mutmut 3.8.1 (mirrored by STUF-83) | earlier pilot: 235 → 216 survivors | Mirrored, lane not qualified: needs the whole-change gate and CI negative controls |
   | Python, pytest-parallel consumers (stuff `repomod/`) | mutmut | rejected by pytest-parallel before workers start; serial (`-p no:parallel`) is the only route, and pytest-parallel's own repo also hits its TMPDIR defect | Mirrored; serial-only recipe, lane not qualified |
-  | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 (mirrored) | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Mirrored, lane not qualified; blocked by extensions DSLP-6 (Vitest/coverage-v8 mismatch); the browser runtime is unqualified |
+  | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 (mirrored) | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Mirrored, lane not qualified; Vitest/coverage mismatch fixed in extensions #5; the browser runtime remains unqualified |
 
 - **Calibration landed:**
   - loc: Ground #5, Diagnose #6, and Types (#7; no setting adopted).
@@ -132,6 +137,12 @@ established, so the slop cannot return.
     complementary 232-case filesystem selection completed 173: 102 caught,
     65 missed, six unviable, zero timeouts and 59 untested. Resume by reviewing
     those survivors; this partial run does not qualify the filesystem scope.
+    Resumed head `7c4b582` passes all PR checks, including the 51-case Linux
+    store gate (45 caught, six unviable). A new listing process assertion catches
+    one saved trusted-directory survivor. The old filesystem driver filtered
+    out integration tests, so the new boundary needs a corrected Scenario
+    recipe. The remaining 64 original survivors and 59 untested cases, current
+    coverage and quiet-host test cost keep PR30 draft and DSLP-4 open.
   - **diff-pretty Tests started:** native CLI scenarios assert literal rendered
     and redirected output, paging flags, help, file concatenation, malformed
     input and I/O failure status. Nine process tests and lint pass; mutation
@@ -139,6 +150,12 @@ established, so the slop cannot return.
     preserved; its resumed branch also contains the merged full-help contract.
     The earlier 1,200-second workspace mutation run left 109 untested and 48
     unconfirmed timeouts. Use a bounded Scenario selection, not that Full run.
+    The current eleven CLI process cases pass six hand-fault controls. A fresh
+    complete 24-mutant CLI selection first found one `--no-pager` survivor;
+    the new parser-contract table catches it. The same selection now reports
+    22 caught, two compiler-unviable, zero missed and zero timeouts. This
+    qualifies the CLI component only. Broader renderer/pager coverage, mutation
+    and quiet-host cost remain open.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
