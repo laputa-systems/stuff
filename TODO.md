@@ -36,14 +36,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Effort:** M
 
 
-### STUF-82 · P2 · Worker gateway test intermittently sees an already-read body
-
-- **Area:** Worker runtime
-- **Where:** crates/stuff-worker/test/runtime.test.mjs:193 (the gateway forwards the host to the cached entrypoint)
-- **Problem:** In stuff#9 CI run 43691840562 the worker-runtime job failed with TypeError Body is unusable: Body has already been read on the first cargo.text() call at runtime.test.mjs:202, after the same job passed on the PR's previous run with no Worker change between them. Something consumes the gateway response body before the test reads it; a shared or cached Response handed to two requests would do it. Unreproduced locally.
-- **Recommendation:** Root-cause with repeated runs of that test (node --test with a loop) and read the gateway path that serves catalog.json for both hosts; fix the producer, not the test, and keep the test as the regression.
-- **Fix with:** root-cause
-- **Effort:** M
 
 
 
