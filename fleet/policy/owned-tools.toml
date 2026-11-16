@@ -24,7 +24,7 @@ defuddle = { help = { source = "crates/defuddle-cli/src/main.rs", test = "crates
 upstream = "cli/cli"
 
 [producers."joshuarli/gh".commands]
-gh = { gap = "primary help does not print the owned-tool footer yet" }
+gh = { help = { source = "pkg/cmd/root/help.go", test = "cmd/gh/footer_test.go" } }
 
 [producers."joshuarli/ghostty"]
 upstream = "ghostty-org/ghostty"
@@ -74,7 +74,7 @@ mold = { gap = "ignored in the catalog with no checkout; help is not migrated" }
 [producers."joshuarli/pi-build"]
 
 [producers."joshuarli/pi-build".commands]
-pi = { gap = "primary help does not print the owned-tool footer yet" }
+pi = { help = { source = "overlays/pi-cli/help.mjs", test = "tests/pi-help.test.mjs" } }
 
 [producers."joshuarli/play"]
 
@@ -105,12 +105,12 @@ bylaws = { gap = "ignored in the catalog with no checkout; help is not migrated"
 upstream = "syncthing/syncthing"
 
 [producers."joshuarli/syncthing".commands]
-syncthing = { gap = "primary help does not print the owned-tool footer yet" }
+syncthing = { help = { source = "cmd/syncthing/main.go", test = "cmd/syncthing/help_footer_test.go" } }
 
 [producers."joshuarli/tansu"]
 
 [producers."joshuarli/tansu".commands]
-tansu = { gap = "primary help does not print the owned-tool footer yet" }
+tansu = { help = { source = "src/main.rs", test = "tests/cli_help.rs" } }
 
 [producers."joshuarli/toolbox"]
 
@@ -228,8 +228,8 @@ fd = { help = { source = "src/cli/help.rs", test = "tests/tests.rs" }, installed
 upstream = "FFmpeg/FFmpeg"
 
 [producers."laputa-systems/ffmpeg-build".commands]
-ffmpeg = { gap = "primary help does not print the owned-tool footer yet" }
-ffprobe = { gap = "primary help does not print the owned-tool footer yet" }
+ffmpeg = { help = { source = "patches/ffmpeg-owned-help.patch", test = "tests/owned-help.sh" } }
+ffprobe = { help = { source = "patches/ffmpeg-owned-help.patch", test = "tests/owned-help.sh" } }
 
 [producers."laputa-systems/fz"]
 
@@ -240,7 +240,7 @@ fz = { help = { source = "src/cli.rs", test = "tests/cli.rs" } }
 upstream = "git/git"
 
 [producers."laputa-systems/git-build".commands]
-git = { gap = "primary help does not print the owned-tool footer yet" }
+git = { help = { source = "patches/owned-help.patch", test = "test/runtime.sh" } }
 
 [producers."laputa-systems/gluon"]
 
@@ -253,7 +253,7 @@ ninja = { gap = "primary help does not print the owned-tool footer yet", record 
 upstream = "01mf02/jaq"
 
 [producers."laputa-systems/jaq".commands]
-jaq = { gap = "primary help does not print the owned-tool footer yet", installed_from = "01mf02/jaq" }
+jaq = { help = { source = "jaq/src/help.txt", test = "jaq/tests/help.rs" }, installed_from = "01mf02/jaq" }
 
 [producers."laputa-systems/llvm-prebuilt-musl"]
 upstream = "llvm/llvm-project"
@@ -283,8 +283,8 @@ python3 = { help = { source = "patches/cpython/0007-owned-tool-help.patch", test
 upstream = "str4d/rage"
 
 [producers."laputa-systems/rage".commands]
-rage = { gap = "primary help does not print the owned-tool footer yet" }
-rage-keygen = { gap = "primary help does not print the owned-tool footer yet" }
+rage = { help = { source = "rage/src/bin/shared/owned_footer.txt", test = "rage/tests/owned_footer.rs" } }
+rage-keygen = { help = { source = "rage/src/bin/shared/owned_footer.txt", test = "rage/tests/owned_footer.rs" } }
 
 [producers."laputa-systems/rg"]
 upstream = "BurntSushi/ripgrep"
@@ -320,7 +320,7 @@ stuff = { help = { source = "crates/stuff/src/cli.rs", test = "crates/stuff/test
 [producers."laputa-systems/tinyland"]
 
 [producers."laputa-systems/tinyland".commands]
-tinyland = { gap = "primary help does not print the owned-tool footer yet" }
+tinyland = { help = { source = "tinyland/src/main.rs", test = "tinyland/tests/cli.rs" } }
 
 [producers."laputa-systems/tm"]
 
@@ -340,7 +340,7 @@ xsh = { gap = "primary help does not print the owned-tool footer yet" }
 [producers."laputa-systems/zzz"]
 
 [producers."laputa-systems/zzz".commands]
-zzz = { gap = "primary help does not print the owned-tool footer yet" }
+zzz = { help = { source = "zzz.zig", test = "Makefile" } }
 
 [not_applicable]
 "joshuarli/discover" = "web application; its support link belongs in the app, not a command"
