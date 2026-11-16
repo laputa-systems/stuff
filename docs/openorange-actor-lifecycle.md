@@ -49,21 +49,58 @@ restart is authorized by this procedure.
 
 ## Candidate and checks
 
-Source `0d67a685acc7c88c8744ffb8d1f5bc5a142361a9` adds the fields to the
-attested source without a persisted schema change. The standalone patch is
+Source `0d67a685acc7c88c8744ffb8d1f5bc5a142361a9` adds the fields without a
+persisted schema change. The integrated source is
+`197af2f08cc5f00ec9a15b5a0d3fc8965c818dda`. Its additive lifecycle patch is
 `deploy/openorange/patches/rivet-e5ed391-actor-lifecycle.patch`, SHA-256
-`df05f08d2a22d4b74e64150608146c5c9d7e87cbfb986498afbea977e92a6787`.
-It shares the parent SQLite repairs but contains only the lifecycle change.
+`039c0bb5206f2f9815e45b27d1f0d15a35b41eaab0441f18231e8fa29ffe2689`.
+Apply `rivet-e5ed391-inventory-read.patch` first, then this lifecycle patch;
+both are included together. Their sequence applies cleanly to the attested
+base and reproduces the tested API package exactly. The integrated binary
+also includes the three SQLite patches recorded in
+[stuff#34](https://github.com/laputa-systems/stuff/pull/34).
 
 Two Engine tests pass in dev on the attested Linux x86-64 builder. They assert
 the projected lifecycle values, unknown and V2-held epochs, unchanged fields
 and null timestamps, and the running/sleeping/running epoch sequence. A hand
 fault labeling sleeping as running fails the intended assertion; both tests
 pass after restoration. The integrated inventory/lifecycle candidate also
-passes all nine API tests in dev. Release and runtime acceptance remain open.
+passes all nine API tests in dev and release, and the full release binary
+builds. Its stripped x86-64 size is 68,748,840 bytes, SHA-256
+`95b483cb6178627161c0fe41c420f8a71e07eebe03d302b23989dd6d0e532b44`.
 
 The proxy's nine Python tests and the frontend regression pass. The proxy
 rejects non-integer and out-of-u32 epochs, and secret-containing phase values;
 it preserves absent and null values. Both TypeScript sources and generated
-JavaScript are rebuilt with `make ts-assets`. STUF-86 remains open until the
-natural idle transition and correlated wake above are observed.
+JavaScript are rebuilt with `make ts-assets`.
+
+## Observed natural transition
+
+[The qualification receipt](openorange-actor-lifecycle-proof.json) records
+the private U observation on a copy of the completed M depot. The same
+observation actor and incarnation reported running epoch 3, sleeping epoch 4
+and running epoch 4. Its SDK emitted `sleep idle deadline elapsed` for that
+actor; the receipt includes the event line's SHA-256 and protected log name.
+One request before sleep and one after it each returned all 203,950 events
+with the complete summary equal to the retained reference. The Engine PID
+did not change, and the application process stayed alive. No explicit sleep,
+stop or restart was used to create this transition. The two-CPU, 3-GiB
+container recorded zero memory-limit, OOM or kill events and is stopped.
+
+The initial T probe failed its selector assertion because it assumed the
+public actor key was the service name; OpenOrange uses a hashed object key.
+It did not establish an idle transition. U selects the sole observation-store
+actor in this single-service fixture and retains its actual identity. T's
+receipt is preserved separately and is not acceptance evidence.
+
+The same Engine also denied an actor read in a new namespace before creation,
+then created a distinct metadata record with the intentionally identical
+keyed actor ID. The original namespace's actor and creation time remained
+unchanged. This validates namespace identity resolution; it is not a
+cross-namespace SQLite write test.
+
+Protected evidence is under
+`/home/josh/d/stuff/.work/tmp/stuf86-lifecycle-t-20261116/`, using distinct
+U receipt and log filenames. The shared Engine, applications and sampler
+remain unchanged. This completes the private capability proof required by
+STUF-86; the Stats browser after-sleep study remains separate.

@@ -1,8 +1,8 @@
 diff --git a/engine/packages/api-public-shim/src/routes.rs b/engine/packages/api-public-shim/src/routes.rs
-index 3da058d..dba1f8f 100644
+index 494812a..a6b2e24 100644
 --- a/engine/packages/api-public-shim/src/routes.rs
 +++ b/engine/packages/api-public-shim/src/routes.rs
-@@ -1010,7 +1010,7 @@ async fn create_actor_inner(
+@@ -1042,7 +1042,7 @@ async fn create_actor_inner(
  			return Err(DuplicateKey.build());
  		}
  		return Ok(Created::Actor(Json(
@@ -11,7 +11,7 @@ index 3da058d..dba1f8f 100644
  		)));
  	}
  
-@@ -1062,7 +1062,7 @@ async fn create_actor_inner(
+@@ -1094,7 +1094,7 @@ async fn create_actor_inner(
  					return Err(DuplicateKey.build());
  				}
  				return Ok(Created::Actor(Json(
@@ -20,7 +20,7 @@ index 3da058d..dba1f8f 100644
  				)));
  			}
  		};
-@@ -1909,7 +1909,7 @@ pub async fn list_actors(
+@@ -1946,7 +1946,7 @@ async fn read_actor_page(ctx: &EngineContext, query: &HashMap<String, String>) -
  						destroy_unix_ms,
  					)?),
  					None if actor.destroyed && !include_destroyed => {}
@@ -29,7 +29,7 @@ index 3da058d..dba1f8f 100644
  				}
  			}
  			next_cursor = page
-@@ -1941,7 +1941,7 @@ async fn lookup_actor(
+@@ -1978,7 +1978,7 @@ async fn lookup_actor(
  		return Ok(None);
  	}
  	if !actor.destroyed {
@@ -38,7 +38,7 @@ index 3da058d..dba1f8f 100644
  	}
  	if !include_destroyed {
  		return Ok(None);
-@@ -1955,8 +1955,8 @@ async fn lookup_actor(
+@@ -1992,8 +1992,8 @@ async fn lookup_actor(
  		actor.data.create_unix_ms,
  	)
  	.await?;
@@ -49,7 +49,7 @@ index 3da058d..dba1f8f 100644
  		&namespace.name,
  		destroy_unix_ms,
  	)?))
-@@ -2143,7 +2143,7 @@ pub async fn get_actor(
+@@ -2180,7 +2180,7 @@ pub async fn get_actor(
  	};
  
  	Ok(Json(
@@ -58,7 +58,7 @@ index 3da058d..dba1f8f 100644
  	))
  }
  
-@@ -2524,6 +2524,8 @@ async fn live_envoys(ctx: &EngineContext, namespace: &str) -> Result<Vec<LiveEnv
+@@ -2561,6 +2561,8 @@ async fn live_envoys(ctx: &EngineContext, namespace: &str) -> Result<Vec<LiveEnv
  /// An actor's data record and whether it is on its way out.
  pub(super) struct ReadActor {
  	pub(super) data: wire::ActorData,
@@ -67,7 +67,7 @@ index 3da058d..dba1f8f 100644
  	/// The actor is being or has been destroyed.
  	destroyed: bool,
  	/// The V2 migrator holds the actor while its data moves in.
-@@ -2562,6 +2564,7 @@ async fn read(ctx: &EngineContext, group: Option<GroupId>, actor_id: Id) -> Resu
+@@ -2599,6 +2601,7 @@ async fn read(ctx: &EngineContext, group: Option<GroupId>, actor_id: Id) -> Resu
  
  /// The actor a state volume read found, or `None` when its data write has not landed yet.
  fn read_actor_of(res: wire::ActorReadResponse) -> Option<ReadActor> {
@@ -75,7 +75,7 @@ index 3da058d..dba1f8f 100644
  	let destroyed = matches!(
  		res.phase,
  		Some(wire::ActorPhase::Destroying(_) | wire::ActorPhase::Destroyed)
-@@ -2569,11 +2572,35 @@ fn read_actor_of(res: wire::ActorReadResponse) -> Option<ReadActor> {
+@@ -2606,11 +2609,35 @@ fn read_actor_of(res: wire::ActorReadResponse) -> Option<ReadActor> {
  	let held = matches!(res.phase, Some(wire::ActorPhase::MigratingFromV2(_)));
  	res.data.map(|data| ReadActor {
  		data,
@@ -111,9 +111,9 @@ index 3da058d..dba1f8f 100644
  /// Resolves the group `actor_id`'s volumes are keyed in for `namespace` and reads its state
  /// volume there, reusing the read the legacy fallback made when it made one, so an actor costs
  /// one read however it resolved, and one not yet moved two. `None` when the volume is missing or
-@@ -2629,3 +2656,72 @@ pub fn actor_json(
- 		"forked_from": forked_from_json(actor)?,
- 	}))
+@@ -2783,3 +2810,72 @@ mod inventory_tests {
+ 		}
+ 	}
  }
 +
 +#[cfg(test)]

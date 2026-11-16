@@ -74,3 +74,15 @@ Its stripped x86-64 binary is 68,746,408 bytes, SHA-256
 The natural-refusal runtime comparison and complete 24-hour qualified collection
 remain outstanding. STUF-88 stays open. No production binary, application,
 sampler or shared Engine has changed.
+
+The subsequent private S run adds one-second inventory sweeps during a fresh
+canonical import, versus the original sixty-second collection interval. All
+3,031 inventory requests succeeded, but the import failed at 138,500
+acknowledged rows with `QuorumUnavailable { token: None }`. The container
+recorded 4,580 memory-limit events, zero OOM events and zero kills. It is
+stopped, with its failed depot and receipts preserved under
+`/home/josh/d/stuff/.work/tmp/stuf88-inventory-s-20261116/`. No inventory retry
+event was captured, so this hot-polling run does not establish a natural cold
+refusal comparison. Its import failure's cause and candidate attribution
+remain open. Neither this run nor the successful lifecycle probe is a
+qualified 24-hour availability collection.
