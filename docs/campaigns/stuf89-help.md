@@ -64,10 +64,12 @@ PR checks: [ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
 [toolbox 14](https://github.com/joshuarli/toolbox/pull/14),
 [fz 41](https://github.com/laputa-systems/fz/pull/41),
 [mdevd-rs 4](https://github.com/laputa-systems/mdevd-rs/pull/4),
-[xsh 9](https://github.com/laputa-systems/xsh/pull/9).
+[xsh 9](https://github.com/laputa-systems/xsh/pull/9),
+[kache 25](https://github.com/joshuarli/kache/pull/25).
 
-Kache's source is preserved on `fix/stuf89-help`; its required pre-PR gate blocks
-publication. Its existing footer coverage does not establish complete help.
+Kache's complete reference is preserved on `fix/stuf89-help` at `6b44c40d`;
+its required pre-PR gate passes and its PR awaits checks.
+Its existing footer coverage does not establish complete help.
 Existing footer coverage does not establish the
 complete-reference contract for these tools.
 
@@ -110,12 +112,32 @@ Its Linux test job reached the 60-minute limit during the core corpus tests
 ([issue 11](https://github.com/laputa-systems/xsh/issues/11)); the last reported
 unfinished test was the desugared corpus check, without an established cause.
 
-Kache's host `make check` fails fixture assumptions with repository-local scratch.
-Its separate Linux proof cannot build the pinned image because the exact Alpine
-Git package was removed ([issue 24](https://github.com/joshuarli/kache/issues/24)).
-Do not bypass its successful-check-before-PR requirement or update pins here.
-A native GNU Linux `make check` is being verified with scratch mounted outside
-the source tree, using the pinned Rust toolchain and the image's real C compiler.
+Kache's required `make check` passed in native ARM64 GNU Linux before PR creation:
+warnings-denied workspace clippy, the client graph, resource guard, 3,094 native
+unit tests, all integration cases and the remaining workspace suites. Its three
+reference tests and both built binaries' help/version/JSON checks pass on macOS.
+The pinned Alpine image remains unavailable because its exact Git package was
+removed ([issue 24](https://github.com/joshuarli/kache/issues/24)); this proof does
+not establish musl release qualification.
+
+To reproduce the successful GNU gate, use `rust:1.100.0-bookworm` with real
+`clang`, `lld`, `zsh` and `python3` installed in the disposable container. Install
+the repository's `nightly-2026-11-09` with clippy and rust-src. Bind the source
+worktree and its absolute Git common directory read-only for Git metadata;
+use a Linux-native volume for both scratch and Cargo target data. Run as the
+source owner's unprivileged UID, with scratch outside any Cargo/Git ancestor,
+`CARGO_BUILD_JOBS=2`, `RUST_TEST_THREADS=2`, and a two-CPU allocation:
+
+```sh
+make check TARGET=aarch64-unknown-linux-gnu \
+  CARGO_CMD='env CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=cc cargo'
+```
+
+Earlier root/APFS-bound attempts failed filesystem fixtures; the oversubscribed
+native-scratch run hit one four-second wall-clock assertion. The isolated case
+passed. A reused host-mounted target then lost an object file during archiving.
+The final native target/scratch, bounded, equipped environment completed every
+unchanged assertion. No timing threshold or test selection was changed.
 
 Ctrs's platform tests pass, but benchmark harness checks fail with absent scratch
 directories ([issue 6](https://github.com/joshuarli/ctrs/issues/6)) and a distinct
