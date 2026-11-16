@@ -69,11 +69,59 @@ fences after a failed request also fails to abort its staged transaction.
 site logs the abort error. The reason alone does not distinguish the two
 callers or establish why the abort failed.
 
-The next isolated reproduction needs both the original request error and
-the abort error at these boundaries. Increasing timeouts, reducing import
-page sizes or disabling fencing without that evidence would not establish
-a repair. Existing failed depots and acknowledged-row receipts must remain
-intact. Exact row recovery and ten restart cycles remain unverified.
+An isolated diagnostic dev build added those two error logs without changing
+fence behavior. Its stripped binary SHA-256 is
+`9bf96d614fbaa2ff853f254daf3a4cec59cf4421ba7cad2e897f363cfb2327d3`.
+With a fresh namespace and depot, the import failed after 18,500 acknowledged
+rows. At 08:33:24.672992005 UTC, the original request reported
+`Overloaded { retry_after_ms: 275, token: None }`; its abort reported another
+tokenless overload with a 274 ms hint. The following fence was
+`staged_write_abort_failed`. Memory-limit and OOM event counts were zero.
+
+The filesystem's retry hint proves that these errors admitted nothing.
+SQLite preserved stages only for cold-read refusals, then attempted an abort
+for this overload; that abort was refused too. The
+[candidate patch](../deploy/openorange/patches/README.md) retains resumable
+staged requests and makes their caller use the same refusal classification.
+It leaves uncertain outcomes non-retryable. Both staged-request regressions
+fail on the original implementation and pass with the candidate, including
+resend and committed page-byte checks. The admitted-token classification test
+also passes. The patch changes no persisted format.
+
+The stripped candidate dev binary SHA-256 is
+`17c537ddfe201836dce6d0d5a4193bc7984debdb00a2a7be76c370a63b68d1df`.
+Its local source commit is `88fc1c449b851049d83e6318a2028d3bb0453894`,
+based on the identified revision. The committed patch SHA-256 is
+`a2d1d5373f097cac4541a84bd17094dbb1e482085089f0e8fd4d0b483fd2505d`.
+
+The candidate imported 82,500 of 203,950 rows before the fixed ten-minute
+cutoff. Its log contains no staged-write abort fence. The container recorded
+536 memory-limit events, zero OOM events and zero OOM kills. All 180 bounded
+production inventory requests made during that diagnostic returned 200.
+This is partial-import evidence, not a complete import or availability gate.
+
+A copy of the stopped candidate depot reopened with exactly 82,500 imported
+rows. The first recovery probe incorrectly selected an empty manifest table;
+that assertion was invalid. The corrected probe selected
+`observe_external_events` and matched the acknowledged count. Exact row
+equality remains unverified because the incomplete-import state cannot export
+the snapshot. Existing failed depots and receipts remain intact.
+
+Resuming that copied depot failed on its first page with HTTP 500, retaining
+82,500 acknowledged rows. Application stderr reports a SQLite transaction
+expired after 60,000 ms and rolled back. Its Engine log has no staged-write
+abort fence, and this run recorded zero memory-limit or OOM events. This is a
+separate unresolved failure; the refusal repair does not establish recovery
+acceptance. Increasing that timeout without establishing the stalled
+transaction's cause would not establish a repair. Full import, exact row
+equality, cross-namespace identity handling and ten ordinary restart cycles
+remain unverified.
+
+Protected Lisa evidence is under
+`/home/josh/d/stuff/.work/tmp/stuf87-debug-b-20261116/`,
+`stuf87-refusal-d-20261116/`, and `stuf87-refusal-f-reopen-20261116/`.
+Their containers are stopped. The original deployed binary and earlier failed
+depots were not replaced.
 
 ## Inventory availability
 
@@ -101,8 +149,9 @@ unavailable groups remains required.
 
 ## Investigation boundary
 
-This investigation read existing logs, image metadata and source. It made
-only bounded read-only requests to production. It changed no production
-configuration, restarted no Engine or application, and started no import
-or sampler. No runtime test or performance acceptance follows from these
-observations.
+Production work remains bounded and read-only. No production configuration,
+Engine, application or sampler changed. Private containers used an isolated
+network, two CPUs and 3 GiB, with preserved depots and protected credentials.
+The source's Rust pin and the attested builder image were retained. The
+diagnostic binaries use the dev profile; no release or performance acceptance
+follows from them.
