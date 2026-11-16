@@ -7,6 +7,19 @@ established, so the slop cannot return.
 
 ## Status
 
+- **Resumed (2026-11-16):** the owner resumed
+  `docs/HANDOFF-TODO-DESLOP-20261116.md` in parallel with STUF-89. Direct
+  Vault and diff-pretty Tests work runs in separate `tests-resume` worktrees,
+  each carrying its stopped checkpoint plus current main. Original worktrees
+  and partial mutation evidence remain intact. Review saved survivors and
+  qualify boundary assertions first; the busy host defers timing, coverage
+  and mutation runs. No fleet rollout or STUF-75 work is authorized.
+- **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
+  passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
+  closing STUF-87's private import/recovery repair. Production is unchanged.
+  STUF-88 remains open; its inventory patch is undergoing the missing complete
+  independent source review. Natural-refusal runtime and full production
+  availability proof remain outstanding.
 - **State:** assurance hardening (decision 13) landed or is in review. The owner dispatched
   diff-pretty, vault, and fz. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of
   scope (decision 12).
@@ -112,14 +125,20 @@ established, so the slop cannot return.
     12 misses of 55. A native process probe now exercises actual cache startup
     and cached secret operations without hardware prompts. Its bounded
     98-case component run found one seed-validation survivor; the new process
-    assertion catches that mutant, and a fresh complete selection is pending.
+    assertion catches that mutant; the final 98-case cache selection is qualified.
     A broader macOS run was interrupted, and a six-worker attempt exceeded
     `cpu-guard`; neither establishes qualification. Final coverage, test-cost
-    and remaining platform/decision-region dispositions stay open.
+    and remaining platform/decision-region dispositions stay open. The stopped
+    complementary 232-case filesystem selection completed 173: 102 caught,
+    65 missed, six unviable, zero timeouts and 59 untested. Resume by reviewing
+    those survivors; this partial run does not qualify the filesystem scope.
   - **diff-pretty Tests started:** native CLI scenarios assert literal rendered
     and redirected output, paging flags, help, file concatenation, malformed
     input and I/O failure status. Nine process tests and lint pass; mutation
-    qualification and the rest of DSLP-4 remain open.
+    qualification and the rest of DSLP-4 remain open. Checkpoint `5834fe7` is
+    preserved; its resumed branch also contains the merged full-help contract.
+    The earlier 1,200-second workspace mutation run left 109 untested and 48
+    unconfirmed timeouts. Use a bounded Scenario selection, not that Full run.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
@@ -131,7 +150,7 @@ established, so the slop cannot return.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
   1. toolbox: fix Actions billing to bring it back in scope.
-  2. Dispatching more worker lanes is the owner's call; the resume order assumes direct work.
+  2. Broader fleet dispatch remains outside the owner's resumed direct-work grant.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
   the dispatched batch, the next direct slices are loc's sharded lane under
   `cpu-guard` and the remaining calibration/pilot harness qualifications.
