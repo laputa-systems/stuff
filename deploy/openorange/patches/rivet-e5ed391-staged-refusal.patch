@@ -1,0 +1,425 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 88261dc..f67e69a 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -6092,7 +6092,10 @@ dependencies = [
+  "bytes",
+  "depot-client",
+  "depot-fs-core",
++ "depot-types",
++ "depot-volume",
+  "futures-util",
++ "rivet-data",
+  "rivet-env",
+  "rivet-envoy-protocol",
+  "rivet-error",
+@@ -6102,6 +6105,7 @@ dependencies = [
+  "sqlite-prefetch",
+  "tokio",
+  "tracing",
++ "vbare",
+ ]
+ 
+ [[package]]
+diff --git a/engine/packages/pegboard-envoy/src/sqlite/mod.rs b/engine/packages/pegboard-envoy/src/sqlite/mod.rs
+index dc45af9..bd31ce9 100644
+--- a/engine/packages/pegboard-envoy/src/sqlite/mod.rs
++++ b/engine/packages/pegboard-envoy/src/sqlite/mod.rs
+@@ -5,7 +5,6 @@ mod remote;
+ mod routing;
+ mod trace_scope;
+ use anyhow::{Context, Result, ensure};
+-use depot_volume::volume_client_machine::types::ErrorDisposition;
+ use pegboard::epoch::{wrapping_ge, wrapping_gt, wrapping_le, wrapping_lt, wrapping_max};
+ use pegboard::keys::partition::ActorDatabaseVolume;
+ use rivet_envoy_protocol as p;
+@@ -1435,7 +1434,7 @@ pub(super) async fn execute_pages(
+ 			}
+ 			Err(error) => error,
+ 		};
+-		let Some(hint_ms) = refused_page_request_hint_ms(&message, &error) else {
++		let Some(hint_ms) = page_protocol::retry_after_ms(&message, &error) else {
+ 			return Err(error);
+ 		};
+ 		let backoff = match &mut backoff {
+@@ -1459,54 +1458,6 @@ pub(super) async fn execute_pages(
+ 	}
+ }
+ 
+-/// The hint of a page request that depot refused without running it, or `None` for every other
+-/// error. A cold read refusal qualifies for any page request. A write refusal qualifies only for
+-/// a single-request commit: a staged commit's refused write does not keep its stage, so it
+-/// returns to the runtime, which restarts the transaction.
+-fn refused_page_request_hint_ms(message: &p::ToRivet, error: &anyhow::Error) -> Option<u64> {
+-	if let Some(hint_ms) = refused_cold_read_hint_ms(error) {
+-		return Some(hint_ms);
+-	}
+-	match message {
+-		p::ToRivet::ToRivetSqliteCommitRequest(_) => refused_write_hint_ms(error),
+-		_ => None,
+-	}
+-}
+-
+-/// The hint of a write the volume client refused with a hint before dispatching it, such as the
+-/// shards' overload. Nothing took a position in the log, so the identical commit may be sent
+-/// again; a fence that lands meanwhile fails the resend on the filesystem's own status check.
+-/// A refusal of an admitted write never reaches here as `NotExecuted`, because the filesystem
+-/// reports it as outcome unknown. A refusal without a hint, such as an entry that is too large,
+-/// would be refused the same way and returns at once.
+-///
+-/// A write the selected entry version cannot carry, and a write refused because the volume's
+-/// admitted writes are too far ahead of its tablet's apply, were refused at admission too, so
+-/// they qualify the same way.
+-fn refused_write_hint_ms(error: &anyhow::Error) -> Option<u64> {
+-	match error.downcast_ref::<depot_client::filesystem::Error>() {
+-		Some(
+-			depot_client::filesystem::Error::VersionUnavailable { retry_after_ms }
+-			| depot_client::filesystem::Error::ApplyBacklog { retry_after_ms },
+-		) => Some(*retry_after_ms),
+-		Some(depot_client::filesystem::Error::Log(error))
+-			if error.disposition() == ErrorDisposition::NotExecuted =>
+-		{
+-			error.retry_after_ms()
+-		}
+-		Some(_) | None => None,
+-	}
+-}
+-
+-/// The hint of a page request whose cold read the tablet's maintainer refused, or `None` for
+-/// every other error.
+-fn refused_cold_read_hint_ms(error: &anyhow::Error) -> Option<u64> {
+-	if !page_protocol::refused_without_running(error) {
+-		return None;
+-	}
+-	depot_client::retry_after_ms(error)
+-}
+-
+ /// The hint of an open that depot refused without running it, or `None` when it may have run
+ /// or will be refused the same way however often it is sent. A missing route and a full
+ /// volume cache or request queue refuse without a hint.
+diff --git a/engine/packages/sqlite-embedded-filesystem/Cargo.toml b/engine/packages/sqlite-embedded-filesystem/Cargo.toml
+index a07cff2..bf34dcf 100644
+--- a/engine/packages/sqlite-embedded-filesystem/Cargo.toml
++++ b/engine/packages/sqlite-embedded-filesystem/Cargo.toml
+@@ -24,3 +24,9 @@ sqlite_types.workspace = true
+ tokio.workspace = true
+ tracing.workspace = true
+ 
++[dev-dependencies]
++depot-types.workspace = true
++depot-volume.workspace = true
++rivet-data.workspace = true
++vbare.workspace = true
++
+diff --git a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs
+index 15fa010..7e80b9a 100644
+--- a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs
++++ b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/mod.rs
+@@ -16,19 +16,21 @@ pub async fn execute(
+ 	pages: &mut database::Database,
+ 	message: p::ToRivet,
+ ) -> Result<p::ToEnvoy> {
++	let keeps_stage = keeps_refused_stage(&message);
+ 	let result = async {
+ 		pages.refresh().await?;
+ 		execute_inner(stage, pages, message).await
+ 	}
+ 	.await;
+-	// A request refused without running, such as one whose cold read was refused while the
+-	// tablet's maintainer moves, changed neither the stage nor its transaction, so the stage
+-	// stays for the identical request to be sent again. Every other failure aborts it.
+-	let refused = result.as_ref().is_err_and(refused_without_running);
+-	if result.is_err() && !refused && stage::abort(stage).await.is_err() {
+-		pages
+-			.fs
+-			.fence_with(depot_client::fences::FenceReason::StagedWriteAbortFailed);
++	// Pre-admission refusals retain a resumable stage. Unknown outcomes must abort it.
++	let refused = result.as_ref().is_err_and(|error| refusal_hint(keeps_stage, error).is_some());
++	if result.is_err() && !refused {
++		if let Err(abort_error) = stage::abort(stage).await {
++			tracing::error!(request_error = ?result.as_ref().err(), ?abort_error, "staged SQLite abort failed");
++			pages
++				.fs
++				.fence_with(depot_client::fences::FenceReason::StagedWriteAbortFailed);
++		}
+ 	}
+ 	result
+ }
+@@ -37,15 +39,15 @@ pub async fn execute(
+ /// it, so the next staged commit starts afresh instead of meeting the stale stage. A failed
+ /// abort fences the filesystem, as after any other failed request.
+ pub async fn abandon_stage(stage: &mut Option<Stage>, pages: &mut database::Database) {
+-	if stage::abort(stage).await.is_err() {
++	if let Err(abort_error) = stage::abort(stage).await {
++		tracing::error!(?abort_error, "abandoned SQLite stage abort failed");
+ 		pages
+ 			.fs
+ 			.fence_with(depot_client::fences::FenceReason::StagedWriteAbortFailed);
+ 	}
+ }
+ 
+-/// Whether `error` refused a request before it ran: a cold read the tablet's maintainer
+-/// refused. Every cold read of a request, a commit's included, happens before its write is
++/// Whether `error` is a refused cold read. Every cold read of a request, a commit's included, happens before its write is
+ /// admitted, and a refusal after admission is reported as an undecided write instead, so the
+ /// identical request may be sent again, against the same stage.
+ pub fn refused_without_running(error: &anyhow::Error) -> bool {
+@@ -55,6 +57,29 @@ pub fn refused_without_running(error: &anyhow::Error) -> bool {
+ 	)
+ }
+ 
++/// Retry hint for an identical page request whose staged transaction remains available.
++/// Errors with an admitted write token never qualify: their outcome may still be unknown.
++pub fn retry_after_ms(message: &p::ToRivet, error: &anyhow::Error) -> Option<u64> {
++	refusal_hint(keeps_refused_stage(message), error)
++}
++
++fn keeps_refused_stage(message: &p::ToRivet) -> bool {
++	matches!(message,
++		p::ToRivet::ToRivetSqliteGetPagesRequest(_)
++		| p::ToRivet::ToRivetSqliteCommitRequest(_)
++		| p::ToRivet::ToRivetSqliteCommitStageSegmentRequest(_)
++		| p::ToRivet::ToRivetSqliteCommitFinalizeRequest(_))
++}
++
++fn refusal_hint(keeps_stage: bool, error: &anyhow::Error) -> Option<u64> {
++	let error = error.downcast_ref::<depot_client::filesystem::Error>()?;
++	if keeps_stage || *error == depot_client::filesystem::Error::ColdReadRefused {
++		error.retry_after_ms()
++	} else {
++		None
++	}
++}
++
+ async fn execute_inner(
+ 	stage: &mut Option<stage::Stage>,
+ 	pages: &mut database::Database,
+diff --git a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs
+index c008f46..2ceee03 100644
+--- a/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs
++++ b/engine/packages/sqlite-embedded-filesystem/src/page_protocol/stage.rs
+@@ -102,24 +102,24 @@ pub(super) async fn execute(
+ 						.all(|(&start, old)| last < start || req.data.first_pgno > old.last_pgno),
+ 					"overlapping SQLite segments"
+ 				);
+-				for page in &req.data.dirty_pages {
+-					pages
+-						.prefetcher
+-						.add_dirty(&mut stage.prefetch, page.pgno, &page.bytes);
+-				}
+ 				let edits = req
+ 					.data
+ 					.dirty_pages
+-					.into_iter()
++					.iter()
+ 					.map(|p| {
+ 						FileEdit::Write(FileWrite {
+ 							offset: u64::from(p.pgno - 1) * PAGE as u64,
+-							bytes: p.bytes,
++							bytes: p.bytes.clone(),
+ 						})
+ 					})
+ 					.collect::<Vec<_>>();
+ 				// Admission is sufficient: the final commit ticket covers every segment.
+ 				stage.transaction.edit_file(pages.ino, &edits).await?;
++				for page in &req.data.dirty_pages {
++					pages
++						.prefetcher
++						.add_dirty(&mut stage.prefetch, page.pgno, &page.bytes);
++				}
+ 				stage.bytes += bytes;
+ 				stage.segments.insert(
+ 					req.data.first_pgno,
+@@ -168,16 +168,16 @@ pub(super) async fn execute(
+ 				// A commit refused before it was admitted keeps the stage, so the identical
+ 				// finalize commits it. After any other outcome the stage is done; dropping a
+ 				// transaction that did not commit aborts it once its outcome is known.
+-				if !committed
+-					.as_ref()
+-					.is_err_and(|error| *error == depot_client::filesystem::Error::ColdReadRefused)
+-				{
++				let refused = committed.as_ref().is_err_and(|error| error.retry_after_ms().is_some());
++				if !refused {
+ 					stage.take();
+ 				}
+ 				let seq = match committed {
+ 					Ok(seq) => seq,
+ 					Err(error) => {
+-						pages.prefetcher.commit_failed();
++						if !refused {
++							pages.prefetcher.commit_failed();
++						}
+ 						return Err(error.into());
+ 					}
+ 				};
+diff --git a/engine/packages/sqlite-embedded-filesystem/tests/staged_refusal.rs b/engine/packages/sqlite-embedded-filesystem/tests/staged_refusal.rs
+new file mode 100644
+index 0000000..92c9a83
+--- /dev/null
++++ b/engine/packages/sqlite-embedded-filesystem/tests/staged_refusal.rs
+@@ -0,0 +1,165 @@
++use depot_client::filesystem::{self as fs, transport::*};
++use depot_types::{VolumeLogKey, payload_codec::payload_digest};
++use depot_volume::volume_client_machine::{
++    runner::{CommitTicket, LogHistory},
++    types::{WriteError, WriteOutcome, WriteToken},
++};
++use futures_util::future::BoxFuture;
++use rivet_data::generated::{depot_log_shard_v1::*, shared_depot_types_v1::*};
++use rivet_envoy_protocol as p;
++use sqlite_embedded_filesystem::page_protocol::{self, database::Database};
++use std::sync::{Arc, Mutex, atomic::{AtomicBool, AtomicUsize, Ordering}};
++
++#[derive(Default)]
++struct Log {
++    entries: Mutex<Vec<VolumeLogEntry>>,
++    refuse: AtomicBool,
++    fenced: AtomicBool,
++    attempts: AtomicUsize,
++}
++
++fn position(sequence: u64) -> VolumeLogPosition {
++    VolumeLogPosition { volume_seq: sequence, client_epoch: 1 }
++}
++
++impl Journal for Log {
++    fn spawn_cleanup(&self, cleanup: BoxFuture<'static, ()>) -> fs::Result<()> {
++        tokio::spawn(cleanup);
++        Ok(())
++    }
++    fn status(&self) -> fs::Result<LogStatus> {
++        if self.fenced.load(Ordering::SeqCst) { return Err(fs::Error::Fenced); }
++        let sequence = self.entries.lock().unwrap().len() as u64 + 1;
++        Ok(LogStatus {
++            key: VolumeLogKey(rivet_data::generated::shared_depot_types_v1::VolumeLogKey {
++                volume_key: VolumeKey { partition_key: b"test".to_vec().into(), name: None },
++                volume_incarnation: [1; 16],
++            }),
++            cold: position(0), committed: sequence, next_seq: sequence + 1,
++            client_epoch: 1, max_payload_bytes: 8 * 1024 * 1024, retained_bytes: 0,
++        })
++    }
++    fn entry_version(&self) -> fs::Result<u16> { Ok(rivet_data::DEPOT_FS_ENTRY_VERSION) }
++    fn reads_admitted(&self) -> bool { true }
++    fn recover(&self) -> BoxFuture<'_, fs::Result<LogHistory>> {
++        Box::pin(async move {
++            let entries = self.entries.lock().unwrap().clone();
++            Ok(LogHistory { cold: position(0), committed: entries.len() as u64 + 1,
++                empty: entries.is_empty(), complete: true, entries })
++        })
++    }
++    fn admit(&self, payload: vbare::Bytes) -> BoxFuture<'_, fs::Result<WriteOutcome>> {
++        Box::pin(async move {
++            self.attempts.fetch_add(1, Ordering::SeqCst);
++            if self.refuse.load(Ordering::SeqCst) {
++                return Err(fs::Error::Log(WriteError::Overloaded { retry_after_ms: 275, token: None }));
++            }
++            let mut entries = self.entries.lock().unwrap();
++            let sequence = entries.len() as u64 + 2;
++            let digest = payload_digest(&payload);
++            entries.push(VolumeLogEntry {
++                written_at_unix_ms: 0, volume_seq: sequence, client_epoch: 1,
++                body: VolumeLogEntryBody::PayloadWrite(PayloadWrite {
++                    payload_family: rivet_data::families::VersionFamily::DEPOT_FS_ENTRY.0,
++                    payload_version: rivet_data::DEPOT_FS_ENTRY_VERSION,
++                    client_seq: sequence, request_id: [2; 16], payload_digest: digest,
++                    codec: PayloadCodec::None, payload,
++                }),
++            });
++            Ok(WriteOutcome { volume_seq: sequence, position: position(sequence),
++                token: WriteToken { payload_digest: digest, volume_incarnation: [1; 16],
++                    client_seq: sequence, request_id: [2; 16] },
++                applied_earlier: false, committed: Some(sequence) })
++        })
++    }
++    fn barrier(&self) -> fs::Result<CommitTicket> {
++        let committed = self.status()?.committed;
++        Ok(Box::pin(async move { Ok(committed) }))
++    }
++    fn close(&self) -> BoxFuture<'_, fs::Result<()>> { Box::pin(async { Ok(()) }) }
++    fn fence(&self) { self.fenced.store(true, Ordering::SeqCst); }
++}
++
++struct NoColdReads;
++impl ColdStore for NoColdReads {
++    fn open_prefetching(&self, _: VolumeLogKey, _: VolumeLogPosition, _: OpenPrefetch, _: u64)
++        -> BoxFuture<'_, fs::Result<OpenedSnapshot>> { panic!("fresh volume has no cold rows") }
++    fn open_latest_prefetching(&self, _: VolumeLogKey, _: VolumeLogPosition, _: OpenPrefetch, _: u64)
++        -> BoxFuture<'_, fs::Result<OpenedSnapshot>> { panic!("fresh volume has no cold rows") }
++    fn claim_snapshot(&self, _: VolumeLogKey, _: VolumeLogPosition) -> Arc<dyn ColdSnapshot> {
++        panic!("test retains its fresh volume overlay")
++    }
++    fn observed_applied(&self) -> u64 { 0 }
++}
++
++fn begin(base: u64) -> p::ToRivet {
++    p::ToRivet::ToRivetSqliteCommitStageBeginRequest(p::ToRivetSqliteCommitStageBeginRequest {
++        request_id: 1, data: p::SqliteCommitStageBeginRequest { actor_id: "test".into(), expected_generation: None, expected_head_txid: Some(base) },
++    })
++}
++fn segment(txid: u64) -> p::ToRivet {
++    p::ToRivet::ToRivetSqliteCommitStageSegmentRequest(p::ToRivetSqliteCommitStageSegmentRequest {
++        request_id: 2, data: p::SqliteCommitStageSegmentRequest { actor_id: "test".into(), expected_generation: None, txid, first_pgno: 0,
++            dirty_pages: vec![p::SqliteDirtyPage { pgno: 1, bytes: vec![42; 4096].into() }] },
++    })
++}
++fn finalize(txid: u64) -> p::ToRivet {
++    p::ToRivet::ToRivetSqliteCommitFinalizeRequest(p::ToRivetSqliteCommitFinalizeRequest {
++        request_id: 3, data: p::SqliteCommitFinalizeRequest { actor_id: "test".into(), expected_generation: None, now_ms: 0, txid, new_db_size_pages: 1,
++            segment_first_pgnos: vec![0] },
++    })
++}
++
++async fn refusal_keeps_stage(refuse_finalize: bool) {
++    let log = Arc::new(Log::default());
++    let filesystem = fs::Filesystem::open_staging_empty(log.clone(), Arc::new(NoColdReads),
++        Arc::new(rivet_env::TokioClock::new().unwrap()), fs::Config::default(), None,
++        OpenPrefetch::default()).await.unwrap();
++    let mut database = Database::from_filesystem(filesystem).await.unwrap();
++    let mut stage = None;
++    let base = database.root.txid;
++    let txid = base + 1;
++    page_protocol::execute(&mut stage, &mut database, begin(base)).await.unwrap();
++    if refuse_finalize {
++        page_protocol::execute(&mut stage, &mut database, segment(txid)).await.unwrap();
++    }
++    let message = if refuse_finalize { finalize(txid) } else { segment(txid) };
++    let before = log.attempts.load(Ordering::SeqCst);
++    log.refuse.store(true, Ordering::SeqCst);
++    let error = page_protocol::execute(&mut stage, &mut database, message.clone()).await.unwrap_err();
++    assert_eq!(error.downcast_ref::<fs::Error>().unwrap().retry_after_ms(), Some(275));
++    assert_eq!(page_protocol::retry_after_ms(&message, &error), Some(275));
++    assert!(stage.is_some(), "a refusal must retain the identical staged transaction");
++    assert!(!log.fenced.load(Ordering::SeqCst), "a proven refusal must not fence");
++    assert_eq!(log.attempts.load(Ordering::SeqCst), before + 1, "a refusal must not attempt abort");
++    log.refuse.store(false, Ordering::SeqCst);
++    page_protocol::execute(&mut stage, &mut database, message).await.unwrap();
++    if !refuse_finalize {
++        page_protocol::execute(&mut stage, &mut database, finalize(txid)).await.unwrap();
++    }
++    assert!(stage.is_none());
++    assert!(database.root.txid > base);
++    assert_eq!(database.root.txid, log.status().unwrap().committed);
++    assert_eq!(database.read_pages(&[1]).await.unwrap()[0].as_deref(), Some(&[42; 4096][..]));
++}
++
++#[tokio::test]
++async fn overloaded_segment_retains_stage_without_abort() { refusal_keeps_stage(false).await; }
++
++#[tokio::test]
++async fn overloaded_finalize_retains_stage_without_abort() { refusal_keeps_stage(true).await; }
++
++#[test]
++fn admitted_overload_never_allows_a_new_staged_request() {
++    let token = WriteToken { payload_digest: [3; 16], volume_incarnation: [1; 16],
++        client_seq: 2, request_id: [2; 16] };
++    let error = anyhow::Error::new(fs::Error::Log(WriteError::Overloaded {
++        retry_after_ms: 275, token: Some(token),
++    }));
++    for message in [segment(1), finalize(1)] {
++        assert_eq!(page_protocol::retry_after_ms(&message, &error), None);
++        for error in [fs::Error::Fenced, fs::Error::Conflict, fs::Error::DeadlineExceeded] {
++            assert_eq!(page_protocol::retry_after_ms(&message, &error.into()), None);
++        }
++    }
++}
