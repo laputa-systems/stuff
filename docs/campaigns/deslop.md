@@ -144,12 +144,19 @@ established, so the slop cannot return.
     complementary 232-case filesystem selection completed 173: 102 caught,
     65 missed, six unviable, zero timeouts and 59 untested. Resume by reviewing
     those survivors; this partial run does not qualify the filesystem scope.
-    Resumed head `7c4b582` passes all PR checks, including the 51-case Linux
-    store gate (45 caught, six unviable). A new listing process assertion catches
-    one saved trusted-directory survivor. The old filesystem driver filtered
-    out integration tests, so the new boundary needs a corrected Scenario
-    recipe. The remaining 64 original survivors and 59 untested cases, current
-    coverage and quiet-host test cost keep PR30 draft and DSLP-4 open.
+    Resumed head `0561a3e` adds listing-process and literal metadata-policy
+    assertions. The complete 21-mutant directory-policy Scenario is qualified:
+    21 caught, zero missed, unviable or timed out, every identity reconciled and
+    every caught log failing a new policy assertion. This covers all seven
+    saved survivors in that region. Three hand faults fail their intended
+    assertions. An isolated-target native suite passes 44 unit, 28 integration
+    and four terminal cases, with two hardware cases ignored, plus lint. The
+    first final run reused the last mutant's shared-target artifact and was
+    rejected; ordinary verification now has a separate target. The previous
+    PR head passes the 51-case Linux store gate (45 caught, six unviable).
+    The remaining 58 original survivors, 59 untested cases, coverage and
+    quiet-host cost keep PR30 draft and DSLP-4 open. The old filtered filesystem
+    driver still must not be restarted unchanged.
   - **diff-pretty Tests started:** native CLI scenarios assert literal rendered
     and redirected output, paging flags, help, file concatenation, malformed
     input and I/O failure status. Nine process tests and lint pass; mutation
@@ -161,8 +168,15 @@ established, so the slop cannot return.
     complete 24-mutant CLI selection first found one `--no-pager` survivor;
     the new parser-contract table catches it. The same selection now reports
     22 caught, two compiler-unviable, zero missed and zero timeouts. This
-    qualifies the CLI component only. Broader renderer/pager coverage, mutation
-    and quiet-host cost remain open.
+    qualifies the CLI component only. The numeric-layout API now has literal
+    cell and decimal-boundary assertions, each proved with a hand fault. Its
+    complete 38-mutant selection at `10e3782` records 37 caught and one hang
+    confirmed by a fresh baseline and doubled timeout, zero missed or unviable.
+    Both raw tool receipts retain Timeout/exit 3; this is a confirmed detection,
+    not an ordinary caught count. All identities reconcile with the saved
+    before region, and every caught log contains a new numeric assertion
+    failure. Broader renderer/pager coverage, mutation, quiet-host cost and
+    whole-change CI enforcement remain open.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.

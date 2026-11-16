@@ -127,3 +127,8 @@ had stopped and the external open-file check found no consumer. The ignored
 data and verification scratch. The campaign and PR6 retain the 219-check,
 optimizer, strict-patch and both-architecture CI conclusions. The helper
 removed the exact path and integrated branch with `--discard-ignored`.
+
+Both exact source paths are absent from Git's inventory and the filesystem.
+The task-only `llvm-stuf89-build:aarch64` and `llvm-stuf89-validate:aarch64`
+images had no container consumers and were removed by tag without force.
+No shared Docker resources or managed installations were changed.
