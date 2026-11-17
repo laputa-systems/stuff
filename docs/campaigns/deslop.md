@@ -45,9 +45,10 @@ established, so the slop cannot return.
 - **State:** assurance hardening (decision 13) landed or is in review. The owner dispatched
   diff-pretty, vault, and fz. Every in-scope repository has `TODO-DESLOP.md`. toolbox is out of
   scope (decision 12).
-- **Current authorization (2026-11-16):** finish the direct queue and non-fleet
-  calibration, pilot and harness work. Do not dispatch the remaining fleet,
-  apply retention rules across it, or begin tier-by-tier rollout. Canonical
+- **Current goal (2026-11-16):** finish the entire deslop campaign. Finish the
+  direct queue and calibration, pilot and harness qualifications first. The
+  prescribed M2 calibration review still gates tier-by-tier rollout; prepare
+  that concrete report before seeking its approval. Canonical
   checkouts were synchronized before this work; dirty and nondefault branches
   were preserved.
 - **Method:** usr's `deslop` skill is the one procedure (usr#34, merged: pre-merge contract, consumer and
@@ -167,27 +168,39 @@ established, so the slop cannot return.
     pass on `0561a3e`, including the fresh 51-case Linux store gate (45 caught,
     six unviable, zero missed or timed out). That single CI scenario took
     thirteen minutes; it does not establish the ten-minute p50 target.
-    The remaining 58 original survivors, 59 untested cases, coverage and
-    quiet-host cost keep PR30 draft and DSLP-4 open. The old filtered filesystem
+    That checkpoint left 58 original survivors and 59 untested cases; current
+    reconciliation is below. Quiet-host cost and remaining decision regions
+    keep PR30 draft and DSLP-4 open. The old filtered filesystem
     driver still must not be restarted unchanged.
-    Current Tests head `bf7a1eb` adds independent filename/UTF-8 byte-limit
-    oracles and a pure data-home resolution table. Filename selection: 31
+    Current Tests head `10d38f5` adds independent filename/UTF-8 byte-limit
+    oracles, a pure data-home table, private-file admission/read witnesses,
+    directory opening and lock/mode repair. Filename selection: 31
     caught, four equivalent misses, one unviable and no timeouts across all 36
     cases; every equivalence follows the remaining guards, and no exclusion
-    was added. The complete data-home selection has three caught and no other
-    outcomes. Native tests and lint pass. These do not reclassify the old
-    stopped 232 cases. ARM64's passphrase-echo failure at `8dc8fa8` led to
+    was added. Data-home has three caught; private-file has 30 caught/three
+    equivalent/one unviable; directory opening has 19 caught/seven equivalent/
+    two unviable; lock/mode has 13 caught/four equivalent/two unviable. Each
+    complete selection has a fresh baseline, zero final timeouts and no new
+    exclusions. Mapping original sites through the private production-used
+    metadata helpers resolves 56 saved misses (38 caught, 18 equivalent),
+    leaving nine. Seven formerly untested identities map to five caught/two
+    unviable, leaving 52 unreconciled. Historical raw 232-case counts remain
+    unchanged. Atomic-write/temp-file qualification is the next active slice.
+    ARM64's passphrase-echo failure at `8dc8fa8` led to
     [PR34](https://github.com/laputa-systems/vault/pull/34), merged as `6a4b7d5`:
     prompt publication and input now share one hidden terminal session. A
     deterministic ordering witness fails before and passes after; native macOS
     and ARM64 Linux tests/lint, all four CI checks and independent review pass.
     Linux container keyring restrictions remain explicit skips. The fix is
-    integrated into the Tests branch: 46 native unit tests, 28 integration and
+    integrated into the Tests branch: 53 native unit tests, 28 integration and
     four terminal tests pass, with two hardware tests ignored and no optional
-    skips. Linux ARM64, x86_64, macOS and lint CI pass; mutations are pending.
-    The next bounded slice tests private-file metadata and read limits. The exact proof is committed in Vault's
+    skips. Latest-head CI is pending. Corrected branch coverage captures eight
+    profiles previously lost when fixtures cleared the child environment:
+    2,454/3,173 lines and 295/446 branches. The real file-operation order,
+    flags, mode repair and error priorities remain intact; hardware, Linux and
+    other OS-error/race decisions stay explicit. Exact proof is committed in Vault's
     `docs/deslop-filesystem.md`, readable from the canonical repository with
-    `git show bf7a1eb:docs/deslop-filesystem.md`; prompt evidence is in
+    `git show 10d38f5:docs/deslop-filesystem.md`; prompt evidence is in
     `docs/deslop-terminal-echo.md` at the same revision.
   - **Stuff lock repair:** [PR43](https://github.com/laputa-systems/stuff/pull/43)
     merged as `0d325ff` after all ten CI checks and independent review pass.
@@ -197,12 +210,12 @@ established, so the slop cannot return.
     This addresses the observed failure shape without claiming a retained
     descriptor was traced in the earlier docs-PR CI failure.
   - **diff-pretty Tests:** [PR31](https://github.com/laputa-systems/diff-pretty/pull/31)
-    head `de831c1` includes the real bare-control repair `f17f82f`. Uncolored
+    head `7b2a67e` includes the real bare-control repair `f17f82f`. Uncolored
     hunks previously retained NUL and C1 controls because stripping required
     ESC. A shared predicate fixes that path, retaining tabs and Unicode;
     literal public-API and owned-child CLI oracles fail before and pass after.
     The current twelve process cases, release workspace tests and lint pass;
-    Linux/macOS/lint CI pass on `de831c1`. The complete final sanitizer selection
+    Linux/macOS/lint CI pass on `7b2a67e`. The complete final sanitizer selection
     has 70 caught, eight equivalent misses, one unviable and no timeouts, with
     no exclusions and every caught log failing the new CLI oracle. It includes
     the new predicate and one tool-selected plain-file field; its inventory
@@ -212,11 +225,14 @@ established, so the slop cannot return.
     Timeout/exit 3. Release binaries both occupy 855,480 bytes; five alternating
     RSS observations per side on each of two real corpus inputs show no increase
     in those samples and identical outputs. Perf gate deferred: host busy.
-    The timing/test-cost gates, other renderer/pager regions, coverage and
+    Current workspace coverage passes all 70 cases: 3,246/4,308 lines and
+    593/924 branches. It identifies the unexercised public pager adapter and
+    live lifecycle decisions; an owned PTY entry/source slice is active.
+    The timing/test-cost gates, other renderer/pager decisions and
     whole-change CI lane keep the draft unmerged. The old Full run's 109 untested
     and 48 unconfirmed timeouts remain incomplete. Exact commands, dispositions
     and limits are committed in Diff's `docs/deslop-cli-tests.md`, readable with
-    `git show de831c1:docs/deslop-cli-tests.md` from its canonical repository.
+    `git show 7b2a67e:docs/deslop-cli-tests.md` from its canonical repository.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
@@ -228,11 +244,11 @@ established, so the slop cannot return.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
   1. toolbox: fix Actions billing to bring it back in scope.
-  2. Broader fleet dispatch remains outside the owner's resumed direct-work grant.
+  2. M2 requires review of the concrete calibration report before broader fleet dispatch.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
   the dispatched batch, the next direct slices are loc's sharded lane under
   `cpu-guard` and the remaining calibration/pilot harness qualifications.
-  Fleet fixer application remains outside the current authorization.
+  Fleet fixer application waits for the prescribed qualification and M2 review.
 
 ## How the campaign runs
 
