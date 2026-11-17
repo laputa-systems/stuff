@@ -126,8 +126,12 @@ tier.
   - **Deferred (host busy):** the slice stays unmerged. It never passes by default.
 - **Test cost budget.** A Tests step may raise warm `make test` time by at most 20% or 30 seconds,
   whichever is larger. Repos already slower than 5 minutes warm fix their drag first.
-- **The mutation lane runs on Linux only,** on PRs that change source. Its CI-time p50 target is
-  10 minutes or less. Its selection and result contract is the test-audit mutation reference.
+- **The mutation lane follows the supported platforms.** Linux and macOS code run on matching
+  jobs, or have explicit separately verified platform dispositions. Classify the whole change
+  and select the production-plus-critical union for source, tests, configuration and gate edits.
+  The CI-time p50 target remains 10 minutes or less. Record total runner-minutes, shards and
+  retries, and explain exceptions. Selection and result accounting follow the test-audit
+  mutation reference.
 - **Libraries.** Changes to a published or consumed library (smolith, ptytest, hi-lite, rustybench,
   laputa-ui-dashboard, buildlib, pytest-parallel) also run their known consumers' tests against the
   candidate, using `repomod deps` to find consumers. Repos stay disjoint because consumers pin
