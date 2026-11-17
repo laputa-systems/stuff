@@ -172,7 +172,7 @@ established, so the slop cannot return.
     reconciliation is below. Quiet-host cost and remaining decision regions
     keep PR30 draft and DSLP-4 open. The old filtered filesystem
     driver still must not be restarted unchanged.
-    Current Tests head `6856af3` adds independent filename/UTF-8 byte-limit
+    Current Tests head `63b25c7` adds independent filename/UTF-8 byte-limit
     oracles, a pure data-home table, private-file admission/read witnesses,
     directory opening and lock/mode repair. Filename selection: 31
     caught, four equivalent misses, one unviable and no timeouts across all 36
@@ -200,19 +200,31 @@ established, so the slop cannot return.
     Linux container keyring restrictions remain explicit skips. The fix is
     integrated into the Tests branch: 65 native unit tests, 28 integration and
     four terminal tests pass, with two hardware tests ignored and no optional
-    skips. Latest-head CI is pending. Native interposition tests now exercise
+    skips. At `6856af3`, macOS, both Linux musl suites and lint pass, but CI's
+    mutation job fails its twenty-minute budget: the Linux job selects
+    macOS-only changed functions, which it cannot exercise. Store's 51 cases
+    still yield 45 caught/six unviable. A platform-correct bounded CI recipe
+    remains required; native component receipts do not qualify that job.
+    Native interposition tests now exercise
     write, file-sync, rename, directory-sync and compound cleanup failures,
     plus SIGKILL after file sync and after rename with clean retry. An injected
     skipped-cleanup fault fails the literal residue assertion. Process crashes
     do not prove physical power-loss durability. A non-UTF-8 filename witness
-    remains unrun because this filesystem returns EILSEQ. Corrected earlier
-    branch coverage captures eight
-    profiles previously lost when fixtures cleared the child environment:
-    2,454/3,173 lines and 295/446 branches. The real file-operation order,
+    remains unrun because this filesystem returns EILSEQ. Fresh branch coverage
+    includes the child profiles previously lost when fixtures cleared their
+    environment: 2,970/3,571 lines and 361/486 branches across four first-party
+    Rust files, including inline tests. Three interleaved matched two-core,
+    two-test-thread pairs pass every pre/test/post gate: median warm cost
+    6.41 s before and 24.24 s after. The 17.83 s increase is within the 30 s
+    allowance; serial exploratory receipts are retained separately. Short
+    worktree names and fresh targets repair the path-only qualification failure.
+    Independent review finds no supported defect in the filesystem refactors.
+    Signal setup/restoration failures are the next bounded local slice.
+    The real file-operation order,
     flags, mode repair and error priorities remain intact; hardware, Linux and
     other OS-error/race decisions stay explicit. Exact proof is committed in Vault's
     `docs/deslop-filesystem.md`, readable from the canonical repository with
-    `git show 6856af3:docs/deslop-filesystem.md`; prompt evidence is in
+    `git show 63b25c7:docs/deslop-filesystem.md`; prompt evidence is in
     `docs/deslop-terminal-echo.md` at the same revision.
     Four integrated Vault worktrees were retired after private evidence archives
     passed readback and checksum checks; parked work and services were retained.
@@ -242,7 +254,15 @@ established, so the slop cannot return.
     measurements now establish a regression: five interleaved pairs across
     22 benchmark rows have all pre/benchmark/immediate-post exits 0, but corpus
     rendering rises from 4.871 ms to 5.259 ms, about 8%, exceeding spread and
-    the 2% bound. Candidate stays draft; a scoped control-scan repair is active.
+    the 2% bound. Candidate stays draft. Both control-scan optimization attempts
+    are rejected and source is restored: neither demonstrates a reproducible
+    end-to-end benefit. A rotated three-side comparison puts unchanged current
+    within 0.3% of baseline. Parent's higher-precision full 22-row repeat has
+    no row beyond both spread and 2%, but corpus median is still 4.928 ms versus
+    5.182 ms (+5.14%, below its 0.372 ms spread). The original regression's
+    mechanism remains unresolved; no speedup or stable equality is claimed.
+    Unstripped profiling is separate from timing, and draw/error witnesses are
+    the next bounded tests-only lane.
     All 103 corpus fixture outputs match, with the intended bare-control
     correction separately checked against its literal oracle. Configuration,
     source/input hashes, spread and reproduction script are in
@@ -264,14 +284,24 @@ established, so the slop cannot return.
     and 48 unconfirmed timeouts remain incomplete. Exact commands, dispositions
     and limits are committed in Diff's `docs/deslop-cli-tests.md`, readable with
     `git show f609068:docs/deslop-cli-tests.md` from its canonical repository.
-  - **pytest-parallel Ground prerequisite:** [PR15](https://github.com/joshuarli/pytest-parallel/pull/15)
+  - **pytest-parallel calibration:** [PR15](https://github.com/joshuarli/pytest-parallel/pull/15)
     merged as `4968f8e` after all three exact-head checks passed. A local
     pytest.ini isolates the plan fixture from ancestor configuration under
     repo-owned TMPDIR; the original failure is reproduced and the unchanged
     plan assertions now pass. Full 119-case tests pass twice, Ruff/ty pass,
     gated warm costs are 6.18 s and 6.13 s, lint 0.74 s. Existing CI already
-    runs make test. Cold cost and the declared workload decision are the active
-    Ground slice; Python coverage/mutation runner support remains unqualified.
+    runs make test. Ground [PR16](https://github.com/joshuarli/pytest-parallel/pull/16)
+    merged as `0ecb2b3`: cold/warm costs are 7.50/7.48 s, lint 1.18 s, and the
+    CPU-trivial benchmark is explicitly insufficient for runtime performance
+    acceptance. Diagnose [PR17](https://github.com/joshuarli/pytest-parallel/pull/17)
+    merged as `60129d8`: scheduling-hook AttributeErrors silently discard
+    grouping, weights or pins (DSLP-6), reproduced through a built wheel and
+    independently confirmed by the parent. Types
+    [PR18](https://github.com/joshuarli/pytest-parallel/pull/18) merged as
+    `85ef2ff`: all strict candidates measured, no setting meets the adoption
+    rule, 76 hatch-matching lines unchanged, current profile retained. Each PR
+    has all three exact-head checks green. Python coverage/mutation support
+    is the next Tests qualification; DSLP-6 remains deferred to Findings.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
