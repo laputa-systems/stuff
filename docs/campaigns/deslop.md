@@ -14,8 +14,8 @@ established, so the slop cannot return.
   checkpoint plus current main. Original branches, dirty files and partial
   mutation evidence were [preserved before the overlapping clones moved to
   Trash](d-overlap-preservation.md). Review saved survivors and
-  qualify boundary assertions first. Host constraints defer timing/cost
-  acceptance; bounded correctness, coverage and Scenario counts use CPU guards
+  qualify boundary assertions first. Timing/cost acceptance requires actual
+  pre/post gate exit 0; bounded correctness, coverage and Scenario counts use CPU guards
   and the shared mutation lock. No fleet rollout or STUF-75 work is authorized.
 - **Resumed results:** Extensions [#5](https://github.com/joshuarli/extensions/pull/5)
   merged as `a45dcdc`, closing DSLP-6: matching Vitest/coverage 5.0.5, frozen
@@ -88,7 +88,7 @@ established, so the slop cannot return.
   | Rust, small single crate (srv, 2k) | srv#38 gate | 235 mutants, 9m43s in CI; controls fail as intended | Qualified |
   | Rust, large crate (loc, 12k) | same gate, bounded scope | critical scope is 916 of 2,433 mutants (about 50 min on 4 jobs). Its counting core (229) left 29 survivors. Timeout reruns held about 10 cores each and were stopped. | Not a lane yet: needs sharding, a CPU cap (`cpu-guard`, usr#36), and suite threads capped in mutation runs |
   | Python, plain pytest (buildlib) | mutmut 3.8.1 (mirrored by STUF-83) | earlier pilot: 235 → 216 survivors | Mirrored, lane not qualified: needs the whole-change gate and CI negative controls |
-  | Python, pytest-parallel consumers (stuff `repomod/`) | mutmut | rejected by pytest-parallel before workers start; serial (`-p no:parallel`) is the only route, and pytest-parallel's own repo also hits its TMPDIR defect | Mirrored; serial-only recipe, lane not qualified |
+  | Python, pytest-parallel consumers (stuff `repomod/`) | mutmut | rejected by pytest-parallel before workers start; serial (`-p no:parallel`) is the only qualified execution route; pytest-parallel's TMPDIR fixture prerequisite is now repaired | Mirrored; serial recipe still needs lane qualification |
   | TypeScript, Node Vitest (extensions) | Stryker 10.1.1 (mirrored) | needs `typescript` and an explicit runner plugin; critical scope 345/199/147 (killed/survived/no coverage) in 657s; scoped run 5s | Mirrored, lane not qualified; Vitest/coverage mismatch fixed in extensions #5; the browser runtime remains unqualified |
 
 - **Calibration landed:**
@@ -172,7 +172,7 @@ established, so the slop cannot return.
     reconciliation is below. Quiet-host cost and remaining decision regions
     keep PR30 draft and DSLP-4 open. The old filtered filesystem
     driver still must not be restarted unchanged.
-    Current Tests head `10d38f5` adds independent filename/UTF-8 byte-limit
+    Current Tests head `6856af3` adds independent filename/UTF-8 byte-limit
     oracles, a pure data-home table, private-file admission/read witnesses,
     directory opening and lock/mode repair. Filename selection: 31
     caught, four equivalent misses, one unviable and no timeouts across all 36
@@ -182,26 +182,40 @@ established, so the slop cannot return.
     two unviable; lock/mode has 13 caught/four equivalent/two unviable. Each
     complete selection has a fresh baseline, zero final timeouts and no new
     exclusions. Mapping original sites through the private production-used
-    metadata helpers resolves 56 saved misses (38 caught, 18 equivalent),
-    leaving nine. Seven formerly untested identities map to five caught/two
-    unviable, leaving 52 unreconciled. Historical raw 232-case counts remain
-    unchanged. Atomic-write/temp-file qualification is the next active slice.
+    metadata helpers and completing atomic-file, staging/listing, identity-input
+    and bootstrap-domain witnesses reconciles all 65 original misses:
+    46 caught and 19 equivalent. All 59 original untested identities map to
+    49 caught, four equivalent and six unviable. Historical raw 232-case counts
+    remain unchanged; these mapped component results are not a fresh whole-run
+    pass. Atomic-file's current generated selection has 20 caught/four
+    equivalent/four unviable, plus six original match guards independently
+    injected and caught. Staging/listing has 15 caught/four unviable;
+    identity input nine caught/one equivalent/one unviable; bootstrap four
+    caught. Fresh baselines and captured outer exits qualify these selections.
     ARM64's passphrase-echo failure at `8dc8fa8` led to
     [PR34](https://github.com/laputa-systems/vault/pull/34), merged as `6a4b7d5`:
     prompt publication and input now share one hidden terminal session. A
     deterministic ordering witness fails before and passes after; native macOS
     and ARM64 Linux tests/lint, all four CI checks and independent review pass.
     Linux container keyring restrictions remain explicit skips. The fix is
-    integrated into the Tests branch: 53 native unit tests, 28 integration and
+    integrated into the Tests branch: 65 native unit tests, 28 integration and
     four terminal tests pass, with two hardware tests ignored and no optional
-    skips. Latest-head CI is pending. Corrected branch coverage captures eight
+    skips. Latest-head CI is pending. Native interposition tests now exercise
+    write, file-sync, rename, directory-sync and compound cleanup failures,
+    plus SIGKILL after file sync and after rename with clean retry. An injected
+    skipped-cleanup fault fails the literal residue assertion. Process crashes
+    do not prove physical power-loss durability. A non-UTF-8 filename witness
+    remains unrun because this filesystem returns EILSEQ. Corrected earlier
+    branch coverage captures eight
     profiles previously lost when fixtures cleared the child environment:
     2,454/3,173 lines and 295/446 branches. The real file-operation order,
     flags, mode repair and error priorities remain intact; hardware, Linux and
     other OS-error/race decisions stay explicit. Exact proof is committed in Vault's
     `docs/deslop-filesystem.md`, readable from the canonical repository with
-    `git show 10d38f5:docs/deslop-filesystem.md`; prompt evidence is in
+    `git show 6856af3:docs/deslop-filesystem.md`; prompt evidence is in
     `docs/deslop-terminal-echo.md` at the same revision.
+    Four integrated Vault worktrees were retired after private evidence archives
+    passed readback and checksum checks; parked work and services were retained.
   - **Stuff lock repair:** [PR43](https://github.com/laputa-systems/stuff/pull/43)
     merged as `0d325ff` after all ten CI checks and independent review pass.
     Dropping `FileLock` now explicitly unlocks it even when a duplicate file
@@ -210,12 +224,12 @@ established, so the slop cannot return.
     This addresses the observed failure shape without claiming a retained
     descriptor was traced in the earlier docs-PR CI failure.
   - **diff-pretty Tests:** [PR31](https://github.com/laputa-systems/diff-pretty/pull/31)
-    head `7b2a67e` includes the real bare-control repair `f17f82f`. Uncolored
+    head `f609068` includes the real bare-control repair `f17f82f`. Uncolored
     hunks previously retained NUL and C1 controls because stripping required
     ESC. A shared predicate fixes that path, retaining tabs and Unicode;
     literal public-API and owned-child CLI oracles fail before and pass after.
-    The current twelve process cases, release workspace tests and lint pass;
-    Linux/macOS/lint CI pass on `7b2a67e`. The complete final sanitizer selection
+    Current workspace tests and lint pass; all three CI checks passed on the
+    prior `bfc55a2`, with exact-head checks pending. The complete sanitizer selection
     has 70 caught, eight equivalent misses, one unviable and no timeouts, with
     no exclusions and every caught log failing the new CLI oracle. It includes
     the new predicate and one tool-selected plain-file field; its inventory
@@ -224,15 +238,40 @@ established, so the slop cannot return.
     numeric layout records 37 caught/one confirmed hang, retaining raw
     Timeout/exit 3. Release binaries both occupy 855,480 bytes; five alternating
     RSS observations per side on each of two real corpus inputs show no increase
-    in those samples and identical outputs. Perf gate deferred: host busy.
-    Current workspace coverage passes all 70 cases: 3,246/4,308 lines and
+    in those samples and identical outputs. Fresh matched shipping-profile
+    measurements now establish a regression: five interleaved pairs across
+    22 benchmark rows have all pre/benchmark/immediate-post exits 0, but corpus
+    rendering rises from 4.871 ms to 5.259 ms, about 8%, exceeding spread and
+    the 2% bound. Candidate stays draft; a scoped control-scan repair is active.
+    All 103 corpus fixture outputs match, with the intended bare-control
+    correction separately checked against its literal oracle. Configuration,
+    source/input hashes, spread and reproduction script are in
+    `docs/deslop-tests-performance.json` at `f609068`. CLI rustybench 0.4.0
+    wraps library 0.5.0; production-profile benches require
+    `-Z panic-abort-tests` alongside build-std to avoid duplicate core graphs.
+    Earlier workspace coverage passes all 70 cases: 3,246/4,308 lines and
     593/924 branches. It identifies the unexercised public pager adapter and
-    live lifecycle decisions; an owned PTY entry/source slice is active.
+    live lifecycle decisions. Public pager-entry PTY cases, output flush/error
+    witnesses and fragmented streaming consumers now pass; complete adapter
+    selection has seven caught, streaming nine caught/one unviable. Three
+    literal Session navigation scenarios qualify the complete five-method
+    selection: 43 caught/one unviable. No Session resize operation exists;
+    live-loop/draw and other regions remain open. The final native suite has
+    84 executable cases and one doctest, none ignored, plus lint and workspace
+    Clippy. Parent reran focused navigation and atomic-fault checks after integration.
     The timing/test-cost gates, other renderer/pager decisions and
     whole-change CI lane keep the draft unmerged. The old Full run's 109 untested
     and 48 unconfirmed timeouts remain incomplete. Exact commands, dispositions
     and limits are committed in Diff's `docs/deslop-cli-tests.md`, readable with
-    `git show 7b2a67e:docs/deslop-cli-tests.md` from its canonical repository.
+    `git show f609068:docs/deslop-cli-tests.md` from its canonical repository.
+  - **pytest-parallel Ground prerequisite:** [PR15](https://github.com/joshuarli/pytest-parallel/pull/15)
+    merged as `4968f8e` after all three exact-head checks passed. A local
+    pytest.ini isolates the plan fixture from ancestor configuration under
+    repo-owned TMPDIR; the original failure is reproduced and the unchanged
+    plan assertions now pass. Full 119-case tests pass twice, Ruff/ty pass,
+    gated warm costs are 6.18 s and 6.13 s, lint 0.74 s. Existing CI already
+    runs make test. Cold cost and the declared workload decision are the active
+    Ground slice; Python coverage/mutation runner support remains unqualified.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
