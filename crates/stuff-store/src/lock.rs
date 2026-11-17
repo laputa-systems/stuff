@@ -3,6 +3,7 @@ use std::os::unix::fs::OpenOptionsExt;
 use std::path::Path;
 use std::time::{Duration, Instant};
 
+/// An exclusive lock released when its guard is dropped, even if a duplicate descriptor remains open.
 #[derive(Debug)]
 pub struct FileLock {
     _file: File,
@@ -46,6 +47,13 @@ impl FileLock {
     }
 }
 
+impl Drop for FileLock {
+    fn drop(&mut self) {
+        // Drop cannot return an unlock error; the descriptor is still closed.
+        let _ = self._file.unlock();
+    }
+}
+
 fn open_lock_file(path: &Path) -> Result<File, LockError> {
     OpenOptions::new()
         .create(true)
@@ -79,6 +87,22 @@ mod tests {
         assert!(path.exists());
         FileLock::acquire(&path, Duration::ZERO).unwrap();
         drop(FileLock::acquire_blocking(&path).unwrap());
+        assert!(FileLock::try_acquire(&path).unwrap().is_some());
+    }
+
+    #[test]
+    fn dropping_the_guard_releases_its_lock_while_a_duplicate_stays_open() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join(".publish.lock");
+        let holder = FileLock::acquire_blocking(&path).unwrap();
+        let inherited = holder._file.try_clone().unwrap();
+        assert!(FileLock::try_acquire(&path).unwrap().is_none());
+
+        drop(holder);
+        let next = FileLock::try_acquire(&path).unwrap().expect("guard released its lock");
+        drop(inherited);
+        assert!(FileLock::try_acquire(&path).unwrap().is_none());
+        drop(next);
         assert!(FileLock::try_acquire(&path).unwrap().is_some());
     }
 }
