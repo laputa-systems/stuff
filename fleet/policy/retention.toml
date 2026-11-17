@@ -1,10 +1,10 @@
 version = 1
 
 [mutation-lane]
-repositories = ["laputa-systems/srv"]
+repositories = ["laputa-systems/fz", "laputa-systems/srv"]
 
 [coverage-target]
-repositories = ["laputa-systems/srv"]
+repositories = ["laputa-systems/fz", "laputa-systems/srv"]
 
 [strict-profile."laputa-systems/srv"]
 settings = ["rust.unsafe_code=forbid"]
