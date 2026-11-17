@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 90
+Next: 91
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -40,6 +40,16 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Where:** deploy/openorange/rivet/server.py; Stats bench/native-soak.py and bench/results/2026-11-15-soak-progress/README.md; protected Lisa maintained-rollup-soak-v2.jsonl
 - **Problem:** The live 2026-11-15 Stats production soak recorded actor inventory HTTP 503 at 23 of its first 152 samples and one application-health timeout. W6 requires no unavailable groups, so the collection cannot establish plateau acceptance. This is observed diagnostic unavailability, not proof of production data loss or a classified Engine defect. P2 assumed for a repeatable gap blocking production resource validation. At 2026-11-16 04:11 UTC, one read-only production inventory sweep returned 200 for names and all eight first pages, without further cursors. The historical 503 did not reproduce; continuous availability remains unproven. Stats bench/results/2026-11-16-resume-diagnosis/README.md preserves the qualification. 2026-11-16 review: the actor-list 503s come from the Engine itself — the sampler hits cfg.engine_url directly with a Bearer token; this proxy maps Engine errors to 502, and the identity sidecar fails closed with 503 only when tailscaled is unavailable. Diagnosis needs the preserved indices and the live collection on Lisa; acceptance requires a complete 24-hour collection with zero unavailable groups. No change was made to the sampler or the shared Engine; the bounded-inventory-path design is open for the owner. The protected v2 collector now classifies new failures as depot.overloaded with volume_transition and a 100-ms hint. Candidate Engine source dc461cb uses bounded inventory-edge retries and the existing shared budget; seven dev/release tests and three restored fault controls pass. The full private release build succeeds. docs/openorange-inventory-retries.md records its contract and verification limits. Runtime refusal proof and a complete qualified 24-hour collection remain outstanding; no shared Engine or sampler changed. Latest evidence: The separate bounded collector captured HTTP 503, `depot.overloaded` and `Retry-After: 1` on three actor-name pages at sample 73. Other requests in that sweep succeeded. This classifies the new failures; historical samples still lack endpoint/error evidence. The in-progress 24-hour collection has already failed zero-unavailability acceptance. Its failed samples and protected bodies remain intact.
 - **Recommendation:** Diagnose the failed actor-list requests using preserved sample indices without restarting the shared Engine or changing the active sampler. Establish a supported bounded inventory path that remains available during normal traffic, preserve unknown lifecycle states and explicit failures, and verify a complete 24-hour collection with zero unavailable groups. Handle the application-health timeout separately if it has an independent cause; do not hide outages with dropped samples or relaxed acceptance.
+- **Fix with:** root-cause
+- **Effort:** M
+
+
+### STUF-90 · P2 · Classify the private Engine lease fence during TERM
+
+- **Area:** OpenOrange recovery
+- **Where:** docs/openorange-engine-term-fence.md; Stats bench/results/2026-11-17-observation-overhead/engine-recovery.json; protected Lisa /home/josh/.work/stats-perf-campaign/sta128-20261117/fresh/engine-study.stdout.log
+- **Problem:** Nine gated Engine-only TERM/start cycles preserve all 219939 canonical observation events and unchanged Installation state, with the application processes unchanged. On the tenth TERM the patched release binary exits 1 after dependent_failed topology fencing and the singleton heartbeat-lifetime guard. The driver stops before starting cycle ten, so ten-cycle acceptance is unestablished. The original 203950-row import passes; no production impact or acknowledged data loss is demonstrated. The underlying shutdown trigger is unproven. P2 assumed for a repeated-recovery qualification blocker.
+- **Recommendation:** Preserve the stopped depot and original receipt. Identify the first unexpected completion or cleanup drop before the dependent_failed fence, tracing the storage service owner, depot-client watcher and EngineBackground shutdown. Keep lease and heartbeat safeguards intact. Add a decisive regression for the established cause, then run a bounded private ten-cycle cohort with canonical table hashes and the unchanged fifteen-second readiness limit. Do not restart the shared Engine for this investigation.
 - **Fix with:** root-cause
 - **Effort:** M
 
