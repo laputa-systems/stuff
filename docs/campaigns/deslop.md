@@ -38,8 +38,19 @@ established, so the slop cannot return.
   become an empty collection before a successful replacement write. Timeline
   completion shared across operations remains an explicitly unproven risk;
   CLI help advertises rejected flag syntax. Findings are DSLP-7–10. Runtime
-  code is unchanged by Diagnose. Types profile measurement is active; browser,
-  appliance, live-service and broader Tests qualification remain open.
+  code is unchanged by Diagnose. [#9](https://github.com/joshuarli/extensions/pull/9),
+  merged as `f75b764`, completes Types: preserve caption element inference
+  through the existing runtime array guard and remove one redundant Chrome
+  storage assertion. The measured unsafe-argument rule has four real reports,
+  zero false positives and zero final reports. Its matching compiler/lint
+  provider is pinned from Stuff; independent compiler and adopted lint pass.
+  The invalid-program control fails with TS2551; reverting the real guard
+  produces four lint diagnostics. Hatch lines fall 379 to 378, all 226 Node
+  cases and three CI checks pass, gated warm test/lint costs are 51.54/1.16 s.
+  Existing CI exercises compiler/tests but not the separate lint command.
+  Browser, appliance, live-service and broader Tests qualification remain open.
+  The next bounded Tests slice prepares real filesystem-store read-safety
+  regressions for the already confirmed DSLP-8; that data-loss path is not fixed yet.
   Tm's separate [#37](https://github.com/laputa-systems/tm/pull/37) merged as
   `7fd4994`, closing DSLP-6's repeat-fixture finding. Independent input batches
   preserve nine full-state observations and add literal window states; the
@@ -387,16 +398,45 @@ established, so the slop cannot return.
     cases after. All 166 tests and lint pass; Node-build's 19 and Python-build's
     24 affected tests print the candidate module path and pass. The affected
     147-mutant scope has 140 killed, six diagnostic-only survivors and one
-    equivalent default. Current complete Mach-O selection is 359 killed and
-    42 survivors across 401 identities; its other 35 survivors stay outside
-    repair acceptance. That inventory differs from the original 405, so it
-    is not a fixed-identity score. Warm suite cost is 6.42 s, within its
+    equivalent default. That repair changes the inventory from 405 to 401;
+    it is not a fixed-identity score. Warm suite cost is 6.42 s, within its
     allowance; the pure-Python wheel grows by 40 B with no new dependencies.
-    Historical whole-package counts remain historical; remaining Mach-O,
-    locks, release, coverage and CI qualification stay open. Exact reproduction and
+    [PR16](https://github.com/laputa-systems/buildlib/pull/16), merged as
+    `5450122`, completes the current Mach-O module: 383 killed and 18
+    dispositioned survivors across 401 fixed identities, versus 359/42 before.
+    Raw headers, signature ranges, strict bounded process invocation and a
+    changing-file normalization boundary gain nine passing fault controls.
+    The 193-test suite, lint and both CI checks pass; gated warm cost is 6.42 s.
+    [PR17](https://github.com/laputa-systems/buildlib/pull/17), merged as
+    `2c535f3`, qualifies release's 331 identities: 317 killed, nine equivalent
+    and five diagnostic-only survivors, zero other classes. Complete manifest
+    bytes, execute bits, invalid prefixes and unsafe checksum assets have
+    independent oracles; a real changed-locale child catches default-encoding
+    reads previously considered equivalent. All five hand faults fail; 201
+    tests, lint and both CI checks pass, with gated warm cost 6.45 s.
+    These qualification slices leave runtime and dependencies unchanged.
+    [PR18](https://github.com/laputa-systems/buildlib/pull/18), merged as
+    `87a248d`, qualifies all 388 locks identities: 378 killed, three equivalent
+    and seven diagnostic-only survivors. Actual Unicode decoding under a
+    changed locale and a bounded 1.5 MB HTTP download replace brittle argument
+    and chunk-sequence assertions. Both faults fail; native tests/lint, parent
+    integration checks and both CI checks pass. [PR19](https://github.com/laputa-systems/buildlib/pull/19),
+    merged as `8d7e873`, adds informational branch coverage with a pinned
+    development-only tool: 900/901 statements and 291/292 branches over all
+    first-party files and child processes, zero excluded lines. The remaining
+    negative-range guard is unreachable through public unsigned-field readers.
+    Three added boundary faults fail, all 207 tests/lint and both CI checks
+    pass, and the 910 parser identities exactly retain prior result classes.
+    Gated warm suite/coverage costs are 7.48/7.46 s; wheels remain byte-identical
+    at 25,126 B. Historical whole-package counts remain historical; whole-change
+    selection, `make mutants-diff` and CI qualification remain open under DSLP-4.
+    No mutation gate or workflow is implemented without the pending authorization.
+    Exact reproduction and
     dispositions are in `docs/deslop-elf-header.md` and
     `docs/deslop-macho-strings.md`, `docs/deslop-elf-contracts.md` and
-    `docs/deslop-macho-byte-order.md`, readable with `git show 5a1852c:PATH` from
+    `docs/deslop-macho-byte-order.md`, `docs/deslop-macho-contracts.md` and
+    `docs/deslop-release-contracts.md`, `docs/deslop-locks-contracts.md` and
+    `docs/deslop-coverage.md`, readable with `git show 8d7e873:PATH` from
     the canonical repository. The two accepted worktrees are retired after
     integration, idle-consumer and archive readback checks. Private raw evidence
     remains under canonical `.git/deslop-evidence/20261117/`.
