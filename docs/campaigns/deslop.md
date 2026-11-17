@@ -7,13 +7,21 @@ established, so the slop cannot return.
 
 ## Status
 
-Winding down 2026-11-17 at the owner's request. Start no new slices or measurements.
-The integration base is `c14465ec50232d029a4fdbaf3588bb25fc6442aa`.
-Finish or park the admitted Vault, Buildlib and diff-pretty CI attempts; merge only reviewed green work.
-The next checkpoint is a concrete M2 report, with broader fleet dispatch still gated on owner review.
-The owner authorized scoped CI, typing/lint, browser and retention work on existing pilot, calibration and dispatched repositories.
-Current requirements and resume actions are being reconciled into the campaign roadmap and scorecard.
-Earlier chronology is preserved in [historical status](deslop-status-20261117.md).
+Paused 2026-11-17 at the owner's request. Start nothing until explicitly resumed.
+Resume prompt: "Resume docs/campaigns/deslop.md from Status and its roadmap."
+First command: `git status --short`, then read the [roadmap](deslop-roadmap.md).
+Last accepted application revision: `c14465ec50232d029a4fdbaf3588bb25fc6442aa`; its CI passed.
+The primary checkout contains committed local pause records; these were not pushed.
+[Current scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) distinguishes completed, active, blocked and not-started passes.
+M2 is not complete. The roadmap accounts for every acceptance/report requirement and the full-fleet goal.
+Parked local gates: Buildlib `deslop/mutation-ci`, Vault and diff-pretty `deslop/platform-ci`; exact heads and retry conditions are in [parked checkpoints](deslop-roadmap.md#parked-checkpoints-and-reboot-audit).
+Stuff PRs #55–58 remain separate pending checkpoints; do not merge without current all-green checks and conflict review.
+Next: qualify Vault's platform selection and the existing whole-change lanes, then finish named Tests inventories and Reports.
+Scoped CI, typing/lint, browser and retention work is authorized; broader dispatch still waits for concrete M2 approval.
+Solid 2.0 stable consumer upgrades are planned as STUF-91, with changelog/migration review before edits.
+All admitted workers stopped; local mutation/check loops stopped and shared locks/slots are free.
+The automatic closeout guard could not start because of ignore-rule precedence; the roadmap records the manual audit and retained branches/worktrees.
+Historical chronology remains in [historical status](deslop-status-20261117.md). Releases, production, credentials, hardware and canonical-checkout boundaries remain.
 
 ## How the campaign runs
 
