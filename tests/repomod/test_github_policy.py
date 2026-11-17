@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 from pathlib import Path
+from textwrap import indent
 from threading import Barrier, Lock
 
 import pytest
@@ -1317,6 +1318,32 @@ jobs:
         "branch protection requires status checks no workflow produces: "
         "test (windows, 3.15, yes)"
     )
+
+
+@pytest.mark.parametrize(
+    ("matrix", "expected"),
+    [
+        pytest.param(
+            "exclude:\n  - os: macos\n  - missing_axis: null\nos: [linux, macos]\n",
+            frozenset({"test (linux)"}),
+            id="exclude-before-axis-with-missing-key",
+        ),
+        pytest.param("include:\n  - os: linux\n", frozenset({"test (linux)"}), id="includes-without-axes"),
+        pytest.param("os: linux\n", None, id="axis-values-must-be-a-list"),
+        pytest.param("42: [linux]\n", None, id="axis-names-must-be-strings"),
+    ],
+)
+def test_workflow_matrix_produces_literal_check_names(
+    tmp_path: Path, matrix: str, expected: frozenset[str] | None
+) -> None:
+    workflows = tmp_path / ".github" / "workflows"
+    workflows.mkdir(parents=True)
+    (workflows / "test.yml").write_text(
+        "jobs:\n  test:\n    strategy:\n      matrix:\n" + indent(matrix, "        "),
+        encoding="utf-8",
+    )
+
+    assert produced_check_names(tmp_path) == expected
 
 
 def test_protection_lint_matrix_include_overwrites_added_values(tmp_path: Path, monkeypatch) -> None:
