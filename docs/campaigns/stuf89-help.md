@@ -1,6 +1,6 @@
 # STUF-89: complete owned-tool help
 
-Status: in progress. Thirty-four repositories have landed verified source changes.
+Status: in progress. Thirty-five repositories have landed verified source changes.
 The remaining repositories are being implemented and reviewed in parallel batches.
 STUF-89 remains open until coverage has no ordinary gaps.
 
@@ -55,6 +55,7 @@ the backlog. Update a policy entry only after its source change lands with tests
 | joshuarli/kache | [PR 25](https://github.com/joshuarli/kache/pull/25) | Complete reference, pinned-nightly native Linux pre-PR gate, macOS/end-to-end and both Linux musl PR checks |
 | laputa-systems/node-build | [PR 16](https://github.com/laputa-systems/node-build/pull/16) | Newly compiled native macOS Node help/version/JSON/completion proof, strict source patch tests and both required CI checks; locked distribution qualification remains separate |
 | laputa-systems/llvm-prebuilt-musl | [PR 6](https://github.com/laputa-systems/llvm-prebuilt-musl/pull/6) | Native ARM build, 219 clean-package checks, five optimizer regressions, GNU/BSD strict patch regression and both native CI build/validation jobs |
+| laputa-systems/fz | [PR 41](https://github.com/laputa-systems/fz/pull/41) | Complete reference and built CLI checks, both native platform suites and lint, full 439-mutant CI gate (423 caught, 16 unviable) |
 
 Stuff's complete reference and parser-checked command examples are merged.
 Its CLI and library tests pass, with clippy warnings denied. Repomod's
@@ -65,7 +66,6 @@ full suite passed: 1,410 tests, three expected skips.
 PR checks: [ctrs 5](https://github.com/joshuarli/ctrs/pull/5),
 [img 7](https://github.com/joshuarli/img/pull/7),
 [toolbox 14](https://github.com/joshuarli/toolbox/pull/14),
-[fz 41](https://github.com/laputa-systems/fz/pull/41),
 [mdevd-rs 4](https://github.com/laputa-systems/mdevd-rs/pull/4),
 [xsh 9](https://github.com/laputa-systems/xsh/pull/9).
 
@@ -145,9 +145,14 @@ Mdevd-rs's remote gate stops because `rg` is absent before compiling the change
 (`MDEV-1` in its new root backlog).
 These checks block their merges; no benchmark assertion was relaxed.
 
-Fz's Linux/macOS functional and lint jobs pass; its mutation gate rejects a
-buffer-size mutant in unchanged input reading
-([issue 42](https://github.com/laputa-systems/fz/issues/42)). Toolbox's jobs did not
+Fz's help insertion moved the input reader by fifteen lines, leaving a reviewed
+buffer-size exclusion at its old exact location. Updating line 149 to 164
+restores that same exclusion and its existing equivalence reason; the complete
+selection changes only by the approved mutant, 440 to 439. Eleven gate
+self-tests pass. Both native functional suites, lint and the complete mutation
+gate pass on `94ba54d`: 423 caught, 16 unviable, zero missed or timed out.
+Merge `eebed61` closes [issue 42](https://github.com/laputa-systems/fz/issues/42).
+No new exclusion, runtime buffer change or CI edit was added. Toolbox's jobs did not
 start because GitHub reports an account billing/spending limit. Its installed
 CLI/lint checks pass; its local broader suite has an independent loudnorm failure.
 
@@ -189,7 +194,7 @@ global Mach-O symbols without debug-map paths, and use a Darwin linker alias for
 the C++ fixture's sentinel. The native regression test fails with the old symbol
 selection; the full corpus passes with no ledger or acceptance-assertion changes.
 
-Retired 33 completed repository worktrees after confirming integration and absence of live
+Retired 34 completed repository worktrees after confirming integration and absence of live
 consumers. [The cleanup record](stuf89-cleanup.md) lists exact paths and heads.
 
 Fastermod landed through a direct push that bypassed a server-side PR requirement.
