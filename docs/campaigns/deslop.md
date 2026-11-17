@@ -17,9 +17,14 @@ checked revisions.
   [#31](https://github.com/laputa-systems/diff-pretty/pull/31) have hosted
   qualification runs. Buildlib's mixed-change control is
   [#21](https://github.com/laputa-systems/buildlib/pull/21).
-- Stuff #56–58 merged on green. The repomod Diagnose record in #55 is
-  reconciled with main. Build-lock typing and the deterministic OSV test
-  fixture await CI in #59–60. Matrix and upstream test oracles await CI in #61–62.
+- Stuff #55–60 and #62–63 merged on green. The repomod matrix oracle in
+  #61 still awaits the macOS Rust job.
+- Pytest-parallel [#26](https://github.com/joshuarli/pytest-parallel/pull/26)
+  fixed empty-address binds in a real worker. Its wheel passed Stuff's
+  repomod tests and reproduced Toolbox's FFmpeg baseline failure.
+  Fastermod [#27](https://github.com/laputa-systems/fastermod/pull/27)
+  recorded the Ground checks. Ptytest Ground exposed the deadline equality
+  defect addressed in [#13](https://github.com/laputa-systems/ptytest/pull/13).
 - Extensions [#15](https://github.com/joshuarli/extensions/pull/15) merged
   the type-aware lint and installed Chromium checks on green. #16 updates DSLP-4.
 - STUF-91 has Solid 2.0 candidates for Discover, Stats and bctl. The owner
