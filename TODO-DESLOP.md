@@ -12,21 +12,18 @@ confirmed P2 findings and two P3 findings. All five P2 fixes merged in #51–54
 and #57. DSLP-7 and DSLP-8 remain open at P3.
 The baseline passes 1,410 tests with three existing opt-in skips and lint.
 Evidence, reproduction and review limits are in [the component review](docs/deslop-repomod-diagnose.md).
-Other Stuff components remain separate tier D work. Types, Tests and Dead code
-are still open.
+Other Stuff components remain separate tier D work.
+
+Types at `0d15d8ef` retains ty 0.0.101 with all rules at error and Ruff 0.17.4
+with the existing Bugbear and return checks. `make repomod-lint` passes.
+[DSLP-3 evidence](docs/deslop-repomod-types.md) records the strict candidates,
+the two checker witnesses, and the reduction from 324 to 319 source lines
+containing a typing escape hatch. Tests and Dead code remain open.
 
 ## Tickets
 
 
 
-### DSLP-3 · P2 · Types: strict profile and typing findings
-
-- **Area:** deslop · types
-- **Where:** repomod/ (ty and Ruff config in pyproject.toml)
-- **Problem:** Scope: the repomod/ component only (calibration); the other components follow in tier D as their own bounded tasks. Contracts: the repomod CLI (commands, flags, exit codes, JSON output), fleet/catalog.toml, fleet/dependencies/v1/ and fleet/loc/v1/, and the catalog.json reader. Consumers: the dashboard render (tests/repomod/test_dashboard_preview.py golden) and make deps; no other repository imports repomod. Python strict candidates: ty rules at error, Ruff ANN, ANN401, PGH003, TC, B, RET. Accept: make repomod-lint and make repomod-test.
-- **Recommendation:** Run the deslop Types step. Accept: clean at the adopted profile, escape hatches not increased, witnesses recorded.
-- **Fix with:** deslop
-- **Effort:** M
 
 ### DSLP-4 · P2 · Tests: coverage, boundary gaps, mutation
 

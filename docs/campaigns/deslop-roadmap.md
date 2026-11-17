@@ -39,6 +39,19 @@ through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
 
 ## Resumption receipts
 
+- Package delivery blocked hosted checks on 2026-11-17. The public Cargo
+  index and the Cargo catalog returned HTTP 500 to a local probe and
+  `stuff doctor --registry cargo`. The same index error stopped macOS jobs
+  in [Ptytest #13](https://github.com/laputa-systems/ptytest/pull/13) and
+  [diff-pretty #31](https://github.com/laputa-systems/diff-pretty/pull/31).
+  The npm mirror returned HTTP 500 for locked assets in
+  [Stats #24](https://github.com/joshuarli/stats/pull/24) and
+  [Stuff #64](https://github.com/laputa-systems/stuff/pull/64). Stats built both
+  legacy Workers on the Linux runner before the candidate install failed.
+  On macOS the candidate ran all 41 local tests with no skips. Recheck the
+  affected public endpoints before attempting failed jobs. Keep the locked
+  package sources and all hosted acceptance conditions.
+
 - Vault [#30](https://github.com/laputa-systems/vault/pull/30) advanced to
   `0671858badb1f1fb7fea852e35bbe8929f092afe`. The system Python 3.9 failed
   to import `tomllib`. The managed Python 3.15.2 passes 20 self-tests.
