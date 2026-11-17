@@ -120,6 +120,12 @@ established, so the slop cannot return.
   that concrete report before seeking its approval. Canonical
   checkouts were synchronized before this work; dirty and nondefault branches
   were preserved.
+- **CI authorization (2026-11-17):** the owner explicitly authorized the pending
+  deslop CI work: platform-aware bounded mutation jobs, whole-change selection
+  and negative controls for the existing pilots and calibrations, including
+  Vault #30 and diff-pretty #31. Local gate implementation does not establish
+  remote qualification; positive runs and semantic negative controls remain
+  required. Broader fleet dispatch still requires M2 approval.
 - **Method:** usr's `deslop` skill is the one procedure (usr#34, merged: pre-merge contract, consumer and
   perf evidence, ticket revalidation, bounded component tasks; typing and mutation lessons). usr#39
   adds a `test-pyramid` audit before the Tests step's measurements, caps mutation at the Scenario
@@ -519,9 +525,6 @@ established, so the slop cannot return.
 - **Needs you:**
   1. toolbox: fix Actions billing to bring it back in scope.
   2. M2 requires review of the concrete calibration report before broader fleet dispatch.
-  3. CI repairs require explicit authorization under the lean contract. The
-     concrete pending request covers platform-aware bounded deslop mutation
-     jobs and their whole-change selection and negative controls.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
   the dispatched batch, the next direct slices are loc's sharded lane under
   `cpu-guard` and the remaining calibration/pilot harness qualifications.

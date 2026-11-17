@@ -9,7 +9,8 @@ Ground: base `6257776`. PR CI already ran `make test` (the seeded fact was stale
 
 Diagnose covers the repomod calibration component at `40112564`, with five
 confirmed P2 findings and two P3 findings. Four P2 findings have separate repair
-PRs (#51–54); DSLP-6 requires CI-policy authorization, and DSLP-7/8 remain P3.
+PRs (#51–54); DSLP-6 remains open under the CI work authorized on 2026-11-17,
+and DSLP-7/8 remain P3.
 The baseline passes 1,410 tests with three existing opt-in skips and lint.
 Evidence, reproduction and review limits are in [the component review](docs/deslop-repomod-diagnose.md).
 Other Stuff components remain separate tier D work. Types, Tests and Dead code
@@ -49,10 +50,10 @@ are still open.
 
 ### DSLP-6 · P2 · Matrix include expansion can abort policy lint or misname checks
 
-- **Area:** Needs owner · CI policy
+- **Area:** repomod · CI policy
 - **Where:** repomod/workflow_checks.py:102-111; repomod/policy.py:188; docs/deslop-repomod-diagnose.md
-- **Problem:** Confirmed on `40112564`. An os/python matrix with includes [{os:windows},{python:'3.15',extra:yes}] appends an incomplete combination, then indexes its missing python axis and raises KeyError through lint_repositories. Successive additional color values also retain green instead of GitHub's documented pink. A valid repository can abort the whole lint batch or receive false required-check findings. The parent reproduced both expansion defects; the review lane reproduced the batch exception with fake GitHub. No workflow or gate repair is authorized under the lean contract yet.
-- **Recommendation:** When CI-policy repair is authorized, expand includes against original matrix combinations and keep appended combinations separate. Permit later includes to overwrite only additional values. Keep unsupported expressions indeterminate and add existing fake-policy-caller regressions for complete check-name sets and batch completion.
+- **Problem:** Confirmed on `40112564`. An os/python matrix with includes [{os:windows},{python:'3.15',extra:yes}] appends an incomplete combination, then indexes its missing python axis and raises KeyError through lint_repositories. Successive additional color values also retain green instead of GitHub's documented pink. A valid repository can abort the lint batch or receive false required-check findings. The parent reproduced both expansion defects, and the review lane reproduced the batch exception with fake GitHub. The owner explicitly authorized the deslop CI work on 2026-11-17.
+- **Recommendation:** Expand includes against original matrix combinations and keep appended combinations separate. Permit later includes to overwrite only additional values. Preserve indeterminate handling for unsupported expressions and add fake-policy-caller regressions for complete check-name sets and batch completion.
 - **Fix with:** root-cause
 - **Effort:** M
 
