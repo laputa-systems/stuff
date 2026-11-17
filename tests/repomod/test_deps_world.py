@@ -296,7 +296,31 @@ def test_mirror_catalog_lists_served_versions_by_package(monkeypatch: pytest.Mon
     assert served == {"serde": ("1.0.0", "1.0.1", "2.0.0")}
 
 
-def test_enrich_caches_mirror_catalogs_and_keeps_them_when_a_read_fails(tmp_path: Path) -> None:
+@pytest.mark.parametrize(
+    "package",
+    [None, {"name": 3, "versions": []}, {"name": "serde", "versions": None},
+     {"name": "serde", "versions": [None]}, {"name": "serde", "versions": [{"version": 3}]}],
+)
+def test_mirror_catalog_rejects_malformed_required_records(
+    monkeypatch: pytest.MonkeyPatch, package: object,
+) -> None:
+    monkeypatch.setattr(audit, "_registry_document", lambda _url: {"packages": [package]})
+    with pytest.raises(audit.MirrorCatalogError):
+        audit.read_mirror_catalog("https://crates.example/current/crates-io/")
+
+
+@pytest.mark.parametrize(("packages", "expected"), [([], {}), ([{"name": "serde", "versions": []}], {"serde": ()})])
+def test_mirror_catalog_preserves_valid_empty_records(
+    monkeypatch: pytest.MonkeyPatch, packages: list[object], expected: dict[str, tuple[str, ...]],
+) -> None:
+    monkeypatch.setattr(audit, "_registry_document", lambda _url: {"packages": packages})
+    assert audit.read_mirror_catalog("https://crates.example/current/crates-io/") == expected
+
+
+@pytest.mark.parametrize("failure", ["unreadable", "versions", "record"])
+def test_enrich_caches_mirror_catalogs_and_keeps_them_when_a_read_fails(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failure: str,
+) -> None:
     graph = build_graph(tmp_path, [repository("acme/tool", (instance(Ecosystem.CARGO, "serde", "1.0.0"),))])
     cache_path = tmp_path / "cache.json"
     registries = audit.RegistrySources("sparse+https://crates.example/current/crates-io/", None, None)
@@ -310,9 +334,6 @@ def test_enrich_caches_mirror_catalogs_and_keeps_them_when_a_read_fails(tmp_path
     def served(url: str) -> dict[str, tuple[str, ...]]:
         assert url == registries.cargo
         return {"serde": ("1.0.0",)}
-
-    def unavailable(url: str) -> dict[str, tuple[str, ...]]:
-        raise audit.MirrorCatalogError(f"{url} could not be read")
 
     def no_sources(_ecosystem: str, _name: str) -> tuple[str, ...]:
         return ()
@@ -330,6 +351,14 @@ def test_enrich_caches_mirror_catalogs_and_keeps_them_when_a_read_fails(tmp_path
                                               {"serde": ("1.0.0",)})
     }
 
-    second = run(2000.0, unavailable)
-    assert second.errors == (f"{registries.cargo} could not be read",)
-    assert enrich.load_cache(cache_path).mirror[Ecosystem.CARGO].fetched_at == 1000.0
+    malformed: dict[str, object] | None = None
+    if failure == "versions":
+        malformed = {"packages": [{"name": "serde", "versions": "malformed"}]}
+    elif failure == "record":
+        malformed = {"packages": [{"name": "serde", "versions": [None]}]}
+    monkeypatch.setattr(audit, "_registry_document", lambda _url: malformed)
+    second = run(2000.0, audit.read_mirror_catalog)
+    assert len(second.errors) == 1
+    assert registries.cargo is not None
+    assert audit.mirror_catalog_url(registries.cargo) in second.errors[0]
+    assert enrich.load_cache(cache_path).mirror == first.cache.mirror

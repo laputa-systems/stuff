@@ -136,7 +136,9 @@ npm and PyPI use one request per version. The Weight page reads these sizes.
 
 Every enrich run also reads the stuff catalog (`<origin>/current/catalog.json`) behind each
 registry in `fleet/registries.toml` and caches each package's served versions under `mirror`. A
-catalog that cannot be read keeps its previous copy.
+catalog that cannot be read keeps its previous copy. Malformed package names, version arrays
+or version records reject the entire catalog and preserve the previous copy. Empty package and
+version arrays remain valid. Extra fields are ignored.
 
 All crates.io API requests, including those from `audit`, go through one client that sends at
 most one request per second, as the crates.io crawler policy asks. When crates.io answers 429 or

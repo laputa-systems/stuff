@@ -1493,13 +1493,15 @@ def read_mirror_catalog(registry_url: str) -> dict[str, tuple[str, ...]]:
     served: dict[str, set[str]] = {}
     for package in packages:
         if not isinstance(package, dict) or not isinstance(package.get("name"), str):
-            continue
+            raise MirrorCatalogError(f"{url} has malformed package records")
         versions = package.get("versions")
-        served.setdefault(package["name"], set()).update(
-            version["version"]
-            for version in (versions if isinstance(versions, list) else [])
-            if isinstance(version, dict) and isinstance(version.get("version"), str)
-        )
+        if not isinstance(versions, list):
+            raise MirrorCatalogError(f"{url} has malformed package versions")
+        served_versions = served.setdefault(package["name"], set())
+        for version in versions:
+            if not isinstance(version, dict) or not isinstance(version.get("version"), str):
+                raise MirrorCatalogError(f"{url} has malformed version records")
+            served_versions.add(version["version"])
     return {name: tuple(sorted(versions)) for name, versions in served.items()}
 
 
