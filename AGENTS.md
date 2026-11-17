@@ -79,6 +79,7 @@ Run everything from the repository root.
 | Repository layout used by repomod | `repomod/paths.py` |
 | Checkout removal contract | [docs/fleet-design.md#checkout-removal](docs/fleet-design.md#checkout-removal) |
 | Campaign records | [docs/campaigns/](docs/campaigns/) |
+| Retired repomod repair lanes | [docs/deslop-fix-cleanup.md](docs/deslop-fix-cleanup.md) |
 | Deferred fixes | [TODO.md](TODO.md) |
 
 ## Invariants
