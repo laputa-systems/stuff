@@ -10,6 +10,7 @@ import json
 import os
 import signal
 import socket
+import socketserver
 import struct
 import sys
 import threading
@@ -61,6 +62,11 @@ class FakeS3Server(http.server.ThreadingHTTPServer):
         self.manifest_key = None
         self.manifest = b""
         self.uploads = {}
+
+    def server_bind(self):
+        # The fixture uses a numeric address and must start without hostname lookups.
+        socketserver.TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
 
     @property
     def fail_next(self):

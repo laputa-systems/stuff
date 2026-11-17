@@ -113,7 +113,8 @@ class MultipartFlowTests(unittest.TestCase):
         self.saved = dict(os.environ)
         self.isolated = tempfile.TemporaryDirectory()
         os.environ["STUFF_CONFIG_HOME"] = self.isolated.name
-        self.server = fake_s3.serve()
+        with patch("socket.getfqdn", side_effect=AssertionError("fake S3 must bind without DNS")):
+            self.server = fake_s3.serve()
         self.server.verify_signature = True
         self.server.request_log_style = "full"
         os.environ["R2_S3_ENDPOINT"] = f"http://127.0.0.1:{self.server.server_port}"
