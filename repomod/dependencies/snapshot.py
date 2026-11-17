@@ -199,13 +199,14 @@ def snapshot(
     inspections = _inspect_all(catalog, repositories, workers)
     data = tuple(inspection.data for inspection in inspections)
     entries = _entries(inventory, inspections)
+    index_content = serialize(_index_payload(inventory, entries, filtered))
     written: list[Path] = []
     for item in data:
         path = repository_file(inventory, item.repository)
         if _write_if_changed(path, serialize(repository_dict(item))):
             written.append(path)
     index_path = inventory / "index.json"
-    if _write_if_changed(index_path, serialize(_index_payload(inventory, entries, filtered))):
+    if _write_if_changed(index_path, index_content):
         written.append(index_path)
     deleted = () if filtered else _delete_unselected(inventory, set(entries))
     return Snapshot(inventory, data, entries, tuple(written), deleted)

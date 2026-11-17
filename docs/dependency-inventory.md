@@ -183,6 +183,10 @@ from the report, so lint and the inventory share one exemption.
 
 ## Data layout
 
+A filtered snapshot validates the existing index before writing repository records. An invalid
+index or obsolete parser version rejects the snapshot without changing those records. This
+preflight does not make writes across all inventory files atomic.
+
 - `index.json` records the schema, `PARSER_VERSION`, and each repository's commit,
   inputs fingerprint, and state.
 - `repos/OWNER/REPO.json` records tags, `{path, blob}` inputs, the inputs fingerprint, projects,

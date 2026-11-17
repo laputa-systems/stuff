@@ -602,20 +602,38 @@ def test_output_is_byte_identical_across_runs(
         assert content.endswith(b"\n")
 
 
-def test_filtered_snapshot_rejects_a_stale_parser_version(
-    tmp_path: Path, git_environment: None
+@pytest.mark.parametrize("index_error", ["parser", "schema", "json"])
+def test_rejected_filtered_snapshot_preserves_existing_inventory(
+    tmp_path: Path, git_environment: None, index_error: str,
 ) -> None:
     catalog = _one_repo(tmp_path)
-    _checkout(tmp_path, "tool", {"README.md": "a\n"})
-    inventory = tmp_path / "inventory"
-    inventory.mkdir()
-    (inventory / "index.json").write_text(
-        json.dumps({"schema": 1, "parser_version": 0, "repositories": {}}),
-        encoding="utf-8",
+    checkout = _checkout(
+        tmp_path, "tool", {"Cargo.toml": '[package]\nname = "tool"\nversion = "1.0.0"\n'}
     )
+    inventory = tmp_path / "inventory"
+    snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False)
+    (checkout / "Cargo.toml").write_text(
+        '[package]\nname = "tool"\nversion = "2.0.0"\n', encoding="utf-8"
+    )
+    git("add", "Cargo.toml", cwd=checkout)
+    git("commit", "-m", "change package input", cwd=checkout)
+    git("update-ref", "refs/remotes/origin/main", git("rev-parse", "HEAD", cwd=checkout), cwd=checkout)
+    index = inventory / "index.json"
+    payload = json.loads(index.read_text(encoding="utf-8"))
+    if index_error == "json":
+        content = "{"
+        message = "Expecting"
+    else:
+        payload["parser_version" if index_error == "parser" else "schema"] = 0
+        content = json.dumps(payload)
+        message = "parser version" if index_error == "parser" else "cannot read"
+    index.write_text(content, encoding="utf-8")
+    before = {path.relative_to(inventory): path.read_bytes() for path in inventory.rglob("*.json")}
 
-    with pytest.raises(ValueError, match="parser version"):
+    with pytest.raises(ValueError, match=message):
         snapshot(catalog, catalog.repositories, inventory=inventory, filtered=True)
+
+    assert {path.relative_to(inventory): path.read_bytes() for path in inventory.rglob("*.json")} == before
 
 
 def test_git_tree_reads_the_commit_tree(tmp_path: Path, git_environment: None) -> None:
