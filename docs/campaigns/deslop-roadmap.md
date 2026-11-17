@@ -181,7 +181,11 @@ covers matrix expansion with 55 caught and three equivalent identities from
 catches all 25 upstream-fetch identities using real shallow and full local
 Git fixtures. The base is `1753a059ba256990779aa6d7f10e852e4652b621` for
 both. The PRs record the exact commands and hand-injected fault controls.
-Other effect boundaries and the aggregate lane remain open.
+Other effect boundaries and the aggregate lane remain open. The
+[#62 native wheel job](https://github.com/laputa-systems/stuff/actions/runs/44185508301/job/134400872685)
+failed during Docker cache transfer with an unexpected EOF. GitHub rejected
+a job-only rerun while the workflow remained active. Re-run that failed job
+after the workflow finishes and keep the exact-head CI requirement.
 
 Ruff 0.17.4 at this revision reports 22 `ANN` diagnostics, including 17
 `ANN401`, and 190 `TC` diagnostics, including 108 standard-library
