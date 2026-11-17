@@ -46,6 +46,7 @@ from repomod.types import (
     TagPredicate,
     WorkflowStatus,
 )
+from repomod.workflow_checks import produced_check_names
 
 
 def repo(name: str = "tool", tags: tuple[str, ...] = ("tool",)) -> Repository:
@@ -1286,6 +1287,71 @@ def test_protection_lint_flags_required_checks_no_workflow_produces(
     assert findings[0].message == (
         "branch protection requires status checks no workflow produces: "
         "CI, test (macos-latest, 3.14), test (ubuntu-latest, 3.13)"
+    )
+
+
+def test_protection_lint_keeps_appended_matrix_includes_separate(tmp_path: Path, monkeypatch) -> None:
+    workflow = """\
+on: push
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [linux]
+        python: ["3.15"]
+        include:
+          - os: windows
+          - python: "3.15"
+            extra: yes
+"""
+    findings = _stale_check_findings(
+        tmp_path, monkeypatch, workflow,
+        ("test (linux, 3.15, yes)", "test (windows)", "test (windows, 3.15, yes)"),
+    )
+
+    assert produced_check_names(tmp_path / "demo") == frozenset({
+        "test (linux, 3.15, yes)", "test (windows)",
+    })
+    assert len(findings) == 1
+    assert findings[0].message == (
+        "branch protection requires status checks no workflow produces: "
+        "test (windows, 3.15, yes)"
+    )
+
+
+def test_protection_lint_matrix_include_overwrites_added_values(tmp_path: Path, monkeypatch) -> None:
+    workflow = """\
+on: push
+jobs:
+  test:
+    strategy:
+      matrix:
+        fruit: [apple, pear]
+        animal: [cat, dog]
+        include:
+          - color: green
+          - color: pink
+            animal: cat
+          - fruit: apple
+            shape: circle
+"""
+    findings = _stale_check_findings(
+        tmp_path, monkeypatch, workflow,
+        (
+            "test (apple, cat, pink, circle)", "test (apple, dog, green, circle)",
+            "test (pear, cat, pink)", "test (pear, dog, green)",
+            "test (apple, cat, green, circle)", "test (pear, cat, green)",
+        ),
+    )
+
+    assert produced_check_names(tmp_path / "demo") == frozenset({
+        "test (apple, cat, pink, circle)", "test (apple, dog, green, circle)",
+        "test (pear, cat, pink)", "test (pear, dog, green)",
+    })
+    assert len(findings) == 1
+    assert findings[0].message == (
+        "branch protection requires status checks no workflow produces: "
+        "test (apple, cat, green, circle), test (pear, cat, green)"
     )
 
 
