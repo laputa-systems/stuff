@@ -61,7 +61,8 @@ through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
   consumed 16,676 runner seconds in total, with a median of 1,223 seconds.
   Twelve failed. This excludes two unfinished Linux shards, the macOS
   shards and setup jobs. Both platform unions and the remaining survivors
-  still need qualification.
+  still need qualification. The successor backlog and proofs are at
+  `6f83ee6bf3d08548f9195a752ba0896e9418f7f8`.
 - Buildlib [#20](https://github.com/laputa-systems/buildlib/pull/20) runs
   `175c98796220821b53ef328cc0761a232c5fb28b`. All five x86-64 Linux jobs
   passed. Linux ARM64 test, lint and four mutation jobs timed out fetching
@@ -173,6 +174,14 @@ adding the whole-change union. Run `make repomod-test` and
 `make repomod-lint`. The suite-cost and hosted controls remain open.
 Repomod's downstream dashboard render and `make deps` consume these outputs.
 The live fleet and launcher integrations remain opt-in.
+
+Two serial Scenarios now have named results. [Stuff #61](https://github.com/laputa-systems/stuff/pull/61)
+covers matrix expansion with 55 caught and three equivalent identities from
+58 selected. [Stuff #62](https://github.com/laputa-systems/stuff/pull/62)
+catches all 25 upstream-fetch identities using real shallow and full local
+Git fixtures. The base is `1753a059ba256990779aa6d7f10e852e4652b621` for
+both. The PRs record the exact commands and hand-injected fault controls.
+Other effect boundaries and the aggregate lane remain open.
 
 Ruff 0.17.4 at this revision reports 22 `ANN` diagnostics, including 17
 `ANN401`, and 190 `TC` diagnostics, including 108 standard-library

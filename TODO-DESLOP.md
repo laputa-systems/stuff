@@ -31,9 +31,9 @@ Ground: base `6257776`. PR CI already ran `make test` (the seeded fact was stale
 ### DSLP-4 · P2 · Tests: coverage, boundary gaps, mutation
 
 - **Area:** deslop · tests
-- **Where:** repomod/ and tests/repomod/
-- **Problem:** Scope: the repomod/ component only (calibration); the other components follow in tier D as their own bounded tasks. Contracts: the repomod CLI (commands, flags, exit codes, JSON output), fleet/catalog.toml, fleet/dependencies/v1/ and fleet/loc/v1/, and the catalog.json reader. Consumers: the dashboard render (tests/repomod/test_dashboard_preview.py golden) and make deps; no other repository imports repomod. Effect-heavy code (Git, GitHub, filesystem) behind fakes; tests run under pytest-parallel, which cannot collect coverage across workers, so coverage runs serially. Mutation scope: rules and fixers (repomod/rules/), sync and removal safety (repomod/sync.py, gc), catalog parsing. Accept: make repomod-test within the cost budget (60s warm).
-- **Recommendation:** Run the deslop Tests step. Accept: no undispositioned survivor in critical code, the test cost budget holds, and the lane is green where the tools are mirrored.
+- **Where:** repomod/ and tests/repomod/. Bounded contracts and test files are listed in docs/campaigns/deslop-roadmap.md under Repomod calibration inventory.
+- **Problem:** Repomod is the only Stuff component in M2 calibration. Fresh serial coverage exercised 22,053 of 25,752 statements and 8,064 of 10,618 branches with 1,430 passing tests and three opt-in skips after the OSV fixture repair in #60. Matrix expansion and upstream fetch have bounded mutation Scenarios. The remaining scope includes catalog identity and tag validation, checkout and removal safety, fix-plan admission and publication, and snapshot and registry adapter decisions. The dashboard render and make deps consume these outputs. Use local Git and fake GitHub and registry endpoints.
+- **Recommendation:** Resolve the listed unrun decisions and remaining survivors. Select the whole-change union through real CI and qualify the negative controls. Run make repomod-test and make repomod-lint and measure suite cost on a ready host. Keep coverage, mutation, and retention verdicts separate.
 - **Fix with:** deslop
 - **Effort:** L
 

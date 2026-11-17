@@ -19,9 +19,9 @@ checked revisions.
   [#21](https://github.com/laputa-systems/buildlib/pull/21).
 - Stuff #56–58 merged on green. The repomod Diagnose record in #55 is
   reconciled with main. Build-lock typing and the deterministic OSV test
-  fixture await CI in #59–60.
+  fixture await CI in #59–60. Matrix and upstream test oracles await CI in #61–62.
 - Extensions [#15](https://github.com/joshuarli/extensions/pull/15) merged
-  the type-aware lint and installed Chromium checks on green.
+  the type-aware lint and installed Chromium checks on green. #16 updates DSLP-4.
 - STUF-91 has Solid 2.0 drafts for Discover, Stats and bctl. The existing
   package-age gate and the dashboard library's mirror availability govern
   their next checks.
