@@ -19,8 +19,8 @@ resumption. Linux-only mutation is not a requirement for macOS-only behavior.
 Releases, production, credentials, hardware operations and canonical user
 checkouts retain their existing boundaries. Broader deslop dispatch waits for
 the concrete M2 report and owner approval. Winddown starts no new implementation
-or measurement. The final roadmap, ticket and pause checkpoints are local.
-The final remote read showed the initial freeze `afe9852f` on `origin/main`.
+or measurement. At resumption, the remote contained the roadmap, ticket and pause commits
+through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
 
 ## Reconcile before resuming implementation
 
@@ -36,6 +36,35 @@ The final remote read showed the initial freeze `afe9852f` on `origin/main`.
    that skipped a repository proves no pass completion.
 4. Correct stale PR descriptions and obsolete authorization or blocker claims.
    Resolve current main changes before reviewing a parked candidate again.
+
+## Resumption receipts
+
+- Vault [#30](https://github.com/laputa-systems/vault/pull/30) advanced to
+  `0671858badb1f1fb7fea852e35bbe8929f092afe`. The system Python 3.9 failed
+  to import `tomllib`. The managed Python 3.15.2 passes 20 self-tests.
+  Cargo-mutants 27.1.0 lists 260 Linux-only, 336 macOS-only and 54 Secure
+  Enclave source identities in the configured per-file lists. Replaying the
+  selector sends zero macOS or Secure Enclave source identities to Linux and
+  zero Linux source identities to macOS. The shared-store selection includes
+  51 Linux and 43 macOS identities. This is selection evidence. The [hosted
+  matrix](https://github.com/laputa-systems/vault/actions/runs/44177303366)
+  owns execution proof.
+- Buildlib [#20](https://github.com/laputa-systems/buildlib/pull/20) runs
+  `175c98796220821b53ef328cc0761a232c5fb28b`. All five x86-64 Linux jobs
+  passed. Linux ARM64 test, lint and four mutation jobs timed out fetching
+  several distinct locked wheels. A host request to the same platformdirs
+  wheel returned HTTP 200, so runner reachability still needs proof. The
+  [mixed control](https://github.com/laputa-systems/buildlib/pull/21) at
+  `7bef43e` passes all 206 ordinary tests and both lint checks locally.
+  Its hosted release shard must reopen the four recorded release survivors
+  while the gate also selects the unrelated changed targets module.
+- Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
+  kept main's superset of CLI assertions when integrating the draft. All
+  eight CLI tests and nine gate self-tests passed locally. GitHub rejected
+  the first workflow before creating jobs. The [replacement
+  run](https://github.com/laputa-systems/diff-pretty/actions/runs/44178066822)
+  at `acdf7a90bcbbad044fb2ce4f791af99585743294` sets the isolation
+  directory inside a runner step and uploads per-shard evidence.
 
 ## Finish the current passes
 

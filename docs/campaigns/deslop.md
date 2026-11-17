@@ -7,21 +7,28 @@ established, so the slop cannot return.
 
 ## Status
 
-Paused 2026-11-17 at the owner's request. Start nothing until explicitly resumed.
-Resume prompt: "Resume docs/campaigns/deslop.md from Status and its roadmap."
-First command: `git status --short`, then read the [roadmap](deslop-roadmap.md).
-Last accepted application revision: `c14465ec50232d029a4fdbaf3588bb25fc6442aa`; its CI passed.
-Final roadmap, ticket and pause commits are local; remote main contains the initial freeze `afe9852f`.
-[Current scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) distinguishes completed, active, blocked and not-started passes.
-M2 is not complete. The roadmap accounts for every acceptance/report requirement and the full-fleet goal.
-Parked local gates: Buildlib `deslop/mutation-ci`, Vault and diff-pretty `deslop/platform-ci`; exact heads and retry conditions are in [parked checkpoints](deslop-roadmap.md#parked-checkpoints-and-reboot-audit).
-Stuff PRs #55–58 remain separate pending checkpoints; do not merge without current all-green checks and conflict review.
-Next: qualify Vault's platform selection and the existing whole-change lanes, then finish named Tests inventories and Reports.
-Scoped CI, typing/lint, browser and retention work is authorized; broader dispatch still waits for concrete M2 approval.
-Solid 2.0 stable consumer upgrades are planned as STUF-91, with changelog/migration review before edits.
-All admitted workers stopped; local mutation/check loops stopped and shared locks/slots are free.
-The automatic closeout guard could not start because of ignore-rule precedence; the roadmap records the manual audit and retained branches/worktrees.
-Historical chronology remains in [historical status](deslop-status-20261117.md). Releases, production, credentials, hardware and canonical-checkout boundaries remain.
+Resumed 2026-11-17 at the owner's request. M2 remains open. The
+[roadmap](deslop-roadmap.md) gives the acceptance criteria and the
+[scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) records the
+checked revisions.
+
+- Vault [#30](https://github.com/laputa-systems/vault/pull/30), Buildlib
+  [#20](https://github.com/laputa-systems/buildlib/pull/20), and diff-pretty
+  [#31](https://github.com/laputa-systems/diff-pretty/pull/31) have hosted
+  qualification runs. Buildlib's mixed-change control is
+  [#21](https://github.com/laputa-systems/buildlib/pull/21).
+- Stuff [#56](https://github.com/laputa-systems/stuff/pull/56) merged after
+  all ten checks passed. The repomod Diagnose record in #55 is reconciled
+  with main. #55, #57 and #58 still await all-green CI.
+- Solid 2.0's stable release and migration guide are verified for STUF-91.
+  The first consumer check is Discover, which already uses the Solid 2 RC
+  renderer and compiler package layout.
+- Broader dispatch requires owner approval of the concrete M2 report.
+  Hardware, releases, production and canonical checkouts retain their
+  existing boundaries.
+
+[Historical status](deslop-status-20261117.md) preserves the pause chronology
+and earlier results.
 
 ## How the campaign runs
 
