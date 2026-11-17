@@ -20,14 +20,26 @@ established, so the slop cannot return.
 - **Resumed results:** Extensions [#5](https://github.com/joshuarli/extensions/pull/5)
   merged as `a45dcdc`, closing DSLP-6: matching Vitest/coverage 5.0.5, frozen
   scripts-disabled install, typecheck, 199 Node tests and coverage, plus Node 22
-  CI pass. Optional binding engine metadata is preserved. This does not qualify
-  its broader Ground/Tests, Stryker or browser lane.
+  CI pass. Optional binding engine metadata is preserved. This version repair
+  does not qualify Tests, Stryker or the browser lane.
   Its next functional Ground slice, [#6](https://github.com/joshuarli/extensions/pull/6),
   merged as `4137136`: CI now uses `make test` with the existing typecheck and
   all 213 Node cases. `make lint` runs the existing typechecker, and AGENTS.md
   maps current public boundaries. Parent evaluation of the actual
-  `gha-test-workflow` rule returns no findings; Node 22 CI passes. DSLP-1 stays
-  open for cold/warm cost measurements on a ready host.
+  `gha-test-workflow` rule returns no findings; Node 22 CI passes.
+  [#7](https://github.com/joshuarli/extensions/pull/7), merged as `acbedac`,
+  closes Ground: current main passes 226 Node cases, cold/warm costs are
+  50.49/48.34 s and lint 1.17 s under one CPU and one Vitest worker. All
+  actual pre/test/immediate-post gates pass. These are bounded-worker costs,
+  not CI's default concurrency. [#8](https://github.com/joshuarli/extensions/pull/8),
+  merged as `a737ca1`, completes Diagnose with three assumed P2 findings and
+  one P3. Parent probes confirm that a context-page completion can survive
+  SIGKILL before its posts persist, and that EACCES reading an archive can
+  become an empty collection before a successful replacement write. Timeline
+  completion shared across operations remains an explicitly unproven risk;
+  CLI help advertises rejected flag syntax. Findings are DSLP-7–10. Runtime
+  code is unchanged by Diagnose. Types profile measurement is active; browser,
+  appliance, live-service and broader Tests qualification remain open.
   Tm's separate [#37](https://github.com/laputa-systems/tm/pull/37) merged as
   `7fd4994`, closing DSLP-6's repeat-fixture finding. Independent input batches
   preserve nine full-state observations and add literal window states; the
@@ -361,12 +373,30 @@ established, so the slop cannot return.
     merged as `dbc5e5a` with literal Mach-O dependency, install-name and rpath
     oracles. All 28 string identities are classified: 27 killed and one
     equivalent codec alias. Parent repeats recover complete mutation tool-cost
-    receipts. All 149 tests and lint pass, both PR checks are green, and warm
-    test cost stays within the allowance. Runtime and dependencies are unchanged.
-    Historical whole-package counts remain historical; broader ELF, Mach-O,
-    locks, release and CI qualification stay open. Exact reproduction and
+    receipts. These test-only slices leave runtime and dependencies unchanged.
+    [PR14](https://github.com/laputa-systems/buildlib/pull/14), merged as
+    `ba50980`, qualifies the complete ELF module: all 509 identities map to
+    results, with 469 killed and 40 dispositioned survivors, zero untested
+    identities or timeouts. The bounded selection takes about 21 s. This
+    supersedes the narrower header scope rather than adding to its counts.
+    The matching Mach-O review finds a real byte-order defect. Separate
+    [PR15](https://github.com/laputa-systems/buildlib/pull/15), merged as
+    `5a1852c`, retains byte order through a private parser without changing
+    public raw commands or adding file reads, closing DSLP-11. The eight-case
+    literal regression fails four big-endian inputs before and passes all
+    cases after. All 166 tests and lint pass; Node-build's 19 and Python-build's
+    24 affected tests print the candidate module path and pass. The affected
+    147-mutant scope has 140 killed, six diagnostic-only survivors and one
+    equivalent default. Current complete Mach-O selection is 359 killed and
+    42 survivors across 401 identities; its other 35 survivors stay outside
+    repair acceptance. That inventory differs from the original 405, so it
+    is not a fixed-identity score. Warm suite cost is 6.42 s, within its
+    allowance; the pure-Python wheel grows by 40 B with no new dependencies.
+    Historical whole-package counts remain historical; remaining Mach-O,
+    locks, release, coverage and CI qualification stay open. Exact reproduction and
     dispositions are in `docs/deslop-elf-header.md` and
-    `docs/deslop-macho-strings.md`, readable with `git show dbc5e5a:PATH` from
+    `docs/deslop-macho-strings.md`, `docs/deslop-elf-contracts.md` and
+    `docs/deslop-macho-byte-order.md`, readable with `git show 5a1852c:PATH` from
     the canonical repository. The two accepted worktrees are retired after
     integration, idle-consumer and archive readback checks. Private raw evidence
     remains under canonical `.git/deslop-evidence/20261117/`.
@@ -376,8 +406,11 @@ established, so the slop cannot return.
   - Mutation and coverage runs still take the shared host lock
     (`mkdir .work/tmp/mutation.lock` in stuff) and use `--timeout` at about 4x the baseline test
     phase.
-  - Python and TypeScript mutation steps wait until their lanes qualify (STUF-83 mirrored the
-    tools); those repos may still run Ground, Diagnose, Types, and Dead code.
+  - Bounded local Python Scenarios now qualify module contracts while the
+    whole-change lane stays open. Prefer a complete measured module when it
+    fits the twenty-minute Scenario budget; do not restart manual Full runs.
+    TypeScript mutation readiness and whole-change CI qualification remain
+    separate gates. No workflow repairs occur without explicit authorization.
 - **Find campaign PRs:** `gh search prs --label deslop --owner laputa-systems --owner joshuarli`.
 - **Needs you:**
   1. toolbox: fix Actions billing to bring it back in scope.
