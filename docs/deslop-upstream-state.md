@@ -34,3 +34,24 @@ cpu-guard --cores 2 -- make repomod-lint
 The tests use local repositories and fake parent metadata, with no live fleet
 sync or remote service writes. CLI and inventory formats remain unchanged.
 The declared dashboard-render and OCI serving workloads are unaffected.
+
+## Upstream fetch test qualification
+
+At `1753a059ba256990779aa6d7f10e852e4652b621`, the `_sync_upstream`
+Scenario selects 25 identities with mutmut 3.8.1. The baseline catches 17.
+The fixture checks the parent repository sent to URL resolution and
+verifies that full checkouts stay full. Partial parent metadata must
+leave upstream untouched. A real shallow checkout fetches only the tip
+of a three-commit upstream. All 25 identities are caught after those
+assertions. Four separate changes fail the assertions for metadata,
+parent identity and both fetch-depth decisions.
+
+Reproduce the serial Scenario with Python 3.15.2 and mutmut 3.8.1.
+In a fresh snapshot, set mutmut's `source_paths` to `["repomod"]`,
+`only_mutate` to `["repomod/sync.py"]`, `also_copy` to `["fleet"]`,
+pytest arguments to `["-p", "no:parallel"]`, and test selection to
+`["tests/repomod/test_sync_upstream.py"]`. Use
+`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1` and run
+`python -m mutmut run --max-children 1 'repomod.sync.x__sync_upstream__mutmut_*'`.
+Check the selected results in `mutants/repomod/sync.py.meta`.
+The whole-change workflow and other sync regions remain open.

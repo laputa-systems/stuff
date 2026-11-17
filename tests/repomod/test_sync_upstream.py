@@ -16,7 +16,11 @@ def test_sync_clone_adds_and_fetches_upstream_remote(
 ) -> None:
     make_remote(tmp_path)
     upstream_bare, upstream_sha = make_parent(tmp_path)
-    monkeypatch.setattr(sync_module, "upstream_url", lambda parent: f"file://{upstream_bare}")
+    def local_upstream(parent: str) -> str:
+        assert parent == "acme/upstream"
+        return f"file://{upstream_bare}"
+
+    monkeypatch.setattr(sync_module, "upstream_url", local_upstream)
     catalog, repository = make_catalog(tmp_path)
 
     result = sync_one(catalog, repository, parent_remote(repository, upstream_sha))
@@ -26,6 +30,7 @@ def test_sync_clone_adds_and_fetches_upstream_remote(
     assert "upstream acme/upstream added and fetched" in result.message
     assert git("config", "--get", "remote.upstream.url", cwd=checkout) == f"file://{upstream_bare}"
     assert "refs/remotes/upstream/main" in upstream_refs(checkout)
+    assert git("rev-parse", "--is-shallow-repository", cwd=checkout) == "false"
 
 
 def test_sync_existing_checkout_gains_upstream_remote(
@@ -87,6 +92,51 @@ def test_sync_leaves_non_forks_without_upstream_remote(
     assert result.action == "cloned"
     assert "upstream" not in result.message
     assert upstream_refs(repository_path(catalog, repository)) == []
+
+
+@pytest.mark.parametrize(("parent", "branch"), [("acme/upstream", None), (None, "main")])
+def test_sync_ignores_incomplete_upstream_metadata(
+    tmp_path: Path,
+    git_environment: None,
+    monkeypatch: pytest.MonkeyPatch,
+    parent: str | None,
+    branch: str | None,
+) -> None:
+    make_remote(tmp_path)
+    catalog, repository = make_catalog(tmp_path)
+
+    def unexpected_upstream(value: str) -> str:
+        pytest.fail(f"incomplete metadata attempted upstream access for {value}")
+
+    monkeypatch.setattr(sync_module, "upstream_url", unexpected_upstream)
+    remote = RemoteRepository(str(repository.id), "main", "unused", False, parent=parent, parent_branch=branch)
+
+    outcome = sync_one(catalog, repository, remote)
+
+    assert outcome.action == "cloned"
+    assert outcome.message == "cloned main"
+    assert upstream_refs(repository_path(catalog, repository)) == []
+
+
+def test_upstream_fetch_keeps_only_the_tip_for_a_shallow_checkout(
+    tmp_path: Path, git_environment: None, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    bare, _, _ = make_remote(tmp_path)
+    upstream, first = make_parent(tmp_path)
+    tree = git("rev-parse", f"{first}^{{tree}}", cwd=upstream)
+    middle = git("commit-tree", tree, "-p", first, "-m", "upstream middle", cwd=upstream)
+    tip = git("commit-tree", tree, "-p", middle, "-m", "upstream tip", cwd=upstream)
+    git("update-ref", "refs/heads/main", tip, cwd=upstream)
+    checkout = tmp_path / "shallow-checkout"
+    git("clone", "--depth=1", f"file://{bare}", str(checkout))
+    _, repository = make_catalog(tmp_path)
+    monkeypatch.setattr(sync_module, "upstream_url", lambda _parent: f"file://{upstream}")
+
+    outcome = sync_module._sync_upstream(checkout, parent_remote(repository, tip))
+
+    assert outcome == "upstream acme/upstream added and fetched"
+    assert git("rev-list", "refs/remotes/upstream/main", cwd=checkout) == tip
+    assert git("rev-parse", "--is-shallow-repository", cwd=checkout) == "true"
 
 
 def test_sync_upstream_failure_is_non_fatal(
