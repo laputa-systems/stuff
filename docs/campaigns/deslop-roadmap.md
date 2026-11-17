@@ -48,7 +48,20 @@ through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
   zero Linux source identities to macOS. The shared-store selection includes
   51 Linux and 43 macOS identities. This is selection evidence. The [hosted
   matrix](https://github.com/laputa-systems/vault/actions/runs/44177303366)
-  owns execution proof.
+  owns execution proof. Ordinary tests passed on macOS and both Linux musl
+  architectures. The Linux mutation jobs found survivors and exceeded budget.
+  Shard 6 recorded nine caught, one unviable and one unresolved identity in
+  its artifact. The old gate reported zero completed outcomes. Successor
+  `deslop/cli-oracle` at `d7ec9932b6ddcc33b040ad7bef92b801fb5adaa9` validates
+  partial receipts while keeping the budget failure. It also catches the
+  surplus-name survivor with an isolated CLI test and injected fault.
+  The shard 6 baseline spent 115.72 seconds on its 47 unit tests and
+  10.14 seconds on its eight terminal tests. Investigate that repeat cost
+  before retrying the full Linux matrix. Fourteen finished Linux shards
+  consumed 16,676 runner seconds in total, with a median of 1,223 seconds.
+  Twelve failed. This excludes two unfinished Linux shards, the macOS
+  shards and setup jobs. Both platform unions and the remaining survivors
+  still need qualification.
 - Buildlib [#20](https://github.com/laputa-systems/buildlib/pull/20) runs
   `175c98796220821b53ef328cc0761a232c5fb28b`. All five x86-64 Linux jobs
   passed. Linux ARM64 test, lint and four mutation jobs timed out fetching
@@ -56,15 +69,35 @@ through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
   wheel returned HTTP 200, so runner reachability still needs proof. The
   [mixed control](https://github.com/laputa-systems/buildlib/pull/21) at
   `7bef43e` passes all 206 ordinary tests and both lint checks locally.
-  Its hosted release shard must reopen the four recorded release survivors
-  while the gate also selects the unrelated changed targets module.
+  Hosted x86-64 and ARM64 release shards reopened the four expected release
+  survivors and selected the unrelated targets module. The targets shard
+  also found that the exception assertion missed a missing diagnostic.
+  [#22](https://github.com/laputa-systems/buildlib/pull/22) merged the literal
+  diagnostic assertion as `890b5bd088a0b71f3436a6da1b2265a5a88720e7`.
+  The exact injected fault fails all three cases. With the #22 assertion
+  added locally to the mixed-change fixture, `make mutants-diff
+  BASE=175c98796220821b53ef328cc0761a232c5fb28b SHARD=other` catches all 28
+  targets mutations. Re-run the complete hosted control with that
+  assertion and retain separate evidence for test-only deletion, a new
+  uncovered branch and documentation.
 - Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
   kept main's superset of CLI assertions when integrating the draft. All
   eight CLI tests and nine gate self-tests passed locally. GitHub rejected
   the first workflow before creating jobs. The [replacement
   run](https://github.com/laputa-systems/diff-pretty/actions/runs/44178066822)
-  at `acdf7a90bcbbad044fb2ce4f791af99585743294` sets the isolation
-  directory inside a runner step and uploads per-shard evidence.
+  at `acdf7a90bcbbad044fb2ce4f791af99585743294` created the jobs, but GNU
+  Make treated `export` as a prerequisite and stopped before selection.
+  At `872ae4c9e41dbeacb37515da32c820670ce668df`, the gate entry point
+  successfully reports an irrelevant comparison against HEAD. Follow the
+  [current run](https://github.com/laputa-systems/diff-pretty/actions/runs/44179199958)
+  for both platform executions.
+- Extensions [#15](https://github.com/joshuarli/extensions/pull/15) merged
+  the type-aware lint and Linux installed-Chromium jobs. Both jobs also
+  passed on the later default head `1ad499ed4b3e8201eb54a09a8cdbae6493959b8a`.
+  Temporarily removing `TODO-DESLOP.md` from the #15 worktree kept
+  `pnpm run lint` and its one installed-browser case green. Fleet retention
+  registration, whole-change mutation and the wider browser inventory remain
+  open.
 
 ## Finish the current passes
 
@@ -108,6 +141,49 @@ review and Report. A newly demonstrated P1/P2 may interrupt it. Lower-priority
 discoveries become explicit follow-ups unless they invalidate named acceptance.
 Keep historical and current counts separate. Equivalent mutants, accepted
 risks, untested code and unsupported environments are distinct dispositions.
+
+### Repomod calibration inventory
+
+The current boundary map covers `repomod/` at
+`1753a059ba256990779aa6d7f10e852e4652b621`. Inspect these clusters when
+selecting the serial mutation run. Use existing tests with local Git
+repositories, fake GitHub responses, or synthetic registry documents.
+
+| Boundary | Critical decisions | Existing checks |
+| --- | --- | --- |
+| Fleet catalog and CLI | Closed tags, repository identity and path collisions, command dispatch and exit status | `test_catalog.py`, `test_cli.py` |
+| Checkout and removal | Upstream merge bases, preservation of dirty or detached checkouts, archives, canonical identity | `test_sync_upstream.py`, `test_sync_cleanup.py`, `test_gc.py` |
+| Fix plans and publication | Path admission, copy isolation, concurrent checkout changes, branch movement, publication refusal | `test_fix_safety.py`, `test_fix_command.py`, `test_fix_push.py` |
+| Workflow checks | Matrix includes, check-name expansion, retries, partial GraphQL responses | `test_github_policy.py`, `test_ci_workflow.py` |
+| Inventory consumers | Dependency and LOC snapshot consistency, mirror-catalog validation, dashboard adapter | `test_deps_snapshot.py`, `test_loc_snapshot.py`, `test_deps_world.py`, `test_dashboard_preview.py` |
+
+First-party coverage at [#60](https://github.com/laputa-systems/stuff/pull/60)
+exercised 22,053 of 25,752 statements and 8,064 of 10,618 branches. The earlier
+parallel coverage run used a candidate pytest-parallel wheel at a different
+revision. To reproduce the serial result, install the mirrored coverage.py
+7.17.3 wheel in an isolated environment for the pinned repo. Set branch
+coverage, `parallel = True`, `patch = subprocess`, and absolute `source`
+and fresh data paths. Run `python -m coverage run -m pytest -p no:parallel
+tests/repomod -q`, then `coverage combine` and `coverage json`. The run
+passed 1,430 tests with three skips. The OSV fixture repair was necessary
+after the first serial run reached the live advisory service. The focused
+transport refusal reproduced the old failure and passes after the repair.
+Name the still-unrun decision regions and disposition survivors before
+adding the whole-change union. Run `make repomod-test` and
+`make repomod-lint`. The suite-cost and hosted controls remain open.
+Repomod's downstream dashboard render and `make deps` consume these outputs.
+The live fleet and launcher integrations remain opt-in.
+
+Ruff 0.17.4 at this revision reports 22 `ANN` diagnostics, including 17
+`ANN401`, and 190 `TC` diagnostics, including 108 standard-library
+type-only imports. The TC findings include import placement and quoting.
+No behavioral witness supports adopting TC here. `PGH003`, `B` and
+`RET` report zero findings. The configured ty 0.0.101 profile already
+sets all rules to error and passes. The build-lock type candidate in
+[Stuff #59](https://github.com/laputa-systems/stuff/pull/59) removes two
+ANN401 diagnostics, and its checker witness fails before the change.
+1,431 tests passed with three existing opt-in skips. Keep Types open for
+the remaining dynamic boundaries.
 
 ## Qualify meaningful retained gates
 
@@ -176,17 +252,27 @@ remain unexplained. Approval applies to the concrete report, not seeded TODOs.
 
 ## Upgrade Solid consumers on resumption
 
-STUF-91 tracks the owner's request to upgrade every Solid consumer to stable
-2.0. The owner reports that 2.0 left RC on 2026-11-17. Verify the official stable
-release, changelog and migration guide before selecting exact versions.
-Inventory all affected repositories and direct/transitive Solid dependencies,
-then record each relevant breaking change and required migration before edits.
-Check associated JSX/compiler, router, testing and SSR integrations where used.
-Use supported pinned dependencies and preserve registry policy. Run each
-consumer's type/lint, build, relevant tests and browser/SSR checks, with source
-activation evidence. Open focused PRs and merge only verified heads. No releases
-or production deployment are included. This is planned work; no Solid version
-was changed during winddown.
+STUF-91 tracks the stable Solid 2.0 upgrade. The [stable release][solid-release],
+[pinned changelog][solid-changelog] and [migration guide][solid-migration]
+confirm the runtime, renderer and compiler must agree. Current application
+manifests already use Solid 2 RC imports and `@solidjs/web` for JSX. Check
+for Solid 1 subpaths and lifecycle or effect differences before moving
+each application. For Stats, the [Router 2 release][router-release] renames
+or removes several legacy APIs. Its source already uses the `createRouter`
+factory, `hashHistory` and plain anchors.
+
+| Consumer | Verified state |
+| --- | --- |
+| Discover | [#48](https://github.com/joshuarli/discover/pull/48) pins `solid-js` and `@solidjs/web` 2.0.0 and `@solidjs/vite-plugin` 3.0.1. All 342 Node and 50 browser tests passed along with lint, type checks and the production build. The existing 24-hour frozen-install gate rejects the new versions until 2026-11-18 20:30:44 UTC. The draft omits package-age exclusions. |
+| Stats | [#23](https://github.com/joshuarli/stats/pull/23) resolves Solid, Web and Router 2.0.0 and Vite plugin 3.0.1 through the existing registry. Type checks, lint, production builds and all 320 desktop and mobile browser cases passed. The browser run uses one worker to stay within the two-core cap. Frozen install hits the same cutoff as Discover. |
+| bctl | [#4](https://github.com/joshuarli/bctl/pull/4) passes type checking, production build and the session-list fixture with the pinned Node 26.12.1. The VM-backed suite requires the bctl binary, guest runtime and grab fixtures. Frozen install hits the same cutoff as Discover. |
+| laputa-ui-dashboard | The library's peer range admits stable Solid 2. Its development pins still resolve the RC from Stuff. Stuff's public catalog has no stable Solid, renderer or Vite plugin. Refresh those pins once the existing mirror serves the matching toolchain. |
+| pi-build | The OpenCode companion lock mentions Solid in optional peer metadata. No installed Solid package entry is present. |
+
+[solid-release]: https://github.com/solidjs/solid/releases/tag/solid-js%402.0.0
+[solid-changelog]: https://github.com/solidjs/solid/blob/a8186e6738b3a6a3341c561f66e9325432d6759b/packages/solid/CHANGELOG.md
+[solid-migration]: https://docs.solidjs.com/migration/from-solid-1/
+[router-release]: https://github.com/solidjs/solid-router/releases/tag/v2.0.0
 
 ## Parked checkpoints and reboot audit
 

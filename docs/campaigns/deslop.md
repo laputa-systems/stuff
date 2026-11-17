@@ -17,12 +17,14 @@ checked revisions.
   [#31](https://github.com/laputa-systems/diff-pretty/pull/31) have hosted
   qualification runs. Buildlib's mixed-change control is
   [#21](https://github.com/laputa-systems/buildlib/pull/21).
-- Stuff [#56](https://github.com/laputa-systems/stuff/pull/56) merged after
-  all ten checks passed. The repomod Diagnose record in #55 is reconciled
-  with main. #55, #57 and #58 still await all-green CI.
-- Solid 2.0's stable release and migration guide are verified for STUF-91.
-  The first consumer check is Discover, which already uses the Solid 2 RC
-  renderer and compiler package layout.
+- Stuff #56–58 merged on green. The repomod Diagnose record in #55 is
+  reconciled with main. Build-lock typing and the deterministic OSV test
+  fixture await CI in #59–60.
+- Extensions [#15](https://github.com/joshuarli/extensions/pull/15) merged
+  the type-aware lint and installed Chromium checks on green.
+- STUF-91 has Solid 2.0 drafts for Discover, Stats and bctl. The existing
+  package-age gate and the dashboard library's mirror availability govern
+  their next checks.
 - Broader dispatch requires owner approval of the concrete M2 report.
   Hardware, releases, production and canonical checkouts retain their
   existing boundaries.
