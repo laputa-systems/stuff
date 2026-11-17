@@ -170,26 +170,53 @@ established, so the slop cannot return.
     The remaining 58 original survivors, 59 untested cases, coverage and
     quiet-host cost keep PR30 draft and DSLP-4 open. The old filtered filesystem
     driver still must not be restarted unchanged.
-  - **diff-pretty Tests started:** native CLI scenarios assert literal rendered
-    and redirected output, paging flags, help, file concatenation, malformed
-    input and I/O failure status. Nine process tests and lint pass; mutation
-    qualification and the rest of DSLP-4 remain open. Checkpoint `5834fe7` is
-    preserved; its resumed branch also contains the merged full-help contract.
-    The earlier 1,200-second workspace mutation run left 109 untested and 48
-    unconfirmed timeouts. Use a bounded Scenario selection, not that Full run.
-    The current eleven CLI process cases pass six hand-fault controls. A fresh
-    complete 24-mutant CLI selection first found one `--no-pager` survivor;
-    the new parser-contract table catches it. The same selection now reports
-    22 caught, two compiler-unviable, zero missed and zero timeouts. This
-    qualifies the CLI component only. The numeric-layout API now has literal
-    cell and decimal-boundary assertions, each proved with a hand fault. Its
-    complete 38-mutant selection at `10e3782` records 37 caught and one hang
-    confirmed by a fresh baseline and doubled timeout, zero missed or unviable.
-    Both raw tool receipts retain Timeout/exit 3; this is a confirmed detection,
-    not an ordinary caught count. All identities reconcile with the saved
-    before region, and every caught log contains a new numeric assertion
-    failure. Broader renderer/pager coverage, mutation, quiet-host cost and
-    whole-change CI enforcement remain open.
+    Current Tests head `bf7a1eb` adds independent filename/UTF-8 byte-limit
+    oracles and a pure data-home resolution table. Filename selection: 31
+    caught, four equivalent misses, one unviable and no timeouts across all 36
+    cases; every equivalence follows the remaining guards, and no exclusion
+    was added. The complete data-home selection has three caught and no other
+    outcomes. Native tests and lint pass. These do not reclassify the old
+    stopped 232 cases. ARM64's passphrase-echo failure at `8dc8fa8` led to
+    [PR34](https://github.com/laputa-systems/vault/pull/34), merged as `6a4b7d5`:
+    prompt publication and input now share one hidden terminal session. A
+    deterministic ordering witness fails before and passes after; native macOS
+    and ARM64 Linux tests/lint, all four CI checks and independent review pass.
+    Linux container keyring restrictions remain explicit skips. The fix is
+    integrated into the Tests branch: 46 native unit tests, 28 integration and
+    four terminal tests pass, with two hardware tests ignored and no optional
+    skips. Linux ARM64, x86_64, macOS and lint CI pass; mutations are pending.
+    The next bounded slice tests private-file metadata and read limits. The exact proof is committed in Vault's
+    `docs/deslop-filesystem.md`, readable from the canonical repository with
+    `git show bf7a1eb:docs/deslop-filesystem.md`; prompt evidence is in
+    `docs/deslop-terminal-echo.md` at the same revision.
+  - **Stuff lock repair:** [PR43](https://github.com/laputa-systems/stuff/pull/43)
+    merged as `0d325ff` after all ten CI checks and independent review pass.
+    Dropping `FileLock` now explicitly unlocks it even when a duplicate file
+    descriptor remains open. The deterministic regression fails before and
+    passes after; 23 store tests, 21 transaction tests and targeted clippy pass.
+    This addresses the observed failure shape without claiming a retained
+    descriptor was traced in the earlier docs-PR CI failure.
+  - **diff-pretty Tests:** [PR31](https://github.com/laputa-systems/diff-pretty/pull/31)
+    head `de831c1` includes the real bare-control repair `f17f82f`. Uncolored
+    hunks previously retained NUL and C1 controls because stripping required
+    ESC. A shared predicate fixes that path, retaining tabs and Unicode;
+    literal public-API and owned-child CLI oracles fail before and pass after.
+    The current twelve process cases, release workspace tests and lint pass;
+    Linux/macOS/lint CI pass on `de831c1`. The complete final sanitizer selection
+    has 70 caught, eight equivalent misses, one unviable and no timeouts, with
+    no exclusions and every caught log failing the new CLI oracle. It includes
+    the new predicate and one tool-selected plain-file field; its inventory
+    differs from the earlier 79-case test-only comparison (4 caught before,
+    57 after). The earlier CLI 24-case component records 22 caught/two unviable;
+    numeric layout records 37 caught/one confirmed hang, retaining raw
+    Timeout/exit 3. Release binaries both occupy 855,480 bytes; five alternating
+    RSS observations per side on each of two real corpus inputs show no increase
+    in those samples and identical outputs. Perf gate deferred: host busy.
+    The timing/test-cost gates, other renderer/pager regions, coverage and
+    whole-change CI lane keep the draft unmerged. The old Full run's 109 untested
+    and 48 unconfirmed timeouts remain incomplete. Exact commands, dispositions
+    and limits are committed in Diff's `docs/deslop-cli-tests.md`, readable with
+    `git show de831c1:docs/deslop-cli-tests.md` from its canonical repository.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
