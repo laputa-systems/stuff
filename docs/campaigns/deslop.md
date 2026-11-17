@@ -69,8 +69,31 @@ established, so the slop cannot return.
   pass a real Unix-socket regression. Full native tests, lint and both platform
   CI jobs pass on `6a36076`. Historical CI lacks timestamps; this repairs the
   demonstrated fixture dependency without claiming its exact old trace.
-- **Disk cleanup:** Stuff is on main at `9aaf94bc` after
-  [#49](https://github.com/laputa-systems/stuff/pull/49) passed all ten checks.
+- **Current direct results (2026-11-17):** Extensions
+  [#12](https://github.com/joshuarli/extensions/pull/12) qualifies the complete
+  storage/state component: 112 killed and two equivalent reader guards across
+  114 current identities, with 253 Node tests and lint passing. Pytest-parallel
+  [#23](https://github.com/joshuarli/pytest-parallel/pull/23) rejects corrupt UTF-8
+  worker reports; 152 tests, installed-wheel controls and all checks pass.
+  Tm [#39](https://github.com/laputa-systems/tm/pull/39) repairs partial-output
+  and asynchronous pane-exit fixtures without changing production. Stats
+  [#18](https://github.com/joshuarli/stats/pull/18),
+  [#19](https://github.com/joshuarli/stats/pull/19) and
+  [#20](https://github.com/joshuarli/stats/pull/20) land the macOS sandbox repair,
+  Diagnose and shutdown diagnostics. The intermittent shutdown cause remains
+  unproven. Diff-pretty [#34](https://github.com/laputa-systems/diff-pretty/pull/34)
+  repairs bare-control stripping with full tests and the recorded noisy-but-within-bound
+  release workload checks. Their broader Tests and CI qualifications remain open.
+  The repomod [component review](../deslop-repomod-diagnose.md) finds five P2 and
+  two P3 defects; four separate runtime repairs are in stuff #51–54, with
+  fail-before/pass-after controls and full repomod tests/lint. DSLP-6 records
+  the remaining CI-policy finding. Assertion-only Loc and Onefile slices can
+  integrate on green correctness checks while their broader Tests tickets stay
+  open for quiet-host suite-cost qualification. Pytest worker-report assertions
+  follow the same rule; no deferred qualification is counted as passed.
+- **Disk cleanup:** The Stuff development checkout returned to main after
+  [#49](https://github.com/laputa-systems/stuff/pull/49) and
+  [#50](https://github.com/laputa-systems/stuff/pull/50) passed all ten checks.
   Retired the clean, idle, patch-equivalent `deslop-current` and
   `deslop-progress` worktrees after archiving useful ignored evidence.
   Removed one unused generated ctrs guest disk template from the old
@@ -79,6 +102,9 @@ established, so the slop cannot return.
   preservation refs and evidence archives were kept. Exact paths, provenance,
   hashes and before/after measurements are in canonical
   `.git/deslop-evidence/20261117-disk-cleanup/receipt.txt`.
+  Four completed Extensions worktrees were also retired after private archive
+  hash/readback checks, reclaiming 653,500 KiB (about 638 MiB). Their proof is
+  preserved under that repository's `.git/deslop-evidence/20261117-completed-lanes/`.
 - **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
   passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
   closing STUF-87's private import/recovery repair. Production is unchanged.

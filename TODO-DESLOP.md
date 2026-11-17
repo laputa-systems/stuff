@@ -1,5 +1,5 @@
 Prefix: DSLP
-Next: 6
+Next: 9
 
 Deslop campaign backlog ([plan](https://github.com/laputa-systems/stuff/blob/main/docs/campaigns/deslop.md), tier Calibration). One agent works this file with the `deslop` skill: take the lowest-numbered open ticket whose area does not start with `Needs owner ·`. After DSLP-5, work the open P1 and P2 findings, then fill in `## Report` below.
 
@@ -7,17 +7,17 @@ Deslop campaign backlog ([plan](https://github.com/laputa-systems/stuff/blob/mai
 
 Ground: base `6257776`. PR CI already ran `make test` (the seeded fact was stale). Warm `make test` 163s, `make repomod-test` 60s (1,348 passed, 3 skipped), `make lint` 19s on macOS. stats-producer is pristine and minisearch is modified; both record their upstream. DSLP-3 to DSLP-5 are scoped to the `repomod/` component with named contracts and acceptance commands.
 
+Diagnose covers the repomod calibration component at `40112564`, with five
+confirmed P2 findings and two P3 findings. Four P2 findings have separate repair
+PRs (#51–54); DSLP-6 requires CI-policy authorization, and DSLP-7/8 remain P3.
+The baseline passes 1,410 tests with three existing opt-in skips and lint.
+Evidence, reproduction and review limits are in [the component review](docs/deslop-repomod-diagnose.md).
+Other Stuff components remain separate tier D work. Types, Tests and Dead code
+are still open.
+
 ## Tickets
 
 
-### DSLP-2 · P2 · Diagnose: ultrareview into this backlog
-
-- **Area:** deslop · diagnose
-- **Where:** whole repository
-- **Problem:** No review has ranked this repository's risks for the deslop pass.
-- **Recommendation:** Run the deslop Diagnose step. Accept: the diff touches only docs, comments, and this file, and every finding names its Fix with.
-- **Fix with:** deslop
-- **Effort:** M
 
 ### DSLP-3 · P2 · Types: strict profile and typing findings
 
@@ -45,4 +45,34 @@ Ground: base `6257776`. PR CI already ran `make test` (the seeded fact was stale
 - **Recommendation:** Run the deslop Dead code step. Accept: tools clean or allowlisted with reasons; walk-backs filed as Needs owner tickets.
 - **Fix with:** deslop
 - **Effort:** M
+
+
+### DSLP-6 · P2 · Matrix include expansion can abort policy lint or misname checks
+
+- **Area:** Needs owner · CI policy
+- **Where:** repomod/workflow_checks.py:102-111; repomod/policy.py:188; docs/deslop-repomod-diagnose.md
+- **Problem:** Confirmed on `40112564`. An os/python matrix with includes [{os:windows},{python:'3.15',extra:yes}] appends an incomplete combination, then indexes its missing python axis and raises KeyError through lint_repositories. Successive additional color values also retain green instead of GitHub's documented pink. A valid repository can abort the whole lint batch or receive false required-check findings. The parent reproduced both expansion defects; the review lane reproduced the batch exception with fake GitHub. No workflow or gate repair is authorized under the lean contract yet.
+- **Recommendation:** When CI-policy repair is authorized, expand includes against original matrix combinations and keep appended combinations separate. Permit later includes to overwrite only additional values. Keep unsupported expressions indeterminate and add existing fake-policy-caller regressions for complete check-name sets and batch completion.
+- **Fix with:** root-cause
+- **Effort:** M
+
+
+### DSLP-7 · P3 · An interruption after a fixer commit can delete its recovery branch
+
+- **Area:** repomod · lifecycle
+- **Where:** repomod/fix.py:486-493; docs/deslop-repomod-diagnose.md
+- **Problem:** Confirmed on `40112564` with a local Git fixture: wrapping _commit_paths to complete the real commit and immediately raise KeyboardInterrupt leaves outcome.commits empty. Cleanup deletes the newly created fix branch although its tip contains the completed change. The object remains readable by SHA; permanent loss or later object collection was not demonstrated.
+- **Recommendation:** Before deleting a newly created fix branch, inspect its actual tip against the base and preserve any completed commit independently of the recorded outcome list. Cover the precise post-commit interruption window with a real local commit and no remote writes.
+- **Fix with:** lifecycle-concurrency
+- **Effort:** S
+
+
+### DSLP-8 · P3 · A filtered line-count snapshot drops unselected index entries
+
+- **Area:** repomod · inventory
+- **Where:** repomod/loc.py:63-75; docs/deslop-repomod-diagnose.md
+- **Problem:** Confirmed on `40112564`: snapshot two mocked real Inspection records A and B, then snapshot A with filtered=True. repos/B.json remains, but B disappears from index.json because _entries returns only selected repositories. The dashboard reads retained files directly, so missing dashboard rows were not established. The filtered metadata index no longer describes every retained repository.
+- **Recommendation:** Merge selected line-count entries into the existing index for filtered snapshots while retaining full-snapshot deletion behavior. Assert the full index and unselected record bytes across a filtered refresh, including unchanged commit stamping.
+- **Fix with:** durable-state
+- **Effort:** S
 
