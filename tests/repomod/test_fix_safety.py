@@ -173,9 +173,44 @@ def test_invalid_plan_and_symlink_target_are_rejected(tmp_path: Path, git_enviro
     escape_outcome = fix_repository(catalog, repository, (escaped,), "main")
 
     assert escape_outcome.commits == []
-    assert escape_outcome.failures
+    assert escape_outcome.failures == [("escape", "fixer returned an unsafe path: '../outside'")]
     assert not (path.parent / "outside").exists()
     assert head(path) == symlink_head
+
+
+@pytest.mark.parametrize(
+    ("relative", "expected"),
+    [
+        ("{tmp_path}/outside.md", "fixer returned an unsafe path: '{tmp_path}/outside.md'"),
+        (".", "fixer returned an unsafe path: '.'"),
+        ("folder\\README.md", "fixer returned an unsafe path: 'folder\\\\README.md'"),
+        ("./README.md", "fixer attempted to change a path outside its allowed scope: ./README.md"),
+        ("outside.md", "fixer attempted to change a path outside its allowed scope: outside.md"),
+    ],
+)
+def test_fixer_rejects_invalid_paths_before_writing(
+    tmp_path: Path, git_environment: None, relative: str, expected: str
+) -> None:
+    catalog, repository, path, base = initialize_repository(tmp_path)
+    relative = relative.format(tmp_path=tmp_path)
+    expected = expected.format(tmp_path=tmp_path)
+    invalid = Rule(
+        "invalid-path",
+        "Reject invalid paths",
+        TagPredicate(),
+        lambda root, repo: [Finding(str(repo.id), "invalid-path", "README.md", "invalid", fixable=True)],
+        lambda root, repo: {relative: "replacement\n"},
+        "chore(repomod): reject invalid path",
+        ("README.md",),
+    )
+
+    outcome = fix_repository(catalog, repository, (invalid,), "main")
+
+    assert outcome.commits == []
+    assert outcome.failures == [("invalid-path", expected)]
+    assert head(path) == base
+    assert (path / "README.md").read_text(encoding="utf-8") == "base\n"
+    assert not (path / "outside.md").exists()
 
 def test_interruption_preserves_completed_commit_on_fix_branch(
     tmp_path: Path,
