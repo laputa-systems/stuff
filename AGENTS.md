@@ -73,6 +73,7 @@ Run everything from the repository root.
 | Build repositories: make targets, pinned inputs, releases | [docs/build-repos.md](docs/build-repos.md) |
 | Dependency policy checks and the registry policy the fleet follows | [docs/audit.md](docs/audit.md); `fleet/registries.toml` |
 | Tracked dependency model and extraction | [docs/dependency-inventory.md](docs/dependency-inventory.md) |
+| Enrichment type-boundary proof | [docs/deslop-enrichment-types.md](docs/deslop-enrichment-types.md) |
 | Dependency dashboard, owners, mirror coverage, browser checks, benchmarks | [docs/dependency-dashboard.md](docs/dependency-dashboard.md) |
 | Repository layout used by repomod | `repomod/paths.py` |
 | Checkout removal contract | [docs/fleet-design.md#checkout-removal](docs/fleet-design.md#checkout-removal) |

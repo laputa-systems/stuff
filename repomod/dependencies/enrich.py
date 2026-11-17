@@ -485,15 +485,18 @@ def registry_sources() -> RegistrySources:
     cargo = _table(document.get("cargo"))
     npm = _table(document.get("npm"))
     python = _table(document.get("python"))
+    cargo_source = cargo.get("source")
+    npm_registry = npm.get("registry")
+    python_index = python.get("index")
     return RegistrySources(
-        cargo.get("source") if isinstance(cargo.get("source"), str) else None,
-        npm.get("registry") if isinstance(npm.get("registry"), str) else None,
-        python.get("index") if isinstance(python.get("index"), str) else None,
+        cargo_source if isinstance(cargo_source, str) else None,
+        npm_registry if isinstance(npm_registry, str) else None,
+        python_index if isinstance(python_index, str) else None,
     )
 
 
-def _table(value: object) -> Mapping[str, Any]:
-    return cast(Mapping[str, Any], value) if isinstance(value, dict) else {}
+def _table(value: object) -> Mapping[object, object]:
+    return cast(Mapping[object, object], value) if isinstance(value, dict) else {}
 
 
 def summary_text(report: EnrichReport) -> str:
