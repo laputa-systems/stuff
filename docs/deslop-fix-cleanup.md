@@ -75,5 +75,5 @@ Post-removal `git worktree list --porcelain` and filesystem checks confirmed all
 five exact paths absent; no other entry was removed. The cleanup checkout stayed
 clean at the pinned SHA. `du -sk` measured the five candidates at 196,696 KiB
 before retirement and the preserved archive at 88 KiB after retirement: the
-combined measured allocation went from 196,784 KiB (201,506,816 bytes) to
-88 KiB (90,112 bytes). This is scoped path usage, not a filesystem-wide delta.
+net allocation reclaimed was 196,608 KiB (192 MiB) after keeping the 88 KiB
+archive. This is scoped path usage, not a filesystem-wide delta.
