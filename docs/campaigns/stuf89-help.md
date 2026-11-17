@@ -194,7 +194,7 @@ global Mach-O symbols without debug-map paths, and use a Darwin linker alias for
 the C++ fixture's sentinel. The native regression test fails with the old symbol
 selection; the full corpus passes with no ledger or acceptance-assertion changes.
 
-Retired 33 completed repository worktrees after confirming integration and absence of live
+Retired 34 completed repository worktrees after confirming integration and absence of live
 consumers. [The cleanup record](stuf89-cleanup.md) lists exact paths and heads.
 
 Fastermod landed through a direct push that bypassed a server-side PR requirement.

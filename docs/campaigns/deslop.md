@@ -26,6 +26,14 @@ established, so the slop cannot return.
   maps current public boundaries. Parent evaluation of the actual
   `gha-test-workflow` rule returns no findings; Node 22 CI passes. DSLP-1 stays
   open for cold/warm cost measurements on a ready host.
+  Tm's separate [#37](https://github.com/laputa-systems/tm/pull/37) merged as
+  `7fd4994`, closing DSLP-6's repeat-fixture finding. Independent input batches
+  preserve nine full-state observations and add literal window states; the
+  expiry barrier catches a five-second fault missed by the old test. Controlled
+  delayed probes fail before and pass after. Short exclusive fixture paths
+  pass a real Unix-socket regression. Full native tests, lint and both platform
+  CI jobs pass on `6a36076`. Historical CI lacks timestamps; this repairs the
+  demonstrated fixture dependency without claiming its exact old trace.
 - **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
   passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
   closing STUF-87's private import/recovery repair. Production is unchanged.
@@ -93,7 +101,8 @@ established, so the slop cannot return.
 - **Known red:**
   - ish, loc, and lz get new `gha-test-workflow` findings for container-wrapped `make test` once
     stuff#12 lands.
-  - oxish upstream workflows, and tm's flaky macOS test.
+  - oxish upstream workflows. Tm's demonstrated repeat-fixture dependency is
+    repaired in #37; its broader deslop pass remains open.
 - **Dispatched batch** (diff-pretty, vault, fz; tier-A Rust under 10k lines):
   - Ground, Diagnose, and Types are merged in all three. diff-pretty
     [Types #26](https://github.com/laputa-systems/diff-pretty/pull/26) merged
@@ -470,9 +479,10 @@ when no F item is open.
 The procedure is the `deslop` skill in usr ([SKILL.md](https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/skills/deslop/SKILL.md)).
 This doc does not restate its steps. Campaign-specific additions:
 
-- Calibration and pilot repos are worked by the campaign agent, in fresh checkouts under
-  `~/d/<repo>/.work/wt/<step>` (a no-checkout host clone, so no enclosing workspace or config leaks
-  into the worktree).
+- Resolve each repository's canonical checkout under `~/repos` and work in an isolated
+  `.work/wt/<step>` there. Keep its primary checkout, branch and existing changes untouched.
+  Do not create duplicate host clones under `~/d`. The stuff integrator keeps its existing
+  development checkout, as required by its own AGENTS.md.
 - A repo agent works only its own repository and reports gaps in shared files in its `## Report`.
 
 ## Seeding

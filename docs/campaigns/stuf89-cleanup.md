@@ -132,3 +132,11 @@ Both exact source paths are absent from Git's inventory and the filesystem.
 The task-only `llvm-stuf89-build:aarch64` and `llvm-stuf89-validate:aarch64`
 images had no container consumers and were removed by tag without force.
 No shared Docker resources or managed installations were changed.
+
+Fz's exact `/Users/josh/repos/laputa-systems/fz/.work/wt/stuf89` was also retired
+after all four checks passed on `94ba54d27c379c9f4bd0911179c064610d231259`,
+merged as `eebed611362d5d2b9b1e430633fbf0ab86be23e0`. Source was clean and
+the external open-file check found no consumer. Ignored contents were 1.5 MiB
+of verification scratch and 131 MiB of build data. The helper removed the exact
+path and integrated branch with `--discard-ignored`; the upstream fzy checkout
+was left untouched.
