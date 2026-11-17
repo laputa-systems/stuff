@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
+from typing import TypeGuard
 
 from repomod.io import read_json_object
 from repomod.rules.binary_release import (
@@ -35,7 +36,7 @@ _PRERELEASE = re.compile(r"(?<!\S)--prerelease\b")
 _BUILD_TAGS = frozenset({"build"})
 
 
-def _is_int(value: Any) -> bool:
+def _is_int(value: object) -> TypeGuard[int]:
     return isinstance(value, int) and not isinstance(value, bool)
 
 
@@ -73,7 +74,7 @@ def _make_targets_findings(root: Path, repository: Repository) -> list[Finding]:
     ]
 
 
-def _input_problems(index: int, entry: Any, seen: set[str]) -> list[str]:
+def _input_problems(index: int, entry: object, seen: set[str]) -> list[str]:
     if not isinstance(entry, dict):
         return [f"inputs[{index}] must be an object"]
     name = entry.get("name")
@@ -101,14 +102,16 @@ def _input_problems(index: int, entry: Any, seen: set[str]) -> list[str]:
         not isinstance(urls, list) or not urls or not all(isinstance(item, str) for item in urls)
     ):
         problems.append(f"{label} urls must be a non-empty list of strings")
-    if "size" in entry and (not _is_int(entry["size"]) or entry["size"] <= 0):
-        problems.append(f"{label} size must be a positive integer")
+    if "size" in entry:
+        size: object = entry.get("size")
+        if not _is_int(size) or size <= 0:
+            problems.append(f"{label} size must be a positive integer")
     return problems
 
 
 def _lock_document(
     root: Path, repository: Repository, name: str, *, required: bool
-) -> tuple[dict[str, Any] | None, list[Finding]]:
+) -> tuple[Mapping[str, object] | None, list[Finding]]:
     rule = "build-locks"
     path = root / name
     if path.is_symlink():
