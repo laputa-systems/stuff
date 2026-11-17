@@ -67,6 +67,7 @@ Run everything from the repository root.
 | Maintenance helpers and offline fakes | `deploy/`; commands in `Makefile` |
 | Using repomod: catalog, sync, lint, fix, release | [docs/fleet.md](docs/fleet.md) |
 | repomod architecture, sync, repair, and state ownership | [docs/fleet-design.md](docs/fleet-design.md) |
+| Repomod calibration findings and reproduction | [docs/deslop-repomod-diagnose.md](docs/deslop-repomod-diagnose.md) |
 | Catalog tags and visibility | [docs/tagging.md](docs/tagging.md) |
 | Rules, fixers, and musl publication | [docs/policy-development.md](docs/policy-development.md) |
 | Workflow matrix include proof | [docs/deslop-workflow-matrix.md](docs/deslop-workflow-matrix.md) |
