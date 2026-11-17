@@ -49,8 +49,18 @@ established, so the slop cannot return.
   cases and three CI checks pass, gated warm test/lint costs are 51.54/1.16 s.
   Existing CI exercises compiler/tests but not the separate lint command.
   Browser, appliance, live-service and broader Tests qualification remain open.
-  The next bounded Tests slice prepares real filesystem-store read-safety
-  regressions for the already confirmed DSLP-8; that data-loss path is not fixed yet.
+  [#10](https://github.com/joshuarli/extensions/pull/10), merged as `63377d7`,
+  repairs DSLP-8: unreadable, invalid-UTF-8, malformed or non-array record
+  snapshots fail before replacement. Eleven regressions fail on the original
+  source; all fifteen component cases and 237 Node tests pass. The changed
+  reader's 24 mutation identities are 22 killed and two equivalent; remaining
+  storage decisions stay open. [#11](https://github.com/joshuarli/extensions/pull/11),
+  merged as `aa120bb`, repairs DSLP-7 by saving ancestors before completion.
+  An additive completion-validity column retries legacy false-ok rows only
+  when needed. Real SIGKILL/reopen controls, 243 tests, lint, all 40 selected
+  mutants and independent schema/restart review pass. Typed fixtures avoid
+  casts. Whole-component storage, browser and whole-change CI qualification
+  remain open; timeline ordering remains unproven.
   Tm's separate [#37](https://github.com/laputa-systems/tm/pull/37) merged as
   `7fd4994`, closing DSLP-6's repeat-fixture finding. Independent input batches
   preserve nine full-state observations and add literal window states; the
@@ -59,6 +69,16 @@ established, so the slop cannot return.
   pass a real Unix-socket regression. Full native tests, lint and both platform
   CI jobs pass on `6a36076`. Historical CI lacks timestamps; this repairs the
   demonstrated fixture dependency without claiming its exact old trace.
+- **Disk cleanup:** Stuff is on main at `9aaf94bc` after
+  [#49](https://github.com/laputa-systems/stuff/pull/49) passed all ten checks.
+  Retired the clean, idle, patch-equivalent `deslop-current` and
+  `deslop-progress` worktrees after archiving useful ignored evidence.
+  Removed one unused generated ctrs guest disk template from the old
+  `repomod-mirror-x0_neb7j` scratch copy, reclaiming 64 GiB. Its source and
+  other assets remain; unknown, dirty and parked worktrees, private clones,
+  preservation refs and evidence archives were kept. Exact paths, provenance,
+  hashes and before/after measurements are in canonical
+  `.git/deslop-evidence/20261117-disk-cleanup/receipt.txt`.
 - **Engine checkpoint:** [stuff#39](https://github.com/laputa-systems/stuff/pull/39)
   passed all ten checks on the stopped head `9510e790` and merged as `511cf18`,
   closing STUF-87's private import/recovery repair. Production is unchanged.
@@ -134,6 +154,11 @@ established, so the slop cannot return.
     ordinary proof uses restored source and a fresh target. Other historical
     counting survivors and unconfirmed hangs remain unqualified. Exact proof
     is in `docs/deslop-invalid-utf8.md` and `docs/deslop-assembly.md` at `92ffad1`.
+    [#14](https://github.com/joshuarli/loc/pull/14), merged as `f5603d8`,
+    pins stopping positions and counts when markers change within a cached
+    block. All 507 unit, 27 CLI and one fixture case, lint and five CI checks
+    pass. The complete loader selection remains three caught and one unviable
+    before and after; it does not qualify the remaining masks component.
   - stats: Ground #16 (CI runs `make test-ci`, an interrupted-import test repaired, and macOS
     `make test` red from setuid `ps` in `sandbox-exec`, DSLP-7).
   - stuff: Ground #11.
@@ -267,6 +292,12 @@ established, so the slop cannot return.
     descriptor/syscall failures and the post-read signal window remain open.
     The CI mutation job selects macOS-only functions on Linux and exceeds its
     budget; platform-aware CI repair awaits explicit owner authorization.
+    Separately, [#35](https://github.com/laputa-systems/vault/pull/35) merged
+    as `0e72b21`: create stale sockets in an owned Rust test child and wait
+    for exit, so parallel forks cannot inherit a listener. Controlled old/new
+    overlap, ten stress runs with 1,000 process launches, native tests/lint
+    and all four CI checks pass. The draft integrates this fixture locally
+    as `c67f65f`, retaining its extra cache cases; the full native suite passes.
     The real file-operation order,
     flags, mode repair and error priorities remain intact; hardware, Linux and
     other OS-error/race decisions stay explicit. Exact proof is committed in Vault's
@@ -375,7 +406,14 @@ established, so the slop cannot return.
     11 reviewed functional equivalents and one confirmed hang across all
     276 identities, independently repeated. Its 126 tests and lint pass;
     all three checks pass after integrating PR20's documentation. Whole-change
-    mutation and CI qualification remain open; DSLP-6 stays deferred to Findings.
+    mutation and CI qualification remain open.
+    [PR22](https://github.com/joshuarli/pytest-parallel/pull/22), merged as
+    `2c69571`, fixes DSLP-6: grouping, weight and pin hook implementation
+    errors propagate before worker startup; failed JSON plans emit no plan.
+    All three installed-base-wheel regressions fail as intended and the
+    installed candidate passes them, normal custom hooks and missing defaults.
+    All 130 tests, Ruff, ty and three CI checks pass. Five gated installed-wheel
+    workload pairs have overlapping ranges; no speed difference is established.
   - **Buildlib calibration:** [PR12](https://github.com/laputa-systems/buildlib/pull/12)
     merged as `1a1132b` with independent public ELF header oracles. All 98
     header identities are classified: 90 killed and eight diagnostic-only
