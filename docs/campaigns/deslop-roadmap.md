@@ -157,3 +157,137 @@ consumer's type/lint, build, relevant tests and browser/SSR checks, with source
 activation evidence. Open focused PRs and merge only verified heads. No releases
 or production deployment are included. This is planned work; no Solid version
 was changed during winddown.
+
+## Parked checkpoints and reboot audit
+
+The three workers stopped and their worktrees are clean. These local commits
+have not been pushed or accepted. Read the tracked proof from each named branch,
+not a scratch log, before qualification. Preserve the branches even if their
+optional build artifacts are rebuilt.
+
+| Repository and branch | Local head | Qualification still required |
+| --- | --- | --- |
+| Buildlib `deslop/mutation-ci` | `175c98796220821b53ef328cc0761a232c5fb28b` | Final integration and remote platform jobs, actual PR controls, complete runner cost. Local release gate reports 317 killed and 14 dispositioned survivors; the mixed fixture reopens four release mutants. |
+| Vault `deslop/platform-ci` | `6c92d26f23ee3df739438d4f750698590eef16f3` | Full Linux/macOS shard matrix, actual PR controls, aggregate cost and platform dispositions. One macOS shard log reports five caught and four unviable, but its controlling shell exit was not captured; that is not a passing aggregate receipt. |
+| Diff-pretty `deslop/platform-ci` | `555aeaaf528df18b06431fe8287716f17c86d9f0` | Numeric component, final activation after gate/config edits, both platforms, tool-artifact checks and actual PR controls. Renderer has eight configured equivalences added after its last run; final gate acceptance remains unverified. |
+
+Their tracked proof is `docs/deslop-mutation-ci.md` in Buildlib and
+`docs/deslop-platform-ci.md` in Vault and diff-pretty. The local `cg` worktrees
+are retained for resumed qualification, not as the sole copy of their work.
+The existing Vault `deslop/store-gate` draft #30 remains at
+`bf3dcd9b4d893dce12de453705ef0b73dae4e0bf`; diff-pretty `deslop/tests` draft #31
+remains at `6f1719d8f0bb1ff9ab42ea0fcc91994ea9909ccb`.
+
+Stuff's four published PR heads are preserved separately from the local pause:
+
+| PR and branch | Reviewed source head | Pause disposition |
+| --- | --- | --- |
+| #55 `docs/deslop-accepted-slices` | `b9e1500727f016892472e3c63f9a54b3a62257c6` | Awaiting macOS Rust. Resolve its old Status against the current pause and roadmap before integrating. |
+| #56 `deslop/enrichment-types` | `5cd93b80e9330e7e4f8c41059dc95af3c8ee35d2` | 1,428 local tests and lint pass; awaiting macOS Rust. |
+| #57 `fix/workflow-matrix-includes` | `e69a4d919a2a1312ccfe3c5fbf7d886c2c767e8f` | 1,429 local tests and lint pass; awaiting macOS Rust. |
+| #58 `chore/deslop-fix-cleanup` | `8c6d32492ee9b4aa39c772ce1658256081d040da` | Preservation-first cleanup receipt; awaiting macOS Rust. |
+
+The waiting jobs are not assumed green or hung. A cancelled #55 macOS job was
+restarted after its log showed steady passing fake-S3 tests with repeated
+roughly 35-second delays. Do not repeat that cancellation as a diagnosis.
+No application source from these pending PRs was merged during winddown.
+
+Since the previous handoff, accepted default-branch work includes Stats #22
+command-tree cancellation and #21 ingest-type evidence, Loc #17 filename
+admission, diff-pretty #35 CLI assertions, and pytest-parallel #25 installed
+worker network assertions. Each merged after all applicable checks passed.
+Their exact default revisions are in the current scorecard.
+
+Five completed Stuff repair/review worktrees (`fp`, `sp`, `mc`, `ur`, `fpr`)
+were retired only after integration and idle checks. Eighteen useful logs were
+preserved with byte-for-byte verification in private Git metadata; net scoped
+space reclaimed was 192 MiB. The published #58 receipt records all hashes.
+Preserved checkout archives and unrelated user work remain untouched.
+
+The automatic closeout guard could not start: Git reports the tracked
+`.gitignore` as the winning `.work/` rule, while the guard requires the rule to
+come from `.git/info/exclude`. That file also contains `.work/`. The Stop hook
+was inspected and invokes `codex-campaign-closeout.py hook`. Do not weaken Git
+ignores or change unrelated tools during winddown to conceal this limitation.
+The manual audit below is the stopping evidence; automatic allow registrations
+could not be made. Recheck that guard prerequisite on resumption.
+
+Local mutation runners and check-watch loops have stopped. The shared mutation
+lock is absent and all three heavy slots are free. Already submitted remote CI
+may finish; it does not authorize an automatic campaign continuation. No new
+worker, schedule, measurement or Solid upgrade was started during winddown.
+
+### Retained Stuff worktrees
+
+The following exact paths remain. `accepted`, `rt`, `wm` and `clf` retain
+pending PR integration contexts. The three `dr-*` trees retain optional
+diagnosis witnesses until #55 is reconciled. `pycov` retains the existing
+worker-coverage consumer proof. Other entries predate this bounded cleanup
+and have separate or uncertain ownership; no source was discarded to remove
+them. They must be reviewed by ownership before retirement. All resumable
+implementation is committed on named branches; private raw archives are kept.
+
+```text
+worktree /Users/josh/d/stuff
+worktree /Users/josh/d/stuff/.work/wt/accepted
+worktree /Users/josh/d/stuff/.work/wt/actor-lifecycle
+worktree /Users/josh/d/stuff/.work/wt/catalog-ui
+worktree /Users/josh/d/stuff/.work/wt/clf
+worktree /Users/josh/d/stuff/.work/wt/dependency-atlas
+worktree /Users/josh/d/stuff/.work/wt/deslop-enforce
+worktree /Users/josh/d/stuff/.work/wt/deslop-stuff
+worktree /Users/josh/d/stuff/.work/wt/dr-core
+worktree /Users/josh/d/stuff/.work/wt/dr-deps
+worktree /Users/josh/d/stuff/.work/wt/dr-policy
+worktree /Users/josh/d/stuff/.work/wt/engine-diagnosis
+worktree /Users/josh/d/stuff/.work/wt/file-lock-drop
+worktree /Users/josh/d/stuff/.work/wt/h12tiny-upstream
+worktree /Users/josh/d/stuff/.work/wt/inventory-read-refusals
+worktree /Users/josh/d/stuff/.work/wt/mycrates-red
+worktree /Users/josh/d/stuff/.work/wt/nanoshop-ingress
+worktree /Users/josh/d/stuff/.work/wt/oo-native-finish
+worktree /Users/josh/d/stuff/.work/wt/oo-recovery
+worktree /Users/josh/d/stuff/.work/wt/oo-stuff-dev-deploy
+worktree /Users/josh/d/stuff/.work/wt/owned-tools
+worktree /Users/josh/d/stuff/.work/wt/pycov
+worktree /Users/josh/d/stuff/.work/wt/rivet-dashboard
+worktree /Users/josh/d/stuff/.work/wt/rivet-explorer
+worktree /Users/josh/d/stuff/.work/wt/rt
+worktree /Users/josh/d/stuff/.work/wt/smoke-x86
+worktree /Users/josh/d/stuff/.work/wt/sqlite-page-read-refusal
+worktree /Users/josh/d/stuff/.work/wt/staged-sqlite-refusal
+worktree /Users/josh/d/stuff/.work/wt/stats-runtime-hardening
+worktree /Users/josh/d/stuff/.work/wt/stuf90-diagnosis
+worktree /Users/josh/d/stuff/.work/wt/winddown-20261116
+worktree /Users/josh/d/stuff/.work/wt/wm
+worktree /Users/josh/d/stuff/.work/wt/zip-rule
+```
+
+### Unmerged Stuff branches
+
+Every branch below is preserved. The PR branches are identified above.
+`chore/d-overlap-inventory`, `chore/deslop-cleanup-resume`,
+`chore/stuf89-cleanup-final`, `docs/deslop-current` and
+`docs/deslop-direct-progress` preserve prior campaign/cleanup records.
+The `fix/stuf89-*` branches preserve unfinished help work. The remaining
+branches belong to prior infrastructure/deployment work and are retained
+without advancing those campaigns. Do not delete them to satisfy closeout.
+
+```text
+  chore/d-overlap-inventory
+  chore/deslop-cleanup-resume
++ chore/deslop-fix-cleanup
++ chore/h12tiny-upstream
+  chore/stuf89-cleanup-final
++ deslop/enrichment-types
++ docs/deslop-accepted-slices
+  docs/deslop-current
+  docs/deslop-direct-progress
++ feat/stats-runtime-hardening
++ fix/actor-lifecycle
++ fix/inventory-read-refusals
++ fix/staged-sqlite-refusal
+  fix/stuf89-help
+  fix/stuf89-rust
++ fix/workflow-matrix-includes
+```
