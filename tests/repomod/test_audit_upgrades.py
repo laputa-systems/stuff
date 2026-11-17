@@ -44,6 +44,7 @@ def offline_registry(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr("repomod.audit._http_json", lambda url, headers=None: None)
     monkeypatch.setattr("repomod.audit._http_text", lambda url, headers=None: None)
     monkeypatch.setattr("repomod.audit._crates_fetch", lambda url: None)
+    monkeypatch.setattr("repomod.audit.osv_query_batch", lambda queries: [[] for _ in queries])
 
 
 @pytest.fixture
