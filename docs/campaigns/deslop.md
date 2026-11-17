@@ -9,9 +9,11 @@ established, so the slop cannot return.
 
 - **Resumed (2026-11-16):** the owner resumed
   `docs/HANDOFF-TODO-DESLOP-20261116.md` in parallel with STUF-89. Direct
-  Vault and diff-pretty Tests work runs in separate `tests-resume` worktrees,
-  each carrying its stopped checkpoint plus current main. Original worktrees
-  and partial mutation evidence remain intact. Review saved survivors and
+  Vault and diff-pretty Tests work now runs in each canonical repository's
+  `.work/wt/ds`, on branch `resume/deslop-tests-20261116`, carrying its stopped
+  checkpoint plus current main. Original branches, dirty files and partial
+  mutation evidence were [preserved before the overlapping clones moved to
+  Trash](d-overlap-preservation.md). Review saved survivors and
   qualify boundary assertions first. Host constraints defer timing/cost
   acceptance; bounded correctness, coverage and Scenario counts use CPU guards
   and the shared mutation lock. No fleet rollout or STUF-75 work is authorized.

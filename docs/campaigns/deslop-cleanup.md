@@ -1,5 +1,9 @@
 # Deslop cleanup pass
 
+The later [duplicate-checkout preservation](d-overlap-preservation.md) moved the
+overlapping `~/d` clones to Trash and recreated the active Vault and Diff worktrees
+under `~/repos`. The historical retirement evidence below predates that move.
+
 Campaign head: `524091473c4c96c48f7b7e4f25f531089d8e4513` (`chore/deslop-cleanup-resume`).
 
 - Retired `/Users/josh/d/extensions/.work/wt/vite-resume`, branch `fix/deslop-vite-resume`, head `c0db9daba9f17f4fc86d6e7060d650d2187e017d`. Clean tracked/untracked; `lsof +D` had no output (exit 1). `git fetch --no-tags origin refs/heads/main` (exit 0) made PR #5 merge `a45dcdcd0e1e79bfb8b6f6328cbc255c71f6f05f` available; target is its ancestor (exit 0). Integrated evidence: `docs/deslop-vitest.md:1`. Ignored contents inspected: 143M `node_modules/`, `.work/tmp/resume-pr.md` (916 bytes); helper removed with `--discard-ignored` (exit 0), deleted branch. Before 144M; after path absent (0 bytes).
