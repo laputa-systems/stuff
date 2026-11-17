@@ -397,8 +397,7 @@ def ensure_upstream_remote(path: Path, url: str) -> str:
         _configure_upstream_remote(path)
         return "added"
     if state == "different":
-        run_git(["remote", "remove", UPSTREAM_REMOTE], cwd=path)
-        run_git(["remote", "add", UPSTREAM_REMOTE, url], cwd=path)
+        run_git(["remote", "set-url", UPSTREAM_REMOTE, url], cwd=path)
         _configure_upstream_remote(path)
         return "updated"
     _configure_upstream_remote(path)

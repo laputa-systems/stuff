@@ -57,11 +57,24 @@ def test_sync_repoints_wrong_upstream_url(
     sync_one(catalog, repository, RemoteRepository(str(repository.id), "main", "unused", False))
     checkout = repository_path(catalog, repository)
     git("remote", "add", "upstream", "file:///elsewhere.git", cwd=checkout)
+    base = git("rev-parse", "HEAD", cwd=checkout)
+    preserved = git("commit-tree", f"{base}^{{tree}}", "-p", base, "-m", "old upstream work", cwd=checkout)
+    git("update-ref", "refs/remotes/upstream/preserved", preserved, cwd=checkout)
+    git("branch", "--set-upstream-to=upstream/preserved", "main", cwd=checkout)
+    git("config", "remote.upstream.pushurl", "file:///user-push.git", cwd=checkout)
 
     result = sync_one(catalog, repository, parent_remote(repository, upstream_sha))
 
     assert "upstream acme/upstream repointed and fetched" in result.message
     assert git("config", "--get", "remote.upstream.url", cwd=checkout) == f"file://{upstream_bare}"
+    assert "refs/remotes/upstream/preserved" in upstream_refs(checkout)
+    assert git("rev-parse", "refs/remotes/upstream/preserved", cwd=checkout) == preserved
+    assert git("config", "--get", "branch.main.remote", cwd=checkout) == "upstream"
+    assert git("config", "--get", "branch.main.merge", cwd=checkout) == "refs/heads/preserved"
+    assert git("config", "--get", "remote.upstream.pushurl", cwd=checkout) == "file:///user-push.git"
+    assert git("rev-parse", "refs/remotes/upstream/main", cwd=checkout) == upstream_sha
+    assert git("branch", "--show-current", cwd=checkout) == "main"
+    assert git("rev-parse", "HEAD", cwd=checkout) == base
 
 
 def test_sync_leaves_non_forks_without_upstream_remote(
