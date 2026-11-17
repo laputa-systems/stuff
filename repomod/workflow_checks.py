@@ -99,6 +99,7 @@ def _matrix_combinations(strategy: object) -> list[dict[str, object]]:
             for combination in combinations
             if not all(combination.get(key, _MISSING) == value for key, value in entry.items())
         ]
+    appended: list[dict[str, object]] = []
     for entry in _entries(matrix.get("include")):
         matched = [
             combination
@@ -106,12 +107,11 @@ def _matrix_combinations(strategy: object) -> list[dict[str, object]]:
             if axes and all(combination[key] == value for key, value in entry.items() if key in axes)
         ]
         if not matched:
-            combinations.append(dict(entry))
+            appended.append(dict(entry))
             continue
         for combination in matched:
-            for key, value in entry.items():
-                combination.setdefault(key, value)
-    return combinations
+            combination.update(entry)
+    return combinations + appended
 
 
 _MISSING = object()
