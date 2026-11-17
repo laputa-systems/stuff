@@ -19,7 +19,8 @@ resumption. Linux-only mutation is not a requirement for macOS-only behavior.
 Releases, production, credentials, hardware operations and canonical user
 checkouts retain their existing boundaries. Broader deslop dispatch waits for
 the concrete M2 report and owner approval. Winddown starts no new implementation
-or measurement. Its new checkpoints are committed locally without pushing.
+or measurement. The final roadmap, ticket and pause checkpoints are local.
+The final remote read showed the initial freeze `afe9852f` on `origin/main`.
 
 ## Reconcile before resuming implementation
 

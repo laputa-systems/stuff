@@ -11,7 +11,7 @@ Paused 2026-11-17 at the owner's request. Start nothing until explicitly resumed
 Resume prompt: "Resume docs/campaigns/deslop.md from Status and its roadmap."
 First command: `git status --short`, then read the [roadmap](deslop-roadmap.md).
 Last accepted application revision: `c14465ec50232d029a4fdbaf3588bb25fc6442aa`; its CI passed.
-The primary checkout contains committed local pause records; these were not pushed.
+Final roadmap, ticket and pause commits are local; remote main contains the initial freeze `afe9852f`.
 [Current scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) distinguishes completed, active, blocked and not-started passes.
 M2 is not complete. The roadmap accounts for every acceptance/report requirement and the full-fleet goal.
 Parked local gates: Buildlib `deslop/mutation-ci`, Vault and diff-pretty `deslop/platform-ci`; exact heads and retry conditions are in [parked checkpoints](deslop-roadmap.md#parked-checkpoints-and-reboot-audit).
