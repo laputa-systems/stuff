@@ -49,6 +49,9 @@ mutate checkouts; it reports what would be cloned, updated, removed, or untracke
 ensures a conventional `upstream` remote pointing at the parent and fetches the parent's default
 branch, so fork-behind comparisons stay verifiable locally; a failing upstream fetch is reported
 in the result without failing the sync.
+Repointing an existing upstream changes its fetch URL in place, preserving branch tracking,
+other remote configuration and existing refs. The subsequent fetch can update the selected
+upstream branch as usual; repointing does not remove the remote or its other tracking refs.
 
 Local status does not fetch. Ahead and behind counts compare the local branch with its last-fetched
 upstream, so they are not current remote state. Text output lists only repositories that need
