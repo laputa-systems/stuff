@@ -24,7 +24,7 @@ checked revisions.
   the type-aware lint and installed Chromium checks on green. #16 updates DSLP-4.
 - STUF-91 has Solid 2.0 candidates for Discover, Stats and bctl. The owner
   approved exact-version age exemptions for the locked Solid packages.
-  Frozen installs pass. The dashboard library still needs stable versions
+  Frozen installs pass, and Stats #23 merged on green. The dashboard library still needs stable versions
   in its configured mirror.
 - Broader dispatch requires owner approval of the concrete M2 report.
   Hardware, releases, production and canonical checkouts retain their
