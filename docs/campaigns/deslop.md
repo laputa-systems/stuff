@@ -97,7 +97,20 @@ established, so the slop cannot return.
     merged as `dd84c9c`: canonical paths are counted once across direct entries,
     directory walks and tracked-only walks. Native checks and Linux/macOS CI
     pass; five paired release workloads remain within their observed spread.
-    The critical mutation lane and Dead code remain open.
+    The critical mutation lane and Dead code remain open. Two bounded Tests
+    slices now merge with all five checks green:
+    [#12](https://github.com/joshuarli/loc/pull/12), `d0867b2`, catches both
+    invalid-UTF-8 first-line survivors with four independent byte inputs;
+    [#13](https://github.com/joshuarli/loc/pull/13), `92ffad1`, catches both
+    assembly preprocessor-condition survivors with literal classifications.
+    Complete function selections are two caught/one unviable and twelve
+    caught/two unviable, respectively. Their hand faults fail the new
+    assertions, and restored full suites and lint pass. Warm cost is 3.24 s
+    before and 3.27 s after each slice, with actual pre/post gates passing.
+    One ordinary run overlapped in-place mutation and is discarded; the final
+    ordinary proof uses restored source and a fresh target. Other historical
+    counting survivors and unconfirmed hangs remain unqualified. Exact proof
+    is in `docs/deslop-invalid-utf8.md` and `docs/deslop-assembly.md` at `92ffad1`.
   - stats: Ground #16 (CI runs `make test-ci`, an interrupted-import test repaired, and macOS
     `make test` red from setuid `ps` in `sandbox-exec`, DSLP-7).
   - stuff: Ground #11.
@@ -293,22 +306,24 @@ established, so the slop cannot return.
     `docs/deslop-tests-performance.json` at `f609068`. CLI rustybench 0.4.0
     wraps library 0.5.0; production-profile benches require
     `-Z panic-abort-tests` alongside build-std to avoid duplicate core graphs.
-    Earlier workspace coverage passes all 70 cases: 3,246/4,308 lines and
-    593/924 branches. It identifies the unexercised public pager adapter and
-    live lifecycle decisions. Public pager-entry PTY cases, output flush/error
+    Fresh integrated workspace coverage passes all 88 executable cases and
+    one doctest: 3,681/4,529 lines and 648/930 branches, including inline tests.
+    Public pager-entry PTY cases, output flush/error
     witnesses and fragmented streaming consumers now pass; complete adapter
     selection has seven caught, streaming nine caught/one unviable. Three
     literal Session navigation scenarios qualify the complete five-method
     selection: 43 caught/one unviable. No Session resize operation exists;
-    live-loop/draw and other regions remain open. The final native suite has
-    87 executable cases and one doctest before alignment integration, none
-    ignored, plus lint and workspace
-    Clippy. Parent reran focused navigation and atomic-fault checks after integration.
-    The timing/test-cost gates, other renderer/pager decisions and
+    other live-loop and renderer decisions remain open. No tests are ignored.
+    Lint and workspace Clippy pass. Parent reran focused navigation and
+    atomic-fault checks after integration.
+    Matched warm release-suite costs are 1.18 s before and 1.17 s after,
+    with both pre/test/immediate-post triples passing. These single observations
+    establish the cost allowance, not a speedup. The unresolved runtime timing
+    result, other renderer/pager decisions and
     whole-change CI lane keep the draft unmerged. The old Full run's 109 untested
     and 48 unconfirmed timeouts remain incomplete. Exact commands, dispositions
     and limits are committed in Diff's `docs/deslop-cli-tests.md`, readable with
-    `git show f609068:docs/deslop-cli-tests.md` from its canonical repository.
+    `git show 3653bb3:docs/deslop-cli-tests.md` from its canonical repository.
   - **pytest-parallel calibration:** [PR15](https://github.com/joshuarli/pytest-parallel/pull/15)
     merged as `4968f8e` after all three exact-head checks passed. A local
     pytest.ini isolates the plan fixture from ancestor configuration under
@@ -333,15 +348,28 @@ established, so the slop cannot return.
     two independently measured worker processes. The final wheel is 31,199 B
     (+205 B from README metadata); runtime package files are byte-identical.
     Scheduling [PR21](https://github.com/joshuarli/pytest-parallel/pull/21)
-    adds six literal tests and a bounded serial mutation target: 264 killed,
+    merged as `ef73bbe` with six literal tests and a bounded serial mutation target: 264 killed,
     11 reviewed functional equivalents and one confirmed hang across all
     276 identities, independently repeated. Its 126 tests and lint pass;
-    current-head CI reruns after integrating PR20's documentation. Whole-change
+    all three checks pass after integrating PR20's documentation. Whole-change
     mutation and CI qualification remain open; DSLP-6 stays deferred to Findings.
-  - **Buildlib calibration:** the next bounded Tests component covers public
-    ELF header parsing using independent byte-built malformed and valid images.
-    Historical whole-package survivor counts remain historical; the new run
-    selects only `_read_header`, with no runtime, dependency or CI changes.
+  - **Buildlib calibration:** [PR12](https://github.com/laputa-systems/buildlib/pull/12)
+    merged as `1a1132b` with independent public ELF header oracles. All 98
+    header identities are classified: 90 killed and eight diagnostic-only
+    survivors. A bounded real FIFO catches the read-until-EOF mutant while
+    its producer remains open. [PR13](https://github.com/laputa-systems/buildlib/pull/13)
+    merged as `dbc5e5a` with literal Mach-O dependency, install-name and rpath
+    oracles. All 28 string identities are classified: 27 killed and one
+    equivalent codec alias. Parent repeats recover complete mutation tool-cost
+    receipts. All 149 tests and lint pass, both PR checks are green, and warm
+    test cost stays within the allowance. Runtime and dependencies are unchanged.
+    Historical whole-package counts remain historical; broader ELF, Mach-O,
+    locks, release and CI qualification stay open. Exact reproduction and
+    dispositions are in `docs/deslop-elf-header.md` and
+    `docs/deslop-macho-strings.md`, readable with `git show dbc5e5a:PATH` from
+    the canonical repository. The two accepted worktrees are retired after
+    integration, idle-consumer and archive readback checks. Private raw evidence
+    remains under canonical `.git/deslop-evidence/20261117/`.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
