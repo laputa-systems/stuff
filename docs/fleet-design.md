@@ -142,6 +142,10 @@ that branch and opens or reuses a pull request against the default branch. It en
 auto-merge only when the repository allows it and the default branch requires status checks. The
 next fix run resumes its unmerged branch from the current default branch. Failed or interrupted
 work remains on its branch or in its worktree.
+Publication retains the canonical branch and HEAD observed before fixing. A change detected
+during fixing prevents publication. The push path rechecks that identity before and after its
+remote lookup. Refused publication leaves the fix branch available for inspection. These checks
+do not exclude a non-cooperating writer after the final inspection.
 A `repomod/fix/` branch that has diverged from the default branch blocks the next run unless
 GitHub reports its pull request merged, or `git cherry` finds every one of its commits already on
 the default branch, as happens after a squash or cherry-pick.

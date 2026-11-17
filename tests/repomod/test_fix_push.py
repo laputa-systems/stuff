@@ -12,6 +12,59 @@ from repomod.fix import push_fix_branch, push_repository
 from repomod.git import head, status
 
 
+@pytest.mark.parametrize("during_remote_query", [False, True])
+@pytest.mark.parametrize("change", ["commit", "branch"])
+def test_fix_push_refuses_changed_canonical_identity(
+    tmp_path: Path,
+    git_environment: None,
+    monkeypatch: pytest.MonkeyPatch,
+    during_remote_query: bool,
+    change: str,
+) -> None:
+    _catalog, repository, path, base = initialize_repository(tmp_path)
+    git("checkout", "-b", "user-feature", cwd=path)
+    branch = "repomod/fix/" + "b" * 32
+    git("branch", branch, base, cwd=path)
+
+    def change_checkout() -> None:
+        if change == "commit":
+            (path / "user.txt").write_text("user work\n", encoding="utf-8")
+            git("add", "user.txt", cwd=path)
+            git("commit", "-m", "user work", cwd=path)
+        else:
+            git("checkout", "-b", "another-feature", cwd=path)
+
+    original_remote_head = fix_module._remote_branch_head
+
+    def query_remote(checkout: Path, default_branch: str) -> str:
+        change_checkout()
+        return original_remote_head(checkout, default_branch)
+
+    if during_remote_query:
+        monkeypatch.setattr(fix_module, "_remote_branch_head", query_remote)
+    else:
+        change_checkout()
+
+    state, message = push_fix_branch(
+        repository, path, branch, "main", base, base,
+        canonical_head=base, canonical_branch="user-feature",
+    )
+
+    assert state == "skipped"
+    assert message == (
+        "checkout changed before push" if during_remote_query else "canonical checkout changed since fixing"
+    )
+    assert git("--git-dir", str(tmp_path / "remote.git"), "for-each-ref", f"refs/heads/{branch}").stdout == ""
+    assert git("rev-parse", f"refs/heads/{branch}", cwd=path).stdout.strip() == base
+    assert git("status", "--porcelain", cwd=path).stdout == ""
+    if change == "commit":
+        assert head(path) != base
+        assert (path / "user.txt").read_text(encoding="utf-8") == "user work\n"
+    else:
+        assert head(path) == base
+        assert git("branch", "--show-current", cwd=path).stdout.strip() == "another-feature"
+
+
 def test_push_fix_branch_skips_when_remote_default_advanced(
     tmp_path: Path,
     git_environment: None,
@@ -27,7 +80,9 @@ def test_push_fix_branch_skips_when_remote_default_advanced(
     branch = "repomod/fix/" + "a" * 32
     git("branch", branch, base, cwd=path)
 
-    state, message = push_fix_branch(repository, path, branch, "main", base, base)
+    state, message = push_fix_branch(
+        repository, path, branch, "main", base, base, canonical_head=base, canonical_branch="main"
+    )
 
     assert state == "skipped"
     assert message == "remote default branch changed; sync before publishing fixes"
@@ -111,7 +166,9 @@ def test_fix_push_uses_validated_commit_when_branch_moves(
         return original_run_git(arguments, cwd=cwd, **options)
 
     monkeypatch.setattr(fix_module, "run_git", advance_before_push)
-    state, message = push_fix_branch(repository, path, branch, "main", base, base)
+    state, message = push_fix_branch(
+        repository, path, branch, "main", base, base, canonical_head=base, canonical_branch="main"
+    )
     assert state == "pushed", message
     remote_head = git("--git-dir", str(tmp_path / "remote.git"), "rev-parse", f"refs/heads/{branch}").stdout.strip()
     assert remote_head == base

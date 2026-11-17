@@ -159,6 +159,9 @@ def _fix(args: argparse.Namespace) -> int:
         and outcome.branch_head is not None
         and outcome.branch_head != outcome.base_head
         and outcome.recovery_worktree is None
+        and outcome.canonical_head is not None
+        and outcome.canonical_branch is not None
+        and not any(rule == "publish" for rule, _ in outcome.failures)
     }
 
     def push_fix(repository: Repository) -> tuple[str, str | None]:
@@ -169,6 +172,8 @@ def _fix(args: argparse.Namespace) -> int:
             assert outcome.branch is not None
             assert outcome.base_head is not None
             assert outcome.branch_head is not None
+            assert outcome.canonical_head is not None
+            assert outcome.canonical_branch is not None
             state, message = fix_engine.push_fix_branch(
                 repository,
                 catalog_module.repository_path(catalog, repository),
@@ -176,6 +181,8 @@ def _fix(args: argparse.Namespace) -> int:
                 remote.default_branch,
                 outcome.base_head,
                 outcome.branch_head,
+                canonical_head=outcome.canonical_head,
+                canonical_branch=outcome.canonical_branch,
             )
         if state != "pushed":
             return state, message
