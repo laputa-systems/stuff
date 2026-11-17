@@ -172,7 +172,7 @@ established, so the slop cannot return.
     reconciliation is below. Quiet-host cost and remaining decision regions
     keep PR30 draft and DSLP-4 open. The old filtered filesystem
     driver still must not be restarted unchanged.
-    Current Tests head `63b25c7` adds independent filename/UTF-8 byte-limit
+    Current Tests head `d409423` adds independent filename/UTF-8 byte-limit
     oracles, a pure data-home table, private-file admission/read witnesses,
     directory opening and lock/mode repair. Filename selection: 31
     caught, four equivalent misses, one unviable and no timeouts across all 36
@@ -219,13 +219,24 @@ established, so the slop cannot return.
     allowance; serial exploratory receipts are retained separately. Short
     worktree names and fresh targets repair the path-only qualification failure.
     Independent review finds no supported defect in the filesystem refactors.
-    Signal setup/restoration failures are the next bounded local slice.
+    Signal setup/restoration primitives now have controlled failure witnesses.
+    A bounded owned-PTY child calls the real `read_passphrase` with empty and
+    invalid UTF-8 input, verifies combined read/restore errors, signal handler
+    ordering and terminal restoration, and cannot reach hardware. All five
+    generated caller mutations are caught; a dropped-secondary-error hand
+    fault fails the intended assertion. Fresh native coverage at `c68d9cc`
+    passes 68 unit, 29 integration and four terminal cases: 3,235/3,779 lines
+    and 423/544 branches including inline tests. Two hardware cases remain
+    ignored. Warm cost is 23.17 s, within the 30 s increase allowance. Rare
+    descriptor/syscall failures and the post-read signal window remain open.
+    The CI mutation job selects macOS-only functions on Linux and exceeds its
+    budget; platform-aware CI repair awaits explicit owner authorization.
     The real file-operation order,
     flags, mode repair and error priorities remain intact; hardware, Linux and
     other OS-error/race decisions stay explicit. Exact proof is committed in Vault's
     `docs/deslop-filesystem.md`, readable from the canonical repository with
-    `git show 63b25c7:docs/deslop-filesystem.md`; prompt evidence is in
-    `docs/deslop-terminal-echo.md` at the same revision.
+    `git show d409423:docs/deslop-filesystem.md`; caller proof is in
+    `docs/deslop-passphrase-errors.md` at the same revision.
     Four integrated Vault worktrees were retired after private evidence archives
     passed readback and checksum checks; parked work and services were retained.
   - **Stuff lock repair:** [PR43](https://github.com/laputa-systems/stuff/pull/43)
@@ -236,12 +247,12 @@ established, so the slop cannot return.
     This addresses the observed failure shape without claiming a retained
     descriptor was traced in the earlier docs-PR CI failure.
   - **diff-pretty Tests:** [PR31](https://github.com/laputa-systems/diff-pretty/pull/31)
-    head `f609068` includes the real bare-control repair `f17f82f`. Uncolored
+    includes the real bare-control repair `f17f82f`. Uncolored
     hunks previously retained NUL and C1 controls because stripping required
     ESC. A shared predicate fixes that path, retaining tabs and Unicode;
     literal public-API and owned-child CLI oracles fail before and pass after.
-    Current workspace tests and lint pass; all three CI checks passed on the
-    prior `bfc55a2`, with exact-head checks pending. The complete sanitizer selection
+    Current workspace tests and lint pass; exact-head platform checks continue
+    after integration. The complete sanitizer selection
     has 70 caught, eight equivalent misses, one unviable and no timeouts, with
     no exclusions and every caught log failing the new CLI oracle. It includes
     the new predicate and one tool-selected plain-file field; its inventory
@@ -261,8 +272,21 @@ established, so the slop cannot return.
     no row beyond both spread and 2%, but corpus median is still 4.928 ms versus
     5.182 ms (+5.14%, below its 0.372 ms spread). The original regression's
     mechanism remains unresolved; no speedup or stable equality is claimed.
-    Unstripped profiling is separate from timing, and draw/error witnesses are
-    the next bounded tests-only lane.
+    Unstripped profiling is separate from timing. A separate five-pair shipped
+    CLI process comparison has no regression beyond spread: 34.903 ms baseline
+    versus 34.341 ms current, with the same production feature closure and output.
+    That workload does not resolve the earlier library benchmark regression.
+    Public draw/error witnesses now qualify all 14 selected mutations: 13
+    caught and one allocation-only functional equivalent. All three new
+    literal scenarios pass, with the complete selection and faults recorded.
+    Alignment [PR33](https://github.com/laputa-systems/diff-pretty/pull/33)
+    merged as `aa0e505`, closing DSLP-9: empty inputs no longer invent an
+    operation, and one-sided runs retain every token. Independent enumeration
+    checks 225 public input pairs; all 66 mutations are classified (62 caught,
+    two unviable, two allocation-only equivalents). All 103 fixtures match,
+    and five shipping-profile pairs across 22 workloads meet the declared
+    performance bound with matching allocations and binary sizes. All three
+    platform/lint checks pass, including the separate test-only Clippy repair.
     All 103 corpus fixture outputs match, with the intended bare-control
     correction separately checked against its literal oracle. Configuration,
     source/input hashes, spread and reproduction script are in
@@ -277,7 +301,8 @@ established, so the slop cannot return.
     literal Session navigation scenarios qualify the complete five-method
     selection: 43 caught/one unviable. No Session resize operation exists;
     live-loop/draw and other regions remain open. The final native suite has
-    84 executable cases and one doctest, none ignored, plus lint and workspace
+    87 executable cases and one doctest before alignment integration, none
+    ignored, plus lint and workspace
     Clippy. Parent reran focused navigation and atomic-fault checks after integration.
     The timing/test-cost gates, other renderer/pager decisions and
     whole-change CI lane keep the draft unmerged. The old Full run's 109 untested
@@ -300,8 +325,23 @@ established, so the slop cannot return.
     [PR18](https://github.com/joshuarli/pytest-parallel/pull/18) merged as
     `85ef2ff`: all strict candidates measured, no setting meets the adoption
     rule, 76 hatch-matching lines unchanged, current profile retained. Each PR
-    has all three exact-head checks green. Python coverage/mutation support
-    is the next Tests qualification; DSLP-6 remains deferred to Findings.
+    has all three exact-head checks green. Native worker coverage
+    [PR19](https://github.com/joshuarli/pytest-parallel/pull/19) merged as
+    `eb2aa8e`; [PR20](https://github.com/joshuarli/pytest-parallel/pull/20)
+    corrects wheel-size accounting and records the real Stuff consumer.
+    An installed candidate runs all 1,410 repomod tests with three skips and
+    two independently measured worker processes. The final wheel is 31,199 B
+    (+205 B from README metadata); runtime package files are byte-identical.
+    Scheduling [PR21](https://github.com/joshuarli/pytest-parallel/pull/21)
+    adds six literal tests and a bounded serial mutation target: 264 killed,
+    11 reviewed functional equivalents and one confirmed hang across all
+    276 identities, independently repeated. Its 126 tests and lint pass;
+    current-head CI reruns after integrating PR20's documentation. Whole-change
+    mutation and CI qualification remain open; DSLP-6 stays deferred to Findings.
+  - **Buildlib calibration:** the next bounded Tests component covers public
+    ELF header parsing using independent byte-built malformed and valid images.
+    Historical whole-package survivor counts remain historical; the new run
+    selects only `_read_header`, with no runtime, dependency or CI changes.
   - **Resume order:** finish vault Tests and diff-pretty Tests directly, then
     their Dead code/Findings/Report steps. Fz is settled. Retain the owner-only
     hardware recovery and fleet-rollout boundaries below.
@@ -314,6 +354,9 @@ established, so the slop cannot return.
 - **Needs you:**
   1. toolbox: fix Actions billing to bring it back in scope.
   2. M2 requires review of the concrete calibration report before broader fleet dispatch.
+  3. CI repairs require explicit authorization under the lean contract. The
+     concrete pending request covers platform-aware bounded deslop mutation
+     jobs and their whole-change selection and negative controls.
 - **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
   the dispatched batch, the next direct slices are loc's sharded lane under
   `cpu-guard` and the remaining calibration/pilot harness qualifications.
