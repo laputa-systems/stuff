@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 91
+Next: 92
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -52,6 +52,16 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Preserve the stopped depot and original receipt. Identify the first unexpected completion or cleanup drop before the dependent_failed fence, tracing the storage service owner, depot-client watcher and EngineBackground shutdown. Keep lease and heartbeat safeguards intact. Add a decisive regression for the established cause, then run a bounded private ten-cycle cohort with canonical table hashes and the unchanged fifteen-second readiness limit. Do not restart the shared Engine for this investigation.
 - **Fix with:** root-cause
 - **Effort:** M
+
+
+### STUF-91 · P2 · Upgrade all Solid consumers to stable 2.0 using the changelog
+
+- **Area:** Fleet · frontend dependencies
+- **Where:** docs/campaigns/deslop-roadmap.md#upgrade-solid-consumers-on-resumption; fleet/catalog.toml; affected Solid consumer manifests and lockfiles
+- **Problem:** The owner reports Solid 2.0 left RC on 2026-11-17 and explicitly requests upgrading every consumer on campaign resumption. Existing consumers and migration requirements have not yet been inventoried. P2 assumed for the requested fleet upgrade; no production defect is claimed.
+- **Recommendation:** On resumption verify the official stable release, changelog and migration guide. Inventory all Solid consumers and related compiler, JSX, router, test and SSR integration pins. Map relevant breaking changes before edits, migrate each affected consumer, and verify type/lint, build, tests and relevant browser or SSR behavior. Use focused reviewed PRs with green applicable checks; preserve registry policy and existing release/production boundaries. Do not execute the upgrade during winddown.
+- **Fix with:** upgrade-the-world
+- **Effort:** L
 
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer

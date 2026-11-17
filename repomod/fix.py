@@ -23,6 +23,8 @@ class FixOutcome:
     branch: str | None = None
     base_head: str | None = None
     branch_head: str | None = None
+    canonical_head: str | None = None
+    canonical_branch: str | None = None
     failures: list[tuple[str, str]] = field(default_factory=list)
     skipped: str | None = None
     recovery_ref: str | None = None
@@ -407,6 +409,8 @@ def fix_repository(
                 outcome.skipped = f"local default branch {default_branch} is unavailable; sync before fixing"
                 return outcome
             start_head = head(canonical)
+            outcome.canonical_head = start_head
+            outcome.canonical_branch = current.branch
             if remote_head is not None and base_head != remote_head:
                 outcome.skipped = "local default branch differs from GitHub default branch; sync before fixing"
                 return outcome
@@ -511,6 +515,7 @@ def fix_repository(
                     if (
                         current.dirty
                         or not current.origin_valid
+                        or current.branch != outcome.canonical_branch
                         or head(canonical) != start_head
                     ):
                         outcome.failures.append(
@@ -538,6 +543,9 @@ def push_fix_branch(
     default_branch: str,
     base_head: str,
     branch_head: str,
+    *,
+    canonical_head: str,
+    canonical_branch: str,
 ) -> tuple[str, str | None]:
     if re.fullmatch(r"repomod/fix/[0-9a-f]{32}", branch) is None:
         return "failed", "fix branch name is invalid"
@@ -548,6 +556,8 @@ def push_fix_branch(
         return "failed", current.error or "origin is invalid"
     if current.dirty:
         return "skipped", "checkout is dirty"
+    if current.branch != canonical_branch or head(path) != canonical_head:
+        return "skipped", "canonical checkout changed since fixing"
     local_default = run_git(
         ["rev-parse", "--verify", f"refs/heads/{default_branch}"], cwd=path, check=False
     )
@@ -565,7 +575,7 @@ def push_fix_branch(
     if remote_head != base_head:
         return "skipped", "remote default branch changed; sync before publishing fixes"
     confirmed = status(path, repository.id)
-    if confirmed.dirty or not confirmed.origin_valid:
+    if confirmed != current or head(path) != canonical_head:
         return "skipped", "checkout changed before push"
     result = run_git(
         ["push", "origin", f"{branch_head}:refs/heads/{branch}"],
