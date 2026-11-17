@@ -50,7 +50,29 @@ through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
   legacy Workers on the Linux runner before the candidate install failed.
   On macOS the candidate ran all 41 local tests with no skips. Recheck the
   affected public endpoints before attempting failed jobs. Keep the locked
-  package sources and all hosted acceptance conditions.
+  package sources and all hosted acceptance conditions. At 23:54 UTC,
+  the Cargo index, npm dashboard metadata and PyPI package endpoints all
+  returned HTTP 502.
+- Loc [#18](https://github.com/joshuarli/loc/pull/18) merged as `ac9ffed`.
+  All 19 historical misses and the historical timeout mapped to current
+  identities. Thirteen are now caught. Five survive and two timed out
+  again at 90 seconds. The suite passed on macOS and both Linux musl
+  architectures. The first-party critical union remains to be qualified.
+- The fz workflow candidate `ci/retained-mutation-entry` at `4d8a43c`
+  uses separate PR-only mutation and single-command Make steps. The
+  Stuff candidate `policy/retain-fz-assurance` at `c5f8461c` detects
+  loss of the workflow or coverage target in a local copy, including after
+  removing `TODO-DESLOP.md`. Qualify the fz workflow remotely before
+  merging the retention registration.
+- Vault `deslop/cli-oracle` caught the bytes-to-MiB diagnostic mutation
+  reported by hosted macOS shard 9. Its focused regression rejects the
+  exact arithmetic fault. This advances the successor evidence and leaves
+  the platform matrix unqualified.
+- Srv `deslop/current-head-check` at `127cf80` passed the 87-test suite,
+  Clippy and the gate self-tests on macOS. Both onefile dispatch mutants
+  were caught. A surviving Mermaid environment mutation changed the SVG
+  height from 798 to 777. The revised multiline-label witness caught that
+  mutant, bringing the bounded five-identity run to five caught.
 
 - Vault [#30](https://github.com/laputa-systems/vault/pull/30) advanced to
   `0671858badb1f1fb7fea852e35bbe8929f092afe`. The system Python 3.9 failed
@@ -127,8 +149,8 @@ are local candidates, not qualified CI lanes.
 | pytest-parallel | Finish the bounded whole-change gate using serial mutmut and the established worker-coverage witness. | Reconcile scheduling, event stream, reporting and network boundaries to current head. Disposition remaining named critical decisions, verify activation, preserve hook-error repair and installed-wheel controls, and qualify the actual lane. [#26](https://github.com/joshuarli/pytest-parallel/pull/26) fixed the empty-address bind defect with real worker and installed-wheel consumer checks. |
 | Diff-pretty | Reconcile main with draft #31 and review `deslop/platform-ci`. | Reuse the sanitizer receipt while its runtime inputs match: the recorded source passed the existing rule, and its subsequent change was documentation-only. Resolve test integration conflicts, finish numeric and final gate activation, confirm renderer equivalences, execute both platforms and negative controls, and finish test-cost qualification. |
 | Loc | Close the existing critical inventory and qualify its bounded lane. | Reuse literal CLI output, masks and filename/detection witnesses. Reconcile the historical sample to current source where identities exist; retain unavailable mapping as an explicit gap. Finish named counting, detection, file-selection and config regions, cost, platforms and controls. |
-| Stats | Finish component-mode Types, Tests and the legacy-upgrade CI prerequisite. | Reuse ingest type-candidate measurements and merged command-cancellation/sandbox repairs. Prepare the pinned baseline so the legacy upgrade test executes. Name the TypeScript/Worker and Rust components, browser/runtime checks, critical scope, cost and remaining settings. Other deployment and performance campaigns remain untouched. |
-| Stuff, repomod | Finish the bounded calibration inventory. | Preserve the five merged P2 fixes, the type-boundary witness and matrix-include regression. Finish strict-candidate accounting, effect-boundary coverage/mutation, serial mutation recipe, retained CI and dead-code checks. Other Stuff components remain outside this calibration slice. |
+| Stats | Finish component-mode Types, Tests and the legacy-upgrade CI prerequisite. | [#24](https://github.com/joshuarli/stats/pull/24) executes the pinned upgrade locally. Verify it on the hosted Linux job after npm recovery. Name the TypeScript/Worker and Rust components, browser/runtime checks, critical scope, cost and remaining settings. |
+| Stuff, repomod | Finish the bounded calibration inventory. | Preserve five merged P2 fixes, the two strict-type witnesses and the matrix-include regression. Types is complete. Finish effect-boundary coverage and mutation, the serial recipe, retained CI and dead-code checks. Other Stuff components remain outside this calibration slice. |
 | Fastermod | Finish Ground and start Diagnose. | [#27](https://github.com/laputa-systems/fastermod/pull/27) merged the boundary map and local test and lint baseline. Qualify the repository's own rustybench workload on a ready host. Diagnose, Types, Tests, Dead code, Findings and Report remain open. |
 | Ptytest | Verify the deadline equality repair and finish Ground. | [#13](https://github.com/laputa-systems/ptytest/pull/13) has a deterministic boundary witness and Linux CI. Verify the candidate with real library consumers and macOS CI. Finish the shared Make/CI entry point and Verification section. |
 | Tm | Finish Ground after the merged fixture repairs. | Reuse repeat, short-socket and pipe-output/exit evidence. Establish quiet-host cost and continue the named component pass. Do not resume a broader source investigation during winddown. |
@@ -291,7 +313,7 @@ factory, `hashHistory` and plain anchors.
 | --- | --- |
 | Discover | [#48](https://github.com/joshuarli/discover/pull/48) pins `solid-js` and `@solidjs/web` 2.0.0 and `@solidjs/vite-plugin` 3.0.1. All 342 Node and 50 browser tests passed along with lint, type checks and the production build. Frozen install passes with the approved exact-version exemptions. GitHub Actions reports an account billing or spending-limit block before the lint runner starts. |
 | Stats | [#23](https://github.com/joshuarli/stats/pull/23) resolves Solid, Web and Router 2.0.0 and Vite plugin 3.0.1 through the existing registry. Type checks, lint, production builds and all 320 desktop and mobile browser cases passed. The local browser run uses one worker to stay within the two-core cap. All three hosted checks passed with the approved exact-version exemptions. The PR merged as `6de663387e742c4652b57d8c5096ed54b7b5a374`. |
-| bctl | [#4](https://github.com/joshuarli/bctl/pull/4) passes type checking, production build, and the session and clipboard browser fixtures with the pinned Node 26.12.1. The VM-backed suite requires the bctl binary, guest runtime and grab fixtures. Frozen install passes with the approved exact-version exemptions. |
+| bctl | [#4](https://github.com/joshuarli/bctl/pull/4) passes type checking, production build, and session and clipboard browser fixtures with Node 26.12.1. Frozen install passes with the approved exact-version exemptions. The candidate and the pre-upgrade revision each passed four, failed the same six and skipped execution of one browser case with the same SmolVM image. The Nanos fixture stopped at display readiness. VM acceptance remains open. |
 | laputa-ui-dashboard | The library's peer range admits stable Solid 2. Its development pins still resolve the RC from Stuff. Stuff's public catalog has no stable Solid, renderer or Vite plugin. Refresh those pins once the existing mirror serves the matching toolchain. |
 | pi-build | The OpenCode companion lock mentions Solid in optional peer metadata. No installed Solid package entry is present. |
 

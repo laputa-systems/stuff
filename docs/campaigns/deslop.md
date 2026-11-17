@@ -17,20 +17,26 @@ checked revisions.
   [#31](https://github.com/laputa-systems/diff-pretty/pull/31) have hosted
   qualification runs. Buildlib's mixed-change control is
   [#21](https://github.com/laputa-systems/buildlib/pull/21).
-- Stuff #55–60 and #62–63 merged on green. The repomod matrix oracle in
-  #61 still awaits the macOS Rust job.
+- Stuff #55–63 merged on green. Repomod Types is complete. The path admission
+  witness in [#64](https://github.com/laputa-systems/stuff/pull/64) passed local
+  checks and is waiting on the hosted matrix and npm mirror.
 - Pytest-parallel [#26](https://github.com/joshuarli/pytest-parallel/pull/26)
   fixed empty-address binds in a real worker. Its wheel passed Stuff's
   repomod tests and reproduced Toolbox's FFmpeg baseline failure.
   Fastermod [#27](https://github.com/laputa-systems/fastermod/pull/27)
   recorded the Ground checks. Ptytest Ground exposed the deadline equality
   defect addressed in [#13](https://github.com/laputa-systems/ptytest/pull/13).
+- Loc [#18](https://github.com/joshuarli/loc/pull/18) merged its historical
+  mutation follow-up after macOS, both musl architectures, lint and LineJudge
+  passed. The wider Tests gate remains open.
 - Extensions [#15](https://github.com/joshuarli/extensions/pull/15) merged
   the type-aware lint and installed Chromium checks on green. #16 updates DSLP-4.
 - STUF-91 has Solid 2.0 candidates for Discover, Stats and bctl. The owner
   approved exact-version age exemptions for the locked Solid packages.
   Frozen installs pass, and Stats #23 merged on green. The dashboard library still needs stable versions
   in its configured mirror.
+- Cargo, npm and PyPI registry errors block several remaining hosted checks.
+  The roadmap links the affected runs and the local verification that remains valid.
 - Broader dispatch requires owner approval of the concrete M2 report.
   Hardware, releases, production and canonical checkouts retain their
   existing boundaries.
