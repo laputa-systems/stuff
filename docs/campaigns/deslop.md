@@ -14,22 +14,30 @@ and explicit deferrals. Tier A repo passes have started. The
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
-- CMake-build recovered the exact locked Alpine packages, refreshed reused
-  generation metadata and repaired unreadable cache records. Its prepared
-  suite passed all 116 tests. Dependency version parsing removed two strict
-  typing diagnostics.
-  [CMake-build #14](https://github.com/laputa-systems/cmake-build/pull/14) ·
-  [CMake-build #15](https://github.com/laputa-systems/cmake-build/pull/15)
-- FFmpeg-build recovers corrupt stage stamps. Node-build validates the
-  nested toolchain lock and catches all 52 selected Doctor mutations.
-  Pi-build qualified its archive function inventory and passed all 31
-  local Intercom socket tests with pinned Node. The archive gate trial
-  passes on verified inputs and catches both test deletions. Selection
-  from actual pull requests and wider source coverage remain open.
-  [FFmpeg-build #31](https://github.com/laputa-systems/ffmpeg-build/pull/31) ·
+- CMake-build now reports invalid RSS samples through its normal budget
+  diagnostic. All 117 prepared controller tests passed. Strict findings
+  fell to 44, with 37 missing generic arguments and seven unsound returns.
+  [CMake-build #18](https://github.com/laputa-systems/cmake-build/pull/18)
+- FFmpeg-build's native x86-64 Linux runtime passed the archive audit,
+  all 55 media workflows and the external shared-library consumer.
+  The remaining Linux profile matrix is running separately.
+  [FFmpeg-build #33](https://github.com/laputa-systems/ffmpeg-build/pull/33) ·
+  [Linux matrix](https://github.com/laputa-systems/ffmpeg-build/pull/34)
+- Pi-build rebuilt both profiles byte for byte on x86-64 and ARM64 Linux.
+  Regular CI now verifies the companion inventory and package identities.
+  Vendor tests exercised all 545 mutation identities, with 537 caught
+  on macOS, one Linux casefold control and seven scoped equivalents.
+  An actual mixed pull request caught the archive test-deletion fault.
+  The whole-change gate remains open.
+  [Pi-build #34](https://github.com/joshuarli/pi-build/pull/34) ·
+  [Pi-build #35](https://github.com/joshuarli/pi-build/pull/35) ·
+  [Pi-build #36](https://github.com/joshuarli/pi-build/pull/36) ·
+  [Archive mixed control](https://github.com/joshuarli/pi-build/actions/runs/44328802243)
+- Node-build caught all 52 selected Doctor mutations and the
+  case-sensitive assembly fault. The native artifact trial exercises
+  macOS ARM64 and Linux x86-64 with the existing release inputs.
   [Node-build #36](https://github.com/laputa-systems/node-build/pull/36) ·
-  [Pi-build #27](https://github.com/joshuarli/pi-build/pull/27) ·
-  [Pi-build draft #28](https://github.com/joshuarli/pi-build/pull/28)
+  [Node artifact trial](https://github.com/laputa-systems/node-build/pull/37)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. The privileged
   exchange remains separate.
