@@ -12,6 +12,81 @@ from repomod.fix import push_fix_branch, push_repository
 from repomod.git import head, status
 
 
+@pytest.mark.parametrize(
+    ("checkout", "expected"),
+    [
+        ("missing", ("skipped", "checkout is unavailable")),
+        ("fleet", ("skipped", "directory is not a valid Git checkout")),
+    ],
+)
+def test_fix_push_reports_unavailable_checkout(
+    tmp_path: Path, git_environment: None, checkout: str, expected: tuple[str, str],
+) -> None:
+    _catalog, repository, _path, base = initialize_repository(tmp_path)
+    branch = "repomod/fix/" + "b" * 32
+
+    result = push_fix_branch(
+        repository, tmp_path / checkout, branch, "main", base, base,
+        canonical_head=base, canonical_branch="main",
+    )
+
+    assert result == expected
+    assert git("--git-dir", str(tmp_path / "remote.git"), "show-ref", "--heads").stdout == f"{base} refs/heads/main\n"
+
+
+@pytest.mark.parametrize(
+    ("change", "expected"),
+    [
+        ("invalid ref", ("failed", "fix branch name is invalid")),
+        ("wrong origin", ("failed", "origin does not match the catalogued GitHub repository")),
+        ("dirty checkout", ("skipped", "checkout is dirty")),
+        ("missing default", ("skipped", "local default branch main is unavailable; sync before publishing fixes")),
+        ("advanced default", ("skipped", "local default branch changed since fixing; sync before publishing fixes")),
+        ("missing fix ref", ("failed", "fix branch tip changed before push")),
+        ("moved fix ref", ("failed", "fix branch tip changed before push")),
+        ("missing remote default", ("failed", "cannot verify remote default branch main: remote branch was not found")),
+    ],
+)
+def test_fix_push_reports_publication_refusals(
+    tmp_path: Path, git_environment: None, change: str, expected: tuple[str, str],
+) -> None:
+    _catalog, repository, path, base = initialize_repository(tmp_path)
+    bare = tmp_path / "remote.git"
+    git("checkout", "-b", "feature", cwd=path)
+    branch = "repomod/fix/" + "b" * 32
+    if change != "missing fix ref":
+        git("branch", branch, base, cwd=path)
+    if change == "invalid ref":
+        branch = "invalid-fix-branch"
+        git("branch", branch, base, cwd=path)
+    elif change == "wrong origin":
+        git("remote", "set-url", "origin", str(bare), cwd=path)
+    elif change == "dirty checkout":
+        (path / "README.md").write_text("uncommitted user work\n", encoding="utf-8")
+    elif change == "missing default":
+        git("branch", "-D", "main", cwd=path)
+    elif change in ("advanced default", "moved fix ref"):
+        advanced_ref = "main" if change == "advanced default" else branch
+        new_head = git("commit-tree", f"{base}^{{tree}}", "-p", base, "-m", "advanced", cwd=path).stdout.strip()
+        git("update-ref", f"refs/heads/{advanced_ref}", new_head, base, cwd=path)
+    elif change == "missing remote default":
+        git("--git-dir", str(bare), "update-ref", "-d", "refs/heads/main", base)
+    local_refs = git("show-ref", "--heads", cwd=path).stdout
+    remote_refs = git("--git-dir", str(bare), "for-each-ref", "refs/heads").stdout
+    readme = (path / "README.md").read_bytes()
+
+    result = push_fix_branch(
+        repository, path, branch, "main", base, base,
+        canonical_head=base, canonical_branch="feature",
+    )
+
+    assert result == expected
+    assert head(path) == base
+    assert git("show-ref", "--heads", cwd=path).stdout == local_refs
+    assert git("--git-dir", str(bare), "for-each-ref", "refs/heads").stdout == remote_refs
+    assert (path / "README.md").read_bytes() == readme
+
+
 @pytest.mark.parametrize("during_remote_query", [False, True])
 @pytest.mark.parametrize("change", ["commit", "branch"])
 def test_fix_push_refuses_changed_canonical_identity(
@@ -110,6 +185,28 @@ def test_push_rejection_keeps_local_commit_and_never_rewrites_remote(
     assert "rejected" in (message or "")
     assert head(path) == previous_head
     assert status(path, repository.id).origin_valid
+
+
+def test_fix_push_rejection_preserves_both_branch_tips(
+    tmp_path: Path, git_environment: None,
+) -> None:
+    _catalog, repository, path, base = initialize_repository(tmp_path)
+    branch = "repomod/fix/" + "b" * 32
+    ref = f"refs/heads/{branch}"
+    git("branch", branch, base, cwd=path)
+    remote_tip = git("commit-tree", f"{base}^{{tree}}", "-p", base, "-m", "newer remote fix", cwd=path).stdout.strip()
+    git("push", "origin", f"{remote_tip}:{ref}", cwd=path)
+
+    state, message = push_fix_branch(
+        repository, path, branch, "main", base, base, canonical_head=base, canonical_branch="main",
+    )
+
+    assert state == "failed"
+    assert message is not None
+    assert "[rejected]" in message
+    assert git("rev-parse", ref, cwd=path).stdout.strip() == base
+    assert git("--git-dir", str(tmp_path / "remote.git"), "rev-parse", ref).stdout.strip() == remote_tip
+
 
 def test_push_uses_checked_commit_when_checkout_changes_before_push(
     tmp_path: Path,

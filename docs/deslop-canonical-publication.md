@@ -39,3 +39,33 @@ The full run exercises the dashboard consumer through its existing golden
 tests. This failure path does not touch the declared dashboard-render or OCI
 performance workloads. No runtime speed claim, real GitHub publication,
 production operation or atomic exclusion of non-cooperating writers is proved.
+
+## Publication refusal coverage
+
+At `fb4ff6c1`, the push fixture observes both branch tips on either side
+of a failed non-fast-forward push. Separate cases assert the refusal and
+preserved refs when the checkout is unavailable, the origin is wrong, the
+tree is dirty, or a local or remote ref has changed.
+
+On macOS arm64 with Python 3.15.2 and mutmut 3.8.1, the original tests
+caught 78 of 127 `push_fix_branch` identities. Adding the admission cases
+caught 113 of 127. A second run selected the nine remaining push-error
+identities and caught five once the non-fast-forward fixture was present.
+Activating `__mutmut_114` makes Git raise on rejection instead of returning
+the expected failure status. The new test passes with the unmutated module.
+
+Run the Scenario in a fresh snapshot. Set `source_paths = ["repomod"]`,
+`only_mutate = ["repomod/fix.py"]`, `also_copy = ["fleet"]`,
+`pytest_add_cli_args = ["-p", "no:parallel"]` and
+`pytest_add_cli_args_test_selection = ["tests/repomod/test_fix_push.py", "tests/repomod/test_fix_command.py"]`
+in `[tool.mutmut]`. Set `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1` and run
+`python -m mutmut run --max-children 1 'repomod.fix.x_push_fix_branch__mutmut_*'`.
+Compare the generated identities and results before and after the test changes.
+
+Of the remaining identities, 29 and 30 change fallback text for an invalid
+origin that `status` already describes. 46, 67 and 111 pass `None` for the
+`run_git` check flag, which is false in its error branch. 55 combines two
+conditions already exercised for absent refs. A nonzero `rev-parse` that
+also prints a ref is unverified. 122, 124 and 125 affect diagnostics for
+push processes that provide only stdout or provide no output. Those
+diagnostics remain unqualified. This Scenario leaves the whole-change gate open.
