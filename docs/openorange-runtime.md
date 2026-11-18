@@ -514,6 +514,22 @@ retrying against a missing actor and hold one envoy's inbound queue full.
 This is not yet proven. The Engine log line does not name the envoy, and no
 route that lists alarm targets has been verified.
 
+`rivet_state_machine_durable_stale_alarm_deliveries_total{machine="actor"}`
+reached 15,975 about 70 minutes after boot, roughly 4 per second. In the
+pinned source (`engine/packages/state-machine-durable/src/metrics.rs` at
+`e5ed391`) a stale delivery is an alarm for a revision that is no longer
+armed, acknowledged without firing. Acknowledged alarms do not retry, so
+the rate means actor state machines keep re-arming and invalidating their
+alarms. That fits the boot-time warnings "failed to send stop command; the
+stop timer resends it" and "actor stop went unanswered past the stop
+threshold". Discover's runner also alternated between connected and absent
+in `bin/health` within an hour of the reboot.
+
+The public actor listing (`/actors?namespace=NS&name=NAME`) shows about 19
+live actors across the six Orange namespaces. It omits lifecycle state, so
+it cannot show which of them cycle. Attributing the alarms needs
+Engine-internal state that no verified route exposes.
+
 Next step: identify the 33 alarm candidates' actors and namespaces, then
 either clear alarms whose actors no longer exist through a supported Engine
 operation or fix the owning app's alarm handling. Raising
