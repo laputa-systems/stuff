@@ -310,3 +310,28 @@ Five clean, idle worktrees matched the accepted files at retirement.
 The five worktrees accounted for 279,928 KiB. Across all passes, 114
 retired worktrees and the listed generated artifacts accounted for
 19,457,608 KiB (18.56 GiB) of measured path allocation.
+
+## Artifact and lexer follow-up, 2026-11-18
+
+Thirteen worktrees were clean and idle. Their changed files matched
+the accepted integrations on the respective default branches.
+
+| Repository | Accepted integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| FFmpeg-build | `82bcb481` | `deslop-native-macos-receipt` | 472 |
+| FFmpeg-build | `d1b6ee5b` | `deslop-linux-runtime-receipt` | 468 |
+| FFmpeg-build | `e25d04eb` | `deslop-archive-library-validation` | 489,552 |
+| FFmpeg-build | `6bd80b48` | `deslop-qualify-diagnostics` | 379,708 |
+| FFmpeg-build | `cf63e305` | `deslop-qualification-manifest` | 379,600 |
+| FFmpeg-build | `511b46b3` | `deslop-runtime-audit` | 141,168 |
+| Mdevd-rs | `1570f522` | `deslop-mdevd-coverage` | 10,844 |
+| Mdevd-rs | `f5dacd08` | `deslop-mdevd-device-numbers` | 93,856 |
+| Mdevd-rs | `4f75a7a2` | `deslop-mdevd-diagnose` | 58,124 |
+| Mdevd-rs | `37a4d96f` | `deslop-publish-test-entry` | 1,320 |
+| Hi-lite | `75eed701` | `deslop-hi-lite-language` | 7,352 |
+| Hi-lite | `9091c4a3` | `hi-lite-rust-token-boundaries` | 192,528 |
+| Node-build | `7f7c7db3` | `node-release-result` | 79,908 |
+
+The thirteen worktrees accounted for 1,834,900 KiB. Across all passes,
+127 retired worktrees and the listed generated artifacts accounted for
+21,292,508 KiB (20.31 GiB) of measured path allocation.
