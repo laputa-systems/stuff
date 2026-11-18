@@ -16,7 +16,36 @@ This checkpoint records qualification by workload. The [roadmap](deslop-roadmap.
 | TypeScript Worker and Rust agent, Stats ingest and local stack | [#24](https://github.com/joshuarli/stats/pull/24) verified legacy migration with 41 local passes and all hosted checks. [#26](https://github.com/joshuarli/stats/pull/26) and [#27](https://github.com/joshuarli/stats/pull/27) fixed a producer port collision and SIGTERM shutdown. [#28](https://github.com/joshuarli/stats/pull/28) adds a shared ACK case that catches miscounting in both decoders. [#29](https://github.com/joshuarli/stats/pull/29) at `da022e8b` records the Rust wire type audit. | Ten wire unit tests, five conformance tests and all three hosted checks passed #29. Component-scale TypeScript and Rust critical selection, browser/Worker cost and retained gates remain open. |
 | Python and external native tools, Toolbox | Deferred. The installed Pytest-parallel wheel and the baseline both reproduced the FFmpeg failure. The hosted lint retry also ended before any step. | Requires Actions billing recovery and positive FFmpeg and fio execution evidence before the worker-coverage result can qualify this shape. [Lint retry](https://github.com/joshuarli/toolbox/actions/runs/43933600029/attempts/2). |
 
-The cross-repository controls in Buildlib, fz and Diff-pretty support retaining their proven Make entry points. They do not substitute for the TypeScript, PTY, or hardware decisions in this matrix. When qualifying a successor, record the actual checked head, selected regions, missed identities and total runner cost. Keep incomplete platform and consumer boundaries in the owning Tests ticket.
+The cross-repository controls in Buildlib, fz and Diff-pretty support retaining their proven Make entry points. When qualifying a successor, record the actual checked head, selected regions, missed identities and total runner cost. Keep incomplete platform and consumer boundaries in the owning Tests ticket.
+
+## Successor results
+
+- Ptytest [#21](https://github.com/laputa-systems/ptytest/pull/21) caught
+  all four remaining output-wait mutations after removing two redundant
+  deadline checks. Linux and macOS hosted checks passed. Focused lz, e
+  and ish tests passed with the candidate. Xsh failed to compile on
+  macOS at both the baseline and candidate revisions. [#22](https://github.com/laputa-systems/ptytest/pull/22)
+  records the remaining PTY and consumer scope.
+- Pytest-parallel [#31](https://github.com/joshuarli/pytest-parallel/pull/31)
+  raised coordinator file-planning detection from 33 to 67 of the same
+  83 identities. After removing an unreachable guard the final inventory
+  has 79 identities, with 67 caught and 12 surviving. All 173 local tests
+  and three hosted checks passed. Draft
+  [#32](https://github.com/joshuarli/pytest-parallel/pull/32) at `41891aa`
+  passed local standalone option and scheduling shards. The earlier
+  aggregate at `f7c2795` exhausted 1,200 seconds after processing 130 of
+  559 coordinator identities. The mixed negative control completed
+  selection. It still needs to execute both scopes through the gate.
+- Stats [#30](https://github.com/joshuarli/stats/pull/30) records
+  1,112 of 1,128 TypeScript ingest lines and 820 of 855 branches in the
+  Node selection, 21 Worker cases, and 608 of 625 Rust wire lines and
+  126 of 146 branches. [#31](https://github.com/joshuarli/stats/pull/31)
+  corrected a stale target-policy test and wired its denial assertion to
+  the tested loopback origin. [#32](https://github.com/joshuarli/stats/pull/32)
+  caught 113 of 115 TypeScript ACK mutations in 14 seconds, up from
+  104 on the same source. The two survivors are equivalent. Both
+  implementations passed the expanded corpus, and all three hosted
+  checks passed. Wider ingest and whole-change results remain open.
 
 ## Deferred environment gates
 
