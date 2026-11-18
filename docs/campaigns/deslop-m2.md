@@ -33,6 +33,18 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   paths, and duplicate plan basenames in separate directories. The
   same eight read-set mutations were caught before and after. All
   48 ordinary tests and both hosted checks passed.
+  [#37](https://github.com/laputa-systems/fastermod/pull/37) retained
+  the source mutation scope. The
+  [positive trial](https://github.com/laputa-systems/fastermod/actions/runs/44277884233)
+  caught all seven viable identities at `d34b68c`, with two unviable.
+  Both hosted jobs used 425 runner seconds. The documentation,
+  warning-test deletion, mixed change and uncovered branch controls
+  behaved as expected on both platforms and passed ordinary CI.
+  The mixed control reopened the warning mutation and caught all
+  three viable discovery mutations. Terminal review and the wider
+  saved-plan inventory remain open.
+  [#42](https://github.com/laputa-systems/fastermod/pull/42) at
+  `d99400a` runs the Make selector on every pull request.
 - Ptytest [#23](https://github.com/laputa-systems/ptytest/pull/23)
   verifies timeout diagnostics and the deadline under continuous output.
   The scope moved from 11 to 13 caught of 18, with five unviable.
@@ -40,7 +52,7 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [#24](https://github.com/laputa-systems/ptytest/pull/24) verifies
   cursor coordinates in both the PTY response and the recorded input.
   It caught all 13 viable terminal identities, up from 12 in the
-  same 18-identity selection. Both platform jobs passed. Draft
+  same 18-identity selection. Both platform jobs passed.
   [#25](https://github.com/laputa-systems/ptytest/pull/25) passed the
   [hosted terminal trial](https://github.com/laputa-systems/ptytest/actions/runs/44276455149)
   with 13 caught and five unviable on each platform, using 238 runner
@@ -52,7 +64,10 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   identities. The [uncovered branch](https://github.com/laputa-systems/ptytest/pull/29)
   left seven of 11 selected identities alive. The ordinary suite and
   lint passed each control. Lifecycle, replay and the wider consumer
-  inventory remain open.
+  inventory remain open. #25 merged at `a9b3108`. The
+  [fleet-compatible entry point](https://github.com/laputa-systems/ptytest/pull/30)
+  at `606027b` classifies every pull request and retains the bounded
+  terminal selection without a GitHub path filter.
 - Ptytest [#21](https://github.com/laputa-systems/ptytest/pull/21) caught
   all four remaining output-wait mutations after removing two redundant
   deadline checks. Linux and macOS hosted checks passed. Focused lz, e
@@ -136,6 +151,17 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   and a matching directive later in the file. It caught all five
   viable shebang identities, up from four on unchanged source.
   The 551 local tests and all five hosted checks passed.
+  Draft [#24](https://github.com/joshuarli/loc/pull/24) passed the
+  [positive shebang trial](https://github.com/joshuarli/loc/actions/runs/44278389932)
+  at `0ee7305a` on macOS, x86-64 musl and ARM64 musl. The three
+  jobs used 771 runner seconds. Ordinary CI and LineJudge passed
+  all four controls. On all three targets the mixed trial at its
+  initial head reopened one shebang survivor, caught seven changed
+  preprocessor identities and recorded two unviable builds. A
+  second macOS mixed run exhausted the 600-second budget rebuilding
+  for its second phase. A native union retained all 25 planned
+  identities in one local run with the same outcomes. Hosted
+  verification of that runner and the wider SIMD inventory remain open.
 - Repomod [#83](https://github.com/laputa-systems/stuff/pull/83) removed
   two test-only helpers and recorded the clean dependency scan.
   [#84](https://github.com/laputa-systems/stuff/pull/84) moved Musl lock
@@ -165,7 +191,12 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   both platforms. Eight passing jobs used 380 runner seconds. A
   separate publication probe exhausted 360 seconds after reporting
   90 caught and five surviving identities in its progress output.
-  Its complete inventory and wider effect scopes remain open.
+  [#103](https://github.com/laputa-systems/stuff/pull/103) completed
+  the 127-identity publication selection. The three diagnostic
+  cases moved detection from 118 to 121 without production edits.
+  The other six have exact equivalence dispositions. All 22 focused
+  cases, lint and the ten hosted checks passed. The publication
+  shard is included in the next #92 trial.
 - Extensions [draft #22](https://github.com/joshuarli/extensions/pull/22)
   passed local parser and storage gate invocations, with 178 caught and
   one equivalent in 7m 30s, and 112 caught and two equivalents in 15s.
@@ -208,6 +239,38 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   accounted for 323 caught, 24 missed, 17 unviable and 12 confirmed
   hangs. Its four jobs used 3,462 runner seconds, with a median gate
   wall of 850.3 seconds. The 600-second target remains open.
+
+## Retained Rust scopes
+
+Ptytest and Fastermod now use an unfiltered pull-request workflow
+with the scope decision in their checked Make entry point. The
+fleet check requires the full checkout, the approved mutator pin
+and the base ref passed as an environment value. In isolated
+checkouts of both candidate heads, `mutation-lane` and
+`mutants-diff-lane` passed after removing `TODO-DESLOP.md`.
+Removing the workflow then failed both checks. The two repositories
+are registered for mutation retention.
+
+## Worker and Rust acknowledgment trial
+
+Stats [#36](https://github.com/joshuarli/stats/pull/36) merged at
+`ec5993b` after all three ordinary checks passed. The mixed request
+checks a binary acknowledgment across acceptance, retry and all three
+rejection reasons, and verifies the durable rows. The focused
+Workerd suite ran all 22 tests. It caught 25 of 27 Stryker identities
+before and after the new case. Two variants affect an unreachable
+empty rejection list under the nonempty frame contract.
+
+Draft [#37](https://github.com/joshuarli/stats/pull/37)
+passed its [hosted two-lane trial](https://github.com/joshuarli/stats/actions/runs/44283893296)
+at `7d2aacf`. The Worker lane had 25 caught and two equivalent.
+The actual Rust fixtures caught all 42 identities. The jobs used
+322 runner seconds, with a 227-second maximum. The doc-only control
+selected nothing. The Rust deletion and mixed controls reopened
+the exact body-length comparison, and the mixed Workerd edit
+passed its independent selection. The uncovered Worker branch left
+three new identities alive. Wider producer, storage and coverage
+scopes remain open.
 
 ## Toolbox native and worker coverage
 

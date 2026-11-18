@@ -220,28 +220,32 @@ credentials, hardware and canonical checkouts retain their campaign boundaries.
 
 ## Finish the current passes
 
-Keep one implementation owner per repository. Review and finish existing work
-before opening further investigations. The three parked gate implementations
-are local candidates, not qualified CI lanes.
+Keep one implementation owner per repository. Use the
+[M2 evidence](deslop-m2.md#successor-results) for exact revisions and
+[scorecard](deslop-scorecard.md) for the current disposition.
 
-| Repository | Finite next deliverable | Remaining acceptance |
+| Repository | Verified scope | Remaining acceptance |
 | --- | --- | --- |
-| Vault | Review the parked platform selector and qualify the production-plus-critical union on Linux and macOS. | Prove that Linux does not receive macOS-only functions. Execute all selected regions and lane controls, account for total runner cost, and preserve explicit Secure Enclave, two-Mac recovery and Linux keyring limits. Finish existing Tests before adding rare-error scenarios. |
-| Buildlib | Finish cumulative review. | The Make mutation entry point passed #26. Stuff #65 registered mutation and coverage retention. |
-| Extensions | Retain the adopted unsafe-argument lint rule in CI and add a bounded supported browser job for the demonstrated boundary. | Reuse archive, context recovery, strict reads, storage/state and installed-MV3 evidence at matching inputs. Finish first-party coverage, the TypeScript whole-change gate, negative controls and test cost. Keep Node and browser qualification distinct. The unproven X response-ordering finding needs a captured fixture, not a claim of failure. |
-| pytest-parallel | Finish the bounded whole-change gate using serial mutmut and the established worker-coverage witness. | Reconcile scheduling, event stream, reporting and network boundaries to current head. Disposition remaining named critical decisions, verify activation, preserve hook-error repair and installed-wheel controls, and qualify the actual lane. [#26](https://github.com/joshuarli/pytest-parallel/pull/26) fixed the empty-address bind defect with real worker and installed-wheel consumer checks. |
-| Diff-pretty | Bound the remaining renderer and live terminal scopes. | #31 qualified the merged changed-source and protected-region gate, four controls and paired suite cost. #40 verified the retained Make entry point on both platforms. Stuff #70 registered mutation retention. |
-| Loc | Close the existing critical inventory and qualify its bounded lane. | Reuse literal CLI output, masks and filename/detection witnesses. Reconcile the historical sample to current source where identities exist; retain unavailable mapping as an explicit gap. Finish named counting, detection, file-selection and config regions, cost, platforms and controls. |
-| Stats | Finish component-mode Types and Tests. | [#24](https://github.com/joshuarli/stats/pull/24) merged after passing the pinned upgrade on hosted Linux. Name the TypeScript and Rust components, browser and Worker checks, critical scope, cost and remaining settings. |
-| Stuff, repomod | Finish the bounded calibration inventory. | Preserve five merged P2 fixes, the two strict-type witnesses and the matrix-include regression. Types is complete. Finish effect-boundary coverage and mutation, the serial recipe, retained CI and dead-code checks. Other Stuff components remain outside this calibration slice. |
-| Fastermod | Finish Types and qualify the remaining read-error repair. | #30 closes Diagnose. #31 fixed `--plan` entering review on a TTY. #32 passed local and hosted tests and lint. Its affected search workloads need five interleaved benchmark pairs. |
-| Ptytest | Finish Types and bound Tests. | #13 fixed deadline equality, #14 closed Ground, #15 preserved diagnostics through cleanup and #16 completed Diagnose. Hosted Linux and macOS acceptance and the exact consumer receipts are recorded in #15. |
-| Tm | Finish Ground after the merged fixture repairs. | Reuse repeat, short-socket and pipe-output/exit evidence. Establish quiet-host cost and continue the named component pass. Do not resume a broader source investigation during winddown. |
-| Toolbox | Remains blocked by Actions billing and host-tool qualification. | Recheck billing before dispatch. Missing ffmpeg/fio coverage and the historical worker-coverage statement must be reconciled; a skipped media suite is not a pass. |
+| Vault | Ordinary macOS and both musl jobs and the two-Mac owner ticket. | Platform mutation budget, Linux keyring and two-Mac recovery. |
+| Buildlib | Merged control matrix, release serialization review and fleet retention. | Recheck the retained guarantees at the tier checkpoint. |
+| Extensions | Type-aware lint, installed Chromium, and parser and storage trials with hosted controls. | Archive decisions and remaining browser effects. |
+| pytest-parallel | Native subtest replay through an installed wheel and twelve hosted mutation lanes. | Coordinator lifecycle, loopback and exact aggregate retention. |
+| Diff-pretty | Retained changed-source and protected-region workflows on both platforms. | Remaining renderer and live terminal scopes. |
+| Loc | Shebang selection on macOS and both Linux musl targets. | Hosted repeat of the native mixed union, wider SIMD and file-selection inventory, and paired cost. |
+| Stats | Legacy upgrade, mixed ACKs in Workerd, and separate hosted Workerd and Rust mutation lanes. | Producer timeout dispositions, wider runtime scope and retention. |
+| Stuff, repomod | Types and Dead code complete. Checkout, upstream, workflow matrix and snapshot trial passed. Publication caught 121 of 127 locally. | Hosted publication scope, remaining inventory and whole-file fallback. |
+| Fastermod | Saved-plan revalidation, source warning and JSON ignore witnesses, hosted source retention. | Review output, wider plan decisions and paired suite cost. |
+| Ptytest | Hosted terminal mutation retention, deadline and cursor traces, focused lz, e and ish consumers. | Lifecycle, replay and remaining consumers. |
+| Tm | Fixture repairs merged. | Quiet-host Ground cost and component pass. |
+| Toolbox | Native media and fio checks, two-worker coverage and all 750 tests passed locally. | GitHub Actions must be able to schedule #15. |
 
-Srv and fz have completed pass Reports and green default-branch CI at the checked
-heads. Recheck those heads and guarantees during the campaign check-up. Do not
-reopen their inventories without a changed input or demonstrated risk.
+Srv and fz have completed pass Reports at their checked default heads.
+Srv's successor mutation job exceeded the ten-minute target twice.
+Keep its remaining misses and confirmed hangs in the owning scope.
+
+All ten Tier A repositories have a tracked deslop backlog. Fz has its
+Report. Diff-pretty and Vault are in Tests. The seven others start at
+Ground. Dispatch remains governed by the M2 and tier checkpoints.
 
 ## Bound every open Tests ticket
 
