@@ -29,3 +29,43 @@ The scan also reports pytest fixture parameters, callback parameters and
 HTML parser overrides in test files. Pytest injects the fixtures by name and
 the fake transports and parser call those methods through their interfaces.
 The campaign's effect-boundary Tests qualification remains open.
+
+## Runtime-only and dependency scans
+
+At `4eabeae6`, a second Vulture run over `repomod/` alone exposed six
+names whose references came only from tests. Remove two maintenance
+wrappers. The vendored path predicate had no production caller, and
+the tests for Cargo, JavaScript, Python, Swift and Zig still exercise
+real vendored provenance. The static ELF wrapper returned the script
+constant unchanged. The checked-in verifier test now compares directly
+against that constant and still checks its executable mode. Release
+workflow generation continues to use the same script body. Searches
+of the tracked files and local fleet checkouts found only the two
+Stuff test call sites.
+
+The four remaining test-only names are `audit_repositories`,
+`add_repository`, `RoleUse.excepted` and
+`refresh_musl_toolchain`. Their tests exercise batch audit output,
+catalog promotion, role exceptions and toolchain-lock writes.
+Review the shipped command paths and any direct callers before
+removing them. The dependency result supplies no evidence for
+deleting those behaviors.
+
+Deptry 0.25.1 reported zero dependency issues across 112 files after
+mapping the `ruamel.yaml` distribution to its import root and identifying
+`mutants_gate` as the local source of the copied gate self-test:
+
+```sh
+TMPDIR="$PWD/.work/tmp" uvx \
+  --default-index https://pypi.17166969.xyz/current/simple/ \
+  --from deptry==0.25.1 deptry --no-ansi --config pyproject.toml \
+  --known-first-party repomod --known-first-party mutants_gate \
+  --package-module-name-map ruamel.yaml=ruamel repomod
+```
+
+Ruff F401 and F841 passed across the component and tests. The three
+runtime dependencies have executable consumers. `packaging` parses
+requirements, versions and names in the inventory and mirror,
+`ruamel.yaml` parses and edits workflows, and `tomlkit` preserves
+Cargo manifest formatting in the upgrade rule. The dev entries are
+CLI tools or pytest and its plugin.

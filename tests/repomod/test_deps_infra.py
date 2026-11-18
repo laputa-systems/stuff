@@ -7,7 +7,7 @@ from repomod.dependencies.adapters.containers import ContainersAdapter
 from repomod.dependencies.adapters.orange import OrangeAdapter
 from repomod.dependencies.adapters.submodules import SubmodulesAdapter
 from repomod.dependencies.adapters.toolchains import ToolchainsAdapter
-from repomod.dependencies.adapters.vendored import is_vendored, vendored_roots
+from repomod.dependencies.adapters.vendored import vendored_roots
 from repomod.dependencies.model import (
     AdapterResult,
     CoverageKind,
@@ -418,12 +418,10 @@ def test_submodule_userinfo_is_redacted() -> None:
     assert instance.vcs_url == "https://git.example.com/owner/a.git"
 
 
-def test_vendored_helpers() -> None:
+def test_vendored_roots() -> None:
     paths = ("vendor/a/Cargo.toml", "third_party/b/x", "third-party/c/y", "src/x")
     roots = vendored_roots(paths)
     assert roots == ("third-party", "third_party", "vendor")
-    assert is_vendored("vendor/a/Cargo.toml", roots) is True
-    assert is_vendored("src/x", roots) is False
 
 
 def test_cmake_literals_and_dynamic_declarations() -> None:

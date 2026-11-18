@@ -631,7 +631,7 @@ def run_verifier(*arguments: Path | str) -> subprocess.CompletedProcess[str]:
 def test_checked_in_verifier_matches_the_single_source() -> None:
     verifier = paths.MUSL_IMAGE / "verify-static-elf"
 
-    assert verifier.read_text(encoding="utf-8") == static_elf.render_script()
+    assert verifier.read_text(encoding="utf-8") == static_elf.SCRIPT
     assert verifier.stat().st_mode & 0o111
 
 
