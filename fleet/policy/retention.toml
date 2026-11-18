@@ -20,3 +20,6 @@ settings = ["ty.missing-type-argument=error"]
 
 [strict-profile."laputa-systems/node-build"]
 settings = ["ty.unsound-return-statement=error"]
+
+[strict-profile."laputa-systems/cmake-build"]
+settings = ["ty.missing-type-argument=error", "ty.unsound-return-statement=error", "ty.unused-ignore-comment=error"]

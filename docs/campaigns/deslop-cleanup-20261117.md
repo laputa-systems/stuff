@@ -115,3 +115,26 @@ owning report. Git removed each clean worktree without force.
 The four additional paths accounted for 2,476,028 KiB. Across all cleanup
 passes, 47 retired worktrees and the listed generated artifacts accounted
 for 14,667,788 KiB (13.99 GiB) of measured path allocation.
+
+The native verification follow-up retired five more worktrees after
+checking that their harnesses and receipts were recorded in the owning
+repository. The temporary proof branches remain available on GitHub.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Mdevd-rs | `9661631ba4e8d549abfa569820a24674966139c1` | `deslop-mdevd-native-guest`, `deslop-mdevd-guest-preparation` | 2,824 |
+| Mdevd-rs | `da5c2c9757300a732ccba9fe591aa19681147403` | `deslop-mdevd-consumer`, `deslop-mdevd-consumer-harness` | 2,724 |
+| CMake-build | `b71678b9ee99e01be264cd0f52a6c7d4eed5d03e` | `deslop-cmake-final-qualification` | 43,608 |
+
+The XSH verification retired another two worktrees after the editor
+comparison and benchmark evidence were merged in Hi-lite #19. The
+editor's disposable Cargo lock override was restored before retirement.
+
+| Repository | Last checked integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| e | `b29c90178b664e12d3c4f7f0f4f49772aee21c33` | `deslop-xsh-highlight-consumer` | 110,588 |
+| Hi-lite | `5a38860ba797d5d0cdcdf2221f5adf7edeb9b010` | `deslop-pin-xsh-vocabulary` | 224,204 |
+
+Across all passes, 54 retired worktrees and the listed generated
+artifacts accounted for 15,051,736 KiB (14.35 GiB) of measured path
+allocation.
