@@ -105,6 +105,18 @@ def test_declared_help_must_contain_the_footer_and_be_tested(tmp_path: Path, mon
     assert check(tmp_path, repository) == []
 
 
+def test_an_html_footer_links_the_repository_it_names(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    write_policy(tmp_path, monkeypatch, tool_policy())
+    repository = Repository(RepoId("acme", "tool"), ("tool", "rust"))
+    write(tmp_path, "tests/help.rs", "assert!(help.contains(\"https://github.com/acme/tool\"));\n")
+    link = '<a href="https://github.com/acme/tool">https://github.com/acme/tool</a>'
+    write(tmp_path, "src/help.rs", f"+ Maintained by Joshua Li: {link}<br>\n")
+    assert check(tmp_path, repository) == []
+    forged = '<a href="https://github.com/acme/other">https://github.com/acme/tool</a>'
+    write(tmp_path, "src/help.rs", f"+ Maintained by Joshua Li: {forged}<br>\n")
+    assert messages(check(tmp_path, repository)) == [f"tool: help source does not contain {FOOTER!r}"]
+
+
 def test_help_identity_is_the_complete_repository_name(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     write_policy(
         tmp_path,

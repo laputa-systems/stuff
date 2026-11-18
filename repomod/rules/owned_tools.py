@@ -42,8 +42,12 @@ def _repo_ids(matches: list[tuple[str, str]]) -> set[str]:
     return found
 
 
+_HTML_LINK_OPEN = r'(?:<a href="(?P<href>[^"]+)">(?=(?P=href)</a>))?'
+
+
 def _maintained_by(text: str, maintainer: str) -> set[str]:
-    return _repo_ids(re.findall(re.escape(f"Maintained by {maintainer}: ") + _GITHUB_LINK, text))
+    pattern = re.escape(f"Maintained by {maintainer}: ") + _HTML_LINK_OPEN + _GITHUB_LINK
+    return _repo_ids([(match.group(2), match.group(3)) for match in re.finditer(pattern, text)])
 
 
 def _linked(text: str) -> set[str]:
