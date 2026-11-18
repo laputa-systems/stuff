@@ -260,3 +260,20 @@ The two Pi-build proof directories under `.work/tmp/` accounted for
 556,336 KiB. Across all passes, 100 retired worktrees and the listed
 generated artifacts accounted for 18,299,616 KiB (17.45 GiB) of measured
 path allocation.
+
+## Runtime verification follow-up, 2026-11-18
+
+Five integrated worktrees passed the accepted-file and idle checks
+before retirement.
+
+| Repository | Last checked integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Hi-lite | `f73b2a7d` | `hi-lite-shebang-boundaries` | 270,412 |
+| Mdevd-rs | `5c323944` | `mdevd-empty-sysfs-name` | 1,432 |
+| FFmpeg-build | `a9ebce0a` | `ffmpeg-library-manifest` | 80,052 |
+| Pytest-parallel | `5ce73817` | `worker-stop-drain` | 139,488 |
+| Stuff | `5d65e1e1` | `record-deslop-next-coverage` | 33,552 |
+
+The five worktrees accounted for 524,936 KiB. Across all passes, 105
+retired worktrees and the listed generated artifacts accounted for
+18,824,552 KiB (17.95 GiB) of measured path allocation.
