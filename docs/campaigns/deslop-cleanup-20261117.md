@@ -35,3 +35,19 @@ Active and parked work remains, including Stats and Stuff recovery,
 Chromium's build, Srv #47, Vault #30 and retained performance inputs.
 The mdevd-rs help worktree still contains three unintegrated commits.
 Discover was outside the cleanup scope.
+
+## Follow-up, 2026-11-18
+
+The follow-up checked these worktrees for clean tracked and untracked state
+and removed each with Git's normal worktree removal. The integrated reports
+and the closed Linux draft keep the evidence available.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| FFmpeg-build | `75fb9ffbe015b53c64ab1d29aed413f52ce84be9` | `deslop-package-linux`, `deslop-package-mutation`, `deslop-controller-static` | 681,632 |
+| Node-build | `79fb67417304aa304efcf9705fd18dae28e8b62b` | `deslop-release-lock`, `deslop-package-binding`, `deslop-build-revision`, `deslop-assembly-mutation`, `deslop-assembly-record-shapes` | 404,956 |
+| Pi-build | `32324e80853b5b7a562234e51e6699891208fcad` | `deslop-vendor-mutation`, `deslop-release-merge` | 828,004 |
+
+The ten paths accounted for 1,914,592 KiB (1.83 GiB) before removal. This
+follow-up measured path allocation. The available-block measurement above
+covers the original shared-volume pass.
