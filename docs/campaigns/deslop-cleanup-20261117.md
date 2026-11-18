@@ -69,3 +69,20 @@ available for replay.
 These paths totaled 1,603,840 KiB (1.53 GiB) before removal.
 Three disposable detached inventory worktrees were also retired.
 Their allocation is excluded from the total.
+
+## Native proof follow-up, 2026-11-18
+
+Three completed worktrees were retired after the owning merge retained
+their test and artifact evidence. Git verified the FFmpeg checkout as
+an ancestor and the Pi checkouts as patch-equivalent. Their paths are
+absent and the Pi branches remain available.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| FFmpeg-build | `82bcb48153c33ac86c1b33b1f1a6cc05277ebcd2` | `deslop-native-macos` | 924,488 |
+| Pi-build | `0da2614bfe44e628daea873343301aa2b7165e6d` | `deslop-pack-commands`, `deslop-companion-identity` | 484,412 |
+
+The three paths accounted for 1,408,900 KiB (1.34 GiB). During the
+FFmpeg retirement, available blocks on the shared volume rose from
+284,085,620 to 284,810,924 KiB. This is a separate observation from
+the measured checkout allocation.
