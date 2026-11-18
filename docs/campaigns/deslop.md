@@ -95,25 +95,32 @@ qualified workloads and remaining boundaries.
   and measured 3,113 of 4,323 lines and 500 of 1,006 branches.
   The CLI cases raised the matched catches from 37 to 43 of 53.
   Five repeated option-index timeouts remain open.
+  Config-check errors now name the fragment and its local line.
   [Types](https://github.com/laputa-systems/doas-rs/pull/14) ·
   [Branch coverage](https://github.com/laputa-systems/doas-rs/pull/15) ·
-  [CLI admission](https://github.com/laputa-systems/doas-rs/pull/17)
+  [CLI admission](https://github.com/laputa-systems/doas-rs/pull/17) ·
+  [Fragment diagnostics](https://github.com/laputa-systems/doas-rs/pull/18)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests
-  and all ten archive digests.
-  [FFmpeg-build #35](https://github.com/laputa-systems/ffmpeg-build/pull/35)
+  and all ten archive digests. The stage reader now diagnoses malformed
+  toolchain metadata. The expanded audit fixture caught 386 of 696.
+  [FFmpeg-build #35](https://github.com/laputa-systems/ffmpeg-build/pull/35) ·
+  [Stage metadata](https://github.com/laputa-systems/ffmpeg-build/pull/40)
 - Pi-build rebuilt both profiles byte for byte on x86-64 and ARM64 Linux.
   Regular CI now verifies the companion inventory and package identities.
   Vendor tests exercised all 545 mutation identities, with 537 caught
   on macOS, one Linux casefold control and seven scoped equivalents.
   The retained changed-path Python gate accounted for all 1,427
   identities. Its actual mixed pull request caught the archive
-  test-deletion fault. Two-host Intercom acceptance remains open.
+  test-deletion fault. The build-tools pass settled on November 18 after
+  a fresh 77-test check-up, all four companion fixtures and the fleet
+  checks. Two-host Intercom remains in owner ticket DSLP-9.
   [Pi-build #34](https://github.com/joshuarli/pi-build/pull/34) ·
   [Pi-build #35](https://github.com/joshuarli/pi-build/pull/35) ·
   [Pi-build #36](https://github.com/joshuarli/pi-build/pull/36) ·
-  [Pi-build #42](https://github.com/joshuarli/pi-build/pull/42)
+  [Pi-build #42](https://github.com/joshuarli/pi-build/pull/42) ·
+  [Final check-up](https://github.com/joshuarli/pi-build/pull/45)
 - Node-build caught all 52 selected Doctor mutations and the
   case-sensitive assembly fault. The native artifact trial exercises
   macOS ARM64 and Linux x86-64 with the existing release inputs. Both
@@ -123,8 +130,10 @@ qualified workloads and remaining boundaries.
   [Native qualification](https://github.com/laputa-systems/node-build/pull/38)
   The archive budget command now rejects malformed byte ceilings through
   its exit 2 diagnostic. Tests exercise archives at exact limits, and
-  the revised scope caught 78 of 81 mutation identities.
-  [Budget validation](https://github.com/laputa-systems/node-build/pull/39)
+  the revised scope caught 78 of 81 mutation identities on macOS. Two
+  case-sensitive Linux controls caught two more. One tar mode is equivalent.
+  [Budget validation](https://github.com/laputa-systems/node-build/pull/39) ·
+  [Case-sensitive controls](https://github.com/laputa-systems/node-build/pull/40)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. Native KVM passed
   node creation, framed output, coldplug and shutdown. The pinned C consumer
@@ -170,10 +179,12 @@ qualified workloads and remaining boundaries.
   and signal fixtures caught 22 of 23 targeted mutations. The workspace
   passed 94 tests and one doctest.
   Two later session cases caught both targeted changes to EOF handling
-  and scroll clamping after a filter change.
+  and scroll clamping after a filter change. Search recentering and
+  filtered input then caught five additional injected changes.
   [SIGTERM](https://github.com/laputa-systems/diff-pretty/pull/42) ·
   [Terminal tests](https://github.com/laputa-systems/diff-pretty/pull/43) ·
-  [Session tests](https://github.com/laputa-systems/diff-pretty/pull/44)
+  [Session tests](https://github.com/laputa-systems/diff-pretty/pull/44) ·
+  [Search selection](https://github.com/laputa-systems/diff-pretty/pull/45)
   Stuff
   [#106](https://github.com/laputa-systems/stuff/pull/106) checks qualified
   strict settings from policy, and
@@ -241,7 +252,12 @@ qualified workloads and remaining boundaries.
   fixtures.
 - Pytest-parallel merged file-hook regressions and retained its whole-change
   trial in [draft #32](https://github.com/joshuarli/pytest-parallel/pull/32)
-  after the aggregate exhausted the coordinator budget. Stats merged
+  after the aggregate exhausted the coordinator budget. The stop and
+  cleanup fixtures caught 114 of 167 changes. The monitor now uses its
+  deadline as the only stop state.
+  [Stop and cleanup](https://github.com/joshuarli/pytest-parallel/pull/41) ·
+  [Deadline state](https://github.com/joshuarli/pytest-parallel/pull/42)
+  Stats merged
   coverage evidence, a target-policy fixture repair and shared decoder
   cases. See the [successor results](deslop-m2.md#successor-results).
 - Extensions passed the two hosted scopes on
