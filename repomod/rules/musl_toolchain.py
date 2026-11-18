@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Any, cast
 
 from repomod import paths
-from repomod.catalog import atomic_write
 from repomod.io import read_json_object
 from repomod.rules.binary_release import _release_kind, has_binary_release_contract
 from repomod.rules.workflows import read_workflow_sources
@@ -661,14 +660,6 @@ def musl_toolchain_refresh_plan(path: Path | None = None) -> tuple[Path, str | N
     if source == target.read_text(encoding="utf-8"):
         return target, None, observations
     return target, source, observations
-
-
-def refresh_musl_toolchain(path: Path | None = None) -> bool:
-    target, source, _observations = musl_toolchain_refresh_plan(path)
-    if source is None:
-        return False
-    atomic_write(target, source)
-    return True
 
 
 _RULE_ID = "linux-musl-toolchain"

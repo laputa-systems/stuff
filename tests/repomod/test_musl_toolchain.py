@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+from repomod.cli import main
 from repomod.rules import musl_toolchain as musl
 
 STABLE_INDEX = "sha256:" + "1" * 64
@@ -178,6 +179,11 @@ def install_sources(monkeypatch: pytest.MonkeyPatch, sources: Sources) -> None:
     monkeypatch.setattr(musl, "_observe_release", sources.observe)
 
 
+def refresh_fixture(path: Path, monkeypatch: pytest.MonkeyPatch) -> int:
+    monkeypatch.setattr(musl, "musl_toolchain_file", lambda: path)
+    return main(["pins", "refresh", "--only", "musl"])
+
+
 def test_seed_lock_loads_and_round_trips() -> None:
     lock = musl.load_musl_toolchain()
 
@@ -211,7 +217,7 @@ def test_refresh_leaves_an_unchanged_lock_alone(
     assert target == path
     assert source is None
     assert observations == ("alpine:3.24 currently releases Alpine 3.24.3",)
-    assert not musl.refresh_musl_toolchain(path)
+    assert refresh_fixture(path, monkeypatch) == 0
     after = path.stat()
     assert (after.st_ino, after.st_mtime_ns) == (before.st_ino, before.st_mtime_ns)
 
@@ -231,7 +237,7 @@ def test_refresh_rewrites_a_stale_package_version(
     path = write_lock(tmp_path)
     install_sources(monkeypatch, Sources(stable_musl="1.2.6-r4"))
 
-    assert musl.refresh_musl_toolchain(path)
+    assert refresh_fixture(path, monkeypatch) == 0
 
     refreshed = musl.load_musl_toolchain(path)
     assert refreshed.channels["stable"].packages["x86_64"]["musl"] == "1.2.6-r4"
@@ -245,7 +251,7 @@ def test_refresh_rewrites_a_stale_image_digest(
     replacement = "sha256:" + "9" * 64
     install_sources(monkeypatch, Sources(stable_index=replacement, stable_amd64=replacement))
 
-    assert musl.refresh_musl_toolchain(path)
+    assert refresh_fixture(path, monkeypatch) == 0
 
     refreshed = musl.load_musl_toolchain(path)
     assert refreshed.channels["stable"].index_digest == replacement
@@ -253,21 +259,21 @@ def test_refresh_rewrites_a_stale_image_digest(
 
 
 def test_refresh_writes_nothing_when_apkindex_is_malformed(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
     path = write_lock(tmp_path)
     original = path.read_text(encoding="utf-8")
     broken = f"{musl._ALPINE_CDN}/v3.24/main/aarch64/APKINDEX.tar.gz"
     install_sources(monkeypatch, Sources(broken_index=broken))
 
-    with pytest.raises(ValueError, match="cannot read APKINDEX"):
-        musl.refresh_musl_toolchain(path)
+    assert refresh_fixture(path, monkeypatch) == 2
+    assert "cannot read APKINDEX" in capsys.readouterr().err
 
     assert path.read_text(encoding="utf-8") == original
 
 
 def test_refresh_writes_nothing_when_a_fetch_fails(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
     path = write_lock(tmp_path)
     original = path.read_text(encoding="utf-8")
@@ -277,27 +283,27 @@ def test_refresh_writes_nothing_when_a_fetch_fails(
 
     monkeypatch.setattr(musl, "_download", fail)
 
-    with pytest.raises(ValueError, match="offline"):
-        musl.refresh_musl_toolchain(path)
+    assert refresh_fixture(path, monkeypatch) == 2
+    assert "offline" in capsys.readouterr().err
 
     assert path.read_text(encoding="utf-8") == original
 
 
 def test_refresh_writes_nothing_when_the_release_page_is_malformed(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
     path = write_lock(tmp_path)
     original = path.read_text(encoding="utf-8")
     install_sources(monkeypatch, Sources(releases=b"<html>no releases</html>"))
 
-    with pytest.raises(ValueError, match="no parseable release"):
-        musl.refresh_musl_toolchain(path)
+    assert refresh_fixture(path, monkeypatch) == 2
+    assert "no parseable release" in capsys.readouterr().err
 
     assert path.read_text(encoding="utf-8") == original
 
 
 def test_refresh_writes_nothing_when_docker_fails(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
     path = write_lock(tmp_path)
     original = path.read_text(encoding="utf-8")
@@ -308,8 +314,8 @@ def test_refresh_writes_nothing_when_docker_fails(
 
     monkeypatch.setattr(musl, "_inspect_image", fail)
 
-    with pytest.raises(ValueError, match="docker is required"):
-        musl.refresh_musl_toolchain(path)
+    assert refresh_fixture(path, monkeypatch) == 2
+    assert "docker is required" in capsys.readouterr().err
 
     assert path.read_text(encoding="utf-8") == original
 
