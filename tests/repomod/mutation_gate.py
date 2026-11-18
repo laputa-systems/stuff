@@ -23,7 +23,7 @@ SCOPES = {
     "matrix": ("repomod/workflow_checks.py", "x__matrix_combinations", "test_github_policy.py", ""),
 }
 GATE_FILE = "tests/repomod/mutation_gate.py"
-SETTINGS = frozenset({"Makefile", "pyproject.toml", "uv.lock", ".gitignore", ".python-version"})
+SETTINGS = frozenset({"Makefile", "pyproject.toml", "uv.lock", ".gitignore", ".python-version", "deploy/uv-version"})
 NATIVE_TREES = ("crates/", "docker/", "deploy/", "tests/mycrates/", "tests/worker/", "assets/")
 MATRIX_SOURCE = "4b1dce75ca3128ffb800bd608614e474d20de5d8e7d09d754dc022f569a93b0a"
 MATRIX_EQUIVALENT = {
