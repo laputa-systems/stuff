@@ -7,7 +7,6 @@ import pytest
 from repomod import paths
 from repomod.catalog import (
     CatalogError,
-    add_repository,
     find_repository,
     load_catalog,
     repository_path,
@@ -132,8 +131,6 @@ def test_fork_diverged_requires_the_fork_tag(tmp_path: Path) -> None:
     path = write_catalog(tmp_path / "catalog.toml", '[repos.acme]\nfd = ["tool", "rust", "fork", "fork-diverged"]')
     catalog = load_catalog(path, {"HOME": str(tmp_path)})
     assert set(find_repository(catalog, "fd").tags) == {"tool", "rust", "fork", "fork-diverged"}
-    with pytest.raises(CatalogError, match="fork-diverged requires the fork tag"):
-        add_repository(catalog, "acme", "jaq", ["tool", "fork-diverged"])
 
     for tags in ('["tool", "fork-diverged"]', '["IGNORE", "tool", "fork-diverged"]'):
         write_catalog(path, f"[repos.acme]\nrg = {tags}")
@@ -356,34 +353,6 @@ def test_macos_nested_collision_is_checked_after_missing_checkout(
         load_catalog(path, {"HOME": str(tmp_path), "REPOMOD_ROOT": str(root)})
 
     assert str(error.value) == f"checkout path collides ignoring case with existing {existing}"
-
-
-def test_add_repository_is_idempotent_and_preserves_catalog_comments(
-    tmp_path: Path,
-) -> None:
-    path = write_catalog(
-        tmp_path / "catalog.toml",
-        '[repos."joshuarli"]\ntool = ["tool"]\n\n#[overrides."joshuarli/old-fork"]\n#ignore = ["rust-toolchain"]\n',
-    )
-    before = path.read_text(encoding="utf-8")
-    catalog = load_catalog(
-        path,
-        {"HOME": str(tmp_path), "REPOMOD_ROOT": str(tmp_path / "repos")},
-    )
-
-    assert add_repository(catalog, "new-owner", "new-tool", ["tool"])
-    updated = path.read_text(encoding="utf-8")
-    assert '#[overrides."joshuarli/old-fork"]' in updated
-    assert 'root = "~/repos"' in updated
-    assert '[repos."new-owner"]\nnew-tool = ["tool"]' in updated
-
-    updated_catalog = load_catalog(
-        path,
-        {"HOME": str(tmp_path), "REPOMOD_ROOT": str(tmp_path / "repos")},
-    )
-    assert not add_repository(updated_catalog, "new-owner", "new-tool", ["tool"])
-    assert path.read_text(encoding="utf-8") == updated
-    assert updated != before
 
 
 def test_remove_repository_marks_entry_ignored_and_preserves_rest(

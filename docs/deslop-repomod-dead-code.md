@@ -52,10 +52,16 @@ The test now verifies both of the dashboard inputs that matter for
 exceptions. The repository is counted under its actual dependency
 and excluded from the migration count.
 
-The remaining test-only names are `audit_repositories` and
-`add_repository`. Their tests exercise batch audit output and catalog
-promotion. Review the shipped paths and any direct callers before
-removing them.
+The `add_repository` writer had no command or external caller. Catalog
+discovery writes pending entries, and adding tags in the catalog
+promotes them. Removing the unused writer leaves the tests for manual
+promotion and catalog validation in place. The shipped pending writer
+still has concurrent update, comment preservation and idempotence
+coverage.
+
+`audit_repositories` remains test-only. The shipped audit rules have
+their own collection and lookup paths. Check that those rules cover the
+behavior exercised by the batch audit tests before removing the wrapper.
 
 Deptry 0.25.1 reported zero dependency issues across 112 files after
 mapping the `ruamel.yaml` distribution to its import root and identifying
