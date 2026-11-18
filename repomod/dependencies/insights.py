@@ -112,15 +112,6 @@ class RoleUse:
             if chosen != {self.role.preferred} and not self.role.allows(chosen)
         )
 
-    @property
-    def excepted(self) -> tuple[tuple[str, str], ...]:
-        used = {repository for repositories in self.options.values() for repository in repositories}
-        return tuple(
-            (repository, reason)
-            for repository, reason in sorted(self.role.exceptions.items(), key=lambda item: item[0].casefold())
-            if repository in used
-        )
-
     def _chosen(self) -> dict[str, frozenset[str]]:
         chosen: dict[str, set[str]] = defaultdict(set)
         for option, repositories in self.options.items():

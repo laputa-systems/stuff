@@ -43,13 +43,19 @@ workflow generation continues to use the same script body. Searches
 of the tracked files and local fleet checkouts found only the two
 Stuff test call sites.
 
-The four remaining test-only names are `audit_repositories`,
-`add_repository`, `RoleUse.excepted` and
-`refresh_musl_toolchain`. Their tests exercise batch audit output,
-catalog promotion, role exceptions and toolchain-lock writes.
-Review the shipped command paths and any direct callers before
-removing them. The dependency result supplies no evidence for
-deleting those behaviors.
+The later passes moved the Musl refresh tests to the shipped pins
+command and removed the test-only writer in [#84](https://github.com/laputa-systems/stuff/pull/84).
+The dashboard and role reports read `RoleUse.options`,
+`off_preferred` and `overlapping`. `RoleUse.excepted` had only one
+test caller across the tracked files and local fleet checkouts.
+The test now verifies both of the dashboard inputs that matter for
+exceptions. The repository is counted under its actual dependency
+and excluded from the migration count.
+
+The remaining test-only names are `audit_repositories` and
+`add_repository`. Their tests exercise batch audit output and catalog
+promotion. Review the shipped paths and any direct callers before
+removing them.
 
 Deptry 0.25.1 reported zero dependency issues across 112 files after
 mapping the `ruamel.yaml` distribution to its import root and identifying
