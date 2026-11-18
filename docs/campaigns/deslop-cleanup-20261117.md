@@ -138,3 +138,21 @@ editor's disposable Cargo lock override was restored before retirement.
 Across all passes, 54 retired worktrees and the listed generated
 artifacts accounted for 15,051,736 KiB (14.35 GiB) of measured path
 allocation.
+
+
+## Controller and diff follow-up, 2026-11-18
+
+Ten further campaign worktrees were retired after comparing the changed
+files to their owning merges. The detached Hi-lite baseline matched its
+recorded source revision. Git removed each checkout without force.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| CMake-build | #29, #30, #32, #31 | `reuse-cmake-native-controller-cache`, `cmake-controller-cache-evidence`, `deslop-cmake-phase-records`, `cmake-bootstrap-projection` | 363,660 |
+| Doas-rs | #8 | `deslop-doas-types` | 384 |
+| Mdevd-rs | #22, #23 | `deslop-mdevd-parser-counts`, `deslop-mdevd-token-boundaries` | 78,532 |
+| Hi-lite | #20, #21 and baseline `5a38860` | `diff-preview-context-range`, `deslop-hi-lite-diff-preview`, `deslop-hi-lite-diff-baseline` | 416,424 |
+
+These paths accounted for 859,000 KiB. Across all passes, 64 retired
+worktrees and the listed generated artifacts accounted for 15,910,736
+KiB (15.17 GiB) of measured path allocation.
