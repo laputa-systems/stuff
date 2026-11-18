@@ -38,6 +38,33 @@ credentials, hardware and canonical checkouts retain their campaign boundaries.
 
 ## Resumption receipts
 
+- Stats [#25](https://github.com/joshuarli/stats/pull/25) merged as
+  `be3742e` and closes the legacy fixture ticket. It bounds the initial
+  Worker, Node and Rust components. Stats #26 and #27 fixed independently
+  observed Linux CI failures in producer socket admission and shutdown.
+  Both passed their hosted Node, dashboard and lint checks.
+- Repomod [#68](https://github.com/laputa-systems/stuff/pull/68) caught 52
+  of 60 selected catalog identities, compared with 39 on the base. All ten
+  checks passed. The admission evidence documents eight identities in a
+  case-folded collision branch and retains the broader gate.
+- Pytest-parallel [#27](https://github.com/joshuarli/pytest-parallel/pull/27)
+  caught the final worker report survivor, bringing the three-method
+  selection to 60 caught. The exact active mutant changes a null
+  diagnostic to the string `"None"`. All 157 local tests and hosted
+  Linux/macOS checks passed. The whole-change gate remains open.
+- Pytest-parallel [#28](https://github.com/joshuarli/pytest-parallel/pull/28)
+  caught the reader's 121-character truncation mutation. All 158 local tests,
+  lint and both hosted platforms passed. The five previously dispositioned
+  identities yield no additional reachable output difference.
+- fz [#44](https://github.com/laputa-systems/fz/pull/44) merged as
+  `0ec537d`. Its two Linux mutation jobs covered disjoint partitions of the
+  same 439 identities. The outcomes again totaled 423 caught and 16
+  unviable with zero misses and timeouts. Hosted jobs took 6m 57s and
+  7m 35s. The gate is within the ten-minute per-job target.
+- Srv's follow-up branch `deslop/timeout-shard` at `7cd8627` catches both
+  font MIME survivors in native singleton runs. Twenty-five missed
+  identities remain in the earlier hosted receipt and 24 timeouts still
+  need singleton confirmation. Keep #47 open.
 - After the host recovery, direct GET requests returned 200 for the Cargo
   index and a crate blob, npm dashboard metadata and the exact Stats lock
   tarball, and the PyPI platformdirs wheel that had failed in Buildlib CI.
@@ -200,15 +227,15 @@ are local candidates, not qualified CI lanes.
 | Repository | Finite next deliverable | Remaining acceptance |
 | --- | --- | --- |
 | Vault | Review the parked platform selector and qualify the production-plus-critical union on Linux and macOS. | Prove that Linux does not receive macOS-only functions. Execute all selected regions and lane controls, account for total runner cost, and preserve explicit Secure Enclave, two-Mac recovery and Linux keyring limits. Finish existing Tests before adding rare-error scenarios. |
-| Buildlib | Retain the qualified Python mutation gate. | Verify the Make entry point on #26 and register mutation and coverage in fleet retention. Finish cumulative review. |
+| Buildlib | Finish cumulative review. | The Make mutation entry point passed #26. Stuff #65 registered mutation and coverage retention. |
 | Extensions | Retain the adopted unsafe-argument lint rule in CI and add a bounded supported browser job for the demonstrated boundary. | Reuse archive, context recovery, strict reads, storage/state and installed-MV3 evidence at matching inputs. Finish first-party coverage, the TypeScript whole-change gate, negative controls and test cost. Keep Node and browser qualification distinct. The unproven X response-ordering finding needs a captured fixture, not a claim of failure. |
 | pytest-parallel | Finish the bounded whole-change gate using serial mutmut and the established worker-coverage witness. | Reconcile scheduling, event stream, reporting and network boundaries to current head. Disposition remaining named critical decisions, verify activation, preserve hook-error repair and installed-wheel controls, and qualify the actual lane. [#26](https://github.com/joshuarli/pytest-parallel/pull/26) fixed the empty-address bind defect with real worker and installed-wheel consumer checks. |
-| Diff-pretty | Reconcile main with draft #31 and review `deslop/platform-ci`. | Reuse the sanitizer receipt while its runtime inputs match: the recorded source passed the existing rule, and its subsequent change was documentation-only. Resolve test integration conflicts, finish numeric and final gate activation, confirm renderer equivalences, execute both platforms and negative controls, and finish test-cost qualification. |
+| Diff-pretty | Bound the remaining renderer and live terminal scopes. | #31 qualified the merged changed-source and protected-region gate, four controls and paired suite cost. #40 verified the retained Make entry point on both platforms. Stuff #70 registered mutation retention. |
 | Loc | Close the existing critical inventory and qualify its bounded lane. | Reuse literal CLI output, masks and filename/detection witnesses. Reconcile the historical sample to current source where identities exist; retain unavailable mapping as an explicit gap. Finish named counting, detection, file-selection and config regions, cost, platforms and controls. |
 | Stats | Finish component-mode Types and Tests. | [#24](https://github.com/joshuarli/stats/pull/24) merged after passing the pinned upgrade on hosted Linux. Name the TypeScript and Rust components, browser and Worker checks, critical scope, cost and remaining settings. |
 | Stuff, repomod | Finish the bounded calibration inventory. | Preserve five merged P2 fixes, the two strict-type witnesses and the matrix-include regression. Types is complete. Finish effect-boundary coverage and mutation, the serial recipe, retained CI and dead-code checks. Other Stuff components remain outside this calibration slice. |
-| Fastermod | Finish Diagnose. | #28 closes Ground and records the rustybench workload. #29 records one finding. Types, Tests, Dead code, Findings and Report remain open. |
-| Ptytest | Start Diagnose. | #13 fixed the deadline equality defect and passed hosted Linux and macOS tests. #14 closes Ground and uses the shared Make entry points. |
+| Fastermod | Finish Types and qualify the remaining read-error repair. | #30 closes Diagnose. #31 fixed `--plan` entering review on a TTY. #32 passed local and hosted tests and lint. Its affected search workloads need five interleaved benchmark pairs. |
+| Ptytest | Finish Types and bound Tests. | #13 fixed deadline equality, #14 closed Ground, #15 preserved diagnostics through cleanup and #16 completed Diagnose. Hosted Linux and macOS acceptance and the exact consumer receipts are recorded in #15. |
 | Tm | Finish Ground after the merged fixture repairs. | Reuse repeat, short-socket and pipe-output/exit evidence. Establish quiet-host cost and continue the named component pass. Do not resume a broader source investigation during winddown. |
 | Toolbox | Remains blocked by Actions billing and host-tool qualification. | Recheck billing before dispatch. Missing ffmpeg/fio coverage and the historical worker-coverage statement must be reconciled; a skipped media suite is not a pass. |
 
