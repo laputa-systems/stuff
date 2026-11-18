@@ -29,6 +29,11 @@ qualified workloads and remaining boundaries.
   The input suite caught all 172 selected parser mutations.
   [Controller types](https://github.com/laputa-systems/cmake-build/pull/27) ·
   [Bootstrap tests](https://github.com/laputa-systems/cmake-build/pull/28)
+  The controller workflow now reuses native build phases across controller
+  test edits. At the same revision, phase preparation took 541 seconds cold
+  and 24 seconds after restoring the verified caches. Both runs passed all
+  128 controller tests in 21 modules.
+  [Cache trial](https://github.com/laputa-systems/cmake-build/pull/30)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -36,6 +41,10 @@ qualified workloads and remaining boundaries.
   workflows, shell scripts and build locks found no explicit Edge
   references across the 46 campaign checkouts checked.
   [Doas-rs #7](https://github.com/laputa-systems/doas-rs/pull/7)
+  Doas also adopted Clippy's redundant clone and needless pass-by-value
+  checks. The baseline failed both checks. The candidate passed lint and
+  all 166 ordinary tests offline on ARM64, and hosted CI passed on main.
+  [Ownership checks](https://github.com/laputa-systems/doas-rs/pull/8)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests

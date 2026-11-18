@@ -23,3 +23,6 @@ settings = ["ty.unsound-return-statement=error"]
 
 [strict-profile."laputa-systems/cmake-build"]
 settings = ["ty.missing-type-argument=error", "ty.unsound-return-statement=error", "ty.unused-ignore-comment=error"]
+
+[strict-profile."laputa-systems/doas-rs"]
+settings = ["clippy.needless_pass_by_value=deny", "clippy.redundant_clone=deny"]

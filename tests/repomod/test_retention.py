@@ -107,6 +107,18 @@ def test_coverage_with_make_conditionals(
     assert [finding.message for finding in findings] == ([] if message is None else [message])
 
 
+def test_clippy_profile_requires_the_lints_in_cargo(project: tuple[Path, Repository]) -> None:
+    root, repo = project
+    manifest = root / 'Cargo.toml'
+    settings = ['clippy.needless_pass_by_value=deny', 'clippy.redundant_clone=deny']
+    manifest.write_text('[lints.clippy]\nneedless_pass_by_value = "deny"\nredundant_clone = "deny"\n')
+    assert retention._strict(root, repo, settings) == []
+
+    manifest.write_text('[lints.clippy]\nneedless_pass_by_value = "deny"\nredundant_clone = "warn"\n')
+    findings = retention._strict(root, repo, settings)
+    assert [finding.message for finding in findings] == ['missing strict setting clippy.redundant_clone=deny']
+
+
 def test_unlisted_repository_is_skipped(project: tuple[Path, Repository]) -> None:
     root, _ = project
     repo = Repository(RepoId('acme', 'other'), ('tool',))
