@@ -274,7 +274,11 @@ def _recorded_entries(inventory: Path) -> dict[str, IndexEntry]:
         if not isinstance(entry, dict):
             continue
         commit, fingerprint, state = entry.get("commit"), entry.get("inputs_fingerprint"), entry.get("state")
-        if not isinstance(fingerprint, str) or state not in {item.value for item in RepositoryState}:
+        if (
+            not isinstance(fingerprint, str)
+            or not isinstance(state, str)
+            or state not in {item.value for item in RepositoryState}
+        ):
             continue
         recorded[name] = IndexEntry(commit if isinstance(commit, str) else None, fingerprint, RepositoryState(state))
     return recorded

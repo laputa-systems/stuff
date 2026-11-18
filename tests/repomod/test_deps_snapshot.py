@@ -466,6 +466,31 @@ def test_application_commits_reach_a_fixed_point_until_inputs_change(
     assert index["repositories"]["acme/tool"]["commit"] == head != recorded
 
 
+def test_snapshot_repairs_a_recorded_state_with_the_wrong_json_type(
+    tmp_path: Path, git_environment: None
+) -> None:
+    catalog = _one_repo(tmp_path)
+    checkout = _checkout(tmp_path, "tool", {"README.md": "initial\n"})
+    inventory = tmp_path / "inventory"
+    snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False)
+    index = inventory / "index.json"
+    payload = json.loads(index.read_text(encoding="utf-8"))
+    payload["repositories"]["acme/tool"]["state"] = ["complete"]
+    damaged = json.dumps(payload)
+    index.write_text(damaged, encoding="utf-8")
+    updated = _commit_app_change(checkout)
+
+    assert check(catalog, catalog.repositories, inventory=inventory, filtered=False).drifted == (index,)
+    assert index.read_text(encoding="utf-8") == damaged
+
+    fresh = snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False)
+
+    assert fresh.written == (index,)
+    repaired = json.loads(index.read_text(encoding="utf-8"))["repositories"]["acme/tool"]
+    assert repaired["state"] == RepositoryState.COMPLETE.value
+    assert repaired["commit"] == updated
+
+
 def test_filtered_snapshot_preserves_other_repositories(
     tmp_path: Path, git_environment: None
 ) -> None:
