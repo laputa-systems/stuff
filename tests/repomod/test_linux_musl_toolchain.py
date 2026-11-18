@@ -72,14 +72,31 @@ def test_floating_base_is_reported(tmp_path: Path, monkeypatch: pytest.MonkeyPat
     assert findings[0].fixable is True
 
 
-def test_edge_base_is_reported_and_left_for_review(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    root = bare_repo(tmp_path, "FROM alpine:edge\nRUN apk add --no-cache bash=5.3.9-r1\n")
+@pytest.mark.parametrize(
+    "base",
+    [
+        "FROM alpine:edge",
+        "ARG BASE=docker.io/library/alpine:edge\nFROM ${BASE}",
+    ],
+)
+def test_edge_base_is_reported_and_left_for_review(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, base: str
+) -> None:
+    root = bare_repo(tmp_path, f"{base}\nRUN apk add --no-cache bash=5.3.9-r1\n", scoped=False)
 
     findings = check(monkeypatch, root)
 
     assert any("Alpine edge is not approved" in message for message in messages(findings))
     assert not any(finding.fixable for finding in findings)
     assert musl._linux_musl_toolchain_fix(root, repository()) == {}
+
+
+def test_non_alpine_builder_can_mention_edge_without_using_it(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = bare_repo(tmp_path, "FROM debian\nRUN echo alpine:edge\n", scoped=False)
+
+    assert check(monkeypatch, root) == []
 
 
 @pytest.mark.parametrize("option", ["--repository {}", "--repository={}", "-X {}", "-X{}"])
@@ -90,6 +107,7 @@ def test_apk_repository_override_is_reported(
     root = bare_repo(
         tmp_path,
         f"FROM alpine@{STABLE_INDEX}\nRUN apk add {option.format(url)} bash=5.3.9-r1\n",
+        scoped=False,
     )
 
     assert messages(check(monkeypatch, root)) == [f"apk add uses a non-approved repository: {url}"]

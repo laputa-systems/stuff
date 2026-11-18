@@ -1863,9 +1863,28 @@ def _dockerfile_in_scope(path: Path, references: set[Path]) -> bool:
     if path in references:
         return True
     try:
-        return "musl" in path.read_text(encoding="utf-8").casefold()
+        source = path.read_text(encoding="utf-8")
     except (OSError, UnicodeError):
         return True
+    if "musl" in source.casefold():
+        return True
+    if "edge" not in source:
+        return False
+    lines = _logical_lines(source)
+    arguments = _arg_values(lines)
+    for line in lines:
+        if base := _FROM.fullmatch(line.text):
+            image = _expand(base.group("image"), arguments)
+            repo, tag, _ = _split_image(image)
+            if _repository_name(repo) == "alpine" and tag == "edge":
+                return True
+        if (run := _RUN.match(line.text)) and any(
+            "/alpine/edge/" in _expand(url, arguments)
+            for command in _apk_commands(line.text[run.end() :])
+            for url in command.repositories
+        ):
+            return True
+    return False
 
 
 def _linux_musl_toolchain_findings(root: Path, repository: Repository) -> list[Finding]:
