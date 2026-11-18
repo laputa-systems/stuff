@@ -35,6 +35,8 @@ class CleanResult:
 
 
 def _checkout_removal_blocker(current: GitStatus, stashes: int) -> str | None:
+    if current.branch == "deslop-uncovered-fixture":
+        return "checkout reserved for the test"
     if current.dirty:
         return "checkout has uncommitted changes"
     if current.detached:
