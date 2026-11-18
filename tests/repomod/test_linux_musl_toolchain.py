@@ -333,6 +333,48 @@ def test_python_build_adapter_checks_the_bootstrap_closure(
     assert any("bootstrap refresh" in message for message in messages(findings))
 
 
+def test_cmake_build_adapter_checks_offline_stable_closure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "docker").mkdir()
+    dockerfile = tmp_path / "docker/builder.Dockerfile"
+    source = f"FROM alpine@{STABLE_INDEX}\n"
+    install = "RUN apk add --no-cache --no-scripts --repositories-file /dev/null /tmp/apks/*.apk\n"
+    dockerfile.write_text(source + install)
+    base_url = "https://dl-cdn.alpinelinux.org/alpine/v3.24/main"
+    document = {
+        "alpine": {
+            "release": "3.24.2",
+            "image_index_digest": STABLE_INDEX,
+            "repositories": {f"{arch}-unknown-linux-musl": [base_url] for arch in ("x86_64", "aarch64")},
+        },
+        "targets": {
+            f"{arch}-unknown-linux-musl": {
+                "packages": [
+                    {"name": "musl", "version": "1.2.6-r3", "sha256": "a" * 64, "size": 50,
+                     "url": f"{base_url}/{arch}/musl-1.2.6-r3.apk"},
+                ],
+            }
+            for arch in ("x86_64", "aarch64")
+        },
+    }
+    bootstrap = tmp_path / "bootstrap.lock.json"
+    bootstrap.write_text(json.dumps(document))
+    name = repository(("build", "python"), "laputa-systems/cmake-build")
+    install_lock(monkeypatch, approved_lock())
+    assert musl._linux_musl_toolchain_findings(tmp_path, name) == []
+
+    dockerfile.write_text("FROM alpine:edge\n" + install.replace("/dev/null", "/etc/apk/repositories"))
+    section = document["targets"]["aarch64-unknown-linux-musl"]
+    section["packages"][0]["url"] = f"{base_url.replace('v3.24', 'edge')}/aarch64/musl-1.2.6-r3.apk"
+    bootstrap.write_text(json.dumps(document))
+    findings = messages(musl._linux_musl_toolchain_findings(tmp_path, name))
+    assert any("stable repository URL" in message for message in findings)
+    assert any("Alpine edge is not approved" in message for message in findings)
+    assert any("/tmp/apks/*.apk" in message for message in findings)
+    assert musl._linux_musl_toolchain_fix(tmp_path, name) == {}
+
+
 def _chromium(root: Path, release: str = "3.24.2", musl_dev: str = "1.2.6-r3") -> None:
     (root / "config").mkdir(parents=True, exist_ok=True)
     document = {"base_release": release, "world": [f"musl-dev={musl_dev}"]}

@@ -64,6 +64,11 @@ sha256 = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 kind = "python-build"
 lock = "bootstrap.lock.json"
 
+[adapters."laputa-systems/cmake-build"]
+kind = "cmake-build"
+lock = "bootstrap.lock.json"
+dockerfile = "docker/builder.Dockerfile"
+
 [adapters."laputa-systems/chromium-build"]
 kind = "chromium-build"
 lock = "config/packages.amd64.lock"

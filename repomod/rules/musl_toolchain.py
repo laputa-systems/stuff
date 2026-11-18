@@ -36,6 +36,7 @@ _TOOLS = ("llvm", "mold", "rustup")
 _GCC_PACKAGES = frozenset({"gcc", "g++", "build-base"})
 _ADAPTER_FIELDS = ("kind", "lock", "workflow", "dockerfile", "zig_version", "zig_archive_sha256")
 _ADAPTER_KINDS = {
+    "cmake-build": ("lock", "dockerfile"),
     "python-build": ("lock",),
     "chromium-build": ("lock",),
     "node-build": ("workflow",),
@@ -741,6 +742,7 @@ class _Package:
 class _ApkCommand:
     packages: tuple[_Package, ...]
     repositories: tuple[str, ...]
+    offline_locked_context: bool
 
 
 def _logical_lines(source: str) -> list[_LogicalLine]:
@@ -894,7 +896,10 @@ def _apk_commands(text: str) -> list[_ApkCommand]:
                 )
             )
             cursor += 1
-        commands.append(_ApkCommand(tuple(packages), tuple(repositories)))
+        offline_locked_context = tuple(option.text for option in tokens[index + 2 : cursor]) == (
+            "--no-cache", "--no-scripts", "--repositories-file", "/dev/null", "/tmp/apks/*.apk",
+        )
+        commands.append(_ApkCommand(tuple(packages), tuple(repositories), offline_locked_context))
         index = cursor
     return commands
 
@@ -1173,6 +1178,13 @@ def _analyze_dockerfile(
             continue
         run_text = line.text[run_match.end() :]
         for command in _apk_commands(run_text):
+            if (
+                adapter is not None
+                and adapter.kind == "cmake-build"
+                and adapter.dockerfile == relative
+                and command.offline_locked_context
+            ):
+                continue
             findings.extend(
                 _failure(
                     repository,
@@ -1514,6 +1526,8 @@ def _adapter_with_lock_findings(
         ]
     channel = lock.channel("stable")
     findings: list[Finding] = []
+    if adapter.kind == "cmake-build":
+        return _cmake_bootstrap_findings(repository, adapter.lock, channel, document)
     if adapter.kind == "python-build":
         linux = document.get("linux_toolchain")
         if not isinstance(linux, dict):
@@ -1721,6 +1735,54 @@ def _adapter_workflow_findings(
     return []
 
 
+def _cmake_bootstrap_findings(
+    repository: Repository, path: str, channel: Channel, document: dict[str, object]
+) -> list[Finding]:
+    alpine = document.get("alpine")
+    if not isinstance(alpine, dict):
+        return [_failure(repository, path, "bootstrap lock has no alpine object")]
+    if alpine.get("release") != channel.release or alpine.get("image_index_digest") != channel.index_digest:
+        return [_failure(repository, path, "bootstrap lock must pin the approved stable Alpine image")]
+    repository_url = f"{_ALPINE_CDN}/v{channel.branch}/main"
+    repositories = alpine.get("repositories")
+    targets = document.get("targets")
+    if not isinstance(repositories, dict) or not isinstance(targets, dict):
+        return [_failure(repository, path, "bootstrap lock must record Alpine repositories and targets")]
+    findings: list[Finding] = []
+    for arch in _ARCHES:
+        target = f"{arch}-unknown-linux-musl"
+        if repositories.get(target) != [repository_url]:
+            findings.append(_failure(repository, path, f"{target} must use {repository_url}"))
+        section = targets.get(target)
+        packages = section.get("packages") if isinstance(section, dict) else None
+        if not isinstance(packages, list) or not packages:
+            findings.append(_failure(repository, path, f"{target} must lock its APK packages"))
+            continue
+        versions: dict[str, str] = {}
+        for entry in packages:
+            if not isinstance(entry, dict):
+                findings.append(_failure(repository, path, f"{target} has an invalid APK entry"))
+                continue
+            name, version, digest, size = (entry.get(key) for key in ("name", "version", "sha256", "size"))
+            if (
+                not isinstance(name, str) or re.fullmatch(r"[a-z0-9_+.-]+", name) is None
+                or not isinstance(version, str) or re.fullmatch(r"[a-zA-Z0-9_+.-]+", version) is None
+                or not isinstance(digest, str) or _ARCHIVE_SHA256.fullmatch(digest) is None
+                or type(size) is not int or size <= 0
+            ):
+                findings.append(
+                    _failure(repository, path, f"{target} has an APK without a valid version, SHA-256 or size")
+                )
+                continue
+            if entry.get("url") != f"{repository_url}/{arch}/{name}-{version}.apk":
+                findings.append(_failure(repository, path, f"{target} APK {name} must use its stable repository URL"))
+            versions[name] = version
+        for name, expected in channel.packages[arch].items():
+            if (name == "musl" or name in versions) and versions.get(name) != expected:
+                findings.append(_failure(repository, path, f"{target} APK {name} must be {expected}"))
+    return findings
+
+
 def _host_musl_build_findings(
     root: Path,
     repository: Repository,
@@ -1785,6 +1847,13 @@ def _linux_musl_toolchain_findings(root: Path, repository: Repository) -> list[F
         findings.extend(_adapter_with_lock_findings(root, repository, lock, adapter))
         return findings
     references = _workflow_references(root, workflows)
+    if adapter is not None and adapter.kind == "cmake-build" and adapter.dockerfile is not None:
+        dockerfile = root / adapter.dockerfile
+        if not dockerfile.is_file() or dockerfile.is_symlink():
+            findings.append(operational(repository, _RULE_ID, adapter.dockerfile, "adapter Dockerfile is missing"))
+        else:
+            references.add(dockerfile)
+        findings.extend(_adapter_with_lock_findings(root, repository, lock, adapter))
     dockerfiles = [
         path
         for path in _candidate_dockerfiles(root, references)
@@ -1872,7 +1941,7 @@ def _linux_musl_toolchain_fix(root: Path, repository: Repository) -> dict[str, s
     except (OSError, ValueError):
         return {}
     adapter = lock.adapters.get(str(repository.id))
-    if adapter is not None and adapter.kind in {"python-build", "chromium-build"}:
+    if adapter is not None and adapter.kind in {"python-build", "chromium-build", "cmake-build"}:
         return {}
     workflows, _ = read_workflow_sources(root, repository)
     references = _workflow_references(root, workflows)
