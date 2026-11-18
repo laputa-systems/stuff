@@ -86,3 +86,32 @@ The three paths accounted for 1,408,900 KiB (1.34 GiB). During the
 FFmpeg retirement, available blocks on the shared volume rose from
 284,085,620 to 284,810,924 KiB. This is a separate observation from
 the measured checkout allocation.
+
+## Completed checkouts, 2026-11-18
+
+Three more worktrees were retired after the owning reports recorded
+their results. Git verified the detached checkouts against their
+default branches and the Mdevd report against its squash merge.
+
+| Repository | Last checked revision | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| e | `b29c90178b664e12d3c4f7f0f4f49772aee21c33` | `deslop-hi-lite-bracket-consumer` | 143,684 |
+| Buildlib | `1497970d9454a6a9875b1f201cbaad71fd92a010` | `deslop-current-qualification` | 116,036 |
+| Mdevd-rs | `81c378de7e5f66faa2af89cabdccbcbdfa918c46` | `deslop-mdevd-config-decisions` | 343,448 |
+
+These paths accounted for 603,168 KiB.
+
+Four more worktrees were removed after their exact file trees matched the
+owning squash merges. CMake's exact archive and memory receipts are in its
+owning report. Git removed each clean worktree without force.
+
+| Repository | Last checked integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Mdevd-rs | `9603b750ef63e6abcbd284bb45c1a46b46c8e735` | `deslop-mdevd-event-records` | 75,640 |
+| Mdevd-rs | `64826edd2e8efaa55540bf7d9cfb5cc1cbcb40ea` | `deslop-mdevd-node-path` | 59,540 |
+| Doas-rs | `afe63f522ec0af3e40bf4ea075537fd834efbd45` | `stable-alpine-doas` | 1,172 |
+| CMake-build | `0bbf8f4e900aa1590bb4c61241a5099190ab790b` | `stable-alpine-bootstrap` | 2,339,676 |
+
+The four additional paths accounted for 2,476,028 KiB. Across all cleanup
+passes, 47 retired worktrees and the listed generated artifacts accounted
+for 14,667,788 KiB (13.99 GiB) of measured path allocation.
