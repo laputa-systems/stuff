@@ -48,10 +48,10 @@ def _sync_upstream(path: Path, remote: RemoteRepository) -> str | None:
         fetch_upstream(path, remote.parent_branch, 1 if shallow(path) else None)
     except (GitError, OSError) as error:
         return f"upstream {remote.parent} unavailable: {error}"
-    if state == "added":
-        return f"upstream {remote.parent} added and fetched"
     if state == "updated":
         return f"upstream {remote.parent} repointed and fetched"
+    if state == "added":
+        return f"upstream {remote.parent} added and fetched"
     return f"upstream {remote.parent} fetched"
 
 
