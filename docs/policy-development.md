@@ -200,6 +200,9 @@ drift). A failing fetch or malformed source exits 2 and writes nothing.
 
 Alpine edge is not approved. Edge keeps only the newest revision of each package, so exact
 pins against it break whenever a package is rebuilt. Builders use the stable channel.
+Start from the approved Alpine base and add the packages the build commands
+need with their dependency closure. Keep qualification-only packages scoped
+to the tests that use them.
 The shared contract pins base digests, direct APK versions, and toolchain archive checksums.
 It does not guarantee the complete transitive APK closure or offline installation. Bespoke
 builders retain their own closure and qualification machinery.
