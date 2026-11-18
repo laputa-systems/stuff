@@ -18,6 +18,8 @@ from repomod.types import Finding, Repository, Rule, TagPredicate, operational, 
 _POLICY = 'fleet/policy/retention.toml'
 _SETTINGS = {
     'rust.unsafe_code=forbid',
+    'clippy.needless_pass_by_value=deny',
+    'clippy.redundant_clone=deny',
     'ty.missing-type-argument=error',
     'ty.unsound-return-statement=error',
     'ty.unused-ignore-comment=error',
@@ -174,7 +176,8 @@ def _strict(root: Path, repository: Repository, settings: list[str], rule: str =
     findings = []
     for setting in settings:
         name, level = setting.split('=')
-        relative = 'Cargo.toml' if name.startswith('rust.') else 'pyproject.toml'
+        group, lint_name = name.split('.')
+        relative = 'Cargo.toml' if group in {'rust', 'clippy'} else 'pyproject.toml'
         try:
             data = tomllib.loads((root / relative).read_text(encoding='utf-8'))
         except FileNotFoundError:
@@ -182,11 +185,11 @@ def _strict(root: Path, repository: Repository, settings: list[str], rule: str =
         except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
             findings.append(operational(repository, rule, relative, str(error)))
             continue
-        if name.startswith('rust.'):
-            value = data.get('lints', {}).get('rust', {}).get('unsafe_code')
+        if group in {'rust', 'clippy'}:
+            value = data.get('lints', {}).get(group, {}).get(lint_name)
             valid = value == level
-        elif name.startswith('ty.'):
-            value = data.get('tool', {}).get('ty', {}).get('rules', {}).get(name[3:])
+        elif group == 'ty':
+            value = data.get('tool', {}).get('ty', {}).get('rules', {}).get(lint_name)
             valid = value == level
         else:
             lint = data.get('tool', {}).get('ruff', {}).get('lint', {})
