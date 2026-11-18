@@ -509,8 +509,9 @@ def test_full_snapshot_rebuilds_an_unreadable_index(
     assert index.read_bytes() == expected
 
 
+@pytest.mark.parametrize("broken", ["entry", "state", "commit"])
 def test_corrupt_record_preserves_another_repository_commit(
-    tmp_path: Path, git_environment: None
+    tmp_path: Path, git_environment: None, broken: str
 ) -> None:
     catalog = _catalog(tmp_path, '[repos."acme"]\na = ["tool"]\nb = ["tool"]\n')
     _checkout(tmp_path, "a", {"README.md": "a\n"})
@@ -520,12 +521,29 @@ def test_corrupt_record_preserves_another_repository_commit(
     index = inventory / "index.json"
     expected = index.read_bytes()
     payload = json.loads(expected)
-    payload["repositories"]["acme/a"] = None
+    if broken == "entry":
+        payload["repositories"]["acme/a"] = None
+    else:
+        payload["repositories"]["acme/a"][broken] = []
     index.write_text(json.dumps(payload), encoding="utf-8")
     _commit_app_change(checkout)
 
     assert snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False).written == (index,)
     assert index.read_bytes() == expected
+
+
+def test_first_filtered_snapshot_uses_the_current_index_schema(
+    tmp_path: Path, git_environment: None
+) -> None:
+    catalog = _one_repo(tmp_path)
+    _checkout(tmp_path, "tool", {"README.md": "tool\n"})
+    full = tmp_path / "full"
+    selected = tmp_path / "selected"
+
+    snapshot(catalog, catalog.repositories, inventory=full, filtered=False)
+    snapshot(catalog, catalog.repositories, inventory=selected, filtered=True)
+
+    assert _inventory_files(selected) == _inventory_files(full)
 
 
 def test_filtered_snapshot_preserves_other_repositories(
@@ -664,7 +682,7 @@ def test_output_is_byte_identical_across_runs(
         assert content.endswith(b"\n")
 
 
-@pytest.mark.parametrize("index_error", ["parser", "schema", "json"])
+@pytest.mark.parametrize("index_error", ["parser", "schema", "json", "repositories"])
 def test_rejected_filtered_snapshot_preserves_existing_inventory(
     tmp_path: Path, git_environment: None, index_error: str,
 ) -> None:
@@ -685,6 +703,10 @@ def test_rejected_filtered_snapshot_preserves_existing_inventory(
     if index_error == "json":
         content = "{"
         message = "Expecting"
+    elif index_error == "repositories":
+        payload["repositories"] = []
+        content = json.dumps(payload)
+        message = "cannot read"
     else:
         payload["parser_version" if index_error == "parser" else "schema"] = 0
         content = json.dumps(payload)
