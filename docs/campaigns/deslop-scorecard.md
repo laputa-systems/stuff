@@ -15,8 +15,8 @@ outside scope during the owner's rearchitecture.
 | Repository | Default revision | Pass state and completed work | CI and retention | One next action |
 | --- | --- | --- | --- | --- |
 | srv | `c9965411d80a8b02d8b8c4cac2492ecc973ee296` | The #47 sharded candidate includes the archive startup warning. Earlier Report complete. | All 376 identities accounted for twice. The latest run caught 323, missed 24, found 17 unviable and confirmed 12 hangs. Its gate median was 850.3 seconds. | Resolve misses and qualify the ten-minute target |
-| fz | `0ec537d53eca0a12af07687250111a48023ee8d3` | Report complete. Local check-up passed 66 Rust test cases twice and lint. A nested Linux-only PTY case was skipped on macOS. The CLI invalid-argument test caught an injected success exit. | F2/F3 and both retention rules passed. The hosted default run passed on rerun after the macOS harness missed its timing window. #44 preserved 439 mutation identities across two jobs. | Repeat the paired runtime workload on a quiet host |
-| buildlib | `1497970d9454a6a9875b1f201cbaad71fd92a010` | Ground, Diagnose, Types, Tests and dead-code evidence. #27 fixed a release manifest serialization defect found during cumulative review. | All 17 checks passed. Four controls demonstrated the expected results across the applicable jobs. Strict typing, mutation and coverage retention registered. | Check up on the retained guarantees at the next tier checkpoint |
+| fz | `091617def63fbf364afea068513a2b5dfa748720` | Earlier Report complete. Local check-up passed 66 Rust cases and caught an injected CLI success exit. #46 records the current release comparison as deferred in DSLP-10. | Both default checks passed. #44 preserved 439 mutation identities across two jobs. The third hosted timing attempt exited 75 at its readiness check after sampling started. | Repeat the paired runtime workload on a quiet host |
+| buildlib | `1497970d9454a6a9875b1f201cbaad71fd92a010` | Ground through Dead code and cumulative review complete. Fresh check-up passed all 208 tests and reproduced the manifest filename mismatch with an injected fault. | All 17 checks passed #27. Default CI and lint passed. Test workflow, mutation, coverage and strict typing policy checks returned no findings. | Retain the checked guarantees |
 | extensions | `10f6101eba8916aa0f4b4aed07d91f6178ff525b` | Active. Coverage, type-aware lint and installed Chromium are retained. Draft #22 covers parser and storage. #27 verifies ZIP metadata and CRC. | The parser and storage jobs passed in 617 aggregate runner seconds with four hosted controls. #27 caught 35 of 44 selected identities. | Qualify the remaining archive and browser effects |
 | pytest-parallel | `25e57a1e460d030fab8385c48657ef672a7f2d1c` | Active. #39 preserves native subtest reports. #40 verifies report validation and removes redundant state operations. | All 207 local tests and three hosted checks passed #40. Draft #32 caught all 105 report identities in both lanes, with twelve passing jobs and 907 total runner seconds. | Qualify the remaining coordinator lifecycle and socket decisions |
 | vault | `553fb720046e360cd9f62beeaef007ad398978db` | Active. #36 records the platform trial and defers two-Mac recovery to an owner-run check. | Ordinary draft CI passed macOS and both Linux musl architectures. Mutation failed on 14 Linux and 13 macOS shards. | Qualify the platform union and obtain the separate hardware and keyring evidence |
@@ -28,16 +28,16 @@ outside scope during the owner's rearchitecture.
 | ptytest | `606027bb32999fa3e1bb960285384a89081a957a` | Active. #25 retained the terminal mutation scope. #30 makes the workflow classify each pull request. | Both platforms and four controls confirmed the bounded selection. The same macOS Xsh compile failure occurred at baseline and with the candidate. | Qualify lifecycle, replay and remaining consumer Tests inventory |
 | tm | `6cf0b949c2593c0959268a3d1995b972b05f58b6` | Active; fixture repairs merged, Ground and later stages open | Recent repair CI green; quiet-host cost unresolved | Finish Ground cost and component scope |
 | toolbox | `8d2cd08c71ff00d311212d85940f95c8359aa76f` | Local native and coverage evidence complete on #15. Hosted qualification deferred for Actions billing. | The repaired installed wheel passed all 750 tests and five native fio subtests. Separate branch data exists for both workers. | Resume hosted checks when Actions can start the jobs |
-| ffmpeg-build | `82bcb48153c33ac86c1b33b1f1a6cc05277ebcd2` | Ground, Diagnose and Types complete. #35 records all seven native Linux and three local macOS artifact checks, with shared-library and SDK consumers. | 112 ordinary tests and lint passed. Linux caught all 75 bootstrap and 152 of 155 collector identities with three equivalents. | Qualify whole-change coverage |
-| pi-build | `0da2614bfe44e628daea873343301aa2b7165e6d` | Both artifact profiles reproduced on Linux x86-64 and ARM64. #42 retains the whole-change Python gate over the seven build tools. | All 74 Python tests, four companion fixtures and lint passed. The hosted gate accounted for all 1,427 identities and exercised actual mixed and deletion controls. | Obtain two-host Intercom evidence |
+| ffmpeg-build | `aa4f74741638ef3762a324b2e687b1509b0c62f1` | Ground, Diagnose and Types complete. #35 records all seven native Linux and three local macOS artifact checks. #36–37 cover runtime layout and loader diagnostics. | 117 ordinary tests and lint passed. #37 caught all 305 selected ELF and Mach-O audit identities. | Qualify whole-change coverage |
+| pi-build | `266f21b5c010ed1775a7698db0dd72e9f53b14d4` | Both artifact profiles reproduced on Linux x86-64 and ARM64. #42 retains the whole-change Python gate, #43 fixes vendor rollback, and #44 records two-host Intercom as an owner-environment dependency. | Default CI and lint passed. #43 ran 77 Python tests, four companion fixtures and accounted for 1,434 mutation identities. | Obtain two-host Intercom evidence before settling the pass |
 | node-build | `597add72e9b3ea144819bc751876f1b221f30c97` | Ground, Diagnose and Types complete. #35 validates toolchain lock sections before host inspection, and #36 checks missing fields and schema errors. | 103 pinned Alpine tests and both default checks passed. All 52 Doctor identities and the assembly casefold fault were caught. Native artifact checks started in draft #37. | Qualify the wider controller and whole-change gate |
-| hi-lite | `9ede5ab2cb27429b3d2b327dec7627a068273b0c` | Ground complete. #14 confirms the published install example with a fresh consumer. Diagnose filed the empty-input delimiter panic and continues. | All three #14 checks passed. 133 local tests and Clippy passed. | Complete the remaining lexer and fixture-tool review |
+| hi-lite | `85b32e3b7669b11bc86ecebb2b17e867356b916d` | Ground complete. #15 fixes the empty-document bracket matcher panic and closes DSLP-6. | Candidate Linux ARM64, macOS and lint checks passed. The editor built with the candidate and produced the same 149 passes and 14 failures as its locked dependency. | Complete the remaining lexer and fixture-tool review |
 | doas-rs | `600023d11a6ca43b5341aaf10c4d9608f69a8d1c` | Ground complete. #6 verifies the public query outcomes and owned-tool help boundary. | Ordinary Linux and default checks passed. | Finish Diagnose and qualify the isolated privileged path |
 | mdevd-rs | `dd4d59a5a0eb7a38aac973630f60ac768de0e03d` | Ground complete. #8 makes live publication exchange tests explicit and removes an unasserted smoke. | 64 ordinary tests passed with ten opt-in cases ignored. Both #8 checks and the default check passed. | Finish Diagnose and qualify the isolated guest and consumer exchange |
-| cmake-build | `54ba25ecfa70efb36e82087fc4981038f5d32a70` | Ground complete. #18 rejects malformed RSS samples with the controller's budget diagnostic. The strict inventory fell from 65 to 44. | All 117 prepared Linux controller tests and lint passed on #18. The default controller job is running. | Finish Diagnose and the remaining strict typing work |
+| cmake-build | `a929b2f257be1de1fe452dc6b4abdd0be082f3a5` | Ground complete. #19–23 repair controller boundaries and reduce strict findings to 21. #24 prepares an offline, stable Alpine replacement for the Edge builder. | The hosted #23 controller and lint passed. The cold stable ARM64 fetch passed, and hosted native qualification is running for both targets. | Qualify the stable archives and land the fleet policy |
 
 
-Fz check-up at the recorded revision used a fresh macOS ARM64 worktree, the
+Fz check-up at `0ec537d53eca0a12af07687250111a48023ee8d3` used a fresh macOS ARM64 worktree, the
 repo's pinned nightly, fzy commit `34b88869d022e861da4846c4463aea3ddfb3ff30`,
 `CARGO_BUILD_JOBS=2`, `RUST_TEST_THREADS=2`, kache, and
 `cpu-guard --cores 3 -- make test`. Cold and warm attempts took 21.15 and
@@ -45,8 +45,18 @@ repo's pinned nightly, fzy commit `34b88869d022e861da4846c4463aea3ddfb3ff30`,
 the parse-error exit from 1 to 0 in `src/cli.rs` and run
 `cargo test --locked --test cli invalid_lines_and_positional_arguments_fail_without_stdout -- --exact`.
 It exits 101 with 0 observed where 1 is expected. Reverting the fault restores
-the pass. The host's swap exceeds the performance preflight ceiling. Resume
-the paired runtime gate when `perf-gate-ready` passes.
+the pass. Local release timings overlapped a CPU-intensive workload. The last
+hosted attempt failed its readiness check after sampling had started.
+[Hosted attempt](https://github.com/laputa-systems/fz/actions/runs/44348670074) ·
+[DSLP-10](https://github.com/laputa-systems/fz/pull/46)
+
+The Buildlib check-up at `1497970d` measured 901 of 902 Python statements and
+291 of 292 branches. In a disposable copy, removing `manifest = dict(manifest)`
+from `write_manifest` made
+`pytest tests/test_release.py::test_manifest_name_and_body_use_the_same_product`
+fail on the filename. Restoring the snapshot restored the test. The suite
+timing overlapped another workload and was discarded. Buildlib does not
+declare a runtime performance workload.
 
 ## Historical measurements
 
