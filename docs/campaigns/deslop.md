@@ -73,6 +73,11 @@ qualified workloads and remaining boundaries.
 - The [checkout cleanup](deslop-cleanup-20261117.md) retired 18 integrated
   worktrees under `~/repos` and cleared verified stale build targets and
   fixtures.
+- Pytest-parallel merged file-hook regressions and retained its whole-change
+  trial in [draft #32](https://github.com/joshuarli/pytest-parallel/pull/32)
+  after the aggregate exhausted the coordinator budget. Stats merged
+  coverage evidence, a target-policy fixture repair and shared decoder
+  cases. See the [successor results](deslop-m2.md#successor-results).
 - The owner approved the full campaign and unattended decisions. M2 and the
   tier checkpoints still require evidence. The roadmap records the remaining
   qualification conditions and deferred work.
