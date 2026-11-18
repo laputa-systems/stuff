@@ -82,6 +82,19 @@ def test_edge_base_is_reported_and_left_for_review(tmp_path: Path, monkeypatch: 
     assert musl._linux_musl_toolchain_fix(root, repository()) == {}
 
 
+@pytest.mark.parametrize("option", ["--repository {}", "--repository={}", "-X {}", "-X{}"])
+def test_apk_repository_override_is_reported(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, option: str
+) -> None:
+    url = "https://dl-cdn.alpinelinux.org/alpine/edge/main"
+    root = bare_repo(
+        tmp_path,
+        f"FROM alpine@{STABLE_INDEX}\nRUN apk add {option.format(url)} bash=5.3.9-r1\n",
+    )
+
+    assert messages(check(monkeypatch, root)) == [f"apk add uses a non-approved repository: {url}"]
+
+
 def test_missing_digest_is_reported(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     root = bare_repo(tmp_path, "FROM alpine:3.24.2\n")
 
