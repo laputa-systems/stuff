@@ -1,8 +1,8 @@
 # Repomod mutation trial
 
-The trial replays the checkout refusal, upstream fetch and workflow
-matrix decisions on a committed snapshot. Changes to Repomod tests
-or settings select all three protected functions. A production edit
+The trial replays the checkout refusal, upstream fetch, workflow
+matrix and snapshot entry decisions on a committed snapshot. Changes
+to Repomod tests or settings select all four protected functions. A production edit
 confined to one of those functions selects that function. Other
 edits select the full supported file. The production selection runs
 alongside the protected functions when the change includes a test edit. A
@@ -19,7 +19,7 @@ currently fails on every timeout.
 
 With the locked Python environment and mutmut 3.8.1 installed, run
 `BASE=origin/main make repomod-mutants`. Set `REPOMOD_MUTATION_SHARD`
-to `removal`, `upstream` or `matrix` to run one shard. Use
+to `removal`, `upstream`, `matrix` or `snapshot-entries` to run one shard. Use
 `uv run --no-sync python tests/repomod/mutation_gate.py BASE --plan`
 to list the committed selection. The command archives the tested
 revision under `.work/tmp` and rejects links in the archive. It
@@ -28,10 +28,10 @@ budget in each hosted shard. The runner terminates the subprocess
 group on timeout or handled cancellation and reaps it before
 removing the snapshot.
 
-The draft attempts all three shards on Linux ARM64 and macOS. The
-snapshot, catalog and wider policy decisions, hosted controls and
-whole-file scope are still open. Keep this trial outside the
-retention configuration until those boundaries are verified.
+The draft attempts all four shards on Linux ARM64 and macOS. Wider
+snapshot, catalog and policy decisions and whole-file scope are
+still open. Keep this trial outside retention until those boundaries
+are verified.
 
 ## Hosted controls
 
@@ -55,4 +55,18 @@ With the function-level selection at `3e467fc9`, local runs selected
 and all 25 caught upstream decisions for the mixed change. The driver
 checks exact bytes before and after the function in both revisions.
 This keeps edits to decorators or surrounding code in the full-file
-selection. The hosted successor still needs qualification.
+selection.
+
+The [bounded hosted run](https://github.com/laputa-systems/stuff/actions/runs/44271866892)
+at `3a61cccd` passed all six jobs in 353 runner seconds.
+[The bounded mixed control](https://github.com/laputa-systems/stuff/pull/99)
+caught all 25 changed upstream-function identities, and the deletion
+left all 19 removal identities alive on both platforms.
+[The bounded uncovered control](https://github.com/laputa-systems/stuff/pull/100)
+left IDs 2–5 alive out of 24 selected on both platforms. Ordinary
+checks passed both controls.
+
+The snapshot entry shard at `c13e2502` caught all 23 identities
+locally through the real Git fixture, using snapshot source SHA-256
+`5cc6294699c74e8b40ee9445ef5f0fb6a578375bb5d00f6523a33fbeb1d25cf1`.
+It still needs hosted runs with the previous three shards.
