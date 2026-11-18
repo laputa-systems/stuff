@@ -65,5 +65,41 @@ class ReadinessTests(unittest.TestCase):
             thread.join()
 
 
+class RecoveryWriterReadinessTests(unittest.TestCase):
+    def test_writer_route_checks_the_recovery_upstream_with_its_own_secret(self):
+        seen = []
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                seen.append((self.path, self.headers.get("Host"), self.headers.get("Stats-Gateway-Secret")))
+                self.send_response(200)
+                self.end_headers()
+
+            def log_message(self, *args):
+                pass
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        thread = threading.Thread(target=server.serve_forever)
+        thread.start()
+        try:
+            with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as directory:
+                cfg = oolib.load()
+                cfg.stack["etc_dir"] = directory
+                cfg.apps["stats"] = replace(cfg.apps["stats"], ip="127.0.0.1", port=1)
+                apps = Path(directory) / "apps"
+                apps.mkdir()
+                oolib.write_env(apps / "stats.env", {"GATEWAY_SECRET": "local-secret"})
+                oolib.write_env(apps / "stats.recovery.env", {"GATEWAY_SECRET": "recovery-secret"})
+                (Path(directory) / "recovery-routes.json").write_text(
+                    f'{{"stats": {{"mode": "writer", "upstream": "127.0.0.1:{server.server_port}"}}}}')
+                route = oolib.load_recovery_routes(cfg)["stats"]
+                self.assertEqual(oolib.app_readiness(cfg, cfg.apps["stats"]), (0, ""))
+                self.assertEqual(oolib.app_readiness(cfg, cfg.apps["stats"], route), (200, ""))
+                self.assertEqual(seen, [("/api/v1/hosts", "stats.17166969.xyz", "recovery-secret")])
+        finally:
+            server.shutdown()
+            thread.join()
+
+
 if __name__ == "__main__":
     unittest.main()

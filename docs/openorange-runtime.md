@@ -271,6 +271,12 @@ driver `none`); `bin/logrotate` (daily, copy-truncate, 5 x gz over 20 MiB).
 Containers run `--read-only`, `--cap-drop ALL`, `no-new-privileges`, non-root
 where the image allows (store, engine, ingress, identity, apps).
 
+`oo-dns` and `oo-ingress` bind the tailnet address, which tailscaled assigns
+some seconds after OpenRC starts it at boot. Both units order after
+`tailscale`, and `oo prepare` waits up to 120 s for the address before
+starting either listener. Without that wait, `oo-dns` failed its readiness
+check on the 2026-11-18 reboot and stayed stopped.
+
 ## Install (on `lisa`, as root; `doas` is the privilege tool there, not `sudo`)
 
 `doas` does not search `/sbin`: spell out `/sbin/rc-service` or work in a root shell.
@@ -421,7 +427,98 @@ probe the adjacent applications, then stop that reader.
 readiness separately. The app check uses the same authenticated request
 as OpenRC startup, requires HTTP 200, and includes a structured upstream
 error code when one is present. A failed primary still appears as failed
-when ingress is serving a recovery route. Probe that route separately.
+when ingress is serving a reader route; probe that route separately. An app
+fenced by a writer route has no local container, so health skips its
+service, container and runner checks and instead sends the readiness
+request to the writer upstream with `apps/NAME.recovery.env`. The platform
+bridge's runtime-pin check reports WARN while its source app is fenced.
+
+## Engine starvation from the HPET clocksource (2026-11-18)
+
+**Symptom.** From about 02:28 UTC every Engine storage command missed its
+deadline (`request_deadline_exceeded`). The Engine refused runner connections
+because "storage could not register", `oo-app.stuff` failed its 30 s
+registration wait and crash-looped, and Discover logged connection failures.
+Restarting the Engine did not help. Public registry reads continued through
+the separate `oo-stuff-read-*` reader.
+
+**Cause.** The kernel had demoted the TSC and fallen back to the HPET
+clocksource; `tsc` was no longer in `available_clocksource`. Every clock
+read became a system call: 3.1 to 7.4 µs per read from Python, against about
+50 ns normally. The Engine's Tokio runtime reads the clock constantly. Its
+eight workers ran at about 600% CPU, 261,000 `clock_gettime` calls in 5 s
+under `strace -c`. The host showed 0% idle with 65% system time. The
+clocksource watchdog can wrongly mark a stable TSC unstable when the host is
+overloaded. A demotion lasts until reboot, and writing `tsc` to
+`current_clocksource` is refused.
+
+**Diagnose.**
+
+```sh
+cat /sys/devices/system/clocksource/clocksource0/current_clocksource   # must be tsc
+cat /sys/devices/system/clocksource/clocksource0/available_clocksource
+doas timeout -s INT 5 strace -c -f -p "$(docker inspect -f '{{.State.Pid}}' oo-engine)"
+```
+
+A healthy Engine does not show `clock_gettime` in the profile at all.
+
+**Fix.** The usr Alpine provisioner (`host/alpine` in joshuarli/usr) adds
+`tsc=nowatchdog` to `GRUB_CMDLINE_LINUX_DEFAULT` on x86_64 CPUs with
+`constant_tsc` and `nonstop_tsc` and regenerates the GRUB menu. It also
+installs `amd-ucode`, runs the `performance` CPU governor at boot, and sets
+BBR with fq, 7.5 MB socket buffers and `vm.swappiness = 10`. Lisa was
+drained with `bin/drain` and rebooted. Afterwards the clocksource was
+`tsc`, a clock read cost 138 ns, the Engine dropped from 430 to 600% CPU to
+about 65 to 110%, host load fell from 12 to 3, and `oo-app.stuff` registered
+with 1/1 nodes connected.
+
+**Follow-ups found on the reboot.**
+
+- `oo-dns` started before the tailnet address existed; see
+  [Supervision design](#supervision-design).
+- The hand-made `oo-stuff-read-app` crash-looped: its `/app/.open-orange`
+  tmpfs came back root-owned, and the container runs as uid 1000. It was
+  recreated once with `uid=1000,gid=1000` on that tmpfs. After byte-identical
+  responses from the primary and the reader on nine read paths, the `stuff`
+  reader route was retired by the procedure in
+  [Recovery routes](#recovery-routes). Both reader containers are stopped
+  with restart policy `no`. The pre-change routes file is
+  `/root/recovery-routes.json.pre-stuff-retire` on Lisa.
+- The Engine's `actor_inbound` envoy queue still reports 128 of 128 every
+  30 s. Before 2026-11-18 this warning appeared once or twice a day. It
+  started during the outage and persists after the reboot while all apps
+  are idle. See
+  [Engine queue saturation](#engine-queue-saturation-after-the-outage).
+
+### Engine queue saturation after the outage
+
+After the reboot, with every app container near 0% CPU, the Engine still
+used 65 to 110% CPU, almost all in user space. Its `actor_inbound` envoy
+queue stayed at exactly 128 of 128. Two metric samples 30 s apart from
+`http://172.29.80.11:6430/metrics` showed:
+
+| Metric | Change in 30 s |
+| --- | --- |
+| `rivet_depot_alarm_candidates` | 33, unchanged |
+| `rivet_depot_alarm_discovery_rows_total` | +660 (about 22 rows/s) |
+| `pegboard.actor.alarm` commands completed (`rivet_depot_client_command_duration_seconds_count`) | +22 (about 0.7/s, 120 ms mean) |
+
+The candidate count does not fall, so this is not a backlog draining. The
+same alarms are rediscovered and redelivered continuously. Discover's
+envoy also renewed its heartbeat about a sixth as often as the other apps'
+(`rivet_pegboard_envoy_index_upserts_total`: 135 against 730 to 820), and
+Discover, Discover Preview and Discover Wine logged the most
+`actor.not_found` responses. The working hypothesis is alarms scheduled for
+actors that were destroyed or lost during the outage. Those alarms keep
+retrying against a missing actor and hold one envoy's inbound queue full.
+This is not yet proven. The Engine log line does not name the envoy, and no
+route that lists alarm targets has been verified.
+
+Next step: identify the 33 alarm candidates' actors and namespaces, then
+either clear alarms whose actors no longer exist through a supported Engine
+operation or fix the owning app's alarm handling. Raising
+`pegboard.envoy_actor_inbound_capacity` would hide the symptom without
+stopping the retries.
 
 ## Loss model
 
