@@ -9,7 +9,7 @@ import pytest
 
 import repomod.cli as cli_module
 from repomod import github
-from repomod.catalog import CatalogError, add_pending, add_repository, load_catalog
+from repomod.catalog import CatalogError, add_pending, load_catalog
 from repomod.cmd.discover import _discover
 from repomod.cmd.topics import _topics
 from repomod.types import RemoteRepository
@@ -233,11 +233,11 @@ def test_ignored_repositories_do_not_reach_topics(tmp_path: Path, monkeypatch) -
     assert {str(repo.id) for repo in catalog_value.ignored} == {"acme/old", "acme/other"}
 
 
-def test_concurrent_discovery_keeps_both_updates_and_can_promote(tmp_path: Path) -> None:
+def test_concurrent_discovery_keeps_both_updates(tmp_path: Path) -> None:
     path = catalog(
         tmp_path / "catalog.toml",
         'version = 3\n[workspace]\nroot = "~/repos"\npersonal_owner = "acme"\n'
-        '[repos."acme"]\nkeep = ["tool"]\n',
+        '[repos."acme"]\nkeep = ["tool"]\n# Keep this repository description.\n',
     )
     current = load_catalog(path)
     with ThreadPoolExecutor(max_workers=2) as pool:
@@ -246,10 +246,11 @@ def test_concurrent_discovery_keeps_both_updates_and_can_promote(tmp_path: Path)
             future.result()
     current = load_catalog(path)
     assert {str(repo) for repo in current.pending} == {"acme/one", "acme/two"}
-    assert add_repository(current, "acme", "one", ["tool"])
-    current = load_catalog(path)
-    assert {str(repo) for repo in current.pending} == {"acme/two"}
-    assert {str(repo.id) for repo in current.repositories} == {"acme/keep", "acme/one"}
+    updated = path.read_text(encoding="utf-8")
+    assert "# Keep this repository description.\n" in updated
+    assert add_pending(current, ["ACME/ONE", "acme/keep"]) == []
+    assert path.read_text(encoding="utf-8") == updated
+
 
 def test_discover_removes_archived_repositories_and_their_overrides(tmp_path: Path, monkeypatch, capsys) -> None:
     path = catalog(
