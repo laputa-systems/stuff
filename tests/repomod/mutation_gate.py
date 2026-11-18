@@ -23,15 +23,25 @@ SCOPES = {
     "upstream": ("repomod/sync.py", "x__sync_upstream", "test_sync_upstream.py", ""),
     "matrix": ("repomod/workflow_checks.py", "x__matrix_combinations", "test_github_policy.py", ""),
     "snapshot-entries": ("repomod/dependencies/snapshot.py", "x__entries", "test_deps_snapshot.py", ""),
+    "fix-publish": ("repomod/fix.py", "x_push_fix_branch", "test_fix_push.py", ""),
 }
 GATE_FILE = "tests/repomod/mutation_gate.py"
 SETTINGS = frozenset({"Makefile", "pyproject.toml", "uv.lock", ".gitignore", ".python-version", "deploy/uv-version"})
 NATIVE_TREES = ("crates/", "docker/", "deploy/", "tests/mycrates/", "tests/worker/", "assets/")
-MATRIX_SOURCE = "4b1dce75ca3128ffb800bd608614e474d20de5d8e7d09d754dc022f569a93b0a"
-MATRIX_EQUIVALENT = {
-    "x__matrix_combinations__mutmut_26": "397beb1f359de5229864d726379cd009fb423993f0832e39ecfe8a9208bcf1f9",
-    "x__matrix_combinations__mutmut_29": "ae0e1ac1672a1b73dd80f9dcc3e6cd80328f0e05181d120b7f1681eafda0069b",
-    "x__matrix_combinations__mutmut_30": "b01e4697b056d31781e6d83e47e6602f21b11d8dc492714e45cb7a37f4711cda",
+PROVEN_EQUIVALENT = {
+    "4b1dce75ca3128ffb800bd608614e474d20de5d8e7d09d754dc022f569a93b0a": {
+        "x__matrix_combinations__mutmut_26": "397beb1f359de5229864d726379cd009fb423993f0832e39ecfe8a9208bcf1f9",
+        "x__matrix_combinations__mutmut_29": "ae0e1ac1672a1b73dd80f9dcc3e6cd80328f0e05181d120b7f1681eafda0069b",
+        "x__matrix_combinations__mutmut_30": "b01e4697b056d31781e6d83e47e6602f21b11d8dc492714e45cb7a37f4711cda",
+    },
+    "61df99d543e54afaec5177646c8a1b0f638abf42aed3ee3faec412ae2446264a": {
+        "x_push_fix_branch__mutmut_29": "47739a2d1fb0f9fd613cbb541221abf33d89b85c6c9a1ae93a1f28a353b1920d",
+        "x_push_fix_branch__mutmut_30": "75fa4ca656b92350770b8c8bbcba3f960c1a2d8e89913e7960753bdb3511548f",
+        "x_push_fix_branch__mutmut_46": "feed092eaa912a2e1e14cbd9243ddca45f7d843bb6f1ed5a67ea28ad8cde82df",
+        "x_push_fix_branch__mutmut_55": "7f208e6afcc6ea5d2eb706fe6bd5b9266126a08fd4b4463c14b4006589b85a1c",
+        "x_push_fix_branch__mutmut_67": "f3d77fcb7da8f8d9bc713d240a670a5cd0bd8077503807244eac78fef73c84a9",
+        "x_push_fix_branch__mutmut_111": "815b04338021dde4c043e2d6496b291332bc776041af5360d35002b820347262",
+    },
 }
 
 
@@ -94,14 +104,14 @@ def select(base: str, revision: str) -> dict[str, bool]:
     return selected
 
 
-def run_mutmut(directory: Path, selector: str, deadline: float) -> None:
+def run_mutmut(directory: Path, selector: str, deadline: float, children: int) -> None:
     remaining = deadline - time.monotonic()
     if remaining <= 0:
         raise ValueError("mutation budget exhausted")
     env = dict(os.environ, PYTEST_DISABLE_PLUGIN_AUTOLOAD="1")
     env.pop("PYTHONPATH", None)
     env.pop("MUTANT_UNDER_TEST", None)
-    command = [sys.executable, "-m", "mutmut", "run", "--max-children", "1", selector]
+    command = [sys.executable, "-m", "mutmut", "run", "--max-children", str(children), selector]
 
     def cancel(signum: int, _frame: object) -> None:
         raise ValueError(f"mutation run interrupted by signal {signum}")
@@ -148,8 +158,11 @@ def report(directory: Path, source: str, function: str, module: str, whole_file:
         state = meta.get(identifier)
         if type(state) is int and state == 1:
             result = "caught"
-        elif (type(state) is int and state == 0 and source_hash == MATRIX_SOURCE
-              and MATRIX_EQUIVALENT.get(name) == hashlib.sha256(b"".join(lines[start - 1:end])).hexdigest()):
+        elif (
+            type(state) is int and state == 0
+            and PROVEN_EQUIVALENT.get(source_hash, {}).get(name)
+            == hashlib.sha256(b"".join(lines[start - 1:end])).hexdigest()
+        ):
             result = "equivalent"
         else:
             result = f"unqualified outcome {state!r}"
@@ -184,7 +197,7 @@ def run_shard(shard: str, whole_file: bool, revision: str, deadline: float) -> b
                 f"pytest_add_cli_args = {json.dumps(test_args)}\n"
                 f"pytest_add_cli_args_test_selection = {json.dumps([f'tests/repomod/{test_file}'])}\n"
             )
-        run_mutmut(directory, selector, deadline)
+        run_mutmut(directory, selector, deadline, 2 if shard == "fix-publish" else 1)
         return report(directory, source, function, module, whole_file)
 
 

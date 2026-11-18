@@ -1,8 +1,8 @@
 # Repomod mutation trial
 
 The trial replays the checkout refusal, upstream fetch, workflow
-matrix and snapshot entry decisions on a committed snapshot. Changes
-to Repomod tests or settings select all four protected functions. A production edit
+matrix, snapshot entry and fixer publication decisions on a committed snapshot. Changes
+to Repomod tests or settings select all five protected functions. A production edit
 confined to one of those functions selects that function. Other
 edits select the full supported file. The production selection runs
 alongside the protected functions when the change includes a test edit. A
@@ -19,7 +19,7 @@ currently fails on every timeout.
 
 With the locked Python environment and mutmut 3.8.1 installed, run
 `BASE=origin/main make repomod-mutants`. Set `REPOMOD_MUTATION_SHARD`
-to `removal`, `upstream`, `matrix` or `snapshot-entries` to run one shard. Use
+to `removal`, `upstream`, `matrix`, `snapshot-entries` or `fix-publish` to run one shard. Use
 `uv run --no-sync python tests/repomod/mutation_gate.py BASE --plan`
 to list the committed selection. The command archives the tested
 revision under `.work/tmp` and rejects links in the archive. It
@@ -28,7 +28,7 @@ budget in each hosted shard. The runner terminates the subprocess
 group on timeout or handled cancellation and reaps it before
 removing the snapshot.
 
-The draft attempts all four shards on Linux ARM64 and macOS. Wider
+The draft attempts all five shards on Linux ARM64 and macOS. Wider
 snapshot, catalog and policy decisions and whole-file scope are
 still open. Keep this trial outside retention until those boundaries
 are verified.
@@ -79,3 +79,11 @@ selection against `tests/repomod/test_fix_push.py` reached its
 360-second local probe limit with 90 caught and five surviving
 identities in its last progress report. The incomplete run neither
 qualifies publication nor changes the protected trial selection.
+
+The complete two-child publication runs finished within the same
+600-second local limit, with 118 caught before and 121 of 127
+caught after the diagnostic cases merged in
+[#103](https://github.com/laputa-systems/stuff/pull/103). The six
+remaining identities have [bounded dispositions](deslop-fixer-paths.md#publication-diagnostics).
+The new publication shard matches each against the same source
+and exact native body digest. Each child runs the tests serially.
