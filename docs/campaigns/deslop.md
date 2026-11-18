@@ -69,6 +69,9 @@ checked revisions.
   [Fastermod #32](https://github.com/laputa-systems/fastermod/pull/32) ·
   [Ptytest #16](https://github.com/laputa-systems/ptytest/pull/16)
 - The owner excluded Discover from deslop while rearchitecting it.
+- The [checkout cleanup](deslop-cleanup-20261117.md) retired 18 integrated
+  worktrees under `~/repos` and cleared verified stale build targets and
+  fixtures.
 - The owner approved the full campaign and unattended decisions. M2 and the
   tier checkpoints still require evidence. The roadmap records the remaining
   qualification conditions and deferred work.

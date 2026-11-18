@@ -1,0 +1,37 @@
+# Deslop checkout cleanup, 2026-11-17
+
+Four mechanic lanes inventoried build, CLI, application and systems
+checkouts beneath `~/repos`. Retirements covered completed campaign
+worktrees with verified default-branch integration. The inventory and
+removal checks used the physical checkout paths.
+
+| Repository | Integration revision | Retired worktrees under `.work/wt/` | Removed allocation, KiB |
+| --- | --- | --- | ---: |
+| `laputa-systems/buildlib` | `a749bbad6b74ba3301340c3cffaf2798aad5924a` | `cg`, `cov`, `te` | 292,816 |
+| `extensions` | `66259229057b34e7405bc334f4d421f301a8431e` | `br`, `fs`, `mv`, `st`, `mvci`, `mvreport` | 854,612 |
+| `pytest-parallel` | `e54d5b2fd9ff6b29bb53dbac9b658ced61d1f8e8` | `ds-diagnose`, `ds-ground`, `ds-types`, `cov` | 270,936 |
+| `loc` | `ac9ffed236687b194f0637244f569817feabf78f` | `asm`, `cnt`, `co`, `first`, `lga` | 3,798,000 |
+
+The CLI lane also removed four old generated `loc_init_test_*` fixtures
+from loc's `.work/tmp`, totaling 16 KiB. Smolith's inactive
+`.work/tmp/protocol-target` was a 1,444,880 KiB Cargo target used by the
+protocol checks. A Cargo clean dry run identified 16,824 files, and the
+target path was absent after the clean.
+
+Every retirement passed a clean-status and ancestor check, an open-file
+check and a `worktree-retire` dry run. After removal, the path was absent and
+Git no longer listed it as a worktree. Useful ignored evidence was moved
+to `.work/deslop-retired-evidence/<worktree>` in each repository first.
+Loc's nine nested Cargo targets were verified via `CACHEDIR.TAG`, checked
+as ignored, and cleared with `cargo clean --target-dir` before the evidence
+was moved.
+
+The removed paths accounted for 6,661,260 KiB after subtracting preserved
+evidence. `df -k ~/repos` showed available space rise from 318,952,104 to
+320,681,560 KiB during the pass. Checkout allocations and available blocks
+are separate observations on the shared APFS volume.
+
+Active and parked work remains, including Stats and Stuff recovery,
+Chromium's build, Srv #47, Vault #30 and retained performance inputs.
+The mdevd-rs help worktree still contains three unintegrated commits.
+Discover was outside the cleanup scope.
