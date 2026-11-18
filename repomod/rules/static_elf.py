@@ -245,10 +245,6 @@ SCRIPT_BODY = SCRIPT.split("\n", 1)[1]
 STATIC_SMOKE_NAME = "Verify Linux ELF artifacts are fully static"
 
 
-def render_script() -> str:
-    return SCRIPT
-
-
 def render_workflow_step(indentation: int, image_mode: bool) -> list[str]:
     prefix = " " * indentation
     child = prefix + "  "

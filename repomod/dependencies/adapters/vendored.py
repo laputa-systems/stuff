@@ -14,7 +14,3 @@ def vendored_roots(paths: Iterable[str]) -> tuple[str, ...]:
             if part in VENDORED_COMPONENTS:
                 roots.add("/".join(parts[: index + 1]))
     return tuple(sorted(roots))
-
-
-def is_vendored(path: str, roots: Iterable[str]) -> bool:
-    return any(path.startswith(root + "/") for root in roots)
