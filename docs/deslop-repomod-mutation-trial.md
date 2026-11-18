@@ -87,3 +87,11 @@ caught after the diagnostic cases merged in
 remaining identities have [bounded dispositions](deslop-fixer-paths.md#publication-diagnostics).
 The new publication shard matches each against the same source
 and exact native body digest. Each child runs the tests serially.
+
+The [five-scope hosted run](https://github.com/laputa-systems/stuff/actions/runs/44284964354)
+at `2e41e923` passed all ten jobs. It accounted for 252 identities
+per platform, with 243 caught and nine proved equivalent. The
+publication scopes took 59 seconds on Linux ARM64 and 271 seconds
+on macOS. The matrix used 740 runner seconds, with a 54-second
+median. The remaining whole-file and inventory decisions stay in
+the existing Tests scope.
