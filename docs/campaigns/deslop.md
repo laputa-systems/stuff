@@ -41,6 +41,11 @@ qualified workloads and remaining boundaries.
   [Phase records](https://github.com/laputa-systems/cmake-build/pull/32) ·
   [Bootstrap record](https://github.com/laputa-systems/cmake-build/pull/31) ·
   [Dead-code scan](https://github.com/laputa-systems/cmake-build/pull/33)
+  The archive tests caught 291 of the same 327 mutations, up from 260.
+  The latest controller and lint runs passed on main, including all 134
+  controller cases.
+  [Archive admission](https://github.com/laputa-systems/cmake-build/pull/34) ·
+  [Deterministic metadata](https://github.com/laputa-systems/cmake-build/pull/35)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -70,9 +75,11 @@ qualified workloads and remaining boundaries.
   [Pi-build #42](https://github.com/joshuarli/pi-build/pull/42)
 - Node-build caught all 52 selected Doctor mutations and the
   case-sensitive assembly fault. The native artifact trial exercises
-  macOS ARM64 and Linux x86-64 with the existing release inputs.
+  macOS ARM64 and Linux x86-64 with the existing release inputs. Both
+  Node 26.12.1 archives passed 18 smoke cases and both size budgets.
+  The Linux job took 1 h 54 min and the macOS job took 2 h 1 min.
   [Node-build #36](https://github.com/laputa-systems/node-build/pull/36) ·
-  [Node artifact trial](https://github.com/laputa-systems/node-build/pull/37)
+  [Native qualification](https://github.com/laputa-systems/node-build/pull/38)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. Native KVM passed
   node creation, framed output, coldplug and shutdown. The pinned C consumer
@@ -86,6 +93,12 @@ qualified workloads and remaining boundaries.
   The parser boundary cases caught three additional mutations. The report
   traces the two remaining early-capture identities through the parser
   table. [Parser boundary cases](https://github.com/laputa-systems/mdevd-rs/pull/23)
+  Both binaries handle invalid UTF-8 through usage exit 100. The sysfs
+  tests exercise complete device-number fallback and actual node decisions
+  from unterminated device-name records. They caught two further mutations
+  at the name limit.
+  [CLI admission](https://github.com/laputa-systems/mdevd-rs/pull/24) ·
+  [Sysfs cases](https://github.com/laputa-systems/mdevd-rs/pull/25)
 - The cleanup follow-ups retired 22 more completed worktrees with
   4,927,332 KiB of measured allocation. The
   [cleanup record](deslop-cleanup-20261117.md) includes the
