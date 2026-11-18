@@ -29,11 +29,18 @@ from [#77](https://github.com/laputa-systems/stuff/pull/77) and
 
 The UTF-8 spelling changes (`_recorded_entries` 8 and `_index_payload` 14)
 are codec aliases. The cast-only change (`_index_payload` 41) returns the
-same value. Default encoding substitutions (`_recorded_entries` 3 and
-`_index_payload` 12) still need a non-UTF-8 locale control. Filename case
-substitutions (`_recorded_entries` 6 and `_index_payload` 9) still need a
-case-sensitive filesystem run. The 13 base survivors all have a recorded
-outcome or a named remaining environment.
+same value. The two filename case substitutions (`_recorded_entries` 6
+and `_index_payload` 9) were caught when the pytest fixture directory was
+placed on a case-sensitive HFS+ scratch volume on the same macOS host.
+Before the run a lower-case probe was present and its upper-case
+counterpart was absent. The volume was detached after the run.
+Default encoding substitutions (`_recorded_entries` 3 and
+`_index_payload` 12) also survived a run with a verified US-ASCII default
+encoding. This scenario only writes canonical index records. Repository IDs
+are restricted to ASCII and the other stored fields are Git object IDs,
+hashes, numeric versions and closed state labels. The tracked index is
+also ASCII. Within that scope the default encoding has no observable
+effect. The explicit UTF-8 reads remain.
 
 ## Reproduction
 
@@ -60,5 +67,10 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m mutmut run --max-children 1 \
 
 Inspect the three prefixes in `mutmut results --all true`. For the follow-up,
 use a fresh scratch tree with the #78 tests and replace the globs with the
-six exact identities in the witness table. The campaign still needs to
-qualify the whole-change union and its hosted cost.
+six exact identities in the witness table. For the case-sensitive rerun,
+point `TMPDIR` at a verified case-sensitive filesystem and select only
+`_recorded_entries` 6 and `_index_payload` 9. For the default encoding
+control, use `LC_ALL=C PYTHONUTF8=0 PYTHONCOERCECLOCALE=0
+PYTHONIOENCODING=utf-8`, confirm `locale.getencoding()` is `US-ASCII`,
+and select `_recorded_entries` 3 and `_index_payload` 12. The campaign
+still needs to qualify the whole-change union and its hosted cost.
