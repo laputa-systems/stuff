@@ -491,6 +491,43 @@ def test_snapshot_repairs_a_recorded_state_with_the_wrong_json_type(
     assert repaired["commit"] == updated
 
 
+@pytest.mark.parametrize("damaged", [b"{", b"\xff", b"[]"])
+def test_full_snapshot_rebuilds_an_unreadable_index(
+    tmp_path: Path, git_environment: None, damaged: bytes
+) -> None:
+    catalog = _one_repo(tmp_path)
+    _checkout(tmp_path, "tool", {"README.md": "tool\n"})
+    inventory = tmp_path / "inventory"
+    snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False)
+    index = inventory / "index.json"
+    expected = index.read_bytes()
+    index.write_bytes(damaged)
+
+    assert check(catalog, catalog.repositories, inventory=inventory, filtered=False).drifted == (index,)
+    assert index.read_bytes() == damaged
+    assert snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False).written == (index,)
+    assert index.read_bytes() == expected
+
+
+def test_corrupt_record_preserves_another_repository_commit(
+    tmp_path: Path, git_environment: None
+) -> None:
+    catalog = _catalog(tmp_path, '[repos."acme"]\na = ["tool"]\nb = ["tool"]\n')
+    _checkout(tmp_path, "a", {"README.md": "a\n"})
+    checkout = _checkout(tmp_path, "b", {"README.md": "b\n"})
+    inventory = tmp_path / "inventory"
+    snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False)
+    index = inventory / "index.json"
+    expected = index.read_bytes()
+    payload = json.loads(expected)
+    payload["repositories"]["acme/a"] = None
+    index.write_text(json.dumps(payload), encoding="utf-8")
+    _commit_app_change(checkout)
+
+    assert snapshot(catalog, catalog.repositories, inventory=inventory, filtered=False).written == (index,)
+    assert index.read_bytes() == expected
+
+
 def test_filtered_snapshot_preserves_other_repositories(
     tmp_path: Path, git_environment: None
 ) -> None:
