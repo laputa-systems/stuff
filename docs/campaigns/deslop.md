@@ -8,12 +8,23 @@ established, so the slop cannot return.
 ## Status
 
 The 2026-11-18 M2 checkpoint records qualified representative workloads
-and explicit deferrals. Tier A is in policy rollout. The
+and explicit deferrals. Tier A repo passes have started. The
 [roadmap](deslop-roadmap.md) gives the acceptance criteria and the
 [scorecard](deslop-scorecard.md#current-checkpoint-2026-11-18) records the
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
+- Tier A Make test entry points merged for Hi-lite, Doas-rs, Mdevd-rs,
+  CMake-build, and Node-build. Pi-build and FFmpeg-build completed Ground
+  and Diagnose. Node-build completed Ground with all 74 controller tests
+  passing in the pinned Alpine environment.
+- Fz passed the scoped fleet checks and the CLI failure control. The
+  current paired runtime gate awaits a quiet host. Diff-pretty added
+  workspace branch coverage through Make. Stuff
+  [#106](https://github.com/laputa-systems/stuff/pull/106) checks qualified
+  strict settings from policy, and
+  [#107](https://github.com/laputa-systems/stuff/pull/107) retains Loc's
+  shebang workflow after removal of the campaign backlog.
 - Buildlib [#26](https://github.com/laputa-systems/buildlib/pull/26) and
   Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
   merged after their positive matrices and four hosted controls each.
