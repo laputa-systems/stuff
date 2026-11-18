@@ -59,9 +59,12 @@ promotion and catalog validation in place. The shipped pending writer
 still has concurrent update, comment preservation and idempotence
 coverage.
 
-`audit_repositories` remains test-only. The shipped audit rules have
-their own collection and lookup paths. Check that those rules cover the
-behavior exercised by the batch audit tests before removing the wrapper.
+The unused `audit_repositories` batch and its private worker duplicated
+the shipped audit rules, version lookup and fork status paths. Tracked
+fleet checkouts only referenced the batch from the old Stuff audit tests.
+The tests now verify an advisory and cache through the shipped rule,
+and a stale-version cache through the shared resolver. Fork status and
+comparison errors are covered by the GitHub policy tests.
 
 Deptry 0.25.1 reported zero dependency issues across 112 files after
 mapping the `ruamel.yaml` distribution to its import root and identifying
@@ -81,3 +84,13 @@ requirements, versions and names in the inventory and mirror,
 `ruamel.yaml` parses and edits workflows, and `tomlkit` preserves
 Cargo manifest formatting in the upgrade rule. The dev entries are
 CLI tools or pytest and its plugin.
+
+## Cumulative verification
+
+At `2940843c`, the runtime-only Vulture scan returned exactly the six
+documented dynamic uses. Deptry scanned 112 files with zero findings.
+The CLI help, catalog, disposable snapshot and dashboard tests passed
+all 98 cases. The canonical preview command generated all 31 pages.
+These checks exercise the snapshot and render paths used by `make deps`
+with fixture data. The full Repomod suite passed 1,481 cases with three
+opt-in skips, and lint and type checking passed.

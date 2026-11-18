@@ -208,6 +208,46 @@ def test_fix_push_rejection_preserves_both_branch_tips(
     assert git("--git-dir", str(tmp_path / "remote.git"), "rev-parse", ref).stdout.strip() == remote_tip
 
 
+@pytest.mark.parametrize(
+    ("stdout", "stderr", "expected"),
+    [
+        ("push output", "push diagnostic\n", "push diagnostic"),
+        ("push output\n", "  ", "push output"),
+        ("  ", "  ", "git push failed"),
+    ],
+)
+def test_fix_push_reports_available_command_diagnostics(
+    tmp_path: Path,
+    git_environment: None,
+    monkeypatch: pytest.MonkeyPatch,
+    stdout: str,
+    stderr: str,
+    expected: str,
+) -> None:
+    _catalog, repository, path, base = initialize_repository(tmp_path)
+    branch = "repomod/fix/" + "b" * 32
+    git("branch", branch, base, cwd=path)
+    before = git("show-ref", "--heads", cwd=path).stdout
+    real_run_git = fix_module.run_git
+
+    def reject_push(args: list[str], **kwargs: Any) -> subprocess.CompletedProcess[str]:
+        if args[0] == "push":
+            assert args == ["push", "origin", f"{base}:refs/heads/{branch}"]
+            return subprocess.CompletedProcess(args, 1, stdout, stderr)
+        return real_run_git(args, **kwargs)
+
+    monkeypatch.setattr(fix_module, "run_git", reject_push)
+
+    result = push_fix_branch(
+        repository, path, branch, "main", base, base,
+        canonical_head=base, canonical_branch="main",
+    )
+
+    assert result == ("failed", expected)
+    assert git("show-ref", "--heads", cwd=path).stdout == before
+    assert git("--git-dir", str(tmp_path / "remote.git"), "show-ref", "--heads").stdout == f"{base} refs/heads/main\n"
+
+
 def test_push_uses_checked_commit_when_checkout_changes_before_push(
     tmp_path: Path,
     git_environment: None,

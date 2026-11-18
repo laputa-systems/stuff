@@ -18,7 +18,12 @@ Types at `0d15d8ef` retains ty 0.0.101 with all rules at error and Ruff 0.17.4
 with the existing Bugbear and return checks. `make repomod-lint` passes.
 [DSLP-3 evidence](docs/deslop-repomod-types.md) records the strict candidates,
 the two checker witnesses, and the reduction from 324 to 319 source lines
-containing a typing escape hatch. Tests and Dead code remain open.
+containing a typing escape hatch. Tests remain open.
+
+Dead code is complete for Repomod. [The review](docs/deslop-repomod-dead-code.md)
+records deleted paths and the six dynamic uses. All 98 CLI, catalog,
+snapshot and dashboard checks passed. The canonical preview rendered
+31 pages.
 
 ## Tickets
 
@@ -34,14 +39,6 @@ containing a typing escape hatch. Tests and Dead code remain open.
 - **Fix with:** deslop
 - **Effort:** L
 
-### DSLP-5 · P2 · Dead code: tools and debloat
-
-- **Area:** deslop · dead code
-- **Where:** repomod/
-- **Problem:** The scoped Vulture scan removed the unused Index class and TagPredicate.describe. docs/deslop-repomod-dead-code.md gives the runtime and persisted-data consumers for the remaining findings. Ruff import and local checks, dependency use and cumulative debloat still need review across repomod.
-- **Recommendation:** Check the repomod CLI contracts, catalog and inventory readers, dashboard render and make deps. Qualify the remaining dead-code decisions with Ruff, deptry and consumer evidence. Run make repomod-lint and make repomod-test.
-- **Fix with:** deslop
-- **Effort:** M
 
 
 

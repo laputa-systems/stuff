@@ -11,10 +11,10 @@ This checkpoint records qualification by workload. The [roadmap](deslop-roadmap.
 | Rust platform and hardware, Vault | Linux x86-64 musl, Linux ARM64 musl and macOS ordinary jobs passed on draft [#30](https://github.com/laputa-systems/vault/pull/30) at `0671858b`. The platform union remains unqualified. | Fourteen Linux shards failed and many exhausted the roughly 20-minute job budget. A successor records partial outcomes. Secure Enclave, two-Mac recovery and Linux keyring remain separately scoped. |
 | Python library and binary parsers, Buildlib | Qualified bounded workflow and four hosted controls in [#20](https://github.com/laputa-systems/buildlib/pull/20) and [#26](https://github.com/laputa-systems/buildlib/pull/26). Cumulative review caught inconsistent release-manifest serialization from a changing mapping. [#27](https://github.com/laputa-systems/buildlib/pull/27) fixed it at `1497970d` and passed all 17 checks plus five release consumers. | The retained 15-job mutation matrix on #26 used 963 job seconds in one run. Its longest job took 167 seconds. The refreshed release shard caught 319 of 333 selected identities, with the other 14 dispositioned in the release receipt. |
 | Python pytest plugin and worker coverage, Pytest-parallel | The installed wheel passed Stuff's consumer suite after [#26](https://github.com/joshuarli/pytest-parallel/pull/26) fixed empty-address bind handling. [#27](https://github.com/joshuarli/pytest-parallel/pull/27) caught all 60 report-emission identities. [#28](https://github.com/joshuarli/pytest-parallel/pull/28) catches an observable truncated-event diagnostic fault. [#29](https://github.com/joshuarli/pytest-parallel/pull/29) at `45b45492` records the remaining active decisions. | The coverage target verified separate worker measurements and passed all 158 tests, covering 1,545 of 1,759 statements and 586 of 718 branches. Linux and macOS ordinary checks passed. The serial whole-change union and its cost and controls remain open. |
-| Python orchestration and effects, Repomod | Types complete. The [focused dead-code review](../deslop-repomod-dead-code.md) removed two unused items. Workflow expansion caught 55 of 58 with three equivalent cases in [#61](https://github.com/laputa-systems/stuff/pull/61). Real local fetch caught all 25 in [#62](https://github.com/laputa-systems/stuff/pull/62). Catalog admission caught 52 of 60 versus 39 on the base in [#68](https://github.com/laputa-systems/stuff/pull/68). [#74](https://github.com/laputa-systems/stuff/pull/74) repaired snapshot drift handling. | The [snapshot scenario](../deslop-repomod-snapshot.md) caught 110 of 123 in the full selection, six targeted survivors in the follow-up and two filename mutations on a case-sensitive filesystem. The retained whole-change union and full Dead code acceptance remain open. [Serial first-party coverage](deslop-roadmap.md#repomod-calibration-inventory). |
+| Python orchestration and effects, Repomod | Types and Dead code complete. The [focused dead-code review](../deslop-repomod-dead-code.md) removed two unused items. Workflow expansion caught 55 of 58 with three equivalent cases in [#61](https://github.com/laputa-systems/stuff/pull/61). Real local fetch caught all 25 in [#62](https://github.com/laputa-systems/stuff/pull/62). Catalog admission caught 52 of 60 versus 39 on the base in [#68](https://github.com/laputa-systems/stuff/pull/68). [#74](https://github.com/laputa-systems/stuff/pull/74) repaired snapshot drift handling. | The [snapshot scenario](../deslop-repomod-snapshot.md) caught 110 of 123 in the full selection, six targeted survivors in the follow-up and two filename mutations on a case-sensitive filesystem. The retained whole-change union remains open. [Serial first-party coverage](deslop-roadmap.md#repomod-calibration-inventory). |
 | TypeScript Node, browser and MV3, Extensions | Type-aware unsafe-argument lint and installed Chromium landed in [#15](https://github.com/joshuarli/extensions/pull/15). [#17](https://github.com/joshuarli/extensions/pull/17) retains first-party coverage. [#18](https://github.com/joshuarli/extensions/pull/18) keeps nine capture fixtures and the extension lifecycle in one Chromium job. [#20](https://github.com/joshuarli/extensions/pull/20) at `fc55127a` verifies exact parser diagnostics. | The parser caught 178 of the same 179 mutations, up from 139 on the base and 167 at #19. The final survivor is equivalent. The final local run took 7m 34s. TypeScript whole-change mutation and controls remain open. |
 | TypeScript Worker and Rust agent, Stats ingest and local stack | [#24](https://github.com/joshuarli/stats/pull/24) verified legacy migration with 41 local passes and all hosted checks. [#26](https://github.com/joshuarli/stats/pull/26) and [#27](https://github.com/joshuarli/stats/pull/27) fixed a producer port collision and SIGTERM shutdown. [#28](https://github.com/joshuarli/stats/pull/28) adds a shared ACK case that catches miscounting in both decoders. [#29](https://github.com/joshuarli/stats/pull/29) at `da022e8b` records the Rust wire type audit. | Ten wire unit tests, five conformance tests and all three hosted checks passed #29. Component-scale TypeScript and Rust critical selection, browser/Worker cost and retained gates remain open. |
-| Python and external native tools, Toolbox | Deferred. The installed Pytest-parallel wheel and the baseline both reproduced the FFmpeg failure. The third hosted lint attempt ended before any step. | Requires Actions billing recovery and positive FFmpeg and fio execution evidence before the worker-coverage result can qualify this shape. [Lint retry](https://github.com/joshuarli/toolbox/actions/runs/43933600029/attempts/3). |
+| Python and external native tools, Toolbox | Local native-tool and worker coverage passed on [#15](https://github.com/joshuarli/toolbox/pull/15) at `ad9a480`, with FFmpeg 9.0.2, fio 3.42 and the repaired Pytest-parallel wheel. | All 750 tests and five fio subtests passed with zero skips. Both workers recorded native branch coverage. Actions billing blocked the hosted jobs before setup. |
 
 The cross-repository controls in Buildlib, fz and Diff-pretty support retaining their proven Make entry points. When qualifying a successor, record the actual checked head, selected regions, missed identities and total runner cost. Keep incomplete platform and consumer boundaries in the owning Tests ticket.
 
@@ -24,10 +24,35 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   verifies the source warning by its diagnostic and path. The same
   nine-identity inventory moved from six to seven caught, with two
   unviable. All 46 tests and hosted checks passed.
+  [#35](https://github.com/laputa-systems/fastermod/pull/35) exercised
+  JSON apply with five ignore sources and hidden files. It caught all
+  six viable identities on unchanged source, up from zero. Tests,
+  Clippy and both hosted checks passed. [#36](https://github.com/laputa-systems/fastermod/pull/36)
+  verified saved identifier plan application through separate CLI
+  invocations, including edited and unedited inputs, added and removed
+  paths, and duplicate plan basenames in separate directories. The
+  same eight read-set mutations were caught before and after. All
+  48 ordinary tests and both hosted checks passed.
 - Ptytest [#23](https://github.com/laputa-systems/ptytest/pull/23)
   verifies timeout diagnostics and the deadline under continuous output.
   The scope moved from 11 to 13 caught of 18, with five unviable.
   All 68 local tests and the hosted Linux and macOS jobs passed.
+  [#24](https://github.com/laputa-systems/ptytest/pull/24) verifies
+  cursor coordinates in both the PTY response and the recorded input.
+  It caught all 13 viable terminal identities, up from 12 in the
+  same 18-identity selection. Both platform jobs passed. Draft
+  [#25](https://github.com/laputa-systems/ptytest/pull/25) passed the
+  [hosted terminal trial](https://github.com/laputa-systems/ptytest/actions/runs/44276455149)
+  with 13 caught and five unviable on each platform, using 238 runner
+  seconds. [Documentation](https://github.com/laputa-systems/ptytest/pull/26)
+  selected no mutations. [Deletion](https://github.com/laputa-systems/ptytest/pull/27)
+  reopened four cursor identities. The revised
+  [mixed change](https://github.com/laputa-systems/ptytest/pull/28)
+  reopened the same four and caught both changed size-accessor
+  identities. The [uncovered branch](https://github.com/laputa-systems/ptytest/pull/29)
+  left seven of 11 selected identities alive. The ordinary suite and
+  lint passed each control. Lifecycle, replay and the wider consumer
+  inventory remain open.
 - Ptytest [#21](https://github.com/laputa-systems/ptytest/pull/21) caught
   all four remaining output-wait mutations after removing two redundant
   deadline checks. Linux and macOS hosted checks passed. Focused lz, e
@@ -46,7 +71,16 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   caught all 79 file-planning identities. [#38](https://github.com/joshuarli/pytest-parallel/pull/38)
   removed redundant worker-pin and worker-limit paths, leaving 51
   identities, all caught. All 188 ordinary tests passed and the three
-  hosted checks passed.
+  hosted checks passed. [#40](https://github.com/joshuarli/pytest-parallel/pull/40)
+  raised report event detection from 68 to 107 of the same 111
+  identities. After removing redundant state operations all 105
+  remaining identities were caught. The 207 local tests and three
+  hosted checks passed. Draft #32's
+  [six-scope trial](https://github.com/joshuarli/pytest-parallel/actions/runs/44276369341)
+  at `4d29d37` passed all twelve mutation jobs, including both
+  105-identity report lanes. The jobs used 907 runner seconds, with an
+  89.5-second median and a 166-second maximum. The uncovered
+  coordinator lifecycle and loopback decisions stay outside that matrix.
 - Pytest-parallel's [positive run](https://github.com/joshuarli/pytest-parallel/actions/runs/44257362822)
   at `80cce01` passed eight jobs, covering options, scheduling,
   file planning and report emission on Linux ARM64 and macOS. Total
@@ -61,7 +95,15 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [documentation control](https://github.com/joshuarli/pytest-parallel/pull/36)
   reported no relevant changes. Ordinary checks passed all four controls.
   The broader coordinator and socket scopes still need witnesses, and
-  the socket trial reported misses.
+  the socket trial reported misses. The expanded
+  [positive run](https://github.com/joshuarli/pytest-parallel/actions/runs/44262334863)
+  at `23937c8` added the worker-pin and limit shard. All ten mutation
+  jobs and three ordinary checks passed. The ten mutation jobs used
+  786 runner seconds, with a 72-second median and a 174-second maximum.
+  [#39](https://github.com/joshuarli/pytest-parallel/pull/39) repaired
+  native subtest replay. All 191 local tests and the three hosted
+  checks passed. The installed wheel passed the focused cases on pytest
+  9.0.0 and 9.2.0 and the Toolbox consumer below.
 - Stats [#30](https://github.com/joshuarli/stats/pull/30) records
   1,112 of 1,128 TypeScript ingest lines and 820 of 855 branches in the
   Node selection, 21 Worker cases, and 608 of 625 Rust wire lines and
@@ -75,12 +117,25 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   caught all 42 Rust ACK identities, up from 41 on the same source, by
   distinguishing an ACK at the byte limit from one byte over. All 109
   Rust unit tests, five wire conformance cases and three hosted checks
-  passed. Wider ingest and whole-change results remain open.
+  passed. [#34](https://github.com/joshuarli/stats/pull/34) removed
+  four assertions in producer ACK processing. The producer and
+  bridge typechecks passed, the local integration suite passed 24
+  cases with one opt-in skip, and all three hosted checks passed.
+  [#35](https://github.com/joshuarli/stats/pull/35) raised producer ACK
+  stream detection from 14 to 30 of 68 on unchanged source. Three
+  equivalents and 35 repeated tool timeouts remain. The PR also fixed
+  the persisted-state assertion after the hosted fixture exceeded its
+  45-second online window. All three checks passed the reviewed head.
+  Wider ingest and whole-change results remain open.
 - Loc [#22](https://github.com/joshuarli/loc/pull/22) caught 16 of 19
   search-sweep identities, up from eight. Two timeouts repeated in
   longer native singleton runs, and the remaining identity is
   equivalent. All five hosted checks passed. The broader Loc gate
-  and cost still need qualification.
+  and cost still need qualification. [#23](https://github.com/joshuarli/loc/pull/23)
+  verifies a matching first-line interpreter, a foreign interpreter
+  and a matching directive later in the file. It caught all five
+  viable shebang identities, up from four on unchanged source.
+  The 551 local tests and all five hosted checks passed.
 - Repomod [#83](https://github.com/laputa-systems/stuff/pull/83) removed
   two test-only helpers and recorded the clean dependency scan.
   [#84](https://github.com/laputa-systems/stuff/pull/84) moved Musl lock
@@ -88,10 +143,29 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   writer. [#85](https://github.com/laputa-systems/stuff/pull/85) caught
   all 19 checkout refusal identities on unchanged source. All 55 local
   removal tests and the ten hosted checks passed. The retained union
-  and remaining dead-code decisions stay open.
+  stays open.
   [#88](https://github.com/laputa-systems/stuff/pull/88) removed the
   test-only role exception accessor and asserted the rendered migration
-  result through the remaining API. All ten checks passed.
+  result through the remaining API. [#90](https://github.com/laputa-systems/stuff/pull/90)
+  removed the unused direct catalog writer. Its tests cover comment
+  preservation, repeat discovery and concurrent additions through the
+  live pending writer. [#91](https://github.com/laputa-systems/stuff/pull/91)
+  removed the unused audit batch worker and moved its witnesses to the
+  shipped advisory rule and version cache. All 1,481 local tests and
+  the ten hosted checks passed, with three opt-in local skips.
+  [#98](https://github.com/laputa-systems/stuff/pull/98) closed the
+  Dead code step after 98 CLI, catalog, inventory and dashboard tests,
+  a 31-page preview and the dependency scans. Draft
+  [#92](https://github.com/laputa-systems/stuff/pull/92) verified 102
+  identities across three protected effects. Six hosted jobs at
+  `43b4b515` used 273 runner seconds. The bounded successor at
+  `3a61cccd` passed all six mutation jobs in 353 runner seconds. The
+  [four-scope run](https://github.com/laputa-systems/stuff/actions/runs/44274517903)
+  at `2647a2ea` added 23 Git-backed snapshot entries, all caught on
+  both platforms. Eight passing jobs used 380 runner seconds. A
+  separate publication probe exhausted 360 seconds after reporting
+  90 caught and five surviving identities in its progress output.
+  Its complete inventory and wider effect scopes remain open.
 - Extensions [draft #22](https://github.com/joshuarli/extensions/pull/22)
   passed local parser and storage gate invocations, with 178 caught and
   one equivalent in 7m 30s, and 112 caught and two equivalents in 15s.
@@ -128,10 +202,43 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [#48](https://github.com/laputa-systems/srv/pull/48) caught one
   retained miss locally through a CLI startup warning, and ordinary
   CI and lint passed. Its existing unsharded mutation check exhausted
-  900 seconds. Both PRs remain open.
+  900 seconds. The witness and receipt are now on draft #47 at
+  `601451a`, and #48 is closed. The
+  [second full run](https://github.com/laputa-systems/srv/actions/runs/44264082122)
+  accounted for 323 caught, 24 missed, 17 unviable and 12 confirmed
+  hangs. Its four jobs used 3,462 runner seconds, with a median gate
+  wall of 850.3 seconds. The 600-second target remains open.
+
+## Toolbox native and worker coverage
+
+The published 0.4.0 Pytest-parallel wheel and a wheel from `c260153`
+both rejected native fio subtests as duplicate call phases. The
+repaired wheel from `3e513b8` has SHA-256
+`8e518a881812ad21c192ca7c63e6b0efb8c789d125439dba0f36ae388930af87`.
+An isolated Toolbox environment installed this wheel with the tracked
+dependency pins intact. FFmpeg's real loudness filter ran against
+generated audio, and native fio 3.42 at `ab776430` ran against
+disposable regular files. The lavfi device-table check brought the
+last skipped audio test into the suite.
+
+The complete two-worker run passed 750 tests and five fio subtests in
+59.60 seconds. Each worker wrote a raw branch-coverage file with
+executed lines from 46 Toolbox source files before combination.
+The combined data covered 5,420 of 7,313 statements and 1,572 of
+2,428 branches. Use the
+[installed-wheel procedure](https://github.com/joshuarli/pytest-parallel/blob/3ee78f514411bc808167b0a8eeaeecdfe8f07b88/docs/deslop-coverage.md)
+with Toolbox's locked coverage.py 7.16.1, `source = TOOLBOX/src/tool`,
+`pytest -q -rs -j 2` and the raw worker guard set to check
+`/src/tool/` paths. Keep instrumented data in a fresh scratch
+directory. The hosted jobs still require Actions billing recovery.
 
 ## Deferred environment gates
 
+- Vault [#36](https://github.com/laputa-systems/vault/pull/36) records
+  the unresolved Secure Enclave, two-Mac recovery and Linux session
+  keyring boundaries. Two-Mac recovery requires both devices and
+  owner authentication. The ordinary hosted platform results and the
+  failed mutation union are recorded separately.
 - Dashboard library pins still require `solid-js` 2.0.0, `@solidjs/web`
   2.0.0 and `@solidjs/vite-plugin` 3.0.1 from the configured npm mirror.
   All three metadata requests succeeded, and their version maps lack those
