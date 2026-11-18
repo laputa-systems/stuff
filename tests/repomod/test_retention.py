@@ -89,6 +89,48 @@ def test_unlisted_repository_is_skipped(project: tuple[Path, Repository]) -> Non
         assert retention._check(root, repo, rule) == []
 
 
+@pytest.mark.parametrize(('change', 'message'), [
+    ('backlog', None),
+    ('lock', 'missing exact mutmut development pin'),
+    ('manifest', 'missing exact mutmut development pin'),
+    ('setup', 'full checkout and pinned setup-uv'),
+    ('checkout', 'full checkout and pinned setup-uv'),
+    ('command', 'full checkout and pinned setup-uv'),
+])
+def test_python_mutation_retention(
+    project: tuple[Path, Repository], change: str, message: str | None,
+) -> None:
+    root, registered = project
+    repo = Repository(registered.id, ('python',))
+    manifest = root / 'pyproject.toml'
+    lock = root / 'uv.lock'
+    manifest.write_text('[dependency-groups]\ndev = ["mutmut==3.8.1"]\n')
+    lock.write_text('[[package]]\nname = "mutmut"\nversion = "3.8.1"\n')
+    workflow = root / '.github/workflows/ci.yml'
+    source = workflow.read_text().replace('taiki-e/install-action', 'astral-sh/setup-uv').replace(
+        'tool: cargo-mutants@27.1.0', 'version: 0.13.7',
+    )
+    workflow.write_text(source)
+    assert retention._check(root, repo, 'mutation-lane') == []
+    (root / 'TODO-DESLOP.md').unlink()
+    if change == 'lock':
+        lock.unlink()
+    elif change == 'manifest':
+        manifest.write_text(manifest.read_text().replace('==', '>='))
+    elif change == 'setup':
+        workflow.write_text(source.replace('version: 0.13.7', 'version: latest'))
+    elif change == 'checkout':
+        workflow.write_text(source.replace('fetch-depth: 0', 'fetch-depth: 1'))
+    elif change == 'command':
+        workflow.write_text(source.replace('make mutants-diff', 'make test'))
+    findings = retention._check(root, repo, 'mutation-lane')
+    if message is None:
+        assert findings == []
+    else:
+        assert len(findings) == 1
+        assert message in findings[0].message
+
+
 @pytest.mark.parametrize(('bad', 'message'), [
     ('[unknown]\nrepositories = []\n', 'unknown or missing retention guarantee'),
     ('[mutation-lane]\nrepositories = ["missing/repo"]\n', 'outside the catalog'),
