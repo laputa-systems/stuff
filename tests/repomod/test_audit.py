@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from repomod.audit import (
     _banned_rust_message,
     _collect_locked,
@@ -15,20 +17,14 @@ from repomod.audit import (
     _pnpm_locked_versions,
     _policy_findings,
     _version_key,
-    audit_repositories,
+    resolve_latest,
 )
-from repomod.catalog import Catalog
-from repomod.github import UpstreamStatus
 from repomod.rules.audit_findings import audit_finding_rules
 from repomod.types import RepoId, Repository
 
 
 def repository(*tags: str) -> Repository:
     return Repository(RepoId("acme", "demo"), tuple(tags))
-
-
-def catalog_for(root: Path, repository: Repository) -> Catalog:
-    return Catalog(Path("catalog.toml"), root, "acme", (repository,))
 
 
 def repo_root(tmp_path: Path) -> Path:
@@ -400,64 +396,40 @@ def test_pnpm_locked_versions_parses_importers(tmp_path: Path) -> None:
     assert _pnpm_locked_versions(root) == {"effect": "4.0.6"}
 
 
-def test_audit_outdated_and_vuln_with_fake_fetchers(tmp_path: Path) -> None:
+def test_audit_rule_reports_and_caches_a_locked_advisory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
     root = repo_root(tmp_path)
     write_python(root)
     repo = repository("tool", "python")
-    catalog = catalog_for(tmp_path, repo)
-
-    def latest(ecosystem: str, name: str) -> str | None:
-        assert (ecosystem, name) == ("pypi", "requests")
-        return "2.1.0"
+    cache_path = tmp_path / "cache.json"
+    monkeypatch.setattr("repomod.audit._audit_cache_path", lambda: cache_path)
+    queries_seen: list[list[dict[str, object]]] = []
 
     def osv(queries: list[dict[str, object]]) -> list[list[dict[str, object]]]:
-        assert len(queries) == 1
-        typed: list[list[dict[str, object]]] = [[{"id": "GHSA-1", "summary": "bad"}]]
-        return typed
+        queries_seen.append(queries)
+        return [[{"id": "TEST-1", "summary": "synthetic advisory"}]]
 
-    outcomes = audit_repositories(
-        catalog,
-        (repo,),
-        offline=False,
-        cache_path=tmp_path / "cache.json",
-        now=1000.0,
-        latest_fetcher=latest,
-        osv_fetcher=osv,  # type: ignore[arg-type]
-    )
-    assert len(outcomes) == 1
-    rules = [finding.rule for finding in outcomes[0].findings]
-    assert "audit-outdated" in rules
-    assert "audit-vuln" in rules
+    monkeypatch.setattr("repomod.audit.osv_query_batch", osv)
+    rule = next(rule for rule in audit_finding_rules() if rule.id == "audit-vuln")
+    for _ in range(2):
+        findings = rule.check(root, repo)
+        assert [(finding.rule, finding.message) for finding in findings] == [
+            ("audit-vuln", "pypi:requests 2.0.0 has TEST-1 synthetic advisory"),
+        ]
+    assert queries_seen == [[{"package": {"name": "requests", "ecosystem": "PyPI"}, "version": "2.0.0"}]]
 
 
-def test_audit_offline_uses_cache_without_network(tmp_path: Path) -> None:
-    import json
-
+def test_resolve_latest_reuses_stale_cache_offline(tmp_path: Path) -> None:
     root = repo_root(tmp_path)
     write_python(root)
-    repo = repository("tool", "python")
-    catalog = catalog_for(tmp_path, repo)
-    cache = tmp_path / "cache.json"
-    cache.write_text(
-        json.dumps(
-            {
-                "latest": {
-                    "pypi:requests:2.0.0": {"version": "9.9.9", "fetched_at": 1000.0},
-                },
-                "osv": {},
-            }
-        ),
-        encoding="utf-8",
-    )
+    locked, findings = _collect_locked(root, repository("tool", "python"))
+    assert findings == []
+    cache = {"latest": {"pypi:requests:2.0.0": {"version": "9.9.9", "fetched_at": 1000.0}}}
 
-    outcomes = audit_repositories(
-        catalog,
-        (repo,),
-        offline=True,
-        cache_path=cache,
-        now=1100.0,
-    )
-    assert any(finding.rule == "audit-outdated" for finding in outcomes[0].findings)
+    resolved = resolve_latest(locked, offline=True, refresh=False, cache=cache, now=1_000_000.0)
+
+    assert resolved == {("pypi", "requests"): "9.9.9"}
 
 
 def test_go_replace_is_banned(tmp_path: Path) -> None:
@@ -478,101 +450,6 @@ def test_collect_locked_prefers_lockfile_versions(tmp_path: Path) -> None:
     assert [(item.ecosystem, item.name, item.locked) for item in locked] == [
         ("pypi", "requests", "2.0.0")
     ]
-
-
-def _upstream_status(
-    behind_by: int | None = 7,
-    ahead_by: int | None = 1,
-    state: str = "diverged",
-    error: str | None = None,
-) -> UpstreamStatus:
-    return UpstreamStatus(
-        "acme/demo",
-        "cli/cli",
-        "trunk",
-        "b" * 40,
-        "c" * 40,
-        behind_by,
-        ahead_by,
-        state,
-        False,
-        None,
-        error,
-    )
-
-
-def _upstream_outcomes(tmp_path: Path, statuses: dict[str, UpstreamStatus]):
-    repo_root(tmp_path)
-    repo = repository("tool", "fork")
-    catalog = catalog_for(tmp_path, repo)
-    return audit_repositories(
-        catalog,
-        (repo,),
-        offline=True,
-        cache_path=tmp_path / "cache.json",
-        now=1000.0,
-        upstream_statuses=statuses,
-    )
-
-
-def test_audit_upstream_behind_is_reported(tmp_path: Path) -> None:
-    outcomes = _upstream_outcomes(tmp_path, {"acme/demo": _upstream_status()})
-    rules = [finding.rule for finding in outcomes[0].findings]
-    assert rules == ["audit-upstream"]
-    assert outcomes[0].findings[0].message == (
-        "fork is 7 commits behind cli/cli@trunk, 1 ahead"
-    )
-
-
-def test_audit_upstream_ahead_only_is_not_reported(tmp_path: Path) -> None:
-    outcomes = _upstream_outcomes(
-        tmp_path, {"acme/demo": _upstream_status(behind_by=0, ahead_by=3, state="ahead")}
-    )
-    assert outcomes[0].findings == []
-
-
-def test_audit_upstream_in_sync_is_not_reported(tmp_path: Path) -> None:
-    outcomes = _upstream_outcomes(
-        tmp_path, {"acme/demo": _upstream_status(behind_by=0, ahead_by=0, state="identical")}
-    )
-    assert outcomes[0].findings == []
-
-
-def test_audit_upstream_respects_ignored_rules(tmp_path: Path) -> None:
-    repo_root(tmp_path)
-    repo = Repository(RepoId("acme", "demo"), ("tool", "fork"), ignored_rules=frozenset({"audit-upstream"}))
-    catalog = catalog_for(tmp_path, repo)
-    outcomes = audit_repositories(
-        catalog,
-        (repo,),
-        offline=True,
-        cache_path=tmp_path / "cache.json",
-        now=1000.0,
-        upstream_statuses={"acme/demo": _upstream_status()},
-    )
-    assert outcomes[0].findings == []
-
-
-def test_audit_upstream_error_is_operational(tmp_path: Path) -> None:
-    outcomes = _upstream_outcomes(
-        tmp_path,
-        {"acme/demo": _upstream_status(behind_by=None, ahead_by=None, state="unknown", error="boom")},
-    )
-    findings = outcomes[0].findings
-    assert len(findings) == 1
-    assert findings[0].rule == "audit-upstream"
-    assert findings[0].kind == "operational"
-    assert "boom" in findings[0].message
-
-
-def test_audit_without_upstream_statuses_skips_upstream(tmp_path: Path) -> None:
-    repo_root(tmp_path)
-    repo = repository("tool", "python")
-    catalog = catalog_for(tmp_path, repo)
-    outcomes = audit_repositories(
-        catalog, (repo,), offline=True, cache_path=tmp_path / "cache.json", now=1000.0
-    )
-    assert all(finding.rule != "audit-upstream" for finding in outcomes[0].findings)
 
 
 def test_audit_rules_cover_repositories_without_language_tags(tmp_path: Path) -> None:

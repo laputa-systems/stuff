@@ -59,9 +59,12 @@ promotion and catalog validation in place. The shipped pending writer
 still has concurrent update, comment preservation and idempotence
 coverage.
 
-`audit_repositories` remains test-only. The shipped audit rules have
-their own collection and lookup paths. Check that those rules cover the
-behavior exercised by the batch audit tests before removing the wrapper.
+The unused `audit_repositories` batch and its private worker duplicated
+the shipped audit rules, version lookup and fork status paths. Tracked
+fleet checkouts only referenced the batch from the old Stuff audit tests.
+The tests now verify an advisory and cache through the shipped rule,
+and a stale-version cache through the shared resolver. Fork status and
+comparison errors are covered by the GitHub policy tests.
 
 Deptry 0.25.1 reported zero dependency issues across 112 files after
 mapping the `ruamel.yaml` distribution to its import root and identifying
