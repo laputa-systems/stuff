@@ -43,9 +43,22 @@ credentials, hardware and canonical checkouts retain their campaign boundaries.
   tarball, and the PyPI platformdirs wheel that had failed in Buildlib CI.
   Retrying failed jobs on pinned heads led to green merges for Stats #24,
   Stuff #64, Fastermod #28 and Ptytest #13. Fastermod #29 and Ptytest #14
-  passed their hosted checks and merged after them. Discover
-  [attempt 3](https://github.com/joshuarli/discover/actions/runs/44190926084/attempts/3)
-  still ended before a runner started. Retry it once the account can start jobs.
+  passed their hosted checks and merged after them.
+- The owner excluded Discover from the campaign while rearchitecting it.
+  Keep its earlier Solid test receipt for reference. Omit Discover from
+  dispatch, CI retries and the campaign closeout.
+- Buildlib's retained workflow [#26](https://github.com/laputa-systems/buildlib/pull/26)
+  merged as `a749bba`. Its 15 mutation jobs used 976 runner seconds in
+  aggregate with a 50-second median. The hosted release, uncovered-branch,
+  docs-only and deletion controls completed before merge. Stuff
+  [#65](https://github.com/laputa-systems/stuff/pull/65) registered Buildlib
+  and fz mutation retention on all ten checks.
+- Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
+  merged as `bb03d98` after 15 hosted checks and all four controls. The 12
+  mutation jobs used 2,276 runner seconds in aggregate. Five interleaved
+  quiet-host suite pairs against `49a1c97` had a median of 1.19 seconds for
+  each revision. Every pair ran all 68 baseline and 89 candidate tests.
+  Further renderer scopes and retention registration remain open.
 - Buildlib [#20](https://github.com/laputa-systems/buildlib/pull/20) merged
   as `1838935` after 17 checks passed. The deletion and mixed controls each
   reopened four release identities across Linux x86-64, Linux arm64 and macOS
@@ -60,9 +73,13 @@ credentials, hardware and canonical checkouts retain their campaign boundaries.
   The result qualifies the current scope and exceeds the ten-minute cost
   target. A shard split must preserve all five critical source files.
 - Srv [#47](https://github.com/laputa-systems/srv/pull/47) passed ordinary CI
-  and lint. Its retained job selected 376 identities and exhausted the
-  900-second budget. Keep the PR open until a bounded partition accounts
-  for the same critical union.
+  and lint. Its initial unsharded job exhausted 900 seconds. Four round-robin
+  shards at `ffaa487` accounted for all 376 identities in 612–642 seconds
+  per shard, with 308 caught, 27 missed, 16 unviable and 25 provisional
+  timeouts. Cargo-mutants 27.1.0 selected extra struct-field identities
+  during timeout replays using `--re`. Branch `deslop/timeout-shard` at
+  `a88c3b1` uses native singleton shards and confirmed one timeout locally.
+  Resolve survivors and confirm the other timeouts before merging.
 - Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
   now passes all 15 hosted checks. In
   [#36](https://github.com/laputa-systems/diff-pretty/pull/36), ordinary checks
@@ -350,7 +367,7 @@ factory, `hashHistory` and plain anchors.
 
 | Consumer | Verified state |
 | --- | --- |
-| Discover | [#48](https://github.com/joshuarli/discover/pull/48) pins `solid-js` and `@solidjs/web` 2.0.0 and `@solidjs/vite-plugin` 3.0.1. All 342 Node and 50 browser tests passed along with lint, type checks and the production build. Frozen install passes with the approved exact-version exemptions. GitHub Actions reports an account billing or spending-limit block before the lint runner starts. |
+| Discover | Outside campaign scope during the owner's rearchitecture. Before exclusion, [#48](https://github.com/joshuarli/discover/pull/48) passed 342 Node and 50 browser tests, lint, type checks and the production build. Hosted attempt 3 stopped at account billing before runner allocation. |
 | Stats | [#23](https://github.com/joshuarli/stats/pull/23) resolves Solid, Web and Router 2.0.0 and Vite plugin 3.0.1 through the existing registry. Type checks, lint, production builds and all 320 desktop and mobile browser cases passed. The local browser run uses one worker to stay within the two-core cap. All three hosted checks passed with the approved exact-version exemptions. The PR merged as `6de663387e742c4652b57d8c5096ed54b7b5a374`. |
 | bctl | [#4](https://github.com/joshuarli/bctl/pull/4) passes type checking, production build, and session and clipboard browser fixtures with Node 26.12.1. Frozen install passes with the approved exact-version exemptions. The candidate and the pre-upgrade revision each passed four, failed the same six and skipped execution of one browser case with the same SmolVM image. The Nanos fixture stopped at display readiness. VM acceptance remains open. |
 | laputa-ui-dashboard | The library's peer range admits stable Solid 2. Its development pins still resolve the RC from Stuff. Stuff's public catalog has no stable Solid, renderer or Vite plugin. Refresh those pins once the existing mirror serves the matching toolchain. |

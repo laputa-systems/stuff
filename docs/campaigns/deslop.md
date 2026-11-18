@@ -12,16 +12,19 @@ Resumed 2026-11-17 at the owner's request. M2 remains open. The
 [scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) records the
 checked revisions.
 
-- Buildlib [#20](https://github.com/laputa-systems/buildlib/pull/20) merged after
-  all 17 hosted checks passed and four controls produced the expected outcomes.
-  Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31) passed
-  the positive matrix. Its mixed control reopened the paging survivor on both
-  platforms. Vault [#30](https://github.com/laputa-systems/vault/pull/30) still
-  has exhausted shards. A separate branch preserves partial outcomes on expiry.
-- Stuff #55–64 merged on green. Repomod Types is complete. The
+- Buildlib [#26](https://github.com/laputa-systems/buildlib/pull/26) and
+  Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
+  merged after their positive matrices and four hosted controls each.
+  Stuff [#65](https://github.com/laputa-systems/stuff/pull/65) registered
+  retention for Buildlib and fz. Vault
+  [#30](https://github.com/laputa-systems/vault/pull/30) still has exhausted
+  shards. A separate branch preserves partial outcomes on expiry.
+- Stuff #55–67 merged on green. Repomod Types is complete. The
   [path admission witness](https://github.com/laputa-systems/stuff/pull/64)
-  passed all ten hosted checks. The rest of the publication boundary and
-  the whole-change lane remain open.
+  passed all ten hosted checks. The
+  [fixer publication tests](https://github.com/laputa-systems/stuff/pull/67)
+  check that refused pushes and PR creation failures preserve the expected
+  local and remote Git state. The whole-change lane remains open.
 - Pytest-parallel [#26](https://github.com/joshuarli/pytest-parallel/pull/26)
   fixed empty-address binds in a real worker. Its wheel passed Stuff's
   repomod tests and reproduced Toolbox's FFmpeg baseline failure.
@@ -31,18 +34,23 @@ checked revisions.
   repair and shared Make entry points both passed Linux and macOS and merged.
   [Ptytest #13](https://github.com/laputa-systems/ptytest/pull/13) ·
   [Ptytest #14](https://github.com/laputa-systems/ptytest/pull/14)
+- Ptytest [#15](https://github.com/laputa-systems/ptytest/pull/15) preserves
+  the original diagnostic bundle through cleanup. Hosted PTY acceptance and
+  the focused fz, tm and lz consumer checks passed. The recorded e and ish
+  failures reproduced before and after the patch.
 - Loc [#18](https://github.com/joshuarli/loc/pull/18) merged its historical
   mutation follow-up after macOS, both musl architectures, lint and LineJudge
   passed. The wider Tests gate remains open.
 - Extensions [#15](https://github.com/joshuarli/extensions/pull/15) merged
   the type-aware lint and installed Chromium checks on green. #16 updates DSLP-4.
-- STUF-91 has Solid 2.0 candidates for Discover, Stats and bctl. The owner
+- STUF-91 records Solid 2.0 candidates for Stats and bctl. The owner
   approved exact-version age exemptions for the locked Solid packages.
   Frozen installs pass, and Stats #23 merged on green. The dashboard library still needs stable versions
   in its configured mirror.
 - Public Cargo, npm and PyPI reads recovered. Stats
   [#24](https://github.com/joshuarli/stats/pull/24) passed all three checks and
-  merged. Discover still has an account billing block.
+  merged.
+- The owner excluded Discover from deslop while rearchitecting it.
 - The owner approved the full campaign and unattended decisions. M2 and the
   tier checkpoints still require evidence. The roadmap records the remaining
   qualification conditions and deferred work.
@@ -305,7 +313,7 @@ For each tier in order:
 | --- | --- |
 | A, under 10k | pi-build (0.7k, `tools/` only), ffmpeg-build 2.8k, node-build 2.9k, fz 5.1k, doas-rs 5.4k, mdevd-rs 5.4k, diff-pretty 6.0k, vault 6.2k, cmake-build 7.0k, hi-lite 8.1k |
 | B, 10k to 30k | lz 11.1k, rustybench 11.1k, laputa-ui-dashboard 13.8k, tinyland 14.1k, chromium-build 16.1k, e 20.1k, defuddle-rs 20.7k, gluon 28.7k |
-| C, 30k to 80k | ctrs 32.7k, usr 42.2k, img 43.7k, tm 51.6k, discover 75.8k |
+| C, 30k to 80k | ctrs 32.7k, usr 42.2k, img 43.7k, tm 51.6k |
 | D, over 80k, by component | ish 89.0k, smolith 118.1k, play 122.4k, tansu 123.2k, stuff 156.1k (components other than `repomod/`), kache 240.1k |
 | E, forks (delta only) | jaq, rust-fontconfig, rustix, rage, fd, oxish, crabtables, soulseek-rs |
 
