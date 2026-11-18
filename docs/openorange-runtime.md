@@ -417,6 +417,12 @@ data before removing the declaration or enabling the local app. A reader
 can be retired by deleting only its entry after testing the primary. Reload,
 probe the adjacent applications, then stop that reader.
 
+`bin/health` reports Engine liveness, runner registration and application
+readiness separately. The app check uses the same authenticated request
+as OpenRC startup, requires HTTP 200, and includes a structured upstream
+error code when one is present. A failed primary still appears as failed
+when ingress is serving a recovery route. Probe that route separately.
+
 ## Loss model
 
 Single host, single NVMe disk. All of Engine, store, Caddy state and the

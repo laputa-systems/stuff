@@ -7,6 +7,7 @@ the ingress configuration is derived here from `apps.toml` and
 """
 from __future__ import annotations
 
+import http.client
 import ipaddress
 import fcntl
 import json
@@ -16,6 +17,7 @@ import secrets
 import subprocess
 import tempfile
 import tomllib
+from contextlib import closing
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -557,6 +559,40 @@ def write_env(path: Path, items: dict[str, str], header: str = "") -> None:
 
 def token(nbytes: int = 32) -> str:
     return secrets.token_hex(nbytes)
+
+
+def app_readiness(cfg: Config, app: App) -> tuple[int, str]:
+    env = read_env(cfg.app_env(app))
+    headers = {"Host": app.hostnames[0], "X-OO-Ingress": "tailnet",
+               "Stats-Tailnet-Identity": "user:readiness@openorange.invalid"}
+    if env.get("GATEWAY_SECRET"):
+        headers["Stats-Gateway-Secret"] = env["GATEWAY_SECRET"]
+    with closing(http.client.HTTPConnection(app.ip, app.port, timeout=4)) as conn:
+        try:
+            conn.request("GET", app.health_path, headers=headers)
+            response = conn.getresponse()
+        except (OSError, http.client.HTTPException):
+            return 0, ""
+        status = response.status
+        if status == 200:
+            return status, ""
+        try:
+            data = response.read(4096)
+        except (OSError, http.client.HTTPException):
+            return status, ""
+    try:
+        payload = json.loads(data)
+    except ValueError:
+        return status, ""
+    error = payload.get("error", payload) if isinstance(payload, dict) else None
+    if not isinstance(error, dict):
+        return status, ""
+    code, group = error.get("code"), error.get("group")
+    if not isinstance(code, str) or not re.fullmatch(r"[a-z][a-z0-9_.-]{0,79}", code):
+        return status, ""
+    if isinstance(group, str) and re.fullmatch(r"[a-z][a-z0-9_-]{0,39}", group) and "." not in code:
+        code = f"{group}.{code}"
+    return status, code
 
 
 # --- docker run arguments ------------------------------------------------------

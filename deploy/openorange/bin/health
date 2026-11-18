@@ -171,8 +171,9 @@ def main():
                 nodes = json.loads(body).get("nodes", []) if st == 200 else []
                 conn = [n for n in nodes if n.get("connected")]
                 rec(f"app {a.name}: node connected to engine", "PASS" if conn else "FAIL", f"{len(conn)}/{len(nodes)} nodes connected")
-                st, _ = get(f"http://{a.ip}:{a.port}{a.health_path}")
-                rec(f"app {a.name}: HTTP on private network", "PASS" if 0 < st < 500 else "FAIL", f"http {st}")
+                st, code = oolib.app_readiness(cfg, a)
+                rec(f"app {a.name}: HTTP on private network", "PASS" if st == 200 else "FAIL",
+                    f"http {st} {code}".rstrip())
             else:
                 rec(f"app {a.name}: image", "WARN", "no image deployed yet (ingress answers 503)")
     # identity

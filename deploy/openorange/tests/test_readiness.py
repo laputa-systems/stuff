@@ -17,13 +17,18 @@ class ReadinessTests(unittest.TestCase):
         requests = []
 
         class Handler(BaseHTTPRequestHandler):
-            available = False
+            status = 400
 
             def do_GET(self):
                 requests.append((self.path, dict(self.headers)))
-                self.send_response(200 if self.available else 503)
+                self.send_response(self.status)
+                if self.status == 302:
+                    self.send_header("Location", "/elsewhere" if self.path != "/elsewhere" else "/")
                 self.end_headers()
-                self.wfile.write(b'{"hosts":[]}' if self.available else b'storage unavailable')
+                if self.status == 400:
+                    self.wfile.write(b'{"error":{"group":"depot","code":"request_deadline_exceeded","message":"private details"}}')
+                elif self.status == 200:
+                    self.wfile.write(b'{"hosts":[]}')
 
             def log_message(self, *args):
                 pass
@@ -40,14 +45,19 @@ class ReadinessTests(unittest.TestCase):
                 env.parent.mkdir()
                 oolib.write_env(env, {"GATEWAY_SECRET": "test-gateway-secret"})
                 self.assertFalse(commands["ready"](cfg, "app", "stats"))
-                Handler.available = True
+                self.assertEqual(oolib.app_readiness(cfg, cfg.apps["stats"]), (400, "depot.request_deadline_exceeded"))
+                Handler.status = 200
                 self.assertTrue(commands["ready"](cfg, "app", "stats"))
                 for path, headers in requests:
                     self.assertEqual(path, "/api/v1/hosts")
                     self.assertEqual(headers["Host"], "stats.17166969.xyz")
                     self.assertEqual(headers["Stats-Gateway-Secret"], "test-gateway-secret")
                     self.assertTrue(headers["Stats-Tailnet-Identity"].startswith("user:"))
-                Handler.available = False
+                Handler.status = 302
+                requests.clear()
+                self.assertEqual(oolib.app_readiness(cfg, cfg.apps["stats"]), (302, ""))
+                self.assertEqual([path for path, _ in requests], ["/api/v1/hosts"])
+                Handler.status = 503
                 self.assertFalse(commands["ready"](cfg, "app", "stats"))
         finally:
             server.shutdown()

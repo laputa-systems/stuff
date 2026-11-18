@@ -772,13 +772,8 @@ def ready(cfg, service: str, app: str | None) -> bool:
         except OSError:
             return False
     if service == "app":
-        a = cfg.apps[app]
-        env = oolib.read_env(cfg.app_env(a))
-        headers = {"Host": a.hostnames[0], "X-OO-Ingress": "tailnet",
-                   "Stats-Tailnet-Identity": "user:readiness@openorange.invalid"}
-        if env.get("GATEWAY_SECRET"):
-            headers["Stats-Gateway-Secret"] = env["GATEWAY_SECRET"]
-        return http_ok(f"http://{a.ip}:{a.port}{a.health_path}", headers=headers, ok=lambda s: s == 200)
+        status, _ = oolib.app_readiness(cfg, cfg.apps[app])
+        return status == 200
     return False
 
 
