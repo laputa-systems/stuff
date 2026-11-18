@@ -244,7 +244,7 @@ def test_standard_library_preference_flags_every_third_party_option(tmp_path: Pa
     assert use.overlapping == ()
 
 
-def test_role_exceptions_are_reported_apart_from_conflicts(tmp_path: Path) -> None:
+def test_role_exceptions_count_as_usage_without_conflicts(tmp_path: Path) -> None:
     graph = build_graph(
         tmp_path,
         [
@@ -265,7 +265,7 @@ def test_role_exceptions_are_reported_apart_from_conflicts(tmp_path: Path) -> No
     )
     [use] = insights.role_uses(roles, insights.declarations(graph))
     assert use.off_preferred == ("acme/tool",)
-    assert use.excepted == (("acme/search", "Unicode category classes in the tokenizer"),)
+    assert use.options["regex"] == ("acme/search", "acme/tool")
 
 
 def test_owned_declarations_leave_out_fork_repositories(tmp_path: Path) -> None:
