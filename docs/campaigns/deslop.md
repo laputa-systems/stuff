@@ -15,13 +15,22 @@ checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
 - CMake-build moved to the fleet's minimal Alpine 3.24.2 builder after
-  Edge retired its locked OpenSSL APK. Both stable archives passed native
-  qualification and size budgets. Stuff removed CMake's Edge exemption and
-  checks both the offline APK closure and the qualification OpenSSL APK.
-  Exact-tree memory qualification passed on ARM64. The x86-64 retry is running.
+  Edge retired its locked OpenSSL APK. Both exact archives passed native
+  qualification, size and memory budgets. Stuff removed CMake's Edge
+  exemption and checks both the offline APK closure and the qualification
+  OpenSSL APK. The general check detects explicit Edge bases and APK
+  repository overrides in Dockerfiles without a musl marker.
   [Stable builder](https://github.com/laputa-systems/cmake-build/pull/24) ·
-  [Qualification receipts](https://github.com/laputa-systems/cmake-build/pull/25) ·
-  [Fleet policy](https://github.com/laputa-systems/stuff/pull/117)
+  [Exact qualification](https://github.com/laputa-systems/cmake-build/actions/runs/44354687939) ·
+  [Fleet policy](https://github.com/laputa-systems/stuff/pull/117) ·
+  [Edge detection](https://github.com/laputa-systems/stuff/pull/120)
+- Doas-rs moved its test and build image to the same stable base with four
+  direct APKs and checksum-verified Rust tooling. All 166 tests passed on
+  native ARM64 and on local emulated x86-64. Both release binaries were
+  static and printed help offline. The follow-up scan of Dockerfiles,
+  workflows, shell scripts and build locks found no explicit Edge
+  references across the 46 campaign checkouts checked.
+  [Doas-rs #7](https://github.com/laputa-systems/doas-rs/pull/7)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests
@@ -45,15 +54,18 @@ qualified workloads and remaining boundaries.
   [Node artifact trial](https://github.com/laputa-systems/node-build/pull/37)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. The privileged
-  exchange remains separate.
-  [Mdevd-rs #8](https://github.com/laputa-systems/mdevd-rs/pull/8)
+  exchange remains open. Added tests caught all 20 selected event and
+  pipe mutations and all 14 selected node-path mutations on ARM64.
+  [Event records](https://github.com/laputa-systems/mdevd-rs/pull/16) ·
+  [Node path limits](https://github.com/laputa-systems/mdevd-rs/pull/17)
 - The cleanup follow-ups retired 22 more completed worktrees with
   4,927,332 KiB of measured allocation. The
   [cleanup record](deslop-cleanup-20261117.md) includes the
   shared-volume measurements and the retired paths.
 - Stuff #111 retains Pi-build and Node-build's coverage recipes and
-  qualified type settings. Hi-lite verified its native registry install
-  example and filed a reproduced delimiter edge case.
+  qualified type settings. Hi-lite added coverage through Make and
+  tested the public bracket scan limit and UTF-8 display mapping.
+  [Hi-lite #18](https://github.com/laputa-systems/hi-lite/pull/18)
 - Fz passed the scoped fleet checks and the CLI failure control. The
   current paired runtime gate is deferred to a quiet host under DSLP-10.
   [Fz #46](https://github.com/laputa-systems/fz/pull/46)
