@@ -69,11 +69,14 @@ qualified workloads and remaining boundaries.
   of 72 changes, up from 44. The two remaining edits preserve sibling
   ordering on the supported POSIX platforms.
   The matched input suite caught 518 of 571 after adding offline fetch,
-  lock diagnostics and archive publication cases.
+  lock diagnostics and archive publication cases. A later failed-rename
+  fixture verified staging cleanup and retry and caught two more
+  publication changes in the focused selection.
   [Coverage baseline](https://github.com/laputa-systems/cmake-build/pull/41) ·
   [Bootstrap metadata](https://github.com/laputa-systems/cmake-build/pull/42) ·
   [Tree digest](https://github.com/laputa-systems/cmake-build/pull/43) ·
-  [Input boundaries](https://github.com/laputa-systems/cmake-build/pull/44)
+  [Input boundaries](https://github.com/laputa-systems/cmake-build/pull/44) ·
+  [Extraction retry](https://github.com/laputa-systems/cmake-build/pull/45)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -137,8 +140,11 @@ qualified workloads and remaining boundaries.
   its exit 2 diagnostic. Tests exercise archives at exact limits, and
   the revised scope caught 78 of 81 mutation identities on macOS. Two
   case-sensitive Linux controls caught two more. One tar mode is equivalent.
+  The reference comparison now diagnoses a failed version probe.
+  Its focused suite caught 132 of 177 changes.
   [Budget validation](https://github.com/laputa-systems/node-build/pull/39) ·
-  [Case-sensitive controls](https://github.com/laputa-systems/node-build/pull/40)
+  [Case-sensitive controls](https://github.com/laputa-systems/node-build/pull/40) ·
+  [Reference comparison](https://github.com/laputa-systems/node-build/pull/41)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. Native KVM passed
   node creation, framed output, coldplug and shutdown. The pinned C consumer

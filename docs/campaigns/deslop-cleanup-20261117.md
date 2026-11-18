@@ -277,3 +277,20 @@ before retirement.
 The five worktrees accounted for 524,936 KiB. Across all passes, 105
 retired worktrees and the listed generated artifacts accounted for
 18,824,552 KiB (17.95 GiB) of measured path allocation.
+
+## Publication and consumer follow-up, 2026-11-18
+
+Three accepted worktrees and the finished detached repomod consumer
+checkout were clean and idle at retirement. The scorecard records
+the wheel hash and how to reproduce the consumer check.
+
+| Repository | Accepted integration or recorded proof | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| CMake-build | `75f69121` | `cmake-extraction-publication` | 83,540 |
+| Pytest-parallel | `eb119747` | `monitor-drain-state` | 103,488 |
+| Stuff | `ad43e917` | `record-deslop-stage-and-drain` | 33,552 |
+| Stuff | `2d59cbc8` | `pytest-parallel-consumer-drain` | 132,548 |
+
+The four worktrees accounted for 353,128 KiB. Across all passes, 109
+retired worktrees and the listed generated artifacts accounted for
+19,177,680 KiB (18.29 GiB) of measured path allocation.
