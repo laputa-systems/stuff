@@ -65,9 +65,12 @@ qualified workloads and remaining boundaries.
   1,995 of 3,161 statements and 534 of 972 branches across 26 files.
   The retained command needs a compatible wheel in the mirror.
   The bootstrap metadata cases caught all 99 identities in the matched
-  parser scope, up from 81.
+  parser scope, up from 81. A persisted tree digest fixture caught 70
+  of 72 changes, up from 44. The two remaining edits preserve sibling
+  ordering on the supported POSIX platforms.
   [Coverage baseline](https://github.com/laputa-systems/cmake-build/pull/41) ·
-  [Bootstrap metadata](https://github.com/laputa-systems/cmake-build/pull/42)
+  [Bootstrap metadata](https://github.com/laputa-systems/cmake-build/pull/42) ·
+  [Tree digest](https://github.com/laputa-systems/cmake-build/pull/43)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -90,8 +93,11 @@ qualified workloads and remaining boundaries.
   nine unwraps, and native x86-64 KVM passed all four guest markers.
   The ordinary ARM64 Alpine `make coverage` run passed all 166 tests
   and measured 3,113 of 4,323 lines and 500 of 1,006 branches.
+  The CLI cases raised the matched catches from 37 to 43 of 53.
+  Five repeated option-index timeouts remain open.
   [Types](https://github.com/laputa-systems/doas-rs/pull/14) ·
-  [Branch coverage](https://github.com/laputa-systems/doas-rs/pull/15)
+  [Branch coverage](https://github.com/laputa-systems/doas-rs/pull/15) ·
+  [CLI admission](https://github.com/laputa-systems/doas-rs/pull/17)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests
