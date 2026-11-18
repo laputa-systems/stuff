@@ -238,8 +238,9 @@ returns no findings when no musl builder exists, and skips private, `fork`, and
 `docker/*.Dockerfile` files outside build, vendor, and fixture trees, plus builders named by
 release or CI workflows that build a Linux musl target. A Dockerfile is in scope when its raw
 text mentions musl or when its referencing workflow step mentions musl or the file does.
-An Alpine Edge base or an Edge APK repository specified in an `apk add` command also puts
-the Dockerfile in scope, including values resolved from Dockerfile build argument defaults.
+An Alpine Edge base or an Edge APK repository in an `apk add` override or a shell redirect to
+`/etc/apk/repositories` also puts the Dockerfile in scope. The check resolves Dockerfile build
+argument defaults.
 
 For every in-scope Dockerfile, each Alpine base must carry the approved stable digest
 (the index digest, or the per-architecture manifest for a `--platform` stage). An

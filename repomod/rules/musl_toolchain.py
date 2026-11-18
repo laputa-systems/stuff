@@ -692,6 +692,7 @@ _DOCKER_REFERENCE = re.compile(
     r"|(?m:^\s*file:\s*(?P<file>[^\s'\"#]+))"
 )
 _APK_URL = re.compile(r"https?://\S+\.apk\b")
+_APK_REPOSITORIES_FILE = "/etc/apk/repositories"
 _ZIG_URL = re.compile(r"https://ziglang\.org/download/(?P<version>[0-9][^/\s\"']*)/zig-[^\s\"']+\.tar\.xz")
 _CHECKSUM_VERIFIED = ("sha256sum -c", "add --checksum=", "add --checksum ")
 
@@ -807,8 +808,9 @@ def _arg_values(lines: list[_LogicalLine]) -> dict[str, str]:
     return values
 
 
-def _shell_tokens(text: str) -> list[_Token]:
+def _shell_tokens(text: str, *, split_redirects: bool = False) -> list[_Token]:
     tokens: list[_Token] = []
+    boundaries = ";&|()>" if split_redirects else ";&|()"
     index = 0
     while index < len(text):
         character = text[index]
@@ -819,13 +821,18 @@ def _shell_tokens(text: str) -> list[_Token]:
             tokens.append(_Token(text[index : index + 2], index, index + 2, True))
             index += 2
             continue
+        if split_redirects and character == ">":
+            end = index + (2 if text.startswith(">>", index) else 1)
+            tokens.append(_Token(text[index:end], index, end, False))
+            index = end
+            continue
         if character in ";&|()":
             tokens.append(_Token(character, index, index + 1, True))
             index += 1
             continue
         start = index
         value: list[str] = []
-        while index < len(text) and not text[index].isspace() and text[index] not in ";&|()":
+        while index < len(text) and not text[index].isspace() and text[index] not in boundaries:
             character = text[index]
             if character in {'"', "'"}:
                 quote = character
@@ -847,6 +854,29 @@ def _shell_tokens(text: str) -> list[_Token]:
             index += 1
         tokens.append(_Token("".join(value), start, index, False))
     return tokens
+
+
+def _writes_edge_repository_file(text: str, arguments: dict[str, str]) -> bool:
+    if ">" not in text:
+        return False
+    tokens = _shell_tokens(text, split_redirects=True)
+    edge = writes_repository = False
+    for index, token in enumerate(tokens):
+        if token.separator:
+            edge = writes_repository = False
+            continue
+        raw = text[token.start : token.end]
+        if raw.startswith("#"):
+            break
+        value = token.text
+        if not (raw.startswith("'") and raw.endswith("'")):
+            value = _expand(value, arguments)
+        edge |= "/alpine/edge/" in value
+        if raw in {">", ">>"} and index + 1 < len(tokens):
+            writes_repository |= tokens[index + 1].text == _APK_REPOSITORIES_FILE
+        if edge and writes_repository:
+            return True
+    return False
 
 
 _APK_VALUE_OPTIONS = frozenset(
@@ -1185,6 +1215,10 @@ def _analyze_dockerfile(
         if run_match is None:
             continue
         run_text = line.text[run_match.end() :]
+        if _writes_edge_repository_file(run_text, arguments):
+            findings.append(
+                _failure(repository, relative, f"Alpine edge is not approved in {_APK_REPOSITORIES_FILE}", line.line)
+            )
         for command in _apk_commands(run_text):
             if (
                 adapter is not None
@@ -1878,12 +1912,14 @@ def _dockerfile_in_scope(path: Path, references: set[Path]) -> bool:
             repo, tag, _ = _split_image(image)
             if _repository_name(repo) == "alpine" and tag == "edge":
                 return True
-        if (run := _RUN.match(line.text)) and any(
-            "/alpine/edge/" in _expand(url, arguments)
-            for command in _apk_commands(line.text[run.end() :])
-            for url in command.repositories
-        ):
-            return True
+        if run := _RUN.match(line.text):
+            run_text = line.text[run.end() :]
+            if _writes_edge_repository_file(run_text, arguments) or any(
+                "/alpine/edge/" in _expand(url, arguments)
+                for command in _apk_commands(run_text)
+                for url in command.repositories
+            ):
+                return True
     return False
 
 

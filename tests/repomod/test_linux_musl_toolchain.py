@@ -113,6 +113,41 @@ def test_apk_repository_override_is_reported(
     assert messages(check(monkeypatch, root)) == [f"apk add uses a non-approved repository: {url}"]
 
 
+@pytest.mark.parametrize("redirect", [" > /etc/apk/repositories", " >>/etc/apk/repositories", ">/etc/apk/repositories"])
+def test_edge_repository_redirect_is_reported(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, redirect: str
+) -> None:
+    root = bare_repo(
+        tmp_path,
+        f"FROM alpine@{STABLE_INDEX}\n"
+        "ARG REPOSITORY=https://dl-cdn.alpinelinux.org/alpine/edge/community\n"
+        f"RUN echo \"$REPOSITORY\"{redirect}\n",
+        scoped=False,
+    )
+
+    findings = check(monkeypatch, root)
+
+    assert messages(findings) == ["Alpine edge is not approved in /etc/apk/repositories"]
+    assert findings[0].line == 3
+    assert not findings[0].fixable
+
+
+def test_edge_repository_mention_does_not_count_as_a_redirect(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = bare_repo(
+        tmp_path,
+        f"FROM alpine@{STABLE_INDEX}\n"
+        "ARG REPOSITORY=https://dl-cdn.alpinelinux.org/alpine/edge/community\n"
+        "RUN cat /etc/apk/repositories && echo 'https://dl-cdn.alpinelinux.org/alpine/edge/main'\n"
+        "RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/main' '>' /etc/apk/repositories\n"
+        "RUN echo '$REPOSITORY' > /etc/apk/repositories\n",
+        scoped=False,
+    )
+
+    assert check(monkeypatch, root) == []
+
+
 def test_missing_digest_is_reported(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     root = bare_repo(tmp_path, "FROM alpine:3.24.2\n")
 
