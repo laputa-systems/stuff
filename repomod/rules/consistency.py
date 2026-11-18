@@ -13,6 +13,8 @@ from repomod.types import Finding, Repository, Rule, TagPredicate, operational, 
 _RUN = re.compile(r"^(?P<indent> *)(?:-\s*)?run\s*:\s*(?P<value>.*)$")
 _GITHUB_EXPRESSION = re.compile(r"\$\{\{.*?\}\}")
 _MAKE_TARGET = re.compile(r"^[A-Za-z0-9_./%-]+\Z")
+_MAKE_ASSIGNMENT = re.compile(r"^ *[A-Za-z_][A-Za-z0-9_.-]*\s*(?:::?=|[+?]?=)")
+_MAKE_CONDITIONALS = {"ifeq", "ifneq", "ifdef", "ifndef"}
 _MAKE_OPTIONS_WITH_VALUE = {"-C", "-f", "-I", "-j", "-l", "-o", "-W", "--directory", "--file"}
 _TRACKED_ARTIFACTS = {
     ".DS_Store": (":(glob)**/.DS_Store", None),
@@ -118,11 +120,29 @@ def _declared_make_targets(makefile: Path) -> set[str] | None:
     if makefile.is_symlink():
         return None
     source = makefile.read_text(encoding="utf-8")
-    if re.search(r"(?m)^\s*-?include\s|\$\(eval\b|^\s*(?:ifeq|ifneq|ifdef|ifndef)\b", source):
+    if re.search(r"(?m)^\s*-?include\s|\$\(eval\b", source):
         return None
     targets = set()
+    conditional_depth = 0
     for line in source.splitlines():
-        if not line or line[0].isspace() or line.lstrip().startswith("#"):
+        statement = line.partition("#")[0].strip()
+        if not statement:
+            continue
+        directive = statement.split(maxsplit=1)[0] if not line.startswith("\t") else ""
+        if directive in _MAKE_CONDITIONALS:
+            conditional_depth += 1
+            continue
+        if directive in {"else", "endif"}:
+            if not conditional_depth:
+                return None
+            if directive == "endif":
+                conditional_depth -= 1
+            continue
+        if conditional_depth:
+            if not _MAKE_ASSIGNMENT.match(line) or statement.endswith("\\"):
+                return None
+            continue
+        if line[0].isspace():
             continue
         left, separator, right = line.partition(":")
         if not separator or right.startswith("=") or "=" in left:
@@ -133,7 +153,7 @@ def _declared_make_targets(makefile: Path) -> set[str] | None:
         for target in left.split():
             if "%" not in target and "$" not in target:
                 targets.add(target)
-    return targets
+    return None if conditional_depth else targets
 
 
 def _make_target_findings(root: Path, repository: Repository) -> list[Finding]:

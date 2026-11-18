@@ -406,6 +406,9 @@ Make target and call that target in its own step.
 guarantees. `mutation-lane`, `coverage-target`, and `strict-profile` check those guarantees
 without fixers. Eligibility is independent of repository files so deleting a campaign record,
 target, workflow, or configuration cannot disable its own check.
+The target check reads literal Make rules. It also accepts conditionals whose
+branches contain only simple variable assignments. Conditional rules or
+recipes, included Makefiles, and dynamic rules require separate inspection.
 
 Python-only repositories retain a pull-request `make mutants-diff` job with
 full checkout history, pinned setup-uv, and a matching exact mutmut development
