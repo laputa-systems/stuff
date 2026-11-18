@@ -221,3 +221,21 @@ durable verification records retain the accepted source and results.
 These paths accounted for 242,420 KiB. Across all passes, 86 retired
 worktrees and the listed generated artifacts accounted for 17,161,076
 KiB (16.37 GiB) of measured path allocation.
+
+## Stage and session follow-up, 2026-11-18
+
+Nine more clean worktrees were idle at retirement. The changed paths
+matched their accepted commits before removal. The two Doas trial trees
+were ancestors of the retained proof revision linked from its default
+branch. The closed trial and its hosted logs remain available.
+
+| Repository | Last checked integration or retained proof | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| FFmpeg-build | `32535b71`, `b0751940`, `4bd60762`, `004297dd` | `deslop-diagnose`, `deslop-controller-entry`, `deslop-stage-manifest-shape`, `deslop-verified-release-edges` | 319,760 |
+| CMake-build | `fc472b1c` | `cmake-tree-identity` | 188,860 |
+| Diff-pretty | `9ce6235e` | `scrl-session-finish` | 69,428 |
+| Doas-rs | `0cab3038`, `45efba88` | `doas-cli-boundaries`, `doas-cli-help-boundaries`, `doas-cli-mutation` | 4,156 |
+
+These paths accounted for 582,204 KiB. Across all passes, 95 retired
+worktrees and the listed generated artifacts accounted for 17,743,280
+KiB (16.92 GiB) of measured path allocation.
