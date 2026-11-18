@@ -61,6 +61,13 @@ qualified workloads and remaining boundaries.
   The filesystem fixture caught 34 of 38 cache-store identities. It
   detects staging outside the destination filesystem.
   [Cache staging](https://github.com/laputa-systems/cmake-build/pull/39)
+  The sealed controller coverage run passed all 137 cases and measured
+  1,995 of 3,161 statements and 534 of 972 branches across 26 files.
+  The retained command needs a compatible wheel in the mirror.
+  The bootstrap metadata cases caught all 99 identities in the matched
+  parser scope, up from 81.
+  [Coverage baseline](https://github.com/laputa-systems/cmake-build/pull/41) ·
+  [Bootstrap metadata](https://github.com/laputa-systems/cmake-build/pull/42)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -79,6 +86,12 @@ qualified workloads and remaining boundaries.
   [Guest harness](https://github.com/laputa-systems/doas-rs/pull/10) ·
   [Diagnosis](https://github.com/laputa-systems/doas-rs/pull/11) ·
   [Clear status](https://github.com/laputa-systems/doas-rs/pull/13)
+  Types is complete. The path check and C-string literals removed
+  nine unwraps, and native x86-64 KVM passed all four guest markers.
+  The ordinary ARM64 Alpine `make coverage` run passed all 166 tests
+  and measured 3,113 of 4,323 lines and 500 of 1,006 branches.
+  [Types](https://github.com/laputa-systems/doas-rs/pull/14) ·
+  [Branch coverage](https://github.com/laputa-systems/doas-rs/pull/15)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests
@@ -150,8 +163,11 @@ qualified workloads and remaining boundaries.
   restoration on SIGTERM, raw-mode transitions and EOF. Terminal key
   and signal fixtures caught 22 of 23 targeted mutations. The workspace
   passed 94 tests and one doctest.
+  Two later session cases caught both targeted changes to EOF handling
+  and scroll clamping after a filter change.
   [SIGTERM](https://github.com/laputa-systems/diff-pretty/pull/42) ·
-  [Terminal tests](https://github.com/laputa-systems/diff-pretty/pull/43)
+  [Terminal tests](https://github.com/laputa-systems/diff-pretty/pull/43) ·
+  [Session tests](https://github.com/laputa-systems/diff-pretty/pull/44)
   Stuff
   [#106](https://github.com/laputa-systems/stuff/pull/106) checks qualified
   strict settings from policy, and
