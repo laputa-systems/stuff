@@ -386,6 +386,35 @@ for the Cloudflare plugin).
   --app ... --probe ...` from the pre-upgrade backup if anything looks wrong.
   Caddy-only changes: `oo reload-ingress` (validates, graceful reload).
 
+### Recovery routes
+
+Put active recovery routes in the root-only
+`/etc/openorange/recovery-routes.json`. The object maps application names
+to route objects. Stage updates by writing a mode-0600 sibling file and
+renaming it into place. Preview with `oo render --stdout`, validate the
+candidate in the ingress container with the matching environment, then
+run `oo reload-ingress` and probe each changed route.
+
+- A reader has `"mode": "reader"`, a private IPv4 `upstream` with a port,
+  `hosts` drawn from the application's public hostnames, and a
+  `deny_paths` array of extra excluded prefixes. The app's existing public
+  path exclusions also apply to the reader. Only GET and HEAD go to it.
+  Set `snapshot_at` to a UTC timestamp to emit
+  `X-<App>-Recovery-Snapshot`. Keep reader credentials scoped to serving.
+- A writer has `"mode": "writer"` and a private IPv4 `upstream` with a
+  port. It applies to a tailnet-only Orange app. The renderer uses
+  `GATEWAY_SECRET` from the root-only `apps/NAME.recovery.env` and
+  preserves tailnet identity verification. Startup and image selection
+  refuse the local app while this declaration is present.
+
+Before activating a writer route, stop the local app and confirm its
+container exited. Run an authenticated write and readback after reload.
+Keep the declaration in place throughout failback preparation. After a
+write reaches the standby, fence it and transfer and verify its newest
+data before removing the declaration or enabling the local app. A reader
+can be retired by deleting only its entry after testing the primary. Reload,
+probe the adjacent applications, then stop that reader.
+
 ## Loss model
 
 Single host, single NVMe disk. All of Engine, store, Caddy state and the
