@@ -309,6 +309,55 @@ def test_macos_path_collision_is_rejected(
         load_catalog(path, {"HOME": str(tmp_path), "REPOMOD_ROOT": str(root)})
 
 
+@pytest.mark.parametrize(
+    ("contents", "message"),
+    [
+        ('[repos."."]\ndemo = ["tool"]', "invalid owner '.'"),
+        ('[repos.acme]\n".." = ["tool"]', "invalid repository '..'"),
+        ('[repos.acme]\n"demo name" = ["tool"]', "invalid repository 'demo name'"),
+    ],
+)
+def test_catalog_reports_invalid_checkout_identifiers(tmp_path: Path, contents: str, message: str) -> None:
+    path = write_catalog(tmp_path / "catalog.toml", contents)
+
+    with pytest.raises(CatalogError) as error:
+        load_catalog(path, {"HOME": str(tmp_path)})
+
+    assert str(error.value) == message
+
+
+@pytest.mark.parametrize(("contents", "paths_in_order"), [
+    ('[repos.joshuarli]\nacme = ["tool"]\n[repos.acme]\ndemo = ["tool"]', "acme and acme/demo"),
+    ('[repos.acme]\ndemo = ["tool"]\n[repos.joshuarli]\nacme = ["tool"]', "acme/demo and acme"),
+])
+def test_personal_checkout_cannot_overlap_an_organization_checkout(
+    tmp_path: Path, contents: str, paths_in_order: str,
+) -> None:
+    path = write_catalog(tmp_path / "catalog.toml", contents)
+
+    with pytest.raises(CatalogError) as error:
+        load_catalog(path, {"HOME": str(tmp_path)})
+
+    assert str(error.value) == f"checkout path overlaps another repository: {paths_in_order}"
+
+
+def test_macos_nested_collision_is_checked_after_missing_checkout(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    path = write_catalog(
+        tmp_path / "catalog.toml", '[repos.absent]\nmissing = ["tool"]\n[repos.acme]\ndemo = ["tool"]',
+    )
+    root = tmp_path / "repos"
+    existing = root / "acme" / "DEMO"
+    existing.mkdir(parents=True)
+    monkeypatch.setattr("repomod.catalog.sys.platform", "darwin")
+
+    with pytest.raises(CatalogError) as error:
+        load_catalog(path, {"HOME": str(tmp_path), "REPOMOD_ROOT": str(root)})
+
+    assert str(error.value) == f"checkout path collides ignoring case with existing {existing}"
+
+
 def test_add_repository_is_idempotent_and_preserves_catalog_comments(
     tmp_path: Path,
 ) -> None:
