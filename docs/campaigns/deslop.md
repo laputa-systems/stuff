@@ -58,6 +58,9 @@ qualified workloads and remaining boundaries.
   publish fixture reproduced a failed rename on the previous revision.
   Both writes and the retry after changed source bytes pass.
   [Concurrent cache stores](https://github.com/laputa-systems/cmake-build/pull/38)
+  The filesystem fixture caught 34 of 38 cache-store identities. It
+  detects staging outside the destination filesystem.
+  [Cache staging](https://github.com/laputa-systems/cmake-build/pull/39)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -69,6 +72,13 @@ qualified workloads and remaining boundaries.
   checks. The baseline failed both checks. The candidate passed lint and
   all 166 ordinary tests offline on ARM64, and hosted CI passed on main.
   [Ownership checks](https://github.com/laputa-systems/doas-rs/pull/8)
+  The native x86-64 KVM checks passed for restricted execution,
+  unprivileged config checks, identity transitions, and clearing absent
+  or unavailable approval state. Diagnose is complete. Live password
+  entry and the ARM64 guest still need evidence.
+  [Guest harness](https://github.com/laputa-systems/doas-rs/pull/10) ·
+  [Diagnosis](https://github.com/laputa-systems/doas-rs/pull/11) ·
+  [Clear status](https://github.com/laputa-systems/doas-rs/pull/13)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests
@@ -136,7 +146,13 @@ qualified workloads and remaining boundaries.
   current paired runtime gate is deferred to a quiet host under DSLP-10.
   [Fz #46](https://github.com/laputa-systems/fz/pull/46)
   Diff-pretty added
-  workspace branch coverage through Make. Stuff
+  workspace branch coverage through Make. Its PTY tests exercise
+  restoration on SIGTERM, raw-mode transitions and EOF. Terminal key
+  and signal fixtures caught 22 of 23 targeted mutations. The workspace
+  passed 94 tests and one doctest.
+  [SIGTERM](https://github.com/laputa-systems/diff-pretty/pull/42) ·
+  [Terminal tests](https://github.com/laputa-systems/diff-pretty/pull/43)
+  Stuff
   [#106](https://github.com/laputa-systems/stuff/pull/106) checks qualified
   strict settings from policy, and
   [#107](https://github.com/laputa-systems/stuff/pull/107) retains Loc's
