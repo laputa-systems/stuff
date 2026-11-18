@@ -82,6 +82,31 @@ def test_removal_is_reported(
     assert any(message in finding.message for finding in findings), findings
 
 
+@pytest.mark.parametrize(('makefile', 'message'), [
+    (
+        'ifeq ($(HOST_OS),Darwin)\nTARGET ?= aarch64-apple-darwin\n'
+        'else ifeq ($(HOST_ARCH),aarch64)\nTARGET ?= aarch64-unknown-linux-musl\n'
+        'else\nTARGET ?= x86_64-unknown-linux-musl\nendif\ncoverage:\n\ttrue\n',
+        None,
+    ),
+    (
+        'ifeq ($(HOST_OS),Darwin)\ncoverage:\n\ttrue\nendif\n',
+        'cannot determine coverage target',
+    ),
+    (
+        'coverage:\nifeq ($(HOST_OS),Darwin)\n\ttrue\nendif\n',
+        'cannot determine coverage target',
+    ),
+])
+def test_coverage_with_make_conditionals(
+    project: tuple[Path, Repository], makefile: str, message: str | None
+) -> None:
+    root, repo = project
+    (root / 'Makefile').write_text(makefile)
+    findings = retention._check(root, repo, 'coverage-target')
+    assert [finding.message for finding in findings] == ([] if message is None else [message])
+
+
 def test_unlisted_repository_is_skipped(project: tuple[Path, Repository]) -> None:
     root, _ = project
     repo = Repository(RepoId('acme', 'other'), ('tool',))
