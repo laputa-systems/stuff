@@ -561,13 +561,20 @@ def token(nbytes: int = 32) -> str:
     return secrets.token_hex(nbytes)
 
 
-def app_readiness(cfg: Config, app: App) -> tuple[int, str]:
-    env = read_env(cfg.app_env(app))
+def app_readiness(cfg: Config, app: App, route: RecoveryRoute | None = None) -> tuple[int, str]:
+    """Readiness of the local app, or of the off-host writer that a recovery route sends it to."""
+    writer = route is not None and route.writer
+    env = read_env(cfg.etc / "apps" / f"{app.name}.recovery.env" if writer else cfg.app_env(app))
+    if writer:
+        host, _, port_text = route.upstream.rpartition(":")
+        port = int(port_text)
+    else:
+        host, port = app.ip, app.port
     headers = {"Host": app.hostnames[0], "X-OO-Ingress": "tailnet",
                "Stats-Tailnet-Identity": "user:readiness@openorange.invalid"}
     if env.get("GATEWAY_SECRET"):
         headers["Stats-Gateway-Secret"] = env["GATEWAY_SECRET"]
-    with closing(http.client.HTTPConnection(app.ip, app.port, timeout=4)) as conn:
+    with closing(http.client.HTTPConnection(host, port, timeout=4)) as conn:
         try:
             conn.request("GET", app.health_path, headers=headers)
             response = conn.getresponse()
@@ -719,3 +726,64 @@ def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
 
 def docker(*args: str, check: bool = True, capture: bool = True, input: str | None = None, timeout: float | None = None) -> subprocess.CompletedProcess:
     return subprocess.run(["docker", *args], check=check, capture_output=capture, text=True, input=input, timeout=timeout)
+
+
+# ------------------------------------------------------------------ recovery routes
+@dataclass(frozen=True)
+class RecoveryRoute:
+    upstream: str
+    read_hosts: tuple[str, ...]
+    deny_paths: tuple[str, ...]
+    snapshot_at: str | None
+
+    @property
+    def writer(self) -> bool:
+        return not self.read_hosts
+
+
+def load_recovery_routes(cfg) -> dict[str, RecoveryRoute]:
+    path = cfg.etc / "recovery-routes.json"
+    try:
+        raw = json.loads(path.read_text())
+    except FileNotFoundError:
+        return {}
+    except (ValueError, OSError) as error:
+        raise ConfigError(f"{path}: cannot read recovery routes") from error
+    if not isinstance(raw, dict):
+        raise ConfigError(f"{path}: expected routes keyed by application")
+    routes = {}
+    for name, spec in raw.items():
+        app = cfg.apps.get(name)
+        where = f"{path}: {name}"
+        if app is None or not app.enabled or app.kind != "orange" or not isinstance(spec, dict):
+            raise ConfigError(f"{where}: expected an enabled Orange app and a route object")
+        if set(spec) - {"mode", "upstream", "hosts", "deny_paths", "snapshot_at"}:
+            raise ConfigError(f"{where}: unknown route field")
+        address = spec.get("upstream")
+        match = re.fullmatch(r"([0-9.]+):([1-9][0-9]{0,4})", address) if isinstance(address, str) else None
+        try:
+            valid_address = match and ipaddress.IPv4Address(match[1]).is_private and int(match[2]) <= 65535
+        except ValueError:
+            valid_address = False
+        if not valid_address:
+            raise ConfigError(f"{where}: upstream must be a private IPv4 address and port")
+        if spec.get("mode") == "writer":
+            if app.public_hostnames or set(spec) != {"mode", "upstream"}:
+                raise ConfigError(f"{where}: writer recovery requires a tailnet-only app and no read options")
+            routes[name] = RecoveryRoute(address, (), (), None)
+            continue
+        hosts, paths, snapshot = spec.get("hosts"), spec.get("deny_paths"), spec.get("snapshot_at")
+        if spec.get("mode") != "reader" or not isinstance(hosts, list) or not hosts or any(
+            host not in app.public_hostnames for host in hosts
+        ):
+            raise ConfigError(f"{where}: reader requires a list of configured public hostnames")
+        if not isinstance(paths, list) or any(
+            not isinstance(value, str) or not re.fullmatch(r"(?:/[A-Za-z0-9_-]+)+", value) for value in paths
+        ):
+            raise ConfigError(f"{where}: reader requires a list of excluded path prefixes")
+        if snapshot is not None and (
+            not isinstance(snapshot, str) or not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z", snapshot)
+        ):
+            raise ConfigError(f"{where}: snapshot_at must be a UTC timestamp")
+        routes[name] = RecoveryRoute(address, tuple(dict.fromkeys(hosts)), tuple(dict.fromkeys(paths)), snapshot)
+    return routes

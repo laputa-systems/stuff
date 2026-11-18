@@ -13,6 +13,7 @@ retry="TERM/10/KILL/5"
 
 depend() {
 	need docker net
+	after tailscale
 }
 
 start_pre() {

@@ -70,6 +70,8 @@ def listeners(protocol="tcp"):
 
 def main():
     cfg = oolib.load()
+    recovery = oolib.load_recovery_routes(cfg)
+    fenced = {name: route for name, route in recovery.items() if route.writer}
     token = oolib.read_env(cfg.engine_env).get("RIVET__AUTH__ADMIN_TOKEN", "")
     auth = {"Authorization": f"Bearer {token}"}
 
@@ -79,7 +81,9 @@ def main():
     rec("network", "PASS" if rc == 0 and out == want else "FAIL", out or "missing")
 
     # services
-    svcs = [("store", None), ("engine", None), ("identity", None), ("ingress", None)] + [("app", a.name) for a in cfg.orange_apps() if cfg.app_image_file(a).exists()]
+    local_apps = [a.name for a in cfg.orange_apps() if cfg.app_image_file(a).exists() and a.name not in fenced]
+    svcs = [("store", None), ("engine", None), ("identity", None), ("ingress", None)]
+    svcs += [("app", name) for name in local_apps]
     if cfg.tunnel.get("enabled"):
         svcs.append(("tunnel", None))
     if cfg.dns.get("enabled"):
@@ -114,13 +118,18 @@ def main():
             rc, _, _ = sh(str(Path(__file__).parent / "oo"), "wait", "platform", "2")
             rec("platform: HTTP readiness", "PASS" if rc == 0 else "FAIL")
             script = 'const fs=require("node:fs");console.log(JSON.stringify([JSON.parse(fs.readFileSync("/orange/node_modules/open-orange/package.json","utf8")).version,JSON.parse(fs.readFileSync("/orange/node_modules/rivetkit/package.json","utf8")).version]))'
-            rc, out, _ = sh("docker", "exec", cfg.apps[cfg.platform_bridge.source_app].container, "node", "-e", script)
-            expected = [cfg.platform_bridge.openorange_version, cfg.platform_bridge.rivetkit_version]
-            try:
-                matches = rc == 0 and json.loads(out) == expected
-            except ValueError:
-                matches = False
-            rec("platform: source runtime pins", "PASS" if matches else "FAIL")
+            source = cfg.platform_bridge.source_app
+            if source in fenced:
+                rec("platform: source runtime pins", "WARN",
+                    f"{source} is served by its recovery writer; no local container to inspect")
+            else:
+                rc, out, _ = sh("docker", "exec", cfg.apps[source].container, "node", "-e", script)
+                expected = [cfg.platform_bridge.openorange_version, cfg.platform_bridge.rivetkit_version]
+                try:
+                    matches = rc == 0 and json.loads(out) == expected
+                except ValueError:
+                    matches = False
+                rec("platform: source runtime pins", "PASS" if matches else "FAIL")
 
         if svc == "rivet":
             rc, out, _ = sh("docker", "inspect", cname, "--format", "{{json .NetworkSettings.Networks}}")
@@ -166,7 +175,11 @@ def main():
             pools = {p["name"] for p in json.loads(body).get("pools", [])} if st == 200 else set()
             miss = [p for p in oolib.ORANGE_POOLS if p not in pools]
             rec(f"pools {a.namespace}/{{{','.join(oolib.ORANGE_POOLS)}}}", "PASS" if not miss else "FAIL", "present" if not miss else f"missing {miss}")
-            if cfg.app_image_file(a).exists():
+            if a.name in fenced:
+                st, code = oolib.app_readiness(cfg, a, fenced[a.name])
+                rec(f"app {a.name}: recovery writer at {fenced[a.name].upstream}", "PASS" if st == 200 else "FAIL",
+                    f"http {st} {code}".rstrip())
+            elif cfg.app_image_file(a).exists():
                 st, body = get(f"{cfg.engine_url}/pools/{oolib.PRIMARY_POOL}/nodes?namespace={a.namespace}", auth)
                 nodes = json.loads(body).get("nodes", []) if st == 200 else []
                 conn = [n for n in nodes if n.get("connected")]
