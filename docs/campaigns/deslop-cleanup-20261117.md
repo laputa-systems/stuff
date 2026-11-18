@@ -156,3 +156,20 @@ recorded source revision. Git removed each checkout without force.
 These paths accounted for 859,000 KiB. Across all passes, 64 retired
 worktrees and the listed generated artifacts accounted for 15,910,736
 KiB (15.17 GiB) of measured path allocation.
+
+
+## Artifact and engine follow-up, 2026-11-18
+
+Seven more worktrees were retired after the owning merges recorded their
+proofs. The Node trial branch remained available after its PR was closed.
+The detached Mdevd baseline used the recorded `8f38cb9` revision.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Node-build | #37 and #38 | `deslop-native-node`, `deslop-node-native-artifacts` | 956 |
+| Mdevd-rs | #24, #25 and baseline `8f38cb9` | `mdevd-invalid-argv`, `mdevd-sysfs-selection`, `mdevd-sysfs-selection-base` | 174,492 |
+| CMake-build | #33 and #34 | `deslop-cmake-dead-code`, `deslop-cmake-package-archive` | 278,628 |
+
+These paths accounted for 454,076 KiB. Across all passes, 71 retired
+worktrees and the listed generated artifacts accounted for 16,364,812
+KiB (15.61 GiB) of measured path allocation.
