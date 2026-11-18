@@ -4,7 +4,7 @@ version = 1
 repositories = ["joshuarli/loc", "laputa-systems/buildlib", "laputa-systems/diff-pretty", "laputa-systems/fastermod", "laputa-systems/fz", "laputa-systems/ptytest", "laputa-systems/srv"]
 
 [coverage-target]
-repositories = ["joshuarli/extensions", "joshuarli/pytest-parallel", "laputa-systems/buildlib", "laputa-systems/diff-pretty", "laputa-systems/ffmpeg-build", "laputa-systems/fz", "laputa-systems/ptytest", "laputa-systems/srv"]
+repositories = ["joshuarli/extensions", "joshuarli/pi-build", "joshuarli/pytest-parallel", "laputa-systems/buildlib", "laputa-systems/diff-pretty", "laputa-systems/ffmpeg-build", "laputa-systems/fz", "laputa-systems/node-build", "laputa-systems/ptytest", "laputa-systems/srv"]
 
 [strict-profile."laputa-systems/srv"]
 settings = ["rust.unsafe_code=forbid"]
@@ -13,4 +13,10 @@ settings = ["rust.unsafe_code=forbid"]
 settings = ["ty.missing-type-argument=error", "ty.unsound-return-statement=error", "ty.unused-ignore-comment=error", "ruff.ANN401=selected"]
 
 [strict-profile."laputa-systems/ffmpeg-build"]
+settings = ["ty.unsound-return-statement=error"]
+
+[strict-profile."joshuarli/pi-build"]
+settings = ["ty.missing-type-argument=error"]
+
+[strict-profile."laputa-systems/node-build"]
 settings = ["ty.unsound-return-statement=error"]
