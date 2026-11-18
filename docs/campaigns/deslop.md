@@ -147,9 +147,11 @@ qualified workloads and remaining boundaries.
   [Reference comparison](https://github.com/laputa-systems/node-build/pull/41)
   The release census caught 350 of 395 identities and identified the
   unused single-target wrapper. Both Git queries now report timeouts
-  through assembly exit 2 before creating output.
+  through assembly exit 2 before creating output. The assembly result
+  declares the three fields used by the CLI.
   [Release census](https://github.com/laputa-systems/node-build/pull/42) ·
-  [Git timeouts](https://github.com/laputa-systems/node-build/pull/43)
+  [Git timeouts](https://github.com/laputa-systems/node-build/pull/43) ·
+  [Assembly result](https://github.com/laputa-systems/node-build/pull/44)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. Native KVM passed
   node creation, framed output, coldplug and shutdown. The pinned C consumer
@@ -192,14 +194,19 @@ qualified workloads and remaining boundaries.
   [Diff cases](https://github.com/laputa-systems/hi-lite/pull/21) ·
   [Language detection](https://github.com/laputa-systems/hi-lite/pull/22)
   The full language-module selection caught 25 of 30 identities.
-  Five failed to compile with E0277.
-  [Hi-lite #23](https://github.com/laputa-systems/hi-lite/pull/23)
+  Five failed to compile with E0277. Rust token boundary cases caught
+  five more in a separate matched selection.
+  [Language-module census](https://github.com/laputa-systems/hi-lite/pull/23) ·
+  [Rust token cases](https://github.com/laputa-systems/hi-lite/pull/24)
 - Fz passed the scoped fleet checks and the CLI failure control. The
   first full hosted comparison had six timing rows outside baseline spread.
   The identical-binary control had one such row in a different workload.
-  The exact release pair is being repeated under DSLP-10.
+  The repeat stayed within the bound. Fz and the unchanged reference
+  again moved together on the small-input wall row, which has a separate
+  interleaved trial under DSLP-10.
   [Fz #47](https://github.com/laputa-systems/fz/pull/47) ·
-  [Control](https://github.com/laputa-systems/fz/actions/runs/44421140205)
+  [Repeat](https://github.com/laputa-systems/fz/actions/runs/44422469442) ·
+  [Focused trial](https://github.com/laputa-systems/fz/actions/runs/44423775482)
   Diff-pretty added
   workspace branch coverage through Make. Its PTY tests exercise
   restoration on SIGTERM, raw-mode transitions and EOF. Terminal key
