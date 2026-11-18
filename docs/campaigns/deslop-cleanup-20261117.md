@@ -188,3 +188,20 @@ merged trees. Git removed both worktrees without force.
 These paths accounted for 253,548 KiB. Across all passes, 73 retired
 worktrees and the listed generated artifacts accounted for 16,618,360
 KiB (15.85 GiB) of measured path allocation.
+
+
+## Controller and guest verification, 2026-11-18
+
+The retired worktrees were clean and idle. Each removed candidate
+matched its accepted files. The closed Doas proof branch retains
+the successful workflow revision.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| CMake-build | #38 and #39 | `cmake-cache-writers`, `cmake-cache-volume` | 173,572 |
+| Doas-rs | #9 and #10 | `doas-kvm-qualification`, `doas-serial-guest` | 644 |
+| Diff-pretty | #42 | `pager-sigterm` | 126,080 |
+
+These paths accounted for 300,296 KiB. Across all passes, 78 retired
+worktrees and the listed generated artifacts accounted for 16,918,656
+KiB (16.13 GiB) of measured path allocation.
