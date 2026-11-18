@@ -69,4 +69,13 @@ checks passed both controls.
 The snapshot entry shard at `c13e2502` caught all 23 identities
 locally through the real Git fixture, using snapshot source SHA-256
 `5cc6294699c74e8b40ee9445ef5f0fb6a578375bb5d00f6523a33fbeb1d25cf1`.
-It still needs hosted runs with the previous three shards.
+The [four-scope hosted run](https://github.com/laputa-systems/stuff/actions/runs/44274517903)
+at `2647a2ea` passed every mutation job. The snapshot shard caught all
+23 on both platforms. Eight jobs used 380 runner seconds with a
+36-second median and a 92-second maximum.
+
+A separate serial run of the native `repomod.fix.x_push_fix_branch__mutmut_*`
+selection against `tests/repomod/test_fix_push.py` reached its
+360-second local probe limit with 90 caught and five surviving
+identities in its last progress report. The incomplete run neither
+qualifies publication nor changes the protected trial selection.
