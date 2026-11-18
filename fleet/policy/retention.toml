@@ -4,7 +4,7 @@ version = 1
 repositories = ["laputa-systems/buildlib", "laputa-systems/diff-pretty", "laputa-systems/fz", "laputa-systems/srv"]
 
 [coverage-target]
-repositories = ["joshuarli/extensions", "laputa-systems/buildlib", "laputa-systems/fz", "laputa-systems/srv"]
+repositories = ["joshuarli/extensions", "joshuarli/pytest-parallel", "laputa-systems/buildlib", "laputa-systems/fz", "laputa-systems/ptytest", "laputa-systems/srv"]
 
 [strict-profile."laputa-systems/srv"]
 settings = ["rust.unsafe_code=forbid"]
