@@ -525,16 +525,36 @@ stop timer resends it" and "actor stop went unanswered past the stop
 threshold". Discover's runner also alternated between connected and absent
 in `bin/health` within an hour of the reboot.
 
-The public actor listing (`/actors?namespace=NS&name=NAME`) shows about 19
-live actors across the six Orange namespaces. It omits lifecycle state, so
-it cannot show which of them cycle. Attributing the alarms needs
-Engine-internal state that no verified route exposes.
+The public actor listing (`/actors?namespace=NS&name=NAME`) omits lifecycle
+state. The Engine's lifecycle warnings do name actors. Since the reboot, the
+actor with the most "did not become ready before the gateway deadline"
+warnings is `lv9klsjvpn1runcelvimxtw7s2bl00` (41), followed by other
+`stats-prod` actors, all resolved with `/actors?namespace=stats-prod&actor_ids=ID`.
 
-Next step: identify the 33 alarm candidates' actors and namespaces, then
-either clear alarms whose actors no longer exist through a supported Engine
-operation or fix the owning app's alarm handling. Raising
+**Attribution.** The cycling actors belong to `stats-prod`. Stats is fenced
+by its writer recovery route and served off-host, so `stats-prod` has no
+runner on Lisa (`/pools/default/nodes?namespace=stats-prod` returns no
+nodes). Its actors remain in Lisa's Engine: one `installation-917ceba9`
+and 14 `observation-store-13f29dce` actors. `/actors/names` returns no names
+for the namespace, so query by name. With no runner, their alarms cannot
+fire, wake attempts time out and stop commands go unanswered, which re-arms
+the alarms. Restarting Discover on 2026-11-18 at 21:16 left the stale
+alarm rate unchanged at about 3 per second. The queue warnings began the
+day Stats moved to its recovery writer.
+
+Do not destroy these actors to stop the loop. They are Lisa's copy of the
+Stats data, which the writer-route failback in [Recovery routes](#recovery-routes)
+must keep until the standby's newest data is transferred and verified. The
+loop ends when Stats fails back to Lisa and its runner reconnects, or with
+a supported Engine operation that suspends alarms for a fenced namespace;
+the pinned Engine's peer API (`engine/packages/api-peer`) has none. Raising
 `pegboard.envoy_actor_inbound_capacity` would hide the symptom without
 stopping the retries.
+
+Discover's `research-space` actor `pa0699azx51wll1le1qmumrnv3dl00` also
+failed to wake from `sleeping` before the gateway deadline while Discover's
+runner flapped. Restarting `oo-app.discover` restored its runner, HTTP 200
+on its private listener and `hq.17166969.xyz`.
 
 ## Loss model
 
