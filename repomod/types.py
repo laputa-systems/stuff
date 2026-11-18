@@ -132,14 +132,6 @@ class TagPredicate:
         values = set(tags)
         return self.all_of <= values and (not self.any_of or bool(self.any_of & values))
 
-    def describe(self) -> str:
-        parts = []
-        if self.all_of:
-            parts.append("all " + ",".join(sorted(self.all_of)))
-        if self.any_of:
-            parts.append("any " + ",".join(sorted(self.any_of)))
-        return "; ".join(parts) or "all"
-
 
 @dataclass(frozen=True, slots=True)
 class Rule:
