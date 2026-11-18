@@ -28,9 +28,9 @@ containing a typing escape hatch. Tests and Dead code remain open.
 ### DSLP-4 · P2 · Tests: coverage, boundary gaps, mutation
 
 - **Area:** deslop · tests
-- **Where:** repomod/ and tests/repomod/. Bounded contracts and test files are listed in docs/campaigns/deslop-roadmap.md under Repomod calibration inventory.
-- **Problem:** Repomod is the only Stuff component in M2 calibration. Fresh serial coverage exercised 22,053 of 25,752 statements and 8,064 of 10,618 branches with 1,430 passing tests and three opt-in skips after the OSV fixture repair in #60. Matrix expansion and upstream fetch have bounded mutation Scenarios. The remaining scope includes catalog identity and tag validation, checkout and removal safety, fix-plan admission and publication, and snapshot and registry adapter decisions. The dashboard render and make deps consume these outputs. Use local Git and fake GitHub and registry endpoints.
-- **Recommendation:** Resolve the listed unrun decisions and remaining survivors. Select the whole-change union through real CI and qualify the negative controls. Run make repomod-test and make repomod-lint and measure suite cost on a ready host. Keep coverage, mutation, and retention verdicts separate.
+- **Where:** repomod/, tests/repomod/, and the checkout, workflow, fix-plan and inventory boundaries in docs/campaigns/deslop-roadmap.md
+- **Problem:** Serial coverage and bounded workflow, upstream-fetch, catalog and snapshot mutation results are recorded in the roadmap and named evidence documents. The snapshot controls include case-sensitive and locale outcomes. The dashboard render and make deps consume the snapshots. Checkout removal, the remaining fix publication and inventory adapter decisions, and the retained union still need qualification.
+- **Recommendation:** Reconcile current identity and effect boundaries using local Git and fake GitHub and registry inputs. Qualify the serial whole-change union, its hosted negative controls and paired suite cost. Verify the dashboard and inventory consumers with the named commands.
 - **Fix with:** deslop
 - **Effort:** L
 
@@ -38,8 +38,8 @@ containing a typing escape hatch. Tests and Dead code remain open.
 
 - **Area:** deslop · dead code
 - **Where:** repomod/
-- **Problem:** Scope: the repomod/ component only (calibration); the other components follow in tier D as their own bounded tasks. Contracts: the repomod CLI (commands, flags, exit codes, JSON output), fleet/catalog.toml, fleet/dependencies/v1/ and fleet/loc/v1/, and the catalog.json reader. Consumers: the dashboard render (tests/repomod/test_dashboard_preview.py golden) and make deps; no other repository imports repomod. Tools: Ruff F401/F841, vulture, deptry. Accept: make repomod-lint and make repomod-test.
-- **Recommendation:** Run the deslop Dead code step. Accept: tools clean or allowlisted with reasons; walk-backs filed as Needs owner tickets.
+- **Problem:** The scoped Vulture scan removed the unused Index class and TagPredicate.describe. docs/deslop-repomod-dead-code.md gives the runtime and persisted-data consumers for the remaining findings. Ruff import and local checks, dependency use and cumulative debloat still need review across repomod.
+- **Recommendation:** Check the repomod CLI contracts, catalog and inventory readers, dashboard render and make deps. Qualify the remaining dead-code decisions with Ruff, deptry and consumer evidence. Run make repomod-lint and make repomod-test.
 - **Fix with:** deslop
 - **Effort:** M
 
