@@ -14,27 +14,33 @@ and explicit deferrals. Tier A repo passes have started. The
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
-- The prepared CMake-build controller passed all 115 tests on the
-  generation refresh repair and its default revision. The cache repair
-  restored the exact locked Alpine packages. A separate phase cache
-  recovery is in hosted verification.
-  [CMake-build #12](https://github.com/laputa-systems/cmake-build/pull/12) ·
-  [CMake-build #13](https://github.com/laputa-systems/cmake-build/pull/13) ·
-  [CMake-build #14](https://github.com/laputa-systems/cmake-build/pull/14)
-- FFmpeg-build closed bootstrap and collector mutation scopes on Linux.
-  Node-build passed all 102 pinned Alpine tests after strengthening
-  assembly, and Pi-build passed 37 ordinary tests after adding extraction,
-  pack and size checks. The ledger records their remaining mutation and
-  native qualification before the Tier A checkpoint.
-  [FFmpeg-build #30](https://github.com/laputa-systems/ffmpeg-build/pull/30) ·
-  [Node-build #34](https://github.com/laputa-systems/node-build/pull/34) ·
-  [Pi-build #22](https://github.com/joshuarli/pi-build/pull/22)
+- CMake-build recovered the exact locked Alpine packages, refreshed reused
+  generation metadata and repaired unreadable cache records. Its prepared
+  suite passed all 116 tests. Dependency version parsing removed two strict
+  typing diagnostics.
+  [CMake-build #14](https://github.com/laputa-systems/cmake-build/pull/14) ·
+  [CMake-build #15](https://github.com/laputa-systems/cmake-build/pull/15)
+- FFmpeg-build recovers corrupt stage stamps. Node-build validates the
+  nested toolchain lock and catches all 52 selected Doctor mutations.
+  Pi-build qualified its archive function inventory and passed all 31
+  local Intercom socket tests with pinned Node. The archive gate trial
+  passes on verified inputs and catches both test deletions. Selection
+  from actual pull requests and wider source coverage remain open.
+  [FFmpeg-build #31](https://github.com/laputa-systems/ffmpeg-build/pull/31) ·
+  [Node-build #36](https://github.com/laputa-systems/node-build/pull/36) ·
+  [Pi-build #27](https://github.com/joshuarli/pi-build/pull/27) ·
+  [Pi-build draft #28](https://github.com/joshuarli/pi-build/pull/28)
+- Mdevd-rs now selects live consumer exchange explicitly. All 64
+  ordinary tests passed with ten opt-in cases ignored. The privileged
+  exchange remains separate.
+  [Mdevd-rs #8](https://github.com/laputa-systems/mdevd-rs/pull/8)
+- The cleanup follow-ups retired 19 more completed worktrees with
+  3,518,432 KiB of measured allocation. The
+  [cleanup record](deslop-cleanup-20261117.md) includes the original
+  shared-volume measurement and the two path-allocation follow-ups.
 - Stuff #111 retains Pi-build and Node-build's coverage recipes and
   qualified type settings. Hi-lite verified its native registry install
   example and filed a reproduced delimiter edge case.
-- Ten completed campaign worktrees were retired from FFmpeg-build, Node-build
-  and Pi-build. Their measured allocation totaled 1,914,592 KiB. The
-  [cleanup record](deslop-cleanup-20261117.md) includes both passes.
 - Fz passed the scoped fleet checks and the CLI failure control. The
   current paired runtime gate awaits a quiet host. Diff-pretty added
   workspace branch coverage through Make. Stuff
