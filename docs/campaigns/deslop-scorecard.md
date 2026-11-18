@@ -14,17 +14,17 @@ outside scope during the owner's rearchitecture.
 
 | Repository | Default revision | Pass state and completed work | CI and retention | One next action |
 | --- | --- | --- | --- | --- |
-| srv | `c9965411d80a8b02d8b8c4cac2492ecc973ee296` | Complete pass Report at the earlier head. #47 checks onefile dispatch and Mermaid label geometry. | Ordinary checks passed. Four hosted shards accounted for 376 identities, with 308 caught, 27 missed, 16 unviable and 25 provisional timeouts. | Resolve survivors and apply the tested singleton rerun before qualifying #47 |
+| srv | `c9965411d80a8b02d8b8c4cac2492ecc973ee296` | Complete earlier Report. The open #47 successor exercises onefile dispatch, Mermaid labels and font types. | At 7cd8627, 310 caught, 25 missed, 16 unviable, five confirmed and 20 provisional timeouts. Native serial replay worked locally on 289a8fe. | Check the hosted rerun and resolve survivors |
 | fz | `0ec537d53eca0a12af07687250111a48023ee8d3` | Complete Report through cumulative review | #43 passed and Stuff #65 registered retention. The two #44 jobs preserved all 439 identities and both passed within ten minutes. | Check up at the next tier checkpoint |
 | buildlib | `1497970d9454a6a9875b1f201cbaad71fd92a010` | Ground, Diagnose, Types, Tests and dead-code evidence. #27 fixed a release manifest serialization defect found during cumulative review. | All 17 checks passed. Four controls demonstrated the expected results across the applicable jobs. Strict typing, mutation and coverage retention registered. | Check up on the retained guarantees at the next tier checkpoint |
-| extensions | `cc3ee46d95ccd661683e963516157ff581002aea` | Active. The owning Tests report records the type-aware lint, installed MV3, coverage and parser work. | #20 caught 178 of 179 parser identities with one equivalent. Node and Chromium passed. | Qualify TypeScript whole-change mutation and the remaining retention checks |
-| pytest-parallel | `8197c5937eedcf29ba04ca086cf8ad3b65358909` | Active. #30 qualifies option parsing, and #31 adds coordinator file-hook checks and removes an unreachable guard. | Linux, macOS and lint passed #31. Draft #32 passed standalone options and scheduling shards. The aggregate exhausted its budget in coordinator. | Resolve remaining coordinator decisions and qualify the complete workflow |
+| extensions | `cc3ee46d95ccd661683e963516157ff581002aea` | Active. Coverage, type-aware lint and installed Chromium are retained. Draft #22 covers parser and storage selection. | Parser returned 178 caught and one equivalent. Storage returned 112 caught and two equivalents. The hosted positive trial passed in 617 aggregate runner seconds. | Extend the missing critical scopes and record the hosted controls |
+| pytest-parallel | `4f498ebdc951605ab65db4f87504a927eb0953a4` | Active. Scoped hooks added in #33 caught all 79 file-planning identities on unchanged source. | Linux, macOS and lint passed. Draft #32 runs options, scheduling and file planning locally. The full aggregate remains open. | Resolve remaining coordinator decisions and qualify the complete workflow |
 | vault | `0e72b21112b840aa5b7fa373eeeab79e63ed59bb` | Active; Ground/Diagnose/Types and runtime repairs merged; Tests draft #30 at `0671858` | Ordinary CI green on macOS and both Linux musl architectures; Linux mutation has misses and exhausted shards | Diagnose Linux unit test cost, then verify the successor accounting and remaining decisions |
 | diff-pretty | `ef8a276e40a990a52ff4354dc0ee7500d7757c38` | Active; Ground, Diagnose, Types, sanitizer repair and first Tests slice merged | #31 passed 15 checks and four hosted controls. Five interleaved suite pairs had equal medians. #40 passed the retained Make path on both platforms. Stuff #70 registered it. | Bound the remaining renderer and live terminal scopes |
-| loc | `b8164de5fa9f682917445c152085e889cb2a3606` | Active. #21 records the remaining Tests paths after CLI deadline and config precedence coverage. | Lint, macOS, both Linux musl jobs and LineJudge passed. Mutation retention remains open. | Finish the existing critical inventory and cost and CI requirements |
+| loc | `82742bd8c2f042ed9850174f9de978ef876c9fbb` | Active. #22 covers marker and EOF boundaries in the scalar search sweep. | All five hosted checks passed. Sixteen of 19 identities caught, two confirmed timeouts and one equivalent. | Finish the critical inventory and hosted whole-change gate |
 | stats | `37a857bc525d6db0ac9e87de6f07535e0886dd20` | Active. Ingest coverage, the runtime target-policy fixture repair and shared ACK boundary cases merged in #30–32. | All three hosted checks passed #32. The TypeScript ACK decoder caught 113 of 115 identities with two equivalents. Both implementations passed conformance. | Finish component-mode Types and Tests |
-| stuff, repomod | `4eabeae6` | Active. Types complete. #75 removed two unused items. #79–81 consolidate snapshot evidence and owning Tests and Dead code scope. | All ten checks passed on #81. The snapshot scenario caught 110 of 123, six more on a targeted rerun and two filename mutants on a case-sensitive filesystem. | Qualify the whole-change union and finish the Dead code step |
-| fastermod | `181697963fe51229f3f1d76c0beb5f3ce8aae3ff` | Active. Ground, Diagnose and Types complete. #31 fixed terminal plan routing. #32 is the text source read-error candidate. | Hosted tests and lint passed for #30–33. #32 needs the paired workload on a quiet host. | Qualify the remaining P2 repair and bound Tests |
+| stuff, repomod | `e88398c7ab661d125956217b1d7e72cf551ca5a8` | Active. Types complete. #83 removed two test-only helpers and #84 verifies Musl writes through the CLI. #85 covers checkout refusal precedence. | All ten checks passed on #83, #84 and #85. The removal table caught all 19 identities on unchanged source. | Qualify the whole-change union and finish the Dead code step |
+| fastermod | `a4040a1a3b85053397ba4c3d1338e534f74d6f63` | Active. Ground, Diagnose and Types complete. #31 fixed terminal plan routing and #32 repaired source read diagnostics. | #32 passed hosted CI and lint. Five paired runs accepted the repair within the observed variation across seven workloads. | Bound and qualify the Tests step |
 | ptytest | `d60bf6dc5a3dcd401067c3220b5e4d7153c3c9b8` | Active. #21 removed two redundant deadline checks and caught all four remaining output-wait mutations. #22 records the Tests boundary. | Hosted Linux and macOS passed. Focused lz, e and ish consumers passed with the candidate. The macOS Xsh compile failure reproduced before and after it. | Qualify the remaining I/O and consumer Tests inventory |
 | tm | `6cf0b949c2593c0959268a3d1995b972b05f58b6` | Active; fixture repairs merged, Ground and later stages open | Recent repair CI green; quiet-host cost unresolved | Finish Ground cost and component scope |
 | toolbox | `8d2cd08c71ff00d311212d85940f95c8359aa76f` | Deferred; historical partial calibration only | The lint retry on the calibration branch at `8ca3dd59` stopped before any step. The installed-wheel comparison reproduced the baseline FFmpeg failure. | Reopen after Actions recovery and bring positive FFmpeg and fio execution evidence |
@@ -40,10 +40,10 @@ invalidate their existing receipts.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | srv | Pilot | dcc7921 | 2026-11-15 | 1,020 → 1,058 | 29 → 182 (`tests/`) | <1s → 0.4s | 89.5/66.8% → 95.5/87.9% | 162/61/8/8 → 192/0/8/12 | 3 → 0 | 1 helper, 1 guard, 1 separator rewrite | 4/4 P2 | none (no workload) | 0 product; 1 process (#29 merged on a red lane, fixed by #30) |
 | buildlib | Pilot | 6ef86b9 | no (DSLP-4 open) |  |  | 6s → 5.5s |  | mutmut 1437/235/0/0 → 1456/216/0/0 | 16 → 11 | none (vulture over consumers clean) | 0/0 P2; P3 DSLP-6, -7, -8 fixed | none (no workload) | 0 |
-| extensions | `cc3ee46d95ccd661683e963516157ff581002aea` | Active. The owning Tests report records the type-aware lint, installed MV3, coverage and parser work. | #20 caught 178 of 179 parser identities with one equivalent. Node and Chromium passed. | Qualify TypeScript whole-change mutation and the remaining retention checks |
+| extensions | Pilot |  |  |  |  |  |  |  |  |  |  |  |  |
 | fastermod | Calibration |  |  |  |  |  |  |  |  |  |  |  |  |
-| pytest-parallel | `8197c5937eedcf29ba04ca086cf8ad3b65358909` | Active. #30 qualifies option parsing, and #31 adds coordinator file-hook checks and removes an unreachable guard. | Linux, macOS and lint passed #31. Draft #32 passed standalone options and scheduling shards. The aggregate exhausted its budget in coordinator. | Resolve remaining coordinator decisions and qualify the complete workflow |
-| ptytest | `d60bf6dc5a3dcd401067c3220b5e4d7153c3c9b8` | Active. #21 removed two redundant deadline checks and caught all four remaining output-wait mutations. #22 records the Tests boundary. | Hosted Linux and macOS passed. Focused lz, e and ish consumers passed with the candidate. The macOS Xsh compile failure reproduced before and after it. | Qualify the remaining I/O and consumer Tests inventory |
+| pytest-parallel | Calibration |  |  |  |  |  |  |  |  |  |  |  |  |
+| ptytest | Calibration |  |  |  |  |  |  |  |  |  |  |  |  |
 | pi-build | A |  |  |  |  |  |  |  |  |  |  |  |  |
 | ffmpeg-build | A |  |  |  |  |  |  |  |  |  |  |  |  |
 | node-build | A |  |  |  |  |  |  |  |  |  |  |  |  |
@@ -56,7 +56,7 @@ invalidate their existing receipts.
 | hi-lite | A |  |  |  |  |  |  |  |  |  |  |  |  |
 | lz | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | rustybench | B |  |  |  |  |  |  |  |  |  |  |  |  |
-| loc | `b8164de5fa9f682917445c152085e889cb2a3606` | Active. #21 records the remaining Tests paths after CLI deadline and config precedence coverage. | Lint, macOS, both Linux musl jobs and LineJudge passed. Mutation retention remains open. | Finish the existing critical inventory and cost and CI requirements |
+| loc | Calibration | e533792 | no |  |  | 2s (13s cold) | 93.0/84.5% (calibration) | 2,433 mutants listed |  |  |  | rustybench baseline |  |
 | laputa-ui-dashboard | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | tinyland | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | chromium-build | B |  |  |  |  |  |  |  |  |  |  |  |  |
@@ -68,7 +68,7 @@ invalidate their existing receipts.
 | usr | C |  |  |  |  |  |  |  |  |  |  |  |  |
 | img | C |  |  |  |  |  |  |  |  |  |  |  |  |
 | tm | C |  |  |  |  |  |  |  |  |  |  |  |  |
-| stats | `37a857bc525d6db0ac9e87de6f07535e0886dd20` | Active. Ingest coverage, the runtime target-policy fixture repair and shared ACK boundary cases merged in #30–32. | All three hosted checks passed #32. The TypeScript ACK decoder caught 113 of 115 identities with two equivalents. Both implementations passed conformance. | Finish component-mode Types and Tests |
+| stats | Calibration |  |  |  |  |  |  |  |  |  |  |  |  |
 | ish | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | smolith | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | play | D |  |  |  |  |  |  |  |  |  |  |  |  |
