@@ -96,6 +96,7 @@ def test_unlisted_repository_is_skipped(project: tuple[Path, Repository]) -> Non
     ('setup', 'full checkout and pinned setup-uv'),
     ('checkout', 'full checkout and pinned setup-uv'),
     ('command', 'full checkout and pinned setup-uv'),
+    ('conditional skip', 'full checkout and pinned setup-uv'),
 ])
 def test_python_mutation_retention(
     project: tuple[Path, Repository], change: str, message: str | None,
@@ -109,6 +110,8 @@ def test_python_mutation_retention(
     workflow = root / '.github/workflows/ci.yml'
     source = workflow.read_text().replace('taiki-e/install-action', 'astral-sh/setup-uv').replace(
         'tool: cargo-mutants@27.1.0', 'version: 0.13.7',
+    ).replace(
+        '    runs-on:', "    if: github.event_name == 'pull_request'\n    runs-on:",
     )
     workflow.write_text(source)
     assert retention._check(root, repo, 'mutation-lane') == []
@@ -123,6 +126,8 @@ def test_python_mutation_retention(
         workflow.write_text(source.replace('fetch-depth: 0', 'fetch-depth: 1'))
     elif change == 'command':
         workflow.write_text(source.replace('make mutants-diff', 'make test'))
+    elif change == 'conditional skip':
+        workflow.write_text(source.replace("'pull_request'", "'push'"))
     findings = retention._check(root, repo, 'mutation-lane')
     if message is None:
         assert findings == []

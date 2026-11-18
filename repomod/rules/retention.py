@@ -99,6 +99,8 @@ def _mutation(root: Path, repository: Repository, rule: str = 'mutation-lane', p
         for job in jobs.values():
             if not isinstance(job, dict) or not isinstance(job.get('steps'), list):
                 continue
+            if python_job and job.get('if') == "github.event_name == 'pull_request'":
+                job = {key: value for key, value in job.items() if key != 'if'}
             steps = [step for step in job['steps'] if isinstance(step, dict)]
             for index, step in enumerate(steps):
                 if _step_problem(doc, job, step, frozenset({'mutants-diff'})) is not None:
