@@ -64,8 +64,8 @@ qualified workloads and remaining boundaries.
   verified the retained Make entry point on both platforms.
 - Fastermod and Ptytest completed Diagnose. Fastermod fixed terminal
   `--plan` routing in [#31](https://github.com/laputa-systems/fastermod/pull/31).
-  Its text source read error repair passes tests and lint and awaits the
-  paired workload on a quiet host.
+  Its text source read error repair passed tests, lint and five paired
+  workload checks before merging.
   [Fastermod #30](https://github.com/laputa-systems/fastermod/pull/30) ·
   [Fastermod #32](https://github.com/laputa-systems/fastermod/pull/32) ·
   [Ptytest #16](https://github.com/laputa-systems/ptytest/pull/16)
@@ -78,6 +78,10 @@ qualified workloads and remaining boundaries.
   after the aggregate exhausted the coordinator budget. Stats merged
   coverage evidence, a target-policy fixture repair and shared decoder
   cases. See the [successor results](deslop-m2.md#successor-results).
+- Extensions passed the two hosted scopes on
+  [draft #22](https://github.com/joshuarli/extensions/pull/22). The
+  remaining critical source and platform boundaries stay in its Tests
+  scope.
 - The owner approved the full campaign and unattended decisions. M2 and the
   tier checkpoints still require evidence. The roadmap records the remaining
   qualification conditions and deferred work.
@@ -313,7 +317,7 @@ scale and shape of the larger tiers:
 
 2b's repos may run in parallel lanes, one per repo, after K3.
 
-**Checkpoint M2** writes the **calibration report** into Status, then stops for the owner. The
+**Checkpoint M2** writes the **calibration report** into Status. The
 report covers:
 
 - For each tool: whether it ran on every calibration repo, its cost (wall time and CI minutes), its
@@ -323,9 +327,11 @@ report covers:
 - The method changes made in response.
 - A recommendation on whether to fan out, and which tier first.
 
-The calibration repos count as settled for the scorecard. Phase 3 starts on the owner's approval.
+Qualify each calibration workload or document its concrete blocker.
+The owner has approved Phase 3. Continue in tier order once the
+checkpoint records the evidence and dispatch prerequisites.
 
-### Phase 3: fan-out (campaign agent seeds; owner dispatches repo agents)
+### Phase 3: fan-out (campaign agent coordinates the approved dispatch)
 
 For each tier in order:
 

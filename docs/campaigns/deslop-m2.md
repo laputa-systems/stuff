@@ -5,7 +5,7 @@ This checkpoint records qualification by workload. The [roadmap](deslop-roadmap.
 | Shape and workload | Result and exact evidence | Cost and remaining boundary |
 | --- | --- | --- |
 | Rust HTTP service, Srv request dispatch and rendering | Earlier pass and retained mutation gate on `c9965411`. Draft [#47](https://github.com/laputa-systems/srv/pull/47) exercised 376 identities across four jobs, including 308 caught, 27 missed, 16 unviable and 25 provisional timeouts. | Separate native singleton selection reproduced one timeout. Finish the current candidate's decisions and confirm any further timeouts before counting them. |
-| Rust performance CLI, Fastermod saved plans and text search | Ground, Diagnose and Types are complete through [#33](https://github.com/laputa-systems/fastermod/pull/33) at `18169796`. [#31](https://github.com/laputa-systems/fastermod/pull/31) caught and repaired source mutation during terminal plan creation. | [#32](https://github.com/laputa-systems/fastermod/pull/32) passed ordinary checks at `964cd37e`. Search workload qualification requires five interleaved pairs on a quiet host. |
+| Rust performance CLI, Fastermod saved plans and text search | Ground, Diagnose and Types are complete through [#33](https://github.com/laputa-systems/fastermod/pull/33). [#31](https://github.com/laputa-systems/fastermod/pull/31) fixed terminal plan routing. [#32](https://github.com/laputa-systems/fastermod/pull/32) repaired source read diagnostics and merged as `a4040a1a`. | The [paired workload](https://github.com/laputa-systems/fastermod/blob/a4040a1a3b85053397ba4c3d1338e534f74d6f63/docs/deslop-text-source-perf.md) qualifies the repair across all seven named benchmarks, with five pairs inside the observed spread. Both outputs matched. General mutation and the rest of the Tests step remain open. |
 | Rust corpus and SIMD CLI, Loc | [#19](https://github.com/joshuarli/loc/pull/19) added a child deadline and caught both previously hanging CLI mutations. [#20](https://github.com/joshuarli/loc/pull/20) at `b45c6f2e` exercises XDG precedence and fallback on both Linux musl architectures. All five hosted checks passed. | The sample retains three comparison alternatives and two counting-helper misses. Finish the critical inventory, cost and whole-change lane. |
 | Rust PTY library, Ptytest cleanup and consumers | [#15](https://github.com/laputa-systems/ptytest/pull/15) preserved diagnostics through cleanup and passed focused fz, tm and lz consumers. Diagnose and Types completed through [#17](https://github.com/laputa-systems/ptytest/pull/17). [#19](https://github.com/laputa-systems/ptytest/pull/19) repaired a hosted fixture race, and [#18](https://github.com/laputa-systems/ptytest/pull/18) retains coverage. [#20](https://github.com/laputa-systems/ptytest/pull/20) at `fcb35843` verifies output wait results. | The output wait sample caught five of eight identities, up from two. Two guards are equivalent and one timing-sensitive case remains. All 67 instrumented tests passed at #18. Focused e and ish failures also occur with the pre-repair library. The nightly corpus and whole-change mutation remain separate. |
 | Rust platform and hardware, Vault | Linux x86-64 musl, Linux ARM64 musl and macOS ordinary jobs passed on draft [#30](https://github.com/laputa-systems/vault/pull/30) at `0671858b`. The platform union remains unqualified. | Fourteen Linux shards failed and many exhausted the roughly 20-minute job budget. A successor records partial outcomes. Secure Enclave, two-Mac recovery and Linux keyring remain separately scoped. |
@@ -46,18 +46,49 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   104 on the same source. The two survivors are equivalent. Both
   implementations passed the expanded corpus, and all three hosted
   checks passed. Wider ingest and whole-change results remain open.
+- Loc [#22](https://github.com/joshuarli/loc/pull/22) caught 16 of 19
+  search-sweep identities, up from eight. Two timeouts repeated in
+  longer native singleton runs, and the remaining identity is
+  equivalent. All five hosted checks passed. The broader Loc gate
+  and cost still need qualification.
+- Repomod [#83](https://github.com/laputa-systems/stuff/pull/83) removed
+  two test-only helpers and recorded the clean dependency scan.
+  [#84](https://github.com/laputa-systems/stuff/pull/84) moved Musl lock
+  transition tests to the shipped pins command and removed its test-only
+  writer. [#85](https://github.com/laputa-systems/stuff/pull/85) caught
+  all 19 checkout refusal identities on unchanged source. All 55 local
+  removal tests and the ten hosted checks passed. The retained union
+  and remaining dead-code decisions stay open.
+- Extensions [draft #22](https://github.com/joshuarli/extensions/pull/22)
+  passed local parser and storage gate invocations, with 178 caught and
+  one equivalent in 7m 30s, and 112 caught and two equivalents in 15s.
+  The deletion, mixed and uncovered-decision controls failed as intended
+  after ordinary type checking and focused tests passed. A docs-only
+  change selected no jobs. The [hosted positive run](https://github.com/joshuarli/extensions/actions/runs/44253162875)
+  passed both mutation jobs in 8m 43s and 1m 34s, using 617 aggregate
+  runner seconds. The existing check and Chromium jobs also passed.
+  The [uncovered decision](https://github.com/joshuarli/extensions/pull/23)
+  reopened IDs 30 and 31. The
+  [deletion](https://github.com/joshuarli/extensions/pull/24) and
+  [mixed](https://github.com/joshuarli/extensions/pull/25) runs each
+  reopened IDs 115 and 116 and passed ordinary checks. The
+  [documentation control](https://github.com/joshuarli/extensions/pull/26)
+  passed and selected no jobs. Other critical source witnesses remain
+  open.
+- Srv [run 44249399368](https://github.com/laputa-systems/srv/actions/runs/44249399368)
+  at `7cd8627` caught 310 of 376, with 25 misses and 16 unviable.
+  Five timeouts repeated as exact singletons before the four jobs
+  exhausted their 900-second budgets. Another 20 remain provisional.
+  The completed retries each spent 110–129 seconds building before
+  their 30-second tests. The first cache-reuse candidate at `d785317`
+  used incompatible flags. [#47](https://github.com/laputa-systems/srv/pull/47)
+  at `289a8fe` uses the native serial invocation. Two local singleton
+  runs confirmed the timeouts and preserved the original file bytes.
+  The first local build took 77.2s and the second 4.8s with the same
+  target directory. The hosted rerun is in progress.
 
 ## Deferred environment gates
 
-- Fastermod #32 at `964cd37e` and its base `18169796` built with the pinned
-  toolchain. Hosted lint and tests passed on the candidate. The performance
-  gate is deferred because the host repeatedly exceeded the readiness
-  limit. When a host is quiet, use separate checkouts of those revisions.
-  Run `cargo bench --locked --bench bench --no-run` before timing. Compare
-  five interleaved pairs using `rustybench baseline --root CHECKOUT --baseline
-  OUTPUT --warmup 0 --runs 1 -- cargo bench --locked --bench bench`. Require
-  `perf-gate-ready` before each run and `perf-gate-ready -1` immediately
-  afterward. The read-error candidate stays open until this gate passes.
 - Dashboard library pins still require `solid-js` 2.0.0, `@solidjs/web`
   2.0.0 and `@solidjs/vite-plugin` 3.0.1 from the configured npm mirror.
   All three metadata requests succeeded, and their version maps lack those
