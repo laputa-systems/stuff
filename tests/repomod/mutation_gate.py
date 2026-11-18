@@ -22,6 +22,7 @@ SCOPES = {
                 "first_checkout_blocker or removal_preserves_repository_state"),
     "upstream": ("repomod/sync.py", "x__sync_upstream", "test_sync_upstream.py", ""),
     "matrix": ("repomod/workflow_checks.py", "x__matrix_combinations", "test_github_policy.py", ""),
+    "snapshot-entries": ("repomod/dependencies/snapshot.py", "x__entries", "test_deps_snapshot.py", ""),
 }
 GATE_FILE = "tests/repomod/mutation_gate.py"
 SETTINGS = frozenset({"Makefile", "pyproject.toml", "uv.lock", ".gitignore", ".python-version", "deploy/uv-version"})
