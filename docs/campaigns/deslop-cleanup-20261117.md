@@ -173,3 +173,18 @@ The detached Mdevd baseline used the recorded `8f38cb9` revision.
 These paths accounted for 454,076 KiB. Across all passes, 71 retired
 worktrees and the listed generated artifacts accounted for 16,364,812
 KiB (15.61 GiB) of measured path allocation.
+
+
+## Edge policy and Node budgets, 2026-11-18
+
+Both worktrees were clean and idle, and their changed files matched the
+merged trees. Git removed both worktrees without force.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Stuff | #128 | `reject-edge-repository-redirects` | 126,584 |
+| Node-build | #39 | `node-budget-boundaries` | 126,964 |
+
+These paths accounted for 253,548 KiB. Across all passes, 73 retired
+worktrees and the listed generated artifacts accounted for 16,618,360
+KiB (15.85 GiB) of measured path allocation.
