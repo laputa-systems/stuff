@@ -27,7 +27,12 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [#35](https://github.com/laputa-systems/fastermod/pull/35) exercised
   JSON apply with five ignore sources and hidden files. It caught all
   six viable identities on unchanged source, up from zero. Tests,
-  Clippy and both hosted checks passed.
+  Clippy and both hosted checks passed. [#36](https://github.com/laputa-systems/fastermod/pull/36)
+  verified saved identifier plan application through separate CLI
+  invocations, including edited and unedited inputs, added and removed
+  paths, and duplicate plan basenames in separate directories. The
+  same eight read-set mutations were caught before and after. All
+  48 ordinary tests and both hosted checks passed.
 - Ptytest [#23](https://github.com/laputa-systems/ptytest/pull/23)
   verifies timeout diagnostics and the deadline under continuous output.
   The scope moved from 11 to 13 caught of 18, with five unviable.
@@ -35,7 +40,19 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [#24](https://github.com/laputa-systems/ptytest/pull/24) verifies
   cursor coordinates in both the PTY response and the recorded input.
   It caught all 13 viable terminal identities, up from 12 in the
-  same 18-identity selection. Both platform jobs passed.
+  same 18-identity selection. Both platform jobs passed. Draft
+  [#25](https://github.com/laputa-systems/ptytest/pull/25) passed the
+  [hosted terminal trial](https://github.com/laputa-systems/ptytest/actions/runs/44276455149)
+  with 13 caught and five unviable on each platform, using 238 runner
+  seconds. [Documentation](https://github.com/laputa-systems/ptytest/pull/26)
+  selected no mutations. [Deletion](https://github.com/laputa-systems/ptytest/pull/27)
+  reopened four cursor identities. The revised
+  [mixed change](https://github.com/laputa-systems/ptytest/pull/28)
+  reopened the same four and caught both changed size-accessor
+  identities. The [uncovered branch](https://github.com/laputa-systems/ptytest/pull/29)
+  left seven of 11 selected identities alive. The ordinary suite and
+  lint passed each control. Lifecycle, replay and the wider consumer
+  inventory remain open.
 - Ptytest [#21](https://github.com/laputa-systems/ptytest/pull/21) caught
   all four remaining output-wait mutations after removing two redundant
   deadline checks. Linux and macOS hosted checks passed. Focused lz, e
@@ -54,7 +71,16 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   caught all 79 file-planning identities. [#38](https://github.com/joshuarli/pytest-parallel/pull/38)
   removed redundant worker-pin and worker-limit paths, leaving 51
   identities, all caught. All 188 ordinary tests passed and the three
-  hosted checks passed.
+  hosted checks passed. [#40](https://github.com/joshuarli/pytest-parallel/pull/40)
+  raised report event detection from 68 to 107 of the same 111
+  identities. After removing redundant state operations all 105
+  remaining identities were caught. The 207 local tests and three
+  hosted checks passed. Draft #32's
+  [six-scope trial](https://github.com/joshuarli/pytest-parallel/actions/runs/44276369341)
+  at `4d29d37` passed all twelve mutation jobs, including both
+  105-identity report lanes. The jobs used 907 runner seconds, with an
+  89.5-second median and a 166-second maximum. The uncovered
+  coordinator lifecycle and loopback decisions stay outside that matrix.
 - Pytest-parallel's [positive run](https://github.com/joshuarli/pytest-parallel/actions/runs/44257362822)
   at `80cce01` passed eight jobs, covering options, scheduling,
   file planning and report emission on Linux ARM64 and macOS. Total
@@ -133,7 +159,13 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [#92](https://github.com/laputa-systems/stuff/pull/92) verified 102
   identities across three protected effects. Six hosted jobs at
   `43b4b515` used 273 runner seconds. The bounded successor at
-  `3a61cccd` passed all six mutation jobs in 353 runner seconds.
+  `3a61cccd` passed all six mutation jobs in 353 runner seconds. The
+  [four-scope run](https://github.com/laputa-systems/stuff/actions/runs/44274517903)
+  at `2647a2ea` added 23 Git-backed snapshot entries, all caught on
+  both platforms. Eight passing jobs used 380 runner seconds. A
+  separate publication probe exhausted 360 seconds after reporting
+  90 caught and five surviving identities in its progress output.
+  Its complete inventory and wider effect scopes remain open.
 - Extensions [draft #22](https://github.com/joshuarli/extensions/pull/22)
   passed local parser and storage gate invocations, with 178 caught and
   one equivalent in 7m 30s, and 112 caught and two equivalents in 15s.
