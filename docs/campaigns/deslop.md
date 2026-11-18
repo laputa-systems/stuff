@@ -14,12 +14,24 @@ and explicit deferrals. Tier A repo passes have started. The
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
-- Node-build closed the local provenance finding after 87 pinned Alpine tests.
-  FFmpeg-build and Pi-build moved from Types to bounded mutation tests.
-  Stuff #111 retains Pi-build and Node-build's coverage recipes and qualified
-  type settings. Native release qualification and the wider mutation gates
-  remain open. Hi-lite verified its native registry install example and filed
-  a reproduced delimiter edge case. See the checked heads in the scorecard.
+- The prepared CMake-build controller passed all 115 tests on the
+  generation refresh repair and its default revision. The cache repair
+  restored the exact locked Alpine packages. A separate phase cache
+  recovery is in hosted verification.
+  [CMake-build #12](https://github.com/laputa-systems/cmake-build/pull/12) ·
+  [CMake-build #13](https://github.com/laputa-systems/cmake-build/pull/13) ·
+  [CMake-build #14](https://github.com/laputa-systems/cmake-build/pull/14)
+- FFmpeg-build closed bootstrap and collector mutation scopes on Linux.
+  Node-build passed all 102 pinned Alpine tests after strengthening
+  assembly, and Pi-build passed 37 ordinary tests after adding extraction,
+  pack and size checks. The ledger records their remaining mutation and
+  native qualification before the Tier A checkpoint.
+  [FFmpeg-build #30](https://github.com/laputa-systems/ffmpeg-build/pull/30) ·
+  [Node-build #34](https://github.com/laputa-systems/node-build/pull/34) ·
+  [Pi-build #22](https://github.com/joshuarli/pi-build/pull/22)
+- Stuff #111 retains Pi-build and Node-build's coverage recipes and
+  qualified type settings. Hi-lite verified its native registry install
+  example and filed a reproduced delimiter edge case.
 - Ten completed campaign worktrees were retired from FFmpeg-build, Node-build
   and Pi-build. Their measured allocation totaled 1,914,592 KiB. The
   [cleanup record](deslop-cleanup-20261117.md) includes both passes.
