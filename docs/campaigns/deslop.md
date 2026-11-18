@@ -18,21 +18,22 @@ qualified workloads and remaining boundaries.
   diagnostic. All 117 prepared controller tests passed. Strict findings
   fell to 44, with 37 missing generic arguments and seven unsound returns.
   [CMake-build #18](https://github.com/laputa-systems/cmake-build/pull/18)
-- FFmpeg-build's native x86-64 Linux runtime passed the archive audit,
-  all 55 media workflows and the external shared-library consumer.
-  The remaining Linux profile matrix is running separately.
-  [FFmpeg-build #33](https://github.com/laputa-systems/ffmpeg-build/pull/33) ·
-  [Linux matrix](https://github.com/laputa-systems/ffmpeg-build/pull/34)
+- FFmpeg-build passed all seven supported Linux profile and target
+  combinations and the three ARM64 macOS profiles. The local macOS
+  check used Xcode 27.2. The report records the packaged consumer tests
+  and all ten archive digests.
+  [FFmpeg-build #35](https://github.com/laputa-systems/ffmpeg-build/pull/35)
 - Pi-build rebuilt both profiles byte for byte on x86-64 and ARM64 Linux.
   Regular CI now verifies the companion inventory and package identities.
   Vendor tests exercised all 545 mutation identities, with 537 caught
   on macOS, one Linux casefold control and seven scoped equivalents.
-  An actual mixed pull request caught the archive test-deletion fault.
-  The whole-change gate remains open.
+  The retained changed-path Python gate accounted for all 1,427
+  identities. Its actual mixed pull request caught the archive
+  test-deletion fault. Two-host Intercom acceptance remains open.
   [Pi-build #34](https://github.com/joshuarli/pi-build/pull/34) ·
   [Pi-build #35](https://github.com/joshuarli/pi-build/pull/35) ·
   [Pi-build #36](https://github.com/joshuarli/pi-build/pull/36) ·
-  [Archive mixed control](https://github.com/joshuarli/pi-build/actions/runs/44328802243)
+  [Pi-build #42](https://github.com/joshuarli/pi-build/pull/42)
 - Node-build caught all 52 selected Doctor mutations and the
   case-sensitive assembly fault. The native artifact trial exercises
   macOS ARM64 and Linux x86-64 with the existing release inputs.
@@ -42,10 +43,10 @@ qualified workloads and remaining boundaries.
   ordinary tests passed with ten opt-in cases ignored. The privileged
   exchange remains separate.
   [Mdevd-rs #8](https://github.com/laputa-systems/mdevd-rs/pull/8)
-- The cleanup follow-ups retired 19 more completed worktrees with
-  3,518,432 KiB of measured allocation. The
-  [cleanup record](deslop-cleanup-20261117.md) includes the original
-  shared-volume measurement and the two path-allocation follow-ups.
+- The cleanup follow-ups retired 22 more completed worktrees with
+  4,927,332 KiB of measured allocation. The
+  [cleanup record](deslop-cleanup-20261117.md) includes the
+  shared-volume measurements and the retired paths.
 - Stuff #111 retains Pi-build and Node-build's coverage recipes and
   qualified type settings. Hi-lite verified its native registry install
   example and filed a reproduced delimiter edge case.
