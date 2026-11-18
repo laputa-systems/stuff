@@ -89,6 +89,29 @@ def test_unlisted_repository_is_skipped(project: tuple[Path, Repository]) -> Non
         assert retention._check(root, repo, rule) == []
 
 
+@pytest.mark.parametrize(('event', 'retained'), [('pull_request', True), ('push', False)])
+def test_conditional_rust_mutation_job(
+    project: tuple[Path, Repository], event: str, retained: bool,
+) -> None:
+    root, repo = project
+    workflow = root / '.github/workflows/ci.yml'
+    source = workflow.read_text().replace(
+        '    runs-on:', f"    if: github.event_name == '{event}'\n    runs-on:",
+    ).replace(
+        '      - run: make mutants-diff BASE="origin/$BASE_REF"\n',
+        '      - env:\n'
+        '          TMPDIR: "${{ github.workspace }}/.work/tmp"\n'
+        '        run: make mutants-diff BASE="$BASE_SHA" SHARD="$SHARD"\n',
+    )
+    workflow.write_text(source)
+    findings = retention._check(root, repo, 'mutation-lane')
+    if retained:
+        assert findings == []
+    else:
+        assert len(findings) == 1
+        assert 'missing supported pull_request mutants-diff job' in findings[0].message
+
+
 @pytest.mark.parametrize(('change', 'message'), [
     ('backlog', None),
     ('lock', 'missing exact mutmut development pin'),
