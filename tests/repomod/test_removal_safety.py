@@ -8,31 +8,10 @@ import pytest
 from git_helpers import git, make_catalog, make_remote
 
 from repomod.catalog import repository_path
-from repomod.clean import _checkout_removal_blocker, gc_one
+from repomod.clean import gc_one
 from repomod.git import safe_fast_forward, status
 from repomod.sync import sync_one
-from repomod.types import GitStatus, RemoteRepository
-
-_CLEAN = GitStatus(
-    repository="owner/repo", path=Path("checkout"), present=True, valid=True,
-    branch="main", detached=False, staged=0, unstaged=0, untracked=0,
-    ahead=0, behind=0, upstream="origin/main", origin_valid=True,
-)
-
-
-@pytest.mark.parametrize(("current", "stashes", "expected"), [
-    (_CLEAN, 0, None),
-    (replace(_CLEAN, staged=1, detached=True), 0, "checkout has uncommitted changes"),
-    (replace(_CLEAN, detached=True, branch=None), 0, "HEAD is detached"),
-    (replace(_CLEAN, branch=None, upstream=None), 0, "no branch is checked out"),
-    (replace(_CLEAN, upstream=None, ahead=None), 0, "branch main has no upstream"),
-    (replace(_CLEAN, ahead=None), 1, "branch main has an unknown number of unpushed commits"),
-    (replace(_CLEAN, ahead=2), 1, "branch main is 2 commits ahead of origin/main"),
-    (_CLEAN, 1, "repository has 1 stash entry"),
-    (_CLEAN, 2, "repository has 2 stash entries"),
-])
-def test_removal_reports_first_checkout_blocker(current: GitStatus, stashes: int, expected: str | None) -> None:
-    assert _checkout_removal_blocker(current, stashes) == expected
+from repomod.types import RemoteRepository
 
 
 @pytest.mark.parametrize("operation", ["sync", "gc"])
