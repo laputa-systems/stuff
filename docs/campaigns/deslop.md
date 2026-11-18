@@ -7,9 +7,10 @@ established, so the slop cannot return.
 
 ## Status
 
-Resumed 2026-11-17 at the owner's request. M2 remains open. The
+The 2026-11-18 M2 checkpoint records qualified representative workloads
+and explicit deferrals. Tier A is in policy rollout. The
 [roadmap](deslop-roadmap.md) gives the acceptance criteria and the
-[scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) records the
+[scorecard](deslop-scorecard.md#current-checkpoint-2026-11-18) records the
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
@@ -82,9 +83,9 @@ qualified workloads and remaining boundaries.
   [draft #22](https://github.com/joshuarli/extensions/pull/22). The
   remaining critical source and platform boundaries stay in its Tests
   scope.
-- The owner approved the full campaign and unattended decisions. M2 and the
-  tier checkpoints still require evidence. The roadmap records the remaining
-  qualification conditions and deferred work.
+- The owner approved the full campaign and unattended decisions. The
+  tier checkpoints still require evidence during rollout. The roadmap records
+  the remaining qualification conditions and deferred work.
 
 [Historical status](deslop-status-20261117.md) preserves the pause chronology
 and earlier results.

@@ -1,10 +1,45 @@
 # M2 calibration evidence
 
-This checkpoint records qualification by workload. The [roadmap](deslop-roadmap.md#qualify-meaningful-retained-gates) defines acceptance, and the [scorecard](deslop-scorecard.md) records repository pass state. M2 remains open.
+The calibration checkpoint qualifies the representative workloads below and
+records the limits of each result. Repository-wide Tests, later passes and
+retention for trial workflows remain in their owning backlogs. Start Tier A
+in the approved order once the per-repository fleet checks pass. The
+[roadmap](deslop-roadmap.md#qualify-meaningful-retained-gates) defines the
+checks and the [scorecard](deslop-scorecard.md) tracks repository pass state.
+
+| Shape | Checkpoint decision |
+| --- | --- |
+| Srv HTTP | Defer the expanded mutation gate. Its two complete runs exceeded the 600-second median, and its latest run had 24 surviving mutations and 12 confirmed hangs. |
+| Fastermod performance CLI | Retained source workload. Saved-plan and review paths remain in Tests. |
+| Loc corpus and SIMD CLI | Retained shebang workload across both musl targets and macOS. Other SIMD, file selection and cost remain in Tests. |
+| Ptytest with consumers | Retained terminal workload. Lifecycle, replay and remaining consumer verification stay in Tests. |
+| Vault platform and hardware | Defer the expanded platform union after hosted shard failures and budget exhaustion. Secure Enclave, two-Mac recovery and Linux session keyring require their own evidence. |
+| Buildlib Python library and parsers | Retained representative matrix and verified release consumers. |
+| Pytest-parallel and worker coverage | Qualified worker coverage, installed-wheel replay and hosted mutation controls for the selected functions. The wider coordinator and socket gate remains a draft. |
+| Repomod Python effects | Qualified five bounded effects on Linux ARM64 and macOS. Full-file selection exhausted the macOS budget in the earlier uncovered and mixed controls. Leave the trial off default until supported files and broader fallback are qualified. |
+| Extensions Node, browser and MV3 | Qualified parser and storage trial plus retained type-aware lint and installed Chromium. The wider ZIP and browser effects remain in Tests. |
+| Stats Worker and Rust | Qualified hosted mixed-ACK and Workerd/agent trial with controls. Producer timeouts, storage and component coverage remain in Tests. |
+| Toolbox and native tools | Qualified local FFmpeg, fio and worker coverage. Defer hosted assurance until GitHub Actions can schedule the jobs. |
+
+All ten Tier A repositories have tracked backlogs. Scoped sync refreshed their
+default heads. The strict entry-point audit was clean for Pi-build, FFmpeg-build
+and Vault. It found test-entry work in CMake-build, Node-build, Doas-rs, Hi-lite
+and Mdevd-rs, a missing coverage target and strict Rust setting in Diff-pretty,
+and strict settings to disposition in Fz. These findings are dispatch
+prerequisites for their respective repositories.
+
+The hosted controls distinguish an empty selection, a reopened survivor after
+deletion, a mixed change that still exercises unrelated code, an uncovered
+branch and a genuine documentation edit. An expired job or an unconfirmed
+timeout remains unresolved. Job medians use individual hosted job samples and
+the aggregate cost sums runner time across the matrix. The historical
+scorecard preserves its original measurements. The evidence below records
+exact equivalents, skips and platform-specific gaps. It cannot establish a
+fleet-wide false-positive rate.
 
 | Shape and workload | Result and exact evidence | Cost and remaining boundary |
 | --- | --- | --- |
-| Rust HTTP service, Srv request dispatch and rendering | Earlier pass and retained mutation gate on `c9965411`. Draft [#47](https://github.com/laputa-systems/srv/pull/47) accounted for all 376 identities on `289a8fe`. | The hosted shard run caught 322, missed 25, found 17 unviable and confirmed 12 hangs. The 10-minute target and remaining behavioral witnesses are open. |
+| Rust HTTP service, Srv request dispatch and rendering | Earlier pass and retained mutation gate on `c9965411`. Draft [#47](https://github.com/laputa-systems/srv/pull/47) accounted for all 376 identities on `289a8fe` and `601451a`. | The earlier run caught 322 and missed 25. The latest caught 323, missed 24, found 17 unviable and confirmed 12 hangs. The 10-minute target and remaining behavioral witnesses are open. |
 | Rust performance CLI, Fastermod saved plans and text search | Ground, Diagnose and Types are complete through [#33](https://github.com/laputa-systems/fastermod/pull/33). [#31](https://github.com/laputa-systems/fastermod/pull/31) fixed terminal plan routing. [#32](https://github.com/laputa-systems/fastermod/pull/32) repaired source read diagnostics and merged as `a4040a1a`. | The [paired workload](https://github.com/laputa-systems/fastermod/blob/a4040a1a3b85053397ba4c3d1338e534f74d6f63/docs/deslop-text-source-perf.md) qualifies the repair across all seven named benchmarks, with five pairs inside the observed spread. Both outputs matched. General mutation and the rest of the Tests step remain open. |
 | Rust corpus and SIMD CLI, Loc | [#19](https://github.com/joshuarli/loc/pull/19) added a child deadline and caught both previously hanging CLI mutations. [#20](https://github.com/joshuarli/loc/pull/20) at `b45c6f2e` exercises XDG precedence and fallback on both Linux musl architectures. All five hosted checks passed. | The sample retains three comparison alternatives and two counting-helper misses. Finish the critical inventory, cost and whole-change lane. |
 | Rust PTY library, Ptytest cleanup and consumers | [#15](https://github.com/laputa-systems/ptytest/pull/15) preserved diagnostics through cleanup and passed focused fz, tm and lz consumers. Diagnose and Types completed through [#17](https://github.com/laputa-systems/ptytest/pull/17). [#19](https://github.com/laputa-systems/ptytest/pull/19) repaired a hosted fixture race, and [#18](https://github.com/laputa-systems/ptytest/pull/18) retains coverage. [#20](https://github.com/laputa-systems/ptytest/pull/20) at `fcb35843` verifies output wait results. | The output wait sample caught five of eight identities, up from two. Two guards are equivalent and one timing-sensitive case remains. All 67 instrumented tests passed at #18. Focused e and ish failures also occur with the pre-repair library. The nightly corpus and whole-change mutation remain separate. |
@@ -151,7 +186,7 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   and a matching directive later in the file. It caught all five
   viable shebang identities, up from four on unchanged source.
   The 551 local tests and all five hosted checks passed.
-  Draft [#24](https://github.com/joshuarli/loc/pull/24) passed the
+  [#24](https://github.com/joshuarli/loc/pull/24) passed the
   [positive shebang trial](https://github.com/joshuarli/loc/actions/runs/44278389932)
   at `0ee7305a` on macOS, x86-64 musl and ARM64 musl. The three
   jobs used 771 runner seconds. Ordinary CI and LineJudge passed
@@ -160,8 +195,13 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   preprocessor identities and recorded two unviable builds. A
   second macOS mixed run exhausted the 600-second budget rebuilding
   for its second phase. A native union retained all 25 planned
-  identities in one local run with the same outcomes. Hosted
-  verification of that runner and the wider SIMD inventory remain open.
+  identities in one local run with the same outcomes. The
+  [final mixed control](https://github.com/joshuarli/loc/actions/runs/44285544085)
+  on the retained base counted 11 caught, one expected survivor and
+  13 unviable on each target. Gate times were 176.0 seconds on ARM64
+  musl, 241.9 seconds on x86-64 musl and 312.8 seconds on macOS.
+  #24 merged at `9c4f472c` after all eight positive checks and the
+  controls. The wider SIMD inventory remains in Tests.
 - Repomod [#83](https://github.com/laputa-systems/stuff/pull/83) removed
   two test-only helpers and recorded the clean dependency scan.
   [#84](https://github.com/laputa-systems/stuff/pull/84) moved Musl lock
@@ -196,7 +236,12 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   cases moved detection from 118 to 121 without production edits.
   The other six have exact equivalence dispositions. All 22 focused
   cases, lint and the ten hosted checks passed. The publication
-  shard is included in the next #92 trial.
+  shard passed with the other four in the
+  [five-scope hosted run](https://github.com/laputa-systems/stuff/actions/runs/44284964354)
+  at `2e41e923`. Each platform accounted for 252 identities with
+  243 caught and nine proved equivalent. Ten jobs used 740 runner
+  seconds and had a 54-second median. The publication jobs took
+  59 seconds on Linux ARM64 and 271 seconds on macOS.
 - Extensions [draft #22](https://github.com/joshuarli/extensions/pull/22)
   passed local parser and storage gate invocations, with 178 caught and
   one equivalent in 7m 30s, and 112 caught and two equivalents in 15s.
@@ -294,6 +339,25 @@ with Toolbox's locked coverage.py 7.16.1, `source = TOOLBOX/src/tool`,
 `pytest -q -rs -j 2` and the raw worker guard set to check
 `/src/tool/` paths. Keep instrumented data in a fresh scratch
 directory. The hosted jobs still require Actions billing recovery.
+
+## Regressions and safeguards
+
+- Stuff's fake S3 fixture performed hostname lookups inside hosted macOS
+  tests. Removing the lookups brought the test step from 37m 33s to 4m 42s
+  with matching result counts for 69 suites. All ten checks passed the
+  reviewed change. [Stuff #63](https://github.com/laputa-systems/stuff/pull/63)
+- Real fio tests exposed duplicate native subtest reports through the installed
+  Pytest-parallel wheel. The wheel now preserves subtest events and has
+  replay and installed-consumer guards. [Pytest-parallel #39](https://github.com/joshuarli/pytest-parallel/pull/39)
+- Stats hosted repeats found a producer port collision and a SIGTERM shutdown
+  race. Both fixes now have regression tests and passed the hosted suite.
+  [Stats #26](https://github.com/joshuarli/stats/pull/26) · [Stats #27](https://github.com/joshuarli/stats/pull/27)
+
+The rollout carries four distinct controls for new mutation gates. The mixed
+control must account for the protected survivor and the independent changed
+region. The default workflow must keep its guarantee when the backlog is
+deleted. Record a concrete reproduction before attributing an escape or a
+false positive, and leave unsupported costs or results in the scope record.
 
 ## Deferred environment gates
 
