@@ -19,11 +19,13 @@ qualified workloads and remaining boundaries.
   qualification, size and memory budgets. Stuff removed CMake's Edge
   exemption and checks both the offline APK closure and the qualification
   OpenSSL APK. The general check detects explicit Edge bases and APK
-  repository overrides in Dockerfiles without a musl marker.
+  repository overrides in Dockerfiles without a musl marker. It also
+  checks direct writes of Edge URLs to `/etc/apk/repositories`.
   [Stable builder](https://github.com/laputa-systems/cmake-build/pull/24) ·
   [Exact qualification](https://github.com/laputa-systems/cmake-build/actions/runs/44354687939) ·
   [Fleet policy](https://github.com/laputa-systems/stuff/pull/117) ·
-  [Edge detection](https://github.com/laputa-systems/stuff/pull/120)
+  [Edge detection](https://github.com/laputa-systems/stuff/pull/120) ·
+  [Repository redirects](https://github.com/laputa-systems/stuff/pull/128)
 - CMake-build now checks three strict typing rules. The bootstrap parser
   returns the same 36 validated inputs in order for each architecture.
   The input suite caught all 172 selected parser mutations.
@@ -46,6 +48,16 @@ qualified workloads and remaining boundaries.
   controller cases.
   [Archive admission](https://github.com/laputa-systems/cmake-build/pull/34) ·
   [Deterministic metadata](https://github.com/laputa-systems/cmake-build/pull/35)
+  The input and phase fixtures caught 455 of 568 input mutations. The
+  tree digest cases independently change file mode, link target and
+  nested paths. The whole-change trial proved mixed test deletion and
+  source-change selection locally.
+  [Whole-change trial](https://github.com/laputa-systems/cmake-build/pull/36) ·
+  [Tree digest cases](https://github.com/laputa-systems/cmake-build/pull/37)
+  Concurrent cache stores now stage separate copies. The overlapping
+  publish fixture reproduced a failed rename on the previous revision.
+  Both writes and the retry after changed source bytes pass.
+  [Concurrent cache stores](https://github.com/laputa-systems/cmake-build/pull/38)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -80,6 +92,10 @@ qualified workloads and remaining boundaries.
   The Linux job took 1 h 54 min and the macOS job took 2 h 1 min.
   [Node-build #36](https://github.com/laputa-systems/node-build/pull/36) ·
   [Native qualification](https://github.com/laputa-systems/node-build/pull/38)
+  The archive budget command now rejects malformed byte ceilings through
+  its exit 2 diagnostic. Tests exercise archives at exact limits, and
+  the revised scope caught 78 of 81 mutation identities.
+  [Budget validation](https://github.com/laputa-systems/node-build/pull/39)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. Native KVM passed
   node creation, framed output, coldplug and shutdown. The pinned C consumer
