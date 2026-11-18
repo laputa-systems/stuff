@@ -6,10 +6,10 @@ never gated.
 
 ## Current checkpoint, 2026-11-18
 
-Default heads and active PRs were checked again on resumption. M2 remains open. Each Report refresh and remaining acceptance condition
+M2 qualified representative workloads with explicit deferrals. Tier A is in policy rollout. Each Report refresh and remaining acceptance condition
 is assigned in the [resumption roadmap](deslop-roadmap.md). Historical values
 below retain their original scope. The owner has approved broader dispatch.
-M2 and the tier checkpoints still require qualification evidence. Discover is
+Later tier checkpoints still require qualification evidence. Discover is
 outside scope during the owner's rearchitecture.
 
 | Repository | Default revision | Pass state and completed work | CI and retention | One next action |
@@ -21,9 +21,9 @@ outside scope during the owner's rearchitecture.
 | pytest-parallel | `25e57a1e460d030fab8385c48657ef672a7f2d1c` | Active. #39 preserves native subtest reports. #40 verifies report validation and removes redundant state operations. | All 207 local tests and three hosted checks passed #40. Draft #32 caught all 105 report identities in both lanes, with twelve passing jobs and 907 total runner seconds. | Qualify the remaining coordinator lifecycle and socket decisions |
 | vault | `553fb720046e360cd9f62beeaef007ad398978db` | Active. #36 records the platform trial and defers two-Mac recovery to an owner-run check. | Ordinary draft CI passed macOS and both Linux musl architectures. Mutation failed on 14 Linux and 13 macOS shards. | Qualify the platform union and obtain the separate hardware and keyring evidence |
 | diff-pretty | `ef8a276e40a990a52ff4354dc0ee7500d7757c38` | Active; Ground, Diagnose, Types, sanitizer repair and first Tests slice merged | #31 passed 15 checks and four hosted controls. Five interleaved suite pairs had equal medians. #40 passed the retained Make path on both platforms. Stuff #70 registered it. | Bound the remaining renderer and live terminal scopes |
-| loc | `69275cc9a60f82269c5f690cc730cd79bffb6374` | Active. #22 covers marker and EOF boundaries. #23 verifies the interpreter and first-line classification. | All five hosted checks passed both. #22 caught 16 of 19, with two confirmed timeouts and one equivalent. #23 caught all five viable shebang identities. | Finish the critical inventory and hosted whole-change gate |
+| loc | `9c4f472cddb16f41b634140fe483582b60432f62` | Active. #24 retained the shebang gate. #22 and #23 cover marker, EOF and interpreter boundaries. | macOS and both musl targets passed the positive run. The final mixed control counted the same 25 identities on all three. | Finish broader SIMD and file-selection Tests and the fleet Make entry point |
 | stats | `ec5993b6f02644cbc18f4fc0706fae21a0d37b63` | Active. #36 exercises mixed binary ACKs through Workerd. Draft #37 runs Workerd and Rust. | Ordinary #36 checks passed. #37 caught all 42 Rust identities and 25 Workerd identities with two equivalents in 322 runner seconds. | Finish component coverage and the producer timeout dispositions |
-| stuff, repomod | `fd27fced59cbd5919859835a08705b7fe52b4d48` | Active. Types and Dead code complete through #98. #103 verifies fixer push diagnostics. | Draft #92 passed four scopes with 380 runner seconds. #103 caught 121 of 127, with six equivalents. A fifth hosted shard is in progress. | Qualify the wider inventory and whole-file fallback |
+| stuff, repomod | `17845f5237d045838ba8678e1b795e4256cae139` | Active. Types and Dead code complete through #98. #103 verifies fixer push diagnostics. | Draft #92 passed ten jobs across five scopes, accounting for 252 identities per platform in 740 runner seconds. #103 caught 121 of 127, with six equivalents. | Qualify the wider inventory and whole-file fallback |
 | fastermod | `d99400a71800b2be31b0f1f95a832147d1c00125` | Active. #36 verifies the saved-plan read set. #37 retained text source mutation, and #42 classifies every pull request. | All ordinary checks and both retained mutation jobs passed. Four hosted controls qualify the source scope. Earlier paired acceptance covered all seven performance workloads. | Qualify terminal review and wider saved-plan mutation |
 | ptytest | `606027bb32999fa3e1bb960285384a89081a957a` | Active. #25 retained the terminal mutation scope. #30 makes the workflow classify each pull request. | Both platforms and four controls confirmed the bounded selection. The same macOS Xsh compile failure occurred at baseline and with the candidate. | Qualify lifecycle, replay and remaining consumer Tests inventory |
 | tm | `6cf0b949c2593c0959268a3d1995b972b05f58b6` | Active; fixture repairs merged, Ground and later stages open | Recent repair CI green; quiet-host cost unresolved | Finish Ground cost and component scope |
