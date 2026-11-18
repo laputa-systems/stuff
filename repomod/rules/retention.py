@@ -77,6 +77,9 @@ def _targets(root: Path, repository: Repository, rule: str, target: str) -> list
 
 def _mutation(root: Path, repository: Repository, rule: str = 'mutation-lane', pin: str | None = None) -> list[Finding]:
     findings = _targets(root, repository, rule, 'mutants-diff')
+    python_job = pin is None and 'python' in repository.tags and 'rust' not in repository.tags
+    if python_job:
+        findings.extend(_locked_mutmut(root, repository, rule))
     sources, problems = read_workflow_sources(root)
     findings.extend(operational(repository, rule, path, message) for path, message in problems)
     for path, source in sources:
@@ -96,6 +99,8 @@ def _mutation(root: Path, repository: Repository, rule: str = 'mutation-lane', p
         for job in jobs.values():
             if not isinstance(job, dict) or not isinstance(job.get('steps'), list):
                 continue
+            if python_job and job.get('if') == "github.event_name == 'pull_request'":
+                job = {key: value for key, value in job.items() if key != 'if'}
             steps = [step for step in job['steps'] if isinstance(step, dict)]
             for index, step in enumerate(steps):
                 if _step_problem(doc, job, step, frozenset({'mutants-diff'})) is not None:
@@ -114,21 +119,55 @@ def _mutation(root: Path, repository: Repository, rule: str = 'mutation-lane', p
                     rf'cargo-mutants@{re.escape(pin)}' if pin is not None
                     else r'cargo-mutants@\d+\.\d+\.\d+'
                 )
-                tool = any(
-                    isinstance(item.get('uses'), str)
-                    and re.fullmatch(r'taiki-e/install-action@[0-9a-f]{40}', item['uses'])
-                    and isinstance(item.get('with'), dict)
-                    and re.fullmatch(tool_pattern, str(item['with'].get('tool', '')))
-                    for item in setup
-                )
+                if python_job:
+                    tool = any(
+                        isinstance(item.get('uses'), str)
+                        and re.fullmatch(r'astral-sh/setup-uv@[0-9a-f]{40}', item['uses'])
+                        and isinstance(item.get('with'), dict)
+                        and re.fullmatch(r'\d+\.\d+\.\d+', str(item['with'].get('version', '')))
+                        for item in setup
+                    )
+                else:
+                    tool = any(
+                        isinstance(item.get('uses'), str)
+                        and re.fullmatch(r'taiki-e/install-action@[0-9a-f]{40}', item['uses'])
+                        and isinstance(item.get('with'), dict)
+                        and re.fullmatch(tool_pattern, str(item['with'].get('tool', '')))
+                        for item in setup
+                    )
                 if checkout and tool:
                     return findings
     message = 'missing supported pull_request mutants-diff job with full checkout and pinned cargo-mutants'
-    if pin is not None:
+    if python_job:
+        message = 'missing supported pull_request mutants-diff job with full checkout and pinned setup-uv'
+    elif pin is not None:
         message = ('missing supported pull_request mutants-diff job with full checkout '
                     f'and cargo-mutants pinned at {pin}')
     findings.append(violation(repository, rule, '.github/workflows', message))
     return findings
+
+
+def _locked_mutmut(root: Path, repository: Repository, rule: str) -> list[Finding]:
+    missing = 'missing exact mutmut development pin in pyproject.toml and uv.lock'
+    data = {}
+    for relative in ('pyproject.toml', 'uv.lock'):
+        try:
+            data[relative] = tomllib.loads((root / relative).read_text(encoding='utf-8'))
+        except FileNotFoundError:
+            return [violation(repository, rule, relative, missing)]
+        except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
+            return [operational(repository, rule, relative, str(error))]
+    groups = data['pyproject.toml'].get('dependency-groups')
+    dev = groups.get('dev') if isinstance(groups, dict) else None
+    packages = data['uv.lock'].get('package')
+    if isinstance(dev, list) and isinstance(packages, list):
+        versions = [
+            str(package.get('version')) for package in packages
+            if isinstance(package, dict) and package.get('name') == 'mutmut'
+        ]
+        if len(versions) == 1 and re.fullmatch(r'\d+\.\d+\.\d+', versions[0]) and f'mutmut=={versions[0]}' in dev:
+            return []
+    return [violation(repository, rule, 'uv.lock', missing)]
 
 
 def _strict(root: Path, repository: Repository, settings: list[str], rule: str = 'strict-profile') -> list[Finding]:

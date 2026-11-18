@@ -407,6 +407,10 @@ guarantees. `mutation-lane`, `coverage-target`, and `strict-profile` check those
 without fixers. Eligibility is independent of repository files so deleting a campaign record,
 target, workflow, or configuration cannot disable its own check.
 
+Python-only repositories retain a pull-request `make mutants-diff` job with
+full checkout history, pinned setup-uv, and a matching exact mutmut development
+pin in `pyproject.toml` and `uv.lock`.
+
 `fleet/policy/rust-tools.toml` records the approved cargo-mutants release;
 `mutants-diff-lane` pins the job to it.
 
