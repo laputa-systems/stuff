@@ -84,3 +84,13 @@ requirements, versions and names in the inventory and mirror,
 `ruamel.yaml` parses and edits workflows, and `tomlkit` preserves
 Cargo manifest formatting in the upgrade rule. The dev entries are
 CLI tools or pytest and its plugin.
+
+## Cumulative verification
+
+At `2940843c`, the runtime-only Vulture scan returned exactly the six
+documented dynamic uses. Deptry scanned 112 files with zero findings.
+The CLI help, catalog, disposable snapshot and dashboard tests passed
+all 98 cases. The canonical preview command generated all 31 pages.
+These checks exercise the snapshot and render paths used by `make deps`
+with fixture data. The full Repomod suite passed 1,481 cases with three
+opt-in skips, and lint and type checking passed.
