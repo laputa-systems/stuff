@@ -16,11 +16,10 @@ lint checks, relevant browser checks, Makefiles, scripts and scoped retention
 policy. Pushing, retriggering and merging verified changes are authorized on
 resumption. Linux-only mutation is not a requirement for macOS-only behavior.
 
-Releases, production, credentials, hardware operations and canonical user
-checkouts retain their existing boundaries. Broader deslop dispatch waits for
-the concrete M2 report and owner approval. Winddown starts no new implementation
-or measurement. At resumption, the remote contained the roadmap, ticket and pause commits
-through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
+The owner approved the full campaign and delegated decisions, including
+dispatch and hard-blocker deferral. Qualify M2 and record the evidence for
+the next tier before dispatch. The grant covers repository work. Releases,
+credentials, hardware and canonical checkouts retain their campaign boundaries.
 
 ## Reconcile before resuming implementation
 
@@ -38,6 +37,46 @@ through `4a89b981c67aea387b88e466d04701fe1f918c2f`.
    Resolve current main changes before reviewing a parked candidate again.
 
 ## Resumption receipts
+
+- After the host recovery, direct GET requests returned 200 for the Cargo
+  index and a crate blob, npm dashboard metadata and the exact Stats lock
+  tarball, and the PyPI platformdirs wheel that had failed in Buildlib CI.
+  Retrying failed jobs on pinned heads led to green merges for Stats #24,
+  Stuff #64, Fastermod #28 and Ptytest #13. Fastermod #29 and Ptytest #14
+  passed their hosted checks and merged after them. Discover
+  [attempt 3](https://github.com/joshuarli/discover/actions/runs/44190926084/attempts/3)
+  still ended before a runner started. Retry it once the account can start jobs.
+- Buildlib [#20](https://github.com/laputa-systems/buildlib/pull/20) merged
+  as `1838935` after 17 checks passed. The deletion and mixed controls each
+  reopened four release identities across Linux x86-64, Linux arm64 and macOS
+  arm64. The uncovered branch failed in all three `other` jobs. The docs-only
+  control selected no identities and passed. The positive matrix used 976
+  runner-seconds across 15 mutation jobs with a 50-second median. Buildlib
+  [#26](https://github.com/laputa-systems/buildlib/pull/26) verifies the
+  same gate through the Make entry point required by retention.
+- Fz [#43](https://github.com/laputa-systems/fz/pull/43) merged as `89f7d9a`.
+  Its hosted mutation job selected 439 identities, with 423 caught, 16
+  unviable, and zero misses or timeouts. The single job used 13m 33s.
+  The result qualifies the current scope and exceeds the ten-minute cost
+  target. A shard split must preserve all five critical source files.
+- Srv [#47](https://github.com/laputa-systems/srv/pull/47) passed ordinary CI
+  and lint. Its retained job selected 376 identities and exhausted the
+  900-second budget. Keep the PR open until a bounded partition accounts
+  for the same critical union.
+- Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
+  now passes all 15 hosted checks. In
+  [#36](https://github.com/laputa-systems/diff-pretty/pull/36), ordinary checks
+  passed and the gate selected the changed source as well as the protected
+  CLI region. Both CLI jobs found the expected `parse_paging` survivor.
+  Deletion-only, uncovered-branch and docs-only controls are #37–39.
+- Vault's Linux shard 0 expired at `0671858`. The artifact holds eight caught
+  results and a passing baseline out of 11 selected identities. The gate
+  printed zero because its final reader only ran when the child completed.
+  `deslop/budget-receipt` at `e8c7931` fixes the accounting and passes all
+  21 gate self-tests. The archive shows an expensive Linux unit baseline.
+  The age passphrase path calibrates scrypt to CPU speed, so profile tuning
+  alone has no established cost benefit. Gate cost and the remaining
+  outcomes still require verification.
 
 - Package delivery blocked hosted checks on 2026-11-17. The public Cargo
   index and the Cargo catalog returned HTTP 500 to a local probe and
@@ -144,15 +183,15 @@ are local candidates, not qualified CI lanes.
 | Repository | Finite next deliverable | Remaining acceptance |
 | --- | --- | --- |
 | Vault | Review the parked platform selector and qualify the production-plus-critical union on Linux and macOS. | Prove that Linux does not receive macOS-only functions. Execute all selected regions and lane controls, account for total runner cost, and preserve explicit Secure Enclave, two-Mac recovery and Linux keyring limits. Finish existing Tests before adding rare-error scenarios. |
-| Buildlib | Review `deslop/mutation-ci` and qualify `make mutants-diff` through actual PR jobs. | Reuse the four accounted critical scenarios and worker-inclusive coverage. Execute positive jobs and all negative controls. Reproduce the local mixed control remotely. Verify runner labels, locked dev dependencies, cumulative checks and cost before retention eligibility. |
+| Buildlib | Retain the qualified Python mutation gate. | Verify the Make entry point on #26 and register mutation and coverage in fleet retention. Finish cumulative review. |
 | Extensions | Retain the adopted unsafe-argument lint rule in CI and add a bounded supported browser job for the demonstrated boundary. | Reuse archive, context recovery, strict reads, storage/state and installed-MV3 evidence at matching inputs. Finish first-party coverage, the TypeScript whole-change gate, negative controls and test cost. Keep Node and browser qualification distinct. The unproven X response-ordering finding needs a captured fixture, not a claim of failure. |
 | pytest-parallel | Finish the bounded whole-change gate using serial mutmut and the established worker-coverage witness. | Reconcile scheduling, event stream, reporting and network boundaries to current head. Disposition remaining named critical decisions, verify activation, preserve hook-error repair and installed-wheel controls, and qualify the actual lane. [#26](https://github.com/joshuarli/pytest-parallel/pull/26) fixed the empty-address bind defect with real worker and installed-wheel consumer checks. |
 | Diff-pretty | Reconcile main with draft #31 and review `deslop/platform-ci`. | Reuse the sanitizer receipt while its runtime inputs match: the recorded source passed the existing rule, and its subsequent change was documentation-only. Resolve test integration conflicts, finish numeric and final gate activation, confirm renderer equivalences, execute both platforms and negative controls, and finish test-cost qualification. |
 | Loc | Close the existing critical inventory and qualify its bounded lane. | Reuse literal CLI output, masks and filename/detection witnesses. Reconcile the historical sample to current source where identities exist; retain unavailable mapping as an explicit gap. Finish named counting, detection, file-selection and config regions, cost, platforms and controls. |
-| Stats | Finish component-mode Types, Tests and the legacy-upgrade CI prerequisite. | [#24](https://github.com/joshuarli/stats/pull/24) executes the pinned upgrade locally. Verify it on the hosted Linux job after npm recovery. Name the TypeScript/Worker and Rust components, browser/runtime checks, critical scope, cost and remaining settings. |
+| Stats | Finish component-mode Types and Tests. | [#24](https://github.com/joshuarli/stats/pull/24) merged after passing the pinned upgrade on hosted Linux. Name the TypeScript and Rust components, browser and Worker checks, critical scope, cost and remaining settings. |
 | Stuff, repomod | Finish the bounded calibration inventory. | Preserve five merged P2 fixes, the two strict-type witnesses and the matrix-include regression. Types is complete. Finish effect-boundary coverage and mutation, the serial recipe, retained CI and dead-code checks. Other Stuff components remain outside this calibration slice. |
-| Fastermod | Finish Ground and start Diagnose. | [#27](https://github.com/laputa-systems/fastermod/pull/27) merged the boundary map and local test and lint baseline. Qualify the repository's own rustybench workload on a ready host. Diagnose, Types, Tests, Dead code, Findings and Report remain open. |
-| Ptytest | Verify the deadline equality repair and finish Ground. | [#13](https://github.com/laputa-systems/ptytest/pull/13) has a deterministic boundary witness and Linux CI. Verify the candidate with real library consumers and macOS CI. Finish the shared Make/CI entry point and Verification section. |
+| Fastermod | Finish Diagnose. | #28 closes Ground and records the rustybench workload. #29 records one finding. Types, Tests, Dead code, Findings and Report remain open. |
+| Ptytest | Start Diagnose. | #13 fixed the deadline equality defect and passed hosted Linux and macOS tests. #14 closes Ground and uses the shared Make entry points. |
 | Tm | Finish Ground after the merged fixture repairs. | Reuse repeat, short-socket and pipe-output/exit evidence. Establish quiet-host cost and continue the named component pass. Do not resume a broader source investigation during winddown. |
 | Toolbox | Remains blocked by Actions billing and host-tool qualification. | Recheck billing before dispatch. Missing ffmpeg/fio coverage and the historical worker-coverage statement must be reconciled; a skipped media suite is not a pass. |
 
@@ -295,8 +334,8 @@ the remaining fastermod, ptytest, loc, stats and repomod questions explicitly.
 The report must list completed passes, confirmed defects fixed, automated
 guarantees, escaped regressions and their guards, test/CI cost changes,
 unsupported and owner-dependent boundaries, and the recommended next dispatch
-batch with prerequisites. Recommend no broader dispatch while required shapes
-remain unexplained. Approval applies to the concrete report, not seeded TODOs.
+batch with prerequisites. Identify which shapes qualify and defer hard
+blockers explicitly before moving to the next tier.
 
 ## Upgrade Solid consumers on resumption
 

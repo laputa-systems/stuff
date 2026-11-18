@@ -12,20 +12,25 @@ Resumed 2026-11-17 at the owner's request. M2 remains open. The
 [scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) records the
 checked revisions.
 
-- Vault [#30](https://github.com/laputa-systems/vault/pull/30), Buildlib
-  [#20](https://github.com/laputa-systems/buildlib/pull/20), and diff-pretty
-  [#31](https://github.com/laputa-systems/diff-pretty/pull/31) have hosted
-  qualification runs. Buildlib's mixed-change control is
-  [#21](https://github.com/laputa-systems/buildlib/pull/21).
-- Stuff #55–63 merged on green. Repomod Types is complete. The path admission
-  witness in [#64](https://github.com/laputa-systems/stuff/pull/64) passed local
-  checks and is waiting on the hosted matrix and npm mirror.
+- Buildlib [#20](https://github.com/laputa-systems/buildlib/pull/20) merged after
+  all 17 hosted checks passed and four controls produced the expected outcomes.
+  Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31) passed
+  the positive matrix. Its mixed control reopened the paging survivor on both
+  platforms. Vault [#30](https://github.com/laputa-systems/vault/pull/30) still
+  has exhausted shards. A separate branch preserves partial outcomes on expiry.
+- Stuff #55–64 merged on green. Repomod Types is complete. The
+  [path admission witness](https://github.com/laputa-systems/stuff/pull/64)
+  passed all ten hosted checks. The rest of the publication boundary and
+  the whole-change lane remain open.
 - Pytest-parallel [#26](https://github.com/joshuarli/pytest-parallel/pull/26)
   fixed empty-address binds in a real worker. Its wheel passed Stuff's
   repomod tests and reproduced Toolbox's FFmpeg baseline failure.
-  Fastermod [#27](https://github.com/laputa-systems/fastermod/pull/27)
-  recorded the Ground checks. Ptytest Ground exposed the deadline equality
-  defect addressed in [#13](https://github.com/laputa-systems/ptytest/pull/13).
+  Fastermod's Ground evidence and saved-plan finding landed in
+  [#28](https://github.com/laputa-systems/fastermod/pull/28) and
+  [#29](https://github.com/laputa-systems/fastermod/pull/29). Ptytest's deadline
+  repair and shared Make entry points both passed Linux and macOS and merged.
+  [Ptytest #13](https://github.com/laputa-systems/ptytest/pull/13) ·
+  [Ptytest #14](https://github.com/laputa-systems/ptytest/pull/14)
 - Loc [#18](https://github.com/joshuarli/loc/pull/18) merged its historical
   mutation follow-up after macOS, both musl architectures, lint and LineJudge
   passed. The wider Tests gate remains open.
@@ -35,11 +40,12 @@ checked revisions.
   approved exact-version age exemptions for the locked Solid packages.
   Frozen installs pass, and Stats #23 merged on green. The dashboard library still needs stable versions
   in its configured mirror.
-- Cargo, npm and PyPI registry errors block several remaining hosted checks.
-  The roadmap links the affected runs and the local verification that remains valid.
-- Broader dispatch requires owner approval of the concrete M2 report.
-  Hardware, releases, production and canonical checkouts retain their
-  existing boundaries.
+- Public Cargo, npm and PyPI reads recovered. Stats
+  [#24](https://github.com/joshuarli/stats/pull/24) passed all three checks and
+  merged. Discover still has an account billing block.
+- The owner approved the full campaign and unattended decisions. M2 and the
+  tier checkpoints still require evidence. The roadmap records the remaining
+  qualification conditions and deferred work.
 
 [Historical status](deslop-status-20261117.md) preserves the pause chronology
 and earlier results.
