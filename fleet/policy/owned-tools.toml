@@ -188,7 +188,7 @@ view = { gap = "ignored in the catalog with no checkout; the app's About surface
 upstream = "chromium/chromium"
 
 [producers."laputa-systems/chromium-build".commands]
-chromium = { gap = "the shipped browser's About/support surface is not migrated" }
+chromium = { help = { source = "config/patches/helium/maintained-distribution-version-page.patch", test = "tests/test_macos_helium.py" } }
 
 [producers."laputa-systems/cmake-build"]
 upstream = "Kitware/CMake"
