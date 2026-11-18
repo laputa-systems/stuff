@@ -414,8 +414,10 @@ pin in `pyproject.toml` and `uv.lock`.
 `fleet/policy/rust-tools.toml` records the approved cargo-mutants release;
 `mutants-diff-lane` pins the job to it.
 
-`make-coverage-target`, `mutants-diff-lane`, and `strict-typing-profile` extend the same
-guarantees to Rust repositories whose deslop pass reached the Tests step (`TODO-DESLOP.md`
+`strict-typing-profile` checks the adopted settings in the same retention policy for eligible
+Rust repositories. Register a setting only after its qualification passes.
+
+`make-coverage-target` and `mutants-diff-lane` extend the same guarantees to Rust repositories whose deslop pass reached the Tests step (`TODO-DESLOP.md`
 without an open DSLP-4 ticket) or that already carry a `coverage` or `mutants-diff` target;
 plain forks are excluded unless they are tagged `fork-diverged`. `mutants-diff-lane`
 additionally requires the pull-request workflow job to pin cargo-mutants at the approved

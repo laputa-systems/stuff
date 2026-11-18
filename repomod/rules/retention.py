@@ -202,9 +202,9 @@ def _check(root: Path, repository: Repository, rule: str) -> list[Finding]:
     except ValueError as error:
         return [operational(repository, rule, _POLICY, str(error))]
     name = str(repository.id)
-    if rule == 'strict-profile':
-        entry = policy[rule].get(name)
-        return [] if entry is None else _strict(root, repository, entry['settings'])
+    if rule in {'strict-profile', 'strict-typing-profile'}:
+        entry = policy['strict-profile'].get(name)
+        return [] if entry is None else _strict(root, repository, entry['settings'], rule)
     if name not in policy[rule]['repositories']:
         return []
     if rule == 'coverage-target':

@@ -1,13 +1,13 @@
 """Hardening for Rust repositories whose deslop pass reached the Tests step.
 
-`make-coverage-target`, `mutants-diff-lane`, and `strict-typing-profile` apply
+`make-coverage-target` and `mutants-diff-lane` apply
 only to non-fork repositories (or forks tagged `fork-diverged`) with a root
 Cargo.toml, and only once the Tests step is closed (`TODO-DESLOP.md` without an
 open DSLP-4 ticket) or the mutation or coverage target is already present.
 Python and TypeScript lanes follow STUF-83. `mutants-diff-lane` has a fixer
 that writes the reference mutation gate; `fleet/policy/rust-tools.toml` pins
 the cargo-mutants version the lane installs. `fleet/policy/retention.toml`
-owns the read-only guarantees for repositories that already opted in.
+owns the read-only guarantees and adopted strict typing settings.
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ from repomod.git import GitError
 from repomod.rules.actions import load_pins
 from repomod.rules.ci_workflow import _make_command, _trigger_problem
 from repomod.rules.consistency import _declared_make_targets
-from repomod.rules.retention import _mutation, _strict, _targets
+from repomod.rules.retention import _check, _mutation, _targets
 from repomod.rules.workflows import read_workflow_sources
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 
@@ -186,21 +186,10 @@ def _mutants_diff_lane(root: Path, repository: Repository) -> list[Finding]:
     return marked
 
 
-_STRICT_PYTHON = [
-    'ty.missing-type-argument=error',
-    'ty.unsound-return-statement=error',
-    'ty.unused-ignore-comment=error',
-    'ruff.ANN401=selected',
-]
-
-
 def _strict_typing_profile(root: Path, repository: Repository) -> list[Finding]:
     if not _eligible(root, repository):
         return []
-    settings = ['rust.unsafe_code=forbid']
-    if (root / 'pyproject.toml').is_file():
-        settings = [*settings, *_STRICT_PYTHON]
-    return _strict(root, repository, settings, 'strict-typing-profile')
+    return _check(root, repository, 'strict-typing-profile')
 
 
 def _gate_source(name: str) -> str:

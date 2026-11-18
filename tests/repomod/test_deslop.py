@@ -8,7 +8,7 @@ import pytest
 from ruamel.yaml import YAML
 
 from repomod.git import GitError
-from repomod.rules import deslop
+from repomod.rules import deslop, retention
 from repomod.types import RepoId, Repository
 
 CARGO = '[lints.rust]\nunsafe_code = "forbid"\n'
@@ -49,6 +49,9 @@ MAKEFILE = (
 def project(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Repository]:
     repo = Repository(RepoId('laputa-systems', 'fakecrate'), ('tool', 'rust'))
     monkeypatch.setattr(deslop, '_tool_pin', lambda name: '27.1.0')
+    monkeypatch.setattr(retention, '_policy', lambda: {
+        'strict-profile': {str(repo.id): {'settings': ['rust.unsafe_code=forbid']}},
+    })
     (tmp_path / 'Cargo.toml').write_text(CARGO)
     (tmp_path / 'TODO-DESLOP.md').write_text(TODO_CLOSED)
     (tmp_path / 'Makefile').write_text(MAKEFILE)
@@ -146,13 +149,25 @@ def test_missing_strict_rust_setting_is_reported(project: tuple[Path, Repository
     assert any('rust.unsafe_code=forbid' in finding.message for finding in findings)
 
 
-def test_python_strict_settings_checked_when_pyproject_present(project: tuple[Path, Repository]) -> None:
-    root, repo = project
+def test_unregistered_profile_is_not_inferred_from_files(project: tuple[Path, Repository]) -> None:
+    root, _ = project
+    repo = Repository(RepoId('laputa-systems', 'terminal'), ('tool', 'rust', 'python'))
+    (root / 'Cargo.toml').write_text('[lints.rust]\nunsafe_code = "warn"\n')
     (root / 'pyproject.toml').write_text('[tool.ty.rules]\n')
+    assert deslop._strict_typing_profile(root, repo) == []
+
+
+def test_only_adopted_python_setting_is_required(
+    project: tuple[Path, Repository], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, repo = project
+    setting = 'ty.missing-type-argument=error'
+    monkeypatch.setattr(retention, '_policy', lambda: {
+        'strict-profile': {str(repo.id): {'settings': [setting]}},
+    })
+    (root / 'Cargo.toml').write_text('[lints.rust]\nunsafe_code = "warn"\n')
     findings = deslop._strict_typing_profile(root, repo)
-    messages = ' '.join(finding.message for finding in findings)
-    assert 'ty.missing-type-argument=error' in messages
-    assert 'ruff.ANN401=selected' in messages
+    assert [finding.message for finding in findings] == [f'missing strict setting {setting}']
 
 
 def _apply_plan(root: Path, plan: dict[str, str]) -> None:
@@ -212,6 +227,9 @@ def test_fixer_without_dispatchable_workflow_keeps_tooling_partial(
 ) -> None:
     repo = Repository(RepoId('laputa-systems', 'fakecrate'), ('tool', 'rust'))
     monkeypatch.setattr(deslop, '_tool_pin', lambda name: '27.1.0')
+    monkeypatch.setattr(retention, '_policy', lambda: {
+        'strict-profile': {str(repo.id): {'settings': ['rust.unsafe_code=forbid']}},
+    })
     (tmp_path / 'Cargo.toml').write_text(CARGO)
     (tmp_path / 'TODO-DESLOP.md').write_text(TODO_CLOSED)
     (tmp_path / 'Makefile').write_text('test:\n\ttrue\n')
