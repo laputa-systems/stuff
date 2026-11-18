@@ -31,3 +31,5 @@ The draft attempts all three shards on Linux ARM64 and macOS. The
 snapshot, catalog and wider policy decisions, hosted controls and
 whole-file scope are still open. Keep this trial outside the
 retention configuration until those boundaries are verified.
+
+The documentation control changes this paragraph only.
