@@ -3,8 +3,9 @@
 The trial replays the checkout refusal, upstream fetch and workflow
 matrix decisions on a committed snapshot. Changes to Repomod tests
 or settings select all three protected functions. A production edit
-selects the full supported file. Its selection is included alongside
-the protected functions when the change includes a test edit. A
+confined to one of those functions selects that function. Other
+edits select the full supported file. The production selection runs
+alongside the protected functions when the change includes a test edit. A
 deletion or rename cannot drop the protected scope. A Python
 production file without a witness, unclassified path, empty
 inventory or incomplete result fails.

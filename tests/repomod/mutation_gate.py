@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import contextlib
 import hashlib
 import io
@@ -51,6 +52,18 @@ def classify(path: str, status: str) -> str:
     raise ValueError(f"unclassified path: {path}")
 
 
+def outside_function(source: bytes, name: str) -> tuple[list[bytes], list[bytes]] | None:
+    functions = [
+        node for node in ast.parse(source).body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == name
+    ]
+    if len(functions) != 1:
+        return None
+    function = functions[0]
+    lines = source.splitlines(keepends=True)
+    return lines[:function.lineno - 1], lines[function.end_lineno:]
+
+
 def select(base: str, revision: str) -> dict[str, bool]:
     common = git("merge-base", "--", base, revision).decode("ascii").strip()
     fields = git("diff", "--name-status", "--no-renames", "-z", common, revision, "--").decode().split("\0")
@@ -69,7 +82,14 @@ def select(base: str, revision: str) -> dict[str, bool]:
         if kind == "source":
             if path not in sources:
                 raise ValueError(f"missing whole-file mutation witness: {path}")
-            selected[sources[path]] = True
+            shard = sources[path]
+            whole_file = True
+            if status == "M":
+                function = SCOPES[shard][1].removeprefix("x_")
+                before = outside_function(git("show", f"{common}:{path}"), function)
+                after = outside_function(git("show", f"{revision}:{path}"), function)
+                whole_file = before is None or before != after
+            selected[shard] = whole_file
     return selected
 
 
