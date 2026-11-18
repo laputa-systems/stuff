@@ -34,6 +34,13 @@ qualified workloads and remaining boundaries.
   and 24 seconds after restoring the verified caches. Both runs passed all
   128 controller tests in 21 modules.
   [Cache trial](https://github.com/laputa-systems/cmake-build/pull/30)
+  The phase-record suite caught 169 of the same 184 mutations, up from
+  129. The default native job passed all 130 controller tests. CMake also
+  removed three unused fields from the in-memory bootstrap record and
+  retained the lock validation.
+  [Phase records](https://github.com/laputa-systems/cmake-build/pull/32) ·
+  [Bootstrap record](https://github.com/laputa-systems/cmake-build/pull/31) ·
+  [Dead-code scan](https://github.com/laputa-systems/cmake-build/pull/33)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -76,6 +83,9 @@ qualified workloads and remaining boundaries.
   [Node path limits](https://github.com/laputa-systems/mdevd-rs/pull/17) ·
   [Native guest](https://github.com/laputa-systems/mdevd-rs/pull/19) ·
   [Consumer exchange](https://github.com/laputa-systems/mdevd-rs/pull/21)
+  The parser boundary cases caught three additional mutations. The report
+  traces the two remaining early-capture identities through the parser
+  table. [Parser boundary cases](https://github.com/laputa-systems/mdevd-rs/pull/23)
 - The cleanup follow-ups retired 22 more completed worktrees with
   4,927,332 KiB of measured allocation. The
   [cleanup record](deslop-cleanup-20261117.md) includes the
@@ -87,6 +97,12 @@ qualified workloads and remaining boundaries.
   and paired native Linux ARM64 timing.
   [Hi-lite #18](https://github.com/laputa-systems/hi-lite/pull/18) ·
   [Pinned XSH](https://github.com/laputa-systems/hi-lite/pull/19)
+  The diff preview handles `usize::MAX` context and reinitializes the
+  alignment-table boundaries when reusing scratch storage. Both measured
+  ARM64 diff workloads passed. The diff tests caught 21 more mutations
+  across the matched census and survivor rerun.
+  [Full-range preview](https://github.com/laputa-systems/hi-lite/pull/20) ·
+  [Diff cases](https://github.com/laputa-systems/hi-lite/pull/21)
 - Fz passed the scoped fleet checks and the CLI failure control. The
   current paired runtime gate is deferred to a quiet host under DSLP-10.
   [Fz #46](https://github.com/laputa-systems/fz/pull/46)
