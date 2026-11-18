@@ -68,9 +68,12 @@ qualified workloads and remaining boundaries.
   parser scope, up from 81. A persisted tree digest fixture caught 70
   of 72 changes, up from 44. The two remaining edits preserve sibling
   ordering on the supported POSIX platforms.
+  The matched input suite caught 518 of 571 after adding offline fetch,
+  lock diagnostics and archive publication cases.
   [Coverage baseline](https://github.com/laputa-systems/cmake-build/pull/41) ·
   [Bootstrap metadata](https://github.com/laputa-systems/cmake-build/pull/42) ·
-  [Tree digest](https://github.com/laputa-systems/cmake-build/pull/43)
+  [Tree digest](https://github.com/laputa-systems/cmake-build/pull/43) ·
+  [Input boundaries](https://github.com/laputa-systems/cmake-build/pull/44)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -104,9 +107,11 @@ qualified workloads and remaining boundaries.
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests
   and all ten archive digests. The stage reader now diagnoses malformed
-  toolchain metadata. The expanded audit fixture caught 386 of 696.
+  toolchain and runtime library metadata. The expanded audit fixture
+  caught 386 of 696 before the library-record cases.
   [FFmpeg-build #35](https://github.com/laputa-systems/ffmpeg-build/pull/35) ·
-  [Stage metadata](https://github.com/laputa-systems/ffmpeg-build/pull/40)
+  [Stage metadata](https://github.com/laputa-systems/ffmpeg-build/pull/40) ·
+  [Library metadata](https://github.com/laputa-systems/ffmpeg-build/pull/41)
 - Pi-build rebuilt both profiles byte for byte on x86-64 and ARM64 Linux.
   Regular CI now verifies the companion inventory and package identities.
   Vendor tests exercised all 545 mutation identities, with 537 caught
@@ -139,11 +144,14 @@ qualified workloads and remaining boundaries.
   node creation, framed output, coldplug and shutdown. The pinned C consumer
   observed add, change and remove events in its private namespace. Added
   tests caught all 20 selected event and pipe mutations and all 14 selected
-  node-path mutations on ARM64.
+  node-path mutations on ARM64. The engine now warns and skips node
+  operations for an explicit empty name. The storm and idle resource
+  gates passed on stable ARM64 Alpine.
   [Event records](https://github.com/laputa-systems/mdevd-rs/pull/16) ·
   [Node path limits](https://github.com/laputa-systems/mdevd-rs/pull/17) ·
   [Native guest](https://github.com/laputa-systems/mdevd-rs/pull/19) ·
-  [Consumer exchange](https://github.com/laputa-systems/mdevd-rs/pull/21)
+  [Consumer exchange](https://github.com/laputa-systems/mdevd-rs/pull/21) ·
+  [Empty device names](https://github.com/laputa-systems/mdevd-rs/pull/26)
   The parser boundary cases caught three additional mutations. The report
   traces the two remaining early-capture identities through the parser
   table. [Parser boundary cases](https://github.com/laputa-systems/mdevd-rs/pull/23)
@@ -167,9 +175,11 @@ qualified workloads and remaining boundaries.
   The diff preview handles `usize::MAX` context and reinitializes the
   alignment-table boundaries when reusing scratch storage. Both measured
   ARM64 diff workloads passed. The diff tests caught 21 more mutations
-  across the matched census and survivor rerun.
+  across the matched census and survivor rerun. The language detector
+  cases caught six faults across shebangs and Objective-C suffixes.
   [Full-range preview](https://github.com/laputa-systems/hi-lite/pull/20) ·
-  [Diff cases](https://github.com/laputa-systems/hi-lite/pull/21)
+  [Diff cases](https://github.com/laputa-systems/hi-lite/pull/21) ·
+  [Language detection](https://github.com/laputa-systems/hi-lite/pull/22)
 - Fz passed the scoped fleet checks and the CLI failure control. The
   current paired runtime gate is deferred to a quiet host under DSLP-10.
   [Fz #46](https://github.com/laputa-systems/fz/pull/46)
@@ -254,7 +264,8 @@ qualified workloads and remaining boundaries.
   trial in [draft #32](https://github.com/joshuarli/pytest-parallel/pull/32)
   after the aggregate exhausted the coordinator budget. The stop and
   cleanup fixtures caught 114 of 167 changes. The monitor now uses its
-  deadline as the only stop state.
+  deadline as the only stop state. The installed wheel passed 1,500
+  repomod tests with three skips.
   [Stop and cleanup](https://github.com/joshuarli/pytest-parallel/pull/41) ·
   [Deadline state](https://github.com/joshuarli/pytest-parallel/pull/42)
   Stats merged
