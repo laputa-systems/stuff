@@ -10,7 +10,8 @@ established, so the slop cannot return.
 Resumed 2026-11-17 at the owner's request. M2 remains open. The
 [roadmap](deslop-roadmap.md) gives the acceptance criteria and the
 [scorecard](deslop-scorecard.md#current-checkpoint-2026-11-17) records the
-checked revisions.
+checked revisions. [M2 calibration evidence](deslop-m2.md) records the
+qualified workloads and remaining boundaries.
 
 - Buildlib [#26](https://github.com/laputa-systems/buildlib/pull/26) and
   Diff-pretty [#31](https://github.com/laputa-systems/diff-pretty/pull/31)
