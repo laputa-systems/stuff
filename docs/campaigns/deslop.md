@@ -14,12 +14,13 @@ and explicit deferrals. Tier A repo passes have started. The
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
-- CMake-build reduced strict findings to 21 through controller fixes.
-  Cold ARM64 qualification exposed a retired Alpine Edge OpenSSL APK.
-  The replacement locks the fleet's stable Alpine 3.24.2 base and
-  installs signed, hash-pinned APKs offline. The cold ARM64 fetch passed.
-  [CMake-build #23](https://github.com/laputa-systems/cmake-build/pull/23) ·
+- CMake-build moved to the fleet's minimal Alpine 3.24.2 builder after
+  Edge retired its locked OpenSSL APK. Both stable archives passed native
+  qualification and size budgets. Stuff removed CMake's Edge exemption and
+  checks both the offline APK closure and the qualification OpenSSL APK.
+  Exact-tree memory qualification passed on ARM64. The x86-64 retry is running.
   [Stable builder](https://github.com/laputa-systems/cmake-build/pull/24) ·
+  [Qualification receipts](https://github.com/laputa-systems/cmake-build/pull/25) ·
   [Fleet policy](https://github.com/laputa-systems/stuff/pull/117)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS

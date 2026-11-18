@@ -86,3 +86,18 @@ The three paths accounted for 1,408,900 KiB (1.34 GiB). During the
 FFmpeg retirement, available blocks on the shared volume rose from
 284,085,620 to 284,810,924 KiB. This is a separate observation from
 the measured checkout allocation.
+
+## Completed checkouts, 2026-11-18
+
+Three more worktrees were retired after the owning reports recorded
+their results. Git verified the detached checkouts against their
+default branches and the Mdevd report against its squash merge.
+
+| Repository | Last checked revision | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| e | `b29c90178b664e12d3c4f7f0f4f49772aee21c33` | `deslop-hi-lite-bracket-consumer` | 143,684 |
+| Buildlib | `1497970d9454a6a9875b1f201cbaad71fd92a010` | `deslop-current-qualification` | 116,036 |
+| Mdevd-rs | `81c378de7e5f66faa2af89cabdccbcbdfa918c46` | `deslop-mdevd-config-decisions` | 343,448 |
+
+These paths accounted for 603,168 KiB. The allocation recorded across
+the cleanup passes totals 12,191,760 KiB (11.63 GiB).
