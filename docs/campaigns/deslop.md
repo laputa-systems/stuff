@@ -24,6 +24,11 @@ qualified workloads and remaining boundaries.
   [Exact qualification](https://github.com/laputa-systems/cmake-build/actions/runs/44354687939) ·
   [Fleet policy](https://github.com/laputa-systems/stuff/pull/117) ·
   [Edge detection](https://github.com/laputa-systems/stuff/pull/120)
+- CMake-build now checks three strict typing rules. The bootstrap parser
+  returns the same 36 validated inputs in order for each architecture.
+  The input suite caught all 172 selected parser mutations.
+  [Controller types](https://github.com/laputa-systems/cmake-build/pull/27) ·
+  [Bootstrap tests](https://github.com/laputa-systems/cmake-build/pull/28)
 - Doas-rs moved its test and build image to the same stable base with four
   direct APKs and checksum-verified Rust tooling. All 166 tests passed on
   native ARM64 and on local emulated x86-64. Both release binaries were
@@ -53,19 +58,26 @@ qualified workloads and remaining boundaries.
   [Node-build #36](https://github.com/laputa-systems/node-build/pull/36) ·
   [Node artifact trial](https://github.com/laputa-systems/node-build/pull/37)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
-  ordinary tests passed with ten opt-in cases ignored. The privileged
-  exchange remains open. Added tests caught all 20 selected event and
-  pipe mutations and all 14 selected node-path mutations on ARM64.
+  ordinary tests passed with ten opt-in cases ignored. Native KVM passed
+  node creation, framed output, coldplug and shutdown. The pinned C consumer
+  observed add, change and remove events in its private namespace. Added
+  tests caught all 20 selected event and pipe mutations and all 14 selected
+  node-path mutations on ARM64.
   [Event records](https://github.com/laputa-systems/mdevd-rs/pull/16) ·
-  [Node path limits](https://github.com/laputa-systems/mdevd-rs/pull/17)
+  [Node path limits](https://github.com/laputa-systems/mdevd-rs/pull/17) ·
+  [Native guest](https://github.com/laputa-systems/mdevd-rs/pull/19) ·
+  [Consumer exchange](https://github.com/laputa-systems/mdevd-rs/pull/21)
 - The cleanup follow-ups retired 22 more completed worktrees with
   4,927,332 KiB of measured allocation. The
   [cleanup record](deslop-cleanup-20261117.md) includes the
   shared-volume measurements and the retired paths.
 - Stuff #111 retains Pi-build and Node-build's coverage recipes and
   qualified type settings. Hi-lite added coverage through Make and
-  tested the public bracket scan limit and UTF-8 display mapping.
-  [Hi-lite #18](https://github.com/laputa-systems/hi-lite/pull/18)
+  tested the public bracket scan limit and UTF-8 display mapping. Its
+  pinned XSH vocabulary passed regeneration, the editor display suite
+  and paired native Linux ARM64 timing.
+  [Hi-lite #18](https://github.com/laputa-systems/hi-lite/pull/18) ·
+  [Pinned XSH](https://github.com/laputa-systems/hi-lite/pull/19)
 - Fz passed the scoped fleet checks and the CLI failure control. The
   current paired runtime gate is deferred to a quiet host under DSLP-10.
   [Fz #46](https://github.com/laputa-systems/fz/pull/46)
