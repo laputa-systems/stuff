@@ -239,3 +239,24 @@ branch. The closed trial and its hosted logs remain available.
 These paths accounted for 582,204 KiB. Across all passes, 95 retired
 worktrees and the listed generated artifacts accounted for 17,743,280
 KiB (16.92 GiB) of measured path allocation.
+
+## Build-tools and search follow-up, 2026-11-18
+
+Five accepted worktrees were clean and idle, with changed paths
+matching their integration commits. The Pi-build check-up and
+injected fault also left two disposable proof directories. The
+accepted Pi-build report records the results and reproduction.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Stuff | `22dcb716` | `record-deslop-coverage-baselines` | 33,548 |
+| Diff-pretty | `b38628ec` | `scrl-streamed-search` | 142,952 |
+| Doas-rs | `f424b9ec` | `doas-check-fragment-diagnostics` | 352 |
+| Node-build | `e287fb4a` | `node-budget-casefold-proof` | 696 |
+| Pi-build | `235d3be0` | `pi-deslop-settled` | 135,636 |
+
+The two Pi-build proof directories under `.work/tmp/` accounted for
+243,152 KiB. The five worktrees and two proofs together accounted for
+556,336 KiB. Across all passes, 100 retired worktrees and the listed
+generated artifacts accounted for 18,299,616 KiB (17.45 GiB) of measured
+path allocation.
