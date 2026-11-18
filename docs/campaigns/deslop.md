@@ -14,10 +14,15 @@ and explicit deferrals. Tier A repo passes have started. The
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
-- Tier A Make test entry points merged for Hi-lite, Doas-rs, Mdevd-rs,
-  CMake-build, and Node-build. Pi-build and FFmpeg-build completed Ground
-  and Diagnose. Node-build completed Ground with all 74 controller tests
-  passing in the pinned Alpine environment.
+- Node-build closed the local provenance finding after 87 pinned Alpine tests.
+  FFmpeg-build and Pi-build moved from Types to bounded mutation tests.
+  Stuff #111 retains Pi-build and Node-build's coverage recipes and qualified
+  type settings. Native release qualification and the wider mutation gates
+  remain open. Hi-lite verified its native registry install example and filed
+  a reproduced delimiter edge case. See the checked heads in the scorecard.
+- Ten completed campaign worktrees were retired from FFmpeg-build, Node-build
+  and Pi-build. Their measured allocation totaled 1,914,592 KiB. The
+  [cleanup record](deslop-cleanup-20261117.md) includes both passes.
 - Fz passed the scoped fleet checks and the CLI failure control. The
   current paired runtime gate awaits a quiet host. Diff-pretty added
   workspace branch coverage through Make. Stuff
