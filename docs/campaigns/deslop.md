@@ -49,7 +49,25 @@ checked revisions.
   in its configured mirror.
 - Public Cargo, npm and PyPI reads recovered. Stats
   [#24](https://github.com/joshuarli/stats/pull/24) passed all three checks and
-  merged.
+  merged. [#25](https://github.com/joshuarli/stats/pull/25) recorded the legacy
+  migration outcome and bounded the component work. Linux reruns uncovered
+  a dev-launcher shutdown race and a producer port collision. Both repairs
+  merged after all hosted checks passed.
+  [Stats #27](https://github.com/joshuarli/stats/pull/27) ·
+  [Stats #26](https://github.com/joshuarli/stats/pull/26)
+- Repomod's catalog tests caught 52 of 60 selected identities, up from 39.
+  The eight survivor dispositions and reproduction commands are in the
+  [catalog evidence](../deslop-catalog-admission.md). Stuff
+  [#70](https://github.com/laputa-systems/stuff/pull/70) registered diff-pretty's
+  hosted mutation gate after [diff-pretty #40](https://github.com/laputa-systems/diff-pretty/pull/40)
+  verified the retained Make entry point on both platforms.
+- Fastermod and Ptytest completed Diagnose. Fastermod fixed terminal
+  `--plan` routing in [#31](https://github.com/laputa-systems/fastermod/pull/31).
+  Its text source read error repair passes tests and lint and awaits the
+  paired workload on a quiet host.
+  [Fastermod #30](https://github.com/laputa-systems/fastermod/pull/30) ·
+  [Fastermod #32](https://github.com/laputa-systems/fastermod/pull/32) ·
+  [Ptytest #16](https://github.com/laputa-systems/ptytest/pull/16)
 - The owner excluded Discover from deslop while rearchitecting it.
 - The owner approved the full campaign and unattended decisions. M2 and the
   tier checkpoints still require evidence. The roadmap records the remaining
