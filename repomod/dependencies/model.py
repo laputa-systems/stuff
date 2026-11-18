@@ -219,13 +219,6 @@ class IndexEntry:
 
 
 @dataclass(frozen=True, slots=True)
-class Index:
-    parser_version: int
-    repositories: Mapping[str, IndexEntry]
-    schema: int = SCHEMA_VERSION
-
-
-@dataclass(frozen=True, slots=True)
 class InputContent:
     path: str
     text: str
