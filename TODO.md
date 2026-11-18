@@ -59,7 +59,7 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Area:** Fleet · frontend dependencies
 - **Where:** docs/campaigns/deslop-roadmap.md#upgrade-solid-consumers-on-resumption; fleet/catalog.toml; affected Solid consumer manifests and lockfiles
 - **Problem:** The owner reports Solid 2.0 left RC on 2026-11-17 and explicitly requests upgrading every consumer on campaign resumption. Existing consumers and migration requirements have not yet been inventoried. P2 assumed for the requested fleet upgrade; no production defect is claimed.
-- **Recommendation:** On resumption verify the official stable release, changelog and migration guide. Inventory all Solid consumers and related compiler, JSX, router, test and SSR integration pins. Map relevant breaking changes before edits, migrate each affected consumer, and verify type/lint, build, tests and relevant browser or SSR behavior. Use focused reviewed PRs with green applicable checks; preserve registry policy and existing release/production boundaries. Do not execute the upgrade during winddown.
+- **Recommendation:** Use the stable release, changelog and migration guide to verify the remaining consumers listed in the roadmap. Check the compiler, JSX, router, test and SSR pins, then qualify each upgrade with lint, type checks, builds and relevant integration tests. Discover is outside campaign scope during the owner's rearchitecture.
 - **Fix with:** upgrade-the-world
 - **Effort:** L
 
