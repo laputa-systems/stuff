@@ -1527,7 +1527,9 @@ def _adapter_with_lock_findings(
     channel = lock.channel("stable")
     findings: list[Finding] = []
     if adapter.kind == "cmake-build":
-        return _cmake_bootstrap_findings(repository, adapter.lock, channel, document)
+        findings.extend(_cmake_bootstrap_findings(repository, adapter.lock, channel, document))
+        findings.extend(_cmake_qualification_apk_findings(root, repository, channel))
+        return findings
     if adapter.kind == "python-build":
         linux = document.get("linux_toolchain")
         if not isinstance(linux, dict):
@@ -1780,6 +1782,31 @@ def _cmake_bootstrap_findings(
         for name, expected in channel.packages[arch].items():
             if (name == "musl" or name in versions) and versions.get(name) != expected:
                 findings.append(_failure(repository, path, f"{target} APK {name} must be {expected}"))
+    return findings
+
+
+def _cmake_qualification_apk_findings(root: Path, repository: Repository, channel: Channel) -> list[Finding]:
+    path = "sources.lock.json"
+    document, error = read_json_object(root / path)
+    if document is None:
+        return [operational(repository, _RULE_ID, path, f"cannot read CMake source lock: {error}")]
+    entries = document.get("inputs")
+    if not isinstance(entries, list):
+        return [_failure(repository, path, "CMake source lock must record its inputs")]
+    findings: list[Finding] = []
+    for arch in _ARCHES:
+        name = f"openssl-test-{arch}"
+        version = channel.packages[arch].get("openssl")
+        url = f"{_ALPINE_CDN}/v{channel.branch}/main/{arch}/openssl-{version}.apk"
+        if version is None or not any(
+            isinstance(entry, dict)
+            and entry.get("name") == name
+            and entry.get("version") == version
+            and entry.get("url") == url
+            and "urls" not in entry
+            for entry in entries
+        ):
+            findings.append(_failure(repository, path, f"{name} must use the approved stable OpenSSL APK"))
     return findings
 
 

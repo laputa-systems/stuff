@@ -248,6 +248,7 @@ versions require an architecture-conditional argument. A non-approved `--reposit
 direct `.apk` URL is a finding. CMake's controller supplies local, hash-verified APKs to
 an offline Docker build. Its adapter checks the Dockerfile's base and requires stable
 repository URLs, sizes, and SHA-256 digests for the locked APKs on both architectures.
+The OpenSSL CLI used by qualification must also come from the approved stable branch.
 Musl builders must not use `apt-get`, a Debian or Ubuntu
 final stage, or an `unknown-linux-gnu` target; `chromium-build` may keep its digest-pinned
 Debian compiler-host stage and its documented `x86_64-unknown-linux-gnu` compiler-layout

@@ -360,6 +360,14 @@ def test_cmake_build_adapter_checks_offline_stable_closure(
     }
     bootstrap = tmp_path / "bootstrap.lock.json"
     bootstrap.write_text(json.dumps(document))
+    sources = tmp_path / "sources.lock.json"
+    openssl = {
+        "inputs": [
+            {"name": f"openssl-test-{arch}", "version": "3.5.9-r0", "url": f"{base_url}/{arch}/openssl-3.5.9-r0.apk"}
+            for arch in ("x86_64", "aarch64")
+        ],
+    }
+    sources.write_text(json.dumps(openssl))
     name = repository(("build", "python"), "laputa-systems/cmake-build")
     install_lock(monkeypatch, approved_lock())
     assert musl._linux_musl_toolchain_findings(tmp_path, name) == []
@@ -368,8 +376,11 @@ def test_cmake_build_adapter_checks_offline_stable_closure(
     section = document["targets"]["aarch64-unknown-linux-musl"]
     section["packages"][0]["url"] = f"{base_url.replace('v3.24', 'edge')}/aarch64/musl-1.2.6-r3.apk"
     bootstrap.write_text(json.dumps(document))
+    openssl["inputs"][1]["url"] = f"{base_url.replace('v3.24', 'edge')}/aarch64/openssl-3.5.9-r0.apk"
+    sources.write_text(json.dumps(openssl))
     findings = messages(musl._linux_musl_toolchain_findings(tmp_path, name))
     assert any("stable repository URL" in message for message in findings)
+    assert "openssl-test-aarch64 must use the approved stable OpenSSL APK" in findings
     assert any("Alpine edge is not approved" in message for message in findings)
     assert any("/tmp/apks/*.apk" in message for message in findings)
     assert musl._linux_musl_toolchain_fix(tmp_path, name) == {}
