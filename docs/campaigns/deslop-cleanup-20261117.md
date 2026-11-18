@@ -294,3 +294,19 @@ the wheel hash and how to reproduce the consumer check.
 The four worktrees accounted for 353,128 KiB. Across all passes, 109
 retired worktrees and the listed generated artifacts accounted for
 19,177,680 KiB (18.29 GiB) of measured path allocation.
+
+## Release and timing records, 2026-11-18
+
+Five clean, idle worktrees matched the accepted files at retirement.
+
+| Repository | Accepted integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Node-build | `b9fc2374` | `node-reference-version-probe` | 83,928 |
+| Node-build | `f10806e1` | `node-release-scope` | 82,044 |
+| Node-build | `88e2d2f0` | `node-release-git-timeout` | 79,904 |
+| Stuff | `315e0d7f` | `record-deslop-publication-checks` | 33,556 |
+| Fz | `71a3a48f` | `fz-hosted-pairs` | 496 |
+
+The five worktrees accounted for 279,928 KiB. Across all passes, 114
+retired worktrees and the listed generated artifacts accounted for
+19,457,608 KiB (18.56 GiB) of measured path allocation.

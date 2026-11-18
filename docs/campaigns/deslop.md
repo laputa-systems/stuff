@@ -145,6 +145,11 @@ qualified workloads and remaining boundaries.
   [Budget validation](https://github.com/laputa-systems/node-build/pull/39) ·
   [Case-sensitive controls](https://github.com/laputa-systems/node-build/pull/40) ·
   [Reference comparison](https://github.com/laputa-systems/node-build/pull/41)
+  The release census caught 350 of 395 identities and identified the
+  unused single-target wrapper. Both Git queries now report timeouts
+  through assembly exit 2 before creating output.
+  [Release census](https://github.com/laputa-systems/node-build/pull/42) ·
+  [Git timeouts](https://github.com/laputa-systems/node-build/pull/43)
 - Mdevd-rs now selects live consumer exchange explicitly. All 64
   ordinary tests passed with ten opt-in cases ignored. Native KVM passed
   node creation, framed output, coldplug and shutdown. The pinned C consumer
@@ -186,9 +191,15 @@ qualified workloads and remaining boundaries.
   [Full-range preview](https://github.com/laputa-systems/hi-lite/pull/20) ·
   [Diff cases](https://github.com/laputa-systems/hi-lite/pull/21) ·
   [Language detection](https://github.com/laputa-systems/hi-lite/pull/22)
+  The full language-module selection caught 25 of 30 identities.
+  Five failed to compile with E0277.
+  [Hi-lite #23](https://github.com/laputa-systems/hi-lite/pull/23)
 - Fz passed the scoped fleet checks and the CLI failure control. The
-  current paired runtime gate is deferred to a quiet host under DSLP-10.
-  [Fz #46](https://github.com/laputa-systems/fz/pull/46)
+  first full hosted comparison had six timing rows outside baseline spread.
+  The identical-binary control had one such row in a different workload.
+  The exact release pair is being repeated under DSLP-10.
+  [Fz #47](https://github.com/laputa-systems/fz/pull/47) ·
+  [Control](https://github.com/laputa-systems/fz/actions/runs/44421140205)
   Diff-pretty added
   workspace branch coverage through Make. Its PTY tests exercise
   restoration on SIGTERM, raw-mode transitions and EOF. Terminal key

@@ -15,7 +15,7 @@ outside scope during the owner's rearchitecture.
 | Repository | Default revision | Pass state and completed work | CI and retention | One next action |
 | --- | --- | --- | --- | --- |
 | srv | `c9965411d80a8b02d8b8c4cac2492ecc973ee296` | The #47 sharded candidate includes the archive startup warning. Earlier Report complete. | All 376 identities accounted for twice. The latest run caught 323, missed 24, found 17 unviable and confirmed 12 hangs. Its gate median was 850.3 seconds. | Resolve misses and qualify the ten-minute target |
-| fz | `091617def63fbf364afea068513a2b5dfa748720` | Earlier Report complete. Local check-up passed 66 Rust cases and caught an injected CLI success exit. #46 records the current release comparison as deferred in DSLP-10. | Both default checks passed. #44 preserved 439 mutation identities across two jobs. The third hosted timing attempt exited 75 at its readiness check after sampling started. | Repeat the paired runtime workload on a quiet host |
+| fz | `71a3a48f5af9f1438e2dee36f3ebb4ee218d8af4` | Earlier Report complete. #47 records five qualified hosted pairs with six timing rows outside the baseline spread. DSLP-10 remains open. | All five PR checks and both default checks passed. #44 preserved 439 mutation identities across two jobs. The identical-binary timing control also showed one out-of-bound row in a different workload. | Independently repeat the exact release pair |
 | buildlib | `1497970d9454a6a9875b1f201cbaad71fd92a010` | Ground through Dead code and cumulative review complete. Fresh check-up passed all 208 tests and reproduced the manifest filename mismatch with an injected fault. | All 17 checks passed #27. Default CI and lint passed. Test workflow, mutation, coverage and strict typing policy checks returned no findings. | Retain the checked guarantees |
 | extensions | `10f6101eba8916aa0f4b4aed07d91f6178ff525b` | Active. Coverage, type-aware lint and installed Chromium are retained. Draft #22 covers parser and storage. #27 verifies ZIP metadata and CRC. | The parser and storage jobs passed in 617 aggregate runner seconds with four hosted controls. #27 caught 35 of 44 selected identities. | Qualify the remaining archive and browser effects |
 | pytest-parallel | `eb11974795c1b2e5e26183c992ec021c80b007d6` | Active. #40 verifies report validation. #41 checks worker stop, drain and cleanup. #42 holds stop state in the deadline. | All 212 tests and three hosted checks passed. The reduced state has 111 catches of 162. Its installed wheel passed 1,500 repomod tests with three skips. | Qualify the remaining coordinator lifecycle and socket decisions |
@@ -30,11 +30,11 @@ outside scope during the owner's rearchitecture.
 | toolbox | `8d2cd08c71ff00d311212d85940f95c8359aa76f` | Local native and coverage evidence complete on #15. Hosted qualification deferred for Actions billing. | All 750 tests and five native fio subtests passed locally. The November 18 retry failed before runner allocation. | Resume hosted checks when Actions can start the jobs |
 | ffmpeg-build | `a9ebce0aed380a8201ad5482c7b94f76864e8f89` | Ground, Diagnose and Types complete. #35 records all ten native artifact checks. #40 and #41 diagnose malformed toolchain and runtime library metadata. | All 118 ordinary tests, lint and both default checks passed. The shared audit caught 386 of the same 696 identities before #41. | Qualify whole-change coverage |
 | pi-build | `235d3be03fc03dec6f217a3d9a2ff71a6f200c98` | Build-tools pass settled November 18 after #45. Both Linux profiles reproduced on x86-64 and ARM64. Two-host Intercom remains owner ticket DSLP-9. | Fresh check-up passed 77 Python tests, four companion fixtures, lint, four fleet checks and the negative control. The earlier gate accounted for 1,434 identities. Both default checks passed. | Run the separately enrolled Intercom procedure when the owner environment is available |
-| node-build | `b9fc2374026027c77ec74c44a0ff825bad7ca372` | Ground, Diagnose and Types complete. #38 records native qualification for Node 26.12.1. #40 completes the case-sensitive budget controls and #41 diagnoses version-probe failures. | All 12 comparison tests passed. The final comparison suite caught 132 of 177 identities. Both default checks passed. Both native targets passed 18 smoke cases and both size budgets in the artifact trial. | Qualify wider controller mutation and the whole-change gate |
-| hi-lite | `f73b2a7d7b25f02c34b7c17ec484949fff6a7242` | Ground, Diagnose and Types complete. #19 pins XSH. #20 fixes full-range diff previews. #22 covers shebangs and case-sensitive extensions. | Both ordinary platforms and lint passed. #22 caught six injected changes and passed all 18 API tests. The diff census and survivor rerun caught 137 of 148 identities. | Qualify lexer coverage, allocation-only cases and the whole-change gate |
+| node-build | `88e2d2f05b811157e297a538c88ca086a3b6bfd8` | Ground, Diagnose and Types complete. #38 records native qualification for Node 26.12.1. #41 diagnoses version-probe failures. #42 removes an unused wrapper and #43 diagnoses Git probe timeouts. | All 33 release cases and both default checks passed. The census at #41 caught 350 of 395 release identities and #42 removed the four uncovered wrapper identities. Both native artifacts passed 18 smoke cases and both size budgets. | Qualify the outstanding Git, record and wider controller decisions and the whole-change gate |
+| hi-lite | `75eed701595361ae6fb7ff794c76bea833fd8474` | Ground, Diagnose and Types complete. #20 fixes full-range diff previews. #22 covers shebangs and case-sensitive extensions. #23 accounts for all 30 language-module identities. | Both ordinary platforms and lint passed. Language caught 25 with five compiler rejections. The diff census and survivor rerun caught 137 of 148 identities. | Qualify lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
-| cmake-build | `75f691217f5311afaa593bf4ce4c8edb0dbe35ab` | Ground, Diagnose and Types complete. #44 verifies lock, cache and archive behavior. #45 verifies cleanup and retry after failed publication. | #44 caught 518 of 571 input identities. #45 caught 36 of 48 in the extraction publication function and passed native default checks. Both stable archives passed native qualification. | Obtain a compatible mirrored coverage wheel and qualify the remaining extraction and whole-change checks |
+| cmake-build | `2bf6fdb8f285399e5f9cd6c090666b8da2182f12` | Ground, Diagnose and Types complete. #45 verifies cleanup and retry after failed publication. #46 simplifies directory validation and exercises root and nested entries. | #44 caught 518 of 571 input identities. #45 caught 36 of 48 in publication. #46 passed the native controller and lint checks. Both stable archives passed native qualification. | Obtain a compatible mirrored coverage wheel and qualify the remaining extraction and whole-change checks |
 
 
 Fz check-up at `0ec537d53eca0a12af07687250111a48023ee8d3` used a fresh macOS ARM64 worktree, the
@@ -45,10 +45,23 @@ repo's pinned nightly, fzy commit `34b88869d022e861da4846c4463aea3ddfb3ff30`,
 the parse-error exit from 1 to 0 in `src/cli.rs` and run
 `cargo test --locked --test cli invalid_lines_and_positional_arguments_fail_without_stdout -- --exact`.
 It exits 101 with 0 observed where 1 is expected. Reverting the fault restores
-the pass. Local release timings overlapped a CPU-intensive workload. The last
-hosted attempt failed its readiness check after sampling had started.
-[Hosted attempt](https://github.com/laputa-systems/fz/actions/runs/44348670074) ·
-[DSLP-10](https://github.com/laputa-systems/fz/pull/46)
+the pass. Local release timings overlapped a CPU-intensive workload. An
+earlier hosted attempt failed readiness mid-run. The next hosted run
+collected five complete pairs and exceeded baseline spread and 2% in six
+rows, including three terminal redraw timings. The unchanged fzy oracle
+also moved in the small-input wall row. The owning report records all
+six ranges, binary sizes, RSS and reproduction.
+[Fz #47](https://github.com/laputa-systems/fz/pull/47)
+
+The identical-binary control completed five pairs with the same fixtures
+and readiness checks on a separate hosted allocation. None of the
+original six rows exceeded the bound. One different row exceeded it,
+the default dense 100k-path user CPU median at 19.726 to 23.208 ms
+with baseline range 19.337–22.641 ms. The identical Fz and fzy
+hashes agree across all ten results. A repeat of the exact release
+comparison is running.
+[Control](https://github.com/laputa-systems/fz/actions/runs/44421140205) ·
+[Repeat](https://github.com/laputa-systems/fz/actions/runs/44422469442)
 
 The Pytest-parallel wheel built from `eb11974795c1b2e5e26183c992ec021c80b007d6`
 passed `make repomod-test` at Stuff `ad43e917` with 1,500 passes and
