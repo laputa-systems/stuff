@@ -4,7 +4,7 @@ This checkpoint records qualification by workload. The [roadmap](deslop-roadmap.
 
 | Shape and workload | Result and exact evidence | Cost and remaining boundary |
 | --- | --- | --- |
-| Rust HTTP service, Srv request dispatch and rendering | Earlier pass and retained mutation gate on `c9965411`. Draft [#47](https://github.com/laputa-systems/srv/pull/47) exercised 376 identities across four jobs, including 308 caught, 27 missed, 16 unviable and 25 provisional timeouts. | Separate native singleton selection reproduced one timeout. Finish the current candidate's decisions and confirm any further timeouts before counting them. |
+| Rust HTTP service, Srv request dispatch and rendering | Earlier pass and retained mutation gate on `c9965411`. Draft [#47](https://github.com/laputa-systems/srv/pull/47) accounted for all 376 identities on `289a8fe`. | The hosted shard run caught 322, missed 25, found 17 unviable and confirmed 12 hangs. The 10-minute target and remaining behavioral witnesses are open. |
 | Rust performance CLI, Fastermod saved plans and text search | Ground, Diagnose and Types are complete through [#33](https://github.com/laputa-systems/fastermod/pull/33). [#31](https://github.com/laputa-systems/fastermod/pull/31) fixed terminal plan routing. [#32](https://github.com/laputa-systems/fastermod/pull/32) repaired source read diagnostics and merged as `a4040a1a`. | The [paired workload](https://github.com/laputa-systems/fastermod/blob/a4040a1a3b85053397ba4c3d1338e534f74d6f63/docs/deslop-text-source-perf.md) qualifies the repair across all seven named benchmarks, with five pairs inside the observed spread. Both outputs matched. General mutation and the rest of the Tests step remain open. |
 | Rust corpus and SIMD CLI, Loc | [#19](https://github.com/joshuarli/loc/pull/19) added a child deadline and caught both previously hanging CLI mutations. [#20](https://github.com/joshuarli/loc/pull/20) at `b45c6f2e` exercises XDG precedence and fallback on both Linux musl architectures. All five hosted checks passed. | The sample retains three comparison alternatives and two counting-helper misses. Finish the critical inventory, cost and whole-change lane. |
 | Rust PTY library, Ptytest cleanup and consumers | [#15](https://github.com/laputa-systems/ptytest/pull/15) preserved diagnostics through cleanup and passed focused fz, tm and lz consumers. Diagnose and Types completed through [#17](https://github.com/laputa-systems/ptytest/pull/17). [#19](https://github.com/laputa-systems/ptytest/pull/19) repaired a hosted fixture race, and [#18](https://github.com/laputa-systems/ptytest/pull/18) retains coverage. [#20](https://github.com/laputa-systems/ptytest/pull/20) at `fcb35843` verifies output wait results. | The output wait sample caught five of eight identities, up from two. Two guards are equivalent and one timing-sensitive case remains. All 67 instrumented tests passed at #18. Focused e and ish failures also occur with the pre-repair library. The nightly corpus and whole-change mutation remain separate. |
@@ -14,12 +14,20 @@ This checkpoint records qualification by workload. The [roadmap](deslop-roadmap.
 | Python orchestration and effects, Repomod | Types complete. The [focused dead-code review](../deslop-repomod-dead-code.md) removed two unused items. Workflow expansion caught 55 of 58 with three equivalent cases in [#61](https://github.com/laputa-systems/stuff/pull/61). Real local fetch caught all 25 in [#62](https://github.com/laputa-systems/stuff/pull/62). Catalog admission caught 52 of 60 versus 39 on the base in [#68](https://github.com/laputa-systems/stuff/pull/68). [#74](https://github.com/laputa-systems/stuff/pull/74) repaired snapshot drift handling. | The [snapshot scenario](../deslop-repomod-snapshot.md) caught 110 of 123 in the full selection, six targeted survivors in the follow-up and two filename mutations on a case-sensitive filesystem. The retained whole-change union and full Dead code acceptance remain open. [Serial first-party coverage](deslop-roadmap.md#repomod-calibration-inventory). |
 | TypeScript Node, browser and MV3, Extensions | Type-aware unsafe-argument lint and installed Chromium landed in [#15](https://github.com/joshuarli/extensions/pull/15). [#17](https://github.com/joshuarli/extensions/pull/17) retains first-party coverage. [#18](https://github.com/joshuarli/extensions/pull/18) keeps nine capture fixtures and the extension lifecycle in one Chromium job. [#20](https://github.com/joshuarli/extensions/pull/20) at `fc55127a` verifies exact parser diagnostics. | The parser caught 178 of the same 179 mutations, up from 139 on the base and 167 at #19. The final survivor is equivalent. The final local run took 7m 34s. TypeScript whole-change mutation and controls remain open. |
 | TypeScript Worker and Rust agent, Stats ingest and local stack | [#24](https://github.com/joshuarli/stats/pull/24) verified legacy migration with 41 local passes and all hosted checks. [#26](https://github.com/joshuarli/stats/pull/26) and [#27](https://github.com/joshuarli/stats/pull/27) fixed a producer port collision and SIGTERM shutdown. [#28](https://github.com/joshuarli/stats/pull/28) adds a shared ACK case that catches miscounting in both decoders. [#29](https://github.com/joshuarli/stats/pull/29) at `da022e8b` records the Rust wire type audit. | Ten wire unit tests, five conformance tests and all three hosted checks passed #29. Component-scale TypeScript and Rust critical selection, browser/Worker cost and retained gates remain open. |
-| Python and external native tools, Toolbox | Deferred. The installed Pytest-parallel wheel and the baseline both reproduced the FFmpeg failure. The hosted lint retry also ended before any step. | Requires Actions billing recovery and positive FFmpeg and fio execution evidence before the worker-coverage result can qualify this shape. [Lint retry](https://github.com/joshuarli/toolbox/actions/runs/43933600029/attempts/2). |
+| Python and external native tools, Toolbox | Deferred. The installed Pytest-parallel wheel and the baseline both reproduced the FFmpeg failure. The third hosted lint attempt ended before any step. | Requires Actions billing recovery and positive FFmpeg and fio execution evidence before the worker-coverage result can qualify this shape. [Lint retry](https://github.com/joshuarli/toolbox/actions/runs/43933600029/attempts/3). |
 
 The cross-repository controls in Buildlib, fz and Diff-pretty support retaining their proven Make entry points. When qualifying a successor, record the actual checked head, selected regions, missed identities and total runner cost. Keep incomplete platform and consumer boundaries in the owning Tests ticket.
 
 ## Successor results
 
+- Fastermod [#34](https://github.com/laputa-systems/fastermod/pull/34)
+  verifies the source warning by its diagnostic and path. The same
+  nine-identity inventory moved from six to seven caught, with two
+  unviable. All 46 tests and hosted checks passed.
+- Ptytest [#23](https://github.com/laputa-systems/ptytest/pull/23)
+  verifies timeout diagnostics and the deadline under continuous output.
+  The scope moved from 11 to 13 caught of 18, with five unviable.
+  All 68 local tests and the hosted Linux and macOS jobs passed.
 - Ptytest [#21](https://github.com/laputa-systems/ptytest/pull/21) caught
   all four remaining output-wait mutations after removing two redundant
   deadline checks. Linux and macOS hosted checks passed. Focused lz, e
@@ -34,8 +42,26 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [#32](https://github.com/joshuarli/pytest-parallel/pull/32) at `41891aa`
   passed local standalone option and scheduling shards. The earlier
   aggregate at `f7c2795` exhausted 1,200 seconds after processing 130 of
-  559 coordinator identities. The mixed negative control completed
-  selection. It still needs to execute both scopes through the gate.
+  559 coordinator identities. [#33](https://github.com/joshuarli/pytest-parallel/pull/33)
+  caught all 79 file-planning identities. [#38](https://github.com/joshuarli/pytest-parallel/pull/38)
+  removed redundant worker-pin and worker-limit paths, leaving 51
+  identities, all caught. All 188 ordinary tests passed and the three
+  hosted checks passed.
+- Pytest-parallel's [positive run](https://github.com/joshuarli/pytest-parallel/actions/runs/44257362822)
+  at `80cce01` passed eight jobs, covering options, scheduling,
+  file planning and report emission on Linux ARM64 and macOS. Total
+  runner time was 668 seconds, with a 76.5-second median and a
+  170-second maximum. The uncovered decision in
+  [#34](https://github.com/joshuarli/pytest-parallel/pull/34) left
+  plan-parser identities 19–22 alive. Deletion in
+  [#35](https://github.com/joshuarli/pytest-parallel/pull/35) and the
+  mixed change in [#37](https://github.com/joshuarli/pytest-parallel/pull/37)
+  reopened identity 18 on both platforms. The mixed scheduling change
+  passed its own shard. All eight jobs in the
+  [documentation control](https://github.com/joshuarli/pytest-parallel/pull/36)
+  reported no relevant changes. Ordinary checks passed all four controls.
+  The broader coordinator and socket scopes still need witnesses, and
+  the socket trial reported misses.
 - Stats [#30](https://github.com/joshuarli/stats/pull/30) records
   1,112 of 1,128 TypeScript ingest lines and 820 of 855 branches in the
   Node selection, 21 Worker cases, and 608 of 625 Rust wire lines and
@@ -45,7 +71,11 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   caught 113 of 115 TypeScript ACK mutations in 14 seconds, up from
   104 on the same source. The two survivors are equivalent. Both
   implementations passed the expanded corpus, and all three hosted
-  checks passed. Wider ingest and whole-change results remain open.
+  checks passed. [#33](https://github.com/joshuarli/stats/pull/33)
+  caught all 42 Rust ACK identities, up from 41 on the same source, by
+  distinguishing an ACK at the byte limit from one byte over. All 109
+  Rust unit tests, five wire conformance cases and three hosted checks
+  passed. Wider ingest and whole-change results remain open.
 - Loc [#22](https://github.com/joshuarli/loc/pull/22) caught 16 of 19
   search-sweep identities, up from eight. Two timeouts repeated in
   longer native singleton runs, and the remaining identity is
@@ -59,6 +89,9 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   all 19 checkout refusal identities on unchanged source. All 55 local
   removal tests and the ten hosted checks passed. The retained union
   and remaining dead-code decisions stay open.
+  [#88](https://github.com/laputa-systems/stuff/pull/88) removed the
+  test-only role exception accessor and asserted the rendered migration
+  result through the remaining API. All ten checks passed.
 - Extensions [draft #22](https://github.com/joshuarli/extensions/pull/22)
   passed local parser and storage gate invocations, with 178 caught and
   one equivalent in 7m 30s, and 112 caught and two equivalents in 15s.
@@ -73,8 +106,10 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [mixed](https://github.com/joshuarli/extensions/pull/25) runs each
   reopened IDs 115 and 116 and passed ordinary checks. The
   [documentation control](https://github.com/joshuarli/extensions/pull/26)
-  passed and selected no jobs. Other critical source witnesses remain
-  open.
+  passed and selected no jobs. [#27](https://github.com/joshuarli/extensions/pull/27)
+  moved stored ZIP archive detection from 26 to 35 caught of 44.
+  Three of seven survivors are equivalent, with two other identities
+  still uncovered. All three hosted checks passed.
 - Srv [run 44249399368](https://github.com/laputa-systems/srv/actions/runs/44249399368)
   at `7cd8627` caught 310 of 376, with 25 misses and 16 unviable.
   Five timeouts repeated as exact singletons before the four jobs
@@ -85,7 +120,15 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   at `289a8fe` uses the native serial invocation. Two local singleton
   runs confirmed the timeouts and preserved the original file bytes.
   The first local build took 77.2s and the second 4.8s with the same
-  target directory. The hosted rerun is in progress.
+  target directory. The [hosted rerun](https://github.com/laputa-systems/srv/actions/runs/44254842182)
+  accounted for all 376 identities. The remaining 25 provisional
+  timeouts resolved to 12 caught, one unviable and 12 confirmed hangs
+  relative to the earlier run's counts. The four gate walls were 844.7,
+  854.9, 884.2 and 888.6 seconds, and the jobs used 3,541 runner seconds.
+  [#48](https://github.com/laputa-systems/srv/pull/48) caught one
+  retained miss locally through a CLI startup warning, and ordinary
+  CI and lint passed. Its existing unsharded mutation check exhausted
+  900 seconds. Both PRs remain open.
 
 ## Deferred environment gates
 
