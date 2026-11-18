@@ -405,7 +405,9 @@ run `oo reload-ingress` and probe each changed route.
   port. It applies to a tailnet-only Orange app. The renderer uses
   `GATEWAY_SECRET` from the root-only `apps/NAME.recovery.env` and
   preserves tailnet identity verification. Startup and image selection
-  refuse the local app while this declaration is present.
+  refuse the local app while this declaration is present. The read-only
+  `oo deployment NAME` response includes `recoveryWriter` with the
+  configured upstream while the fence is active.
 
 Before activating a writer route, stop the local app and confirm its
 container exited. Run an authenticated write and readback after reload.
