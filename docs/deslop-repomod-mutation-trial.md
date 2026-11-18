@@ -32,3 +32,27 @@ The draft attempts all three shards on Linux ARM64 and macOS. The
 snapshot, catalog and wider policy decisions, hosted controls and
 whole-file scope are still open. Keep this trial outside the
 retention configuration until those boundaries are verified.
+
+## Hosted controls
+
+The [first hosted run](https://github.com/laputa-systems/stuff/actions/runs/44265802547)
+at `43b4b515` passed all six mutation jobs. The jobs used 273 runner
+seconds with a 37-second median and a 79-second maximum.
+
+[The documentation control](https://github.com/laputa-systems/stuff/pull/94)
+reported no selection in all six jobs. [Deleting the removal table](https://github.com/laputa-systems/stuff/pull/97)
+left all 19 protected identities alive on both platforms.
+[The uncovered branch](https://github.com/laputa-systems/stuff/pull/95)
+left four new decision mutations alive on Linux. Its full-file macOS
+job reached the 600-second limit. [The mixed control](https://github.com/laputa-systems/stuff/pull/96)
+reopened the removal misses and also selected the changed sync file.
+Linux caught all 25 upstream-function identities inside that selection.
+Other file results failed, and the full-file macOS job ran out of time.
+Ordinary checks passed all four controls.
+
+With the function-level selection at `3e467fc9`, local runs selected
+24 checkout decisions for the uncovered branch, with four surviving,
+and all 25 caught upstream decisions for the mixed change. The driver
+checks exact bytes before and after the function in both revisions.
+This keeps edits to decorators or surrounding code in the full-file
+selection. The hosted successor still needs qualification.
