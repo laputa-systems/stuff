@@ -28,6 +28,10 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   verifies timeout diagnostics and the deadline under continuous output.
   The scope moved from 11 to 13 caught of 18, with five unviable.
   All 68 local tests and the hosted Linux and macOS jobs passed.
+  [#24](https://github.com/laputa-systems/ptytest/pull/24) verifies
+  cursor coordinates in both the PTY response and the recorded input.
+  It caught all 13 viable terminal identities, up from 12 in the
+  same 18-identity selection. Both platform jobs passed.
 - Ptytest [#21](https://github.com/laputa-systems/ptytest/pull/21) caught
   all four remaining output-wait mutations after removing two redundant
   deadline checks. Linux and macOS hosted checks passed. Focused lz, e
@@ -61,7 +65,11 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [documentation control](https://github.com/joshuarli/pytest-parallel/pull/36)
   reported no relevant changes. Ordinary checks passed all four controls.
   The broader coordinator and socket scopes still need witnesses, and
-  the socket trial reported misses.
+  the socket trial reported misses. The expanded
+  [positive run](https://github.com/joshuarli/pytest-parallel/actions/runs/44262334863)
+  at `23937c8` added the worker-pin and limit shard. All ten mutation
+  jobs and three ordinary checks passed. The ten mutation jobs used
+  786 runner seconds, with a 72-second median and a 174-second maximum.
 - Stats [#30](https://github.com/joshuarli/stats/pull/30) records
   1,112 of 1,128 TypeScript ingest lines and 820 of 855 branches in the
   Node selection, 21 Worker cases, and 608 of 625 Rust wire lines and
@@ -75,12 +83,20 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   caught all 42 Rust ACK identities, up from 41 on the same source, by
   distinguishing an ACK at the byte limit from one byte over. All 109
   Rust unit tests, five wire conformance cases and three hosted checks
-  passed. Wider ingest and whole-change results remain open.
+  passed. [#34](https://github.com/joshuarli/stats/pull/34) removed
+  four assertions in producer ACK processing. The producer and
+  bridge typechecks passed, the local integration suite passed 24
+  cases with one opt-in skip, and all three hosted checks passed.
+  Wider ingest and whole-change results remain open.
 - Loc [#22](https://github.com/joshuarli/loc/pull/22) caught 16 of 19
   search-sweep identities, up from eight. Two timeouts repeated in
   longer native singleton runs, and the remaining identity is
   equivalent. All five hosted checks passed. The broader Loc gate
-  and cost still need qualification.
+  and cost still need qualification. [#23](https://github.com/joshuarli/loc/pull/23)
+  verifies a matching first-line interpreter, a foreign interpreter
+  and a matching directive later in the file. It caught all five
+  viable shebang identities, up from four on unchanged source.
+  The 551 local tests and all five hosted checks passed.
 - Repomod [#83](https://github.com/laputa-systems/stuff/pull/83) removed
   two test-only helpers and recorded the clean dependency scan.
   [#84](https://github.com/laputa-systems/stuff/pull/84) moved Musl lock
@@ -88,10 +104,16 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   writer. [#85](https://github.com/laputa-systems/stuff/pull/85) caught
   all 19 checkout refusal identities on unchanged source. All 55 local
   removal tests and the ten hosted checks passed. The retained union
-  and remaining dead-code decisions stay open.
+  stays open.
   [#88](https://github.com/laputa-systems/stuff/pull/88) removed the
   test-only role exception accessor and asserted the rendered migration
-  result through the remaining API. All ten checks passed.
+  result through the remaining API. [#90](https://github.com/laputa-systems/stuff/pull/90)
+  removed the unused direct catalog writer. Its tests cover comment
+  preservation, repeat discovery and concurrent additions through the
+  live pending writer. [#91](https://github.com/laputa-systems/stuff/pull/91)
+  removed the unused audit batch worker and moved its witnesses to the
+  shipped advisory rule and version cache. All 1,481 local tests and
+  the ten hosted checks passed, with three opt-in local skips.
 - Extensions [draft #22](https://github.com/joshuarli/extensions/pull/22)
   passed local parser and storage gate invocations, with 178 caught and
   one equivalent in 7m 30s, and 112 caught and two equivalents in 15s.
@@ -128,7 +150,8 @@ The cross-repository controls in Buildlib, fz and Diff-pretty support retaining 
   [#48](https://github.com/laputa-systems/srv/pull/48) caught one
   retained miss locally through a CLI startup warning, and ordinary
   CI and lint passed. Its existing unsharded mutation check exhausted
-  900 seconds. Both PRs remain open.
+  900 seconds. The witness and receipt are now on draft #47 at
+  `601451a`, and #48 is closed. The new hosted run is in progress.
 
 ## Deferred environment gates
 
