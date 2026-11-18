@@ -14,10 +14,13 @@ and explicit deferrals. Tier A repo passes have started. The
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries.
 
-- CMake-build now reports invalid RSS samples through its normal budget
-  diagnostic. All 117 prepared controller tests passed. Strict findings
-  fell to 44, with 37 missing generic arguments and seven unsound returns.
-  [CMake-build #18](https://github.com/laputa-systems/cmake-build/pull/18)
+- CMake-build reduced strict findings to 21 through controller fixes.
+  Cold ARM64 qualification exposed a retired Alpine Edge OpenSSL APK.
+  The replacement locks the fleet's stable Alpine 3.24.2 base and
+  installs signed, hash-pinned APKs offline. The cold ARM64 fetch passed.
+  [CMake-build #23](https://github.com/laputa-systems/cmake-build/pull/23) ·
+  [Stable builder](https://github.com/laputa-systems/cmake-build/pull/24) ·
+  [Fleet policy](https://github.com/laputa-systems/stuff/pull/117)
 - FFmpeg-build passed all seven supported Linux profile and target
   combinations and the three ARM64 macOS profiles. The local macOS
   check used Xcode 27.2. The report records the packaged consumer tests
@@ -51,7 +54,9 @@ qualified workloads and remaining boundaries.
   qualified type settings. Hi-lite verified its native registry install
   example and filed a reproduced delimiter edge case.
 - Fz passed the scoped fleet checks and the CLI failure control. The
-  current paired runtime gate awaits a quiet host. Diff-pretty added
+  current paired runtime gate is deferred to a quiet host under DSLP-10.
+  [Fz #46](https://github.com/laputa-systems/fz/pull/46)
+  Diff-pretty added
   workspace branch coverage through Make. Stuff
   [#106](https://github.com/laputa-systems/stuff/pull/106) checks qualified
   strict settings from policy, and

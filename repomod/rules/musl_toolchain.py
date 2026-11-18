@@ -877,10 +877,18 @@ def _apk_commands(text: str) -> list[_ApkCommand]:
             if current.text in _APK_VALUE_OPTIONS:
                 cursor += 2
                 continue
-            if current.text == "--repository":
+            if current.text in {"--repository", "-X"}:
                 if cursor + 1 < len(tokens) and not tokens[cursor + 1].separator:
                     repositories.append(tokens[cursor + 1].text)
                 cursor += 2
+                continue
+            if current.text.startswith("--repository="):
+                repositories.append(current.text.removeprefix("--repository="))
+                cursor += 1
+                continue
+            if current.text.startswith("-X"):
+                repositories.append(current.text.removeprefix("-X"))
+                cursor += 1
                 continue
             if current.text.startswith("-"):
                 cursor += 1
