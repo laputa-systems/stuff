@@ -205,3 +205,19 @@ the successful workflow revision.
 These paths accounted for 300,296 KiB. Across all passes, 78 retired
 worktrees and the listed generated artifacts accounted for 16,918,656
 KiB (16.13 GiB) of measured path allocation.
+
+
+## Coverage and terminal follow-up, 2026-11-18
+
+Eight integrated or proven worktrees were retired. Their branches and
+durable verification records retain the accepted source and results.
+
+| Repository | Last checked integration | Retired worktrees under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| CMake-build | #41 and #42 | `cmake-native-coverage-receipt`, `cmake-bootstrap-values` | 95,188 |
+| Doas-rs | #11 through #15 | `doas-diagnose-final`, `doas-clear-kvm`, `doas-clear-status`, `doas-type-dispositions`, `doas-branch-coverage` | 9,604 |
+| Diff-pretty | #43 | `pager-terminal-tests` | 137,628 |
+
+These paths accounted for 242,420 KiB. Across all passes, 86 retired
+worktrees and the listed generated artifacts accounted for 17,161,076
+KiB (16.37 GiB) of measured path allocation.
