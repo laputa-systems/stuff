@@ -26,6 +26,12 @@ ts-lint: ## Lint and type-check the Worker TypeScript
 repomod-test: ## Run the repomod tests
 	@uv run --group dev --quiet pytest
 
+.PHONY: repomod-mutants
+repomod-mutants: ## Run the serial Repomod mutation trial
+	@set -- "$${BASE:-origin/main}"; \
+	if [ -n "$${REPOMOD_MUTATION_SHARD:-}" ]; then set -- "$$@" --shard "$$REPOMOD_MUTATION_SHARD"; fi; \
+	uv run --no-sync python tests/repomod/mutation_gate.py "$$@"
+
 repomod-lint: ## Lint and type-check repomod
 	@uv run --group dev --quiet ruff check repomod tests/repomod bench
 	@uv run --group dev --quiet ty check
