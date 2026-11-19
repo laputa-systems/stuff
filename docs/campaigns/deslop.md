@@ -7,7 +7,22 @@ established, so the slop cannot return.
 
 ## Status
 
-Winding down 2026-11-19. Campaign dispatch is paused while current work is recorded.
+Paused 2026-11-19. Resume with “Resume the deslop campaign from Status.”
+First run `git status --short --branch` in this checkout and read the
+[reboot handoff](deslop-roadmap.md#parked-checkpoints-and-reboot-audit).
+
+Stuff `49dc4ad4` is the last accepted integration revision. Its default CI and
+lint passed. The winddown commits are local. Tier A has three settled passes
+and Tier B is underway. Discover and Chromium-build are excluded.
+
+- Gluon `test/gluon-benchmark-witnesses` and `fix/gluon-deps-recovery` are green drafts awaiting quiet-host timing. [#39](https://github.com/laputa-systems/gluon/pull/39) · [#41](https://github.com/laputa-systems/gluon/pull/41)
+- Hi-lite `fix/yaml-scalar-boundaries` is a green draft awaiting paired YAML timing. [#26](https://github.com/laputa-systems/hi-lite/pull/26)
+- Defuddle-rs `fix/defuddle-relative-links` is a green draft with distinct benchmark binaries prepared for timing. [#33](https://github.com/joshuarli/defuddle-rs/pull/33)
+- Rustybench `fix/rustybench-option-expressions` at local `bc6748c` passed its focused test and needs workspace tests, lint and hosted verification.
+- The [reboot inventory](deslop-roadmap.md#retained-stuff-worktrees) lists retained checkouts and branches. Three dirty OpenOrange worktrees belong to separate work and prevent a clean Stuff stop-hook audit.
+
+Next, qualify the Rustybench fix with the workspace suite and lint. Run the
+parked timing gates when the host passes readiness.
 
 ## Accepted work
 
