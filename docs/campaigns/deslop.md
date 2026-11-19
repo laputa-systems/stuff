@@ -22,10 +22,24 @@ Landed on resumption, each merged on green:
   [#19](https://github.com/laputa-systems/doas-rs/pull/19) ran one bounded `src/policy.rs` trial (1.87 runner-minutes, 22 of 26
   caught); all four survivors are in two uncalled `#[allow(dead_code)]`
   helpers, now Dead code leads.
+- Tests (DSLP-4) closed in Vault [#37](https://github.com/laputa-systems/vault/pull/37):
+  secret commands reject surplus names before touching storage.
 - Dead code (DSLP-5) closed in Node-build [#86](https://github.com/laputa-systems/node-build/pull/86)
-  (five unused layout constants removed) and CMake-build
+  (five unused layout constants removed), CMake-build
   [#128](https://github.com/laputa-systems/cmake-build/pull/128) (all
-  vulture findings traced; nothing further to remove).
+  vulture findings traced; nothing further to remove), Doas-rs
+  [#20](https://github.com/laputa-systems/doas-rs/pull/20) (the uncalled
+  policy, TTY and timestamp helpers and the module-wide `dead_code` allow
+  removed), Mdevd-rs [#28](https://github.com/laputa-systems/mdevd-rs/pull/28)
+  (config's second pass returns its error instead of an unreachable branch) and
+  Hi-lite [#28](https://github.com/laputa-systems/hi-lite/pull/28) (an unused
+  golden-fixture collector).
+- Bench (decision 14) gave Node-build [#87](https://github.com/laputa-systems/node-build/pull/87)
+  and CMake-build [#129](https://github.com/laputa-systems/cmake-build/pull/129)
+  one `make bench` entrypoint, proven at Edit and one Change workload.
+  CMake's benchmark admission now runs before any measurement. Doas-rs has
+  no benchmarks; [#21](https://github.com/laputa-systems/doas-rs/pull/21)
+  records its outcome list.
 - Rustybench's option-expression fix (DSLP-9) passed the workspace suite,
   lint, and benchmark builds in fastermod, loc, e, ish and gluon against the
   candidate. [Rustybench #22](https://github.com/laputa-systems/rustybench/pull/22)
@@ -38,10 +52,13 @@ Gluon [#39](https://github.com/laputa-systems/gluon/pull/39) and
 [reboot inventory](deslop-roadmap.md#retained-stuff-worktrees) lists retained
 checkouts and branches.
 
-Next: Bench (decision 14) for Node-build and CMake-build, then their P1/P2
-findings and Report; Dead code for Doas-rs, Mdevd-rs and Hi-lite; DSLP-4 for
-Vault and Diff-pretty, accounting for their parked platform-CI branches; Bench
-tickets for the settled Fz, Pi-build and FFmpeg-build.
+Environment-blocked: the P2 timing gates Node-build DSLP-9 and CMake-build
+DSLP-7 need a quiet native host, like the parked PRs above.
+
+Next: Report for Node-build and CMake-build; findings and Report for
+Doas-rs; Bench for Mdevd-rs and Hi-lite (running); DSLP-4 for Diff-pretty
+(running); the stranded Vault branch tests (running), then Vault's Dead code
+and Bench; Bench tickets for the settled Fz, Pi-build and FFmpeg-build.
 
 ## Accepted work
 
