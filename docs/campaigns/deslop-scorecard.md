@@ -6,11 +6,10 @@ never gated.
 
 ## Current checkpoint, 2026-11-18
 
-M2 qualified representative workloads with explicit deferrals. Tier A repo passes
-have started. The [resumption roadmap](deslop-roadmap.md) records the remaining
-acceptance conditions. Historical values below retain their original scope.
-Later tier checkpoints still require qualification evidence. Discover is
-outside scope during the owner's rearchitecture.
+M2 qualified representative workloads with explicit deferrals. Three
+Tier A repositories have passed check-up, opening the Tier B passes. The
+[resumption roadmap](deslop-roadmap.md) records the remaining acceptance
+conditions. Discover is outside scope during the owner's rearchitecture.
 
 | Repository | Default revision | Pass state and completed work | CI and retention | One next action |
 | --- | --- | --- | --- | --- |
@@ -28,13 +27,51 @@ outside scope during the owner's rearchitecture.
 | ptytest | `606027bb32999fa3e1bb960285384a89081a957a` | Active. #25 retained the terminal mutation scope. #30 makes the workflow classify each pull request. | Both platforms and four controls confirmed the bounded selection. The same macOS Xsh compile failure occurred at baseline and with the candidate. | Qualify lifecycle, replay and remaining consumer Tests inventory |
 | tm | `6cf0b949c2593c0959268a3d1995b972b05f58b6` | Active; fixture repairs merged, Ground and later stages open | Recent repair CI green; quiet-host cost unresolved | Finish Ground cost and component scope |
 | toolbox | `8d2cd08c71ff00d311212d85940f95c8359aa76f` | Local native and coverage evidence complete on #15. Hosted qualification deferred for Actions billing. | All 750 tests and five native fio subtests passed locally. The November 18 retry failed before runner allocation. | Resume hosted checks when Actions can start the jobs |
-| ffmpeg-build | `79b21eeda95bc896b24b5205fee465c3713a5f38` | Ground, Diagnose and Types complete. #62 retains the controller mutation gate. #73 records the Tests closeout. | All 66 native jobs and the final check passed, and both default checks passed. Both Linux architectures caught 5,135 of 5,330. macOS caught 5,054. The four fleet rules passed with this registration. | Finish Dead code and cumulative review |
+| ffmpeg-build | `b9d9ce52ddc4cf171cc1f5aa707c8f1df6186474` | Tier A pass settled November 18. #74 removed an unreachable branch. #76 closed the empty-manifest finding. #77 merged the check-up report. | All 73 PR checks passed on #76, all ten on #77, and both default checks passed. The fresh clone passed 168 cases, lint, the four fleet rules and the empty-manifest control. | Retain the checked guarantees |
 | pi-build | `235d3be03fc03dec6f217a3d9a2ff71a6f200c98` | Build-tools pass settled November 18 after #45. Both Linux profiles reproduced on x86-64 and ARM64. Two-host Intercom remains owner ticket DSLP-9. | Fresh check-up passed 77 Python tests, four companion fixtures, lint, four fleet checks and the negative control. The earlier gate accounted for 1,434 identities. Both default checks passed. | Run the separately enrolled Intercom procedure when the owner environment is available |
-| node-build | `8cd5550fe03e359732daaf9c30fa114ff445b3ad` | Ground, Diagnose and Types complete. #76 verifies staged command output. #77 requires one exact test pass count from the TAP reporter. | Both default checks passed. Draft #61 passed all 28 native jobs across 14 modules at the base before #77. The pinned installed Node 26.12.1 passed the candidate smoke check. | Qualify the remaining smoke, product and build controller scopes |
+| node-build | `d03cff8284271984c9e1664c5e8569a225afd77a` | Ground, Diagnose and Types complete. #77 checks the exact TAP count. #78 fixes an apostrophe in the worker probe's staged executable path. | Both default checks passed. Draft #61 passed 28 native jobs across 14 earlier modules. The pinned Node 26.12.1 passed the worker regression and the native check caught 62 of 65 variants. | Qualify the remaining smoke, product and build controller scopes |
 | hi-lite | `d103040221466e47bc11a91ee120b160b5e52f21` | Ground, Diagnose and Types complete. #25 covers JSON token byte boundaries through the public highlighter. | The 150 ordinary tests passed with one existing opt-in XSH test. Both default checks passed. JSON caught 64 of 74, with two equivalents and eight timeouts. | Qualify remaining lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
-| cmake-build | `a501fe368b430f467e05fd6dc31fb73b76e7e297` | Ground, Diagnose and Types complete. #69 closes the network listener on setup failure. #68 through #72 verify reference copy, Docker command transport, listener reports and upstream report publication. | Both default checks passed. The eight-scope draft passed all 16 native jobs and its final check. Each Linux host caught 885 of 900 sandbox variants. | Qualify more of the compiler and qualification controllers |
+| cmake-build | `0a28b62ff8d3d247e09dd43e2522a9cc1ee89be3` | Ground, Diagnose and Types complete. #74 restores cached inputs before the host Git checks. #75 through #77 exercise the basic, network and project handoffs. | Both default checks passed. The earlier eight-scope draft passed 16 native jobs. The new macOS scopes caught 110 of 114 basic, 198 of 207 network and 174 of 184 project variants. | Qualify parity and the remaining compiler controllers |
+
+## Tier A checkpoint
+
+The November 18 checkpoint admits Tier B after Fz, Pi-build and
+FFmpeg-build passed fresh check-up, default CI and F2/F3. The source
+and test measurements below cover each report's stated scope.
+
+| Step | Yield and cost |
+| --- | --- |
+| Ground | Fz established host and consumer boundaries. Pi-build split its build tools from the enrolled-host procedure. FFmpeg separated controller cost from native artifact qualification. |
+| Diagnose and findings | The three reports recorded concrete boundary failures in terminal input, vendor restoration and staged manifests. FFmpeg's stale source-pin and empty-manifest fixtures both failed before the repairs and pass afterward. |
+| Types | Pi-build resolved ten bare-mapping diagnostics without adding bypasses. FFmpeg resolved three unsound returns. Fz reported the scope of its compiler checks and existing test-only escape hatches. |
+| Tests | Pi-build's retained gate checked 1,434 identities. Fz's retained gate split core from terminal jobs and verified the ish consumer. FFmpeg's final 22-scope native run took 539 wall seconds and 5,125 aggregate native runner seconds. |
+| Dead code | Fz removed five lines from an unread benchmark field. Pi-build removed an uncalled normalization helper. FFmpeg removed the two-line unreachable devices branch. Vulture found one confirmed removal and at least six distinct dynamic-entry false positives across the three reports. Its tool recipe already limits it to discovery. |
+
+FFmpeg's fresh check-up measured 2,333 to 2,693 first-party Python lines
+and 944 to 3,987 Python test lines. Its typing escape-hatch count stayed
+at three. The final controller, bootstrap and release collector covered
+1,458 of 1,526 statements and 612 of 630 branches. The warm controller test
+median was 5.52 seconds. The cold run took 6.58 seconds, and lint took
+0.74 seconds after test setup. The report records the earlier paired
+cost comparison, the exact artifact consumer checks and the fault that
+made the empty-manifest regression fail. [FFmpeg-build report](https://github.com/laputa-systems/ffmpeg-build/pull/77)
+
+The recurring case-only path aliases in FFmpeg and CMake now have a
+case-sensitive replay rule in the mutation guidance. `make skills-check`
+and the hosted skill policy passed. The completed reports identify
+the dynamic names behind their Vulture findings and keep Ruff and
+dependency checks in their language recipes. The reports establish
+no other tool with three comparable zero-yield results.
+[Mutation guidance](https://github.com/joshuarli/usr/pull/43)
+
+Pi-build retains its P2 owner ticket for the enrolled two-host Intercom
+procedure. Vault's recovery, Doas's privileged password and ARM64 guest
+checks, and Mdevd's physical coldplug remain in their owning passes.
+All eight Tier B repositories already carry seeded backlogs. The
+scoped fleet check found a test-entry-point issue in seven. F3
+retention applies as each repository qualifies its guarantees.
 
 
 Fz check-up at `0ec537d53eca0a12af07687250111a48023ee8d3` used a fresh macOS ARM64 worktree, the
