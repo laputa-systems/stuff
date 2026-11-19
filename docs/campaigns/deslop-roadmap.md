@@ -523,7 +523,7 @@ The existing Vault `deslop/store-gate` draft #30 remains at
 `bf3dcd9b4d893dce12de453705ef0b73dae4e0bf`; diff-pretty `deslop/tests` draft #31
 remains at `6f1719d8f0bb1ff9ab42ea0fcc91994ea9909ccb`.
 
-Stuff's four published PR heads are preserved separately from the local pause:
+Stuff's four published PR heads were preserved separately from the local pause. All four have since merged after passing all ten checks:
 
 | PR and branch | Reviewed source head | Pause disposition |
 | --- | --- | --- |

@@ -7,28 +7,41 @@ established, so the slop cannot return.
 
 ## Status
 
-Paused 2026-11-19. Resume with “Resume the deslop campaign from Status.”
-First run `git status --short --branch` in this checkout and read the
-[reboot handoff](deslop-roadmap.md#parked-checkpoints-and-reboot-audit).
+Resumed 2026-11-19 under the selective mutation policy (decision 4,
+**Mutation spending is bounded**) and the new Bench step (decision 14).
+Tier A has three settled passes and Tier B is underway. Discover and
+Chromium-build are excluded.
 
-Stuff `49dc4ad4` is the last accepted integration revision. Its default CI and
-lint passed. The winddown commits are local. Tier A has three settled passes
-and Tier B is underway. Discover and Chromium-build are excluded.
+Landed on resumption, each merged on green:
 
-- Gluon `test/gluon-benchmark-witnesses` and `fix/gluon-deps-recovery` are green drafts awaiting quiet-host timing. [#39](https://github.com/laputa-systems/gluon/pull/39) · [#41](https://github.com/laputa-systems/gluon/pull/41)
-- Hi-lite `fix/yaml-scalar-boundaries` is a green draft awaiting paired YAML timing. [#26](https://github.com/laputa-systems/hi-lite/pull/26)
-- Defuddle-rs `fix/defuddle-relative-links` is a green draft with distinct benchmark binaries prepared for timing. [#33](https://github.com/joshuarli/defuddle-rs/pull/33)
-- Rustybench `fix/rustybench-option-expressions` at local `bc6748c` passed its focused test and needs workspace tests, lint and hosted verification.
-- The [reboot inventory](deslop-roadmap.md#retained-stuff-worktrees) lists retained checkouts and branches. Three dirty OpenOrange worktrees belong to separate work and prevent a clean Stuff stop-hook audit.
+- Tests (DSLP-4) closed with a named required scope and grouped
+  dispositions in Node-build [#85](https://github.com/laputa-systems/node-build/pull/85),
+  CMake-build [#127](https://github.com/laputa-systems/cmake-build/pull/127),
+  Hi-lite [#27](https://github.com/laputa-systems/hi-lite/pull/27) and
+  Mdevd-rs [#27](https://github.com/laputa-systems/mdevd-rs/pull/27). Doas-rs
+  [#19](https://github.com/laputa-systems/doas-rs/pull/19) ran one bounded `src/policy.rs` trial (1.87 runner-minutes, 22 of 26
+  caught); all four survivors are in two uncalled `#[allow(dead_code)]`
+  helpers, now Dead code leads.
+- Dead code (DSLP-5) closed in Node-build [#86](https://github.com/laputa-systems/node-build/pull/86)
+  (five unused layout constants removed) and CMake-build
+  [#128](https://github.com/laputa-systems/cmake-build/pull/128) (all
+  vulture findings traced; nothing further to remove).
+- Rustybench's option-expression fix (DSLP-9) passed the workspace suite,
+  lint, and benchmark builds in fastermod, loc, e, ish and gluon against the
+  candidate. [Rustybench #22](https://github.com/laputa-systems/rustybench/pull/22)
 
-On resumption, apply the selective mutation policy (decision 4 and
-**Mutation spending is bounded**). It favors code improvements and
-completed passes over wider qualification. The roadmap's
-[Node and CMake instructions](deslop-roadmap.md#finish-node-build-and-cmake-build)
-apply it first.
+Parked on host readiness (`perf-gate-ready` reports a hot OrbStack VM):
+Gluon [#39](https://github.com/laputa-systems/gluon/pull/39) and
+[#41](https://github.com/laputa-systems/gluon/pull/41), Hi-lite
+[#26](https://github.com/laputa-systems/hi-lite/pull/26) and Defuddle-rs
+[#33](https://github.com/joshuarli/defuddle-rs/pull/33). The
+[reboot inventory](deslop-roadmap.md#retained-stuff-worktrees) lists retained
+checkouts and branches.
 
-Next, qualify the Rustybench fix with the workspace suite and lint. Run the
-parked timing gates when the host passes readiness.
+Next: Bench (decision 14) for Node-build and CMake-build, then their P1/P2
+findings and Report; Dead code for Doas-rs, Mdevd-rs and Hi-lite; DSLP-4 for
+Vault and Diff-pretty, accounting for their parked platform-CI branches; Bench
+tickets for the settled Fz, Pi-build and FFmpeg-build.
 
 ## Accepted work
 
@@ -478,6 +491,14 @@ tier.
     the enforcement and mutation gates with negative controls, keep retention eligibility in fleet
     policy, make the `deslop` skill the one procedure, and measure readiness per language before the
     next dispatch batch.
+14. **Benchmarks join the pass (2026-11-19).** Every in-scope repository runs the `bench-pyramid`
+    skill as the deslop Bench step, after Dead code and before Findings. Where a repository has
+    benchmarks, it gets the skill's entrypoint (`make bench`, `bench-check`, `bench-list`, tier
+    and workload selectors, preflight) built on its existing harness. A repository without
+    benchmarks records its outcome list and files the gaps as tickets, ranked by the risk of a
+    missed regression. Agents never run the Full tier; it stays a manual owner request. Already
+    settled repositories get a Bench ticket and settle again once it closes. Excluded
+    repositories stay excluded.
 
 ### Prescribed
 
@@ -706,7 +727,7 @@ matches step order. Fleet-wide or shared-file work never becomes a repo ticket.
 
 A repo is **settled** when all of these hold:
 
-- DSLP-1 to DSLP-5 are closed.
+- DSLP-1 to DSLP-5 and the Bench ticket are closed.
 - No P1 or P2 ticket is open, except owner items (area `Needs owner ·`).
 - `## Report` is complete.
 - CI is green on the default branch.
@@ -756,6 +777,7 @@ the Reports.
 | CI runs the tests | `uv run repomod lint --rule gha-test-workflow` has no findings for the in-scope set |
 | Critical contracts are mutation-checked | Each repo's required mutation scope names the contracts it protects; `--rule mutants-diff-lane` is clean where a lane is retained, and its negative controls failed as intended. Advisory audit scope is reported separately and is not required for acceptance. |
 | Strict typing is enforced | `--rule strict-typing-profile` is clean for the in-scope set |
+| Benchmarks answer real questions | Each in-scope repo's Report records its `bench-pyramid` audit; repos with benchmarks have a working `bench-check` and tiered `make bench` entrypoint proven at the Edit and Change tiers |
 | Nothing regressed | Every perf-gated repo's final verdict is within bound, consumer tests are green, and escaped regressions number zero or each has a guard |
 | The method outlives the campaign | The `deslop` skill exists, and `test-audit` contains the K1 coverage and mutation sections |
 | The tickets are gone | No `TODO-DESLOP.md` remains in any in-scope repo |
