@@ -10,8 +10,10 @@ from ruamel.yaml.error import YAMLError
 
 from repomod import paths
 from repomod.catalog import load_catalog
+from repomod.dependencies.adapters.cargo import _excluded
 from repomod.rules.ci_workflow import _step_problem, _trigger_problem
 from repomod.rules.consistency import _declared_make_targets
+from repomod.rules.languages import _rust_manifests
 from repomod.rules.workflows import read_workflow_sources
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 
@@ -172,6 +174,43 @@ def _locked_mutmut(root: Path, repository: Repository, rule: str) -> list[Findin
     return [violation(repository, rule, 'uv.lock', missing)]
 
 
+def _rust_lint_matches(lints: object, group: str, name: str, level: str) -> bool:
+    lint_group = lints.get(group) if isinstance(lints, dict) else None
+    value = lint_group.get(name) if isinstance(lint_group, dict) else None
+    return (value.get('level') if isinstance(value, dict) else value) == level
+
+
+def _workspace_strict(
+    root: Path, repository: Repository, rule: str, workspace: dict[str, object], setting: str
+) -> list[Finding]:
+    name, level = setting.split('=')
+    group, lint_name = name.split('.')
+    manifests, problems = _rust_manifests(root)
+    exclusions = workspace.get('exclude')
+    excludes = exclusions if isinstance(exclusions, list) else []
+    findings = [
+        operational(repository, rule, relative, problem)
+        for relative, problem in problems
+        if not _excluded(Path(relative).parent.as_posix(), '.', excludes)
+    ]
+    members = [
+        (path, document)
+        for path, document, _, workspace_root in manifests
+        if workspace_root == root and isinstance(document.get('package'), dict)
+        and (path.parent == root or not _excluded(path.parent.relative_to(root).as_posix(), '.', excludes))
+    ]
+    if not members and not findings:
+        return [violation(repository, rule, 'Cargo.toml', f'no workspace packages found for {setting}')]
+    for path, document in members:
+        lints = document.get('lints')
+        if isinstance(lints, dict) and lints.get('workspace') is True:
+            lints = workspace.get('lints') if len(lints) == 1 else None
+        if not _rust_lint_matches(lints, group, lint_name, level):
+            findings.append(violation(repository, rule, path.relative_to(root).as_posix(),
+                                      f'missing strict setting {setting}'))
+    return findings
+
+
 def _strict(root: Path, repository: Repository, settings: list[str], rule: str = 'strict-profile') -> list[Finding]:
     findings = []
     for setting in settings:
@@ -186,8 +225,11 @@ def _strict(root: Path, repository: Repository, settings: list[str], rule: str =
             findings.append(operational(repository, rule, relative, str(error)))
             continue
         if group in {'rust', 'clippy'}:
-            value = data.get('lints', {}).get(group, {}).get(lint_name)
-            valid = value == level
+            workspace = data.get('workspace')
+            if isinstance(workspace, dict):
+                findings.extend(_workspace_strict(root, repository, rule, workspace, setting))
+                continue
+            valid = _rust_lint_matches(data.get('lints'), group, lint_name, level)
         elif group == 'ty':
             value = data.get('tool', {}).get('ty', {}).get('rules', {}).get(lint_name)
             valid = value == level

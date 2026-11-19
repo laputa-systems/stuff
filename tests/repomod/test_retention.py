@@ -119,6 +119,34 @@ def test_clippy_profile_requires_the_lints_in_cargo(project: tuple[Path, Reposit
     assert [finding.message for finding in findings] == ['missing strict setting clippy.redundant_clone=deny']
 
 
+@pytest.mark.parametrize(('member_lints', 'expected'), [
+    ('[lints]\nworkspace = true\n', []),
+    ('[lints.rust]\nunsafe_code = { level = "forbid", priority = -1 }\n', []),
+    ('[lints.rust]\nunsafe_code = "allow"\n', ['member/Cargo.toml']),
+    ('[lints]\nworkspace = true\n[lints.rust]\nunsafe_code = "allow"\n', ['member/Cargo.toml']),
+    ('', ['member/Cargo.toml']),
+])
+def test_workspace_strict_profile_checks_effective_member_lints(
+    project: tuple[Path, Repository], member_lints: str, expected: list[str]
+) -> None:
+    root, repo = project
+    (root / 'Cargo.toml').write_text(
+        '[workspace]\nmembers = ["member"]\nexclude = ["excluded"]\n'
+        '[workspace.lints.rust]\nunsafe_code = "forbid"\n'
+    )
+    member = root / 'member'
+    member.mkdir()
+    (member / 'Cargo.toml').write_text(
+        '[package]\nname = "member"\nversion = "0.1.0"\n' + member_lints
+    )
+    excluded = root / 'excluded'
+    excluded.mkdir()
+    (excluded / 'Cargo.toml').write_text('[package]\nname = "excluded"\nversion = "0.1.0"\n')
+
+    findings = retention._check(root, repo, 'strict-profile')
+    assert [finding.file for finding in findings] == expected
+
+
 def test_unlisted_repository_is_skipped(project: tuple[Path, Repository]) -> None:
     root, _ = project
     repo = Repository(RepoId('acme', 'other'), ('tool',))
