@@ -40,7 +40,7 @@ It does not attribute the full volume change to this cleanup.
 - Python-build's `jit-reference-init` worktree accounted for
   7,774,668 KiB and had two commits outside the checked default.
   Its campaign record parks the candidate with qualification pending.
-  [Python-build qualification record](https://github.com/laputa-systems/python-build/blob/e3cbf337da88d67b125db8f10be5ff55b4c4ae9e/docs/CAMPAIGN-RUST-CPYTHON-JIT.md)
+  [Python-build qualification record](https://github.com/laputa-systems/python-build/blob/b1d8240f7d56d778b408a38c2f96ed47eef55f69/docs/CAMPAIGN-RUST-CPYTHON-JIT.md#L4069)
 - The builder pass retained 24 checkouts that the retirement tool
   could not prove integrated and six Node checkouts with unclassified
   ignored `build/` data. The open mutation drafts and their consumers
