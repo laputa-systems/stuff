@@ -170,3 +170,24 @@ separate Defuddle Types worktree under its integration check.
 [CMake bootstrap](https://github.com/laputa-systems/cmake-build/pull/83) ·
 [Defuddle Types](https://github.com/joshuarli/defuddle-rs/pull/17) ·
 [E Ground](https://github.com/laputa-systems/e/pull/30)
+
+## TLS and CLI follow-up
+
+Three worktrees completed while the campaign continued. Their
+combined path allocation was 684,940 KiB (0.65 GiB). Across
+all three batches, 100 worktrees were retired with 14,782,604
+KiB (14.10 GiB) measured before removal.
+
+| Repository | Worktree | Retired revision | Accepted default | Path allocation, KiB |
+| --- | --- | --- | --- | ---: |
+| cmake-build | `cmake-tls-dependency-evidence` | `fbfbcfd8a78bfb3e264f43a0c7ad3678dd69f10b` | `94996d70381500bb7a88c45ba15a10afe9d067ea` | 340372 |
+| cmake-build | `cmake-tls-client-evidence` | `c766a44525bedd85dc41aeacae7a8362d1548c84` | `94996d70381500bb7a88c45ba15a10afe9d067ea` | 340608 |
+| defuddle-rs | `defuddle-cli-witness` | `c1ef4b35376846ef1495b9f8c0ae399bab58bc31` | `6c32f883567a5be8d5ca2d56941372736485c601` | 3960 |
+
+Each checkout had a clean tracked tree and no open file
+handles. The ignored paths held test environments and trial
+scratch. The owning backlogs record the reproduced outcomes.
+`worktree-retire` confirmed patch equivalence on the dry run.
+Git and filesystem checks confirmed all three removals.
+[CMake native TLS](https://github.com/laputa-systems/cmake-build/actions/runs/44505269102/job/135495202575) ·
+[Defuddle CLI](https://github.com/joshuarli/defuddle-rs/pull/18)
