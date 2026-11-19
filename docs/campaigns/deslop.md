@@ -9,7 +9,7 @@ established, so the slop cannot return.
 
 Resumed 2026-11-19 under the selective mutation policy (decision 4,
 **Mutation spending is bounded**) and the Bench step (decision 14).
-Discover and Chromium-build are excluded.
+Discover, Chromium-build, Vault and Pi-build are excluded.
 
 Tier A passes completed through Report on resumption: Node-build
 ([#88](https://github.com/laputa-systems/node-build/pull/88)), CMake-build
@@ -49,20 +49,24 @@ the outcome lists. Mutation spending on resumption stayed within the
 runner-minutes).
 
 Environment-blocked, open at P2: timing gates Node-build DSLP-9 and
-CMake-build DSLP-7; bench gaps Mdevd-rs DSLP-7 and DSLP-8 (quiet native
-host and real devices), Pi-build DSLP-10 and FFmpeg-build DSLP-7 (quiet
-host). Parked on host readiness (`perf-gate-ready` reports a hot OrbStack
+CMake-build DSLP-7 need a quiet native host. The owner re-ranked
+missing-evidence bench gaps without a demonstrated regression to P3
+(Mdevd-rs DSLP-7 and DSLP-8, FFmpeg-build DSLP-7, Vault DSLP-9 to DSLP-11).
+Parked on host readiness (`perf-gate-ready` reports a hot OrbStack
 VM): Gluon [#39](https://github.com/laputa-systems/gluon/pull/39) and
 [#41](https://github.com/laputa-systems/gluon/pull/41), Hi-lite
 [#26](https://github.com/laputa-systems/hi-lite/pull/26) and Defuddle-rs
-[#33](https://github.com/joshuarli/defuddle-rs/pull/33). Owner-run
-boundaries: Vault cross-Mac recovery, Secure Enclave and live session
-keyring; Pi-build two-host Intercom. The
+[#33](https://github.com/joshuarli/defuddle-rs/pull/33). The
 [reboot inventory](deslop-roadmap.md#retained-stuff-worktrees) lists retained
 checkouts and branches; [the .work cleanup](work-cleanup-20261119.md)
 records what was reclaimed.
 
-Next: the remaining Tier B passes.
+Tier B resumed on November 19, one lane per repository: Diagnose for
+Rustybench, Laputa UI Dashboard, E and Lz; Ground for Tinyland; Tests for
+Defuddle-rs and Gluon. Gluon's open P2 defects DSLP-11 to DSLP-14 follow its
+Tests and Dead code steps.
+
+Next: integrate those steps and continue each Tier B pass in order.
 
 ## Accepted work
 
@@ -392,6 +396,9 @@ remaining Tier A passes continue.
 - The owner excluded Discover from deslop while rearchitecting it.
 - The owner excluded Chromium-build on November 19. Its offline APK
   verification remains part of the campaign record.
+- The owner excluded Vault and Pi-build on November 19, after Vault's
+  Report and Pi-build's size check landed. Their open tickets stay in their
+  backlogs without campaign work.
 - The [checkout cleanup](deslop-cleanup-20261117.md) retired 18 integrated
   worktrees under `~/repos` and cleared verified stale build targets and
   fixtures.
