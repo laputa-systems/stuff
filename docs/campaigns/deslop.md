@@ -21,6 +21,12 @@ and Tier B is underway. Discover and Chromium-build are excluded.
 - Rustybench `fix/rustybench-option-expressions` at local `bc6748c` passed its focused test and needs workspace tests, lint and hosted verification.
 - The [reboot inventory](deslop-roadmap.md#retained-stuff-worktrees) lists retained checkouts and branches. Three dirty OpenOrange worktrees belong to separate work and prevent a clean Stuff stop-hook audit.
 
+On resumption, apply the selective mutation policy (decision 4 and
+**Mutation spending is bounded**). It favors code improvements and
+completed passes over wider qualification. The roadmap's
+[Node and CMake instructions](deslop-roadmap.md#finish-node-build-and-cmake-build)
+apply it first.
+
 Next, qualify the Rustybench fix with the workspace suite and lint. Run the
 parked timing gates when the host passes readiness.
 
@@ -427,10 +433,19 @@ tier.
    webpki.
 3. **Forks in scope,** limited to our changes against their upstream merge base: jaq, rust-fontconfig,
    rustix, rage, fd, oxish, crabtables, soulseek-rs. They get a new `fork-diverged` catalog tag (F1).
-4. **Enforcement is mutation on the diff.** CI runs `make test` in every in-scope repository, plus a
-   mutation lane scoped to the changed lines. A surviving mutant fails the lane unless the repo's
-   mutation config lists it with a reason. Coverage is measured and reported, but it is never a gate
-   or a threshold.
+4. **Enforcement is ordinary checks plus small critical mutation checks (revised 2026-11-19).**
+   CI runs `make test`, typing and lint in every in-scope repository, plus the relevant native,
+   browser, consumer and performance checks. Mutation is blocking only for a small, demonstrated
+   scope around an important contract: archive admission, cache integrity, atomic publication,
+   success and failure reporting, cleanup, or an authorization decision. Inside that scope a
+   survivor fails the check unless the repo's mutation config lists it with a reason, and deleting
+   or weakening a protecting test, including in a mixed source and test change, reopens that same
+   small scope. A test or configuration change never expands to mutation of a whole package.
+   Broad module sweeps, extra operators and wider platform matrices are advisory audits, run when
+   invoked or when reviewing a risky change. Their results are evidence of test sensitivity, not
+   a count of defects, and a pass needs no exhaustive mutation qualification. Records state which
+   guarantees required checks enforce and, separately, which scope advisory audits investigated.
+   Coverage is measured and reported, but it is never a gate or a threshold.
 5. **Merging.** One PR per slice. The agent merges it when required CI is green and the slice's
    acceptance command passed. Work parked for the owner stays unmerged.
 6. **Removals.** Behavior-preserving cuts land on their own. Removing live behavior or a public
@@ -489,12 +504,16 @@ tier.
   - **Deferred (host busy):** the slice stays unmerged. It never passes by default.
 - **Test cost budget.** A Tests step may raise warm `make test` time by at most 20% or 30 seconds,
   whichever is larger. Repos already slower than 5 minutes warm fix their drag first.
-- **The mutation lane follows the supported platforms.** Linux and macOS code run on matching
-  jobs, or have explicit separately verified platform dispositions. Classify the whole change
-  and select the production-plus-critical union for source, tests, configuration and gate edits.
-  The CI-time p50 target remains 10 minutes or less. Record total runner-minutes, shards and
-  retries, and explain exceptions. Selection and result accounting follow the test-audit
-  mutation reference.
+- **Mutation spending is bounded (2026-11-19).** A new or expanded mutation trial gets 10
+  aggregate runner-minutes, counting every job, shard, platform and retry. Exceeding it needs a
+  named important unresolved behavior, a finite experiment and its expected value, recorded
+  before the run. Platform-specific behavior runs on its platform; portable mutation runs once
+  unless a platform difference is demonstrated. Ordinary supported-platform CI is unchanged.
+  After two successive bounded trials that protect no distinct important behavior, stop
+  expanding the scope and record a short disposition in the existing report. Budget exhaustion,
+  timeouts and unrun scopes are incomplete evidence, never passes. Known important defects and
+  failures of required critical checks still block. Selection and result accounting follow the
+  test-audit mutation reference.
 - **Libraries.** Changes to a published or consumed library (smolith, ptytest, hi-lite, rustybench,
   laputa-ui-dashboard, buildlib, pytest-parallel) also run their known consumers' tests against the
   candidate, using `repomod deps` to find consumers. Repos stay disjoint because consumers pin
@@ -710,8 +729,13 @@ the Reports.
 
 - **Yield versus cost, per step and per tool.** A step or tool with zero confirmed yield across
   three or more repos is narrowed or cut from the skill. A dead-code tool whose reviewed findings
-  are more than half false positives drops to discovery-only. Confirmed yield means a defect found,
-  an escape hatch deleted, a survivor killed, code deleted, or a finding fixed.
+  are more than half false positives drops to discovery-only. Confirmed yield means a real defect
+  fixed, a distinct important behavior newly protected, an escape hatch deleted, or a meaningful
+  reduction in complexity. A killed mutant is evidence, not yield by itself. Mutants exposing the
+  same missing assertion are one finding. Classify each result as a defect reproduced in the
+  unmodified program, a meaningful test gap exposed by an injected fault, an equivalent,
+  redundant, cosmetic or low-priority variation, or a harness, environment or infrastructure
+  failure. Credit a product fix to mutation only when the record shows mutation found it.
 - **Escapes.** A regression later traced to a campaign PR gets `root-cause`, a guard (a test, a
   rule, or a skill rule), and a method change, all before the next tier is seeded.
 - **Skill revision.** Each feedback item that recurs in two or more Reports becomes a rule in
@@ -719,6 +743,10 @@ the Reports.
   the repo and PR where the slop got through. `make skills-check` must pass.
 - **Owner batch.** Walk-backs and contract changes go into Status under **Needs you**, each with a
   recommendation. They do not block the next tier.
+- **Report briefly** in the existing scorecard: product defects fixed and important behaviors
+  newly protected, simplifications delivered, mutation scopes retained, narrowed or made advisory
+  and why, the actual aggregate runner cost of the trials used, and the remaining concrete risks
+  and environment-dependent checks.
 
 ## Acceptance
 
@@ -726,7 +754,7 @@ the Reports.
 | --- | --- |
 | Every in-scope repo has completed the pass | A scorecard row for every repo, with after-values and a check-up date |
 | CI runs the tests | `uv run repomod lint --rule gha-test-workflow` has no findings for the in-scope set |
-| Mutation on the diff is enforced | `--rule mutants-diff-lane` is clean, and the pilot negative controls failed the lane as intended |
+| Critical contracts are mutation-checked | Each repo's required mutation scope names the contracts it protects; `--rule mutants-diff-lane` is clean where a lane is retained, and its negative controls failed as intended. Advisory audit scope is reported separately and is not required for acceptance. |
 | Strict typing is enforced | `--rule strict-typing-profile` is clean for the in-scope set |
 | Nothing regressed | Every perf-gated repo's final verdict is within bound, consumer tests are green, and escaped regressions number zero or each has a guard |
 | The method outlives the campaign | The `deslop` skill exists, and `test-audit` contains the K1 coverage and mutation sections |

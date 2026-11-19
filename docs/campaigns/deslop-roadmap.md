@@ -229,14 +229,14 @@ Keep one implementation owner per repository. Use the
 
 | Repository | Verified scope | Remaining acceptance |
 | --- | --- | --- |
-| Vault | Ordinary macOS and both musl jobs and the two-Mac owner ticket. | Platform mutation budget, Linux keyring and two-Mac recovery. |
+| Vault | Ordinary macOS and both musl jobs and the two-Mac owner ticket. | Linux keyring and two-Mac recovery. Wide mutation qualification is paused until a specific bounded question needs it. |
 | Buildlib | Merged control matrix, release serialization review and fleet retention. | Recheck the retained guarantees at the tier checkpoint. |
 | Extensions | Type-aware lint, installed Chromium, and parser and storage trials with hosted controls. | Archive decisions and remaining browser effects. |
 | pytest-parallel | Native subtest replay through an installed wheel and twelve hosted mutation lanes. | Coordinator lifecycle, loopback and exact aggregate retention. |
 | Diff-pretty | Retained changed-source and protected-region workflows on both platforms. | Remaining renderer and live terminal scopes. |
 | Loc | Shebang selection on macOS and both Linux musl targets. | Hosted repeat of the native mixed union, wider SIMD and file-selection inventory, and paired cost. |
 | Stats | Legacy upgrade, mixed ACKs in Workerd, and separate hosted Workerd and Rust mutation lanes. | Producer timeout dispositions, wider runtime scope and retention. |
-| Stuff, repomod | Types and Dead code complete. Checkout, upstream, workflow matrix and snapshot trial passed. Publication caught 121 of 127 locally. | Hosted publication scope, remaining inventory and whole-file fallback. |
+| Stuff, repomod | Types and Dead code complete. Checkout, upstream, workflow matrix and snapshot trial passed. Publication caught 121 of 127 locally. | Hosted publication scope as the required critical check. The remaining inventory and whole-file fallback are advisory. |
 | Fastermod | Saved-plan revalidation, source warning and JSON ignore witnesses, hosted source retention. | Review output, wider plan decisions and paired suite cost. |
 | Ptytest | Hosted terminal mutation retention, deadline and cursor traces, focused lz, e and ish consumers. | Lifecycle, replay and remaining consumers. |
 | Tm | Fixture repairs merged. | Quiet-host Ground cost and component pass. |
@@ -244,7 +244,36 @@ Keep one implementation owner per repository. Use the
 
 Srv and fz have completed pass Reports at their checked default heads.
 Srv's successor mutation job exceeded the ten-minute target twice.
-Keep its remaining misses and confirmed hangs in the owning scope.
+Pause repeated wide qualification runs for Srv and Vault until a specific
+bounded question needs one. Investigate baseline or harness cost only where it
+enables a valuable check. Keep Srv's remaining misses and confirmed hangs in
+the owning scope as recorded dispositions.
+
+### Finish Node-build and CMake-build
+
+Preserve the checks already obtained: cache filesystem staging, archive
+layout, tree digests, publication, cleanup and exact success lines. Keep them
+in ordinary CI. Group the remaining survivors by behavior and prioritize
+plausible failures that affect users or consumers. Add the smallest
+deterministic regression test for each worthwhile gap.
+
+Private temporary-name prefixes, equivalent defaults and incidental diagnostic
+variations get a one-line disposition and do not prolong the pass without a
+concrete behavioral reason. CMake's four remaining cache-store variants change
+only the private staging prefix and fall in that class. Do not promote the
+current draft mutation matrix to mandatory CI by default. Retain only the
+scopes that protect a named critical contract within the mutation budget.
+
+### Environment-dependent checks
+
+Settle a supported scope when its findings, typing, dead-code, consumer,
+native and performance requirements and its justified critical checks pass.
+Track unavailable hardware or environment qualification separately, as
+Pi-build does with two-host Intercom in DSLP-9. This covers Vault's recovery
+checks, Doas's live password entry and ARM64 guest, Mdevd's physical
+coldplug and Toolbox's hosted runner allocation. A change whose correctness
+depends on missing evidence stays blocked on that evidence or narrows its
+scope. Unrelated repository work continues.
 
 All ten Tier A repositories have a tracked deslop backlog. Fz, Pi-build
 and FFmpeg-build passed check-up. The Tier A checkpoint admits
@@ -272,6 +301,9 @@ review and Report. A newly demonstrated P1/P2 may interrupt it. Lower-priority
 discoveries become explicit follow-ups unless they invalidate named acceptance.
 Keep historical and current counts separate. Equivalent mutants, accepted
 risks, untested code and unsupported environments are distinct dispositions.
+Group survivors by the behavior they expose. Equivalent, redundant, cosmetic
+and low-priority variations get one short disposition per group, and an
+unrun advisory region is recorded as unrun. Neither blocks the pass.
 
 ### Repomod calibration inventory
 
@@ -330,11 +362,19 @@ the remaining dynamic boundaries.
 
 ## Qualify meaningful retained gates
 
+This section applies only to mutation scopes retained as required checks under
+[decision 4](deslop.md#owner-2026-11-14). Broader sweeps stay advisory and need
+none of these controls. A repository completes its pass without exhaustive
+mutation qualification.
+
 Classify the whole change, including deletions and renames. Production changes
 select changed lines or the file when necessary. Test, fixture, generated-input,
-configuration, dependency and gate changes select the appropriate critical
-scope. The final selection is their union. Print classes, identities, outcomes
-and platform ownership. Unknown paths and unsupported selections fail visibly.
+configuration, dependency and gate changes select the configured critical
+scope, which stays small and names the contracts it protects. They never
+select a whole package. The final selection is their union. Print classes,
+identities, outcomes and platform ownership. Unknown paths and unsupported
+selections fail visibly. Use the existing gate template and configuration and
+build no new selection framework.
 
 Qualify the actual workflow with executed controls demonstrating all of these:
 
@@ -353,8 +393,9 @@ visible. Structural policy checks complement behavioral controls. Keep the
 existing recipes and pinned tools; build no generic workflow or shell interpreter.
 
 Measure wall time and total runner-minutes, including every shard and retry.
-Report the existing ten-minute CI p50 target, the measured sample count and any
-exception. More shards or larger timeouts do not hide cost. Local component
+Trials stay within the 10 aggregate runner-minute budget in
+[Prescribed](deslop.md#prescribed) unless a recorded exception names the
+behavior. More shards or larger timeouts do not hide cost. Local component
 receipts do not qualify the aggregate workflow.
 
 Update `fleet/policy/retention.toml` only after the corresponding guarantee is
