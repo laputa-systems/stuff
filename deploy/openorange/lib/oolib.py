@@ -637,7 +637,20 @@ def store_args(cfg: Config, name: str, ip: str, env_file: Path, *, data_dir: Pat
                          "--quiet", "posix", "--fsync", "--versioning-dir", "/versions", "/data"]
 
 
+def cgroup_slice(role: str) -> str:
+    """Stable cgroup v2 parent for a long-lived container, so host agents can read its counters across recreation.
+
+    The host agent maps `a-b.slice` to `a.slice/a-b.slice`; hyphens inside the role become underscores so one
+    role's slice is never nested inside another's (`discover` and `discover-preview`)."""
+    return f"/oo.slice/oo-{role.replace('-', '_')}.slice"
+
+
 def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
+    args = _run_args(cfg, service, app)
+    return [args[0], "--cgroup-parent", cgroup_slice(app if service == "app" and app else service), *args[1:]]
+
+
+def _run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
     n = cfg.network
     if service == "dns":
         if not cfg.dns.get("enabled"):
