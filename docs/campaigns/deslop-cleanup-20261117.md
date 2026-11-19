@@ -423,3 +423,22 @@ default revision after the fleet scan found an older canonical checkout.
 The six worktrees accounted for 581,816 KiB. Across all passes, 150
 retired worktrees and the listed generated artifacts accounted for
 24,219,364 KiB (23.10 GiB) of measured path allocation.
+
+## Package and comparison follow-up, 2026-11-18
+
+The six worktrees were clean and idle. The files owned by each
+worktree matched the accepted revision, and the owning reports
+preserve the controller proofs.
+
+| Repository | Accepted integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Node-build | `caada286` | `node-native-package-control` | 82,880 |
+| Node-build | `44586768` | `node-package-layout-and-epoch` | 79,984 |
+| Node-build | `f04ca441` | `node-package-install-encoding` | 162,036 |
+| Node-build | `f41c0910` | `node-comparison-probe-contract` | 79,892 |
+| FFmpeg-build | `4c944154` | `ffmpeg-audit-capabilities` | 190,764 |
+| Stuff | `f5541c0a` | `record-deslop-native-controller-proofs` | 33,564 |
+
+The six worktrees accounted for 629,120 KiB. Across all passes, 156
+retired worktrees and the listed generated artifacts accounted for
+24,848,484 KiB (23.70 GiB) of measured path allocation.
