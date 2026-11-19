@@ -419,6 +419,51 @@ factory, `hashHistory` and plain anchors.
 
 ## Parked checkpoints and reboot audit
 
+The November 19 winddown preserved the in-flight Rustybench expression-parser
+fix on local branch `fix/rustybench-option-expressions` at `bc6748c`.
+The focused registration test passed for both option orders and the group.
+Run `make test` and `make lint` from an isolated checkout of that branch, then
+qualify the PR and close DSLP-9. The wider Diagnose pass stays open.
+
+Defuddle-rs #33 passed 178 local workspace tests and all hosted jobs. A shared
+Cargo target returned the baseline artifact for both revisions. The rebuild in
+a separate target produced a distinct candidate. For replay, use independent
+`CARGO_TARGET_DIR` values and
+`cargo bench --locked -p defuddle --bench fixture_bench --no-run` at
+`207a73e29` and `22037cf72`. Confirm that the executable hashes differ before
+following the five-pair procedure in the repository's `docs/performance.md`.
+The prepared binaries have SHA-256 hashes
+`f6d25963a7e2deb95fce5ac3cb5a32f5484e27144d94143088257b5ed0572e2a` and
+`ccea55f1bff3197d599ded34ea2b56d4db71f92fbe44e8786c802f2cb897cfd7`.
+Timing remains deferred because the shared host is busy.
+
+For Gluon #39, build the reviewed binaries with
+`cargo build --locked --profile dist -p gluon-meson -p gluon-ninja` and run the
+branch's `tests/benchmarks/run.sh` against the pinned upstream tools. For #41,
+compare the `dist` Ninja builds at `d0348de` and `7139273` with the same five
+paired source, header and warm no-op workloads. The known surviving scheduler
+mutation was caught on the fix. Its untimed artifact and log checks passed.
+Hi-lite #26 passed both hosted platforms and lint. Run the warm and cold YAML
+cases from its `docs/benchmarks.md` when the host is quiet.
+
+Four cleanup-lane receipts are committed locally on
+`chore/deslop-cleanup-apps` (`53730580`),
+`chore/deslop-cleanup-builds` (`d8e15f21`),
+`chore/deslop-cleanup-cli` (`9be3eff4`), and
+`chore/deslop-cleanup-systems` (`75823bd1`). The inventory receipts are on
+`parked/deslop-managed-cleanup-20261119` (`2a628dd9`) and
+`chore/managed-cleanup-inventory` (`e23ccc90`). All six worktrees retired
+after those commits. Three patch-equivalent Stuff worktrees and four scoped
+worktrees in downstream repositories also retired. The remaining Gluon and
+Defuddle benchmark worktrees retain optional runnable artifacts. The branches
+and reproduction commands are sufficient to rebuild them after a reboot.
+
+The Stuff stop-hook audit cannot close while three separate OpenOrange
+worktrees have pending changes. They are `oo-native-finish`, `oo-recovery`,
+and `oo-stuff-dev-deploy`. The winddown preserves them and clears its
+temporary stop guard so it cannot prompt another campaign turn. The active
+goal is paused.
+
 The three workers stopped and their worktrees are clean. These local commits
 have not been pushed or accepted. Read the tracked proof from each named branch,
 not a scratch log, before qualification. Preserve the branches even if their
@@ -478,6 +523,139 @@ worker, schedule, measurement or Solid upgrade was started during winddown.
 
 ### Retained Stuff worktrees
 
+Current November 19 registration snapshot after retirement. Entries marked
+dirty belong to separate OpenOrange work. Other pre-existing registrations
+remain available for their owners.
+
+```text
+.work/wt/accepted  a97eb8573118  docs/deslop-accepted-slices  (retained)
+.work/wt/actor-lifecycle  ccd322fd3fa2  fix/actor-lifecycle  (retained)
+.work/wt/alpine-edge-workflow-images  1de2cb180423  fix/alpine-edge-workflow-images  (retained)
+.work/wt/catalog-ui  1cf5f5ebdb6c  ui/catalog-dashboard  (retained)
+.work/wt/chromium-offline-policy  cb24677de611  detached  (retained)
+.work/wt/clf  8c6d32492ee9  chore/deslop-fix-cleanup  (retained)
+.work/wt/dependency-atlas  54c19c8dfced  feat/dependency-atlas-mvp  (retained)
+.work/wt/deslop-adopted-profiles  07b236a3a497  policy/deslop-adopted-profiles  (retained)
+.work/wt/deslop-benchmark-metadata-checkpoint  1b5303ecb2ab  docs/deslop-benchmark-metadata-checkpoint  (retained)
+.work/wt/deslop-boundaries-checkpoint  4e74455b9c9b  docs/deslop-boundaries-checkpoint  (retained)
+.work/wt/deslop-bounded-rust  cc14b1322dc0  policy/deslop-bounded-rust  (retained)
+.work/wt/deslop-build-checkup  ba476f842cd7  docs/deslop-build-checkup  (retained)
+.work/wt/deslop-builders-checkpoint  bcf9902f371c  docs/deslop-builders-checkpoint  (retained)
+.work/wt/deslop-calibration-evidence  685d321a7ac9  docs/deslop-calibration-evidence  (retained)
+.work/wt/deslop-checkpoint-20261118  f008dfd4bb5b  docs/deslop-checkpoint-20261118  (retained)
+.work/wt/deslop-cleanup-receipt  5b9dab5241ab  docs/deslop-cleanup-receipt  (retained)
+.work/wt/deslop-cmake-make-wasm-checkpoint  039204faa38d  deslop-cmake-make-wasm-checkpoint  (retained)
+.work/wt/deslop-cmake-wheel-qualification  76cf7a14d7d6  deslop-cmake-wheel-qualification  (retained)
+.work/wt/deslop-controlled-gates  a128026fc55f  docs/deslop-controlled-gates  (retained)
+.work/wt/deslop-controller-and-diff  129b6bddc63f  docs/deslop-controller-and-diff  (retained)
+.work/wt/deslop-controller-gate-checkpoint  79fb26b2d153  docs/deslop-controller-gate-checkpoint  (retained)
+.work/wt/deslop-controller-retention  4bfa243e37a4  policy/deslop-controller-retention  (retained)
+.work/wt/deslop-current-qualification  b400d619b1bb  docs/deslop-current-qualification  (retained)
+.work/wt/deslop-diff-pretty-retention  9cbc22970a61  policy/deslop-diff-pretty-retention  (retained)
+.work/wt/deslop-enforce  5393e74d1723  deslop/enforcement-contract  (retained)
+.work/wt/deslop-ffmpeg-retention  694aa495dd3f  policy/deslop-ffmpeg-retention  (retained)
+.work/wt/deslop-followup-cleanup  031f1ad6093c  detached  (retained)
+.work/wt/deslop-gate-trials  4dd2d5650ee2  docs/deslop-gate-trials  (retained)
+.work/wt/deslop-gluon-parity-checkup  46ef89237ca1  docs/deslop-gluon-parity-checkup  (retained)
+.work/wt/deslop-hosted-python  a59c39f3639d  docs/deslop-hosted-python  (retained)
+.work/wt/deslop-loc-retention  e46fa6297313  policy/deslop-loc-retention  (retained)
+.work/wt/deslop-managed-cleanup-wave-two  0a936aa58526  docs/deslop-managed-cleanup-wave-two  (retained)
+.work/wt/deslop-native-checkpoint  86f130b458e2  docs/deslop-native-checkpoint  (retained)
+.work/wt/deslop-native-evidence-followup  3164aa2266eb  docs/deslop-native-evidence-followup  (retained)
+.work/wt/deslop-native-node-archives  4816b56eb08f  docs/deslop-native-node-archives  (retained)
+.work/wt/deslop-native-runtime-20261119  300719b17e77  detached  (retained)
+.work/wt/deslop-offline-builders  7f066e489b03  detached  (retained)
+.work/wt/deslop-recovered-checkpoint  927fee912153  docs/deslop-recovered-checkpoint  (retained)
+.work/wt/deslop-representative-trials  9f0a4bc669dc  docs/deslop-representative-trials  (retained)
+.work/wt/deslop-resumption-acceptance  4b78d54cd507  docs/deslop-resumption-acceptance  (retained)
+.work/wt/deslop-retain-pi-mutations  688252e2dbd4  ci/deslop-retain-pi-mutations  (retained)
+.work/wt/deslop-retention  c6c91f62e03c  policy/retain-deslop-assurance  (retained)
+.work/wt/deslop-runtime-gate-checkpoint  409445792a58  docs/deslop-runtime-gate-checkpoint  (retained)
+.work/wt/deslop-scope-20261119  7d983e1adb07  docs/deslop-scope-20261119  (retained)
+.work/wt/deslop-stable-alpine-checkpoint  89892c11244f  docs/deslop-stable-alpine-checkpoint  (retained)
+.work/wt/deslop-stuff  b0f2ff5fe193  deslop/stuff-ground  (retained)
+.work/wt/deslop-tier-a-checkpoint  93ff4d074db4  docs/deslop-tier-a-checkpoint  (retained)
+.work/wt/deslop-tier-a-settlement  f716efa95bb7  docs/deslop-tier-a-settlement  (retained)
+.work/wt/deslop-tier-a-status  c2ff4ea7f9a4  docs/deslop-tier-a-status  (retained)
+.work/wt/deslop-tier-b-admission  ba3466a928d8  docs/deslop-tier-b-admission  (retained)
+.work/wt/deslop-toolbox-recovery  085661d8b2cb  docs/deslop-toolbox-recovery  (retained)
+.work/wt/deslop-verified-test-checkpoints  d09291a5642c  detached  (retained)
+.work/wt/dr-core  401125645217  deslop/diagnose-core  (retained)
+.work/wt/dr-deps  401125645217  deslop/diagnose-dependencies  (retained)
+.work/wt/dr-policy  401125645217  deslop/diagnose-policy  (retained)
+.work/wt/engine-diagnosis  fae6919a51b4  fix/engine-diagnosis  (retained)
+.work/wt/file-lock-drop  e74598ed42ea  fix/file-lock-drop  (retained)
+.work/wt/fleet-apk-repository-options  840f56c1b1e0  fix/fleet-apk-repository-options  (retained)
+.work/wt/h12tiny-upstream  eb69d6e29f4a  chore/h12tiny-upstream  (retained)
+.work/wt/inventory-read-refusals  1d2de713fa20  fix/inventory-read-refusals  (retained)
+.work/wt/lock-types  022ce608e002  deslop/build-lock-types  (retained)
+.work/wt/m2-checkpoint-review  cc14b1322dc0  detached  (retained)
+.work/wt/m2-evidence  80981f2ec16e  deslop/m2-evidence  (retained)
+.work/wt/m2-portability-evidence  cbbbc24d421d  deslop/m2-portability-evidence  (retained)
+.work/wt/m2-recovery-evidence  4fc0ebe9c064  deslop/m2-recovery-evidence  (retained)
+.work/wt/matrix-tests  800f7cb73bfc  deslop/matrix-test-oracles  (retained)
+.work/wt/mycrates-red  fb0e396d3866  fix/mycrates-golden  (retained)
+.work/wt/nanoshop-ingress  c073ad701940  feat/nanoshop-ingress  (retained)
+.work/wt/numeric-s3  25a073d851a7  test/fake-s3-numeric-bind  (retained)
+.work/wt/oo-native-finish  5abe43c73304  openorange/native-finish  (separate OpenOrange work, dirty)
+.work/wt/oo-recovery  2927b07c7397  oo/recovery  (separate OpenOrange work, dirty)
+.work/wt/oo-stuff-dev-deploy  ac4a0690215a  oo/stuff-dev-deploy  (separate OpenOrange work, dirty)
+.work/wt/owned-tools  ae83988f5842  feat/owned-tools-batch1  (retained)
+.work/wt/pycov  abc52740a3e6  verify/pytest-worker-coverage  (retained)
+.work/wt/rcov  84e079de998e  fix/audit-upgrades-offline  (retained)
+.work/wt/record-deslop-cache-budget  c265d1ccbc62  docs/deslop-cache-budget  (retained)
+.work/wt/record-deslop-native-scope-receipts  5e4ab2aef69f  docs/deslop-native-scope-receipts  (retained)
+.work/wt/record-deslop-package-control-receipts  68922e4fc06f  docs/deslop-package-control-receipts  (retained)
+.work/wt/record-deslop-runtime-boundaries  e54e42686b4c  docs/deslop-runtime-boundaries  (retained)
+.work/wt/record-deslop-shared-controller-gates  8a2182f5f9ce  docs/record-deslop-shared-controller-gates  (retained)
+.work/wt/record-deslop-terminal  9063ed16aef5  docs/deslop-terminal-guest  (retained)
+.work/wt/reject-alpine-edge-base  7a17d4ac33c5  fix/reject-alpine-edge-base  (retained)
+.work/wt/repomod-batch-audit  abce54fcaef8  refactor/deslop-batch-audit  (retained)
+.work/wt/repomod-cache-recovery  544158a0c0f3  test/deslop-snapshot-cache-recovery  (retained)
+.work/wt/repomod-catalog-add  c5ac99b623b3  refactor/deslop-catalog-add  (retained)
+.work/wt/repomod-catalog-oracles  c232eac447d9  test/deslop-catalog-boundaries  (retained)
+.work/wt/repomod-control-deletion  0c67aa31dee2  test/deslop-repomod-deletion  (retained)
+.work/wt/repomod-control-docs  87374f4f3ee3  test/deslop-repomod-docs  (retained)
+.work/wt/repomod-control-mixed  0a50e824a899  test/deslop-repomod-mixed  (retained)
+.work/wt/repomod-control-uncovered  193c3b3b56d2  test/deslop-repomod-uncovered  (retained)
+.work/wt/repomod-dead-code  384e5b938f78  refactor/deslop-repomod-dead-code  (retained)
+.work/wt/repomod-dead-code-close  856d16773afb  docs/deslop-repomod-dead-code  (retained)
+.work/wt/repomod-dead-code-evidence  48d790e94f86  deslop/repomod-dead-code-evidence  (retained)
+.work/wt/repomod-gate-trial  43b4b515a196  ci/deslop-repomod-mutation  (retained)
+.work/wt/repomod-index-contract  f92cb4acd5ec  test/deslop-snapshot-index-contract  (retained)
+.work/wt/repomod-musl-refresh  4ffb26e027bc  refactor/deslop-musl-refresh  (retained)
+.work/wt/repomod-path-oracles  05ada94242cf  test/deslop-fixer-path-oracles  (retained)
+.work/wt/repomod-push-diagnostics  dd8dcb644b78  test/deslop-fixer-push-diagnostics  (retained)
+.work/wt/repomod-push-oracles  a4de6bf84ec7  test/deslop-fixer-push-oracles  (retained)
+.work/wt/repomod-region-mixed  d5d77f713d2d  test/deslop-repomod-region-mixed  (retained)
+.work/wt/repomod-region-uncovered  dac988911e07  test/deslop-repomod-region-uncovered  (retained)
+.work/wt/repomod-removal-status  71803baa1040  test/deslop-removal-status  (retained)
+.work/wt/repomod-role-use  83d84decc500  refactor/deslop-role-use  (retained)
+.work/wt/repomod-snapshot-shard  6d335225bf55  ci/deslop-repomod-snapshot-shard  (retained)
+.work/wt/repomod-snapshot-state  b72fe3afdc10  fix/deslop-snapshot-recorded-state  (retained)
+.work/wt/repomod-source-regions  3a61cccdc0fa  ci/deslop-repomod-source-regions  (retained)
+.work/wt/repomod-tests-boundary  778e932ef81f  docs/deslop-repomod-tests-boundary  (retained)
+.work/wt/repomod-workspace-strict-profile  74b16cccb7be  fix/repomod-workspace-strict-profile  (retained)
+.work/wt/retain-diff-pretty  9def7c24c8dc  policy/retain-diff-pretty  (retained)
+.work/wt/retain-doas-ownership  ccb39c8d65fd  policy/retain-doas-ownership  (retained)
+.work/wt/retain-ffmpeg-mutation  d2999734464a  ci/retain-ffmpeg-mutation  (retained)
+.work/wt/retain-fz  c5f8461ced8f  policy/retain-fz-assurance  (retained)
+.work/wt/retain-worker-coverage  69748ed3d09b  deslop/retain-worker-coverage  (retained)
+.work/wt/rivet-dashboard  8b41d376a7ab  feat/rivet-dashboard  (retained)
+.work/wt/rivet-explorer  770ae5b8958a  feat/rivet-explorer  (retained)
+.work/wt/rt  5cd93b80e933  deslop/enrichment-types  (retained)
+.work/wt/smoke-x86  17c5ad83d55b  fix/smoke-retired-macos-x86  (retained)
+.work/wt/sqlite-page-read-refusal  9510e79058a4  fix/sqlite-page-read-refusal  (retained)
+.work/wt/stable-cmake-fleet-policy  99109df5b9ca  fix/stable-cmake-fleet-policy  (retained)
+.work/wt/staged-sqlite-refusal  a690f5bf50d4  fix/staged-sqlite-refusal  (retained)
+.work/wt/stats-runtime-hardening  90295eb92351  feat/stats-runtime-hardening  (retained)
+.work/wt/stuf90-diagnosis  0c9ab1d74cd7  fix/stuf90-diagnosis  (retained)
+.work/wt/upstream-tests  ed427efe9381  deslop/upstream-test-oracles  (retained)
+.work/wt/winddown-20261116  4029ed9b0166  docs/winddown-20261116  (retained)
+.work/wt/wm  e69a4d919a2a  fix/workflow-matrix-includes  (retained)
+.work/wt/zip-rule  a2dd2c2f0726  feat/release-archive-zip  (retained)
+```
+
 The following exact paths remain. `accepted`, `rt`, `wm` and `clf` retain
 pending PR integration contexts. The three `dr-*` trees retain optional
 diagnosis witnesses until #55 is reconciled. `pycov` retains the existing
@@ -523,6 +701,121 @@ worktree /Users/josh/d/stuff/.work/wt/zip-rule
 ```
 
 ### Unmerged Stuff branches
+
+Current local branch snapshot. Patch-equivalent squash inputs and separate
+work are preserved alongside campaign branches.
+
+```text
+chore/d-overlap-inventory c6e4e7e1
+chore/deslop-cleanup-apps 53730580
+chore/deslop-cleanup-builds d8e15f21
+chore/deslop-cleanup-cli 9be3eff4
+chore/deslop-cleanup-resume 5072f531
+chore/deslop-cleanup-systems 75823bd1
+chore/h12tiny-upstream eb69d6e2
+chore/managed-cleanup-inventory e23ccc90
+chore/stuf89-cleanup-final 587b6101
+ci/deslop-repomod-mutation 43b4b515
+ci/deslop-repomod-snapshot-shard 6d335225
+ci/deslop-repomod-source-regions 3a61cccd
+ci/deslop-retain-pi-mutations 688252e2
+ci/retain-ffmpeg-mutation d2999734
+deslop-cmake-make-wasm-checkpoint 039204fa
+deslop-cmake-wheel-qualification 76cf7a14
+deslop/m2-evidence 80981f2e
+deslop/m2-portability-evidence cbbbc24d
+deslop/m2-recovery-evidence 4fc0ebe9
+deslop/repomod-dead-code-evidence 48d790e9
+deslop/retain-worker-coverage 69748ed3
+docs/deslop-benchmark-metadata-checkpoint 1b5303ec
+docs/deslop-boundaries-checkpoint 4e74455b
+docs/deslop-build-checkup ba476f84
+docs/deslop-builders-checkpoint bcf9902f
+docs/deslop-cache-budget c265d1cc
+docs/deslop-checkpoint-20261118 f008dfd4
+docs/deslop-controlled-gates a128026f
+docs/deslop-controller-and-diff 129b6bdd
+docs/deslop-controller-gate-checkpoint 79fb26b2
+docs/deslop-coverage-baselines 2c59f019
+docs/deslop-current 65a2f2dd
+docs/deslop-current-qualification b400d619
+docs/deslop-direct-progress 67f31d7e
+docs/deslop-fz-settlement d715ebe7
+docs/deslop-gate-trials 4dd2d565
+docs/deslop-gluon-diagnose-status a3558506
+docs/deslop-gluon-parity-checkup 46ef8923
+docs/deslop-gluon-types-checkpoint f64a8f94
+docs/deslop-hosted-python a59c39f3
+docs/deslop-lexer-and-cleanup f2cc3db8
+docs/deslop-m2-decision 96821bc9
+docs/deslop-managed-cleanup-wave-two 0a936aa5
+docs/deslop-native-checkpoint 86f130b4
+docs/deslop-native-controller-evidence e7687d9e
+docs/deslop-native-controller-proofs 2119d42e
+docs/deslop-native-evidence-followup 3164aa22
+docs/deslop-native-node-archives 4816b56e
+docs/deslop-native-scope-receipts 5e4ab2ae
+docs/deslop-next-coverage a07a6570
+docs/deslop-package-control-receipts 68922e4f
+docs/deslop-publication-checks 8431e1f2
+docs/deslop-release-census 77849022
+docs/deslop-repomod-dead-code 856d1677
+docs/deslop-repomod-tests-boundary 778e932e
+docs/deslop-representative-trials 9f0a4bc6
+docs/deslop-runtime-boundaries e54e4268
+docs/deslop-runtime-gate-checkpoint 40944579
+docs/deslop-scope-20261119 7d983e1a
+docs/deslop-stable-alpine-checkpoint 89892c11
+docs/deslop-stage-and-drain eae7d167
+docs/deslop-terminal-guest 9063ed16
+docs/deslop-tier-a-checkpoint 93ff4d07
+docs/deslop-tier-a-settlement f716efa9
+docs/deslop-tier-a-status c2ff4ea7
+docs/deslop-tier-b-admission ba3466a9
+docs/deslop-timing-and-release 0e35aa7c
+docs/deslop-toolbox-recovery 085661d8
+docs/record-deslop-sealed-controller bb668c64
+docs/record-deslop-shared-controller-gates 8a2182f5
+feat/stats-runtime-hardening 90295eb9
+fix/actor-lifecycle ccd322fd
+fix/alpine-edge-workflow-images 1de2cb18
+fix/deslop-snapshot-recorded-state b72fe3af
+fix/fleet-apk-repository-options 840f56c1
+fix/inventory-read-refusals 1d2de713
+fix/reject-alpine-edge-base 7a17d4ac
+fix/reject-edge-repository-redirects b70bf9c2
+fix/repomod-workspace-strict-profile 74b16ccc
+fix/stable-cmake-fleet-policy 99109df5
+fix/staged-sqlite-refusal a690f5bf
+fix/stuf89-help 25fc89b7
+fix/stuf89-rust c387cd33
+parked/deslop-managed-cleanup-20261119 2a628dd9
+policy/deslop-adopted-profiles 07b236a3
+policy/deslop-bounded-rust cc14b132
+policy/deslop-controller-retention 4bfa243e
+policy/deslop-diff-pretty-retention 9cbc2297
+policy/deslop-ffmpeg-retention 694aa495
+policy/deslop-gluon-strict-profile 67106447
+policy/deslop-loc-retention e46fa629
+policy/retain-doas-ownership ccb39c8d
+policy/retain-fz-assurance c5f8461c
+refactor/deslop-batch-audit abce54fc
+refactor/deslop-catalog-add c5ac99b6
+refactor/deslop-musl-refresh 4ffb26e0
+refactor/deslop-repomod-dead-code 384e5b93
+refactor/deslop-role-use 83d84dec
+test/deslop-fixer-push-diagnostics dd8dcb64
+test/deslop-removal-status 71803baa
+test/deslop-repomod-deletion 0c67aa31
+test/deslop-repomod-docs 87374f4f
+test/deslop-repomod-mixed 0a50e824
+test/deslop-repomod-region-mixed d5d77f71
+test/deslop-repomod-region-uncovered dac98891
+test/deslop-repomod-uncovered 193c3b3b
+test/deslop-snapshot-cache-recovery 544158a0
+test/deslop-snapshot-index-contract f92cb4ac
+test/stuff-connection-refusal e30981bb
+```
 
 Every branch below is preserved. The PR branches are identified above.
 `chore/d-overlap-inventory`, `chore/deslop-cleanup-resume`,
