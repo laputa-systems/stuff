@@ -12,7 +12,9 @@ and explicit deferrals. Tier A repo passes have started. The
 [roadmap](deslop-roadmap.md) gives the acceptance criteria and the
 [scorecard](deslop-scorecard.md#current-checkpoint-2026-11-18) records the
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
-qualified workloads and remaining boundaries.
+qualified workloads and remaining boundaries. Pi-build and Fz have
+settled in Tier A. The next tier checkpoint needs a third settled
+repository.
 
 - CMake-build moved to the fleet's minimal Alpine 3.24.2 builder after
   Edge retired its locked OpenSSL APK. Both exact archives passed native
@@ -201,12 +203,13 @@ qualified workloads and remaining boundaries.
 - Fz passed the scoped fleet checks and the CLI failure control. The
   first full hosted comparison had six timing rows outside baseline spread.
   The identical-binary control had one such row in a different workload.
-  The repeat stayed within the bound. Fz and the unchanged reference
-  again moved together on the small-input wall row, which has a separate
-  interleaved trial under DSLP-10.
+  The independent repeat stayed within the bound. Immediate interleaving
+  resolved the small-input row, and the exact release candidate passed
+  the full ish suite. The default checks passed and DSLP-10 is closed.
   [Fz #47](https://github.com/laputa-systems/fz/pull/47) ·
   [Repeat](https://github.com/laputa-systems/fz/actions/runs/44422469442) ·
-  [Focused trial](https://github.com/laputa-systems/fz/actions/runs/44423775482)
+  [Focused trial](https://github.com/laputa-systems/fz/actions/runs/44423775482) ·
+  [Settlement](https://github.com/laputa-systems/fz/pull/48)
   Diff-pretty added
   workspace branch coverage through Make. Its PTY tests exercise
   restoration on SIGTERM, raw-mode transitions and EOF. Terminal key
