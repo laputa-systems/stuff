@@ -388,3 +388,19 @@ branches. The owning reports preserve the controller proofs.
 The six worktrees accounted for 429,116 KiB. Across all passes, 140
 retired worktrees and the listed generated artifacts accounted for
 23,254,388 KiB (22.18 GiB) of measured path allocation.
+
+## Native package follow-up, 2026-11-18
+
+Four clean, idle worktrees matched their accepted integrations. The
+Node report preserves the package and input results from both hosts.
+
+| Repository | Accepted integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Stuff | `aaa79256` | `stuff-connection-refusal` | 133,400 |
+| Node-build | `44a7cafd` | `node-package-stage` | 84,676 |
+| Node-build | `8355fa3b` | `node-json-receipts` | 85,552 |
+| Node-build | `c432ac2c` | `node-native-input-package` | 79,532 |
+
+The four worktrees accounted for 383,160 KiB. Across all passes, 144
+retired worktrees and the listed generated artifacts accounted for
+23,637,548 KiB (22.54 GiB) of measured path allocation.
