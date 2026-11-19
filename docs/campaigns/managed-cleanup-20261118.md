@@ -191,3 +191,26 @@ scratch. The owning backlogs record the reproduced outcomes.
 Git and filesystem checks confirmed all three removals.
 [CMake native TLS](https://github.com/laputa-systems/cmake-build/actions/runs/44505269102/job/135495202575) ·
 [Defuddle CLI](https://github.com/joshuarli/defuddle-rs/pull/18)
+
+## Native trial follow-up
+
+Six additional completed worktrees accounted for 1,423,744 KiB
+(1.36 GiB) of path allocation. The four batches retired 106
+worktrees with 16,206,348 KiB (15.46 GiB) measured before removal.
+
+| Repository | Worktree | Retired revision | Accepted default | Path allocation, KiB |
+| --- | --- | --- | --- | ---: |
+| cmake-build | `cmake-tls-host-evidence` | `5b71eb1bc960b9bf3b92300e981c8f55c786506c` | `e4046c6a8988b55a7b409855a75765bdf2ade25c` | 340692 |
+| cmake-build | `cmake-toolchain-order-evidence` | `efc80177acf1c603b23a9531cd50f27b92175298` | `e4046c6a8988b55a7b409855a75765bdf2ade25c` | 247856 |
+| cmake-build | `cmake-sysroot-verification-evidence` | `505d0e6aa81738f8308f373de05002566fbdd489` | `e4046c6a8988b55a7b409855a75765bdf2ade25c` | 335400 |
+| cmake-build | `cmake-sysroot-build-evidence` | `8829767233d15d843d26ce2968d3517696b0be69` | `e4046c6a8988b55a7b409855a75765bdf2ade25c` | 166180 |
+| cmake-build | `cmake-reference-build-evidence` | `344762f8f2ee27220e4354b11e9d727297e91bd3` | `e4046c6a8988b55a7b409855a75765bdf2ade25c` | 329632 |
+| defuddle-rs | `defuddle-single-file-contract` | `a8c33d4f42024893a77eb6dc0a53013ba2871e7a` | `b08b13e0ee54b0e9790777760f62d4f9eedf866e` | 3984 |
+
+The dry runs identified all six as patch-equivalent to the
+accepted defaults. Every worktree was clean. There were no
+open handles when checked. The ignored contents were test
+environments and trial scratch. Git and filesystem checks
+confirmed each removal.
+[CMake 16-scope trial](https://github.com/laputa-systems/cmake-build/actions/runs/44513348433) ·
+[Defuddle SingleFile](https://github.com/joshuarli/defuddle-rs/pull/24)
