@@ -442,3 +442,20 @@ preserve the controller proofs.
 The six worktrees accounted for 629,120 KiB. Across all passes, 156
 retired worktrees and the listed generated artifacts accounted for
 24,848,484 KiB (23.70 GiB) of measured path allocation.
+
+## Sealed coverage follow-up, 2026-11-18
+
+The four worktrees were clean and idle. The retained command and
+owning report match their accepted default-branch trees. The closed
+coverage trial remains published at its exact proof revision.
+
+| Repository | Accepted integration or published proof | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| CMake-build | `46be1737` | `cmake-record-controller-coverage` | 2,572 |
+| CMake-build | `16d70540` | `cmake-sealed-controller-coverage` | 278,544 |
+| CMake-build | `97186046` | `cmake-sealed-coverage-python315` | 2,572 |
+| Stuff | `0da83e62` | `record-deslop-sealed-controller` | 128,996 |
+
+The four worktrees accounted for 412,684 KiB. Across all passes, 160
+retired worktrees and the listed generated artifacts accounted for
+25,261,168 KiB (24.09 GiB) of measured path allocation.
