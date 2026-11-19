@@ -33,7 +33,7 @@ conditions. Discover is outside scope during the owner's rearchitecture.
 | hi-lite | `d103040221466e47bc11a91ee120b160b5e52f21` | Ground, Diagnose and Types complete. #25 covers JSON token byte boundaries through the public highlighter. | The 150 ordinary tests passed with one existing opt-in XSH test. Both default checks passed. JSON caught 64 of 74, with two equivalents and eight timeouts. | Qualify remaining lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
-| cmake-build | `d4f352ff07a1a84d9b6b6ede317d7487a63a3716` | Ground, Diagnose and Types complete. #94–96 cover ELF reports, archive selection, stripping, staged files and license closure. | Both default checks passed. The 18-scope draft passed 36 native jobs, plan and verification using `make mutants-diff`. [Hosted trial](https://github.com/laputa-systems/cmake-build/actions/runs/44517720657) | Finish the hosted gate controls and qualify the remaining controller scopes |
+| cmake-build | `ecd6b672796a9c14a855ec525e790f3313d13d52` | Ground, Diagnose and Types complete. Default covers benchmark admission, process accounting, patch inventory and atomic report publication. | Both default checks passed. All 46 jobs in the 22-scope mutation trial passed with the same pinned Buildlib wheel shared across jobs. [CMake default](https://github.com/laputa-systems/cmake-build/actions/runs/44524699503) · [Hosted trial](https://github.com/laputa-systems/cmake-build/actions/runs/44524202496) | Qualify the benchmark coordinator, ELF and `build.py` before promoting the gate |
 
 CMake's new TLS scope caught 665 of 668 identities in both
 the native x86-64 and ARM64 Linux jobs. The three remaining
@@ -70,6 +70,23 @@ and final job. These are one clean aggregate's timings. The
 deliberate failure and documentation controls have separate runs.
 [Native Make trial](https://github.com/laputa-systems/cmake-build/actions/runs/44517720657) ·
 [Whole-change draft](https://github.com/laputa-systems/cmake-build/pull/54)
+
+The 22-scope trial's first run failed when one stage job received
+HTTP 520 while downloading the pinned Buildlib wheel. The retry
+verified the wheel once in the planner and copied the same object
+into every job's proof archive. Both patch jobs caught 137 of 139
+identities with two exact equivalents. Both process-accounting jobs
+caught 192 of 193 with one equivalent. The documentation control
+skipped the wheel fetch and controller matrix.
+
+The successful retry at `fe488f48c764621a221608f62b85d43bd4034d5c`
+passed all 46 jobs. Its 44 native jobs had a median of 32 seconds
+and a maximum of 146 seconds. The two exact runs used 3,588 runner
+seconds in total, 1,749 for the failed run and 1,839 for the retry.
+Their elapsed times were 253 and 222 seconds.
+[Failed run](https://github.com/laputa-systems/cmake-build/actions/runs/44523600268) ·
+[Verified retry](https://github.com/laputa-systems/cmake-build/actions/runs/44524202496) ·
+[Documentation control](https://github.com/laputa-systems/cmake-build/actions/runs/44524454919)
 
 ## Tier A checkpoint
 
