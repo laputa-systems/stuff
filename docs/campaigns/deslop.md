@@ -27,10 +27,12 @@ remaining Tier A passes continue.
   passed, and its Ground ticket retains the lint and Linux kache
   timing gaps. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
 - Gluon restored differential testing on macOS and stable Alpine,
-  repaired five Ninja parity cases, and completed Diagnose. Types,
-  Tests, Dead code and the reproduced findings remain open.
-  Rustybench's verified CLI fix rejects duplicate names in baseline
-  comparisons. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
+  repaired five Ninja parity cases, and completed Diagnose and Types.
+  The fleet retains the workspace-wide unsafe-code rule. Tests,
+  Dead code and the remaining findings are open. Rustybench's CLI
+  rejects duplicate names in baseline comparisons. Its review
+  reproduced three additional CLI and macro failures.
+  [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
 - Both Chromium products install verified APK archives with networking
   disabled on the digest-pinned Alpine 3.24.2 base. Helium's native
   ARM64 and AMD64 manifests have 326 and 328 packages. The headless
