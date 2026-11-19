@@ -428,23 +428,23 @@ qualify the PR and close DSLP-9. The wider Diagnose pass stays open.
 Defuddle-rs #33 passed 178 local workspace tests and all hosted jobs. A shared
 Cargo target returned the baseline artifact for both revisions. The rebuild in
 a separate target produced a distinct candidate. For replay, use independent
-`CARGO_TARGET_DIR` values and
-`cargo bench --locked -p defuddle --bench fixture_bench --no-run` at
-`207a73e29` and `22037cf72`. Confirm that the executable hashes differ before
-following the five-pair procedure in the repository's `docs/performance.md`.
+`CARGO_TARGET_DIR` values. Build the locked fixture target with `--no-run`
+at `207a73e29` and `22037cf72`. Confirm that the executable hashes differ
+before following the five-pair procedure. [Defuddle benchmark commands](https://github.com/joshuarli/defuddle-rs/blob/22037cf7256e41f1ed118fd4a2bafd501a138b44/docs/performance.md)
 The prepared binaries have SHA-256 hashes
 `f6d25963a7e2deb95fce5ac3cb5a32f5484e27144d94143088257b5ed0572e2a` and
 `ccea55f1bff3197d599ded34ea2b56d4db71f92fbe44e8786c802f2cb897cfd7`.
 Timing remains deferred because the shared host is busy.
 
-For Gluon #39, build the reviewed binaries with
-`cargo build --locked --profile dist -p gluon-meson -p gluon-ninja` and run the
-branch's `tests/benchmarks/run.sh` against the pinned upstream tools. For #41,
+For Gluon #39, build the Meson and Ninja packages with the locked
+`dist` profile and run the benchmark harness against the pinned upstream
+tools. [Gluon harness](https://github.com/laputa-systems/gluon/blob/43be2de978a73e53fd28c661172c01e946b4a3da/tests/benchmarks/run.sh)
+For #41,
 compare the `dist` Ninja builds at `d0348de` and `7139273` with the same five
 paired source, header and warm no-op workloads. The known surviving scheduler
 mutation was caught on the fix. Its untimed artifact and log checks passed.
 Hi-lite #26 passed both hosted platforms and lint. Run the warm and cold YAML
-cases from its `docs/benchmarks.md` when the host is quiet.
+cases when the host is quiet. [Hi-lite benchmark commands](https://github.com/laputa-systems/hi-lite/blob/d4941f0178ee7a5d92ca873c704fb94f41e2159f/docs/benchmarks.md)
 
 Four cleanup-lane receipts are committed locally on
 `chore/deslop-cleanup-apps` (`53730580`),
