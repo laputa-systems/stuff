@@ -18,6 +18,14 @@ Tier B under the existing campaign approval. All eight Tier B
 default branches already carry their seeded backlogs. The
 remaining Tier A passes continue.
 
+- All eight Tier B repositories have supported Make test entry points.
+  Chromium separates portable, macOS and Linux builder tests. Its native
+  jobs passed on both architectures after refreshing the retired package
+  revisions in the Alpine 3.24.2 locks. Defuddle-rs completed Ground.
+  [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
+- The subsequent managed-checkout cleanup retired 90 completed
+  worktrees with 11.94 GiB of measured path allocation.
+  [Cleanup receipt](managed-cleanup-20261118.md)
 - FFmpeg-build closed its final review finding after the native mutation
   workflow and both ordinary checks passed. Its fresh default check-up
   passed 168 tests, both linters, all four fleet rules and an injected-fault

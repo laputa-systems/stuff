@@ -246,9 +246,10 @@ Keep its remaining misses and confirmed hangs in the owning scope.
 All ten Tier A repositories have a tracked deslop backlog. Fz, Pi-build
 and FFmpeg-build passed check-up. The Tier A checkpoint admits
 Tier B. A scoped sync confirmed all eight existing backlogs.
-Defuddle-rs passes the four selected rules. The other seven
-repositories need a supported `make test` or `make test-ci`
-workflow entry point. Keep the remaining Tier A passes active.
+The eight supported Make entry points are now in place.
+Defuddle-rs closed Ground. Continue with the owning tickets and
+apply F3 retention as each repository qualifies its guarantees.
+Keep the remaining Tier A passes active.
 [Tier A checkpoint](deslop-scorecard.md#tier-a-checkpoint)
 
 ## Bound every open Tests ticket
