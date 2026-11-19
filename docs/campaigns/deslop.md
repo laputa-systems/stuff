@@ -26,6 +26,11 @@ remaining Tier A passes continue.
   adapter in Node and the web bindings in headless Chrome. Tinyland's pinned suite
   passed, and its Ground ticket retains the lint and Linux kache
   timing gaps. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
+- Gluon restored the macOS differential gate with checksum-pinned
+  upstream tools. The separate run on stable Alpine exercised both
+  Wayland fixtures. The owning backlog records a missing-input defect
+  exposed by the review. Rustybench's verified CLI fix rejects duplicate
+  names in baseline comparisons. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
 - Both Chromium products install verified APK archives with networking
   disabled on the digest-pinned Alpine 3.24.2 base. Helium's native
   ARM64 and AMD64 manifests have 326 and 328 packages. The headless
