@@ -33,7 +33,7 @@ conditions. Discover is outside scope during the owner's rearchitecture.
 | hi-lite | `d103040221466e47bc11a91ee120b160b5e52f21` | Ground, Diagnose and Types complete. #25 covers JSON token byte boundaries through the public highlighter. | The 150 ordinary tests passed with one existing opt-in XSH test. Both default checks passed. JSON caught 64 of 74, with two equivalents and eight timeouts. | Qualify remaining lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
-| cmake-build | `e4046c6a8988b55a7b409855a75765bdf2ade25c` | Ground, Diagnose and Types complete. #88–93 cover sysroot handoffs, the upstream reference build, and Rust staging, vendoring and subprocess behavior. | Both default checks passed. The 16-scope trial passed 32 native controller jobs, plan, and final verification. [Hosted trial](https://github.com/laputa-systems/cmake-build/actions/runs/44513348433) | Qualify the remaining controller scopes and retain the whole-change gate |
+| cmake-build | `d4f352ff07a1a84d9b6b6ede317d7487a63a3716` | Ground, Diagnose and Types complete. #94–96 cover ELF reports, archive selection, stripping, staged files and license closure. | Both default checks passed. The 18-scope draft passed 36 native jobs, plan and verification using `make mutants-diff`. [Hosted trial](https://github.com/laputa-systems/cmake-build/actions/runs/44517720657) | Finish the hosted gate controls and qualify the remaining controller scopes |
 
 CMake's new TLS scope caught 665 of 668 identities in both
 the native x86-64 and ARM64 Linux jobs. The three remaining
@@ -60,6 +60,16 @@ the 12 sysroot and two Rust equivalents. All 34 jobs at
 [Sysroot](https://github.com/laputa-systems/cmake-build/actions/runs/44509534627) ·
 [Reference](https://github.com/laputa-systems/cmake-build/actions/runs/44510644785) ·
 [Rust and aggregate](https://github.com/laputa-systems/cmake-build/actions/runs/44513348433)
+
+The exact 18-scope trial used `make mutants-diff` locally and
+through CI. All 38 jobs passed at `08d86c45b6086221fbb89a5f5248b07d2cc904cf`.
+From the GitHub job timestamps, the 36 native executions had
+a 33-second median and a 163-second maximum. The trial took
+227 wall seconds and 1,648 runner seconds including the plan
+and final job. These are one clean aggregate's timings. The
+deliberate failure and documentation controls have separate runs.
+[Native Make trial](https://github.com/laputa-systems/cmake-build/actions/runs/44517720657) ·
+[Whole-change draft](https://github.com/laputa-systems/cmake-build/pull/54)
 
 ## Tier A checkpoint
 
@@ -109,7 +119,7 @@ retention applies as each repository qualifies its guarantees.
 | Tinyland | `109c6781ec88f92d6405d58ee15934d4e74b3cdc` | The pinned Alpine suite passed. Ground retains the Linux kache timings and lint gaps. [Tinyland #6](https://github.com/laputa-systems/tinyland/pull/6) |
 | Chromium-build | `1b58c7f81d9a299bab65f79750936525bda14fbc` | Three hosted Linux builders passed the offline install and controller suites. See the archive counts below. [Chromium-build #24](https://github.com/laputa-systems/chromium-build/pull/24) |
 | E | `74194303c4089f491f07b6085a7ddc2dbfa0b4fe` | Ground recorded 874 cases on both hosted platforms and locally with a short scratch path. DSLP-6 retains the reproduced long-path status-bar defect. Both default workflows passed. [E #30](https://github.com/laputa-systems/e/pull/30) |
-| Defuddle-rs | `999a7ae590cae05cbb21be9b883434158cc8f0d8` | Types passed the fixture-corpus gate. The CLI checks caught all eight selected mutations and verified output preservation and real terminal input. Four WASM adapter cases passed on the host and in Node, and the browser fixture passed in Chromium. Both default workflows passed. [Defuddle-rs #26](https://github.com/joshuarli/defuddle-rs/pull/26) |
+| Defuddle-rs | `74aac451b6bcf5cc369586811104410a0b7e74d1` | Types passed the fixture-corpus gate. The CLI checks caught all eight selected mutations and verified output preservation and real terminal input. Default CI now runs all four adapter tests in Node and the generated web bindings in headless Chrome through `make test-wasm`. The native test and lint jobs also passed. [Defuddle-rs #27](https://github.com/joshuarli/defuddle-rs/pull/27) |
 | Gluon | `9629a19f9ce367a9e35a19c2a15e48d3dd35f28b` | Ground recorded 85 ordinary tests plus a filtered child run. Both default workflows passed. [Gluon #20](https://github.com/laputa-systems/gluon/pull/20) |
 
 Defuddle-rs measured branch coverage with cargo-llvm-cov.
@@ -151,6 +161,12 @@ bindings. Turning off iframe removal failed on the exact emitted
 HTML. The source was restored and rebuilt.
 [Favicon](https://github.com/joshuarli/defuddle-rs/pull/25) ·
 [WASM runtime](https://github.com/joshuarli/defuddle-rs/pull/26)
+
+The retained WASM job passed on the exact default after
+merging the Make command and browser runner. The runner also
+detected the known iframe-removal control locally and exited
+nonzero with the browser diagnostic.
+[Default WASM job](https://github.com/joshuarli/defuddle-rs/actions/runs/44517253477/job/135536367287)
 
 The stable v3.24 indexes retired Helium's pinned NSS and OpenSSL
 revisions and Chromium's pinned Go, Node.js, and NSS revisions.

@@ -22,7 +22,8 @@ remaining Tier A passes continue.
   Gluon, Rustybench, Lz, E, and Laputa UI Dashboard completed Ground.
   Defuddle-rs completed Diagnose and Types and verified CLI option
   forwarding, output preservation and terminal input. Both extraction
-  retries now preserve document pruning. Tinyland's pinned suite
+  retries now preserve document pruning. Default CI runs the WASM
+  adapter in Node and the web bindings in headless Chrome. Tinyland's pinned suite
   passed, and its Ground ticket retains the lint and Linux kache
   timing gaps. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
 - Both Chromium products install verified APK archives with networking
