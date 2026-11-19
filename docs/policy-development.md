@@ -240,7 +240,8 @@ release or CI workflows that build a Linux musl target. A Dockerfile is in scope
 text mentions musl or when its referencing workflow step mentions musl or the file does.
 An Alpine Edge base or an Edge APK repository in an `apk add` override or a shell redirect to
 `/etc/apk/repositories` also puts the Dockerfile in scope. The check resolves Dockerfile build
-argument defaults.
+argument defaults. A workflow that declares Alpine Edge as a job container, service image,
+or `docker://` step gets a manual finding at the corresponding image field.
 
 For every in-scope Dockerfile, each Alpine base must carry the approved stable digest
 (the index digest, or the per-architecture manifest for a `--platform` stage). An

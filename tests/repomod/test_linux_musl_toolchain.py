@@ -99,6 +99,45 @@ def test_non_alpine_builder_can_mention_edge_without_using_it(
     assert check(monkeypatch, root) == []
 
 
+@pytest.mark.parametrize(
+    ("body", "location"),
+    [
+        ("container: alpine:edge", "jobs.build.container"),
+        ('container: {image: "docker.io/library/alpine:edge"}', "jobs.build.container"),
+        ("services: {fixture: {image: alpine:edge}}", "jobs.build.services.fixture"),
+        ("steps: [{uses: 'docker://alpine:edge'}]", "jobs.build.steps[0].uses"),
+        ('container: "alpine:\\x65dge"', "jobs.build.container"),
+    ],
+)
+def test_workflow_edge_images_are_reported_without_a_dockerfile(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, body: str, location: str
+) -> None:
+    workflow = tmp_path / ".github" / "workflows" / "ci.yml"
+    workflow.parent.mkdir(parents=True)
+    workflow.write_text(f"jobs:\n  build:\n    runs-on: ubuntu-26.04\n    {body}\n", encoding="utf-8")
+
+    findings = check(monkeypatch, tmp_path)
+
+    assert messages(findings) == [f"Alpine edge is not approved in {location}"]
+    assert findings[0].file == ".github/workflows/ci.yml"
+    assert not findings[0].fixable
+    assert musl._linux_musl_toolchain_fix(tmp_path, repository()) == {}
+
+
+def test_workflow_stable_images_and_inert_edge_mentions_are_allowed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    workflow = tmp_path / ".github" / "workflows" / "ci.yml"
+    workflow.parent.mkdir(parents=True)
+    workflow.write_text(
+        f"jobs:\n  build:\n    container: alpine:3.24.2@{STABLE_INDEX}\n"
+        "    services: {fixture: {image: another:edge}}\n"
+        "    steps:\n      - run: echo alpine:edge\n",
+        encoding="utf-8",
+    )
+    assert check(monkeypatch, tmp_path) == []
+
+
 @pytest.mark.parametrize("option", ["--repository {}", "--repository={}", "-X {}", "-X{}"])
 def test_apk_repository_override_is_reported(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, option: str
