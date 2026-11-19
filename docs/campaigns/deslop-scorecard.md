@@ -28,13 +28,13 @@ outside scope during the owner's rearchitecture.
 | ptytest | `606027bb32999fa3e1bb960285384a89081a957a` | Active. #25 retained the terminal mutation scope. #30 makes the workflow classify each pull request. | Both platforms and four controls confirmed the bounded selection. The same macOS Xsh compile failure occurred at baseline and with the candidate. | Qualify lifecycle, replay and remaining consumer Tests inventory |
 | tm | `6cf0b949c2593c0959268a3d1995b972b05f58b6` | Active; fixture repairs merged, Ground and later stages open | Recent repair CI green; quiet-host cost unresolved | Finish Ground cost and component scope |
 | toolbox | `8d2cd08c71ff00d311212d85940f95c8359aa76f` | Local native and coverage evidence complete on #15. Hosted qualification deferred for Actions billing. | All 750 tests and five native fio subtests passed locally. The November 18 retry failed before runner allocation. | Resume hosted checks when Actions can start the jobs |
-| ffmpeg-build | `22e4213d22f4db19960ae92d4cd22d22527bf969` | Ground, Diagnose and Types complete. The main audit, five artifact functions and specialized tools audit are dispositioned. #56 rejects failed probes despite valid-looking stdout. | The native repeat caught 214 of 240 tools identities on all three hosts. Runtime caught 276 of 373 on both Linux architectures and 266 on macOS. SDK caught 239 of 288 locally. Both default checks passed. | Resolve the remaining SDK and runtime audit variants and qualify the whole-change gate |
+| ffmpeg-build | `f645211669019b98d738e105609e73520914adf7` | Ground, Diagnose and Types complete. The main audit, five artifact functions and the tools, SDK and runtime coordinator audits have native receipts. | Both default checks passed. Both Linux hosts caught 339 of 376 runtime identities, and macOS caught 329. The draft passed fifteen native jobs across five scopes. A mixed edit failed the three tools jobs as intended. | Verify the restored draft and add bootstrap receipts |
 | pi-build | `235d3be03fc03dec6f217a3d9a2ff71a6f200c98` | Build-tools pass settled November 18 after #45. Both Linux profiles reproduced on x86-64 and ARM64. Two-host Intercom remains owner ticket DSLP-9. | Fresh check-up passed 77 Python tests, four companion fixtures, lint, four fleet checks and the negative control. The earlier gate accounted for 1,434 identities. Both default checks passed. | Run the separately enrolled Intercom procedure when the owner environment is available |
-| node-build | `ffb7e7521d97cb83e8f92535f1c1b8d0d27dfde8` | Ground, Diagnose and Types complete. #64 checks qualification receipts and #65 checks native-format reproduction records. | Both default checks passed. The draft passed planning and all 20 Linux and macOS shards. Its earlier deletion arm failed only the two affected release shards. | Qualify the remaining controller scopes before retaining the whole-change lane |
+| node-build | `3b77c25846ebd5b5826174fa6b3dd8eda1d587f6` | Ground, Diagnose and Types complete. #69 covers ELF and Mach-O path policy. #70 rejects failed architecture probes and #71 bounds inspector announcement waits and reaps the child. #72 requires a Mach-O executable at the packaged Node entrypoint. | Both default checks passed. The draft passed planning and all 28 native jobs across 14 modules. The earlier mixed control failed only the affected release jobs. | Qualify the remaining smoke and build controller scopes before retaining the gate |
 | hi-lite | `9091c4a398077ccb82b81678aac93114fe27c7f3` | Ground, Diagnose and Types complete. #23 accounts for all 30 language-module identities. #24 checks Rust raw strings, nested comments and lifetimes. | All 149 ordinary cases and both default platforms passed. The matched Rust token selection caught 47 of 54, with two equivalent EOF bounds and five unchanged timeouts. The diff census and survivor rerun caught 137 of 148. | Qualify remaining lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
-| cmake-build | `133c9e702c75773730133b623390eb297bf6b745` | Ground, Diagnose and Types complete. Retained sealed coverage passed 146 native x86-64 tests. #53 verifies UTF-8 phase files and transient state cleanup. | Both default checks passed. The draft caught 535 of 565 input and 169 of 178 phase mutations on both Linux architectures. The remaining outcomes are dispositioned. Removing the UTF-8 test failed only the phase jobs. | Qualify package, generation and other critical functions before retaining the whole-change lane |
+| cmake-build | `6c036d45e78275d099c6121268b988348e7e63c1` | Ground, Diagnose and Types complete. Sealed branch coverage is retained in Stuff #146. #57 strengthens archive checks and #59 validates the persisted budget document. | Both default checks passed. Both native Linux architectures passed the draft inputs, phases and generations jobs, catching 535 of 565, 169 of 178 and 125 of 141 respectively. | Qualify package, budgets and reproduction before retaining the whole-change lane |
 
 
 Fz check-up at `0ec537d53eca0a12af07687250111a48023ee8d3` used a fresh macOS ARM64 worktree, the
@@ -114,6 +114,24 @@ change. The four CMake jobs passed again after pinning the shared reader.
 [Buildlib verifier](https://github.com/laputa-systems/buildlib/pull/28) ·
 [CMake positive](https://github.com/laputa-systems/cmake-build/actions/runs/44446845009) ·
 [CMake deletion control](https://github.com/laputa-systems/cmake-build/actions/runs/44447078808)
+
+FFmpeg's four-scope draft passed all twelve native jobs and its final
+check. The receipt binds the approved outcome to the exact function
+source and rendered mutant body. The runtime coordinator's subsequent
+three-host inventory found 37 surviving identities on both Linux
+architectures. Ten case-only path variants survived on the macOS
+volume in addition to the same 37. The extended draft passed all
+15 native jobs. A separate native run caught all 293 ELF and Mach-O
+probe identities. With those probes included, a mixed control made
+an equivalent ELF expression change and removed the tools audit
+fixture. Ordinary CI passed and only the three tools jobs and the final
+gate failed. The fixture was restored. Bootstrap has three native
+results and still needs to join the draft.
+[Whole-change trial](https://github.com/laputa-systems/ffmpeg-build/actions/runs/44455025702) ·
+[Runtime census](https://github.com/laputa-systems/ffmpeg-build/actions/runs/44454562733) ·
+[Binary probes](https://github.com/laputa-systems/ffmpeg-build/actions/runs/44455219408) ·
+[Mixed control](https://github.com/laputa-systems/ffmpeg-build/actions/runs/44455548747) ·
+[Bootstrap census](https://github.com/laputa-systems/ffmpeg-build/actions/runs/44455832326)
 
 The Stuff #139 default macOS Rust job hit a reset after the 503
 response in the connection-limit case. The exact retry passed.
