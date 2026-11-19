@@ -17,8 +17,8 @@ Tier A passes completed through Report on resumption: Node-build
 ([#22](https://github.com/laputa-systems/doas-rs/pull/22)), Mdevd-rs
 ([#30](https://github.com/laputa-systems/mdevd-rs/pull/30)), Hi-lite
 ([#30](https://github.com/laputa-systems/hi-lite/pull/30)) and Vault
-([#42](https://github.com/laputa-systems/vault/pull/42)). Diff-pretty's
-Report is running. No completion review found a new defect; Doas-rs filed
+([#42](https://github.com/laputa-systems/vault/pull/42)) and Diff-pretty
+([#50](https://github.com/laputa-systems/diff-pretty/pull/50)). No completion review found a new defect; Doas-rs filed
 DSLP-13 (P3). Each pass ran Tests, Dead code and Bench as separate merged
 PRs before its Report.
 
@@ -62,7 +62,7 @@ keyring; Pi-build two-host Intercom. The
 checkouts and branches; [the .work cleanup](work-cleanup-20261119.md)
 records what was reclaimed.
 
-Next: Diff-pretty's Report; then the remaining Tier B passes.
+Next: the remaining Tier B passes.
 
 ## Accepted work
 
