@@ -66,13 +66,10 @@ struct Response {
     body: Vec<u8>,
 }
 
-fn request(server: &TestServer, raw: &str) -> Response {
-    let addr = server.base_url.trim_start_matches("http://");
-    let mut stream = TcpStream::connect(addr).expect("connect");
+fn read_response(stream: TcpStream) -> Response {
     stream
         .set_read_timeout(Some(std::time::Duration::from_secs(10)))
         .unwrap();
-    stream.write_all(raw.as_bytes()).unwrap();
     let mut reader = BufReader::new(stream);
     let mut status_line = String::new();
     reader.read_line(&mut status_line).unwrap();
@@ -100,6 +97,13 @@ fn request(server: &TestServer, raw: &str) -> Response {
         headers,
         body,
     }
+}
+
+fn request(server: &TestServer, raw: &str) -> Response {
+    let addr = server.base_url.trim_start_matches("http://");
+    let mut stream = TcpStream::connect(addr).expect("connect");
+    stream.write_all(raw.as_bytes()).unwrap();
+    read_response(stream)
 }
 
 fn get(server: &TestServer, path: &str, extra: &[&str]) -> Response {
@@ -231,10 +235,12 @@ fn malformed_request_gets_400() {
 fn max_connections_refuses_extra_sockets() {
     let (tmp, site_dir, _) = fixture_site();
     let server = TestServer::boot_with(&site_dir, tmp, &["--max-connections", "1"]);
-    let idle = TcpStream::connect(server.base_url.trim_start_matches("http://")).unwrap();
+    let addr = server.base_url.trim_start_matches("http://");
+    let idle = TcpStream::connect(addr).unwrap();
     std::thread::sleep(Duration::from_millis(100));
-    let r = get(&server, "/current/registry/config.json", &[]);
+    let r = read_response(TcpStream::connect(addr).unwrap());
     assert_eq!(r.status, 503);
+    assert_eq!(r.body, b"too many concurrent requests");
     drop(idle);
 }
 
