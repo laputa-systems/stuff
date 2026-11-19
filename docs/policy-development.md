@@ -277,8 +277,11 @@ CI check image or benchmark image, is checked only for its base digest and packa
 
 Each adapter has its own check. `python-build` validates the `bootstrap.lock.json` release,
 index and image digests, and both architectures' musl and musl-dev closure entries.
-`chromium-build` validates the selected package lock, the Dockerfile's direct `musl-dev`
-pin, the Alpine `BASE_IMAGE` digest, and the pinning of its compiler-host stage.
+`chromium-build` checks the headless AMD64 package lock, the approved Alpine
+`BASE_IMAGE` digest, and the compiler-host stage digest. For archive-backed
+installs, the Dockerfile must install from the named APK context with networking
+disabled, and the lock must record the approved `musl` and `musl-dev` APKs
+with stable URLs, hashes, and sizes.
 `node-build` validates `ALPINE_AMD64` and the workflow's `apk add` versions. `git-build`
 requires exact package pins. `zzz` requires the approved Zig version and a verified archive
 checksum. Adapter mismatches are manual findings that name the repository's own refresh

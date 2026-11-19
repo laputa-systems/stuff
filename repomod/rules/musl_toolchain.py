@@ -748,7 +748,7 @@ class _Package:
 class _ApkCommand:
     packages: tuple[_Package, ...]
     repositories: tuple[str, ...]
-    offline_locked_context: bool
+    arguments: tuple[str, ...]
 
 
 def _logical_lines(source: str) -> list[_LogicalLine]:
@@ -939,10 +939,8 @@ def _apk_commands(text: str) -> list[_ApkCommand]:
                 )
             )
             cursor += 1
-        offline_locked_context = tuple(option.text for option in tokens[index + 2 : cursor]) == (
-            "--no-cache", "--no-scripts", "--repositories-file", "/dev/null", "/tmp/apks/*.apk",
-        )
-        commands.append(_ApkCommand(tuple(packages), tuple(repositories), offline_locked_context))
+        arguments = tuple(option.text for option in tokens[index + 2 : cursor])
+        commands.append(_ApkCommand(tuple(packages), tuple(repositories), arguments))
         index = cursor
     return commands
 
@@ -1234,7 +1232,9 @@ def _analyze_dockerfile(
                 adapter is not None
                 and adapter.kind == "cmake-build"
                 and adapter.dockerfile == relative
-                and command.offline_locked_context
+                and command.arguments == (
+                    "--no-cache", "--no-scripts", "--repositories-file", "/dev/null", "/tmp/apks/*.apk",
+                )
             ):
                 continue
             findings.extend(
@@ -1689,7 +1689,8 @@ def _adapter_with_lock_findings(
         source, error = _read_adapter_file(root, "Dockerfile", repository)
         if source is None:
             return findings + ([error] if error is not None else [])
-        arguments = _arg_values(_logical_lines(source))
+        lines = _logical_lines(source)
+        arguments = _arg_values(lines)
         base = _expand(arguments.get("BASE_IMAGE", ""), arguments)
         _, _, digest = _split_image(base)
         approved = {channel.index_digest, *channel.manifests.values()}
@@ -1697,25 +1698,49 @@ def _adapter_with_lock_findings(
             findings.append(
                 _failure(repository, "Dockerfile", "BASE_IMAGE digest is not approved; run update-lock")
             )
-        for line in _logical_lines(source):
+        for line in lines:
             match = _FROM.fullmatch(line.text)
             if match is None:
                 continue
             image = _expand(match.group("image"), arguments)
+            if _is_alpine_edge(image):
+                findings.append(_failure(repository, "Dockerfile", "Alpine edge is not approved", line.line))
             repo, _, digest = _split_image(image)
             if _repository_name(repo) in {"debian", "ubuntu"} and digest is None:
                 findings.append(
                     _failure(repository, "Dockerfile", "compiler host image must be digest-pinned", line.line)
                 )
         direct: dict[str, str | None] = {}
-        for line in _logical_lines(source):
+        offline_installs: list[bool] = []
+        for line in lines:
             run_match = _RUN.match(line.text)
             if run_match is None:
                 continue
-            for command in _apk_commands(line.text[run_match.end() :]):
+            run = line.text[run_match.end() :]
+            tokens = [token.text for token in _shell_tokens(run)]
+            if _writes_edge_repository_file(run, arguments):
+                findings.append(_failure(repository, "Dockerfile", "Alpine edge is not approved", line.line))
+            for command in _apk_commands(run):
+                findings.extend(
+                    _failure(repository, "Dockerfile", "Alpine edge is not approved", line.line)
+                    for url in command.repositories
+                    if "/alpine/edge/" in _expand(url, arguments)
+                )
+                offline_installs.append(
+                    "--network=none" in tokens[:2]
+                    and "--mount=type=bind,from=locked-apks,target=/locked-apks" in tokens[:2]
+                    and re.search(r"(?:^|;)\s*set -- /locked-apks/\*\.apk\s*;", run) is not None
+                    and command.arguments == ("--no-cache", "--repositories-file", "/dev/null", "$@")
+                )
                 for package in command.packages:
                     direct[package.name] = package.version
-        if direct.get("musl-dev") != expected:
+        if offline_installs == [True]:
+            findings.extend(_chromium_locked_apk_findings(repository, adapter.lock, channel, document))
+        elif "archives" in document:
+            findings.append(
+                _failure(repository, "Dockerfile", "builder APKs must be installed offline from locked-apks")
+            )
+        elif direct.get("musl-dev") != expected:
             findings.append(
                 _failure(
                     repository,
@@ -1731,6 +1756,30 @@ def _adapter_with_lock_findings(
             )
         return findings
     return []
+
+
+def _chromium_locked_apk_findings(
+    repository: Repository, path: str, channel: Channel, document: dict[str, object]
+) -> list[Finding]:
+    resolved = document.get("resolved")
+    archives = document.get("archives")
+    main = f"{_ALPINE_CDN}/v{channel.branch}/main/x86_64"
+    findings: list[Finding] = []
+    for package in ("musl", "musl-dev"):
+        name = f"{package}-{channel.packages['x86_64'][package]}"
+        record = archives.get(name) if isinstance(archives, dict) else None
+        if not isinstance(resolved, list) or name not in resolved or not isinstance(record, dict):
+            findings.append(_failure(repository, path, f"offline package lock must resolve and archive {name}"))
+            continue
+        digest, sha512, size = record.get("sha256"), record.get("sha512"), record.get("size")
+        if (
+            record.get("url") != f"{main}/{name}.apk"
+            or not isinstance(digest, str) or _ARCHIVE_SHA256.fullmatch(digest) is None
+            or not isinstance(sha512, str) or re.fullmatch(r"[0-9a-f]{128}", sha512) is None
+            or type(size) is not int or size <= 0
+        ):
+            findings.append(_failure(repository, path, f"offline package lock needs a verified stable APK for {name}"))
+    return findings
 
 
 def _workflow_apk_packages(line: str) -> list[_Package]:
