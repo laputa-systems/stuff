@@ -69,7 +69,14 @@ repository.
   [Cache staging](https://github.com/laputa-systems/cmake-build/pull/39)
   The sealed controller coverage run passed all 137 cases and measured
   1,995 of 3,161 statements and 534 of 972 branches across 26 files.
-  The retained command needs a compatible wheel in the mirror.
+  The retained `make coverage` command stages a verified CPython 3.15.2
+  runtime and the mirrored musl Coverage.py wheel in the network-sealed
+  native builder. On x86-64, all 146 tests passed and subprocess data
+  contributed to the 2,003 of 3,158 statements and 541 of 968 branches
+  measured. The focused ARM64 run passed all 36 input tests and covered
+  104 of 106 input branches.
+  [Retained command](https://github.com/laputa-systems/cmake-build/pull/51) ·
+  [Native result](https://github.com/laputa-systems/cmake-build/actions/runs/44445064389)
   The bootstrap metadata cases caught all 99 identities in the matched
   parser scope, up from 81. A persisted tree digest fixture caught 70
   of 72 changes, up from 44. The two remaining edits preserve sibling
