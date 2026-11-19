@@ -10,6 +10,7 @@ M2 qualified representative workloads with explicit deferrals. Three
 Tier A repositories have passed check-up, opening the Tier B passes. The
 [resumption roadmap](deslop-roadmap.md) records the remaining acceptance
 conditions. Discover is outside scope during the owner's rearchitecture.
+Chromium-build is outside scope by owner decision on November 19.
 
 | Repository | Default revision | Pass state and completed work | CI and retention | One next action |
 | --- | --- | --- | --- | --- |
@@ -122,9 +123,9 @@ no other tool with three comparable zero-yield results.
 Pi-build retains its P2 owner ticket for the enrolled two-host Intercom
 procedure. Vault's recovery, Doas's privileged password and ARM64 guest
 checks, and Mdevd's physical coldplug remain in their owning passes.
-All eight Tier B repositories already carry seeded backlogs. The
-scoped fleet check found a test-entry-point issue in seven. F3
-retention applies as each repository qualifies its guarantees.
+All seven in-scope Tier B repositories carry seeded backlogs and
+supported test entry points. F3 retention applies as each repository
+qualifies its guarantees.
 
 ## Tier B rollout
 
@@ -134,7 +135,6 @@ retention applies as each repository qualifies its guarantees.
 | Rustybench | `6f5e939055cc6715895cd61980ca905528b533c1` | Baseline comparison rejects duplicate names on either side. Both collection modes preserved the previous baseline when rejecting duplicates. The default Linux and macOS suites and lint passed. [Rustybench #20](https://github.com/laputa-systems/rustybench/pull/20) · [Default CI](https://github.com/laputa-systems/rustybench/actions/runs/44541545141) |
 | Laputa UI Dashboard | `c8c43870b5cbc14221fcb2fd77a07b9636643520` | Ground verified 68 unit and package cases and 338 Chromium cases. The pnpm metadata matches the existing pin. [Dashboard #14](https://github.com/laputa-systems/laputa-ui-dashboard/pull/14) |
 | Tinyland | `109c6781ec88f92d6405d58ee15934d4e74b3cdc` | The pinned Alpine suite passed. Ground retains the Linux kache timings and lint gaps. [Tinyland #6](https://github.com/laputa-systems/tinyland/pull/6) |
-| Chromium-build | `1b58c7f81d9a299bab65f79750936525bda14fbc` | Three hosted Linux builders passed the offline install and controller suites. See the archive counts below. [Chromium-build #24](https://github.com/laputa-systems/chromium-build/pull/24) |
 | E | `74194303c4089f491f07b6085a7ddc2dbfa0b4fe` | Ground recorded 874 cases on both hosted platforms and locally with a short scratch path. DSLP-6 retains the reproduced long-path status-bar defect. Both default workflows passed. [E #30](https://github.com/laputa-systems/e/pull/30) |
 | Defuddle-rs | `207a73e29c8ad89b5dcb9bd01caa37936be1ba19` | Types passed the fixture-corpus gate. The CLI cases cover option forwarding, output preservation, terminal input and SingleFile admission. The latest fix preserves extraction from plain HTML that mentions both archive markers. Native tests, Node WASM tests and headless Chrome passed on default. [Defuddle-rs #32](https://github.com/joshuarli/defuddle-rs/pull/32) · [Default CI](https://github.com/joshuarli/defuddle-rs/actions/runs/44532927257) |
 | Gluon | `512ef77e4badca6664fa65e2000660957e270b2c` | Default macOS CI built the candidate and ran 53 fixtures against checksum-pinned Meson and Ninja. It skipped two Wayland fixtures. The isolated stable Alpine run covered all 55 fixtures, including two intentional failures. DSLP-6 records the reproduced missing-input bug. [Gluon #27](https://github.com/laputa-systems/gluon/pull/27) · [Gluon #28](https://github.com/laputa-systems/gluon/pull/28) · [Default CI](https://github.com/laputa-systems/gluon/actions/runs/44550409600) |
@@ -184,6 +184,12 @@ merging the Make command and browser runner. The runner also
 detected the known iframe-removal control locally and exited
 nonzero with the browser diagnostic.
 [Default WASM job](https://github.com/joshuarli/defuddle-rs/actions/runs/44517253477/job/135536367287)
+
+### Chromium-build evidence before exclusion
+
+At `1b58c7f81d9a299bab65f79750936525bda14fbc`, three hosted
+Linux builders passed the offline install and controller suites.
+[Chromium-build #24](https://github.com/laputa-systems/chromium-build/pull/24)
 
 The stable v3.24 indexes retired Helium's pinned NSS and OpenSSL
 revisions and Chromium's pinned Go, Node.js, and NSS revisions.
@@ -416,7 +422,6 @@ invalidate their existing receipts.
 | loc | Calibration | e533792 | no |  |  | 2s (13s cold) | 93.0/84.5% (calibration) | 2,433 mutants listed |  |  |  | rustybench baseline |  |
 | laputa-ui-dashboard | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | tinyland | B |  |  |  |  |  |  |  |  |  |  |  |  |
-| chromium-build | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | toolbox | Calibration | fcc8ec6 | no |  |  | 24s (parallel) | 68% line+branch, serial run (calibration) |  |  |  |  |  |  |
 | e | B |  |  |  |  |  |  |  |  |  |  |  |  |
 | defuddle-rs | B |  |  |  |  |  |  |  |  |  |  |  |  |

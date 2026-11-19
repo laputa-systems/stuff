@@ -74,6 +74,9 @@ credentials, hardware and canonical checkouts retain their campaign boundaries.
 - The owner excluded Discover from the campaign while rearchitecting it.
   Keep its earlier Solid test receipt for reference. Omit Discover from
   dispatch, CI retries and the campaign closeout.
+- The owner excluded Chromium-build on November 19. Omit it from
+  dispatch, cleanup, retries and closeout. Its completed offline APK
+  checks remain in the [scorecard](deslop-scorecard.md#chromium-build-evidence-before-exclusion).
 - Buildlib's retained workflow [#26](https://github.com/laputa-systems/buildlib/pull/26)
   merged as `a749bba`. Its 15 mutation jobs used 976 runner seconds in
   aggregate with a 50-second median. The hosted release, uncovered-branch,
@@ -245,8 +248,8 @@ Keep its remaining misses and confirmed hangs in the owning scope.
 
 All ten Tier A repositories have a tracked deslop backlog. Fz, Pi-build
 and FFmpeg-build passed check-up. The Tier A checkpoint admits
-Tier B. A scoped sync confirmed all eight existing backlogs.
-The eight supported Make entry points are now in place.
+Tier B. All seven in-scope Tier B repositories have seeded backlogs
+and supported Make entry points.
 Defuddle-rs closed Ground. Continue with the owning tickets and
 apply F3 retention as each repository qualifies its guarantees.
 Keep the remaining Tier A passes active.
