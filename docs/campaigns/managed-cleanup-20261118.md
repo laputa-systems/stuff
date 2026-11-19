@@ -146,3 +146,27 @@ The accepted revision is the commit supplied to the retirement tool.
 | e | `deslop-test-entry` | `b27273eebce4e81398c4c13e29dff769ec84cddc` | `4bc0854597f1e5a598ee2ab23a4e82c7111c1d9b` | 76236 |
 | gluon | `deslop-test-entry` | `698c0ee8ef0084ad4a4bef02e3196620abc582e9` | `2a1bca45da57bc36da9a60e1666bd392c9fe011f` | 60688 |
 | rustybench | `deslop-test-entry` | `abd34b148cc5eb24c957e1364988fdeabffd61f6` | `d2b7b06de812426dbffd4fe91b9289f2537f725e` | 241036 |
+
+## November 19 follow-up
+
+Seven more completed worktrees accounted for 1,572,920 KiB
+(1.50 GiB) of path allocation. The two batches retired 97
+worktrees with 14,097,664 KiB (13.44 GiB) measured before removal.
+
+| Repository | Worktrees retired | Path allocation, KiB |
+| --- | ---: | ---: |
+| CMake-build | 4 | 1,267,364 |
+| Defuddle-rs | 2 | 217,536 |
+| E | 1 | 88,020 |
+
+The four CMake worktrees matched the merged report, toolchain,
+configure, and bootstrap revisions. The Defuddle worktrees
+matched the merged Diagnose change and an ancestor of the merged
+Types change. The E worktree matched the merged Ground report.
+Each passed dry-run, had no open file or working-directory handles,
+and was clean before retirement. Git and filesystem checks
+confirmed all seven removals. The retirement tool kept the
+separate Defuddle Types worktree under its integration check.
+[CMake bootstrap](https://github.com/laputa-systems/cmake-build/pull/83) ·
+[Defuddle Types](https://github.com/joshuarli/defuddle-rs/pull/17) ·
+[E Ground](https://github.com/laputa-systems/e/pull/30)

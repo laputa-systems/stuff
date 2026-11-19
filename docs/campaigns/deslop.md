@@ -19,10 +19,10 @@ default branches already carry their seeded backlogs. The
 remaining Tier A passes continue.
 
 - All eight Tier B repositories have supported Make test entry points.
-  Gluon, Rustybench and Lz completed Ground. Defuddle-rs completed
-  Diagnose and recorded two reproducible findings. Tinyland's pinned
-  test suite passed, and its Ground ticket retains the lint and Linux
-  kache timing gaps. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
+  Gluon, Rustybench, Lz, E, and Laputa UI Dashboard completed Ground.
+  Defuddle-rs completed Diagnose and Types. Tinyland's pinned suite
+  passed, and its Ground ticket retains the lint and Linux kache
+  timing gaps. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
 - Both Chromium products install verified APK archives with networking
   disabled on the digest-pinned Alpine 3.24.2 base. Helium's native
   ARM64 and AMD64 manifests have 326 and 328 packages. The headless
@@ -30,8 +30,8 @@ remaining Tier A passes continue.
   jobs. A cold cache still needs the exact upstream archive URLs.
   [Helium](https://github.com/laputa-systems/chromium-build/pull/23) ·
   [Headless Chromium](https://github.com/laputa-systems/chromium-build/pull/24)
-- The subsequent managed-checkout cleanup retired 90 completed
-  worktrees with 11.94 GiB of measured path allocation.
+- Two managed-checkout cleanup batches retired 97 completed
+  worktrees with 13.44 GiB of measured path allocation.
   [Cleanup receipt](managed-cleanup-20261118.md)
 - FFmpeg-build closed its final review finding after the native mutation
   workflow and both ordinary checks passed. Its fresh default check-up
