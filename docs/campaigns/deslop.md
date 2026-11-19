@@ -14,11 +14,11 @@ and explicit deferrals. Tier A repo passes have started. The
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries. Pi-build, Fz and
 FFmpeg-build have settled in Tier A. The checkpoint admits
-Tier B under the existing campaign approval. All eight Tier B
+Tier B under the existing campaign approval. All seven in-scope Tier B
 default branches already carry their seeded backlogs. The
 remaining Tier A passes continue.
 
-- All eight Tier B repositories have supported Make test entry points.
+- All seven in-scope Tier B repositories have supported Make test entry points.
   Gluon, Rustybench, Lz, E, and Laputa UI Dashboard completed Ground.
   Defuddle-rs completed Diagnose and Types and verified CLI option
   forwarding, output preservation and terminal input. Both extraction
@@ -40,7 +40,9 @@ remaining Tier A passes continue.
   [Headless Chromium](https://github.com/laputa-systems/chromium-build/pull/24)
 - Four managed-checkout cleanup batches retired 106 completed
   worktrees with 15.46 GiB of measured path allocation.
-  [Cleanup receipt](managed-cleanup-20261118.md)
+  The next pass retired 72 with 17.99 GiB of measured path allocation.
+  [November 18 receipt](managed-cleanup-20261118.md) ·
+  [November 19 receipt](managed-cleanup-20261119.md)
 - FFmpeg-build closed its final review finding after the native mutation
   workflow and both ordinary checks passed. Its fresh default check-up
   passed 168 tests, both linters, all four fleet rules and an injected-fault
@@ -327,6 +329,8 @@ remaining Tier A passes continue.
   [Fastermod #32](https://github.com/laputa-systems/fastermod/pull/32) ·
   [Ptytest #16](https://github.com/laputa-systems/ptytest/pull/16)
 - The owner excluded Discover from deslop while rearchitecting it.
+- The owner excluded Chromium-build on November 19. Its offline APK
+  verification remains part of the campaign record.
 - The [checkout cleanup](deslop-cleanup-20261117.md) retired 18 integrated
   worktrees under `~/repos` and cleared verified stale build targets and
   fixtures.
@@ -397,6 +401,7 @@ tier.
    code counts, but only code we have modified is deslopped. Pristine vendored trees and pristine
    upstream code in forks are left alone.
 2. **Excluded:** xsh, laputa, python-build, and bctl (under heavy development elsewhere), and deser.
+   Discover and Chromium-build are also outside the campaign by owner decision.
    Also excluded are the forks that are effectively upstream: rg, rawzip, zlib-rs, lexopt, rustls, and
    webpki.
 3. **Forks in scope,** limited to our changes against their upstream merge base: jaq, rust-fontconfig,
@@ -608,7 +613,7 @@ For each tier in order:
 | Tier | Repos (Rust + Python + TS lines from `fleet/loc/v1`) |
 | --- | --- |
 | A, under 10k | pi-build (0.7k, `tools/` only), ffmpeg-build 2.8k, node-build 2.9k, fz 5.1k, doas-rs 5.4k, mdevd-rs 5.4k, diff-pretty 6.0k, vault 6.2k, cmake-build 7.0k, hi-lite 8.1k |
-| B, 10k to 30k | lz 11.1k, rustybench 11.1k, laputa-ui-dashboard 13.8k, tinyland 14.1k, chromium-build 16.1k, e 20.1k, defuddle-rs 20.7k, gluon 28.7k |
+| B, 10k to 30k | lz 11.1k, rustybench 11.1k, laputa-ui-dashboard 13.8k, tinyland 14.1k, e 20.1k, defuddle-rs 20.7k, gluon 28.7k |
 | C, 30k to 80k | ctrs 32.7k, usr 42.2k, img 43.7k, tm 51.6k |
 | D, over 80k, by component | ish 89.0k, smolith 118.1k, play 122.4k, tansu 123.2k, stuff 156.1k (components other than `repomod/`), kache 240.1k |
 | E, forks (delta only) | jaq, rust-fontconfig, rustix, rage, fd, oxish, crabtables, soulseek-rs |
