@@ -30,6 +30,7 @@ from repomod.dependencies.model import (
     purl,
     redact_url,
 )
+from repomod.workflow_policy import job_container_images, workflow_jobs
 
 
 @dataclass(frozen=True, slots=True)
@@ -139,16 +140,10 @@ def _workflow(
     edges: list[Edge],
     issues: list[Issue],
 ) -> None:
-    jobs = document.get("jobs")
-    if not isinstance(jobs, Mapping):
-        return
-    for job_id, raw in jobs.items():
-        if not isinstance(job_id, str) or not isinstance(raw, Mapping):
-            continue
-        job: Mapping[str, Any] = cast(Mapping[str, Any], raw)
+    for job_id, job in workflow_jobs(document):
         uses = job.get("uses")
         if isinstance(uses, str):
-            comment = _comment(raw, "uses")
+            comment = _comment(job, "uses")
             _uses_edge(
                 uses,
                 comment,
@@ -161,31 +156,8 @@ def _workflow(
                 issues,
                 Scope.CI,
             )
-        container = job.get("container")
-        _image_value(
-            container,
-            f"jobs.{job_id}.container",
-            path,
-            vendored,
-            project_id,
-            drafts,
-            edges,
-            issues,
-        )
-        services = job.get("services")
-        if isinstance(services, Mapping):
-            for name, service in services.items():
-                if isinstance(name, str):
-                    _image_value(
-                        service,
-                        f"jobs.{job_id}.services.{name}",
-                        path,
-                        vendored,
-                        project_id,
-                        drafts,
-                        edges,
-                        issues,
-                    )
+        for location, image in job_container_images(job_id, job):
+            _image_value(image, location, path, vendored, project_id, drafts, edges, issues)
         steps = job.get("steps")
         if not isinstance(steps, list):
             continue
@@ -342,7 +314,7 @@ def _uses_edge(
 
 
 def _image_value(
-    value: object,
+    value: str,
     locator: str,
     path: str,
     vendored: bool,
@@ -351,10 +323,6 @@ def _image_value(
     edges: list[Edge],
     issues: list[Issue],
 ) -> None:
-    if isinstance(value, Mapping):
-        value = value.get("image")
-    if not isinstance(value, str):
-        return
     if "${{" in value:
         issues.append(
             Issue(

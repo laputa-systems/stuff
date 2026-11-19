@@ -8,17 +8,22 @@ import subprocess
 import tarfile
 import tomllib
 import urllib.request
+from collections.abc import Mapping
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, replace
 from datetime import datetime
 from pathlib import Path
 from typing import Any, cast
 
+from ruamel.yaml import YAML
+from ruamel.yaml.error import YAMLError
+
 from repomod import paths
 from repomod.io import read_json_object
 from repomod.rules.binary_release import _release_kind, has_binary_release_contract
 from repomod.rules.workflows import read_workflow_sources
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
+from repomod.workflow_policy import job_container_images, workflow_jobs
 
 _SHA256 = re.compile(r"sha256:[0-9a-f]{64}\Z")
 _ARCHIVE_SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -955,6 +960,11 @@ def _repository_name(repo: str) -> str:
     return repo.rsplit("/", 1)[-1].casefold()
 
 
+def _is_alpine_edge(image: str) -> bool:
+    repo, tag, _ = _split_image(image)
+    return _repository_name(repo) == "alpine" and tag == "edge"
+
+
 def _platform_arch(platform: str | None) -> str | None:
     if platform is None or platform.startswith("$"):
         return None
@@ -1392,6 +1402,29 @@ def _workflow_references(root: Path, workflows: list[tuple[str, str]]) -> set[Pa
             if mentions_musl or "musl" in _yaml_step(source, match.start()).casefold():
                 references.add(path)
     return references
+
+
+def _workflow_edge_findings(repository: Repository, workflows: list[tuple[str, str]]) -> list[Finding]:
+    findings: list[Finding] = []
+    for path, source in workflows:
+        try:
+            document: object = YAML(typ="safe", pure=True).load(source)
+        except YAMLError:
+            continue
+        for job_id, job in workflow_jobs(document):
+            images = list(job_container_images(job_id, job))
+            steps = job.get("steps")
+            if isinstance(steps, list):
+                for index, step in enumerate(steps):
+                    uses = step.get("uses") if isinstance(step, Mapping) else None
+                    if isinstance(uses, str) and uses.startswith("docker://"):
+                        images.append((f"jobs.{job_id}.steps[{index}].uses", uses.removeprefix("docker://")))
+            findings.extend(
+                _failure(repository, path, f"Alpine edge is not approved in {location}")
+                for location, image in images
+                if _is_alpine_edge(image)
+            )
+    return findings
 
 
 def _candidate_dockerfiles(root: Path, references: set[Path]) -> list[Path]:
@@ -1909,8 +1942,7 @@ def _dockerfile_in_scope(path: Path, references: set[Path]) -> bool:
     for line in lines:
         if base := _FROM.fullmatch(line.text):
             image = _expand(base.group("image"), arguments)
-            repo, tag, _ = _split_image(image)
-            if _repository_name(repo) == "alpine" and tag == "edge":
+            if _is_alpine_edge(image):
                 return True
         if run := _RUN.match(line.text):
             run_text = line.text[run.end() :]
@@ -1932,6 +1964,7 @@ def _linux_musl_toolchain_findings(root: Path, repository: Repository) -> list[F
         return [operational(repository, _RULE_ID, "musl-toolchain.toml", str(error))]
     workflows, problems = read_workflow_sources(root, repository)
     findings = [operational(repository, _RULE_ID, path, message) for path, message in problems]
+    findings.extend(_workflow_edge_findings(repository, workflows))
     adapter = lock.adapters.get(str(repository.id))
     if adapter is not None and adapter.kind in {"python-build", "chromium-build"}:
         findings.extend(_adapter_with_lock_findings(root, repository, lock, adapter))
