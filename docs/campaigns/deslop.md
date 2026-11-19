@@ -13,9 +13,10 @@ and explicit deferrals. Tier A repo passes have started. The
 [scorecard](deslop-scorecard.md#current-checkpoint-2026-11-18) records the
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
 qualified workloads and remaining boundaries. Pi-build, Fz and
-FFmpeg-build have settled in Tier A. The Tier A checkpoint authorizes
-Tier B seeding under the existing campaign approval. The remaining
-Tier A passes continue.
+FFmpeg-build have settled in Tier A. The checkpoint admits
+Tier B under the existing campaign approval. All eight Tier B
+default branches already carry their seeded backlogs. The
+remaining Tier A passes continue.
 
 - FFmpeg-build closed its final review finding after the native mutation
   workflow and both ordinary checks passed. Its fresh default check-up

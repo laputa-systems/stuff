@@ -7,7 +7,7 @@ never gated.
 ## Current checkpoint, 2026-11-18
 
 M2 qualified representative workloads with explicit deferrals. Three
-Tier A repositories have passed check-up, opening Tier B seeding. The
+Tier A repositories have passed check-up, opening the Tier B passes. The
 [resumption roadmap](deslop-roadmap.md) records the remaining acceptance
 conditions. Discover is outside scope during the owner's rearchitecture.
 
@@ -69,7 +69,9 @@ no other tool with three comparable zero-yield results.
 Pi-build retains its P2 owner ticket for the enrolled two-host Intercom
 procedure. Vault's recovery, Doas's privileged password and ARM64 guest
 checks, and Mdevd's physical coldplug remain in their owning passes.
-Tier B begins with the existing fleet rollout and seeding procedure.
+All eight Tier B repositories already carry seeded backlogs. The
+scoped fleet check found a test-entry-point issue in seven. F3
+retention applies as each repository qualifies its guarantees.
 
 
 Fz check-up at `0ec537d53eca0a12af07687250111a48023ee8d3` used a fresh macOS ARM64 worktree, the
