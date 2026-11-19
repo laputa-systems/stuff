@@ -19,10 +19,17 @@ default branches already carry their seeded backlogs. The
 remaining Tier A passes continue.
 
 - All eight Tier B repositories have supported Make test entry points.
-  Chromium separates portable, macOS and Linux builder tests. Its native
-  jobs passed on both architectures after refreshing the retired package
-  revisions in the Alpine 3.24.2 locks. Defuddle-rs completed Ground.
-  [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
+  Gluon, Rustybench and Lz completed Ground. Defuddle-rs completed
+  Diagnose and recorded two reproducible findings. Tinyland's pinned
+  test suite passed, and its Ground ticket retains the lint and Linux
+  kache timing gaps. [Tier B rollout](deslop-scorecard.md#tier-b-rollout)
+- Both Chromium products install verified APK archives with networking
+  disabled on the digest-pinned Alpine 3.24.2 base. Helium's native
+  ARM64 and AMD64 manifests have 326 and 328 packages. The headless
+  AMD64 manifest has 241. Native builder tests passed for all three
+  jobs. A cold cache still needs the exact upstream archive URLs.
+  [Helium](https://github.com/laputa-systems/chromium-build/pull/23) ·
+  [Headless Chromium](https://github.com/laputa-systems/chromium-build/pull/24)
 - The subsequent managed-checkout cleanup retired 90 completed
   worktrees with 11.94 GiB of measured path allocation.
   [Cleanup receipt](managed-cleanup-20261118.md)
