@@ -335,3 +335,38 @@ the accepted integrations on the respective default branches.
 The thirteen worktrees accounted for 1,834,900 KiB. Across all passes,
 127 retired worktrees and the listed generated artifacts accounted for
 21,292,508 KiB (20.31 GiB) of measured path allocation.
+
+## Native controller follow-up, 2026-11-18
+
+All four worktrees matched their accepted files and were clean and idle
+when retired. The native CMake default workflow passed.
+
+| Repository | Accepted integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| CMake-build | `2bf6fdb8` | `cmake-archive-directory-check` | 80,968 |
+| Stuff | `57407d51` | `record-deslop-timing-and-release` | 33,560 |
+| Stuff | `6880c959` | `record-deslop-lexer-and-cleanup` | 33,560 |
+| FFmpeg-build | `1fb8b5fe` | `ffmpeg-audit-profile-dispatch` | 143,132 |
+
+The four worktrees accounted for 291,220 KiB. Across all passes, 131
+retired worktrees and the listed generated artifacts accounted for
+21,583,728 KiB (20.58 GiB) of measured path allocation.
+
+## Fz qualification follow-up, 2026-11-18
+
+The published report preserves the timed workloads and full consumer
+reproduction. The proof branch is available at its recorded head.
+The detached ish worktree ran the exact vendor import. Its only
+changes were the fixture's imported files, which were restored from
+the checked-in ish revision before worktree removal.
+[Qualification report](https://github.com/laputa-systems/fz/pull/48)
+
+| Repository | Accepted integration or recorded proof | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Fz | `760d25d5` | `fz-repeat-and-controls` | 500 |
+| Fz | `8d6e375e` | `deslop-hosted-perf` | 6,540 |
+| ish | Fz #48 consumer proof | `fz-current-consumer` | 1,234,504 |
+
+The three worktrees accounted for 1,241,544 KiB. Across all passes,
+134 retired worktrees and the listed generated artifacts accounted
+for 22,825,272 KiB (21.77 GiB) of measured path allocation.
