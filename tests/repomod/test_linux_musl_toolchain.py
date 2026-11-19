@@ -525,6 +525,76 @@ def test_chromium_build_adapter_checks_lock_and_base_image(
     assert any("Dockerfile musl-dev" in message for message in messages(findings))
 
 
+def test_chromium_offline_apk_install_requires_stable_locked_musl(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _chromium(tmp_path)
+    name = repository(("build", "python"), "laputa-systems/chromium-build")
+    install_lock(monkeypatch, approved_lock())
+    dockerfile = tmp_path / "Dockerfile"
+    offline = (
+        "RUN --network=none --mount=type=bind,from=locked-apks,target=/locked-apks set -eux; "
+        'set -- /locked-apks/*.apk; apk add --no-cache --repositories-file /dev/null "$@"'
+    )
+    source = dockerfile.read_text().replace("RUN apk add --no-cache musl-dev=1.2.6-r3", offline)
+    dockerfile.write_text(source)
+    lock = tmp_path / "config/packages.amd64.lock"
+    resolved = ["musl-1.2.6-r3", "musl-dev-1.2.6-r3"]
+    archives = {
+        package: {
+            "url": f"https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/{package}.apk",
+            "sha256": "a" * 64,
+            "sha512": "b" * 128,
+            "size": 101,
+        }
+        for package in resolved
+    }
+    document = {"base_release": "3.24.2", "world": ["musl-dev=1.2.6-r3"], "resolved": resolved, "archives": archives}
+    lock.write_text(json.dumps(document))
+
+    assert musl._linux_musl_toolchain_findings(tmp_path, name) == []
+
+    for replacement in (
+        source.replace("--network=none", "--network=default"),
+        source.replace("from=locked-apks", "from=other"),
+        source.replace("/dev/null", "/etc/apk/repositories"),
+        source.replace("apk add --no-cache", "apk add --allow-untrusted --no-cache"),
+        source + "RUN apk add musl-dev=1.2.6-r3\n",
+    ):
+        dockerfile.write_text(replacement)
+        assert "builder APKs must be installed offline from locked-apks" in messages(
+            musl._linux_musl_toolchain_findings(tmp_path, name)
+        )
+
+    for edge in (
+        "FROM alpine:edge AS extra\n",
+        "RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/main' > /etc/apk/repositories\n",
+    ):
+        dockerfile.write_text(source + edge)
+        assert "Alpine edge is not approved" in messages(musl._linux_musl_toolchain_findings(tmp_path, name))
+
+    dockerfile.write_text(source)
+    for invalid in (
+        {**document, "resolved": ["musl-1.2.6-r3"]},
+        {**document, "archives": {"musl-1.2.6-r3": archives["musl-1.2.6-r3"]}},
+    ):
+        lock.write_text(json.dumps(invalid))
+        assert "offline package lock must resolve and archive musl-dev-1.2.6-r3" in messages(
+            musl._linux_musl_toolchain_findings(tmp_path, name)
+        )
+
+    original = archives["musl-dev-1.2.6-r3"]
+    for bad_field in (
+        {"sha512": "bad"},
+        {"url": "https://dl-cdn.alpinelinux.org/alpine/edge/main/x86_64/musl-dev-1.2.6-r3.apk"},
+    ):
+        archives["musl-dev-1.2.6-r3"] = {**original, **bad_field}
+        lock.write_text(json.dumps(document))
+        assert "offline package lock needs a verified stable APK for musl-dev-1.2.6-r3" in messages(
+            musl._linux_musl_toolchain_findings(tmp_path, name)
+        )
+
+
 def _node_workflow(root: Path, packages: str) -> None:
     workflows = root / ".github" / "workflows"
     workflows.mkdir(parents=True, exist_ok=True)
