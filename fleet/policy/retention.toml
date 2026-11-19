@@ -26,3 +26,6 @@ settings = ["ty.missing-type-argument=error", "ty.unsound-return-statement=error
 
 [strict-profile."laputa-systems/doas-rs"]
 settings = ["clippy.needless_pass_by_value=deny", "clippy.redundant_clone=deny"]
+
+[strict-profile."laputa-systems/gluon"]
+settings = ["rust.unsafe_code=forbid"]
