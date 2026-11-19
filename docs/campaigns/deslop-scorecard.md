@@ -33,7 +33,7 @@ conditions. Discover is outside scope during the owner's rearchitecture.
 | hi-lite | `d103040221466e47bc11a91ee120b160b5e52f21` | Ground, Diagnose and Types complete. #25 covers JSON token byte boundaries through the public highlighter. | The 150 ordinary tests passed with one existing opt-in XSH test. Both default checks passed. JSON caught 64 of 74, with two equivalents and eight timeouts. | Qualify remaining lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
-| cmake-build | `28b1415508e27426bca2ae0f3819a5f6a7b569d1` | Ground, Diagnose and Types complete. #75 through #78 exercise the basic, network, project and parity handoffs. | Both default checks passed. The earlier eight-scope draft passed 16 native jobs. The parity scope caught 282 of 297 variants on macOS. | Qualify the remaining upstream and compiler decisions |
+| cmake-build | `b0256cdba2c54d1aaed435384d60c8a44f8df0fe` | Ground, Diagnose and Types complete. #75 through #80 cover the basic, network, project, parity, upstream and report boundaries. | Both default checks passed. The whole qualification module caught 1,157 of 1,215 variants on macOS and 1,175 on each native Linux architecture. [Hosted trial](https://github.com/laputa-systems/cmake-build/actions/runs/44487514643) | Qualify the remaining compiler decisions |
 
 ## Tier A checkpoint
 
@@ -77,21 +77,25 @@ retention applies as each repository qualifies its guarantees.
 
 | Repository | Checked default revision | Hosted evidence |
 | --- | --- | --- |
-| Lz | `b76d8b11869193dbea1b61ad17fef444a14122f9` | The macOS and both musl jobs passed under Make. Both default workflows passed. [Lz #7](https://github.com/joshuarli/lz/pull/7) |
-| Rustybench | `e01963bcbcb2db3c34a91baba0544dce25c5b4a0` | The retained test command passed on both hosts. The next PR replaced the generated script that failed to start on Linux with a read-only fixture. Both default workflows passed. [Rustybench #16](https://github.com/laputa-systems/rustybench/pull/16) · [Rustybench #17](https://github.com/laputa-systems/rustybench/pull/17) |
+| Lz | `14edc95004ae141337a3c8bb8f299b08f8f9d8dd` | Ground recorded 169 ordinary tests and the separate Less parity gate. Both default workflows passed. [Lz #8](https://github.com/joshuarli/lz/pull/8) |
+| Rustybench | `e8aa3033865f7a7c652caa48e47cbb3351d639f7` | Ground recorded 215 ordinary tests, five ignores and the separate collector acceptance. Both default workflows passed. [Rustybench #18](https://github.com/laputa-systems/rustybench/pull/18) |
 | Laputa UI Dashboard | `0e7e993726137d56c83b07b28bbfd0c21dd16733` | The same pnpm check script passed through Make on the PR and default. [Dashboard #13](https://github.com/laputa-systems/laputa-ui-dashboard/pull/13) |
-| Tinyland | `f4e6b5e296d78bd36bbc6020f8129c617093da89` | The pinned Alpine suite passed through Make on the PR and default. [Tinyland #5](https://github.com/laputa-systems/tinyland/pull/5) |
-| Chromium-build | `6f8e0289aea42d32685d1dc0d6a2686a16165f74` | Both default workflows passed. The staged PR ran 61 portable Linux, 134 macOS, 37 ARM64 builder and 36 AMD64 builder cases, with four existing environment or architecture skips across those jobs. [Chromium-build #22](https://github.com/laputa-systems/chromium-build/pull/22) |
+| Tinyland | `109c6781ec88f92d6405d58ee15934d4e74b3cdc` | The pinned Alpine suite passed. Ground retains the Linux kache timings and lint gaps. [Tinyland #6](https://github.com/laputa-systems/tinyland/pull/6) |
+| Chromium-build | `1b58c7f81d9a299bab65f79750936525bda14fbc` | Three hosted Linux builders passed the offline install and controller suites. See the archive counts below. [Chromium-build #24](https://github.com/laputa-systems/chromium-build/pull/24) |
 | E | `4bc0854597f1e5a598ee2ab23a4e82c7111c1d9b` | Both hosted platforms passed the unchanged locked Cargo command through Make. Both default workflows passed. [E #29](https://github.com/laputa-systems/e/pull/29) |
-| Defuddle-rs | `107706c41461ea52343ba5d0b67706281a0a270a` | Ground is closed. Both default workflows and the fleet rule passed. The local default ran 161 tests cold and warm. [Defuddle-rs #15](https://github.com/joshuarli/defuddle-rs/pull/15) |
-| Gluon | `2a1bca45da57bc36da9a60e1666bd392c9fe011f` | Both PR checks passed and default lint passed. The test workflow runs on pull requests. [Gluon #19](https://github.com/laputa-systems/gluon/pull/19) |
+| Defuddle-rs | `9edcdb27becee47c5fe367b5c177953afdd25753` | Ground and Diagnose are closed. Both default workflows passed after filing the retry-pruning and invalid CLI property findings. [Defuddle-rs #16](https://github.com/joshuarli/defuddle-rs/pull/16) |
+| Gluon | `9629a19f9ce367a9e35a19c2a15e48d3dd35f28b` | Ground recorded 85 ordinary tests plus a filtered child run. Both default workflows passed. [Gluon #20](https://github.com/laputa-systems/gluon/pull/20) |
 
-Chromium's first native builder attempt showed that the signed
-Alpine v3.24 indexes had retired the exact NSS and OpenSSL
-revisions. The refreshed ARM64 and AMD64 manifests contain
-326 and 328 packages respectively, with the same package names.
-Both native builder jobs passed on the existing Alpine 3.24.2
-base after the refresh. [Hosted native repeat](https://github.com/laputa-systems/chromium-build/actions/runs/44481266858)
+The stable v3.24 indexes retired Helium's pinned NSS and OpenSSL
+revisions and Chromium's pinned Go, Node.js, and NSS revisions.
+The old Go and Node.js archive URLs returned 404. Both products
+now share the offline installation path, and the builder checks
+the exact manifest after installation. Helium stages 314 APKs
+for ARM64 and 316 for AMD64. Headless Chromium stages 226 for
+AMD64. The native headless job checked all 241 manifest entries
+and passed 36 controller cases.
+[Helium native proof](https://github.com/laputa-systems/chromium-build/actions/runs/44484731201) ·
+[Headless native proof](https://github.com/laputa-systems/chromium-build/actions/runs/44487063812/job/135433052753)
 
 
 Fz check-up at `0ec537d53eca0a12af07687250111a48023ee8d3` used a fresh macOS ARM64 worktree, the
