@@ -404,3 +404,22 @@ Node report preserves the package and input results from both hosts.
 The four worktrees accounted for 383,160 KiB. Across all passes, 144
 retired worktrees and the listed generated artifacts accounted for
 23,637,548 KiB (22.54 GiB) of measured path allocation.
+
+## Audit and stable image follow-up, 2026-11-18
+
+Six clean, idle worktrees matched their accepted integrations.
+The detached Doas worktree verified the builder rule at the accepted
+default revision after the fleet scan found an older canonical checkout.
+
+| Repository | Accepted integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| FFmpeg-build | `9e44f604` | `ffmpeg-effective-build-flags` | 111,636 |
+| FFmpeg-build | `e8bfddde` | `ffmpeg-audit-required-paths` | 111,648 |
+| Stuff | `c182fa7d` | `record-deslop-release-census` | 33,568 |
+| Node-build | `5060d5c1` | `node-package-record-contract` | 164,312 |
+| Node-build | `6d19ae57` | `node-native-target-selection` | 160,332 |
+| Doas-rs | `f424b9ec` | `deslop-doas-stable-image-check` | 320 |
+
+The six worktrees accounted for 581,816 KiB. Across all passes, 150
+retired worktrees and the listed generated artifacts accounted for
+24,219,364 KiB (23.10 GiB) of measured path allocation.

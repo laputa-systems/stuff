@@ -22,12 +22,16 @@ repository.
   exemption and checks both the offline APK closure and the qualification
   OpenSSL APK. The general check detects explicit Edge bases and APK
   repository overrides in Dockerfiles without a musl marker. It also
-  checks direct writes of Edge URLs to `/etc/apk/repositories`.
+  checks direct writes of Edge URLs to `/etc/apk/repositories` and Edge
+  images declared in GitHub Actions job containers, services and Docker
+  actions. The workflow check found no Edge images in 44 in-scope
+  checkouts. The exact Doas default revision passed the builder rule.
   [Stable builder](https://github.com/laputa-systems/cmake-build/pull/24) ·
   [Exact qualification](https://github.com/laputa-systems/cmake-build/actions/runs/44354687939) ·
   [Fleet policy](https://github.com/laputa-systems/stuff/pull/117) ·
   [Edge detection](https://github.com/laputa-systems/stuff/pull/120) ·
-  [Repository redirects](https://github.com/laputa-systems/stuff/pull/128)
+  [Repository redirects](https://github.com/laputa-systems/stuff/pull/128) ·
+  [Workflow images](https://github.com/laputa-systems/stuff/pull/143)
 - CMake-build now checks three strict typing rules. The bootstrap parser
   returns the same 36 validated inputs in order for each architecture.
   The input suite caught all 172 selected parser mutations.
