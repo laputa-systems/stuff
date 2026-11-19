@@ -4,7 +4,7 @@ version = 1
 repositories = ["joshuarli/loc", "joshuarli/pi-build", "laputa-systems/buildlib", "laputa-systems/diff-pretty", "laputa-systems/fastermod", "laputa-systems/fz", "laputa-systems/ptytest", "laputa-systems/srv"]
 
 [coverage-target]
-repositories = ["joshuarli/extensions", "joshuarli/pi-build", "joshuarli/pytest-parallel", "laputa-systems/buildlib", "laputa-systems/diff-pretty", "laputa-systems/ffmpeg-build", "laputa-systems/fz", "laputa-systems/hi-lite", "laputa-systems/mdevd-rs", "laputa-systems/node-build", "laputa-systems/ptytest", "laputa-systems/srv"]
+repositories = ["joshuarli/extensions", "joshuarli/pi-build", "joshuarli/pytest-parallel", "laputa-systems/buildlib", "laputa-systems/cmake-build", "laputa-systems/diff-pretty", "laputa-systems/ffmpeg-build", "laputa-systems/fz", "laputa-systems/hi-lite", "laputa-systems/mdevd-rs", "laputa-systems/node-build", "laputa-systems/ptytest", "laputa-systems/srv"]
 
 [strict-profile."laputa-systems/srv"]
 settings = ["rust.unsafe_code=forbid"]
