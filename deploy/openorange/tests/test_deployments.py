@@ -147,6 +147,22 @@ class DeploymentTests(unittest.TestCase):
         with self.assertRaises(oolib.ConfigError):
             oolib.run_args(cfg, "tunnel")
 
+    def test_each_container_runs_under_its_own_stable_cgroup_slice(self):
+        cfg = oolib.load()
+        cfg.stack["etc_dir"] = self.directory.name
+        parents = {}
+        for name in ["discover", "discover-preview"]:
+            app = cfg.apps[name]
+            cfg.app_image_file(app).parent.mkdir(exist_ok=True)
+            oolib.set_app_deployment(cfg.app_image_file(app), f"{name}:verified")
+            args = oolib.run_args(cfg, "app", name)
+            self.assertEqual(args[0], "run")
+            parents[name] = args[args.index("--cgroup-parent") + 1]
+        engine = oolib.run_args(cfg, "engine")
+        parents["engine"] = engine[engine.index("--cgroup-parent") + 1]
+        self.assertEqual(parents, {"discover": "/oo.slice/oo-discover.slice", "discover-preview": "/oo.slice/oo-discover_preview.slice", "engine": "/oo.slice/oo-engine.slice"})
+        self.assertFalse(parents["discover-preview"].startswith(parents["discover"] + "/"))
+
     def test_split_dns_uses_declared_public_names_and_tailnet_listener(self):
         cfg = oolib.load()
         corefile = oolib.dns_config(cfg)
