@@ -7,6 +7,10 @@ established, so the slop cannot return.
 
 ## Status
 
+Winding down 2026-11-19. Campaign dispatch is paused while current work is recorded.
+
+## Accepted work
+
 The 2026-11-18 M2 checkpoint records qualified representative workloads
 and explicit deferrals. Tier A repo passes have started. The
 [roadmap](deslop-roadmap.md) gives the acceptance criteria and the
