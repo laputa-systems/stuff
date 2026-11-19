@@ -28,13 +28,13 @@ outside scope during the owner's rearchitecture.
 | ptytest | `606027bb32999fa3e1bb960285384a89081a957a` | Active. #25 retained the terminal mutation scope. #30 makes the workflow classify each pull request. | Both platforms and four controls confirmed the bounded selection. The same macOS Xsh compile failure occurred at baseline and with the candidate. | Qualify lifecycle, replay and remaining consumer Tests inventory |
 | tm | `6cf0b949c2593c0959268a3d1995b972b05f58b6` | Active; fixture repairs merged, Ground and later stages open | Recent repair CI green; quiet-host cost unresolved | Finish Ground cost and component scope |
 | toolbox | `8d2cd08c71ff00d311212d85940f95c8359aa76f` | Local native and coverage evidence complete on #15. Hosted qualification deferred for Actions billing. | All 750 tests and five native fio subtests passed locally. The November 18 retry failed before runner allocation. | Resume hosted checks when Actions can start the jobs |
-| ffmpeg-build | `7af23b83770a741b19e612ebe8b8d7594a49be26` | Ground, Diagnose and Types complete. #64 verifies tools, SDK and runtime staging, locked build metadata and reuse. | Both default checks passed. Ten qualified scopes passed 30 native jobs and the final whole-change check. The mixed change failed the three tools jobs. | Complete the critical stage, lock and profile helper inventory |
+| ffmpeg-build | `44e2a2e5c08060a96bfb80a8177d83325253586f` | Ground, Diagnose and Types complete. #68 verifies staged library identities and runtime policy. #69 verifies toolchain discovery and the build fingerprint. | Both default checks passed. Draft #62 passed 48 jobs across 16 scopes and its final check. Its local target selected the committed inspection change and caught 230 of 230. | Verify toolchain and configure inputs on all three hosts and retain the gate |
 | pi-build | `235d3be03fc03dec6f217a3d9a2ff71a6f200c98` | Build-tools pass settled November 18 after #45. Both Linux profiles reproduced on x86-64 and ARM64. Two-host Intercom remains owner ticket DSLP-9. | Fresh check-up passed 77 Python tests, four companion fixtures, lint, four fleet checks and the negative control. The earlier gate accounted for 1,434 identities. Both default checks passed. | Run the separately enrolled Intercom procedure when the owner environment is available |
-| node-build | `4455873499aab80beda63e73a342c0baa5c82772` | Ground, Diagnose and Types complete. #71 bounds inspector waits, #72 verifies the packaged Mach-O entrypoint, #73 checks configure reuse, and #74 rejects unsupported targets before effects. | Both default checks passed. The draft passed all 28 native jobs across 14 modules before refreshing to the current default. | Qualify the remaining smoke, product and build controller scopes |
+| node-build | `0f016df94bfacbaf64bd10ddf26b254ed666acfa` | Ground, Diagnose and Types complete. #75 checks command dispatch. #76 verifies staged version and help output, addon compiler arguments and exclusions. | Both default checks passed. Draft #61 refreshed to this base and passed all 28 native jobs across 14 modules. #76 caught 210 of 217. | Qualify the remaining smoke, product and build controller scopes |
 | hi-lite | `d103040221466e47bc11a91ee120b160b5e52f21` | Ground, Diagnose and Types complete. #25 covers JSON token byte boundaries through the public highlighter. | The 150 ordinary tests passed with one existing opt-in XSH test. Both default checks passed. JSON caught 64 of 74, with two equivalents and eight timeouts. | Qualify remaining lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
-| cmake-build | `918077a9a513be5fe3237ea7e946fc48235d64be` | Ground, Diagnose and Types complete. #58 runs the Git worktree fixtures on the host and preserves the minimal sealed builder. #62 and #63 cover archive writes and the verified wheel cache. | The whole-change draft passed all fourteen native jobs and its final check. Both Linux architectures caught 314 of 319 package, 407 of 420 budget, 241 of 246 reproduction and 151 of 153 wheel variants. Default native CI for #62 was in progress. | Qualify upstream reports and the remaining controller boundaries |
+| cmake-build | `48527b9b2076c141c986a06c8e3e10cc91ffe184` | Ground, Diagnose and Types complete. #64 matches runner totals to JUnit reports. #66 verifies stable builder inputs. #67 makes listener shutdown part of network probe success. | The seven-scope draft passed all fourteen native jobs and its final check. Both PR checks passed for #67. Default native CI is running. | Qualify reference copy and network setup, then rerun the native sandbox scope |
 
 
 Fz check-up at `0ec537d53eca0a12af07687250111a48023ee8d3` used a fresh macOS ARM64 worktree, the
@@ -142,6 +142,36 @@ budget, Git reproduction, wheel cache and archive scopes. Both Linux
 architectures passed all seven scopes and the final check.
 [FFmpeg native trial](https://github.com/laputa-systems/ffmpeg-build/actions/runs/44459155229) ·
 [CMake native trial](https://github.com/laputa-systems/cmake-build/actions/runs/44459720634)
+
+FFmpeg's draft now selects stage and runtime policy scopes through the
+same committed archive entry point in `make mutants-diff` and on the
+native matrix. The stage filesystem scope caught all 150 identities on
+Linux x86-64, Linux ARM64 and macOS ARM64. The runtime policy scope
+caught 156 of 158 on each host, with two equivalent falsey parser
+initializers. All 48 native jobs and the final check passed. The
+separate local toolchain trial caught 179 of 186. Across three
+interleaved macOS runs, warm test medians were 1.18 seconds for the
+76-test baseline and 4.33 seconds for the 146-test candidate.
+The candidate range was 3.29–4.34 seconds. Both load guard invocations
+returned success. The guard also reported significant concurrent
+activity, so these times describe observed test cost.
+[FFmpeg native trial](https://github.com/laputa-systems/ffmpeg-build/actions/runs/44464833976) ·
+[Stage and policy fixtures](https://github.com/laputa-systems/ffmpeg-build/pull/68) ·
+[Toolchain fixtures](https://github.com/laputa-systems/ffmpeg-build/pull/69)
+
+Node's draft refreshed through the command dispatch and staged command
+fixtures and passed its planner and all 28 native jobs. The source
+selection was the same 14 modules.
+[Node native trial](https://github.com/laputa-systems/node-build/actions/runs/44464176862)
+
+CMake's listener fix requires that the worker actually shut down
+before the probe reports success. The controller test runs a real local
+positive connection and deliberately reports the worker as still alive.
+A separate reproduction holds a real listener and sees an open
+descriptor after gateway discovery or worker startup raises. Its fix
+is in normal hosted verification.
+[CMake worker check](https://github.com/laputa-systems/cmake-build/pull/67) ·
+[CMake setup cleanup](https://github.com/laputa-systems/cmake-build/pull/69)
 
 The Stuff #139 default macOS Rust job hit a reset after the 503
 response in the connection-limit case. The exact retry passed.
