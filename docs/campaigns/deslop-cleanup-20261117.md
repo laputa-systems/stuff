@@ -459,3 +459,11 @@ coverage trial remains published at its exact proof revision.
 The four worktrees accounted for 412,684 KiB. Across all passes, 160
 retired worktrees and the listed generated artifacts accounted for
 25,261,168 KiB (24.09 GiB) of measured path allocation.
+
+## Published scorecard worktree
+
+Stuff retired the clean, idle `.work/wt/deslop-native-controller-evidence`
+worktree after #148 passed default CI at `d5e9b3418de5a7cbb99dc3c98806fede2f2dd211`.
+The candidate and merged trees matched. The worktree contained 33,572 KiB
+of measured allocation. Across these passes, 161 worktrees and the
+listed scratch and build outputs account for 25,294,740 KiB (24.12 GiB).
