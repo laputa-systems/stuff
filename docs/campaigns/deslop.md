@@ -12,9 +12,17 @@ and explicit deferrals. Tier A repo passes have started. The
 [roadmap](deslop-roadmap.md) gives the acceptance criteria and the
 [scorecard](deslop-scorecard.md#current-checkpoint-2026-11-18) records the
 checked revisions. [M2 calibration evidence](deslop-m2.md) records the
-qualified workloads and remaining boundaries. Pi-build and Fz have
-settled in Tier A. The next tier checkpoint needs a third settled
-repository.
+qualified workloads and remaining boundaries. Pi-build, Fz and
+FFmpeg-build have settled in Tier A. The Tier A checkpoint authorizes
+Tier B seeding under the existing campaign approval. The remaining
+Tier A passes continue.
+
+- FFmpeg-build closed its final review finding after the native mutation
+  workflow and both ordinary checks passed. Its fresh default check-up
+  passed 168 tests, both linters, all four fleet rules and an injected-fault
+  control. The checkpoint records the test cost and method changes.
+  [FFmpeg-build report](https://github.com/laputa-systems/ffmpeg-build/pull/77) ·
+  [Tier A checkpoint](deslop-scorecard.md#tier-a-checkpoint)
 
 - CMake-build moved to the fleet's minimal Alpine 3.24.2 builder after
   Edge retired its locked OpenSSL APK. Both exact archives passed native

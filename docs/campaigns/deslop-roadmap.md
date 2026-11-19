@@ -243,9 +243,12 @@ Srv and fz have completed pass Reports at their checked default heads.
 Srv's successor mutation job exceeded the ten-minute target twice.
 Keep its remaining misses and confirmed hangs in the owning scope.
 
-All ten Tier A repositories have a tracked deslop backlog. Fz has its
-Report. Diff-pretty and Vault are in Tests. The seven others start at
-Ground. Dispatch remains governed by the M2 and tier checkpoints.
+All ten Tier A repositories have a tracked deslop backlog. Fz, Pi-build
+and FFmpeg-build passed check-up. The Tier A checkpoint admits
+Tier B. Sync the eight named repositories, apply F2 and F3 in that
+scope, and seed each verified backlog. Keep the remaining Tier A
+passes active.
+[Tier A checkpoint](deslop-scorecard.md#tier-a-checkpoint)
 
 ## Bound every open Tests ticket
 
