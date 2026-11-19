@@ -370,3 +370,21 @@ the checked-in ish revision before worktree removal.
 The three worktrees accounted for 1,241,544 KiB. Across all passes,
 134 retired worktrees and the listed generated artifacts accounted
 for 22,825,272 KiB (21.77 GiB) of measured path allocation.
+
+## Controller census follow-up, 2026-11-18
+
+Six clean, idle worktrees matched accepted files on their default
+branches. The owning reports preserve the controller proofs.
+
+| Repository | Accepted integration | Retired worktree under `.work/wt/` | Allocation, KiB |
+| --- | --- | --- | ---: |
+| Node-build | `ad76e93a` | `node-release-record-boundaries` | 85,036 |
+| Node-build | `46c82f26` | `node-git-probe-contract` | 86,660 |
+| Node-build | `0582e5ae` | `node-native-release-census` | 388 |
+| FFmpeg-build | `3bd56466` | `ffmpeg-audit-sdk-dispatch` | 111,840 |
+| FFmpeg-build | `5b5dc030` | `ffmpeg-audit-manifest-agreement` | 111,628 |
+| Stuff | `143752a0` | `record-deslop-fz-settlement` | 33,564 |
+
+The six worktrees accounted for 429,116 KiB. Across all passes, 140
+retired worktrees and the listed generated artifacts accounted for
+23,254,388 KiB (22.18 GiB) of measured path allocation.

@@ -28,9 +28,9 @@ outside scope during the owner's rearchitecture.
 | ptytest | `606027bb32999fa3e1bb960285384a89081a957a` | Active. #25 retained the terminal mutation scope. #30 makes the workflow classify each pull request. | Both platforms and four controls confirmed the bounded selection. The same macOS Xsh compile failure occurred at baseline and with the candidate. | Qualify lifecycle, replay and remaining consumer Tests inventory |
 | tm | `6cf0b949c2593c0959268a3d1995b972b05f58b6` | Active; fixture repairs merged, Ground and later stages open | Recent repair CI green; quiet-host cost unresolved | Finish Ground cost and component scope |
 | toolbox | `8d2cd08c71ff00d311212d85940f95c8359aa76f` | Local native and coverage evidence complete on #15. Hosted qualification deferred for Actions billing. | All 750 tests and five native fio subtests passed locally. The November 18 retry failed before runner allocation. | Resume hosted checks when Actions can start the jobs |
-| ffmpeg-build | `1fb8b5fe768c6afa3d48c167216985304236fa3f` | Ground, Diagnose and Types complete. #35 records ten native artifact checks. #42 exercises shared runtime configuration and the audit handoff. | All 119 ordinary tests, lint and both default checks passed. The matched audit selection caught 437 of 696 identities, up from 386. | Qualify the remaining critical audit decisions and whole-change coverage |
+| ffmpeg-build | `9e44f604e09090b0953c88a2f3762272b76fef84` | Ground, Diagnose and Types complete. #43 checks the SDK, #44 the stage manifest and #45 the effective build flags. | All 120 ordinary tests, lint and both default checks passed. The audit selection caught 531 of the same 696 identities. | Qualify the remaining critical audit decisions and whole-change coverage |
 | pi-build | `235d3be03fc03dec6f217a3d9a2ff71a6f200c98` | Build-tools pass settled November 18 after #45. Both Linux profiles reproduced on x86-64 and ARM64. Two-host Intercom remains owner ticket DSLP-9. | Fresh check-up passed 77 Python tests, four companion fixtures, lint, four fleet checks and the negative control. The earlier gate accounted for 1,434 identities. Both default checks passed. | Run the separately enrolled Intercom procedure when the owner environment is available |
-| node-build | `ad76e93ad7aff0c6c9f941a045ab986eec8c0fe1` | Ground, Diagnose and Types complete. #44 types the assembly result. #45 checks UTF-8 receipts under a C locale and the failed Git status boundary. | All 34 release cases and both default checks passed. The census at #41 caught 350 of 395 release identities and #42 removed the four uncovered wrapper identities. Both #45 fault controls failed as expected. | Qualify the remaining Git and wider controller decisions and the whole-change gate |
+| node-build | `8355fa3b824ce41818ca30cf012de1205815d959` | Ground, Diagnose and Types complete. #48 qualifies the full release module. #49 closes the installer output pipe, and #50 verifies receipt bytes and nested extraction. | The native release census accounted for all 390 identities on each host with platform and locale dispositions. Package caught 217 of 309 locally. #50 caught 20 of 23 JSON cases and all three ordinary archive destination-parent variants. | Qualify the remaining controller regions and the retained whole-change gate |
 | hi-lite | `9091c4a398077ccb82b81678aac93114fe27c7f3` | Ground, Diagnose and Types complete. #23 accounts for all 30 language-module identities. #24 checks Rust raw strings, nested comments and lifetimes. | All 149 ordinary cases and both default platforms passed. The matched Rust token selection caught 47 of 54, with two equivalent EOF bounds and five unchanged timeouts. The diff census and survivor rerun caught 137 of 148. | Qualify remaining lexer coverage, allocation-only cases and the whole-change gate |
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
@@ -78,6 +78,23 @@ lockfile. All 1,550 top-level tests and workspace Clippy passed, with
 eight cases ignored. The owning report records the commands and raw
 run locations.
 [Fz #48](https://github.com/laputa-systems/fz/pull/48)
+
+Node's exact release census used Buildlib's pinned result reader on
+native Ubuntu ARM64 and macOS. All 390 identities matched. Linux
+caught nine path-case variants beyond the macOS result. The shared
+survivors have concrete locale, equivalence or diagnostic dispositions.
+Node's subsequent hosted input census also confirmed the reader rejects
+unexercised identities. Its corrected selector includes normal JSON
+receipt writers and accounts for all 49 input identities.
+[Release census](https://github.com/laputa-systems/node-build/pull/48) ·
+[Input fixtures](https://github.com/laputa-systems/node-build/pull/50)
+
+The Stuff #139 default macOS Rust job hit a reset after the 503
+response in the connection-limit case. The exact retry passed.
+#140 tests admission with a second idle connection and checks the
+full response. All six local HTTP cases and twelve additional
+refusal runs passed. The PR and default workflows passed.
+[HTTP fixture](https://github.com/laputa-systems/stuff/pull/140)
 
 The Pytest-parallel wheel built from `eb11974795c1b2e5e26183c992ec021c80b007d6`
 passed `make repomod-test` at Stuff `ad43e917` with 1,500 passes and
