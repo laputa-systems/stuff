@@ -32,8 +32,8 @@ remaining Tier A passes continue.
   jobs. A cold cache still needs the exact upstream archive URLs.
   [Helium](https://github.com/laputa-systems/chromium-build/pull/23) ·
   [Headless Chromium](https://github.com/laputa-systems/chromium-build/pull/24)
-- Three managed-checkout cleanup batches retired 100 completed
-  worktrees with 14.10 GiB of measured path allocation.
+- Four managed-checkout cleanup batches retired 106 completed
+  worktrees with 15.46 GiB of measured path allocation.
   [Cleanup receipt](managed-cleanup-20261118.md)
 - FFmpeg-build closed its final review finding after the native mutation
   workflow and both ordinary checks passed. Its fresh default check-up
