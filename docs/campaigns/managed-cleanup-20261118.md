@@ -1,7 +1,7 @@
 # Managed checkout cleanup, 2026-11-18
 
-The cleanup retired 84 completed worktrees under `~/repos`.
-They accounted for 11,983,924 KiB (11.43 GiB) of path allocation
+The cleanup retired 90 completed worktrees under `~/repos`.
+They accounted for 12,524,744 KiB (11.94 GiB) of path allocation
 before removal. The older cleanup has its own receipt.
 [Earlier cleanup](deslop-cleanup-20261117.md)
 
@@ -10,6 +10,12 @@ before removal. The older cleanup has its own receipt.
 | FFmpeg-build | 33 | 6,263,420 |
 | CMake-build | 30 | 3,772,980 |
 | Node-build | 21 | 1,947,524 |
+| Lz | 1 | 159,516 |
+| Tinyland | 1 | 1,176 |
+| Laputa UI Dashboard | 1 | 2,168 |
+| E | 1 | 76,236 |
+| Gluon | 1 | 60,688 |
+| Rustybench | 1 | 241,036 |
 
 The mechanic inventoried worktree registrations for 65 local Git
 roots under `~/repos` and investigated the parked Python-build proof.
@@ -23,7 +29,7 @@ registration, and the checkout path was gone. An open-file check
 preceded each batch.
 
 Volume availability was 53,811,424 KiB before the first batch and
-279,389,068 KiB after the second. Availability changed substantially
+278,645,896 KiB after the last. Availability changed substantially
 between batches. The allocation count measures the removed paths.
 It does not attribute the full volume change to this cleanup.
 
@@ -134,3 +140,9 @@ The accepted revision is the commit supplied to the retirement tool.
 | node-build | `deslop-assembly-copy-digest` | `d645512576aa1c3196cb5edb96af549e02b3fd48` | `0650c30475497f734e2f8eec8b763b2ca03f9964` | 80844 |
 | node-build | `deslop-assembly-entrypoints` | `a7605a9fac832a9c36b4a910aab9e8feac0fb250` | `cb208c8196cab0f6aa2b874f9f188a260d76088f` | 117816 |
 | node-build | `deslop-make-test` | `0518596c7e30594b18c4f6297e3293bca56759e9` | `c63d32672583e134ed705396ef9951e437546e31` | 296 |
+| lz | `deslop-test-entry` | `2c6ee1fe45f033ff7f65b9ab282566a01a88ee9f` | `b76d8b11869193dbea1b61ad17fef444a14122f9` | 159516 |
+| tinyland | `deslop-test-entry` | `da326dd5e187bf1f889d8c18be335d563d1527d8` | `f4e6b5e296d78bd36bbc6020f8129c617093da89` | 1176 |
+| laputa-ui-dashboard | `deslop-test-entry` | `32a463016cdad4bab93b28035164a57786222bae` | `0e7e993726137d56c83b07b28bbfd0c21dd16733` | 2168 |
+| e | `deslop-test-entry` | `b27273eebce4e81398c4c13e29dff769ec84cddc` | `4bc0854597f1e5a598ee2ab23a4e82c7111c1d9b` | 76236 |
+| gluon | `deslop-test-entry` | `698c0ee8ef0084ad4a4bef02e3196620abc582e9` | `2a1bca45da57bc36da9a60e1666bd392c9fe011f` | 60688 |
+| rustybench | `deslop-test-entry` | `abd34b148cc5eb24c957e1364988fdeabffd61f6` | `d2b7b06de812426dbffd4fe91b9289f2537f725e` | 241036 |
