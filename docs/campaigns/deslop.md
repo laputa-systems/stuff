@@ -8,57 +8,61 @@ established, so the slop cannot return.
 ## Status
 
 Resumed 2026-11-19 under the selective mutation policy (decision 4,
-**Mutation spending is bounded**) and the new Bench step (decision 14).
-Tier A has three settled passes and Tier B is underway. Discover and
-Chromium-build are excluded.
+**Mutation spending is bounded**) and the Bench step (decision 14).
+Discover and Chromium-build are excluded.
 
-Landed on resumption, each merged on green:
+Tier A passes completed through Report on resumption: Node-build
+([#88](https://github.com/laputa-systems/node-build/pull/88)), CMake-build
+([#130](https://github.com/laputa-systems/cmake-build/pull/130)), Doas-rs
+([#22](https://github.com/laputa-systems/doas-rs/pull/22)), Mdevd-rs
+([#30](https://github.com/laputa-systems/mdevd-rs/pull/30)), Hi-lite
+([#30](https://github.com/laputa-systems/hi-lite/pull/30)) and Vault
+([#42](https://github.com/laputa-systems/vault/pull/42)). Diff-pretty's
+Report is running. No completion review found a new defect; Doas-rs filed
+DSLP-13 (P3). Each pass ran Tests, Dead code and Bench as separate merged
+PRs before its Report.
 
-- Tests (DSLP-4) closed with a named required scope and grouped
-  dispositions in Node-build [#85](https://github.com/laputa-systems/node-build/pull/85),
-  CMake-build [#127](https://github.com/laputa-systems/cmake-build/pull/127),
-  Hi-lite [#27](https://github.com/laputa-systems/hi-lite/pull/27) and
-  Mdevd-rs [#27](https://github.com/laputa-systems/mdevd-rs/pull/27). Doas-rs
-  [#19](https://github.com/laputa-systems/doas-rs/pull/19) ran one bounded `src/policy.rs` trial (1.87 runner-minutes, 22 of 26
-  caught); all four survivors are in two uncalled `#[allow(dead_code)]`
-  helpers, now Dead code leads.
-- Tests (DSLP-4) closed in Vault [#37](https://github.com/laputa-systems/vault/pull/37):
-  secret commands reject surplus names before touching storage.
-- Dead code (DSLP-5) closed in Node-build [#86](https://github.com/laputa-systems/node-build/pull/86)
-  (five unused layout constants removed), CMake-build
-  [#128](https://github.com/laputa-systems/cmake-build/pull/128) (all
-  vulture findings traced; nothing further to remove), Doas-rs
-  [#20](https://github.com/laputa-systems/doas-rs/pull/20) (the uncalled
-  policy, TTY and timestamp helpers and the module-wide `dead_code` allow
-  removed), Mdevd-rs [#28](https://github.com/laputa-systems/mdevd-rs/pull/28)
-  (config's second pass returns its error instead of an unreachable branch) and
-  Hi-lite [#28](https://github.com/laputa-systems/hi-lite/pull/28) (an unused
-  golden-fixture collector).
-- Bench (decision 14) gave Node-build [#87](https://github.com/laputa-systems/node-build/pull/87)
-  and CMake-build [#129](https://github.com/laputa-systems/cmake-build/pull/129)
-  one `make bench` entrypoint, proven at Edit and one Change workload.
-  CMake's benchmark admission now runs before any measurement. Doas-rs has
-  no benchmarks; [#21](https://github.com/laputa-systems/doas-rs/pull/21)
-  records its outcome list.
-- Rustybench's option-expression fix (DSLP-9) passed the workspace suite,
-  lint, and benchmark builds in fastermod, loc, e, ish and gluon against the
-  candidate. [Rustybench #22](https://github.com/laputa-systems/rustybench/pull/22)
+Defects fixed and behaviors protected on resumption:
 
-Parked on host readiness (`perf-gate-ready` reports a hot OrbStack VM):
-Gluon [#39](https://github.com/laputa-systems/gluon/pull/39) and
+- Vault: tests from 11 stranded branches landed as 15 behavior groups, each
+  proven by an injected fault ([#38](https://github.com/laputa-systems/vault/pull/38));
+  secret commands reject surplus names before storage ([#37](https://github.com/laputa-systems/vault/pull/37));
+  the rage interoperability test now fails in CI when rage is missing,
+  with rage 0.12.1 pinned in the CI image ([#41](https://github.com/laputa-systems/vault/pull/41)).
+- Diff-pretty: the critical contracts map to protecting tests with no new
+  mutation runner time ([#46](https://github.com/laputa-systems/diff-pretty/pull/46));
+  an unreachable buffered pager path and the unused `regex-lite` removed
+  ([#47](https://github.com/laputa-systems/diff-pretty/pull/47)); CLI render
+  and PTY pager journeys with a byte oracle ([#49](https://github.com/laputa-systems/diff-pretty/pull/49)).
+- Pi-build: `make sizes` verifies archives and `make size-diff` compares
+  against a reference directory; all 222 sizes mutants are caught
+  ([#47](https://github.com/joshuarli/pi-build/pull/47)).
+- Dead code removed in Node-build, Doas-rs, Mdevd-rs, Hi-lite and
+  Diff-pretty; CMake-build and Vault had nothing to remove.
+- Rustybench's option-expression fix ([#22](https://github.com/laputa-systems/rustybench/pull/22)).
+
+Bench (decision 14) entrypoints, proven at Edit and one Change workload:
+Node-build, CMake-build, Mdevd-rs, Hi-lite, Fz and Diff-pretty. Doas-rs,
+Pi-build, FFmpeg-build and Vault have no benchmarks; their audits record
+the outcome lists. Mutation spending on resumption stayed within the
+10-minute trial budget; only Doas-rs ran a new bounded trial (1.87
+runner-minutes).
+
+Environment-blocked, open at P2: timing gates Node-build DSLP-9 and
+CMake-build DSLP-7; bench gaps Mdevd-rs DSLP-7 and DSLP-8 (quiet native
+host and real devices), Pi-build DSLP-10 and FFmpeg-build DSLP-7 (quiet
+host). Parked on host readiness (`perf-gate-ready` reports a hot OrbStack
+VM): Gluon [#39](https://github.com/laputa-systems/gluon/pull/39) and
 [#41](https://github.com/laputa-systems/gluon/pull/41), Hi-lite
 [#26](https://github.com/laputa-systems/hi-lite/pull/26) and Defuddle-rs
-[#33](https://github.com/joshuarli/defuddle-rs/pull/33). The
+[#33](https://github.com/joshuarli/defuddle-rs/pull/33). Owner-run
+boundaries: Vault cross-Mac recovery, Secure Enclave and live session
+keyring; Pi-build two-host Intercom. The
 [reboot inventory](deslop-roadmap.md#retained-stuff-worktrees) lists retained
-checkouts and branches.
+checkouts and branches; [the .work cleanup](work-cleanup-20261119.md)
+records what was reclaimed.
 
-Environment-blocked: the P2 timing gates Node-build DSLP-9 and CMake-build
-DSLP-7 need a quiet native host, like the parked PRs above.
-
-Next: Report for Node-build and CMake-build; findings and Report for
-Doas-rs; Bench for Mdevd-rs and Hi-lite (running); DSLP-4 for Diff-pretty
-(running); the stranded Vault branch tests (running), then Vault's Dead code
-and Bench; Bench tickets for the settled Fz, Pi-build and FFmpeg-build.
+Next: Diff-pretty's Report; then the remaining Tier B passes.
 
 ## Accepted work
 
