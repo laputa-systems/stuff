@@ -1,9 +1,9 @@
 # OpenOrange rollout transactions
 
 `deploy/openorange/bin/rollout` is the rollout controller. `--target-kind`
-selects its adapter: `fake` (a local directory, for tests) or `native` (the
-native standby Stats writer, reached with `--host` and `--ssh-config`). The
-oo-containers adapter for Lisa is not implemented. The controller never
+selects its adapter: `fake` (a local directory, for tests), `native` (the native standby Stats
+writer), or `oo-containers` (an OpenOrange app). Remote adapters use `--host`
+and `--ssh-config`; oo-containers also requires `--app`. The controller never
 builds artifacts.
 
 `start` accepts release IDs, the candidate sha256 digest, a target,
@@ -101,3 +101,24 @@ native --host stats-standby --ssh-config FILE --json` is read-only.
 On 2026-11-20 live `observe` reported the unconverted baseline
 `rt-13b896622da5` (`sha256:13b89662…`), selected and running, healthy, with
 8.9 GB free.
+
+## OpenOrange containers adapter
+
+`rollout observe --target-kind oo-containers --host lisa --ssh-config FILE
+--app discover --json` reads the deployment selection and node version, the
+running container image reference, image ID and node version, local image IDs,
+private app readiness and disk headroom. Guest operations run a standard-library
+script through `doas -n python3` over SSH. Readiness uses `oo wait app`, which
+checks the configured private app health route. A `recoveryWriter` fences
+activation and requires an operator.
+
+The release ID is the image reference and its digest is the local Docker image
+ID. Activation conditionally selects the image, restarts `oo-app.APP`, waits
+for matching running identity and health, and records the deployment marker.
+A selected image with the previous container is completed by restarting.
+Recovery selects and restarts the baseline, creating its own node version and
+marker. Delivered markers make recording resumable; delivery failure leaves the
+healthy activation in place for a retry. The same guest-wide fenced lock as the
+native adapter serializes mutations. Images must already be present locally.
+The adapter checks identity and readiness, not the canary's ingest and durable
+readback checks.

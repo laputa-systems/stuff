@@ -234,6 +234,9 @@ def adapter_for(config):
     if config['target_kind'] == 'native':
         import oorollout_native
         return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']))
+    if config['target_kind'] == 'oo-containers':
+        import oorollout_containers
+        return oorollout_containers.ContainersAdapter(oorollout_containers.ssh_runner(config['ssh_config'], config['host']), config['app'])
     raise ValueError('unknown target kind: ' + str(config['target_kind']))
 
 

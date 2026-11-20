@@ -13,20 +13,21 @@ import oorollout
 
 
 def add_target(parser):
-    parser.add_argument('--target-kind', required=True, choices=('fake', 'native'))
+    parser.add_argument('--target-kind', required=True, choices=('fake', 'native', 'oo-containers'))
     parser.add_argument('--target', help='fake: local target directory')
-    parser.add_argument('--host', help='native: ssh host alias of the standby guest')
-    parser.add_argument('--ssh-config', help='native: ssh_config that resolves --host')
+    parser.add_argument('--host', help='ssh host alias')
+    parser.add_argument('--app', help='oo-containers: OpenOrange app name')
+    parser.add_argument('--ssh-config', help='ssh_config that resolves --host')
 
 
 def target_config(args):
     if args.target_kind == 'fake':
         return {'target_kind': 'fake', 'target': str(Path(args.target).resolve())}
-    return {'target_kind': 'native', 'host': args.host, 'ssh_config': str(Path(args.ssh_config).expanduser())}
+    return {'target_kind': args.target_kind, 'host': args.host, 'ssh_config': str(Path(args.ssh_config).expanduser()), **({'app': args.app} if args.target_kind == 'oo-containers' else {})}
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Durable OpenOrange rollout controller. Target kinds: fake (a local directory, for tests) and native (the native standby Stats writer over ssh: runtime releases under /opt/native-rehearsal/runtime, activated by switching the /opt/native-rehearsal/orange symlink and restarting native-stats). oo-containers is not implemented.', epilog='Mutates the target release selection and running identity under a fenced deployment lock. Journals and controller heartbeats live outside the target in journal-dir/RUN_ID/journal.jsonl. Each transition has a deadline; an overdue post-prepare controller is recovered by watchdog. Qualification binds evidence release identities and artifact digest; preparation checks baseline identity, freshness, recovery artifact and headroom. Exit codes: 0 promoted, 3 rejected or recovered (not promoted), 4 lock held, 5 needs operator, 2 usage, 1 runtime error.')
+    parser = argparse.ArgumentParser(description='Durable OpenOrange rollout controller. Target kinds: fake (a local directory, for tests) and native (the native standby Stats writer over ssh: runtime releases under /opt/native-rehearsal/runtime, activated by switching the /opt/native-rehearsal/orange symlink and restarting native-stats). oo-containers manages an OpenOrange app container over ssh.', epilog='Mutates the target release selection and running identity under a fenced deployment lock. Journals and controller heartbeats live outside the target in journal-dir/RUN_ID/journal.jsonl. Each transition has a deadline; an overdue post-prepare controller is recovered by watchdog. Qualification binds evidence release identities and artifact digest; preparation checks baseline identity, freshness, recovery artifact and headroom. Exit codes: 0 promoted, 3 rejected or recovered (not promoted), 4 lock held, 5 needs operator, 2 usage, 1 runtime error.')
     sub = parser.add_subparsers(dest='command', required=True)
     start = sub.add_parser('start', help='qualify and promote a release')
     for name in ('candidate', 'artifact', 'baseline', 'policy', 'evidence-dir', 'journal-dir'):
@@ -51,8 +52,10 @@ def main():
         if args.command in ('start', 'observe', 'stage'):
             if args.target_kind == 'fake' and not args.target:
                 parser.error('--target is required for the fake target kind')
-            if args.target_kind == 'native' and not (args.host and args.ssh_config):
-                parser.error('--host and --ssh-config are required for the native target kind')
+            if args.target_kind in ('native', 'oo-containers') and not (args.host and args.ssh_config):
+                parser.error('--host and --ssh-config are required for remote target kinds')
+            if args.target_kind == 'oo-containers' and (not args.app or not re.fullmatch(r'[a-z][a-z0-9-]{0,31}', args.app)):
+                parser.error('--app must be a valid OpenOrange app name')
         if args.command == 'observe':
             print(json.dumps(oorollout.adapter_for(target_config(args)).observe(), sort_keys=True))
             return 0
