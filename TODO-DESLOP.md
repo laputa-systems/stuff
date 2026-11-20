@@ -13,15 +13,6 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 
 ## Tickets
 
-### DSLP-12 · P3 · Deslop crates/mypypi: wheel acquisition and PyPI publication
-
-- **Area:** deslop · mypypi
-- **Where:** crates/mypypi/src/ and crates/mypypi/tests/ (about 11.6k lines)
-- **Problem:** Steps owed: Diagnose (bounded, this component only; no review exists), then Types, Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: wheel acquisition, validation and the Python execution boundary (crates/mypypi/README.md); native-target execution checks for wheels are retained; wheel tags and publication (`tests/wheel_tags.rs`, `publish.rs`, `cli.rs`, `crates/stuff/tests/pypi_*.rs`). Consumers: the stuff publisher, `deploy/test-mypypi-native.sh`, `deploy/ecosystem-smoke.sh`, repair tooling under `deploy/`.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept with `cargo test -p mypypi`, `cargo test -p stuff --test pypi_publish --test pypi_first_party`, `make lint`; `make test-mypypi-native` needs repair tooling and is opt-in.
-- **Fix with:** deslop
-- **Effort:** L
-
 ### DSLP-13 · P3 · Deslop crates/myoci: OCI CLI, server, writer
 
 - **Area:** deslop · myoci
