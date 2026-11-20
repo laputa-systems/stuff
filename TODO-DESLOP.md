@@ -13,15 +13,6 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 
 ## Tickets
 
-### DSLP-17 · P2 · A tarball of repeated entry names bypasses the 100,000-entry limit and costs a linear scan per repeat
-
-- **Area:** mynpm · archive
-- **Where:** crates/mynpm/src/archive.rs (duplicate-entry handling in inspect_archive)
-- **Problem:** Confirmed on 52c3999d with a local tarball fixture. A regular file that repeats an earlier name replaces it (`entries.retain`), and the entry limit counted only the retained list. The probe `rejects_too_many_replacement_entries` (one package.json plus 100,000 repeats of package/index.js) returned Ok with two entries. Each repeat also scanned and rebuilt the whole list: with 50,000 retained paths, 20,000 repeats of one name took 1.39 s in a debug build, linear in repeats. Repeated empty headers compress about 1000:1, so the 1 GiB compressed limit does not bound the repeat count.
-- **Recommendation:** Count every header toward the entry limit and find the replaced entry through a path index instead of scanning. Keep archive order and the replacement rule (a regular file may replace an earlier regular file other than package.json).
-- **Fix with:** deslop
-- **Effort:** S
-
 ### DSLP-11 · P3 · Deslop crates/mynpm: npm inventory and publication
 
 - **Area:** deslop · mynpm
