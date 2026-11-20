@@ -86,7 +86,7 @@ license = "Apache-2.0"
 ownership = "source-rebuilt"
 deployment = "production"
 artifacts = ["open-orange"]
-gaps = ["Production runs the owned 1.0.2-laputa.1 package; the second patch is a candidate and is not deployed."]
+gaps = ["Production runs the owned 1.0.2-laputa.2 package in runtime rt-2c70c316ce8d (Stats campaign record, 2026-11-20). Its RivetKit and N-API dependencies are still published packages."]
 revision = "1cabf2e9db300361c9f0b751c7723da7eb706f5e"
 [[components.patches]]
 file = "open-orange-1cabf2e-multi-worker-metrics.patch"
