@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+import argparse
+import json
+import os
+import re
+import sys
+import uuid
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'lib'))
+import oorollout
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Durable OpenOrange rollout controller. Targets are local fake-adapter directories only; native-standby and oo-containers are not implemented.', epilog='Mutates the target release selection and running identity under a fenced deployment lock. Journals and controller heartbeats live outside the target in journal-dir/RUN_ID/journal.jsonl. Each transition has a deadline; an overdue post-prepare controller is recovered by watchdog. Qualification binds evidence release identities and artifact digest; preparation checks baseline identity, freshness, recovery artifact and headroom. Exit codes: 0 promoted, 3 rejected or recovered (not promoted), 4 lock held, 5 needs operator, 2 usage, 1 runtime error.')
+    sub = parser.add_subparsers(dest='command', required=True)
+    start = sub.add_parser('start', help='qualify and promote a release')
+    for name in ('candidate', 'artifact', 'baseline', 'target', 'policy', 'evidence-dir', 'journal-dir'):
+        start.add_argument('--' + name, required=True)
+    start.add_argument('--deadline-s', type=float, default=60)
+    start.add_argument('--json', action='store_true')
+    for command in ('status', 'resume', 'abort'):
+        p = sub.add_parser(command, help=command + ' a run by its journal directory')
+        p.add_argument('--run', required=True, help='path to journal-dir/RUN_ID')
+    watchdog = sub.add_parser('watchdog', help='recover runs with overdue heartbeats')
+    watchdog.add_argument('--journal-dir', required=True)
+    args = parser.parse_args()
+    try:
+        if args.command == 'start':
+            if args.deadline_s <= 0 or not re.fullmatch(r'sha256:[0-9a-f]{64}', args.artifact):
+                parser.error('deadline must be positive and artifact must be a sha256 digest')
+            target = Path(args.target).resolve()
+            root = Path(args.journal_dir).resolve()
+            if root == target or root.is_relative_to(target):
+                parser.error('journal-dir must be outside target')
+            policy = json.loads(Path(args.policy).read_text())
+            for key in ('max_age_s', 'observation_s', 'check_interval_s'):
+                if type(policy.get(key)) not in (int, float) or policy[key] < 0 or (key != 'observation_s' and policy[key] == 0):
+                    parser.error('invalid policy: ' + key)
+            directory = root / uuid.uuid4().hex
+            run_id = str(directory)
+            directory.mkdir(parents=True)
+            oorollout.sync_dir(root)
+            config = {'run_id': run_id, 'candidate': args.candidate, 'artifact': args.artifact, 'baseline': args.baseline, 'target': str(target), 'policy': policy, 'evidence_dir': str(Path(args.evidence_dir).resolve()), 'deadline_s': args.deadline_s}
+            journal = oorollout.Journal(directory)
+            journal.append('start', config=config)
+            journal.transition('staged', args.deadline_s)
+            print(json.dumps({'run_id': run_id, 'run': str(directory)}), flush=True)
+            state = oorollout.run(journal)
+        elif args.command == 'watchdog':
+            result = []
+            for path in sorted(Path(args.journal_dir).iterdir()):
+                if not (path / 'journal.jsonl').exists():
+                    continue
+                journal = oorollout.Journal(path)
+                heartbeat = journal.last('heartbeat')
+                if journal.state() in oorollout.POST_PREPARE and heartbeat and heartbeat['deadline'] < oorollout.now():
+                    try:
+                        result.append({'run': str(path), 'state': oorollout.run(journal, recovery=True)})
+                    except oorollout.LockHeld:
+                        result.append({'run': str(path), 'state': 'lock-held'})
+            print(json.dumps(result))
+            return 5 if any(x['state'] == 'needs-operator' for x in result) else 4 if any(x['state'] == 'lock-held' for x in result) else 3 if result else 0
+        else:
+            journal = oorollout.Journal(args.run)
+            if args.command == 'status':
+                print(json.dumps(oorollout.status(journal)))
+                return 0
+            state = oorollout.run(journal, recovery=args.command == 'abort')
+        print(json.dumps({'state': state}))
+        return {'promoted': 0, 'rejected': 3, 'recovered': 3, 'needs-operator': 5}[state]
+    except oorollout.LockHeld as exc:
+        print('rollout: lock held by ' + str(exc), file=sys.stderr)
+        return 4
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        print('rollout: ' + str(exc), file=sys.stderr)
+        return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

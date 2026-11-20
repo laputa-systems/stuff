@@ -69,3 +69,6 @@ lockfile, toolchain and pnpm tarball integrity, commit time, platform and
 resulting tarball for a later release manifest. The build sets
 `SOURCE_DATE_EPOCH` to the upstream commit time and uses pnpm pack directly. Byte identity is claimed only for the recorded Node and
 pnpm identities.
+
+The prototype transaction controller and its current adapter limits are
+described in [OpenOrange rollout transactions](openorange-rollouts.md).
