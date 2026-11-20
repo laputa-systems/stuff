@@ -29,3 +29,10 @@ pub(crate) fn lower_hex(bytes: impl AsRef<[u8]>) -> String {
     }
     out
 }
+
+/// A value that differs between processes and calls, for temporary file and directory names.
+pub(crate) fn unique_u64() -> u64 {
+    use std::time::{SystemTime, UNIX_EPOCH};
+    let nanos = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
+    nanos as u64 ^ (std::process::id() as u64).wrapping_mul(0x9E3779B97F4A7C15)
+}

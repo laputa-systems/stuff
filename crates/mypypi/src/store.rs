@@ -128,7 +128,7 @@ fn store_metadata(wheels: &Path, item: &IndexArtifact) -> Result<()> {
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
         Err(e) => return Err(pub_error(Kind::Io, format!("could not read stored metadata: {e}"), Some(&destination), Some(item))),
     }
-    let tmp = wheels.join(format!(".{}.{:x}.metadata.tmp", item.wheel_filename, rand_hex()));
+    let tmp = wheels.join(format!(".{}.{:x}.metadata.tmp", item.wheel_filename, crate::unique_u64()));
     let write_result: Result<()> = (|| {
         let mut f = std::fs::OpenOptions::new()
             .write(true)
@@ -158,12 +158,6 @@ fn store_metadata(wheels: &Path, item: &IndexArtifact) -> Result<()> {
     })();
     let _ = std::fs::remove_file(&tmp);
     write_result
-}
-
-fn rand_hex() -> u64 {
-    use std::time::{SystemTime, UNIX_EPOCH};
-    let nanos = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
-    (nanos as u64) ^ ((std::process::id() as u64).wrapping_mul(0x9E3779B97F4A7C15))
 }
 
 fn json_escape(s: &str) -> String {

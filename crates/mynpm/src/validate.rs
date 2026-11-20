@@ -2236,6 +2236,15 @@ mod tests {
     use super::*;
 
     #[test]
+    fn validation_clients_run_with_lifecycle_scripts_disabled() {
+        let dir = tempfile::tempdir().unwrap();
+        let environment = client_environment(dir.path(), "http://127.0.0.1:1/current/", &dir.path().join("cache")).unwrap();
+        assert_eq!(environment["npm_config_ignore_scripts"], "true");
+        let npmrc = std::fs::read_to_string(&environment["npm_config_userconfig"]).unwrap();
+        assert!(npmrc.lines().any(|line| line == "ignore-scripts=true"));
+    }
+
+    #[test]
     fn static_server_answers_a_request_that_arrives_after_accept() {
         let dir = tempfile::tempdir().unwrap();
         let requests = Arc::new(Mutex::new(Vec::new()));

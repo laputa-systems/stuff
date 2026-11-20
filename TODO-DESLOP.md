@@ -1,5 +1,5 @@
 Prefix: DSLP
-Next: 17
+Next: 21
 
 Deslop campaign backlog for the stuff repository ([plan](https://github.com/laputa-systems/stuff/blob/main/docs/campaigns/deslop.md), tier D, worked by component). One agent works this file with the `deslop` skill: take the lowest-numbered open ticket whose area does not start with `Needs owner ·`, one component and one PR per step. Mutation is blocking only for a small scope the repository declares around an important contract (decision 4); broader mutation, coverage and audits are advisory. Close the ticket's remaining steps, then fill in `## Report` below.
 
@@ -12,24 +12,6 @@ The `crates/stuff` publisher component is complete: Diagnose, Types, Tests, and 
 The other components below remain. Ground covers the whole repository (`AGENTS.md`, Verification: costs, contracts, vendored trees). Each remaining ticket starts with a bounded Diagnose of its component.
 
 ## Tickets
-
-### DSLP-11 · P3 · Deslop crates/mynpm: npm inventory and publication
-
-- **Area:** deslop · mynpm
-- **Where:** crates/mynpm/src/ and crates/mynpm/tests/ (about 13.6k lines)
-- **Problem:** Steps owed: Diagnose (bounded, this component only; no review exists), then Types, Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: npm lifecycle scripts stay disabled during acquisition and validation; inventory identity and metadata-only behavior (`tests/inventory_identity.rs`, `metadata_only.rs`, `cli.rs`); npm publication through `stuff publish npm` (`crates/stuff/tests/npm_publish.rs`); serving compatibility (`crates/stuff-server/tests/npm_compat.rs`). Reference: crates/mynpm/README.md. Consumers: the stuff publisher, `deploy/ecosystem-smoke.sh` and `deploy/ingest-npm-fleet.sh`, repomod dependency enrichment.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept with `cargo test -p mynpm`, `cargo test -p stuff --test npm_publish`, `make lint`; `deploy/ecosystem-smoke.sh` needs the pinned package managers and network and is opt-in.
-- **Fix with:** deslop
-- **Effort:** L
-
-### DSLP-12 · P3 · Deslop crates/mypypi: wheel acquisition and PyPI publication
-
-- **Area:** deslop · mypypi
-- **Where:** crates/mypypi/src/ and crates/mypypi/tests/ (about 11.6k lines)
-- **Problem:** Steps owed: Diagnose (bounded, this component only; no review exists), then Types, Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: wheel acquisition, validation and the Python execution boundary (crates/mypypi/README.md); native-target execution checks for wheels are retained; wheel tags and publication (`tests/wheel_tags.rs`, `publish.rs`, `cli.rs`, `crates/stuff/tests/pypi_*.rs`). Consumers: the stuff publisher, `deploy/test-mypypi-native.sh`, `deploy/ecosystem-smoke.sh`, repair tooling under `deploy/`.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept with `cargo test -p mypypi`, `cargo test -p stuff --test pypi_publish --test pypi_first_party`, `make lint`; `make test-mypypi-native` needs repair tooling and is opt-in.
-- **Fix with:** deslop
-- **Effort:** L
 
 ### DSLP-13 · P3 · Deslop crates/myoci: OCI CLI, server, writer
 
@@ -66,3 +48,22 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 - **Recommendation:** The owner decides whether the OpenOrange campaign has finished or whether deslop takes the non-OpenOrange scripts separately. Until then do not schedule this component. If scheduled: Diagnose first (none exists), then Types, Tests and Dead code; accept with `make test-r2`, `make test-publish-lock`, `make test-store-copy`, `make pipecheck`, `make worker-deploy-test`; live checks (`make test-r2-live`, `make smoke-deployed`, deployments) stay opt-in.
 - **Fix with:** deslop
 - **Effort:** L
+
+### DSLP-18 · P3 · Upstream responses are buffered up to 1 GiB plus 64 MiB regardless of the caller's byte limit
+
+- **Area:** mynpm · acquire
+- **Where:** crates/mynpm/src/acquire.rs HttpsExchange::fetch and transfer
+- **Problem:** Unreproduced; read from the code on 52c3999d. HttpsExchange::fetch reads the whole body into memory and stops only at TARBALL_BYTES + 64 MiB. The caller's max_bytes (64 MiB for packuments and metadata) is checked in transfer only after the full body is buffered, and a valid Content-Length is never compared with any limit. A hostile or faulty upstream metadata response can therefore hold about 1.06 GiB in memory per request, and four downloads run concurrently. A reproduction needs a local TLS origin for HttpsExchange; the offline fakes replace the Exchange trait and cannot show it.
+- **Recommendation:** Pass max_bytes into Exchange::fetch, reject a Content-Length above it before reading, and stop the read loop at the caller's limit. Add a test with a fake Exchange that records the limit it receives, and a local TLS origin check if one is available.
+- **Fix with:** deslop
+- **Effort:** S
+
+### DSLP-20 · P3 · Wheel member lookups scan every member, so validation is quadratic in the member count
+
+- **Area:** mypypi · wheel archive
+- **Where:** crates/mypypi/src/wheel_zip.rs Archive::member; callers in crates/mypypi/src/validate.rs and acquire.rs
+- **Problem:** Confirmed on 52c3999d in a debug build with generated wheels of empty files. inspect_wheel took 0.31 s for 5,000 members, 0.74 s for 10,000 and 1.74 s for 20,000; each name triggers mode, read, size and read_prefix calls that each scan the member list linearly. A 100 MB wheel can hold on the order of 800,000 central directory entries. Not extrapolated beyond 20,000 members.
+- **Recommendation:** Index members by name when opening the archive (first entry wins, as today). Duplicate names are rejected by the callers, so the index changes no result.
+- **Fix with:** deslop
+- **Effort:** S
+

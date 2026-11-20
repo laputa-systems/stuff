@@ -1891,6 +1891,43 @@ mod tests {
         assert_eq!(std::fs::read_dir(state.join("tmp")).unwrap().count(), 0);
     }
 
+    struct SwappedTarball {
+        metadata: Vec<u8>,
+        served: Vec<u8>,
+    }
+
+    impl Exchange for SwappedTarball {
+        fn fetch(&self, url: &stuff_url::Url) -> Result<FetchedResponse> {
+            let body = if url.path().ends_with(".tgz") { self.served.clone() } else { self.metadata.clone() };
+            Ok(FetchedResponse { status: 200, location: None, body })
+        }
+    }
+
+    #[test]
+    fn a_tarball_that_differs_from_the_claimed_integrity_is_never_stored() {
+        let dir = tempfile::tempdir().unwrap();
+        let state = dir.path().join("state");
+        let good = tarball_for("flatdemo", "1.2.3");
+        // Same package, different bytes: the gzip header's modification time is not part of the contents.
+        let mut served = good.clone();
+        served[4] = 1;
+        let integrity = integrity_of(&good);
+        let metadata = format!(
+            "{{\"name\":\"flatdemo\",\"versions\":{{\"1.2.3\":{{\"name\":\"flatdemo\",\"version\":\"1.2.3\",\"dist\":{{\"tarball\":\"https://registry.npmjs.org/flatdemo/-/flatdemo-1.2.3.tgz\",\"integrity\":\"{integrity}\"}}}}}}}}"
+        )
+        .into_bytes();
+        let mut inventory = fixture_inventory("flatdemo", "1.2.3", Some(&integrity));
+        inventory.projects[0].packages[0].resolved =
+            Some("https://registry.npmjs.org/flatdemo/-/flatdemo-1.2.3.tgz".to_string());
+        crate::inventory_store::update_inventory(&state, |_| Ok(inventory.clone())).unwrap();
+        let err = fetch_inventory(&state, &download_config(), &SwappedTarball { metadata, served }).unwrap_err();
+        assert!(matches!(err, Error::Conflict(_)), "{err}");
+        assert!(err.to_string().contains("integrity mismatch"), "{err}");
+        assert!(load_inventory(&state).unwrap().artifacts.is_empty());
+        assert!(!state.join("objects").join("sha512").exists() || std::fs::read_dir(state.join("objects").join("sha512")).unwrap().next().is_none());
+        assert_eq!(std::fs::read_dir(state.join("tmp")).unwrap().count(), 0);
+    }
+
     #[test]
     fn a_task_started_before_the_deadline_finishes_and_is_recorded() {
         let dir = tempfile::tempdir().unwrap();

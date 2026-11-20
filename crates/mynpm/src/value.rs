@@ -21,13 +21,6 @@ pub fn req_str(v: &deser_value::Value, label: &str) -> Result<String> {
     }
 }
 
-pub fn opt_str(v: &deser_value::Value) -> Option<String> {
-    if matches!(&**v, deser_value::Kind::Null) {
-        return None;
-    }
-    v.as_str().map(|s| s.to_string())
-}
-
 pub fn map_keys(map: &deser_value::Map) -> Vec<String> {
     let mut out = Vec::with_capacity(map.len());
     for i in 0..map.len() {

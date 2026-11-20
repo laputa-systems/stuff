@@ -401,21 +401,6 @@ pub fn produced_binary(wheel: &Path) -> Result<bool> {
     Ok(false)
 }
 
-pub fn validate_wheel_identity(wheel: &Path, package: &PackageVersion) -> Result<()> {
-    let filename = wheel.file_name().and_then(|s| s.to_str()).unwrap_or("");
-    let identity = crate::models::WheelIdentity::parse(filename).map_err(|e| {
-        Error::integrity(format!("invalid wheel filename {filename}: {}", e.detail), Stage::Acquisition).with_package(package)
-    })?;
-    if identity.package != *package {
-        return Err(Error::integrity(
-            format!("wheel filename {filename} does not match {package}"),
-            Stage::Acquisition,
-        )
-        .with_package(package));
-    }
-    Ok(())
-}
-
 #[allow(clippy::too_many_arguments)]
 pub struct BuildOptions<'a> {
     pub index_url: &'a str,
@@ -476,7 +461,7 @@ pub fn build_from_sdist(
     let prebuild_cwd = opts.prebuild_cwd.map(|p| p.to_path_buf()).unwrap_or(std::env::current_dir().map_err(|e| {
         Error::io(format!("could not determine working directory: {e}"), Stage::Build)
     })?);
-    let stage = destination.join(format!(".mypypi-build-{:x}", rand_hex()));
+    let stage = destination.join(format!(".mypypi-build-{:x}", crate::unique_u64()));
     std::fs::create_dir(&stage).map_err(|e| {
         Error::io(format!("could not create build staging directory {stage}: {e}", stage = stage.display()), Stage::Build).with_package(package).with_target(&target.python_version.to_string(), &target.platform)
     })?;
@@ -491,12 +476,6 @@ pub fn build_from_sdist(
         let _ = std::fs::remove_dir_all(&stage);
     }
     result
-}
-
-fn rand_hex() -> u64 {
-    use std::time::{SystemTime, UNIX_EPOCH};
-    let nanos = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
-    (nanos as u64) ^ ((std::process::id() as u64).wrapping_mul(0x9E3779B97F4A7C15))
 }
 
 fn build_environment(

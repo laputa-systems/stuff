@@ -2,7 +2,7 @@
 
 use crate::error::{Error, Result};
 use crate::inventory::{valid_package_name, valid_version};
-use rustc_hash::FxHashSet;
+use rustc_hash::FxHashMap;
 use std::fs;
 use std::io::Read;
 
@@ -51,8 +51,12 @@ fn inspect_archive(archive_path: &str, expected: Option<(&str, &str)>) -> Result
     let gz = flate2::read::GzDecoder::new(file);
     let mut archive = tar::Archive::new(gz);
 
-    let mut entries: Vec<ArchiveEntry> = Vec::new();
-    let mut seen: FxHashSet<String> = FxHashSet::default();
+    // Every header counts toward the entry limit, including a regular file that replaces an
+    // earlier one. `slots` keeps archive order; a replaced entry leaves a hole that is dropped at
+    // the end, and `latest` finds the live slot of a path without scanning.
+    let mut slots: Vec<Option<ArchiveEntry>> = Vec::new();
+    let mut latest: FxHashMap<String, usize> = FxHashMap::default();
+    let mut headers: usize = 0;
     let mut unpacked_bytes: u64 = 0;
     let mut root_directory: Option<String> = None;
     let mut manifest_bytes: Option<Vec<u8>> = None;
@@ -110,15 +114,18 @@ fn inspect_archive(archive_path: &str, expected: Option<(&str, &str)>) -> Result
         if normalized.starts_with('/') || normalized.split('/').any(|p| p.is_empty() || p == "." || p == "..") {
             return Err(Error::Input(format!("package archive entry has an unsafe path: {normalized}")));
         }
-        let duplicate = !seen.insert(normalized.clone());
-        if duplicate {
+        headers += 1;
+        if headers > crate::limits::ARCHIVE_ENTRIES {
+            return Err(Error::Input("package archive exceeds the 100,000 entry limit".to_string()));
+        }
+        if let Some(&previous) = latest.get(&normalized) {
             let replaces_regular_file = entry_type == '-'
                 && normalized != "package/package.json"
-                && entries.iter().any(|e| e.path == normalized && e.entry_type == '-');
+                && slots[previous].as_ref().is_some_and(|e| e.entry_type == '-');
             if !replaces_regular_file {
                 return Err(Error::Input(format!("package archive contains duplicate entry {normalized}")));
             }
-            entries.retain(|e| e.path != normalized);
+            slots[previous] = None;
         }
         if normalized == "package" && entry_type != 'd' {
             return Err(Error::Input("package archive root must be a directory".to_string()));
@@ -149,11 +156,10 @@ fn inspect_archive(archive_path: &str, expected: Option<(&str, &str)>) -> Result
                 .map_err(|_| Error::Input("package archive manifest could not be read".to_string()))?;
             manifest_bytes = Some(contents);
         }
-        entries.push(ArchiveEntry { entry_type, size, path: normalized });
-        if entries.len() > crate::limits::ARCHIVE_ENTRIES {
-            return Err(Error::Input("package archive exceeds the 100,000 entry limit".to_string()));
-        }
+        latest.insert(normalized.clone(), slots.len());
+        slots.push(Some(ArchiveEntry { entry_type, size, path: normalized }));
     }
+    let entries: Vec<ArchiveEntry> = slots.into_iter().flatten().collect();
 
     if entries.is_empty() {
         return Err(Error::Input("package archive is empty".to_string()));
@@ -292,6 +298,16 @@ mod tests {
 
         let (_dir, path) = make_raw_tarball(&[("package/package.json", manifest), ("package/./package.json", manifest)]);
         assert!(format!("{}", inspect_package_archive(&path, "agent-base", "7.1.4").unwrap_err()).contains("duplicate entry"));
+    }
+
+    #[test]
+    fn rejects_too_many_replacement_entries() {
+        let manifest = br#"{"name":"flatdemo","version":"1.2.3"}"#;
+        let mut entries: Vec<(&str, &[u8])> = vec![("package/package.json", manifest)];
+        entries.extend(std::iter::repeat_n(("package/index.js", b"".as_slice()), crate::limits::ARCHIVE_ENTRIES));
+        let (_dir, path) = make_raw_tarball(&entries);
+        let err = inspect_package_archive(&path, "flatdemo", "1.2.3").unwrap_err();
+        assert!(format!("{err}").contains("entry limit"));
     }
 
     #[test]

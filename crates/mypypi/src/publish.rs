@@ -287,7 +287,7 @@ pub(crate) struct TempScope {
 impl TempScope {
     pub fn create(prefix: &str) -> Result<Self> {
         for counter in 0..100u32 {
-            let name = format!("{prefix}{}-{}-{counter}", std::process::id(), rand_hex());
+            let name = format!("{prefix}{}-{}-{counter}", std::process::id(), crate::unique_u64());
             let path = std::env::temp_dir().join(name);
             match std::fs::create_dir(&path) {
                 Ok(()) => return Ok(Self { path }),
@@ -305,12 +305,6 @@ impl Drop for TempScope {
     fn drop(&mut self) {
         let _ = std::fs::remove_dir_all(&self.path);
     }
-}
-
-fn rand_hex() -> u64 {
-    use std::time::{SystemTime, UNIX_EPOCH};
-    let nanos = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
-    (nanos as u64) ^ ((std::process::id() as u64).wrapping_mul(0x9E3779B97F4A7C15))
 }
 
 pub(crate) struct ValidatedSet {
