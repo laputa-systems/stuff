@@ -25,3 +25,23 @@ Checked and not filed:
 - `first_party_artifact` inspects the archive and then reads it again to hash it, so a file replaced between the two reads would be hashed uninspected. The archive is a local file the operator names; the window was not filed.
 
 Lockfile import reads the operator's own lockfile without a size limit. That input is local and trusted, so it was not filed.
+
+## Types
+
+The production measurement used `cargo clippy --offline -p mynpm --lib --bins --message-format=json` with the candidates enabled by `-W`, at the Diagnose fix commit (`e2e2f5a2`). Counts include diagnostics whose first span is under `crates/mynpm/src`; unit tests are not compiled by this command. The command exited 0 and the compiler was rustc nightly 2026-11-09. The crate has 13,048 Rust source lines in `src/`, including unit tests.
+
+| Candidate | Diagnostics | Decision |
+| --- | ---: | --- |
+| `unsafe_code = forbid` | 0 | Already enforced by `#![forbid(unsafe_code)]` in each source file; no new setting. |
+| `wildcard_enum_match_arm` | 10 | Reject: no witness. The sampled arms (`acquire.rs:934`, `archive.rs:74`) are open-ended: value kinds and tar entry types where every other kind is rejected or ignored. |
+| `match_wildcard_for_single_variants` | 1 | Reject: `inventory.rs:583` matches a lockfile version enum where any non-npm version yields the expected version 0 and fails the comparison; naming the variants would not change behavior. |
+| `cast_possible_truncation` | 2 | Reject: `hex_decode` casts `hi * 16 + lo` of two hex digits to `u8`, and its input is the crate's own lower-case digest; `renderer as u32` follows a checked renderer range. No defect witness. |
+| `cast_sign_loss` | 0 | No diagnostics. |
+| `unwrap_used` / `panic` outside tests | 0 / 0 | No diagnostics. |
+| `expect_used` outside tests | 23 | Reject: no defect witness. Sampled sites assert a key or kind the preceding check established. |
+| `indexing_slicing` | 49 | Reject: no witness; the sampled sites index fixed 64 KiB buffers and slices bounded by the preceding length checks. |
+| `as_conversions` | 24 | Reject: no demonstrated defect; widening casts and byte counts. |
+| `redundant_clone` | 21 | Reject: ownership suggestions do not reject an invalid type or remove a typing escape hatch. |
+| `needless_pass_by_value` | 6 | Reject: same reason. |
+
+No new profile setting was adopted and no source changed. No candidate met the required witness (a demonstrated invalid state it would reject) or removed a trust assumption. One observation is not a defect: `hex_decode` maps a non-hex digit to 0 instead of failing, but its only callers pass digests produced by `lower_hex`. The DSLP-17 change was a behavior fix and is not a typing change.
