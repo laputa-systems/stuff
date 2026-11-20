@@ -7,18 +7,11 @@ Deslop campaign backlog for the stuff repository ([plan](https://github.com/lapu
 
 The `repomod/` calibration component is complete: Ground, Diagnose, Types, Tests and Dead code are closed, and its P2 findings are fixed. Evidence is in [the component review](docs/deslop-repomod-diagnose.md), [Types](docs/deslop-repomod-types.md), [Tests](docs/deslop-repomod-tests.md), [Dead code](docs/deslop-repomod-dead-code.md) and [Bench](docs/deslop-repomod-bench.md). The P2 repairs merged in [#51](https://github.com/laputa-systems/stuff/pull/51) to [#54](https://github.com/laputa-systems/stuff/pull/54) and [#57](https://github.com/laputa-systems/stuff/pull/57); Dead code closed in [#98](https://github.com/laputa-systems/stuff/pull/98) and Tests on the finite inventory in [#172](https://github.com/laputa-systems/stuff/pull/172), which also deleted this file. The open repomod P3 findings live in `TODO.md` (STUF-93, STUF-94, STUF-95, STUF-96).
 
-The other components below remain. Ground covers the whole repository (`AGENTS.md`, Verification: costs, contracts, vendored trees). Diagnose does not: `docs/deslop-repomod-diagnose.md` reviewed `repomod/` only and states that the other Stuff components were not reviewed, so each ticket starts with a bounded Diagnose of its component. No other component has a review document.
+The `crates/stuff` publisher component is complete: Diagnose, Types, Tests, and Dead code are recorded in [the diagnosis](docs/deslop-stuff-publisher-diagnose.md), [Types](docs/deslop-stuff-publisher-types.md), [Tests](docs/deslop-stuff-publisher-tests.md), and [Dead code](docs/deslop-stuff-publisher-dead-code.md). The test inventory records the remaining proof limits.
+
+The other components below remain. Ground covers the whole repository (`AGENTS.md`, Verification: costs, contracts, vendored trees). Each remaining ticket starts with a bounded Diagnose of its component.
 
 ## Tickets
-
-### DSLP-10 · P2 · Deslop crates/stuff: the publisher (about 30k lines)
-
-- **Area:** deslop · stuff publisher
-- **Where:** crates/stuff/src/ (cli.rs, doctor.rs, source.rs, publish/) and crates/stuff/tests/
-- **Problem:** Diagnose completed in docs/deslop-stuff-publisher-diagnose.md. Types completed in docs/deslop-stuff-publisher-types.md. Steps owed: Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: `stuff publish cargo|npm|pypi|oci|mirror` is the only publication entry point; its exit codes and output (`tests/cli.rs`, `publish_output.rs`, `publish_retry.rs`, `mirror_publish.rs`); Cargo index and archives (`tests/cargo_*.rs`, mycrates golden generation); R2 storage and generation activation (`tests/r2_*.rs` against `fake_s3.rs`); republish and rollback (`republish.rs`, `rollback.rs`); one registry's publication never rebuilds another's (`make pipecheck`). Consumers: operators and docs/PUBLISHING.md, the Worker serving published generations, repomod reading `<origin>/current/catalog.json`, `deploy/` maintenance scripts. Slice by registry subtree under `src/publish/` so each PR stays near 20k lines.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept each slice with `make test-stuff`, `make test-r2`, `make test-publish-lock`, `make pipecheck` and `make lint`; run `make test` before the last PR. `make test-r2-live` stays opt-in. Preserve the unsafe-code ban and published generation readability.
-- **Fix with:** deslop
-- **Effort:** L
 
 ### DSLP-11 · P3 · Deslop crates/mynpm: npm inventory and publication
 
