@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+import argparse
+import subprocess
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'lib'))
+import oobuild
+
+parser = argparse.ArgumentParser(description='Acquire and build the patched Rivet Engine.')
+sub = parser.add_subparsers(dest='command', required=True)
+acquire = sub.add_parser('acquire')
+acquire.add_argument('--out', required=True)
+build = sub.add_parser('build')
+build.add_argument('--src', required=True)
+build.add_argument('--out', required=True)
+args = parser.parse_args()
+try:
+    if args.command == 'acquire':
+        oobuild.acquire_engine(args.out)
+    else:
+        oobuild.build_engine(args.src, args.out)
+except (OSError, ValueError, subprocess.CalledProcessError) as exc:
+    print(f'build-rivet-engine: {exc}', file=sys.stderr)
+    sys.exit(1)

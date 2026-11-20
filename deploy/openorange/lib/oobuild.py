@@ -195,3 +195,95 @@ def build(src, out, runner=run):
     validate_record(record)
     (output / 'build-record.json').write_text(json.dumps(record, sort_keys=True, indent=2, ensure_ascii=False) + '\n')
     print(f'{record["tarball"]["sha256"]}  {archive}')
+
+
+ENGINE_BUILDER = 'ghcr.io/rivet-dev/rivet/engine-base-builder@sha256:61ba0bec231a20ebe8501be2d26b4649bbb74f31353d0ea8740785ee467d5d11'
+
+
+def engine_component():
+    registry = tomllib.loads((ROOT / 'sources/sources.toml').read_text())
+    items = [x for x in registry['components'] if x['name'] == 'rivet-engine-source']
+    if len(items) != 1 or len(items[0]['patches']) != 6:
+        raise ValueError('expected one Engine component with six patches')
+    item = items[0]
+    for patch in item['patches']:
+        if digest(ROOT / 'patches' / patch['file']) != 'sha256:' + patch['sha256']:
+            raise ValueError('patch sha256 mismatch: ' + patch['file'])
+    return item
+
+
+def acquire_engine(out, runner=run):
+    item = engine_component()
+    root = Path(out).resolve()
+    root.mkdir(parents=True, exist_ok=False)
+    source = root / 'source'
+    source.mkdir()
+    runner(['git', 'init', '-q', str(source)])
+    runner(['git', 'fetch', '--depth', '1', item['upstream'], item['revision']], cwd=source)
+    if runner(['git', 'rev-parse', 'FETCH_HEAD'], cwd=source) != item['revision']:
+        raise ValueError('fetched Engine revision differs from registry')
+    runner(['git', 'checkout', '-q', '--detach', item['revision']], cwd=source)
+    for patch in item['patches']:
+        path = str(ROOT / 'patches' / patch['file'])
+        runner(['git', 'apply', '--check', path], cwd=source)
+        runner(['git', 'apply', path], cwd=source)
+    toolchain = root / 'rustup'
+    toolchain.mkdir()
+    runner(['docker', 'run', '--rm', '--platform', 'linux/amd64', '--cpus', '4', '--memory', '8g', '-v', f'{source}:/src', '-v', f'{toolchain}:/usr/local/rustup', '-w', '/src', ENGINE_BUILDER, 'sh', '-c', 'rustc --version && cargo vendor --locked /src/cargo-vendor > vendor-config.toml'])
+
+
+def validate_engine_record(record):
+    oorelease._object(record, {'schema', 'component', 'upstream', 'patches', 'lockfile_sha256', 'builder', 'rustc', 'source_date_epoch', 'platform', 'rustflags', 'jobs', 'memory_bytes', 'binary'}, 'Engine build record')
+    item = engine_component()
+    if record['schema'] != 'rivet-engine-build-record/1' or record['component'] != item['name']:
+        raise ValueError('invalid Engine build record identity')
+    if record['upstream'] != {'repository': item['upstream'], 'revision': item['revision']}:
+        raise ValueError('invalid Engine upstream identity')
+    if record['patches'] != [{'file': p['file'], 'sha256': 'sha256:' + p['sha256']} for p in item['patches']]:
+        raise ValueError('invalid Engine patches')
+    oorelease._digest(record['lockfile_sha256'], 'lockfile_sha256')
+    if record['builder'] != ENGINE_BUILDER or record['platform'] != 'linux-x86_64' or record['rustflags'] != '--cfg tokio_unstable' or type(record['jobs']) is not int or record['jobs'] != 4 or type(record['memory_bytes']) is not int or record['memory_bytes'] != 8589934592:
+        raise ValueError('invalid Engine build environment')
+    if not isinstance(record['rustc'], str) or 'release: 1.99.0' not in record['rustc'].splitlines() or 'host: x86_64-unknown-linux-gnu' not in record['rustc'].splitlines():
+        raise ValueError('invalid Engine Rust toolchain')
+    if type(record['source_date_epoch']) is not int or record['source_date_epoch'] < 0:
+        raise ValueError('invalid source_date_epoch')
+    oorelease._object(record['binary'], {'file', 'sha256'}, 'binary')
+    if record['binary']['file'] != 'rivet-engine':
+        raise ValueError('invalid Engine binary name')
+    oorelease._digest(record['binary']['sha256'], 'binary.sha256')
+    return record
+
+
+def build_engine(src, out, runner=run):
+    item = engine_component()
+    root = Path(src).resolve()
+    source = root / 'source'
+    if runner(['git', 'rev-parse', 'HEAD'], cwd=source) != item['revision']:
+        raise ValueError('source revision differs from registry')
+    if not (source / 'vendor-config.toml').is_file() or not (source / 'cargo-vendor').is_dir():
+        raise ValueError('offline build requires vendored dependencies')
+    output = Path(out).resolve()
+    output.mkdir(parents=True, exist_ok=False)
+    index = output / 'source.index'
+    env = dict(os.environ, GIT_INDEX_FILE=str(index))
+    try:
+        runner(['git', 'read-tree', 'HEAD'], cwd=source, env=env)
+        for patch in item['patches']:
+            runner(['git', 'apply', '--cached', str(ROOT / 'patches' / patch['file'])], cwd=source, env=env)
+        runner(['git', 'diff', '--exit-code', '--no-ext-diff'], cwd=source, env=env)
+        untracked = runner(['git', 'ls-files', '--others', '--exclude-standard'], cwd=source, env=env).splitlines()
+        if any(path != 'vendor-config.toml' and not path.startswith('cargo-vendor/') for path in untracked):
+            raise ValueError('unexpected untracked Engine source files')
+    finally:
+        index.unlink(missing_ok=True)
+    epoch = int(runner(['git', 'show', '-s', '--format=%ct', item['revision']], cwd=source))
+    container = ['docker', 'run', '--rm', '--network', 'none', '--platform', 'linux/amd64', '--cpus', '4', '--memory', '8g', '-v', f'{source}:/src:ro', '-v', f'{root / "rustup"}:/usr/local/rustup:ro', '-v', f'{output}:/out', '-w', '/src', '-e', 'RUSTFLAGS=--cfg tokio_unstable', '-e', f'SOURCE_DATE_EPOCH={epoch}', '-e', 'CARGO_TARGET_DIR=/out/target', '-e', 'RIVET_ERROR_OUTPUT_DIR=/out/errors', ENGINE_BUILDER]
+    rustc = runner([*container, 'rustc', '-vV'])
+    if 'release: 1.99.0' not in rustc.splitlines() or 'host: x86_64-unknown-linux-gnu' not in rustc.splitlines():
+        raise ValueError('unexpected Engine Rust toolchain')
+    runner([*container, 'sh', '-c', 'mkdir -p /out/errors && cargo --config /src/vendor-config.toml build --release --locked --offline -j4 -p rivet-engine --bin rivet-engine && cp /out/target/release/rivet-engine /out/rivet-engine'])
+    record = {'schema': 'rivet-engine-build-record/1', 'component': item['name'], 'upstream': {'repository': item['upstream'], 'revision': item['revision']}, 'patches': [{'file': p['file'], 'sha256': 'sha256:' + p['sha256']} for p in item['patches']], 'lockfile_sha256': digest(source / 'Cargo.lock'), 'builder': ENGINE_BUILDER, 'rustc': rustc, 'source_date_epoch': epoch, 'platform': 'linux-x86_64', 'rustflags': '--cfg tokio_unstable', 'jobs': 4, 'memory_bytes': 8589934592, 'binary': {'file': 'rivet-engine', 'sha256': digest(output / 'rivet-engine')}}
+    validate_engine_record(record)
+    (output / 'build-record.json').write_text(json.dumps(record, sort_keys=True, indent=2) + '\n')
+    print(f'{record["binary"]["sha256"]}  {output / "rivet-engine"}')

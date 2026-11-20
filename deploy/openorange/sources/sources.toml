@@ -24,9 +24,9 @@ patches = []
 name = "rivet-engine-source"
 upstream = "https://github.com/rivet-dev/rivet"
 license = "Apache-2.0"
-ownership = "mirrored-unchanged"
+ownership = "source-rebuilt"
 artifacts = ["Engine executable"]
-gaps = ["The deployed Engine is the upstream 3.1.2-rc.1 image; these patches are isolated candidates that no production artifact contains yet."]
+gaps = ["The patched candidate is not deployed; production uses the upstream image."]
 revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
 [[components.patches]]
 file = "rivet-e5ed391-staged-refusal.patch"

@@ -72,3 +72,21 @@ pnpm identities.
 
 The prototype transaction controller and its current adapter limits are
 described in [OpenOrange rollout transactions](openorange-rollouts.md).
+
+## Rivet Engine candidate
+
+`bin/build-rivet-engine acquire --out DIR` fetches the registered source,
+checks and applies its six patches in order, acquires the source-pinned Rust
+and vendors the locked Cargo dependencies. `bin/build-rivet-engine build --src
+DIR --out OUT` checks the patched source against the registry and builds in the
+pinned Linux x86-64 builder with networking disabled. Its
+`rivet-engine-build-record/1` records the source, ordered patch digests,
+Cargo.lock, image, Rust identity, limits and binary digest; the record validator
+checks the closed schema and registered identities. Qualification results and
+limitations are in [Engine qualification](openorange-engine-qualification.md).
+This build record is not a production release manifest or promotion.
+
+The first candidate record hashes to
+`sha256:bd867994865b4c250f87683453e45cfbf78143aafe5201eaeff499b18244e620`
+and names binary
+`sha256:9c1f1c7a1b55b66d730ae6b483fe98a1b0d6b871a36f58bf09b27f5965a3db56`.
