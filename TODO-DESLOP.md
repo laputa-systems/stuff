@@ -1,5 +1,5 @@
 Prefix: DSLP
-Next: 9
+Next: 10
 
 Deslop campaign backlog ([plan](https://github.com/laputa-systems/stuff/blob/main/docs/campaigns/deslop.md), tier Calibration). One agent works this file with the `deslop` skill: take the lowest-numbered open ticket whose area does not start with `Needs owner ·`. After DSLP-5, work the open P1 and P2 findings, then fill in `## Report` below.
 
@@ -25,6 +25,8 @@ records deleted paths and the six dynamic uses. All 98 CLI, catalog,
 snapshot and dashboard checks passed. The canonical preview rendered
 31 pages.
 
+Bench audit: [evidence and gaps](docs/deslop-repomod-bench.md). The existing live-status harness has no tiered entrypoint; its isolated Edit and Change proof remains unrun. The host readiness check reported load above its threshold.
+
 ## Tickets
 
 ### DSLP-7 · P3 · An interruption after a fixer commit can delete its recovery branch
@@ -44,4 +46,13 @@ snapshot and dashboard checks passed. The canonical preview rendered
 - **Recommendation:** Merge selected line-count entries into the existing index for filtered snapshots while retaining full-snapshot deletion behavior. Assert the full index and unselected record bytes across a filtered refresh, including unchanged commit stamping.
 - **Fix with:** durable-state
 - **Effort:** S
+
+### DSLP-9 · P3 · Qualify isolated repomod benchmark entrypoint
+
+- **Area:** repomod · benchmarks
+- **Where:** bench/deps_perf.py, Makefile
+- **Problem:** The existing dashboard benchmark collects live fleet status and lacks tiered selection, preflight, isolated inputs, correctness checks, result logs and resource attribution. Its wall timings have no comparison gate.
+- **Recommendation:** Extend the existing harness with an isolated representative workload and the bench-pyramid entrypoint, prove Edit and Change on a ready host, and add process-tree resource attribution. Keep Full manual-only.
+- **Fix with:** bench-pyramid
+- **Effort:** M
 
