@@ -7,7 +7,31 @@ established, so the slop cannot return.
 
 ## Status
 
-**Winding down** 2026-11-20: no new lanes; running lanes finish or park.
+Paused 2026-11-20. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." First command: `for p in joshuarli/kache#85 laputa-systems/fastermod#43 joshuarli/ish#34 joshuarli/tansu#33; do gh pr checks ${p#*#} -R ${p%#*}; done`.
+
+Last accepted: stuff `main` at this commit (local, not pushed); fleet merges through img #10, kache #84, tm #43, tansu #32, ish #33. Integration branches are green except as noted.
+
+Open PRs, pushed, not merged: kache #85 (DSLP-89 P1, linker inputs in the cache key), fastermod #43 (deslop finish; ARM text-source mutation check failed, logs unread), ish #34 (shell and editor components; x86 PTY flake DSLP-32, rerun requested), tansu #33 (P2s DSLP-25..27; residuals DSLP-32/33). Merge each when green, then run Phase 4 on its repo.
+
+Parked local branches, not pushed:
+- stuff canonical checkout `deslop/registry-crates` (f083ee86): mynpm and mypypi done (DSLP-11/12 closed; DSLP-17, 19 P2 fixed). myoci DSLP-13 not started; unfiled leads: `src/push.rs` `read_chunked_body` length overflow, `src/mirror/acquire.rs` temp file left on digest mismatch. Retry: `cargo test -p mynpm -p mypypi` and `make lint` pass, then open a PR.
+- smolith `deslop/ground` (ca34cbc): Ground and Diagnose; P2 DSLP-42..44 filed. Cold `make test` timing not cleanly measured. Retry: push and open a PR.
+- tm `deslop/terminal-copy-harness` (8ac5d96): partial audit of DSLP-17..25 plus flake tickets DSLP-26/27; worker stopped before proof. Retry: finish the audit, `make test`.
+- play `fix/playlist-encoding` (pushed, no PR): owner-deferred; headful tests disrupt the host.
+
+Next slice: the four PRs above, then ish DSLP-7..26, stuff DSLP-14/15, smolith and tansu components, kache components (bound with the owner first). Then the final closeout: scorecard, move rules into docs/fleet.md and docs/policy-development.md, retire these docs and ~/d/stuff. Unfiled P3 follow-ups are listed under Accepted work.
+
+## Accepted work
+
+### Unfiled P3 follow-ups
+
+- stats: `cloudflare/test/cli/help.test.ts:85` asserts a 300 ms help median; a hosted runner measured 313 ms.
+- ctrs: `nat_host_bound_needs_the_token_and_relays_only_loopback` failed once on Linux x86_64 musl CI (`ports.rs:1529`).
+- ish: the ish-fs hardlink repair assertion failed once in a loaded full `make test`.
+- stuff: `make lint` rewrote `crates/stuff-worker/pnpm-lock.yaml` despite `--frozen-lockfile` (Node 26.12.0 vs declared 26.13.1).
+- play: GUI gate exit -11 under load; component tickets DSLP-6..17 and findings DSLP-21..24 open.
+
+### Record through 2026-11-20
 
 Resumed 2026-11-19 under the selective mutation policy (decision 4,
 **Mutation spending is bounded**) and the Bench step (decision 14).
@@ -195,8 +219,6 @@ their branches kept.
 Next: finish the remaining forks (rage, crabtables, soulseek-rs) and Srv,
 Fastermod and Stats, then the unstarted repositories (tm, usr, ctrs, ish, img,
 play, tansu, smolith, kache), worked by component above 50k lines.
-
-## Accepted work
 
 The 2026-11-18 M2 checkpoint records qualified representative workloads
 and explicit deferrals. Tier A repo passes have started. The
