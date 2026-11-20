@@ -10,7 +10,7 @@ import subprocess
 from pathlib import Path
 
 GUEST_SCRIPT = Path(__file__).with_name('oomanifest.py').read_text() + r'''
-import fcntl, hashlib, json, os, shutil, subprocess, sys, tarfile, time, urllib.request, uuid
+import base64, fcntl, hashlib, json, math, os, shutil, signal, subprocess, sys, tarfile, time, urllib.request, uuid
 
 ROOT = os.environ.get('ROLLOUT_GUEST_ROOT', '/')
 BIN = '/opt/native-rehearsal/orange/node_modules/open-orange/dist/bin.js'
@@ -125,11 +125,21 @@ def observe(args):
     return state
 
 
+GUARD_DEPTH = 0
+
+
 def guarded(fn):
+    global GUARD_DEPTH
+    if GUARD_DEPTH:
+        return fn()
     os.makedirs(LOCKS, exist_ok=True)
     with open(os.path.join(LOCKS, '.guard'), 'a+') as guard:
         fcntl.flock(guard, fcntl.LOCK_EX)
-        return fn()
+        GUARD_DEPTH = 1
+        try:
+            return fn()
+        finally:
+            GUARD_DEPTH = 0
 
 
 def read_json(p, default):
@@ -168,6 +178,17 @@ def acquire(args):
     return guarded(body)
 
 
+def renew(args):
+    def body():
+        check_token(args)
+        lock = os.path.join(LOCKS, 'lock.json')
+        record = read_json(lock, {})
+        record['lease_expiry'] = time.time() + args['lease_s']
+        write_atomic(lock, json.dumps(record))
+        return {'token': args['token']}
+    return guarded(body)
+
+
 def release(args):
     def body():
         check_token(args)
@@ -175,6 +196,30 @@ def release(args):
         sync_dir(LOCKS)
         return {}
     return guarded(body)
+
+
+def check_bound(args):
+    check_token(args)
+    record = read_json(os.path.join(LOCKS, 'lock.json'), {})
+    if record['lease_expiry'] - time.time() < args['bound_s'] + 1:
+        raise ValueError('insufficient-lease')
+
+
+def bounded(request):
+    args = request['args']
+    bound = args['bound_s']
+    if type(bound) not in (int, float) or not math.isfinite(bound) or bound <= 0:
+        raise ValueError('invalid bound')
+    child = subprocess.Popen([sys.executable, '-c', sys.orig_argv[2], '--internal'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
+    try:
+        output, error = child.communicate(json.dumps(request) + '\n', timeout=bound)
+    except subprocess.TimeoutExpired:
+        os.killpg(child.pid, signal.SIGKILL)
+        child.communicate()
+        raise TimeoutError('mutation timed out')
+    if child.returncode:
+        raise OSError('mutation process failed: ' + error)
+    return json.loads(output)
 
 
 def point_runtime(name):
@@ -185,6 +230,7 @@ def point_runtime(name):
 
 
 def restart(args):
+    check_token(args)
     subprocess.run(['rc-service', 'native-stats', 'restart'], check=True, stdout=subprocess.DEVNULL)
     deadline = time.time() + args['health_deadline_s']
     while time.time() < deadline:
@@ -201,6 +247,7 @@ def convert(args):
             return {}
         digest = closure_digest(RUNTIME)
         name = release_id(digest)
+        check_token(args)
         os.makedirs(RELEASES, exist_ok=True)
         write_atomic(os.path.join(RUNTIME, 'release.json'), json.dumps({'release': name, 'digest': digest, 'source': 'converted in place'}))
         write_atomic(PREVIOUS, name + '\n')
@@ -220,6 +267,7 @@ def activate(args):
         directory = os.path.join(RELEASES, args['release'])
         if closure_digest(directory) != args['digest']:
             raise ValueError('staged-content-mismatch')
+        check_token(args)
         write_atomic(PREVIOUS, args['expected'] + '\n')
         point_runtime(args['release'])
         return {}
@@ -238,6 +286,12 @@ def complete(args):
     return {}
 
 
+def run_command(args):
+    check_token(args)
+    result = subprocess.run(args['argv'], capture_output=True)
+    return {'returncode': result.returncode, 'stdout': base64.b64encode(result.stdout).decode('ascii'), 'stderr': base64.b64encode(result.stderr).decode('ascii')}
+
+
 def stage(args):
     def body():
         check_token(args)
@@ -246,6 +300,9 @@ def stage(args):
         os.mkdir(staging)
         incoming = path(args['archive'])
         try:
+            if 'archive_data' in args:
+                with open(incoming, 'xb') as out:
+                    out.write(base64.b64decode(args['archive_data'], validate=True))
             with tarfile.open(incoming) as archive:
                 declared = archive.pax_headers.get('openorange.manifest_digest')
                 archive.extractall(staging, filter='data')
@@ -256,7 +313,7 @@ def stage(args):
             shutil.rmtree(staging)
             raise
         finally:
-            if os.path.dirname(incoming) == LOCKS:
+            if os.path.dirname(incoming) == LOCKS and os.path.exists(incoming):
                 os.unlink(incoming)
         name = release_id(digest)
         write_atomic(os.path.join(staging, 'release.json'), json.dumps({'release': name, 'digest': digest, 'source': args['source']}))
@@ -280,10 +337,19 @@ def check(args):
     return {'ok': ok, 'state': state}
 
 
-OPERATIONS = {f.__name__: f for f in (observe, acquire, release, convert, activate, complete, stage, check)}
+OPERATIONS = {f.__name__: f for f in (observe, acquire, renew, release, convert, activate, complete, stage, check, run_command)}
 request = json.loads(sys.stdin.readline())
 try:
-    result = {'ok': OPERATIONS[request['op']](request['args'])}
+    if request['op'] in ('convert', 'activate', 'complete', 'stage', 'run_command') and sys.argv[1:] != ['--internal']:
+        result = bounded(request)
+    else:
+        if sys.argv[1:] == ['--internal']:
+            def act():
+                check_bound(request['args'])
+                return OPERATIONS[request['op']](request['args'])
+            result = {'ok': guarded(act)}
+        else:
+            result = {'ok': OPERATIONS[request['op']](request['args'])}
 except PermissionError as exc:
     result = {'error': 'stale-token', 'detail': str(exc)}
 except Exception as exc:
@@ -295,7 +361,9 @@ print(json.dumps(result))
 def ssh_runner(ssh_config, host):
     def run(payload):
         command = 'python3 -c ' + shlex.quote(GUEST_SCRIPT)
-        result = subprocess.run(['ssh', '-F', str(Path(ssh_config).expanduser()), '-o', 'BatchMode=yes', host, command], input=payload, capture_output=True, text=True, timeout=600)
+        request = json.loads(payload)
+        timeout = max(600, request['args'].get('bound_s', 0) + 30)
+        result = subprocess.run(['ssh', '-F', str(Path(ssh_config).expanduser()), '-o', 'BatchMode=yes', host, command], input=payload, capture_output=True, text=True, timeout=timeout)
         if result.returncode != 0:
             raise OSError(f'ssh {host} failed: {result.stderr.strip()}')
         return result.stdout
@@ -303,9 +371,9 @@ def ssh_runner(ssh_config, host):
 
 
 class NativeAdapter:
-    def __init__(self, runner, health_url='http://127.0.0.1:8080/health', engine_container='live-stats-engine', min_free_bytes=1 << 30, health_deadline_s=180):
+    def __init__(self, runner, health_url='http://127.0.0.1:8080/health', engine_container='live-stats-engine', min_free_bytes=1 << 30, health_deadline_s=180, bound_s=10):
         self.runner = runner
-        self.settings = {'health_url': health_url, 'engine_container': engine_container, 'min_free_bytes': min_free_bytes, 'health_deadline_s': health_deadline_s}
+        self.settings = {'bound_s': bound_s, 'health_url': health_url, 'engine_container': engine_container, 'min_free_bytes': min_free_bytes, 'health_deadline_s': health_deadline_s}
 
     def call(self, op, **args):
         reply = json.loads(self.runner(json.dumps({'op': op, 'args': {**self.settings, **args}}) + '\n'))
@@ -322,6 +390,9 @@ class NativeAdapter:
             from oorollout import LockHeld
             raise LockHeld(result['held_by'])
         return result['token']
+
+    def renew(self, holder, token, lease_s):
+        return self.call('renew', holder=holder, token=token, lease_s=lease_s)['token']
 
     def release(self, holder, token):
         self.call('release', holder=holder, token=token)
@@ -353,8 +424,8 @@ class NativeAdapter:
     def complete(self, holder, token, state, release, digest):
         self.call('complete', holder=holder, token=token, release=release, digest=digest)
 
-    def stage(self, holder, token, archive, source):
-        return self.call('stage', holder=holder, token=token, archive=archive, source=source)
+    def stage(self, holder, token, archive, source, **kwargs):
+        return self.call('stage', holder=holder, token=token, archive=archive, source=source, **kwargs)
 
     def check(self, release, digest):
         return self.call('check', release=release, digest=digest)

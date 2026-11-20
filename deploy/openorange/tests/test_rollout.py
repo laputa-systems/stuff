@@ -29,7 +29,7 @@ class RolloutTest(unittest.TestCase):
         self.journals = self.root / 'journals'
         self.journals.mkdir()
         self.policy = self.root / 'policy.json'
-        self.write(self.policy, {'max_age_s': 1000, 'observation_s': 0, 'check_interval_s': 0.01})
+        self.write(self.policy, {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 1000, 'observation_s': 0, 'check_interval_s': 0.01})
         self.write(self.target / 'state.json', {'selected': 'old', 'running': 'old', 'digest': B, 'artifacts': {'old': B, 'new': A}, 'headroom': True, 'health': True})
         self.receipt, self.evidence, self.evaluator = make_receipt(self.root, 'old', 'new', B, A)
 
@@ -75,6 +75,22 @@ class RolloutTest(unittest.TestCase):
                 self.assertEqual(result.returncode, 3, result.stderr)
                 self.assertEqual(self.state()['activations'], ['new', 'old'])
                 self.assertEqual(self.state()['digest'], B)
+
+    def test_functional_checks_gate_candidate_and_baseline(self):
+        program = 'import json,os,sys; print(json.dumps(dict(ok=bool(os.environ.get("ROLLOUT_RELEASE")) and bool(os.environ.get("ROLLOUT_DIGEST")) and os.environ.get("ROLLOUT_RELEASE") not in sys.argv[1:])))'
+        for failures, expected_code, expected_state in ((['new'], 3, 'recovered'), (['new', 'old'], 5, 'needs-operator')):
+            with self.subTest(failures=failures):
+                self.tearDown()
+                self.setUp()
+                self.write(self.policy, {'max_age_s': 1000, 'observation_s': 0, 'check_interval_s': .01, 'functional_check': {'argv': [sys.executable, '-c', program, *failures], 'timeout_s': 5}})
+                result = self.start()
+                self.assertEqual(result.returncode, expected_code, (result.stdout, result.stderr, (self.only_run() / 'journal.jsonl').read_text()))
+                journal = oorollout.Journal(self.only_run())
+                self.assertEqual(journal.state(), expected_state)
+                checks = [r for r in journal.records if r['kind'] == 'check']
+                self.assertEqual([r['result']['state']['selected'] for r in checks], ['new', 'old'])
+                self.assertFalse(checks[0]['functional']['ok'])
+                self.assertEqual(checks[-1]['functional']['ok'], expected_state == 'recovered')
 
     def test_rejected_and_operator(self):
         self.write(self.evidence / 'decision.json', {'verdict': 'reject', 'evaluatedAtMs': 1, 'reasonCodes': ['bad']})
@@ -145,7 +161,7 @@ class RolloutTest(unittest.TestCase):
         self.assertEqual(self.state()['digest'], A)
 
     def test_lock_race_and_fence(self):
-        self.write(self.policy, {'max_age_s': 1000, 'observation_s': 2, 'check_interval_s': .05})
+        self.write(self.policy, {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 1000, 'observation_s': 2, 'check_interval_s': .05})
         args = [str(CLI), 'start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', str(self.target), '--policy', str(self.policy), '--receipt', str(self.receipt), '--evaluator', str(self.evaluator), '--evidence-dir', str(self.evidence), '--journal-dir', str(self.journals), '--deadline-s', '30', '--json']
         first = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         second = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -213,6 +229,10 @@ class RolloutTest(unittest.TestCase):
         path = self.only_run()
         journal = oorollout.Journal(path)
         journal.append('heartbeat', deadline=0)
+        lock = self.target / 'lock.json'
+        record = json.loads(lock.read_text())
+        record['lease_expiry'] = 0
+        self.write(lock, record)
         result = self.command('watchdog', '--journal-dir', self.journals)
         self.assertEqual(result.returncode, 3, result.stderr)
         self.assertEqual(self.state()['activations'], ['new', 'old'])

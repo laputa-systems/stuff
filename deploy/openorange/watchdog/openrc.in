@@ -1,0 +1,6 @@
+#!/sbin/openrc-run
+name="OpenOrange rollout watchdog"
+command="@ROLLOUT@"
+command_args="watchdog --journal-dir @JOURNAL@ --loop --interval-s 10"
+command_background="yes"
+pidfile="/run/openorange-rollout-watchdog.pid"

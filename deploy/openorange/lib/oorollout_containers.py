@@ -8,7 +8,7 @@ from pathlib import Path
 import oorollout_native
 
 _native = oorollout_native.GUEST_SCRIPT
-GUEST_SCRIPT = _native[:_native.index('RUNTIME =')] + "LOCKS = path('/var/lib/openorange-rollout')\n\n" + _native[_native.index('def sync_dir'): _native.index('def sha(')] + _native[_native.index('def guarded('):_native.index('def point_runtime(')] + r'''
+GUEST_SCRIPT = _native[:_native.index('RUNTIME =')] + "LOCKS = path('/var/lib/openorange-rollout')\n\n" + _native[_native.index('def sync_dir'): _native.index('def sha(')] + _native[_native.index('GUARD_DEPTH = 0'):_native.index('def point_runtime(')] + r'''
 
 def command(*args, required=True):
     result = subprocess.run(list(args), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
@@ -74,6 +74,7 @@ def activate(args):
         state = observe(args)
         if state['writer_fenced'] or state['selected'] != args['expected'] or not state['identity_valid'] or state['artifacts'].get(args['release']) != args['digest']:
             raise ValueError('conditional activation identity mismatch')
+        check_token(args)
         oo('set-image', args['app'], args['release'], '--if-current', args['expected'])
         return finish(args)
     return guarded(body)
@@ -91,10 +92,19 @@ def check(args):
     return {'ok': not state['writer_fenced'] and state['identity_valid'] and state['healthy'] and state['marker_delivered'] and state['selected'] == args['release'] and state['digest'] == args['digest'], 'state': state}
 
 
-OPERATIONS = {f.__name__: f for f in (observe, acquire, release, activate, complete, check)}
+OPERATIONS = {f.__name__: f for f in (observe, acquire, renew, release, activate, complete, check)}
 request = json.loads(sys.stdin.readline())
 try:
-    result = {'ok': OPERATIONS[request['op']](request['args'])}
+    if request['op'] in ('activate', 'complete') and sys.argv[1:] != ['--internal']:
+        result = bounded(request)
+    else:
+        if sys.argv[1:] == ['--internal']:
+            def act():
+                check_bound(request['args'])
+                return OPERATIONS[request['op']](request['args'])
+            result = {'ok': guarded(act)}
+        else:
+            result = {'ok': OPERATIONS[request['op']](request['args'])}
 except PermissionError as exc:
     result = {'error': 'stale-token', 'detail': str(exc)}
 except Exception as exc:
@@ -114,11 +124,11 @@ def ssh_runner(ssh_config, host):
 
 
 class ContainersAdapter(oorollout_native.NativeAdapter):
-    def __init__(self, runner, app, min_free_bytes=1 << 30, health_deadline_s=180):
+    def __init__(self, runner, app, min_free_bytes=1 << 30, health_deadline_s=180, bound_s=10):
         if not re.fullmatch(r'[a-z][a-z0-9-]{0,31}', app):
             raise ValueError('invalid app name')
         self.runner = runner
-        self.settings = {'app': app, 'min_free_bytes': min_free_bytes, 'health_deadline_s': health_deadline_s}
+        self.settings = {'bound_s': bound_s, 'app': app, 'min_free_bytes': min_free_bytes, 'health_deadline_s': health_deadline_s}
 
     def call(self, op, **args):
         reply = json.loads(self.runner(json.dumps({'op': op, 'args': {**self.settings, **args}}) + '\n'))

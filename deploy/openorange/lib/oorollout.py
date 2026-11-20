@@ -2,6 +2,8 @@ import fcntl
 import json
 import os
 import re
+import signal
+import subprocess
 import time
 import uuid
 
@@ -90,6 +92,16 @@ class FakeAdapter:
                 sync_dir(self.directory)
             else:
                 atomic(path, record)
+            return token
+
+    def renew(self, holder, token, lease_s):
+        with self.locked() as guard:
+            fcntl.flock(guard, fcntl.LOCK_EX)
+            self._check(holder, token)
+            path = self.directory / 'lock.json'
+            record = json.loads(path.read_text())
+            record['lease_expiry'] = now() + lease_s
+            atomic(path, record)
             return token
 
     def release(self, holder, token):
@@ -229,32 +241,54 @@ def adapter_for(config):
         return FakeAdapter(config['target'])
     if config['target_kind'] == 'native':
         import oorollout_native
-        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']))
+        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']), bound_s=config.get('bound_s', 10))
     if config['target_kind'] == 'oo-containers':
         import oorollout_containers
-        return oorollout_containers.ContainersAdapter(oorollout_containers.ssh_runner(config['ssh_config'], config['host']), config['app'])
+        return oorollout_containers.ContainersAdapter(oorollout_containers.ssh_runner(config['ssh_config'], config['host']), config['app'], bound_s=config.get('bound_s', 10))
     raise ValueError('unknown target kind: ' + str(config['target_kind']))
 
 
-def run(journal, recovery=False, adapter=None):
+def functional_check(policy, release, digest):
+    spec = policy['functional_check']
+    try:
+        child = subprocess.Popen(spec['argv'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True, env={**os.environ, 'ROLLOUT_RELEASE': release, 'ROLLOUT_DIGEST': digest})
+        try:
+            stdout, stderr = child.communicate(timeout=spec['timeout_s'])
+        except subprocess.TimeoutExpired:
+            os.killpg(child.pid, signal.SIGKILL)
+            child.communicate()
+            return {'ok': False, 'error': 'functional check timed out'}
+        try:
+            value = json.loads(stdout)
+        except ValueError as exc:
+            return {'ok': False, 'error': str(exc), 'exit_code': child.returncode, 'stdout': stdout, 'stderr': stderr}
+        return {'ok': child.returncode == 0 and isinstance(value, dict) and value.get('ok') is True, 'exit_code': child.returncode, 'output': value, 'stderr': stderr}
+    except (OSError, ValueError) as exc:
+        return {'ok': False, 'error': str(exc)}
+
+
+def run(journal, recovery=False, adapter=None, recovered_by=None):
     config = journal.records[0]['config']
     if adapter is None:
         adapter = adapter_for(config)
     policy = config['policy']
     duration = config['deadline_s']
+    lease_s = max(duration, config.get('bound_s', 10) + 10)
     run_id = config['run_id']
+    holder = 'watchdog-' + uuid.uuid4().hex if recovered_by else run_id
     with (journal.directory / '.controller').open('a+') as guard:
         try:
             fcntl.flock(guard, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise LockHeld(run_id) from None
+        journal = Journal(journal.directory)
         state = journal.state()
         if state in TERMINAL:
             return state
         journal.append('intent', step='lock-acquire', operation='deployment')
-        token = adapter.acquire(run_id, 'deployment', max(duration, 1))
+        token = adapter.acquire(holder, 'deployment', lease_s)
         crash('after-effect-lock-acquire')
-        journal.append('done', step='lock-acquire', observed={'holder': run_id, 'fencing_token': token})
+        journal.append('done', step='lock-acquire', observed={'holder': holder, 'fencing_token': token})
         try:
             journal.append('heartbeat', deadline=now() + duration)
             if state in {'staged', 'qualified'} and journal.last('state') and journal.last('state')['deadline'] < now():
@@ -266,7 +300,7 @@ def run(journal, recovery=False, adapter=None):
             if state in POST_PREPARE and state != 'recovering' and journal.last('state')['deadline'] < now():
                 recovery = True
             if recovery and state in POST_PREPARE:
-                journal.transition('recovering', duration, reason='controller recovery requested')
+                journal.transition('recovering', duration, reason='controller recovery requested', **({'recovered-by': recovered_by} if recovered_by else {}))
                 state = 'recovering'
             if state == 'staged':
                 receipt, reasons = gate(config)
@@ -313,7 +347,8 @@ def run(journal, recovery=False, adapter=None):
                         if not any(r['kind'] == 'intent' and r['step'] == step for r in journal.records):
                             journal.append('intent', step=step)
                         if not adapter.prepare_observed(step):
-                            adapter.prepare_step(run_id, token, step)
+                            token = adapter.renew(holder, token, lease_s)
+                            adapter.prepare_step(holder, token, step)
                             crash('after-effect-' + step)
                         if not adapter.prepare_observed(step):
                             raise ValueError('preparation incomplete: ' + step)
@@ -321,7 +356,8 @@ def run(journal, recovery=False, adapter=None):
                     if adapter.observe().get('artifacts', {}).get(candidate) != qualified_digest:
                         journal.transition('rejected', duration, reasons=['staged-artifact-mismatch'])
                         return 'rejected'
-                    reconcile(journal, adapter, run_id, token, 'activate', baseline, candidate, qualified_digest)
+                    token = adapter.renew(holder, token, lease_s)
+                    reconcile(journal, adapter, holder, token, 'activate', baseline, candidate, qualified_digest)
                     journal.transition('activated', duration)
                     state = 'activated'
                 except AmbiguousIdentity as exc:
@@ -337,30 +373,36 @@ def run(journal, recovery=False, adapter=None):
                 until = journal.last('state')['observation_until']
                 while True:
                     journal.append('intent', step='lock-renew', fencing_token=token)
-                    token = adapter.acquire(run_id, 'deployment', max(duration, 1))
-                    journal.append('done', step='lock-renew', observed={'holder': run_id, 'fencing_token': token})
+                    token = adapter.renew(holder, token, lease_s)
+                    journal.append('done', step='lock-renew', observed={'holder': holder, 'fencing_token': token})
                     journal.append('heartbeat', deadline=now() + duration)
                     if now() > journal.last('state')['deadline']:
                         journal.transition('recovering', duration, reason='verification deadline expired')
                         state = 'recovering'
                         break
                     result = adapter.check(candidate, qualified_digest)
-                    journal.append('check', result=result)
-                    if not result['ok']:
+                    functional = functional_check(policy, candidate, qualified_digest)
+                    journal.append('check', result=result, functional=functional)
+                    if not result['ok'] or not functional['ok']:
                         journal.transition('recovering', duration, reason='post-activation check failed', evidence=result)
                         state = 'recovering'
                         break
                     if now() >= until:
+                        token = adapter.renew(holder, token, lease_s)
                         journal.transition('promoted', duration)
                         return 'promoted'
                     time.sleep(min(policy['check_interval_s'], until - now()))
             if state == 'recovering':
                 try:
-                    reconcile(journal, adapter, run_id, token, 'recover', candidate, baseline, baseline_digest)
+                    token = adapter.renew(holder, token, lease_s)
+                    reconcile(journal, adapter, holder, token, 'recover', candidate, baseline, baseline_digest)
                     result = adapter.check(baseline, baseline_digest)
-                    if not result['ok']:
-                        raise ValueError('baseline verification failed: ' + json.dumps(result))
-                    journal.transition('recovered', duration, evidence=result)
+                    functional = functional_check(policy, baseline, baseline_digest)
+                    journal.append('check', result=result, functional=functional)
+                    if not result['ok'] or not functional['ok']:
+                        raise ValueError('baseline verification failed: ' + json.dumps({'adapter': result, 'functional': functional}))
+                    token = adapter.renew(holder, token, lease_s)
+                    journal.transition('recovered', duration, evidence=result, **({'recovered-by': recovered_by} if recovered_by else {}))
                     return 'recovered'
                 except ValueError as exc:
                     journal.transition('needs-operator', duration, reason=str(exc), evidence=adapter.observe())
@@ -368,7 +410,7 @@ def run(journal, recovery=False, adapter=None):
         finally:
             try:
                 journal.append('intent', step='lock-release', fencing_token=token)
-                adapter.release(run_id, token)
+                adapter.release(holder, token)
                 journal.append('done', step='lock-release', observed={'released': True})
             except StaleToken:
                 pass

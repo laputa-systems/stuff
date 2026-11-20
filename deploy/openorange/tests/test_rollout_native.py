@@ -183,7 +183,7 @@ class NativeAdapterTest(unittest.TestCase):
 
     def engine(self, staged, crash=None):
         receipt, evidence, evaluator = receipt_support.make_receipt(self.base / 'qualification', self.baseline, staged['release'], self.adapter.observe()['digest'], staged['digest'])
-        config = {'target_kind': 'native', 'host': 'simulated', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': staged['release'], 'artifact': staged['digest'], 'baseline': self.baseline, 'policy': {'max_age_s': 600, 'observation_s': 0, 'check_interval_s': 0.01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'deadline_s': 60}
+        config = {'target_kind': 'native', 'host': 'simulated', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': staged['release'], 'artifact': staged['digest'], 'baseline': self.baseline, 'policy': {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 600, 'observation_s': 0, 'check_interval_s': 0.01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'deadline_s': 60}
         spec = {'env': self.env, 'health_url': self.health_url, 'journal': str(self.journal), 'config': config}
         env = {**os.environ, **({'ROLLOUT_CRASH': crash} if crash else {})}
         return subprocess.run([sys.executable, '-c', ENGINE_CHILD, str(LIB), json.dumps(spec)], capture_output=True, text=True, env=env)

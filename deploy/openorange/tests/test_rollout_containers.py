@@ -131,7 +131,7 @@ class ContainersTest(unittest.TestCase):
 
     def engine(self, crash=None, recovery=False, guest_crash=None):
         receipt, evidence, evaluator = make_receipt(Path(self.tmp.name), BASE, CANDIDATE, IDS[BASE], IDS[CANDIDATE])
-        config = {'target_kind': 'oo-containers', 'host': 'simulated', 'app': 'app', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': CANDIDATE, 'artifact': IDS[CANDIDATE], 'baseline': BASE, 'policy': {'max_age_s': 600, 'observation_s': 0, 'check_interval_s': .01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'deadline_s': 60}
+        config = {'target_kind': 'oo-containers', 'host': 'simulated', 'app': 'app', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': CANDIDATE, 'artifact': IDS[CANDIDATE], 'baseline': BASE, 'policy': {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 600, 'observation_s': 0, 'check_interval_s': .01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'deadline_s': 60}
         spec = {'env': {**self.env, **({'GUEST_CRASH': guest_crash} if guest_crash else {})}, 'journal': str(self.journal), 'config': config, 'recovery': recovery}
         env = {**os.environ, **({'ROLLOUT_CRASH': crash} if crash else {})}
         return subprocess.run([sys.executable, '-c', ENGINE, str(LIB), json.dumps(spec)], text=True, capture_output=True, env=env)
