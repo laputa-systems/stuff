@@ -23,3 +23,23 @@ Checked and not filed:
 - Transfer limits. `http_get` stops reading at the caller's limit (16 MiB for JSON, 1 GiB for artifacts), unlike the npm client (DSLP-18), and bounds redirects to 5 with an HTTPS-only, credential-free check at every hop.
 - Execution boundary. Import checks run inside the sandbox; `importing_a_wheel_cannot_read_publisher_files_or_write_outside_scratch` attempts a read and a write from a hostile module. The test is skipped without `uv` and a CPython interpreter, and both are present on this host, so it ran.
 - sdist inspection. The tar branch bounds expanded size at 1 GiB and rejects unsafe, duplicate and non-regular members. The zip branch had no expanded-size check; the 4 GiB open limit from DSLP-19 now bounds it.
+
+## Types
+
+The production measurement used `cargo clippy --offline -p mypypi --lib --bins --message-format=json` with the candidates enabled by `-W`, at the DSLP-19 fix commit (`7744ea22`). Counts include diagnostics whose first span is under `crates/mypypi/src`; unit tests are not compiled by this command. The command exited 0, with rustc nightly 2026-11-09. The crate has 11,160 Rust source lines in `src/`, including unit tests.
+
+| Candidate | Diagnostics | Decision |
+| --- | ---: | --- |
+| `unsafe_code = forbid` | 0 | Already enforced by `#![forbid(unsafe_code)]` in `lib.rs` and the binary root; no new setting. |
+| `wildcard_enum_match_arm` | 12 | Reject: no witness. Sampled arms are open-ended string or value kinds. |
+| `match_wildcard_for_single_variants` | 2 | Reject: `planner.rs:191` and `:222` pick one `UpstreamArtifact` variant with `filter_map`, and the other variant is the intended exclusion. |
+| `cast_possible_truncation` | 4 | Reject: all four are `nanos as u64` in the temporary-name helper copied into four modules; the truncation only mixes bits into a name. |
+| `cast_sign_loss` | 0 | No diagnostics. |
+| `unwrap_used` outside tests | 11 | Reject: no defect witness. Sampled sites (`dist_infos.iter().next().unwrap()` after a length check, `pop().unwrap()` after a non-empty check) follow the check that makes them safe. |
+| `expect_used` outside tests | 11 | Reject: no defect witness. |
+| `indexing_slicing` | 128 | Reject: no witness; sampled sites follow length checks. |
+| `as_conversions` | 29 | Reject: no demonstrated defect; widening casts and byte counts. |
+| `redundant_clone` | 15 | Reject: ownership suggestions do not reject an invalid type or remove a typing escape hatch. |
+| `needless_pass_by_value` | 0 | No diagnostics. |
+
+No new profile setting was adopted and no source changed for Types. The DSLP-19 fix is a behavior change, not a typing change; it does add a bounded `Archive::read` so `Vec<u8>` of unbounded size is no longer returned for any caller.
