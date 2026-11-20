@@ -58,8 +58,10 @@ class InspectionTest(unittest.TestCase):
             value = self.lock if path.endswith('pnpm-lock.yaml') else hashlib.sha256(self.package.encode()).hexdigest() if path.endswith('package.json') else 'f' * 64
             return value + '  ' + path
         if argv[:2] == ['docker', 'ps']:
-            return 'oo-engine\noo-app.stats'
+            return 'oo-engine\noo-app-stats'
         if argv[:2] == ['docker', 'inspect']:
+            if argv[-1] not in ('oo-engine', 'oo-app-stats', 'standby-engine'):
+                raise subprocess.CalledProcessError(1, argv)
             return self.selected_id + ' stats:v1'
         if argv[:3] == ['docker', 'image', 'inspect']:
             return '["repo@sha256:' + 'b' * 64 + '"]' if '{{json .RepoDigests}}' in argv else self.selected_id

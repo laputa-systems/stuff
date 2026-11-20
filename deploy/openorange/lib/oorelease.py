@@ -176,8 +176,11 @@ def inspect(inventory, stats_repo, runner):
                     route = deployment.get('recoveryWriter')
                     out['recovery_writer'] = route
                 record = {'selected': selected}
+                if name == 'stats' and route:
+                    record['running'] = None
+                    record['reason'] = f'writes are routed to {route}'
                 if app.get('kind') == 'orange' and not (name == 'stats' and route):
-                    running = container('oo-app.' + name)
+                    running = container('oo-app-' + name)
                     record['running'] = running
                     if selected and running['image_id']:
                         selected_id = run('docker', 'image', 'inspect', '--format', '{{.Id}}', selected)
@@ -213,7 +216,7 @@ def inspect(inventory, stats_repo, runner):
                 for name, version in out['package_versions'].items():
                     if version != local_versions.get(name):
                         drift.append(f'{host}: {name} package version differs from Stats repository')
-            code = "import hashlib,json,pathlib; p=pathlib.Path('/opt/native-rehearsal/orange/node_modules/@rivetkit'); print(json.dumps({str(x):hashlib.sha256(x.read_bytes()).hexdigest() for d in p.iterdir() for x in d.resolve().rglob('*.node')}))"
+            code = "import hashlib,json,pathlib; p=pathlib.Path('/opt/native-rehearsal/orange/node_modules/.pnpm'); print(json.dumps({str(x.relative_to(p)):hashlib.sha256(x.read_bytes()).hexdigest() for x in p.glob('@rivetkit+rivetkit-napi*/node_modules/@rivetkit/*/*.node')}))"
             addons = run('python3', '-c', code)
             out['native_addons_sha256'] = json.loads(addons) if addons else {}
             identity('native addon', out['native_addons_sha256'])
