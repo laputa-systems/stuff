@@ -76,7 +76,7 @@ pub fn parse_basic_auth(header: &str) -> Option<(String, String)> {
     Some((user.to_string(), password.to_string()))
 }
 
-pub fn hmac_sha256(secret: &[u8], message: &[u8]) -> [u8; 32] {
+fn hmac_sha256(secret: &[u8], message: &[u8]) -> [u8; 32] {
     let mut key = [0u8; 64];
     if secret.len() > 64 {
         let digest = Sha256::digest(secret);
@@ -98,7 +98,7 @@ pub fn hmac_sha256(secret: &[u8], message: &[u8]) -> [u8; 32] {
     outer.finalize().into()
 }
 
-pub fn constant_time_eq(a: &[u8], b: &[u8]) -> bool {
+fn constant_time_eq(a: &[u8], b: &[u8]) -> bool {
     if a.len() != b.len() {
         return false;
     }

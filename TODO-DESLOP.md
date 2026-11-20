@@ -13,15 +13,6 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 
 ## Tickets
 
-### DSLP-14 · P3 · Deslop the remaining crates: shared HTTP, store, catalog, URL, OCI protocol, mirror and mycrates oracle
-
-- **Area:** deslop · shared crates
-- **Where:** crates/stuff-http, stuff-server, stuff-store, stuff-catalog (Rust and web/), stuff-url, stuff-cargo-shard, stuff-oci, mymirror (about 12k lines), and the Python mycrates oracle under crates/mycrates
-- **Problem:** Steps owed: Diagnose (bounded, this component only; no review exists), then Types, Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: HTTP serving policy (routes, caching, conditional requests, MIME) in `crates/stuff-server/tests/*_compat.rs` and `stuff-http` unit tests; shared storage and generation activation in `stuff-store`; the `<origin>/current/catalog.json` schema in `stuff-catalog` tests and `tests/repomod/test_deps_world.py` (change the schema and repomod's reader together); search (`make test-search`; commit `assets/search.js` after web changes; `web/minisearch/` is modified, see its NOTICE.md); URL and Cargo shard parsing; OCI protocol API (crates/stuff-oci/README.md); the mycrates oracle stays only as a parity oracle (crates/mycrates/AGENTS.md, docs/mycrates-contracts.md). Consumers: myoci, mynpm, mypypi, the stuff publisher and the Worker. Split into one PR per crate group; none exceeds about 20k lines.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept with `make test`, `make test-search`, `make lint`. Keep the pristine/modified vendored-tree rules and the oracle's standard-library-only constraint.
-- **Fix with:** deslop
-- **Effort:** L
-
 ### DSLP-16 · P3 · Deslop deploy/: OpenOrange host tooling and maintenance scripts
 
 - **Area:** Needs owner · deploy
