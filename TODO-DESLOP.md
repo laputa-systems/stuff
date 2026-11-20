@@ -22,15 +22,6 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 - **Fix with:** deslop
 - **Effort:** L
 
-### DSLP-15 · P3 · Deslop crates/stuff-worker: the registry Worker
-
-- **Area:** deslop · worker
-- **Where:** crates/stuff-worker/ (src/ Rust about 3k lines, TypeScript about 1.7k lines, test/)
-- **Problem:** Steps owed: Diagnose (bounded, this component only; no review exists), then Types, Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: the Worker host, WASM build and runtime tests (crates/stuff-worker/README.md; `test/*.test.mjs` under workerd); Worker package and tool pins in `package.json` and `Cargo.lock`; `vendor/stats-producer/` is pristine (`upstream.json` records its upstream) and must stay so. Consumers: OpenOrange deployment (`make worker-deploy*`), the registries it serves, catalog pages that embed committed assets. Types here include the TypeScript sources.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept with `make worker-test`, `make worker-check`, `make ts-lint` and `make lint`. Deployment targets stay out of scope.
-- **Fix with:** deslop
-- **Effort:** M
-
 ### DSLP-16 · P3 · Deslop deploy/: OpenOrange host tooling and maintenance scripts
 
 - **Area:** Needs owner · deploy
