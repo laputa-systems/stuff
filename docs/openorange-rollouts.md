@@ -139,9 +139,11 @@ Render a service with explicit paths, then install or load it using the host's s
 
 ```sh
 deploy/openorange/watchdog/install --kind launchd --journal-dir /absolute/journals \
-  --rollout /absolute/path/to/rollout --output /absolute/path/to/watchdog.plist
+  --rollout /absolute/path/to/rollout --python /absolute/python3 \
+  --log /absolute/watchdog.log --output /absolute/path/to/watchdog.plist
 deploy/openorange/watchdog/install --kind openrc --journal-dir /absolute/journals \
-  --rollout /absolute/path/to/rollout --output /absolute/path/to/openorange-watchdog
+  --rollout /absolute/path/to/rollout --python /usr/bin/python3 \
+  --log /var/log/openorange-watchdog.log --output /absolute/path/to/openorange-watchdog
 ```
 
-The service account needs access to the journal, SSH configuration, target and functional-check command. Supervision restarts a stopped watchdog; journal storage must survive controller failure.
+The service runs the rollout with the named interpreter (Python 3.9 or newer) rather than the service manager's `PATH`, and appends every pass and error to the log. Policy commands such as the functional check must take their inputs as arguments, because the service does not inherit an operator's environment. The service account needs access to the journal, SSH configuration, target and functional-check command. Supervision restarts a stopped watchdog; journal storage must survive controller failure.

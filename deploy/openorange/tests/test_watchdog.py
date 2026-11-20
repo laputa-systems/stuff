@@ -78,10 +78,13 @@ def test_watchdog_service_templates_render_explicit_paths(tmp_path):
     installer = CLI.parent.parent / 'watchdog/install'
     for kind in ('launchd', 'openrc'):
         output = tmp_path / kind
-        result = subprocess.run([str(installer), '--kind', kind, '--journal-dir', str(tmp_path / 'journals'), '--rollout', str(CLI), '--output', str(output)], capture_output=True, text=True)
+        log = tmp_path / (kind + '.log')
+        result = subprocess.run([str(installer), '--kind', kind, '--journal-dir', str(tmp_path / 'journals'), '--rollout', str(CLI), '--python', sys.executable, '--log', str(log), '--output', str(output)], capture_output=True, text=True)
         assert result.returncode == 0, result.stderr
         rendered = output.read_text()
         assert str(CLI) in rendered and str(tmp_path / 'journals') in rendered
+        assert sys.executable in rendered and str(log) in rendered
+        assert rendered.index(sys.executable) < rendered.index(str(CLI))
         assert '--loop' in rendered and '--interval-s' in rendered
         if kind == 'openrc':
             assert os.access(output, os.X_OK)

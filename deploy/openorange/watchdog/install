@@ -9,16 +9,22 @@ parser = argparse.ArgumentParser(description='Render a supervised rollout watchd
 parser.add_argument('--kind', choices=('launchd', 'openrc'), required=True)
 parser.add_argument('--journal-dir', required=True)
 parser.add_argument('--rollout', required=True)
+parser.add_argument('--python', required=True, help='absolute Python 3.9+ interpreter that runs the rollout')
+parser.add_argument('--log', required=True, help='absolute file that receives the watchdog JSON passes and errors')
 parser.add_argument('--output', required=True)
 args = parser.parse_args()
-for value in (args.journal_dir, args.rollout):
+paths = (args.journal_dir, args.rollout, args.python, args.log)
+for value in paths:
     if not os.path.isabs(value) or any(c in value for c in '\n\r\0'):
-        parser.error('journal and rollout paths must be absolute and single-line')
-if args.kind == 'openrc' and any(not re.fullmatch(r'/[A-Za-z0-9_./-]+', value) for value in (args.journal_dir, args.rollout)):
+        parser.error('paths must be absolute and single-line')
+if args.kind == 'openrc' and any(not re.fullmatch(r'/[A-Za-z0-9_./-]+', value) for value in paths):
     parser.error('openrc paths must not contain shell metacharacters or whitespace')
 template = Path(__file__).with_name('launchd.plist.in' if args.kind == 'launchd' else 'openrc.in').read_text()
-values = (html.escape(args.rollout), html.escape(args.journal_dir)) if args.kind == 'launchd' else (args.rollout, args.journal_dir)
+escape = html.escape if args.kind == 'launchd' else str
+rendered = template
+for key, value in (('@ROLLOUT@', args.rollout), ('@JOURNAL@', args.journal_dir), ('@PYTHON@', args.python), ('@LOG@', args.log)):
+    rendered = rendered.replace(key, escape(value))
 output = Path(args.output)
-output.write_text(template.replace('@ROLLOUT@', values[0]).replace('@JOURNAL@', values[1]))
+output.write_text(rendered)
 if args.kind == 'openrc':
     output.chmod(0o755)
