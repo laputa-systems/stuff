@@ -1,4 +1,5 @@
 import copy
+import json
 import sys
 import tempfile
 import unittest
@@ -10,6 +11,13 @@ import oobuild
 
 
 class BuildTest(unittest.TestCase):
+    def descriptor(self, root):
+        item = oobuild.component()
+        data = {'schema': 'openorange-package-build/1', 'upstream': {'repository': item['upstream'], 'revision': item['revision']}, 'patches': [{'file': p['file'], 'sha256': 'sha256:' + p['sha256']} for p in item['patches']], 'node_version': '26.12.0', 'pnpm_version': '10.34.9', 'pnpm_integrity': oobuild.integrity(b'pnpm')}
+        path = Path(root) / 'descriptor.json'
+        path.write_text(json.dumps(data))
+        return path
+
     def test_version_counts_patches(self):
         self.assertEqual(oobuild.downstream_version('1.0.2', [{}, {}]), '1.0.2-laputa.2')
         with self.assertRaises(ValueError):
@@ -22,13 +30,13 @@ class BuildTest(unittest.TestCase):
             return '0' * 40 if argv[1] == 'rev-parse' else ''
         with tempfile.TemporaryDirectory(dir=ROOT.parents[1] / '.work/tmp') as tmp:
             with self.assertRaisesRegex(ValueError, 'fetched revision'):
-                oobuild.acquire(Path(tmp) / 'source', run)
+                oobuild.acquire(Path(tmp) / 'source', self.descriptor(tmp), run)
         self.assertFalse(any('checkout' in call for call in calls))
 
     def test_build_requires_store(self):
         with tempfile.TemporaryDirectory(dir=ROOT.parents[1] / '.work/tmp') as tmp:
             with self.assertRaisesRegex(ValueError, 'offline build requires'):
-                oobuild.build(tmp, Path(tmp) / 'out')
+                oobuild.build(tmp, Path(tmp) / 'out', self.descriptor(tmp))
 
     def test_build_uses_acquired_pnpm_for_all_commands(self):
         calls = []
@@ -55,7 +63,7 @@ class BuildTest(unittest.TestCase):
             (source / 'package.json').write_text('{"version":"1.0.2","packageManager":"pnpm@10.34.9","engines":{"node":">=22"}}')
             (source / 'pnpm-lock.yaml').write_text('lock')
             output = root / 'out'
-            oobuild.build(root, output, run)
+            oobuild.build(root, output, self.descriptor(root), run)
             pnpm_calls = [(argv, opts) for argv, opts in calls if len(argv) > 1 and argv[1].endswith('pnpm.cjs')]
             self.assertEqual([argv[2] for argv, _ in pnpm_calls], ['--version', 'install', 'build', 'pack'])
             for argv, opts in pnpm_calls:

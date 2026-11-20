@@ -16,6 +16,7 @@ LIB = ROOT / 'deploy/openorange/lib'
 sys.path.insert(0, str(LIB))
 import oorollout
 import oorollout_native
+import oomanifest
 
 BTIME = 1_000_000
 TICKS = os.sysconf('SC_CLK_TCK')
@@ -128,7 +129,7 @@ class NativeAdapterTest(unittest.TestCase):
         closure = self.base / 'candidate'
         write_closure(closure, 'patched')
         archive = self.base / 'candidate.tar'
-        with tarfile.open(archive, 'w') as out:
+        with tarfile.open(archive, 'w', format=tarfile.PAX_FORMAT, pax_headers={'openorange.manifest_digest': oomanifest.closure_digest(closure)}) as out:
             for name in ('package.json', 'pnpm-lock.yaml', 'node_modules'):
                 out.add(closure / name, arcname=name)
         token = self.adapter.acquire('stager', 'stage', 60)
@@ -138,6 +139,30 @@ class NativeAdapterTest(unittest.TestCase):
         self.assertFalse(incoming.exists())
         self.adapter.release('stager', token)
         return staged
+
+    def test_stage_rejects_mismatched_digest(self):
+        closure = self.base / 'bad'
+        write_closure(closure, 'patched')
+        token = self.adapter.acquire('stager', 'stage', 60)
+        incoming = self.guest / 'var/lib/openorange-rollout/incoming-bad.tar'
+        with tarfile.open(incoming, 'w', format=tarfile.PAX_FORMAT, pax_headers={'openorange.manifest_digest': 'sha256:' + '0' * 64}) as archive:
+            for path in closure.iterdir():
+                archive.add(path, arcname=path.name)
+        with self.assertRaisesRegex(ValueError, 'artifact manifest digest mismatch'):
+            self.adapter.stage('stager', token, '/var/lib/openorange-rollout/incoming-bad.tar', 'test')
+        releases = self.guest / 'opt/native-rehearsal/runtime'
+        self.assertFalse(list(releases.glob('.staging-*')))
+        self.adapter.release('stager', token)
+
+    def test_activation_rejects_changed_content(self):
+        staged = self.stage_candidate()
+        token = self.adapter.acquire('operator', 'promote', 60)
+        self.adapter.prepare_step('operator', token, 'convert-runtime')
+        directory = self.guest / 'opt/native-rehearsal/runtime' / staged['release']
+        (directory / 'package.json').write_text('changed')
+        with self.assertRaisesRegex(ValueError, 'staged-content-mismatch'):
+            self.adapter.activate('operator', token, self.baseline, staged['release'], staged['digest'])
+        self.adapter.release('operator', token)
 
     def engine(self, staged, crash=None):
         for name, value in (('decision.json', {'verdict': 'pass', 'evaluatedAtMs': int(time.time() * 1000), 'reasonCodes': []}), ('candidate.manifest.json', {'releaseId': staged['release']}), ('baseline.manifest.json', {'releaseId': self.baseline})):

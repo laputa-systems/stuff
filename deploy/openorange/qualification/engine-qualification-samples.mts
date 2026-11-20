@@ -2,9 +2,11 @@ import assert from 'node:assert/strict';
 import { execFileSync, spawn } from 'node:child_process';
 import { cpSync, mkdirSync, writeFileSync, appendFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { generate, ORANGE_ROOT } from '/Users/josh/repos/stats/deploy/orange/generate.mts';
-import { freePort } from '/Users/josh/repos/stats/deploy/orange/session.mts';
-import { prepare, runWorkload } from '/Users/josh/repos/stats/deploy/orange/canary/workload.mts';
+const statsRepo = process.env.STATS_REPO;
+if (!statsRepo) throw new Error('STATS_REPO is required');
+const { generate, ORANGE_ROOT } = await import(statsRepo + '/deploy/orange/generate.mts');
+const { freePort } = await import(statsRepo + '/deploy/orange/session.mts');
+const { prepare, runWorkload } = await import(statsRepo + '/deploy/orange/canary/workload.mts');
 
 const [binary, root] = process.argv.slice(2);
 if (!binary || !root) throw new Error('binary and root required');
@@ -66,11 +68,11 @@ async function run(kind: string) {
  const other=kind==='candidate'?'production':'candidate'; const reopened=await engine(other,copy); app=await serve(copy,reopened.guard); await verify(app,result); evidence({from:kind,to:other,readback:true}); await app.stop(); await reopened.stop();
 }
 
-const { fixtureSource } = await import('/Users/josh/repos/stats/cloudflare/test/node/support.ts');
-const { encodeFrame } = await import('/Users/josh/repos/stats/cloudflare/src/ingest/encode.ts');
-const { decodeFrame } = await import('/Users/josh/repos/stats/cloudflare/src/ingest/frame.ts');
-const { canonicalJson } = await import('/Users/josh/repos/stats/cloudflare/src/protocol.ts');
-const { validateSample } = await import('/Users/josh/repos/stats/cloudflare/src/ingest/sample.ts');
+const { fixtureSource } = await import(statsRepo + '/cloudflare/test/node/support.ts');
+const { encodeFrame } = await import(statsRepo + '/cloudflare/src/ingest/encode.ts');
+const { decodeFrame } = await import(statsRepo + '/cloudflare/src/ingest/frame.ts');
+const { canonicalJson } = await import(statsRepo + '/cloudflare/src/protocol.ts');
+const { validateSample } = await import(statsRepo + '/cloudflare/src/ingest/sample.ts');
 const { createHash } = await import('node:crypto');
 for (const [directory, kind] of [['candidate','candidate'],['candidate-to-production','production'],['production','production'],['production-to-candidate','candidate']]) {
  const src=join(process.argv[4],directory), data=join(root,directory); cpSync(src,data,{recursive:true});

@@ -1,0 +1,13 @@
+{
+  "schema": "openorange-runtime-build/1",
+  "stats": {"repository": "https://github.com/joshuarli/stats.git", "revision": "e532c93fd57f4f5bfe8841443a0dca1d5c155e23"},
+  "inputs": {
+    "deploy/orange/package.json": "sha256:f7fc5c0d7daf7903ae40aa5b17d80d059a4c13ba433e454ef2cfb6524474ac41",
+    "deploy/orange/pnpm-lock.yaml": "sha256:779de8eea54d956c2a3df84e50c3b691f5bc61fd5589354e2a0f30a227835fdc",
+    "deploy/orange/pnpm-workspace.yaml": "sha256:7418e3594f6cc60e937cbdffcdeef33c90425fb2e78414aa9e47dcffcd05e259"
+  },
+  "base_image": "node@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5",
+  "node_version": "26.13.1",
+  "pnpm_version": "12.21.0",
+  "pnpm_integrity": "sha512-Zv2CeO4ok1zpUXktNDZ/869cQyonVkRYIwKVM4NbjaUpu+C+UTCv1W7QcT+4eJ5Hutgtk71a4v5UsVVi1idu8A=="
+}
