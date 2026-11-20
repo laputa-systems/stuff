@@ -6,15 +6,21 @@ writer), or `oo-containers` (an OpenOrange app). Remote adapters use `--host`
 and `--ssh-config`; oo-containers also requires `--app`. The controller never
 builds artifacts.
 
-`start` accepts release IDs, the candidate sha256 digest, a target,
-a policy JSON file, a Stats evidence directory and a controller journal
-folder. Policy fields are `max_age_s`, `observation_s`, and
-`check_interval_s`. Stats' `decision.json` supplies verdict, evaluation time
-and reason codes; `candidate.manifest.json` and `baseline.manifest.json`
-supply `releaseId`. Only a pass with matching identities qualifies. The
-qualified digest is the only candidate digest activated. Preparation checks
-baseline selection and running identity, decision freshness, the exact
-baseline recovery digest and headroom.
+`start` requires `--receipt`, `--evidence-dir`, and `--evaluator` alongside
+release IDs, the candidate sha256 digest, a target, rollout policy JSON and
+controller journal folder. The policy fields are `max_age_s`, `observation_s`,
+and `check_interval_s`. The qualification receipt binds the release labels and
+artifact digests, profile, policy, workload, evaluator, observations, complete
+evidence file set and decision. The controller verifies every file and replays
+`node EVALUATOR verify release --evidence DIR --replay --json`. Only a passing
+promotion receipt qualifies. Release labels contain no whitespace and have at
+most 128 characters; artifact digests identify content.
+
+The qualified journal transition freezes the complete receipt, its canonical
+JSON SHA-256 and the rollout policy file SHA-256. Resume and recovery use this
+copy without rereading qualification files. Preparation checks baseline identity
+and digest, staged candidate digest, decision freshness and headroom; the
+candidate digest is checked again before activation.
 
 The journal progresses through staged, qualified, prepared, activated,
 verifying and promoted. A failed pre-activation gate is rejected. After
