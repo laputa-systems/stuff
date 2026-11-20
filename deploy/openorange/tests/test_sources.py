@@ -39,6 +39,14 @@ class SourceRegistryTest(unittest.TestCase):
         self.data['components'] = [x for x in self.data['components'] if x.get('image') != 'engine']
         with self.assertRaisesRegex(ValueError, 'missing images'):
             sources.verify(self.data, self.lock)
+        self.data['components'][0]['deployment'] = 'staging'
+        with self.assertRaisesRegex(ValueError, 'invalid deployment'):
+            sources.verify(self.data, self.lock)
+        self.data['components'][0]['deployment'] = 'production'
+        del self.data['components'][0]['deployment']
+        with self.assertRaisesRegex(ValueError, 'missing or unknown keys'):
+            sources.verify(self.data, self.lock)
+        self.data['components'][0]['deployment'] = 'production'
         self.data['components'][0]['surprise'] = True
         with self.assertRaisesRegex(ValueError, 'unknown keys'):
             sources.verify(self.data, self.lock)

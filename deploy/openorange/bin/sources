@@ -8,6 +8,7 @@ import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+DEPLOYMENTS = ('production', 'candidate', 'held', 'removed')
 def verify(data, lock, root=ROOT):
     def fail(message):
         raise ValueError(message)
@@ -16,7 +17,7 @@ def verify(data, lock, root=ROOT):
         fail('registry: expected schema 1 and components')
     names, images, patches = set(), set(), []
     for item in data['components']:
-        required = {'name', 'upstream', 'license', 'ownership', 'artifacts', 'patches', 'gaps'}
+        required = {'name', 'upstream', 'license', 'ownership', 'deployment', 'artifacts', 'patches', 'gaps'}
         allowed = required | {'revision', 'version', 'digest', 'image'}
         if not isinstance(item, dict) or not required <= item.keys() or item.keys() - allowed:
             fail('component: missing or unknown keys')
@@ -29,6 +30,8 @@ def verify(data, lock, root=ROOT):
                 fail(f'{name}: invalid {key}')
         if item['ownership'] not in ('source-rebuilt', 'mirrored-unchanged', 'unrebuildable'):
             fail(f'{name}: invalid ownership')
+        if item['deployment'] not in DEPLOYMENTS:
+            fail(f'{name}: invalid deployment')
         for key in ('artifacts', 'gaps'):
             if not isinstance(item[key], list) or any(not isinstance(x, str) or not x for x in item[key]):
                 fail(f'{name}: invalid {key}')

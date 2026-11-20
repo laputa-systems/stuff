@@ -6,7 +6,10 @@ patches and unresolved gaps. From `deploy/openorange`, run `bin/sources list
 means the deployed artifact is built here from the recorded source,
 `mirrored-unchanged` means the deployed artifact is the published package or
 image at the recorded identity, and `unrebuildable` means no source build is
-available. A component's patch list is its apply order, and every file
+available. `deployment` says where the component runs: `production`,
+`candidate` (staged or under rollout), `held` (built and qualified but
+deliberately not deployed) or `removed` (in no deployed closure). A component
+is locally patched when its patch list is non-empty. A component's patch list is its apply order, and every file
 in `patches/` must be registered exactly once. Listed Engine patches are
 isolated candidates: no deployed artifact contains them.
 
