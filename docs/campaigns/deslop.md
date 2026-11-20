@@ -672,11 +672,14 @@ tier.
   false-positive suppression per 5k lines.
 - **The perf gate covers perf-sensitive repos.** These are the rustybench repos (fastermod, lz, loc,
   e, ish) and any repo whose Ground ticket declares a workload. The gate runs on every refactor
-  slice and on the repo's final state. Measure only when `perf-gate-ready` passes, with at least 5
-  interleaved baseline/candidate pairs of the shipped profile.
-  - **Within bound:** the median delta is under the observed spread or under 2%.
-  - **Material regression:** the slice parks.
-  - **Deferred (host busy):** the slice stays unmerged. It never passes by default.
+  slice that touches a declared workload's path, with at least 5 interleaved baseline/candidate
+  pairs of the shipped profile.
+  - **Quiet host** (`perf-gate-ready` passes): a median regression larger than the observed spread
+    and 2% parks the slice.
+  - **Busy host:** decide with the busy-host rules in usr `performance.md#busy-host-evidence`
+    (paired CPU-time or scaling ratios). The slice merges when those ratios rule out a regression
+    above the bound they can resolve. Any smaller, undecided effect is recorded as a deferred
+    timing follow-up, not as a pass.
 - **Test cost budget.** A Tests step may raise warm `make test` time by at most 20% or 30 seconds,
   whichever is larger. Repos already slower than 5 minutes warm fix their drag first.
 - **Mutation spending is bounded (2026-11-19).** A new or expanded mutation trial gets 10
