@@ -55,3 +55,15 @@ selected images. A missing route or image identity is unknown and is reported
 as drift; no writer is inferred. Exit 0 means no detected drift, 3 means drift
 or unknown identity, 2 means invalid command usage, and 1 means a runtime or
 transport failure. Inspection is not a release, health or recovery proof.
+
+## Owned OpenOrange package
+
+`bin/build-open-orange acquire --out DIR` fetches the registered revision,
+applies its ordered patches, and fills `DIR/store`. With the upstream Node and
+pnpm requirements on PATH, `bin/build-open-orange build --src DIR --out OUT`
+builds offline. Upstream 1.0.2 plus one registered patch maps to
+`1.0.2-laputa.1`; the deployed package remains upstream 1.0.2. The build record
+`openorange-build-record/1` identifies the source, ordered patch digests,
+lockfile, toolchain, commit time, platform and resulting tarball for a later
+release manifest. The build sets `SOURCE_DATE_EPOCH` to the upstream commit time and uses
+pnpm pack directly; repeated builds have produced identical tarballs.
