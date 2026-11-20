@@ -50,6 +50,10 @@ class StaleToken(Exception):
     pass
 
 
+class AmbiguousIdentity(ValueError):
+    pass
+
+
 class FakeAdapter:
     """Local test adapter; all calls that mutate target state require a live fence."""
 
@@ -101,6 +105,16 @@ class FakeAdapter:
 
     def observe(self):
         return json.loads((self.directory / 'state.json').read_text())
+
+    def preparations(self, config):
+        return []
+
+    def classify(self, state, expected, release, digest):
+        if state['selected'] == release and state['running'] == release and state['digest'] == digest:
+            return 'applied'
+        if state['selected'] == expected and state['running'] == expected:
+            return 'not-applied'
+        return 'ambiguous'
 
     def activate(self, holder, token, expected, release, digest):
         with self.locked() as guard:
@@ -195,24 +209,38 @@ def reconcile(journal, adapter, holder, token, step, expected, release, digest):
     if not intents:
         journal.append('intent', step=step, expected=expected, release=release, digest=digest)
     state = adapter.observe()
-    if state['selected'] == release and state['running'] == release and state['digest'] == digest:
+    classification = adapter.classify(state, expected, release, digest)
+    if classification == 'applied':
         observed = state
-    elif state['selected'] == expected and state['running'] == expected:
+    elif classification == 'not-applied':
         adapter.activate(holder, token, expected, release, digest)
         crash('after-effect-' + step)
         observed = adapter.observe()
+    elif classification == 'partial':
+        adapter.complete(holder, token, state, release, digest)
+        crash('after-effect-' + step)
+        observed = adapter.observe()
     else:
-        raise ValueError('ambiguous target identity: ' + json.dumps(state, sort_keys=True))
+        raise AmbiguousIdentity('ambiguous target identity: ' + json.dumps(state, sort_keys=True))
     if observed['selected'] != release or observed['running'] != release or observed['digest'] != digest:
         raise ValueError('activated identity or digest mismatch: ' + json.dumps(observed, sort_keys=True))
     journal.append('done', step=step, observed=observed)
     return observed
 
 
+def adapter_for(config):
+    if config['target_kind'] == 'fake':
+        return FakeAdapter(config['target'])
+    if config['target_kind'] == 'native':
+        import oorollout_native
+        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']))
+    raise ValueError('unknown target kind: ' + str(config['target_kind']))
+
+
 def run(journal, recovery=False, adapter=None):
     config = journal.records[0]['config']
     if adapter is None:
-        adapter = FakeAdapter(config['target'])
+        adapter = adapter_for(config)
     policy = config['policy']
     duration = config['deadline_s']
     run_id = config['run_id']
@@ -271,9 +299,23 @@ def run(journal, recovery=False, adapter=None):
             baseline_digest = next(r['baseline_digest'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'prepared')
             if state == 'prepared':
                 try:
+                    for step in adapter.preparations(config):
+                        if any(r['kind'] == 'done' and r['step'] == step for r in journal.records):
+                            continue
+                        if not any(r['kind'] == 'intent' and r['step'] == step for r in journal.records):
+                            journal.append('intent', step=step)
+                        if not adapter.prepare_observed(step):
+                            adapter.prepare_step(run_id, token, step)
+                            crash('after-effect-' + step)
+                        if not adapter.prepare_observed(step):
+                            raise ValueError('preparation incomplete: ' + step)
+                        journal.append('done', step=step, observed=adapter.observe())
                     reconcile(journal, adapter, run_id, token, 'activate', config['baseline'], config['candidate'], qualified_digest)
                     journal.transition('activated', duration)
                     state = 'activated'
+                except AmbiguousIdentity as exc:
+                    journal.transition('needs-operator', duration, reason=str(exc), evidence=adapter.observe())
+                    return 'needs-operator'
                 except ValueError as exc:
                     journal.transition('recovering', duration, reason=str(exc))
                     state = 'recovering'

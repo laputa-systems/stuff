@@ -43,7 +43,7 @@ class RolloutTest(unittest.TestCase):
         return subprocess.run([str(CLI), *map(str, args)], text=True, capture_output=True, env={**os.environ, **(env or {})})
 
     def start(self, env=None):
-        return self.command('start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target', self.target, '--policy', self.policy, '--evidence-dir', self.evidence, '--journal-dir', self.journals, '--deadline-s', '30', '--json', env=env)
+        return self.command('start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', self.target, '--policy', self.policy, '--evidence-dir', self.evidence, '--journal-dir', self.journals, '--deadline-s', '30', '--json', env=env)
 
     def only_run(self):
         return next(self.journals.iterdir())
@@ -110,7 +110,7 @@ class RolloutTest(unittest.TestCase):
 
     def test_lock_race_and_fence(self):
         self.write(self.policy, {'max_age_s': 1000, 'observation_s': 2, 'check_interval_s': .05})
-        args = [str(CLI), 'start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target', str(self.target), '--policy', str(self.policy), '--evidence-dir', str(self.evidence), '--journal-dir', str(self.journals), '--deadline-s', '30', '--json']
+        args = [str(CLI), 'start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', str(self.target), '--policy', str(self.policy), '--evidence-dir', str(self.evidence), '--journal-dir', str(self.journals), '--deadline-s', '30', '--json']
         first = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         second = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         one = first.communicate(timeout=10)

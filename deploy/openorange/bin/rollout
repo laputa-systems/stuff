@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import uuid
 from pathlib import Path
@@ -11,28 +12,72 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'lib'))
 import oorollout
 
 
+def add_target(parser):
+    parser.add_argument('--target-kind', required=True, choices=('fake', 'native'))
+    parser.add_argument('--target', help='fake: local target directory')
+    parser.add_argument('--host', help='native: ssh host alias of the standby guest')
+    parser.add_argument('--ssh-config', help='native: ssh_config that resolves --host')
+
+
+def target_config(args):
+    if args.target_kind == 'fake':
+        return {'target_kind': 'fake', 'target': str(Path(args.target).resolve())}
+    return {'target_kind': 'native', 'host': args.host, 'ssh_config': str(Path(args.ssh_config).expanduser())}
+
+
 def main():
-    parser = argparse.ArgumentParser(description='Durable OpenOrange rollout controller. Targets are local fake-adapter directories only; native-standby and oo-containers are not implemented.', epilog='Mutates the target release selection and running identity under a fenced deployment lock. Journals and controller heartbeats live outside the target in journal-dir/RUN_ID/journal.jsonl. Each transition has a deadline; an overdue post-prepare controller is recovered by watchdog. Qualification binds evidence release identities and artifact digest; preparation checks baseline identity, freshness, recovery artifact and headroom. Exit codes: 0 promoted, 3 rejected or recovered (not promoted), 4 lock held, 5 needs operator, 2 usage, 1 runtime error.')
+    parser = argparse.ArgumentParser(description='Durable OpenOrange rollout controller. Target kinds: fake (a local directory, for tests) and native (the native standby Stats writer over ssh: runtime releases under /opt/native-rehearsal/runtime, activated by switching the /opt/native-rehearsal/orange symlink and restarting native-stats). oo-containers is not implemented.', epilog='Mutates the target release selection and running identity under a fenced deployment lock. Journals and controller heartbeats live outside the target in journal-dir/RUN_ID/journal.jsonl. Each transition has a deadline; an overdue post-prepare controller is recovered by watchdog. Qualification binds evidence release identities and artifact digest; preparation checks baseline identity, freshness, recovery artifact and headroom. Exit codes: 0 promoted, 3 rejected or recovered (not promoted), 4 lock held, 5 needs operator, 2 usage, 1 runtime error.')
     sub = parser.add_subparsers(dest='command', required=True)
     start = sub.add_parser('start', help='qualify and promote a release')
-    for name in ('candidate', 'artifact', 'baseline', 'target', 'policy', 'evidence-dir', 'journal-dir'):
+    for name in ('candidate', 'artifact', 'baseline', 'policy', 'evidence-dir', 'journal-dir'):
         start.add_argument('--' + name, required=True)
+    add_target(start)
     start.add_argument('--deadline-s', type=float, default=60)
     start.add_argument('--json', action='store_true')
     for command in ('status', 'resume', 'abort'):
         p = sub.add_parser(command, help=command + ' a run by its journal directory')
         p.add_argument('--run', required=True, help='path to journal-dir/RUN_ID')
+    observe = sub.add_parser('observe', help='print the target identity; read-only')
+    add_target(observe)
+    observe.add_argument('--json', action='store_true')
+    stage = sub.add_parser('stage', help='copy an installed runtime closure archive to a native target as a new release directory; never activates it')
+    add_target(stage)
+    stage.add_argument('--archive', required=True, help='local tar of package.json, pnpm-lock.yaml and node_modules')
+    stage.add_argument('--source', required=True, help='provenance recorded in release.json, e.g. a build record digest')
     watchdog = sub.add_parser('watchdog', help='recover runs with overdue heartbeats')
     watchdog.add_argument('--journal-dir', required=True)
     args = parser.parse_args()
     try:
+        if args.command in ('start', 'observe', 'stage'):
+            if args.target_kind == 'fake' and not args.target:
+                parser.error('--target is required for the fake target kind')
+            if args.target_kind == 'native' and not (args.host and args.ssh_config):
+                parser.error('--host and --ssh-config are required for the native target kind')
+        if args.command == 'observe':
+            print(json.dumps(oorollout.adapter_for(target_config(args)).observe(), sort_keys=True))
+            return 0
+        if args.command == 'stage':
+            if args.target_kind != 'native':
+                parser.error('stage supports only the native target kind')
+            import oorollout_native
+            adapter = oorollout_native.NativeAdapter(oorollout_native.ssh_runner(args.ssh_config, args.host))
+            holder = 'stage-' + uuid.uuid4().hex
+            token = adapter.acquire(holder, 'stage', 900)
+            try:
+                remote = '/var/lib/openorange-rollout/incoming-' + uuid.uuid4().hex + '.tar'
+                subprocess.run(['scp', '-q', '-F', str(Path(args.ssh_config).expanduser()), args.archive, args.host + ':' + remote], check=True)
+                print(json.dumps(adapter.stage(holder, token, remote, args.source), sort_keys=True))
+            finally:
+                adapter.release(holder, token)
+            return 0
         if args.command == 'start':
             if args.deadline_s <= 0 or not re.fullmatch(r'sha256:[0-9a-f]{64}', args.artifact):
                 parser.error('deadline must be positive and artifact must be a sha256 digest')
-            target = Path(args.target).resolve()
             root = Path(args.journal_dir).resolve()
-            if root == target or root.is_relative_to(target):
-                parser.error('journal-dir must be outside target')
+            if args.target_kind == 'fake':
+                target = Path(args.target).resolve()
+                if root == target or root.is_relative_to(target):
+                    parser.error('journal-dir must be outside target')
             policy = json.loads(Path(args.policy).read_text())
             for key in ('max_age_s', 'observation_s', 'check_interval_s'):
                 if type(policy.get(key)) not in (int, float) or policy[key] < 0 or (key != 'observation_s' and policy[key] == 0):
@@ -41,7 +86,7 @@ def main():
             run_id = str(directory)
             directory.mkdir(parents=True)
             oorollout.sync_dir(root)
-            config = {'run_id': run_id, 'candidate': args.candidate, 'artifact': args.artifact, 'baseline': args.baseline, 'target': str(target), 'policy': policy, 'evidence_dir': str(Path(args.evidence_dir).resolve()), 'deadline_s': args.deadline_s}
+            config = {**target_config(args), 'run_id': run_id, 'candidate': args.candidate, 'artifact': args.artifact, 'baseline': args.baseline, 'policy': policy, 'evidence_dir': str(Path(args.evidence_dir).resolve()), 'deadline_s': args.deadline_s}
             journal = oorollout.Journal(directory)
             journal.append('start', config=config)
             journal.transition('staged', args.deadline_s)
