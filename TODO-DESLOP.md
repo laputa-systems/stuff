@@ -13,15 +13,6 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 
 ## Tickets
 
-### DSLP-13 · P3 · Deslop crates/myoci: OCI CLI, server, writer
-
-- **Area:** deslop · myoci
-- **Where:** crates/myoci/src/ and crates/myoci/tests/ (about 11.7k lines)
-- **Problem:** Steps owed: Diagnose (bounded, this component only; no review exists), then Types, Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: OCI protocol and storage (docs/oci-design.md, crates/stuff-oci/README.md); the CLI, server, writer and benchmarks (crates/myoci/README.md; `tests/cli.rs`, `mirror.rs`, `crates/stuff/tests/oci_publish.rs`); conformance (`make test-oci-conformance`, `test-oci-conformance-push`, `test-oci-pull`, `test-oci-push`, `test-oci-publish`); benchmark results and the direct blob origin (docs/oci-benchmarks.md, docs/oci-a11.md). Consumers: the stuff publisher, the Worker's OCI paths, OCI clients. Existing evidence: the OCI benchmark and A11 documents; no deslop review.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept with `cargo test -p myoci`, `make test-oci-conformance`, `make test-oci-publish`, `make lint`; `make oci-bench` gates only changes on the serving path.
-- **Fix with:** deslop
-- **Effort:** L
-
 ### DSLP-14 · P3 · Deslop the remaining crates: shared HTTP, store, catalog, URL, OCI protocol, mirror and mycrates oracle
 
 - **Area:** deslop · shared crates
