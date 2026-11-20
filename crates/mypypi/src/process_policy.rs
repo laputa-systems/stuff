@@ -1,6 +1,5 @@
 #![forbid(unsafe_code)]
 
-use crate::error::{Error, Kind, Result, Stage};
 use rustc_hash::FxHashMap;
 use std::io::Read;
 use std::path::{Path, PathBuf};
@@ -428,18 +427,6 @@ pub fn run_capture(
                 std::thread::sleep(WAIT_POLL);
             }
         }
-    }
-}
-
-pub fn check_captured(out: Captured, what: &str, stage: Stage) -> Result<Captured> {
-    if out.success() {
-        Ok(out)
-    } else {
-        Err(Error::new(
-            Kind::Dependency,
-            format!("{what} failed with exit {}", out.status_code),
-            stage,
-        ))
     }
 }
 

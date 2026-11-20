@@ -223,14 +223,6 @@ pub fn compile_for_target(
     }
 }
 
-pub fn resolve_dependencies(
-    requirements: &[String],
-    targets: &[Target],
-    python: &str,
-) -> Result<Vec<PackageVersion>> {
-    Ok(resolve_dependencies_inner(requirements, targets, python)?.into_iter().map(|p| p.package).collect())
-}
-
 fn resolve_dependencies_inner(
     requirements: &[String],
     targets: &[Target],
@@ -467,12 +459,6 @@ fn replace_catalog(path: &Path, source: &str) -> Result<()> {
     })();
     let _ = std::fs::remove_file(&tmp);
     write_result
-}
-
-pub fn canonical_pin(name: &str, version: &str) -> Result<PackageVersion> {
-    PackageVersion::parse(name, version).map_err(|e| {
-        Error::invalid_input(format!("invalid exact pin {name:?}=={version:?}: {}", e.detail), Stage::Command)
-    })
 }
 
 #[cfg(test)]

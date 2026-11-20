@@ -60,3 +60,16 @@ The inventory below follows DSLP-12's named contracts and the crate README. Path
 | Publication and CLI | `tests/publish.rs` (3), `tests/cli.rs` (6), `crates/stuff/tests/pypi_publish.rs` and `pypi_first_party.rs`. | Retained. |
 
 One test was added to close a gap and was proven by one hand-injected fault, restored byte for byte. Changing the RECORD comparison to `if false && computed != *expected_digest` left the other 86 passing library tests green and failed the new test; `cargo test -p stuff --test pypi_first_party` also failed under the same fault, so the publisher's integration test already covered it. The other three tests added in this review guard DSLP-19 (the bounded read failed first on the old code) and the streaming path. Coverage and mutation measurement are **Needs environment**: `cargo-llvm-cov` and `cargo-mutants` were not run. No mutation lane is proposed.
+
+## Dead code
+
+`cargo rustc -p mypypi --lib -- --force-warn dead_code --force-warn unreachable_pub` exited 0. Before the removals it reported one `dead_code` warning and ten `unreachable_pub` warnings (nine in `wheel_zip.rs`, one in `publish.rs`); afterwards only the ten `unreachable_pub` warnings remain. The `wheel_zip` module is private to the crate and the `publish.rs` item sits in a function that is not exported, so those are only a `pub` spelling and no code is dead.
+
+The compiler could not see unused items in the `pub` modules, so a reference count over every Rust file under `crates/` found them. Eight items had no caller, in the crate, the other crates, `deploy/`, or `docs/`, and were removed:
+
+- `acquire::CompatibilityRejection::to_error`, `add::resolve_dependencies` and `add::canonical_pin`.
+- `build::validate_wheel_identity`: the same checks run in `acquire::validate_wheel`.
+- `index::Index::targets_sorted`, `process_policy::check_captured`, and `validate::canonical_package_name`.
+- `validate::version_parse_unused`, an `#[allow(dead_code)]` function whose name says it is unused.
+
+Removing them left three imports unused and they were removed too. Four identical copies of a temporary-name helper (`rand_u64` in `acquire.rs`, `rand_hex` in `build.rs`, `publish.rs` and `store.rs`) became one `unique_u64` in `lib.rs`; the expression is unchanged. In total the change deletes 84 lines net. `cargo clippy -p mypypi --all-targets`, `cargo check -p stuff --all-targets` and `cargo test -p mypypi` passed afterwards. The scan covers the crate's current target and configuration and cannot see consumers outside this repository; the crate is not a published API (`stuff` is its only dependent).

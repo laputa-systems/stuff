@@ -21,11 +21,6 @@ pub struct IndexArtifact {
 }
 
 impl IndexArtifact {
-    pub fn targets_sorted(&self) -> Vec<&Target> {
-        let mut v: Vec<&Target> = self.targets.iter().collect();
-        v.sort_by(|a, b| a.platform.cmp(&b.platform));
-        v
-    }
 }
 
 fn publication_error(detail: impl Into<String>, artifact: Option<&ValidatedArtifact>) -> Error {

@@ -1,14 +1,13 @@
 #![forbid(unsafe_code)]
 
 use crate::error::{Error, Result, Stage};
-use crate::models::{PackageVersion, Target, WheelIdentity, canonicalize_name};
+use crate::models::{PackageVersion, Target, WheelIdentity};
 use crate::platforms::{current_platform, native_architectures_from_bytes, target_platform_tags};
 use crate::process_policy::{redacted_diagnostic, run_capture, scratch_environment};
 use crate::sandbox::{Boundary, Network, confine, interpreter};
 use sha2::{Digest, Sha384, Sha512, Sha256};
 use rustc_hash::{FxHashMap, FxHashSet};
 use std::path::{Path, PathBuf};
-use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ExceptionKind {
@@ -787,15 +786,6 @@ fn filename_tags_set(filename: &str) -> Result<FxHashSet<String>> {
 
 fn triple_intersects(a: &FxHashSet<String>, b: &FxHashSet<String>) -> bool {
     a.intersection(b).next().is_some()
-}
-
-pub fn canonical_package_name(name: &str) -> String {
-    canonicalize_name(name)
-}
-
-#[allow(dead_code)]
-fn version_parse_unused(s: &str) -> std::result::Result<pep440_rs::Version, pep440_rs::VersionParseError> {
-    pep440_rs::Version::from_str(s)
 }
 
 #[cfg(test)]

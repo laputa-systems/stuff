@@ -57,16 +57,6 @@ pub struct CompatibilityRejection {
 }
 
 impl CompatibilityRejection {
-    pub fn to_error(&self, stage: Stage) -> Error {
-        let mut e = Error::new(Kind::Incompatible, self.detail.clone(), stage);
-        if let Some(p) = &self.package {
-            e = e.with_package(p);
-        }
-        if let Some(t) = &self.target {
-            e = e.with_target(&t.python_version.to_string(), &t.platform);
-        }
-        e
-    }
 }
 
 impl std::fmt::Display for CompatibilityRejection {
@@ -742,7 +732,7 @@ pub fn download_artifact(artifact: &ReleaseFile, destination: &Path) -> Result<P
         return Err(Error::integrity(format!("SHA-256 mismatch for {}", artifact.filename), Stage::Acquisition));
     }
     // atomic write via temp file + link-or-rename
-    let tmp_name = format!(".{}.{:x}.part", artifact.filename, rand_u64());
+    let tmp_name = format!(".{}.{:x}.part", artifact.filename, crate::unique_u64());
     let tmp = destination.join(tmp_name);
     {
         let mut f = std::fs::OpenOptions::new()
@@ -771,12 +761,6 @@ pub fn download_artifact(artifact: &ReleaseFile, destination: &Path) -> Result<P
     sync_parent(&destination)?;
     let _ = std::fs::remove_file(&tmp);
     Ok(path)
-}
-
-fn rand_u64() -> u64 {
-    use std::time::{SystemTime, UNIX_EPOCH};
-    let nanos = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
-    nanos as u64 ^ (std::process::id() as u64).wrapping_mul(0x9E3779B97F4A7C15)
 }
 
 fn assert_real_dir(path: &Path) -> Result<()> {
@@ -958,7 +942,7 @@ pub fn select_or_download(
                 continue;
             }
         }
-        let stage_dir = destination.join(format!(".mypypi-acquire-{:x}", rand_u64()));
+        let stage_dir = destination.join(format!(".mypypi-acquire-{:x}", crate::unique_u64()));
         std::fs::create_dir(&stage_dir).map_err(|e| CompatibilityRejection {
             category: CompatibilityCategory::WheelTag,
             detail: format!("could not create staging directory: {e}"),
