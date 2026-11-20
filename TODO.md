@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 97
+Next: 98
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -93,3 +93,13 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Only if wanted: choose an explicit list of publication functions and a critical regex naming them (push_fix_branch and its refusal checks), never a whole file or the whole inventory. Accept when (1) a hosted job runs the shared gate with that declared scope and fails on a missed mutant, (2) negative controls fail it: delete a refusal test and weaken one refusal branch, (3) the 3x timeout replay selects exactly one mutant, (4) runner cost and wall time are recorded and within a stated budget, and (5) the job is retained by registering the repository in fleet/policy/retention.toml [mutation-lane]. Run it first as advisory, then block only after those controls pass.
 - **Fix with:** test-audit
 - **Effort:** M
+
+### STUF-97 · P3 · Mirror @pnpm/exe for each pinned pnpm packageManager release
+
+- **Area:** repomod · dependency mirror
+- **Where:** repomod/mirror.py; repomod/cmd/deps.py (_mirror)
+- **Problem:** repomod deps mirror publishes what relocked lockfiles pin. pnpm 12 lockfiles record only pnpm under packageManagerDependencies, so @pnpm/exe at the pinned version is never mirrored. An older pnpm on PATH (for example Homebrew pnpm 11.0.2) switches to the packageManager pin by fetching @pnpm/exe@<pin> and fails with No matching version found against npm.17166969.xyz. Seen 2026-11-20 on joshuarli/tansu (its DSLP-24); repaired by hand with stuff publish npm --lockfile on a scratch lockfile depending on @pnpm/exe@12.21.0.
+- **Recommendation:** When a repository pins packageManager pnpm@X, add @pnpm/exe@X (and its platform optional dependencies) to the mirror plan, with a test that a fleet repo pinning pnpm@X reports @pnpm/exe@X as missing until it is served.
+- **Fix with:** repomod
+- **Effort:** S
+
