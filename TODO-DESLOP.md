@@ -13,15 +13,6 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 
 ## Tickets
 
-### DSLP-11 · P3 · Deslop crates/mynpm: npm inventory and publication
-
-- **Area:** deslop · mynpm
-- **Where:** crates/mynpm/src/ and crates/mynpm/tests/ (about 13.6k lines)
-- **Problem:** Steps owed: Diagnose (bounded, this component only; no review exists), then Types, Tests and Dead code, one PR each. Ground is AGENTS.md Verification. Contracts: npm lifecycle scripts stay disabled during acquisition and validation; inventory identity and metadata-only behavior (`tests/inventory_identity.rs`, `metadata_only.rs`, `cli.rs`); npm publication through `stuff publish npm` (`crates/stuff/tests/npm_publish.rs`); serving compatibility (`crates/stuff-server/tests/npm_compat.rs`). Reference: crates/mynpm/README.md. Consumers: the stuff publisher, `deploy/ecosystem-smoke.sh` and `deploy/ingest-npm-fleet.sh`, repomod dependency enrichment.
-- **Recommendation:** Tests: map each named contract to its guarding tests, add only missing behavior tests, and if a mutation lane is wanted declare a small `scope` and `critical` regex around one contract (never a whole tree); broader mutation stays advisory. Accept with `cargo test -p mynpm`, `cargo test -p stuff --test npm_publish`, `make lint`; `deploy/ecosystem-smoke.sh` needs the pinned package managers and network and is opt-in.
-- **Fix with:** deslop
-- **Effort:** L
-
 ### DSLP-12 · P3 · Deslop crates/mypypi: wheel acquisition and PyPI publication
 
 - **Area:** deslop · mypypi
