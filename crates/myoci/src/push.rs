@@ -221,6 +221,12 @@ fn read_chunked_body(
             .next()
             .unwrap_or("")
             .trim();
+        if size_text.is_empty() || !size_text.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+            return Err(OciError::new(
+                ErrorCode::SizeInvalid,
+                format!("invalid chunk size {size_text:?}"),
+            ));
+        }
         let size = usize::from_str_radix(size_text, 16)
             .map_err(|_| OciError::new(ErrorCode::SizeInvalid, format!("invalid chunk size {size_text:?}")))?;
         if size == 0 {
@@ -235,14 +241,20 @@ fn read_chunked_body(
             }
             break;
         }
-        if body.len() + size > limit {
+        let Some(next_len) = body.len().checked_add(size) else {
+            return Err(OciError::new(
+                ErrorCode::SizeInvalid,
+                format!("request body exceeds {limit} bytes"),
+            ));
+        };
+        if next_len > limit {
             return Err(OciError::new(
                 ErrorCode::SizeInvalid,
                 format!("request body exceeds {limit} bytes"),
             ));
         }
         let start = body.len();
-        body.resize(start + size, 0);
+        body.resize(next_len, 0);
         reader
             .read_exact(&mut body[start..])
             .map_err(|error| OciError::new(ErrorCode::SizeInvalid, format!("could not read chunk: {error}")))?;
@@ -299,4 +311,26 @@ fn now() -> u64 {
         .duration_since(UNIX_EPOCH)
         .map(|duration| duration.as_secs())
         .unwrap_or(0)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::Write;
+    use std::net::TcpListener;
+
+    #[test]
+    fn chunked_body_rejects_overflowing_chunk_size_without_panicking() {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let addr = listener.local_addr().unwrap();
+        let client = std::thread::spawn(move || {
+            let mut stream = TcpStream::connect(addr).unwrap();
+            let payload = format!("1\r\na\r\n{:x}\r\n", usize::MAX);
+            stream.write_all(payload.as_bytes()).unwrap();
+        });
+        let (mut server, _) = listener.accept().unwrap();
+        let error = read_chunked_body(&mut server, b"", 1024).unwrap_err();
+        client.join().unwrap();
+        assert_eq!(error.code, ErrorCode::SizeInvalid);
+    }
 }
