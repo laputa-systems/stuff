@@ -318,10 +318,7 @@ pub fn parse_write_request(method: Method, raw_target: &str) -> ParsedWrite {
             Ok(repository) => repository,
             Err(error) => return ParsedWrite::Invalid(error),
         };
-        if length != 5 {
-            return ParsedWrite::NotFound;
-        }
-        let upload_id = segments[4];
+        let upload_id = segments[length - 1];
         if !valid_upload_id(upload_id) {
             return ParsedWrite::Invalid(Error::new(
                 crate::error::ErrorCode::BlobUploadInvalid,
@@ -467,6 +464,47 @@ mod tests {
         };
         assert_eq!(error.code, crate::error::ErrorCode::DigestInvalid);
         assert_eq!(parse_write_request(Method::Post, "/v2/_catalog"), ParsedWrite::NotFound);
+    }
+
+    #[test]
+    fn parses_blob_upload_sessions_for_single_and_multi_segment_repositories() {
+        let digest = "sha256:882765efc0f62ee831f26df7bd0a5098a1c10dbbe340dd03d84311b2d8cdeb6f";
+        for (repo, target_prefix) in [
+            ("alpine", "/v2/alpine/blobs/uploads/u1"),
+            ("org/team/app", "/v2/org/team/app/blobs/uploads/u1"),
+        ] {
+            for (method, target, expected) in [
+                (
+                    Method::Get,
+                    format!("{target_prefix}?session=t"),
+                    WriteMethod::UploadStatus { upload_id: "u1".to_string() },
+                ),
+                (
+                    Method::Patch,
+                    target_prefix.to_string(),
+                    WriteMethod::UploadPatch { upload_id: "u1".to_string() },
+                ),
+                (
+                    Method::Put,
+                    format!("{target_prefix}?digest={digest}"),
+                    WriteMethod::UploadPut {
+                        upload_id: "u1".to_string(),
+                        digest: Digest::parse(digest).unwrap(),
+                    },
+                ),
+                (
+                    Method::Delete,
+                    target_prefix.to_string(),
+                    WriteMethod::UploadCancel { upload_id: "u1".to_string() },
+                ),
+            ] {
+                let ParsedWrite::Request(request) = parse_write_request(method, &target) else {
+                    panic!("expected write request for {method:?} {target}");
+                };
+                assert_eq!(request.repository.as_str(), repo);
+                assert_eq!(request.method, expected);
+            }
+        }
     }
 
     #[test]
