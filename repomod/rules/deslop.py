@@ -1,21 +1,25 @@
-"""Hardening for Rust repositories whose deslop pass reached the Tests step.
+"""Hardening for Rust repositories the retention policy registers.
 
-`make-coverage-target` and `mutants-diff-lane` apply
-only to non-fork repositories (or forks tagged `fork-diverged`) with a root
-Cargo.toml, and only once the Tests step is closed (`TODO-DESLOP.md` without an
-open DSLP-4 ticket) or the mutation or coverage target is already present.
+`make-coverage-target` and `mutants-diff-lane` apply only to non-fork
+repositories (or forks tagged `fork-diverged`) with a root Cargo.toml that
+`fleet/policy/retention.toml` registers under `[coverage-target]` or
+`[mutation-lane]`; repository files and campaign state never select them.
 Python and TypeScript lanes follow STUF-83. `mutants-diff-lane` has a fixer
-that writes the reference mutation gate; `fleet/policy/rust-tools.toml` pins
-the cargo-mutants version the lane installs. `fleet/policy/retention.toml`
-owns the read-only guarantees and adopted strict typing settings.
+that writes the reference mutation gate but never its scope: the repository
+declares `scope` (files) and `critical` (a regex) in `.cargo/mutants-gate.toml`,
+and a missing declaration is a non-fixable finding. `fleet/policy/rust-tools.toml`
+pins the cargo-mutants version the lane installs. `fleet/policy/retention.toml`
+owns the registrations and adopted strict typing settings.
 """
 
 from __future__ import annotations
 
 import dataclasses
+import importlib.util
 import re
 import tomllib
 from pathlib import Path
+from typing import Any
 
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
@@ -25,25 +29,19 @@ from repomod.git import GitError
 from repomod.rules.actions import load_pins
 from repomod.rules.ci_workflow import _make_command, _trigger_problem
 from repomod.rules.consistency import _declared_make_targets
-from repomod.rules.retention import _check, _mutation, _targets
+from repomod.rules.retention import _check, _mutation, _registered, _targets
 from repomod.rules.workflows import read_workflow_sources
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 
 _POLICY = 'fleet/policy/rust-tools.toml'
+_RETENTION = 'fleet/policy/retention.toml'
+_GATE_CONFIG = '.cargo/mutants-gate.toml'
 _FIXERS = Path(__file__).resolve().parent.parent / 'fixers'
 
 
 def _covered(repository: Repository) -> bool:
     tags = set(repository.tags)
     return 'fork' not in tags or 'fork-diverged' in tags
-
-
-def _tests_closed(root: Path) -> bool:
-    try:
-        text = (root / 'TODO-DESLOP.md').read_text(encoding='utf-8')
-    except (OSError, UnicodeError):
-        return False
-    return re.search(r'^### DSLP-4 ·', text, re.MULTILINE) is None
 
 
 def _has_target(root: Path, target: str) -> bool:
@@ -62,10 +60,18 @@ def _has_target(root: Path, target: str) -> bool:
     return any(target in names and '.PHONY' not in names for names in rules)
 
 
-def _eligible(root: Path, repository: Repository) -> bool:
-    if not _covered(repository) or not (root / 'Cargo.toml').is_file():
-        return False
-    return _tests_closed(root) or _has_target(root, 'coverage') or _has_target(root, 'mutants-diff')
+def _rust(root: Path, repository: Repository) -> bool:
+    return _covered(repository) and (root / 'Cargo.toml').is_file()
+
+
+def _registered_for(root: Path, repository: Repository, rule: str, guarantee: str) -> tuple[bool, list[Finding]]:
+    """Whether the retention policy registers this Rust repository, plus any policy failure."""
+    if not _rust(root, repository):
+        return False, []
+    try:
+        return _registered(repository, guarantee), []
+    except (ValueError, KeyError) as error:
+        return False, [operational(repository, rule, _RETENTION, str(error))]
 
 
 def _tool_pin(name: str) -> str:
@@ -85,8 +91,9 @@ def _tool_pin(name: str) -> str:
 
 
 def _coverage_target(root: Path, repository: Repository) -> list[Finding]:
-    if not _eligible(root, repository):
-        return []
+    registered, failures = _registered_for(root, repository, 'make-coverage-target', 'coverage-target')
+    if not registered:
+        return failures
     return _targets(root, repository, 'make-coverage-target', 'coverage')
 
 
@@ -163,9 +170,44 @@ def _base_ref_findings(root: Path, repository: Repository) -> list[Finding]:
     return findings
 
 
+def _gate_module() -> Any:
+    path = _FIXERS / 'mutants_gate.py'
+    spec = importlib.util.spec_from_file_location('repomod_mutants_gate_template', path)
+    if spec is None or spec.loader is None:
+        raise ValueError(f'mutants gate template unreadable: {path}')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _gate_declaration(root: Path, repository: Repository) -> list[Finding]:
+    """The repository must declare its own scope and critical regex; none is ever defaulted."""
+    rule = 'mutants-diff-lane'
+    try:
+        text = (root / _GATE_CONFIG).read_text(encoding='utf-8')
+    except FileNotFoundError:
+        text = None
+    except (OSError, UnicodeError) as error:
+        return [operational(repository, rule, _GATE_CONFIG, str(error))]
+    hint = (f'declare the required mutation scope in {_GATE_CONFIG}: scope (the files holding the important '
+            'contract) and critical (a regex naming its functions); the fixer never writes a default scope')
+    if text is None:
+        return [violation(repository, rule, _GATE_CONFIG, 'missing gate config; ' + hint)]
+    try:
+        module = _gate_module()
+    except (ValueError, OSError, SyntaxError) as error:
+        return [operational(repository, rule, _GATE_CONFIG, str(error))]
+    try:
+        module.load_config(text)
+    except module.GateError as error:
+        return [violation(repository, rule, _GATE_CONFIG, f'{error}; ' + hint)]
+    return []
+
+
 def _mutants_diff_lane(root: Path, repository: Repository) -> list[Finding]:
-    if not _eligible(root, repository):
-        return []
+    registered, failures = _registered_for(root, repository, 'mutants-diff-lane', 'mutation-lane')
+    if not registered:
+        return failures
     try:
         pin = _tool_pin('cargo-mutants')
     except ValueError as error:
@@ -183,11 +225,12 @@ def _mutants_diff_lane(root: Path, repository: Repository) -> list[Finding]:
             dataclasses.replace(finding, fixable=fixable_job) for finding in job_findings
         )
     marked.extend(_base_ref_findings(root, repository))
+    marked.extend(_gate_declaration(root, repository))
     return marked
 
 
 def _strict_typing_profile(root: Path, repository: Repository) -> list[Finding]:
-    if not _eligible(root, repository):
+    if not _rust(root, repository):
         return []
     return _check(root, repository, 'strict-typing-profile')
 
@@ -198,15 +241,6 @@ def _gate_source(name: str) -> str:
     except (OSError, UnicodeError) as error:
         raise ValueError(f'mutants gate template {name} unreadable: {error}') from error
 
-
-_GATE_TOML = (
-    'scope = ["src/"]\n'
-    'irrelevant = ["*.md", "LICENSE", "LICENSE.*"]\n'
-    'budget_seconds = 900\n'
-    'timeout_seconds = 10\n'
-    'build_timeout_seconds = 300\n'
-    'jobs = 4\n'
-)
 
 _MAKEFILE_BLOCK = (
     '\nBASE ?= origin/main\n'
@@ -270,8 +304,6 @@ def _mutants_fix(root: Path, repository: Repository) -> dict[str, str]:
         target = root / 'scripts' / name
         if not target.exists():
             plan[f'scripts/{name}'] = _gate_source(name)
-    if not (root / '.cargo' / 'mutants-gate.toml').exists():
-        plan['.cargo/mutants-gate.toml'] = _GATE_TOML
     makefile = root / 'Makefile'
     if not _has_target(root, 'mutants-diff'):
         try:
@@ -333,7 +365,6 @@ def deslop_rules() -> tuple[Rule, ...]:
                 '.github/workflows/*.yaml',
                 'scripts/mutants_gate.py',
                 'scripts/test_mutants_gate.py',
-                '.cargo/mutants-gate.toml',
             ),
             _validate_workflows,
         ),

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -37,6 +38,11 @@ WORKFLOW_MUTANTS = (
     '        env:\n'
     '          BASE_REF: ${{ github.base_ref }}\n'
 )
+GATE_CONFIG = (
+    'scope = ["src/lib.rs"]\n'
+    "critical = ' in (parse|admit)\\b'\n"
+    'irrelevant = ["*.md"]\n'
+)
 MAKEFILE = (
     '.PHONY: build test coverage mutants-diff mutants-selftest\n'
     'coverage:\n\ttrue\n'
@@ -45,16 +51,25 @@ MAKEFILE = (
 )
 
 
+def _register(monkeypatch: pytest.MonkeyPatch, repo: Repository, *, registered: bool = True) -> None:
+    names = [str(repo.id)] if registered else []
+    monkeypatch.setattr(deslop, '_tool_pin', lambda name: '27.1.0')
+    monkeypatch.setattr(retention, '_policy', lambda: {
+        'mutation-lane': {'repositories': names},
+        'coverage-target': {'repositories': names},
+        'strict-profile': {str(repo.id): {'settings': ['rust.unsafe_code=forbid']}},
+    })
+
+
 @pytest.fixture
 def project(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Repository]:
     repo = Repository(RepoId('laputa-systems', 'fakecrate'), ('tool', 'rust'))
-    monkeypatch.setattr(deslop, '_tool_pin', lambda name: '27.1.0')
-    monkeypatch.setattr(retention, '_policy', lambda: {
-        'strict-profile': {str(repo.id): {'settings': ['rust.unsafe_code=forbid']}},
-    })
+    _register(monkeypatch, repo)
     (tmp_path / 'Cargo.toml').write_text(CARGO)
     (tmp_path / 'TODO-DESLOP.md').write_text(TODO_CLOSED)
     (tmp_path / 'Makefile').write_text(MAKEFILE)
+    (tmp_path / '.cargo').mkdir()
+    (tmp_path / '.cargo/mutants-gate.toml').write_text(GATE_CONFIG)
     workflows = tmp_path / '.github/workflows'
     workflows.mkdir(parents=True)
     (workflows / 'ci.yml').write_text(WORKFLOW_MUTANTS)
@@ -68,29 +83,37 @@ def test_hardened_repository_is_clean(project: tuple[Path, Repository]) -> None:
     assert deslop._strict_typing_profile(root, repo) == []
 
 
-def test_open_dslp4_is_not_eligible(project: tuple[Path, Repository]) -> None:
+def test_campaign_state_does_not_select_the_lane(
+    project: tuple[Path, Repository], monkeypatch: pytest.MonkeyPatch
+) -> None:
     root, repo = project
-    (root / 'TODO-DESLOP.md').write_text('## Tickets\n\n### DSLP-4 · P2 · Tests\n')
-    (root / 'Makefile').unlink()
+    _register(monkeypatch, repo, registered=False)
+    (root / 'Makefile').write_text('test:\n\ttrue\n')
     (root / '.github/workflows/ci.yml').unlink()
-    assert deslop._coverage_target(root, repo) == []
-    assert deslop._mutants_diff_lane(root, repo) == []
-    assert deslop._strict_typing_profile(root, repo) == []
+    (root / '.cargo/mutants-gate.toml').unlink()
+    for state in (TODO_CLOSED, '## Tickets\n\n### DSLP-4 · P2 · Tests\n'):
+        (root / 'TODO-DESLOP.md').write_text(state)
+        assert deslop._coverage_target(root, repo) == []
+        assert deslop._mutants_diff_lane(root, repo) == []
 
 
-def test_unseeded_repository_is_not_eligible(project: tuple[Path, Repository]) -> None:
+def test_adopted_targets_do_not_select_an_unregistered_repository(
+    project: tuple[Path, Repository], monkeypatch: pytest.MonkeyPatch
+) -> None:
     root, repo = project
-    (root / 'TODO-DESLOP.md').unlink()
-    (root / 'Makefile').unlink()
-    assert deslop._coverage_target(root, repo) == []
-    assert deslop._mutants_diff_lane(root, repo) == []
-
-
-def test_adopted_targets_make_repository_eligible_without_todo(project: tuple[Path, Repository]) -> None:
-    root, repo = project
+    _register(monkeypatch, repo, registered=False)
+    (root / '.cargo/mutants-gate.toml').unlink()
     (root / 'TODO-DESLOP.md').unlink()
     assert deslop._coverage_target(root, repo) == []
-    assert deslop._coverage_target(root, repo) == []
+    assert deslop._mutants_diff_lane(root, repo) == []
+
+
+def test_registration_survives_deleting_the_repository_evidence(project: tuple[Path, Repository]) -> None:
+    root, repo = project
+    (root / 'TODO-DESLOP.md').unlink()
+    (root / 'Makefile').write_text('test:\n\ttrue\n')
+    assert any('missing coverage target' in f.message for f in deslop._coverage_target(root, repo))
+    assert any('missing mutants-diff target' in f.message for f in deslop._mutants_diff_lane(root, repo))
 
 
 def test_plain_fork_is_not_eligible(project: tuple[Path, Repository]) -> None:
@@ -179,6 +202,7 @@ def _apply_plan(root: Path, plan: dict[str, str]) -> None:
 
 def test_fixer_writes_the_reference_gate(project: tuple[Path, Repository]) -> None:
     root, repo = project
+    (root / '.cargo/mutants-gate.toml').unlink()
     (root / 'Makefile').write_text('.PHONY: build test\ntest:\n\ttrue\n')
     (root / '.github/workflows/ci.yml').write_text(
         'on: pull_request\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - run: make test\n'
@@ -187,11 +211,11 @@ def test_fixer_writes_the_reference_gate(project: tuple[Path, Repository]) -> No
     assert set(plan) == {
         'scripts/mutants_gate.py',
         'scripts/test_mutants_gate.py',
-        '.cargo/mutants-gate.toml',
         'Makefile',
         '.github/workflows/ci.yml',
     }
     _apply_plan(root, plan)
+    assert not (root / '.cargo/mutants-gate.toml').exists()
     text = (root / 'Makefile').read_text(encoding='utf-8')
     assert 'mutants-diff: mutants-selftest' in text
     assert '\tbash -lc "true"' not in text
@@ -206,7 +230,35 @@ def test_fixer_writes_the_reference_gate(project: tuple[Path, Repository]) -> No
          str(root / 'scripts/test_mutants_gate.py')],
         check=True,
     )
+    findings = deslop._mutants_diff_lane(root, repo)
+    assert [(f.file, f.fixable) for f in findings] == [('.cargo/mutants-gate.toml', False)]
+    assert 'critical' in findings[0].message
+    (root / '.cargo/mutants-gate.toml').parent.mkdir(exist_ok=True)
+    (root / '.cargo/mutants-gate.toml').write_text(GATE_CONFIG)
     assert deslop._mutants_diff_lane(root, repo) == []
+
+
+def test_missing_or_defaulted_scope_declaration_is_a_non_fixable_finding(project: tuple[Path, Repository]) -> None:
+    root, repo = project
+    config = root / '.cargo/mutants-gate.toml'
+    for text in (None, 'scope = ["src/"]\nirrelevant = []\n', 'critical = "x"\nirrelevant = []\n',
+                 'scope = ["src/"]\ncritical = "x"\nirrelevant = []\n', '{'):
+        if text is None:
+            config.unlink()
+        else:
+            config.write_text(text)
+        findings = deslop._mutants_diff_lane(root, repo)
+        assert [(f.file, f.fixable, f.kind) for f in findings] == [('.cargo/mutants-gate.toml', False, 'violation')]
+        assert 'declare the required mutation scope' in findings[0].message
+
+
+def test_gate_template_selftest_passes() -> None:
+    fixers = Path(deslop.__file__).resolve().parent.parent / 'fixers'
+    result = subprocess.run(
+        [sys.executable, '-B', '-m', 'unittest', 'discover', '-s', str(fixers), '-p', 'test_mutants_gate.py'],
+        capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == 0, result.stderr
 
 
 def test_fixer_preserves_existing_gate(project: tuple[Path, Repository]) -> None:
@@ -226,12 +278,8 @@ def test_fixer_without_dispatchable_workflow_keeps_tooling_partial(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     repo = Repository(RepoId('laputa-systems', 'fakecrate'), ('tool', 'rust'))
-    monkeypatch.setattr(deslop, '_tool_pin', lambda name: '27.1.0')
-    monkeypatch.setattr(retention, '_policy', lambda: {
-        'strict-profile': {str(repo.id): {'settings': ['rust.unsafe_code=forbid']}},
-    })
+    _register(monkeypatch, repo)
     (tmp_path / 'Cargo.toml').write_text(CARGO)
-    (tmp_path / 'TODO-DESLOP.md').write_text(TODO_CLOSED)
     (tmp_path / 'Makefile').write_text('test:\n\ttrue\n')
     plan = deslop._mutants_fix(tmp_path, repo)
     assert '.github/workflows/ci.yml' not in plan

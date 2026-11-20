@@ -99,9 +99,11 @@ Run everything from the repository root.
   `@laputa-systems/ui-dashboard`, which the catalog pages use and which is published only on stuff:
   install it from stuff at a pinned version, and commit the stylesheets copied from it so a Rust
   build needs neither Node nor the npm registry.
-- repomod manages stuff like any other catalogued repository. It reads the canonical checkout under
-  `~/repos`, so develop in a separate clone; `fix` publishes only from an unchanged canonical
-  checkout.
+- repomod manages stuff like any other repository. Run fleet commands from the canonical checkout's
+  main worktree (`~/repos/laputa-systems/stuff`), which `repomod sync` fast-forwards, and develop in
+  worktrees under its `.work/wt/`. `fix` publishes only from an unchanged canonical checkout, so keep
+  the main worktree clean. To test a repomod change, run `uv run repomod` from the worktree: paths
+  resolve from the checkout you run, so it reads that worktree's fleet data.
 - repomod reads the catalogs the registries publish (`<origin>/current/catalog.json`); change the
   catalog schema and its repomod reader together.
 - Stuff files use Apache-2.0; imported crates retain their license fields.
