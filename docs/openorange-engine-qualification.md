@@ -254,3 +254,54 @@ The Stats inputs used for this run had these SHA-256 digests:
 | `deploy/orange/node_modules/open-orange/dist/bin.js` | `79bd3006dfdc92d96ab83c793d3a9c514106451a445f9db7bae328f1f4fa2232` |
 | `deploy/orange/canary/workload.mts` | `d9727695e3637b97cc15c4cffb80600fbef9b3025fc01153de35a69e7edf8abc` |
 | `fixtures/v2/sources/linux-normal.json` | `c98b6c6a93f516d18dd410e8d51c2460ef7bea56ba4c1e3d3a891531f51c6067` |
+
+The byte-identical build record, retained here independently of scratch output:
+
+```json
+{
+  "binary": {
+    "file": "rivet-engine",
+    "sha256": "sha256:9c1f1c7a1b55b66d730ae6b483fe98a1b0d6b871a36f58bf09b27f5965a3db56"
+  },
+  "builder": "ghcr.io/rivet-dev/rivet/engine-base-builder@sha256:61ba0bec231a20ebe8501be2d26b4649bbb74f31353d0ea8740785ee467d5d11",
+  "component": "rivet-engine-source",
+  "jobs": 4,
+  "lockfile_sha256": "sha256:c71ea82297a358a30d4d0e9c5f983ee9cac58e3e1e2d94de8bc628b7ff8ef7bb",
+  "memory_bytes": 8589934592,
+  "patches": [
+    {
+      "file": "rivet-e5ed391-staged-refusal.patch",
+      "sha256": "sha256:a2d1d5373f097cac4541a84bd17094dbb1e482085089f0e8fd4d0b483fd2505d"
+    },
+    {
+      "file": "rivet-e5ed391-staged-head.patch",
+      "sha256": "sha256:f94e5474e879b225b2bcb6873c4cea2f9debf1207b8d41b94e7c9ad86a379732"
+    },
+    {
+      "file": "rivet-e5ed391-empty-abort.patch",
+      "sha256": "sha256:d2074588cf857f41c47b620ad8303562702e8f386bfe2cda58c6e458399cda02"
+    },
+    {
+      "file": "rivet-e5ed391-page-read-refusal.patch",
+      "sha256": "sha256:c756a9f95c64a00bf5fac77e9bf96205ffd4a16c10b009fe0286448c91e5b769"
+    },
+    {
+      "file": "rivet-e5ed391-inventory-read.patch",
+      "sha256": "sha256:4ed8deee5eb7fc9681cc9155ebba75cd87c08cb00105f486a2808cb948fd9b6f"
+    },
+    {
+      "file": "rivet-e5ed391-actor-lifecycle.patch",
+      "sha256": "sha256:039c0bb5206f2f9815e45b27d1f0d15a35b41eaab0441f18231e8fa29ffe2689"
+    }
+  ],
+  "platform": "linux-x86_64",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1",
+  "rustflags": "--cfg tokio_unstable",
+  "schema": "rivet-engine-build-record/1",
+  "source_date_epoch": 1794444796,
+  "upstream": {
+    "repository": "https://github.com/rivet-dev/rivet",
+    "revision": "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
+  }
+}
+```
