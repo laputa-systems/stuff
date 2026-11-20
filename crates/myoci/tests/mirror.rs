@@ -2277,3 +2277,45 @@ fn targeted_refresh_without_cache_reports_unknown() {
     assert_eq!(output.status.code(), Some(0));
     assert!(json.contains("\"graph\":\"unknown\""), "{json}");
 }
+
+#[test]
+fn blob_digest_mismatch_removes_temporary_upload_file() {
+    let layer: &[u8] = b"mismatched blob payload";
+    let workspace = tempfile::tempdir().unwrap();
+    let dir = workspace.path();
+
+    let fixture = Fixture::new("example/tamperedblob");
+    let (root, _config, _size) = single_image_fixture(&fixture, "linux", "amd64", None, layer);
+    fixture.add_tag("stable", &root);
+
+    let inventory = write_inventory(
+        dir,
+        &[mirror_entry(
+            "tampered",
+            &format!("{}/example/tamperedblob:stable", fixture.address),
+            "docker.io/example/tamperedblob",
+            "\"pinned\"",
+            "\"linux/amd64\"",
+            "none",
+        )],
+    );
+    let lock = lock_path(dir);
+    let output = resolve(&inventory, &lock, &[]);
+    assert_eq!(output.status.code(), Some(0), "{}", String::from_utf8(output.stderr).unwrap());
+
+    fixture.tamper_blob(&digest(layer));
+    let state = dir.join("state");
+    let output = sync_output(&inventory, &lock, &state, &[]);
+    assert_eq!(output.status.code(), Some(3), "{}", String::from_utf8(output.stderr).unwrap());
+
+    let uploads = state.join(".uploads");
+    let leftover: Vec<_> = if uploads.is_dir() {
+        std::fs::read_dir(&uploads)
+            .unwrap()
+            .map(|entry| entry.unwrap().file_name().to_string_lossy().into_owned())
+            .collect()
+    } else {
+        Vec::new()
+    };
+    assert!(leftover.is_empty(), "leftover temp files in .uploads: {leftover:?}");
+}

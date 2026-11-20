@@ -144,6 +144,16 @@ impl Fixture {
         }
     }
 
+    pub fn tamper_blob(&self, digest: &str) {
+        let hex = digest.trim_start_matches("sha256:").to_string();
+        let mut state = self.state.lock().unwrap();
+        if let Some((bytes, _kind)) = state.blobs.get_mut(&hex)
+            && !bytes.is_empty()
+        {
+            bytes[0] ^= 0x01;
+        }
+    }
+
     pub fn clear_referrers(&self, subject: &str) {
         let hex = subject.trim_start_matches("sha256:").to_string();
         self.state.lock().unwrap().referrers.remove(&hex);

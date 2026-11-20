@@ -99,6 +99,14 @@ struct Acquired {
     entry: AcquiredEntry,
 }
 
+struct TempUploadFile(std::path::PathBuf);
+
+impl Drop for TempUploadFile {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_file(&self.0);
+    }
+}
+
 fn source_registry(entry: &crate::mirror::lock::LockedEntry) -> Result<String> {
     let source = crate::mirror::reference::RegistryReference::parse(&entry.source, "lock source")?;
     Ok(source.registry)
@@ -235,16 +243,16 @@ fn acquire_entry(
             continue;
         }
         std::fs::create_dir_all(state.uploads_dir())?;
-        let temp = state.uploads_dir().join(format!(
+        let temp = TempUploadFile(state.uploads_dir().join(format!(
             "mirror-{}-{}.tmp",
             blob.digest.hex(),
             std::process::id()
-        ));
-        let bytes = fetch_blob_to_file(http, base, repository, blob, &entry.id, &temp)?;
+        )));
+        let bytes = fetch_blob_to_file(http, base, repository, blob, &entry.id, &temp.0)?;
         counts.blobs_fetched += 1;
         counts.bytes_fetched += bytes;
-        state.store_blob(&temp, &blob.digest)?;
-        let _ = std::fs::remove_file(&temp);
+        state.store_blob(&temp.0, &blob.digest)?;
+        drop(temp);
         present_blobs.insert(blob.digest.clone());
     }
 
