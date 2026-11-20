@@ -62,8 +62,8 @@ def artifacts():
     if os.path.isdir(RELEASES):
         for name in sorted(os.listdir(RELEASES)):
             directory = os.path.join(RELEASES, name)
-            if name.startswith('rt-') and os.path.isdir(directory):
-                found[name] = closure_digest(directory)
+            if name.startswith('rt-') and os.path.isfile(os.path.join(directory, 'release.json')):
+                found[name] = release_record(directory)['digest']
     return found
 
 
@@ -117,7 +117,8 @@ def observe(args):
         running = selected
     else:
         running = previous
-    state.update(selected=selected, running=running, previous=previous, digest=state['artifacts'].get(selected), healthy=health(args['health_url']))
+    digest = closure_digest(os.path.join(RELEASES, selected)) if os.path.islink(RUNTIME) and selected in state['artifacts'] else state['artifacts'].get(selected)
+    state.update(selected=selected, running=running, previous=previous, digest=digest, healthy=health(args['health_url']))
     usage = shutil.disk_usage(path('/opt'))
     state['headroom'] = usage.free >= args['min_free_bytes']
     state['headroom_detail'] = {'free_bytes': usage.free, 'required_bytes': args['min_free_bytes']}

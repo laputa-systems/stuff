@@ -164,6 +164,20 @@ class NativeAdapterTest(unittest.TestCase):
             self.adapter.activate('operator', token, self.baseline, staged['release'], staged['digest'])
         self.adapter.release('operator', token)
 
+    def test_observe_hashes_selected_content_and_reports_recorded_staged_digests(self):
+        staged = self.stage_candidate()
+        token = self.adapter.acquire('operator', 'promote', 60)
+        self.adapter.prepare_step('operator', token, 'convert-runtime')
+        self.adapter.release('operator', token)
+        state = self.adapter.observe()
+        self.assertEqual(state['digest'], state['artifacts'][state['selected']])
+        selected = self.guest / 'opt/native-rehearsal/runtime' / state['selected']
+        (selected / 'node_modules/open-orange/dist/chunk.js').write_text('tampered')
+        tampered = self.adapter.observe()
+        self.assertNotEqual(tampered['digest'], state['digest'])
+        self.assertEqual(tampered['artifacts'], state['artifacts'])
+        self.assertEqual(tampered['artifacts'][staged['release']], staged['digest'])
+
     def engine(self, staged, crash=None):
         for name, value in (('decision.json', {'verdict': 'pass', 'evaluatedAtMs': int(time.time() * 1000), 'reasonCodes': []}), ('candidate.manifest.json', {'releaseId': staged['release']}), ('baseline.manifest.json', {'releaseId': self.baseline})):
             (self.evidence / name).write_text(json.dumps(value))

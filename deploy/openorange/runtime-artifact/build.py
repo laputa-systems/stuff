@@ -99,7 +99,7 @@ def main():
             raise ValueError('pnpm integrity mismatch')
         (work / 'pnpm.tgz').write_bytes(data)
         script = Path(__file__).with_name('install.sh')
-        subprocess.run(['docker', 'run', '--rm', '--platform', 'linux/amd64', '-v', f'{work}:/work', '-v', f'{script}:/install.sh:ro', '-e', 'NODE_VERSION=' + descriptor['node_version'], descriptor['base_image'], 'sh', '/install.sh'], check=True)
+        subprocess.run(['docker', 'run', '--rm', '--platform', 'linux/amd64', '--user', f'{os.getuid()}:{os.getgid()}', '-e', 'HOME=/work/home', '-v', f'{work}:/work', '-v', f'{script}:/install.sh:ro', '-e', 'NODE_VERSION=' + descriptor['node_version'], descriptor['base_image'], 'sh', '/install.sh'], check=True)
         normalize(closure)
         value = pack(closure, out / 'runtime.tar')
     digest = oomanifest.manifest_digest(value)
