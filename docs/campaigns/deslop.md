@@ -67,17 +67,20 @@ Dashboard ([#20](https://github.com/laputa-systems/laputa-ui-dashboard/pull/20))
 Defuddle-rs ([#37](https://github.com/joshuarli/defuddle-rs/pull/37)), Tinyland
 ([#14](https://github.com/laputa-systems/tinyland/pull/14)), E
 ([#39](https://github.com/laputa-systems/e/pull/39)) and Gluon
-([#54](https://github.com/laputa-systems/gluon/pull/54)). Lz has fixed DSLP-7
-to DSLP-9 ([#13](https://github.com/joshuarli/lz/pull/13)); its `--help`
-parity fix (DSLP-6) and Report remain. The owner ruled the `--help`
-divergence unintended: Lz parses options and emits less's diagnostics first.
+([#54](https://github.com/laputa-systems/gluon/pull/54)) and Lz
+([#16](https://github.com/joshuarli/lz/pull/16)). Tier B is complete. The
+owner ruled Lz's `--help` divergence unintended: Lz parses options and emits
+less's diagnostics first, and its own reference moved to `--lz-help`
+([#14](https://github.com/joshuarli/lz/pull/14)). Lz had skipped the Bench
+step; it landed before the Report ([#15](https://github.com/joshuarli/lz/pull/15)).
 
 Defects fixed in Tier B include Gluon's failed-edge scheduling, missing
 dependency records, `configure_file` failures and regeneration options
 (#46 to #53), E's long-path status bar, xattr loss on atomic save and
 fragmented escape sequences (#36 to #38), Tinyland's unbounded per-client
 object counts (#13), and Lz's quit-on-escape, CSI overflow and broken-pipe
-exit (#13). E's new split-escape test is timing-sensitive on hosted macOS
+exit (#13). Lz #13 also introduced a help-mode escape regression that the
+parity gate caught and #14 fixed. E's new split-escape test is timing-sensitive on hosted macOS
 (E DSLP-11, P3).
 
 The Tests step closes without a mutation CI lane where `cargo-mutants` and
@@ -89,10 +92,20 @@ for the rest of the campaign. Gluon DSLP-21 (the unused dependency-log
 recompaction API) stays filed on that ruling.
 
 shck (a hard fork of shuck, 337k Rust lines) joined on November 19 as a
-tier D repository worked by component; its backlog is seeded
-([#1](https://github.com/joshuarli/shck/pull/1)) and Ground is running.
+tier D repository worked by component. Ground
+([#2](https://github.com/joshuarli/shck/pull/2)) added its first test CI and
+a split into about 30 components; Diagnose
+([#3](https://github.com/joshuarli/shck/pull/3)) filed two P1 and two P2
+findings. Both P1s are fixed: `format --minify` no longer writes unparsable
+shell for heredocs inside compounds
+([#4](https://github.com/joshuarli/shck/pull/4)), and the check cache
+invalidates on transitive source changes
+([#5](https://github.com/joshuarli/shck/pull/5)). Types runs per component
+from a workspace census (`docs/deslop-types.md` in shck); each slice must
+fix its component's cast and wildcard-match leads, not only adopt lints.
 
-Next: Lz DSLP-6 and Report, then shck in step order.
+Next: shck P2 findings DSLP-9 and DSLP-10, then its per-component Types,
+Tests and Dead code slices.
 
 ## Accepted work
 
