@@ -61,12 +61,38 @@ VM): Gluon [#39](https://github.com/laputa-systems/gluon/pull/39) and
 checkouts and branches; [the .work cleanup](work-cleanup-20261119.md)
 records what was reclaimed.
 
-Tier B resumed on November 19, one lane per repository: Diagnose for
-Rustybench, Laputa UI Dashboard, E and Lz; Ground for Tinyland; Tests for
-Defuddle-rs and Gluon. Gluon's open P2 defects DSLP-11 to DSLP-14 follow its
-Tests and Dead code steps.
+Tier B passes completed through Report: Rustybench
+([#28](https://github.com/laputa-systems/rustybench/pull/28)), Laputa UI
+Dashboard ([#20](https://github.com/laputa-systems/laputa-ui-dashboard/pull/20)),
+Defuddle-rs ([#37](https://github.com/joshuarli/defuddle-rs/pull/37)), Tinyland
+([#14](https://github.com/laputa-systems/tinyland/pull/14)), E
+([#39](https://github.com/laputa-systems/e/pull/39)) and Gluon
+([#54](https://github.com/laputa-systems/gluon/pull/54)). Lz has fixed DSLP-7
+to DSLP-9 ([#13](https://github.com/joshuarli/lz/pull/13)); its `--help`
+parity fix (DSLP-6) and Report remain. The owner ruled the `--help`
+divergence unintended: Lz parses options and emits less's diagnostics first.
 
-Next: integrate those steps and continue each Tier B pass in order.
+Defects fixed in Tier B include Gluon's failed-edge scheduling, missing
+dependency records, `configure_file` failures and regeneration options
+(#46 to #53), E's long-path status bar, xattr loss on atomic save and
+fragmented escape sequences (#36 to #38), Tinyland's unbounded per-client
+object counts (#13), and Lz's quit-on-escape, CSI overflow and broken-pipe
+exit (#13). E's new split-escape test is timing-sensitive on hosted macOS
+(E DSLP-11, P3).
+
+The Tests step closes without a mutation CI lane where `cargo-mutants` and
+`cargo-llvm-cov` are not on the crate mirror; that mirror gap is shared,
+not per repository.
+
+From November 19 the owner ruled that P3 findings are filed, not fixed,
+for the rest of the campaign. Gluon DSLP-21 (the unused dependency-log
+recompaction API) stays filed on that ruling.
+
+shck (a hard fork of shuck, 337k Rust lines) joined on November 19 as a
+tier D repository worked by component; its backlog is seeded
+([#1](https://github.com/joshuarli/shck/pull/1)) and Ground is running.
+
+Next: Lz DSLP-6 and Report, then shck in step order.
 
 ## Accepted work
 
