@@ -7,7 +7,7 @@ from pathlib import Path
 def make_receipt(root, baseline, candidate, baseline_digest, candidate_digest, verdict='pass', profile='promotion', replay_exit=0):
     root = Path(root)
     evidence = root / 'evidence'
-    evidence.mkdir(exist_ok=True)
+    evidence.mkdir(parents=True, exist_ok=True)
     evaluator = root / 'evaluator.mjs'
     evaluator.write_text('process.exit(' + str(replay_exit) + ');\n')
     decision = {'verdict': verdict, 'reasonCodes': [], 'evaluatedAtMs': int(time.time() * 1000)}
