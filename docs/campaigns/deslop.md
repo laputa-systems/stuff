@@ -142,7 +142,34 @@ load-independent counters, and the runner's own `finished in` durations. The
 disk-pressure threshold is now an absolute 16 GiB of free space, not a
 percentage.
 
-Next: campaign close (Phase 4).
+On November 20 the owner delegated every remaining decision and asked for the
+campaign to finish. The inventory that day: 17 in-scope repositories had not
+started their pass (ctrs, img, ish, kache, play, soulseek-rs, tansu, usr, tm,
+smolith, and the forks crabtables, fd, jaq, oxish, rage, rust-fontconfig and
+rustix). Seven more had Tests or Dead code open (extensions, loc,
+pytest-parallel, stats, fastermod, ptytest, stuff). The rest were settled
+apart from P3 and P4 tickets. The rulings taken under that delegation:
+
+- **Environment-blocked acceptance does not hold a pass open.** The
+  supported scope settles. Quiet-host timing, hosted-runner billing,
+  hardware, two-host and mirror-gap checks become `Needs environment`
+  tickets in the repository's `TODO.md`. This covers Node-build DSLP-9,
+  CMake-build DSLP-7, Pi-build DSLP-9 and DSLP-10, and Vault's recovery
+  checks.
+- **Open Tests tickets close on the finite inventory** that
+  [Bound every open Tests ticket](deslop-roadmap.md#bound-every-open-tests-ticket)
+  names, with recorded dispositions. Wider mutation stays advisory.
+- **shck owner items:** delete the unused public APIs (DSLP-21, -22, -23,
+  -25) and the six stub rules (DSLP-26), once `repomod deps` shows no
+  consumer outside the workspace.
+- **Order:** forks first (their diverged scope is 0.5k to 15k changed
+  lines), then the repositories under 100k lines, then img, play, tansu,
+  smolith and kache by component.
+- **Phase 4 runs per repository** as each one settles. Its open P3 and P4
+  tickets move to `TODO.md` and `TODO-DESLOP.md` is deleted in one PR.
+  The fleet-wide lint, the scorecard and this doc's retirement come last.
+
+Next: fork passes, then per-repository Phase 4 for the settled set.
 
 ## Accepted work
 
