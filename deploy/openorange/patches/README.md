@@ -110,3 +110,10 @@ Private import and recovery evidence, its limits and the remaining checks
 are recorded in [the diagnosis](../../../docs/openorange-engine-diagnosis.md).
 
 See [runtime releases](../../../docs/openorange-releases.md) for the source registry and inspection contract.
+
+## OpenOrange serve version candidate
+
+`open-orange-1cabf2e-serve-version.patch` applies after the metrics patch.
+It appends the package version to both single- and multi-Worker serve startup
+lines. `tests/orange-serve.test.ts` checks both paths. Production runs
+`1.0.2-laputa.1`; this second patch is a candidate.
