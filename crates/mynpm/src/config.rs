@@ -326,17 +326,6 @@ pub fn parse_config(text: &str) -> Result<Config> {
     })
 }
 
-pub fn load_config(path: &std::path::Path) -> Result<Config> {
-    let text = std::fs::read_to_string(path).map_err(|e| {
-        if e.kind() == std::io::ErrorKind::NotFound {
-            Error::Input(format!("configuration file does not exist: {}", path.display()))
-        } else {
-            Error::Operation(format!("could not read configuration file: {}", path.display()))
-        }
-    })?;
-    parse_config(&text)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

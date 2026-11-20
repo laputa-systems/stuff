@@ -64,3 +64,15 @@ The inventory below follows DSLP-11's named contracts and the crate README. Path
 | Child processes | `process::tests`: timeout, output overflow, descendants that ignore TERM or hold pipes. | Retained. |
 
 Two tests were added, each proven by one hand-injected fault that was restored byte for byte. Changing `npm_config_ignore_scripts` to `false` in `client_environment` left all 74 existing tests passing and failed the new validation test. Making `check_digests` return early made the 74 existing tests pass and failed the new integrity test. The resolution environment test has no separate fault run; it asserts the same line shape in the other module. Coverage and mutation measurement are **Needs environment**: `cargo-llvm-cov` and `cargo-mutants` were not run. No mutation lane is proposed.
+
+## Dead code
+
+`cargo rustc -p mynpm --lib -- --force-warn dead_code --force-warn unreachable_pub` exited 0 and reported no warnings, before and after the removals. Every module is `pub` in `src/lib.rs`, so neither lint can see an unused public item. The debloat read therefore counted workspace references to each `pub` item in `crates/mynpm/src`, with a script that searches all Rust files under `crates/` (the only dependent crate is `stuff`).
+
+Six items had no reference outside their own definition. Three had no caller at all and were removed:
+
+- `config::load_config`: the CLI reads the file itself and calls `parse_config`.
+- `packument::dist_latest_tags`: no caller; packuments are rendered through `latest_snapshot`.
+- `value::opt_str`: no caller.
+
+Three had one in-module caller and stay: `Target::platform_key`, `create_fetch_byte_budget` (used by its test and the budget path), and `acquire_file_lock`. Removal deleted 46 lines and changed no behavior or output. `cargo clippy -p mynpm --all-targets`, `cargo check -p stuff --all-targets`, and `cargo test -p mynpm` passed afterwards. The scan covers the crate's current target and configuration. It cannot see consumers outside this repository; the crate is not a published API (`stuff` is its only dependent).

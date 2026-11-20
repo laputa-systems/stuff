@@ -64,34 +64,6 @@ fn packument_modified(record: &ArtifactRecord) -> String {
         .to_string()
 }
 
-pub fn dist_latest_tags(records: &[ArtifactRecord]) -> rustc_hash::FxHashMap<String, String> {
-    let mut grouped: rustc_hash::FxHashMap<&str, Vec<&ArtifactRecord>> =
-        rustc_hash::FxHashMap::default();
-    for record in records {
-        grouped.entry(record.name.as_str()).or_default().push(record);
-    }
-    let mut out = rustc_hash::FxHashMap::default();
-    for (name, group) in grouped {
-        let owned: Vec<ArtifactRecord> = group.into_iter().cloned().collect();
-        let Ok(snapshot) = latest_snapshot(&owned) else {
-            continue;
-        };
-        let latest = snapshot
-            .packument
-            .as_map()
-            .and_then(|m| m.get("dist-tags"))
-            .and_then(|v| v.as_map())
-            .and_then(|m| m.get("latest"))
-            .and_then(|v| v.as_str())
-            .map(|s| s.to_string());
-        if let Some(tag) = latest
-            && owned.iter().any(|r| r.version == tag) {
-                out.insert(name.to_string(), tag);
-            }
-    }
-    out
-}
-
 fn package_time(
     records: &[ArtifactRecord],
     selected: &rustc_hash::FxHashSet<String>,
