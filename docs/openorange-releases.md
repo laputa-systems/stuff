@@ -59,11 +59,13 @@ transport failure. Inspection is not a release, health or recovery proof.
 ## Owned OpenOrange package
 
 `bin/build-open-orange acquire --out DIR` fetches the registered revision,
-applies its ordered patches, and fills `DIR/store`. With the upstream Node and
-pnpm requirements on PATH, `bin/build-open-orange build --src DIR --out OUT`
+applies its ordered patches, verifies the pinned pnpm tarball against its npm
+registry integrity, and fills `DIR/store` and `DIR/toolchain`. With the upstream
+Node requirement on PATH, `bin/build-open-orange build --src DIR --out OUT`
 builds offline. Upstream 1.0.2 plus one registered patch maps to
 `1.0.2-laputa.1`; the deployed package remains upstream 1.0.2. The build record
 `openorange-build-record/1` identifies the source, ordered patch digests,
-lockfile, toolchain, commit time, platform and resulting tarball for a later
-release manifest. The build sets `SOURCE_DATE_EPOCH` to the upstream commit time and uses
-pnpm pack directly; repeated builds have produced identical tarballs.
+lockfile, toolchain and pnpm tarball integrity, commit time, platform and
+resulting tarball for a later release manifest. The build sets
+`SOURCE_DATE_EPOCH` to the upstream commit time and uses pnpm pack directly. Byte identity is claimed only for the recorded Node and
+pnpm identities.
