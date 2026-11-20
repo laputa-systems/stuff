@@ -25,7 +25,7 @@ class SourceRegistryTest(unittest.TestCase):
 
     def test_open_orange_patch_order_and_hash(self):
         orange = next(item for item in self.data['components'] if item['name'] == 'open-orange')
-        self.assertEqual([p['file'] for p in orange['patches']], ['open-orange-1cabf2e-multi-worker-metrics.patch'])
+        self.assertEqual([p['file'] for p in orange['patches']], ['open-orange-1cabf2e-multi-worker-metrics.patch', 'open-orange-1cabf2e-serve-version.patch'])
         orange['patches'][0]['sha256'] = '0' * 64
         with self.assertRaisesRegex(ValueError, 'sha256 mismatch'):
             sources.verify(self.data, self.lock)

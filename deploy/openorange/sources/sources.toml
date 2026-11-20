@@ -79,9 +79,9 @@ patches = []
 name = "open-orange"
 upstream = "https://github.com/rivet-dev/open-orange"
 license = "Apache-2.0"
-ownership = "mirrored-unchanged"
+ownership = "source-rebuilt"
 artifacts = ["open-orange"]
-gaps = ["The owned patched build exists but is not deployed; production runs the published npm package 1.0.2."]
+gaps = ["Production runs the owned 1.0.2-laputa.1 package; the second patch is a candidate and is not deployed."]
 revision = "1cabf2e9db300361c9f0b751c7723da7eb706f5e"
 [[components.patches]]
 file = "open-orange-1cabf2e-multi-worker-metrics.patch"
@@ -89,6 +89,12 @@ sha256 = "8e16c2fca396b03348d249e87a3e617e038e110b294a882f79d5a1f0f6b8d915"
 purpose = "serve Prometheus metrics for every Worker"
 affects = "orange serve metrics"
 proof = "tests/orange-serve.test.ts and packages/runtime-node/src/internal/metrics-server.test.ts"
+[[components.patches]]
+file = "open-orange-1cabf2e-serve-version.patch"
+sha256 = "af2edacfed32b9d37a6ca6b52762aa835ef3ada883b718de743975cd5d1f6433"
+purpose = "report the package version at serve startup"
+affects = "orange serve startup log"
+proof = "tests/orange-serve.test.ts"
 
 [[components]]
 name = "rivet-services"

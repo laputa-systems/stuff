@@ -1,0 +1,77 @@
+diff --git a/src/commands/serve.ts b/src/commands/serve.ts
+index a52ea50..5a653eb 100644
+--- a/src/commands/serve.ts
++++ b/src/commands/serve.ts
+@@ -9,6 +9,7 @@ import type { Theme } from "../cli/theme.js";
+ import { loadWranglerConfiguration } from "../config/load-wrangler.js";
+ import { resolveDeploymentStorage } from "../runtime/deployment.js";
+ import { spawnRuntime } from "../runtime/spawn.js";
++import { orangeVersion } from "../version.js";
+ import { bundleForServe, serveSession } from "../serve/session.js";
+ 
+ export interface ServeCommandIo {
+@@ -147,7 +148,7 @@ async function executeServeCommand(
+ 			rivetStoragePath,
+ 			startupTimeoutMs: 60_000,
+ 		});
+-		io.log(`orange serve listening on http://${runtime.host}:${runtime.port}`);
++		io.log(`orange serve listening on http://${runtime.host}:${runtime.port} (open-orange ${orangeVersion})`);
+ 		const stop = (): void => {
+ 			void runtime.stop();
+ 		};
+diff --git a/src/serve/session.ts b/src/serve/session.ts
+index 410a8fb..d697076 100644
+--- a/src/serve/session.ts
++++ b/src/serve/session.ts
+@@ -7,6 +7,7 @@ import { findAdditionalModules } from "../build/additional-modules.js";
+ import { bundleWorker } from "../build/bundle-worker.js";
+ import { runtimeModuleRewrites } from "../build/rewrite-module-imports.js";
+ import type { ResolvedWranglerConfiguration } from "../config/load-wrangler.js";
++import { orangeVersion } from "../version.js";
+ import { resolveDeploymentStorages } from "../runtime/deployment.js";
+ import { spawnRuntime, type RuntimeProcess } from "../runtime/spawn.js";
+ import type { RuntimeSessionWorker } from "../../packages/runtime-node/src/process-protocol.js";
+@@ -163,7 +164,7 @@ export async function serveSession(options: ServeSessionOptions): Promise<number
+ 		}
+ 		const host = running?.host ?? runtimes[0]?.host ?? options.host;
+ 		const port = running?.port ?? runtimes[0]?.port ?? options.port;
+-		options.log(`orange serve listening on http://${host}:${port} with ${options.configs.length} Workers`);
++		options.log(`orange serve listening on http://${host}:${port} with ${options.configs.length} Workers (open-orange ${orangeVersion})`);
+ 		const stop = (): void => {
+ 			for (const runtime of runtimes) void runtime.stop();
+ 		};
+diff --git a/tests/orange-serve.test.ts b/tests/orange-serve.test.ts
+index 6403ddf..b965cca 100644
+--- a/tests/orange-serve.test.ts
++++ b/tests/orange-serve.test.ts
+@@ -22,6 +22,7 @@ const requireFromRivetKit = createRequire(createRequire(import.meta.url).resolve
+ const { getEnginePath } = requireFromRivetKit("@rivetkit/engine-cli") as { getEnginePath(): string };
+ const cliEntrypoint = join(repositoryRoot, "src", "bin.ts");
+ const adminToken = "orange-serve-test";
++const { version: packageVersion } = createRequire(import.meta.url)("../package.json") as { version: string };
+ 
+ async function freePort(): Promise<number> {
+ 	const server = createServer();
+@@ -168,6 +169,14 @@ async function startServe(
+ 		serve.child.once("exit", () => rejectReady(new Error(`orange serve exited:\n${serve.output()}`)));
+ 	});
+ 	await withDeadline(ready, "orange serve readiness", 60_000);
++	if ((configs?.length ?? 1) > 1) {
++		try {
++			assert.ok(serve.output().includes(`orange serve listening on http://0.0.0.0:${port} with ${configs?.length} Workers (open-orange ${packageVersion})`), serve.output());
++		} catch (error) {
++			serve.child.kill("SIGTERM");
++			throw error;
++		}
++	}
+ 	return serve;
+ }
+ 
+@@ -570,6 +579,7 @@ test("orange serve builds a Worker for production, as wrangler deploy does", asy
+ 			NODE_ENV: "",
+ 			RIVET_TOKEN: adminToken,
+ 		});
++		assert.ok(serve.output().includes(`orange serve listening on http://0.0.0.0:${port} (open-orange ${packageVersion})`), serve.output());
+ 		assert.equal(await (await fetch(`http://127.0.0.1:${port}/`)).text(), "production");
+ 	} finally {
+ 		if (serve !== undefined) {

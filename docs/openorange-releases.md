@@ -6,8 +6,7 @@ patches and unresolved gaps. From `deploy/openorange`, run `bin/sources list
 means the deployed artifact is built here from the recorded source,
 `mirrored-unchanged` means the deployed artifact is the published package or
 image at the recorded identity, and `unrebuildable` means no source build is
-available. Today every runtime component is `mirrored-unchanged` or
-`unrebuildable`. A component's patch list is its apply order, and every file
+available. A component's patch list is its apply order, and every file
 in `patches/` must be registered exactly once. Listed Engine patches are
 isolated candidates: no deployed artifact contains them.
 
@@ -62,8 +61,9 @@ transport failure. Inspection is not a release, health or recovery proof.
 applies its ordered patches, verifies the pinned pnpm tarball against its npm
 registry integrity, and fills `DIR/store` and `DIR/toolchain`. With the upstream
 Node requirement on PATH, `bin/build-open-orange build --descriptor FILE --src DIR --out OUT`
-builds offline. Upstream 1.0.2 plus one registered patch maps to
-`1.0.2-laputa.1`; the deployed package remains upstream 1.0.2. The build record
+builds offline. Production runs the owned `1.0.2-laputa.1` package. Upstream 1.0.2 plus
+two registered patches maps to the candidate `1.0.2-laputa.2`, whose serve
+startup log reports its package version. The build record
 `openorange-build-record/1` identifies the source, ordered patch digests,
 lockfile, toolchain and pnpm tarball integrity, commit time, platform and
 resulting tarball for a later release manifest. The build sets
