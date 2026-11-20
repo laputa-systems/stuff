@@ -7,6 +7,8 @@ established, so the slop cannot return.
 
 ## Status
 
+**Winding down** 2026-11-20: no new lanes; running lanes finish or park.
+
 Resumed 2026-11-19 under the selective mutation policy (decision 4,
 **Mutation spending is bounded**) and the Bench step (decision 14).
 Discover, Chromium-build, Vault and Pi-build are excluded.
