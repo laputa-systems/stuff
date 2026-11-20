@@ -93,4 +93,3 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Only if wanted: choose an explicit list of publication functions and a critical regex naming them (push_fix_branch and its refusal checks), never a whole file or the whole inventory. Accept when (1) a hosted job runs the shared gate with that declared scope and fails on a missed mutant, (2) negative controls fail it: delete a refusal test and weaken one refusal branch, (3) the 3x timeout replay selects exactly one mutant, (4) runner cost and wall time are recorded and within a stated budget, and (5) the job is retained by registering the repository in fleet/policy/retention.toml [mutation-lane]. Run it first as advisory, then block only after those controls pass.
 - **Fix with:** test-audit
 - **Effort:** M
-
