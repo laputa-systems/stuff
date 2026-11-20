@@ -25,10 +25,10 @@ class SourceRegistryTest(unittest.TestCase):
 
     def test_order_images_and_unknown_fields(self):
         engine = next(item for item in self.data['components'] if item['name'] == 'rivet-engine-source')
-        engine['patches'].reverse()
-        with self.assertRaisesRegex(ValueError, 'patch order'):
+        dropped = engine['patches'].pop()
+        with self.assertRaisesRegex(ValueError, 'unregistered patches'):
             sources.verify(self.data, self.lock)
-        engine['patches'].reverse()
+        engine['patches'].append(dropped)
         self.data['components'] = [x for x in self.data['components'] if x.get('image') != 'engine']
         with self.assertRaisesRegex(ValueError, 'missing images'):
             sources.verify(self.data, self.lock)

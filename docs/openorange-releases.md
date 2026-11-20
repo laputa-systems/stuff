@@ -3,13 +3,13 @@
 `sources/sources.toml` records source identities, artifact names, candidate
 patches and unresolved gaps. From `deploy/openorange`, run `bin/sources list
 --json` or `bin/sources verify`. Verification is offline. `source-rebuilt`
-identifies a source build target, `mirrored-unchanged` a pinned registry image,
-and `unrebuildable` an artifact without an available source build. These are
-ownership classifications, not evidence that a candidate patch is deployed.
-The lifecycle and inventory candidate order in the registry follows the
-requested inventory order but conflicts with the tested order in
-[the lifecycle proof](openorange-actor-lifecycle.md); resolve that gap before
-building with both patches.
+means the deployed artifact is built here from the recorded source,
+`mirrored-unchanged` means the deployed artifact is the published package or
+image at the recorded identity, and `unrebuildable` means no source build is
+available. Today every runtime component is `mirrored-unchanged` or
+`unrebuildable`. A component's patch list is its apply order, and every file
+in `patches/` must be registered exactly once. Listed Engine patches are
+isolated candidates: no deployed artifact contains them.
 
 ## Manifest contract
 

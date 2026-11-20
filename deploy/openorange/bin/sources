@@ -8,9 +8,6 @@ import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ORDER = [f'rivet-e5ed391-{name}.patch' for name in ('staged-refusal', 'staged-head', 'empty-abort', 'page-read-refusal', 'actor-lifecycle', 'inventory-read')]
-
-
 def verify(data, lock, root=ROOT):
     def fail(message):
         raise ValueError(message)
@@ -56,16 +53,17 @@ def verify(data, lock, root=ROOT):
             if not isinstance(patch, dict) or set(patch) != {'file', 'sha256', 'purpose', 'affects', 'proof'} or any(not isinstance(v, str) or not v for v in patch.values()):
                 fail(f'{name}: invalid patch fields')
             file = patch['file']
-            if file not in ORDER or file in patches:
-                fail(f'{name}: unknown or duplicate patch {file}')
+            if file in patches:
+                fail(f'{name}: duplicate patch {file}')
             patches.append(file)
             path = root / 'patches' / file
             if not path.is_file():
                 fail(f'{name}: missing patch {file}')
             if hashlib.sha256(path.read_bytes()).hexdigest() != patch['sha256']:
                 fail(f'{name}: sha256 mismatch for {file}')
-    if patches != ORDER:
-        fail('patch order differs from required order')
+    unregistered = sorted(path.name for path in (root / 'patches').glob('*.patch') if path.name not in patches)
+    if unregistered:
+        fail(f'unregistered patches: {unregistered}')
     if images != set(lock['images']):
         fail(f'missing images: {sorted(set(lock["images"]) - images)}')
 

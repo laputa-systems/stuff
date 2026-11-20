@@ -4,9 +4,9 @@ schema = 1
 name = "rivetkit"
 upstream = "https://github.com/rivet-dev/rivet"
 license = "Apache-2.0"
-ownership = "source-rebuilt"
+ownership = "mirrored-unchanged"
 artifacts = ["rivetkit TypeScript packages"]
-gaps = []
+gaps = ["Deployed from the published npm package; no source rebuild exists yet (Stats INF-5)."]
 revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
 patches = []
 
@@ -14,9 +14,9 @@ patches = []
 name = "rivet-native"
 upstream = "https://github.com/rivet-dev/rivet"
 license = "Apache-2.0"
-ownership = "source-rebuilt"
+ownership = "mirrored-unchanged"
 artifacts = ["platform N-API addon"]
-gaps = []
+gaps = ["Deployed from the published npm package; no source rebuild exists yet (Stats INF-5)."]
 revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
 patches = []
 
@@ -24,9 +24,9 @@ patches = []
 name = "rivet-engine-source"
 upstream = "https://github.com/rivet-dev/rivet"
 license = "Apache-2.0"
-ownership = "source-rebuilt"
+ownership = "mirrored-unchanged"
 artifacts = ["Engine executable"]
-gaps = ["Requested lifecycle then inventory order conflicts with docs/openorange-actor-lifecycle.md, which requires inventory first; apply order is unverified."]
+gaps = ["The deployed Engine is the upstream 3.1.2-rc.1 image; these patches are isolated candidates that no production artifact contains yet."]
 revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
 [[components.patches]]
 file = "rivet-e5ed391-staged-refusal.patch"
@@ -53,25 +53,25 @@ purpose = "page read refusal"
 affects = "Rivet Engine"
 proof = "deploy/openorange/patches/README.md"
 [[components.patches]]
-file = "rivet-e5ed391-actor-lifecycle.patch"
-sha256 = "039c0bb5206f2f9815e45b27d1f0d15a35b41eaab0441f18231e8fa29ffe2689"
-purpose = "actor lifecycle"
-affects = "Rivet Engine"
-proof = "docs/openorange-actor-lifecycle.md"
-[[components.patches]]
 file = "rivet-e5ed391-inventory-read.patch"
 sha256 = "4ed8deee5eb7fc9681cc9155ebba75cd87c08cb00105f486a2808cb948fd9b6f"
 purpose = "inventory read"
 affects = "Rivet Engine"
 proof = "docs/openorange-inventory-retries.md"
+[[components.patches]]
+file = "rivet-e5ed391-actor-lifecycle.patch"
+sha256 = "039c0bb5206f2f9815e45b27d1f0d15a35b41eaab0441f18231e8fa29ffe2689"
+purpose = "actor lifecycle"
+affects = "Rivet Engine"
+proof = "docs/openorange-actor-lifecycle.md"
 
 [[components]]
 name = "rivet-inspector"
 upstream = "https://github.com/rivet-dev/rivet"
 license = "Apache-2.0"
-ownership = "source-rebuilt"
+ownership = "mirrored-unchanged"
 artifacts = ["embedded inspector assets"]
-gaps = ["Inspector asset build choice is undeclared."]
+gaps = ["Inspector asset build choice is undeclared.", "Deployed from the published npm package; no source rebuild exists yet (Stats INF-5)."]
 revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
 patches = []
 
@@ -79,9 +79,9 @@ patches = []
 name = "open-orange"
 upstream = "https://github.com/rivet-dev/open-orange"
 license = "Apache-2.0"
-ownership = "source-rebuilt"
+ownership = "mirrored-unchanged"
 artifacts = ["open-orange"]
-gaps = []
+gaps = ["Deployed from the published npm package; no source rebuild exists yet (Stats INF-5)."]
 revision = "1cabf2e9db300361c9f0b751c7723da7eb706f5e"
 patches = []
 
