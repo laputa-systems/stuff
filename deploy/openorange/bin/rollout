@@ -16,6 +16,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'lib'))
 import oorollout
 
 
+DEFAULT_BOUND_S = 240
+
+
 def add_target(parser):
     parser.add_argument('--target-kind', required=True, choices=('fake', 'native', 'oo-containers'))
     parser.add_argument('--target', help='fake: local target directory')
@@ -38,7 +41,7 @@ def main():
         start.add_argument('--' + name, required=True)
     add_target(start)
     start.add_argument('--deadline-s', type=float, default=60)
-    start.add_argument('--bound-s', type=float, default=240, help='maximum duration of each guest mutation, including a restart and health wait, in seconds (default: 240)')
+    start.add_argument('--bound-s', type=float, default=DEFAULT_BOUND_S, help=f'maximum duration of each guest mutation, including a restart and health wait, in seconds (default: {DEFAULT_BOUND_S:g})')
     start.add_argument('--json', action='store_true')
     for command in ('status', 'resume', 'abort'):
         p = sub.add_parser(command, help=command + ' a run by its journal directory')
@@ -92,7 +95,7 @@ def main():
                 except oorollout.StaleToken:
                     pass
         if args.command == 'observe':
-            print(json.dumps(oorollout.adapter_for(target_config(args)).observe(), sort_keys=True))
+            print(json.dumps(oorollout.adapter_for({**target_config(args), 'bound_s': DEFAULT_BOUND_S}).observe(), sort_keys=True))
             return 0
         if args.command == 'stage':
             if not math.isfinite(args.bound_s) or args.bound_s <= 0:

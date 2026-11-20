@@ -90,3 +90,10 @@ def test_lease_run_refuses_held_and_stale_tokens(guest):
     assert success.returncode == 0 and success.stdout.strip() == '42', success.stderr
     failed = subprocess.run(args[:-1] + ['import sys; sys.exit(7)'], text=True, capture_output=True, env=guest.env)
     assert failed.returncode == 7, failed.stderr
+
+
+def test_observe_cli_reads_identity_without_a_mutation_bound(guest):
+    result = subprocess.run([str(CLI), 'observe', '--target-kind', 'native', '--host', 'guest', '--ssh-config', 'unused', '--json'], text=True, capture_output=True, env=guest.env)
+    assert result.returncode == 0, result.stderr
+    state = json.loads(result.stdout)
+    assert state['selected'] == guest.baseline and state['digest'].startswith('sha256:')
