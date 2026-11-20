@@ -14,6 +14,7 @@ LIB = ROOT / 'deploy/openorange/lib'
 sys.path.insert(0, str(LIB))
 import oorollout
 import oorollout_containers
+from receipt_support import make_receipt
 
 BASE = 'app:base'
 CANDIDATE = 'app:new'
@@ -129,9 +130,8 @@ class ContainersTest(unittest.TestCase):
         return p.stdout
 
     def engine(self, crash=None, recovery=False, guest_crash=None):
-        for name, value in (('decision.json', {'verdict': 'pass', 'evaluatedAtMs': int(time.time() * 1000), 'reasonCodes': []}), ('candidate.manifest.json', {'releaseId': CANDIDATE}), ('baseline.manifest.json', {'releaseId': BASE})):
-            (self.evidence / name).write_text(json.dumps(value))
-        config = {'target_kind': 'oo-containers', 'host': 'simulated', 'app': 'app', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': CANDIDATE, 'artifact': IDS[CANDIDATE], 'baseline': BASE, 'policy': {'max_age_s': 600, 'observation_s': 0, 'check_interval_s': .01}, 'evidence_dir': str(self.evidence), 'deadline_s': 60}
+        receipt, evidence, evaluator = make_receipt(Path(self.tmp.name), BASE, CANDIDATE, IDS[BASE], IDS[CANDIDATE])
+        config = {'target_kind': 'oo-containers', 'host': 'simulated', 'app': 'app', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': CANDIDATE, 'artifact': IDS[CANDIDATE], 'baseline': BASE, 'policy': {'max_age_s': 600, 'observation_s': 0, 'check_interval_s': .01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'deadline_s': 60}
         spec = {'env': {**self.env, **({'GUEST_CRASH': guest_crash} if guest_crash else {})}, 'journal': str(self.journal), 'config': config, 'recovery': recovery}
         env = {**os.environ, **({'ROLLOUT_CRASH': crash} if crash else {})}
         return subprocess.run([sys.executable, '-c', ENGINE, str(LIB), json.dumps(spec)], text=True, capture_output=True, env=env)

@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -11,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[3]
 CLI = ROOT / 'deploy/openorange/bin/rollout'
 sys.path.insert(0, str(ROOT / 'deploy/openorange/lib'))
 import oorollout
+from receipt_support import make_receipt
 
 A = 'sha256:' + 'a' * 64
 B = 'sha256:' + 'b' * 64
@@ -28,10 +30,8 @@ class RolloutTest(unittest.TestCase):
         self.journals.mkdir()
         self.policy = self.root / 'policy.json'
         self.write(self.policy, {'max_age_s': 1000, 'observation_s': 0, 'check_interval_s': 0.01})
-        self.write(self.target / 'state.json', {'selected': 'old', 'running': 'old', 'digest': B, 'artifacts': {'old': B}, 'headroom': True, 'health': True})
-        self.write(self.evidence / 'decision.json', {'verdict': 'pass', 'evaluatedAtMs': int(time.time() * 1000), 'reasonCodes': []})
-        self.write(self.evidence / 'candidate.manifest.json', {'releaseId': 'new'})
-        self.write(self.evidence / 'baseline.manifest.json', {'releaseId': 'old'})
+        self.write(self.target / 'state.json', {'selected': 'old', 'running': 'old', 'digest': B, 'artifacts': {'old': B, 'new': A}, 'headroom': True, 'health': True})
+        self.receipt, self.evidence, self.evaluator = make_receipt(self.root, 'old', 'new', B, A)
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -42,8 +42,8 @@ class RolloutTest(unittest.TestCase):
     def command(self, *args, env=None):
         return subprocess.run([str(CLI), *map(str, args)], text=True, capture_output=True, env={**os.environ, **(env or {})})
 
-    def start(self, env=None):
-        return self.command('start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', self.target, '--policy', self.policy, '--evidence-dir', self.evidence, '--journal-dir', self.journals, '--deadline-s', '30', '--json', env=env)
+    def start(self, env=None, artifact=A):
+        return self.command('start', '--candidate', 'new', '--artifact', artifact, '--baseline', 'old', '--target-kind', 'fake', '--target', self.target, '--policy', self.policy, '--receipt', self.receipt, '--evaluator', self.evaluator, '--evidence-dir', self.evidence, '--journal-dir', self.journals, '--deadline-s', '30', '--json', env=env)
 
     def only_run(self):
         return next(self.journals.iterdir())
@@ -89,7 +89,9 @@ class RolloutTest(unittest.TestCase):
         self.assertEqual(oorollout.Journal(self.only_run()).state(), 'needs-operator')
 
     def test_gate_identity_and_digest(self):
-        self.write(self.evidence / 'candidate.manifest.json', {'releaseId': 'wrong'})
+        receipt = json.loads(self.receipt.read_text())
+        receipt['candidate']['releaseId'] = 'wrong'
+        self.write(self.receipt, receipt)
         self.assertEqual(self.start().returncode, 3)
         self.assertNotIn('activations', self.state())
         self.tearDown()
@@ -108,9 +110,43 @@ class RolloutTest(unittest.TestCase):
         self.assertEqual(self.state()['activations'], ['new', 'old'])
         self.assertEqual(self.state()['digest'], B)
 
+    def reasons(self):
+        return oorollout.Journal(self.only_run()).last('state')['reasons']
+
+    def test_artifact_and_target_preconditions(self):
+        for case, reason in (('artifact', 'artifact-not-qualified'), ('baseline', 'baseline-artifact-mismatch'), ('missing', 'candidate-not-staged'), ('staged', 'staged-artifact-mismatch')):
+            with self.subTest(case=case):
+                self.tearDown(); self.setUp()
+                if case != 'artifact':
+                    state = self.state()
+                    if case == 'baseline': state['digest'] = A
+                    elif case == 'missing': del state['artifacts']['new']
+                    else: state['artifacts']['new'] = B
+                    self.write(self.target / 'state.json', state)
+                self.assertEqual(self.start(artifact=B if case == 'artifact' else A).returncode, 3)
+                self.assertIn(reason, self.reasons())
+                self.assertNotIn('activations', self.state())
+
+    def test_staged_digest_changes_before_activation(self):
+        self.assertEqual(self.start({'ROLLOUT_CRASH': 'after-state-prepared'}).returncode, 137)
+        state = self.state()
+        state['artifacts']['new'] = B
+        self.write(self.target / 'state.json', state)
+        self.assertEqual(self.command('resume', '--run', self.only_run()).returncode, 3)
+        self.assertEqual(self.reasons(), ['staged-artifact-mismatch'])
+        self.assertNotIn('activations', self.state())
+
+    def test_qualified_receipt_survives_deleted_evidence(self):
+        self.assertEqual(self.start({'ROLLOUT_CRASH': 'after-state-qualified'}).returncode, 137)
+        shutil.rmtree(self.evidence)
+        self.receipt.unlink()
+        self.evaluator.unlink()
+        self.assertEqual(self.command('resume', '--run', self.only_run()).returncode, 0)
+        self.assertEqual(self.state()['digest'], A)
+
     def test_lock_race_and_fence(self):
         self.write(self.policy, {'max_age_s': 1000, 'observation_s': 2, 'check_interval_s': .05})
-        args = [str(CLI), 'start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', str(self.target), '--policy', str(self.policy), '--evidence-dir', str(self.evidence), '--journal-dir', str(self.journals), '--deadline-s', '30', '--json']
+        args = [str(CLI), 'start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', str(self.target), '--policy', str(self.policy), '--receipt', str(self.receipt), '--evaluator', str(self.evaluator), '--evidence-dir', str(self.evidence), '--journal-dir', str(self.journals), '--deadline-s', '30', '--json']
         first = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         second = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         one = first.communicate(timeout=10)
@@ -138,7 +174,7 @@ class RolloutTest(unittest.TestCase):
                 state = self.state()
                 state['fail_checks'] = failures
                 self.write(self.target / 'state.json', state)
-                self.write(self.evidence / 'decision.json', {'verdict': verdict, 'evaluatedAtMs': int(time.time() * 1000), 'reasonCodes': []})
+                make_receipt(self.root, 'old', 'new', B, A, verdict=verdict)
                 self.assertEqual(self.start({'ROLLOUT_CRASH': 'after-state-' + terminal}).returncode, 137)
                 result = self.command('resume', '--run', self.only_run())
                 self.assertEqual(result.returncode, code, result.stderr)

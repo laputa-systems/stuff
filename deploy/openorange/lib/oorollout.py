@@ -4,6 +4,8 @@ import os
 import re
 import time
 import uuid
+
+import ooreceipt
 from pathlib import Path
 
 
@@ -185,20 +187,14 @@ class Journal:
 
 
 def gate(config):
-    root = Path(config['evidence_dir'])
-    try:
-        decision = json.loads((root / 'decision.json').read_text())
-        candidate = json.loads((root / 'candidate.manifest.json').read_text())
-        baseline = json.loads((root / 'baseline.manifest.json').read_text())
-        if decision['verdict'] != 'pass':
-            return None, decision.get('reasonCodes', []) or ['verdict-' + str(decision['verdict'])]
-        if candidate['releaseId'] != config['candidate'] or baseline['releaseId'] != config['baseline']:
-            return None, ['release-identity-mismatch']
-        if type(decision['evaluatedAtMs']) is not int:
-            return None, ['invalid-evaluation-time']
-        return decision, []
-    except (OSError, ValueError, KeyError, TypeError):
-        return None, ['invalid-evidence']
+    receipt, reasons = ooreceipt.verify(config['receipt'], config['evidence_dir'], config['evaluator'])
+    if reasons:
+        return None, reasons
+    if receipt['candidate']['releaseId'] != config['candidate'] or receipt['baseline']['releaseId'] != config['baseline']:
+        return None, ['release-identity-mismatch']
+    if receipt['candidate']['artifactDigest'] != config['artifact']:
+        return None, ['artifact-not-qualified']
+    return receipt, []
 
 
 def reconcile(journal, adapter, holder, token, step, expected, release, digest):
@@ -273,24 +269,30 @@ def run(journal, recovery=False, adapter=None):
                 journal.transition('recovering', duration, reason='controller recovery requested')
                 state = 'recovering'
             if state == 'staged':
-                decision, reasons = gate(config)
+                receipt, reasons = gate(config)
                 if reasons:
                     journal.transition('rejected', duration, reasons=reasons)
                     return 'rejected'
-                journal.transition('qualified', duration, decision=decision, artifact=config['artifact'])
+                journal.transition('qualified', duration, receipt=receipt, receiptSha256=ooreceipt.sha(ooreceipt.canonical(receipt)), rolloutPolicySha256=config['rollout_policy_sha256'])
                 state = 'qualified'
             if state == 'qualified':
                 qualified = journal.last('state')
                 target = adapter.observe()
-                age = now() * 1000 - qualified['decision']['evaluatedAtMs']
-                recovery_digest = target.get('artifacts', {}).get(config['baseline'])
+                receipt = qualified['receipt']
+                age = now() * 1000 - receipt['decision']['evaluatedAtMs']
+                recovery_digest = receipt['baseline']['artifactDigest']
                 reasons = []
-                if target.get('running') != config['baseline'] or target.get('selected') != config['baseline']:
+                if target.get('running') != receipt['baseline']['releaseId'] or target.get('selected') != receipt['baseline']['releaseId']:
                     reasons.append('baseline-identity-mismatch')
                 if age < 0 or age > policy['max_age_s'] * 1000:
                     reasons.append('stale-decision')
-                if not recovery_digest or target.get('digest') != recovery_digest:
-                    reasons.append('missing-baseline-artifact')
+                if target.get('digest') != recovery_digest or target.get('selected_digest', recovery_digest) != recovery_digest or target.get('artifacts', {}).get(target.get('running')) != recovery_digest or target.get('running_digest', recovery_digest) != recovery_digest or target.get('running_image_id', recovery_digest) != recovery_digest:
+                    reasons.append('baseline-artifact-mismatch')
+                staged = target.get('artifacts', {}).get(receipt['candidate']['releaseId'])
+                if staged is None:
+                    reasons.append('candidate-not-staged')
+                elif staged != receipt['candidate']['artifactDigest']:
+                    reasons.append('staged-artifact-mismatch')
                 if not target.get('headroom', False):
                     reasons.append('insufficient-headroom:' + str(target.get('headroom_detail', 'unknown')))
                 if reasons:
@@ -298,7 +300,10 @@ def run(journal, recovery=False, adapter=None):
                     return 'rejected'
                 journal.transition('prepared', duration, baseline_digest=recovery_digest)
                 state = 'prepared'
-            qualified_digest = next(r['artifact'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'qualified')
+            qualified_receipt = next(r['receipt'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'qualified')
+            qualified_digest = qualified_receipt['candidate']['artifactDigest']
+            candidate = qualified_receipt['candidate']['releaseId']
+            baseline = qualified_receipt['baseline']['releaseId']
             baseline_digest = next(r['baseline_digest'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'prepared')
             if state == 'prepared':
                 try:
@@ -313,7 +318,10 @@ def run(journal, recovery=False, adapter=None):
                         if not adapter.prepare_observed(step):
                             raise ValueError('preparation incomplete: ' + step)
                         journal.append('done', step=step, observed=adapter.observe())
-                    reconcile(journal, adapter, run_id, token, 'activate', config['baseline'], config['candidate'], qualified_digest)
+                    if adapter.observe().get('artifacts', {}).get(candidate) != qualified_digest:
+                        journal.transition('rejected', duration, reasons=['staged-artifact-mismatch'])
+                        return 'rejected'
+                    reconcile(journal, adapter, run_id, token, 'activate', baseline, candidate, qualified_digest)
                     journal.transition('activated', duration)
                     state = 'activated'
                 except AmbiguousIdentity as exc:
@@ -336,7 +344,7 @@ def run(journal, recovery=False, adapter=None):
                         journal.transition('recovering', duration, reason='verification deadline expired')
                         state = 'recovering'
                         break
-                    result = adapter.check(config['candidate'], qualified_digest)
+                    result = adapter.check(candidate, qualified_digest)
                     journal.append('check', result=result)
                     if not result['ok']:
                         journal.transition('recovering', duration, reason='post-activation check failed', evidence=result)
@@ -348,8 +356,8 @@ def run(journal, recovery=False, adapter=None):
                     time.sleep(min(policy['check_interval_s'], until - now()))
             if state == 'recovering':
                 try:
-                    reconcile(journal, adapter, run_id, token, 'recover', config['candidate'], config['baseline'], baseline_digest)
-                    result = adapter.check(config['baseline'], baseline_digest)
+                    reconcile(journal, adapter, run_id, token, 'recover', candidate, baseline, baseline_digest)
+                    result = adapter.check(baseline, baseline_digest)
                     if not result['ok']:
                         raise ValueError('baseline verification failed: ' + json.dumps(result))
                     journal.transition('recovered', duration, evidence=result)
