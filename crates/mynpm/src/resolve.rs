@@ -366,6 +366,17 @@ mod tests {
     }
 
     #[test]
+    fn resolution_runs_package_managers_with_lifecycle_scripts_disabled() {
+        let target = crate::config::Target::Darwin(crate::config::DarwinTarget {
+            id: "mac-arm64".to_string(),
+            cpu: "arm64".to_string(),
+            node: "26.12.0".to_string(),
+        });
+        let environment = tool_environment("/work", &target, "https://registry.npmjs.org/", "/bin", "C", "/work/tmp");
+        assert_eq!(environment["npm_config_ignore_scripts"], "true");
+    }
+
+    #[test]
     fn rejects_unknown_targets() {
         let config = Config {
             public_base_url: "https://example.test/mirror/".to_string(),
