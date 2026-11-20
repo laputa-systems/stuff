@@ -132,7 +132,10 @@ class NativeAdapterTest(unittest.TestCase):
             for name in ('package.json', 'pnpm-lock.yaml', 'node_modules'):
                 out.add(closure / name, arcname=name)
         token = self.adapter.acquire('stager', 'stage', 60)
-        staged = self.adapter.stage('stager', token, str(archive), 'test build')
+        incoming = self.guest / 'var/lib/openorange-rollout/incoming-test.tar'
+        os.replace(archive, incoming)
+        staged = self.adapter.stage('stager', token, '/var/lib/openorange-rollout/incoming-test.tar', 'test build')
+        self.assertFalse(incoming.exists())
         self.adapter.release('stager', token)
         return staged
 

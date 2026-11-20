@@ -262,8 +262,11 @@ def stage(args):
         os.makedirs(RELEASES, exist_ok=True)
         staging = os.path.join(RELEASES, '.staging-' + uuid.uuid4().hex)
         os.mkdir(staging)
-        with tarfile.open(args['archive']) as archive:
+        incoming = path(args['archive'])
+        with tarfile.open(incoming) as archive:
             archive.extractall(staging, filter='data')
+        if os.path.dirname(incoming) == LOCKS:
+            os.unlink(incoming)
         digest = closure_digest(staging)
         name = release_id(digest)
         write_atomic(os.path.join(staging, 'release.json'), json.dumps({'release': name, 'digest': digest, 'source': args['source']}))
