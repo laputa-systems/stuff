@@ -1,5 +1,5 @@
 Prefix: DSLP
-Next: 19
+Next: 21
 
 Deslop campaign backlog for the stuff repository ([plan](https://github.com/laputa-systems/stuff/blob/main/docs/campaigns/deslop.md), tier D, worked by component). One agent works this file with the `deslop` skill: take the lowest-numbered open ticket whose area does not start with `Needs owner ·`, one component and one PR per step. Mutation is blocking only for a small scope the repository declares around an important contract (decision 4); broader mutation, coverage and audits are advisory. Close the ticket's remaining steps, then fill in `## Report` below.
 
@@ -12,6 +12,15 @@ The `crates/stuff` publisher component is complete: Diagnose, Types, Tests, and 
 The other components below remain. Ground covers the whole repository (`AGENTS.md`, Verification: costs, contracts, vendored trees). Each remaining ticket starts with a bounded Diagnose of its component.
 
 ## Tickets
+
+### DSLP-19 · P2 · A small wheel can expand to gigabytes in memory during RECORD verification
+
+- **Area:** mypypi · wheel archive
+- **Where:** crates/mypypi/src/wheel_zip.rs Archive::read; crates/mypypi/src/validate.rs metadata_from_wheel (RECORD hash loop)
+- **Problem:** Confirmed on 52c3999d with a generated wheel. metadata_from_wheel hashes every member by reading it whole into a Vec, and nothing limits a member's or the archive's uncompressed size (only the 1 GiB compressed download limit applies). A 2.4 MB wheel holding one 512 MiB zero member with a correct RECORD row was accepted by inspect_wheel after 3.4 s with a 558 MB peak resident set; 128 MiB gave 155 MB, so memory is linear in the member. Deflate reaches about 1000:1, so a wheel within the download limit can demand a terabyte, and PyPI's own file size limit permits 100 GB. A hostile upstream package can kill the publisher on any target, because every target runs this inspection before install.
+- **Recommendation:** Hash members through a streaming reader bounded by the declared size, bound Archive::read to a metadata-sized limit (every caller reads METADATA, WHEEL, RECORD, setup.py or a metadata member), and reject archives whose declared member sizes sum above a fixed limit when opening. Keep accepting large members that RECORD describes correctly.
+- **Fix with:** deslop
+- **Effort:** S
 
 ### DSLP-12 · P3 · Deslop crates/mypypi: wheel acquisition and PyPI publication
 
@@ -64,6 +73,15 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 - **Where:** crates/mynpm/src/acquire.rs HttpsExchange::fetch and transfer
 - **Problem:** Unreproduced; read from the code on 52c3999d. HttpsExchange::fetch reads the whole body into memory and stops only at TARBALL_BYTES + 64 MiB. The caller's max_bytes (64 MiB for packuments and metadata) is checked in transfer only after the full body is buffered, and a valid Content-Length is never compared with any limit. A hostile or faulty upstream metadata response can therefore hold about 1.06 GiB in memory per request, and four downloads run concurrently. A reproduction needs a local TLS origin for HttpsExchange; the offline fakes replace the Exchange trait and cannot show it.
 - **Recommendation:** Pass max_bytes into Exchange::fetch, reject a Content-Length above it before reading, and stop the read loop at the caller's limit. Add a test with a fake Exchange that records the limit it receives, and a local TLS origin check if one is available.
+- **Fix with:** deslop
+- **Effort:** S
+
+### DSLP-20 · P3 · Wheel member lookups scan every member, so validation is quadratic in the member count
+
+- **Area:** mypypi · wheel archive
+- **Where:** crates/mypypi/src/wheel_zip.rs Archive::member; callers in crates/mypypi/src/validate.rs and acquire.rs
+- **Problem:** Confirmed on 52c3999d in a debug build with generated wheels of empty files. inspect_wheel took 0.31 s for 5,000 members, 0.74 s for 10,000 and 1.74 s for 20,000; each name triggers mode, read, size and read_prefix calls that each scan the member list linearly. A 100 MB wheel can hold on the order of 800,000 central directory entries. Not extrapolated beyond 20,000 members.
+- **Recommendation:** Index members by name when opening the archive (first entry wins, as today). Duplicate names are rejected by the callers, so the index changes no result.
 - **Fix with:** deslop
 - **Effort:** S
 
