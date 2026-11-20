@@ -104,8 +104,45 @@ invalidates on transitive source changes
 from a workspace census (`docs/deslop-types.md` in shck); each slice must
 fix its component's cast and wildcard-match leads, not only adopt lints.
 
-Next: shck P2 findings DSLP-9 and DSLP-10, then its per-component Types,
-Tests and Dead code slices.
+shck then completed through Report
+([#34](https://github.com/joshuarli/shck/pull/34)). Steps and their PRs:
+
+- P2 fixes: DSLP-9 ([#7](https://github.com/joshuarli/shck/pull/7)), and
+  DSLP-10 with DSLP-15 ([#12](https://github.com/joshuarli/shck/pull/12)).
+- Bench: tiers in `benches/driver.py`
+  ([#14](https://github.com/joshuarli/shck/pull/14)).
+- Types: 8 component slices.
+- Tests: 7 slices (#17 to #29). Each new test was proven by an injected fault,
+  and production behavior did not change.
+- Dead code: 7 slices (#16 to #33), deleting about 2,350 lines.
+
+The completion review found two defects in #12's resource-limit reporting,
+both fixed in [#32](https://github.com/joshuarli/shck/pull/32):
+
+- for stdin input, `check` dropped a limit error when lint diagnostics were
+  present;
+- running out of fuel between commands reported `Fatal`, not
+  `LimitExceeded`.
+
+shck items that need the owner, about public APIs and rule codes:
+
+- DSLP-21: unused indexer and discover APIs;
+- DSLP-22: parser public APIs with no workspace consumer;
+- DSLP-23: `GlobPatternBehavior::sh_glob`;
+- DSLP-25: `format_range`;
+- DSLP-26: six registered rules (C065 to C068, C077, X077) are empty stubs.
+
+Other P3 and P4 findings are filed per the November 19 ruling.
+
+From November 19 the host stays busy with the owner's other work. Performance
+and test-cost evidence therefore follows the busy-host rules in usr
+`performance.md#busy-host-evidence`, so lanes no longer wait on
+`perf-gate-ready`. Those rules cover scaling ratios, interleaved CPU-time pairs,
+load-independent counters, and the runner's own `finished in` durations. The
+disk-pressure threshold is now an absolute 16 GiB of free space, not a
+percentage.
+
+Next: campaign close (Phase 4).
 
 ## Accepted work
 
