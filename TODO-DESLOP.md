@@ -18,7 +18,7 @@ Types at `0d15d8ef` retains ty 0.0.101 with all rules at error and Ruff 0.17.4
 with the existing Bugbear and return checks. `make repomod-lint` passes.
 [DSLP-3 evidence](docs/deslop-repomod-types.md) records the strict candidates,
 the two checker witnesses, and the reduction from 324 to 319 source lines
-containing a typing escape hatch. Tests remain open.
+containing a typing escape hatch. The finite Tests inventory is recorded in [the tests review](docs/deslop-repomod-tests.md); hosted publication mutation qualification remains outstanding and wider sweeps are advisory.
 
 Dead code is complete for Repomod. [The review](docs/deslop-repomod-dead-code.md)
 records deleted paths and the six dynamic uses. All 98 CLI, catalog,
@@ -26,22 +26,6 @@ snapshot and dashboard checks passed. The canonical preview rendered
 31 pages.
 
 ## Tickets
-
-
-
-
-### DSLP-4 · P2 · Tests: coverage, boundary gaps, mutation
-
-- **Area:** deslop · tests
-- **Where:** repomod/, tests/repomod/, and the checkout, workflow, fix-plan and inventory boundaries in docs/campaigns/deslop-roadmap.md
-- **Problem:** Serial coverage and bounded workflow, upstream-fetch, catalog and snapshot mutation results are recorded in the roadmap and named evidence documents. The snapshot controls include case-sensitive and locale outcomes. The dashboard render and make deps consume the snapshots. Checkout removal, the remaining fix publication and inventory adapter decisions, and the retained union still need qualification.
-- **Recommendation:** Reconcile current identity and effect boundaries using local Git and fake GitHub and registry inputs. Qualify the serial whole-change union, its hosted negative controls and paired suite cost. Verify the dashboard and inventory consumers with the named commands.
-- **Fix with:** deslop
-- **Effort:** L
-
-
-
-
 
 ### DSLP-7 · P3 · An interruption after a fixer commit can delete its recovery branch
 
@@ -51,7 +35,6 @@ snapshot and dashboard checks passed. The canonical preview rendered
 - **Recommendation:** Before deleting a newly created fix branch, inspect its actual tip against the base and preserve any completed commit independently of the recorded outcome list. Cover the precise post-commit interruption window with a real local commit and no remote writes.
 - **Fix with:** lifecycle-concurrency
 - **Effort:** S
-
 
 ### DSLP-8 · P3 · A filtered line-count snapshot drops unselected index entries
 
