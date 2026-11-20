@@ -169,7 +169,30 @@ apart from P3 and P4 tickets. The rulings taken under that delegation:
   tickets move to `TODO.md` and `TODO-DESLOP.md` is deleted in one PR.
   The fleet-wide lint, the scorecard and this doc's retirement come last.
 
-Next: fork passes, then per-repository Phase 4 for the settled set.
+By the end of November 20, 28 repositories had closed their backlog in
+`TODO.md`: Buildlib, CMake-build, Defuddle-rs, Diff-pretty, Doas-rs, E,
+Extensions, FFmpeg-build, Fz, Hi-lite, Laputa UI Dashboard, Loc, Lz,
+Mdevd-rs, Node-build, Pi-build, Ptytest, pytest-parallel, Rustybench, shck,
+Stuff, Tinyland, Vault, and the forks fd, jaq, oxish, rust-fontconfig and
+rustix. Defects fixed in that work:
+
+- fd: a linked worktree reported a stale `--version` SHA.
+- rust-fontconfig: three default-ignorable Unicode ranges were missing.
+- Extensions: profile archives could stop early on a Replies timeline and
+  report completion (DSLP-9).
+- oxish: CI could not build from a clean checkout, because the fork depends
+  on ssh-build's patched graviola.
+
+Srv's required mutation gate selected all 376 `src/main.rs` mutants for any
+test change and could never pass. Its required scope is now the
+request-admission functions. Open draft PRs parked only for timing were
+ported onto their current default branches (Gluon #39 and #41, Hi-lite #26,
+Defuddle-rs #33). Mutation-qualification trial drafts were closed, with
+their branches kept.
+
+Next: finish the remaining forks (rage, crabtables, soulseek-rs) and Srv,
+Fastermod and Stats, then the unstarted repositories (tm, usr, ctrs, ish, img,
+play, tansu, smolith, kache), worked by component above 50k lines.
 
 ## Accepted work
 
