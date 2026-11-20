@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 93
+Next: 96
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -22,18 +22,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** durable-state
 - **Effort:** M
 
-
-
-
-
-
-
-
-
-
-
-
-
 ### STUF-88 · P2 · Keep actor inventory available during native resource collection
 
 - **Area:** OpenOrange lifecycle observability
@@ -42,7 +30,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Diagnose the failed actor-list requests using preserved sample indices without restarting the shared Engine or changing the active sampler. Establish a supported bounded inventory path that remains available during normal traffic, preserve unknown lifecycle states and explicit failures, and verify a complete 24-hour collection with zero unavailable groups. Handle the application-health timeout separately if it has an independent cause; do not hide outages with dropped samples or relaxed acceptance.
 - **Fix with:** root-cause
 - **Effort:** M
-
 
 ### STUF-90 · P2 · Classify the private Engine lease fence during TERM
 
@@ -53,7 +40,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** root-cause
 - **Effort:** M
 
-
 ### STUF-91 · P2 · Upgrade all Solid consumers to stable 2.0 using the changelog
 
 - **Area:** Fleet · frontend dependencies
@@ -62,7 +48,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Use the stable release, changelog and migration guide to verify the remaining consumers listed in the roadmap. Check the compiler, JSX, router, test and SSR pins, then qualify each upgrade with lint, type checks, builds and relevant integration tests. Discover is outside campaign scope during the owner's rearchitecture.
 - **Fix with:** upgrade-the-world
 - **Effort:** L
-
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
 
@@ -73,3 +58,29 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** design-cli, orchestrate
 - **Effort:** L
 
+### STUF-93 · P3 · An interruption after a fixer commit can delete its recovery branch
+
+- **Area:** repomod · lifecycle
+- **Where:** repomod/fix.py:486-493; docs/deslop-repomod-diagnose.md
+- **Problem:** Confirmed on `40112564` with a local Git fixture: wrapping _commit_paths to complete the real commit and immediately raise KeyboardInterrupt leaves outcome.commits empty. Cleanup deletes the newly created fix branch although its tip contains the completed change. The object remains readable by SHA; permanent loss or later object collection was not demonstrated.
+- **Recommendation:** Before deleting a newly created fix branch, inspect its actual tip against the base and preserve any completed commit independently of the recorded outcome list. Cover the precise post-commit interruption window with a real local commit and no remote writes.
+- **Fix with:** lifecycle-concurrency
+- **Effort:** S
+
+### STUF-94 · P3 · A filtered line-count snapshot drops unselected index entries
+
+- **Area:** repomod · inventory
+- **Where:** repomod/loc.py:63-75; docs/deslop-repomod-diagnose.md
+- **Problem:** Confirmed on `40112564`: snapshot two mocked real Inspection records A and B, then snapshot A with filtered=True. repos/B.json remains, but B disappears from index.json because _entries returns only selected repositories. The dashboard reads retained files directly, so missing dashboard rows were not established. The filtered metadata index no longer describes every retained repository.
+- **Recommendation:** Merge selected line-count entries into the existing index for filtered snapshots while retaining full-snapshot deletion behavior. Assert the full index and unselected record bytes across a filtered refresh, including unchanged commit stamping.
+- **Fix with:** durable-state
+- **Effort:** S
+
+### STUF-95 · P3 · Qualify repomod performance comparisons and attribution
+
+- **Area:** repomod · benchmarks
+- **Where:** bench/deps_perf.py, bench/suite.py, docs/deslop-repomod-bench.md
+- **Problem:** The isolated preview workload verifies content and reports single-process resources, but has no reference comparison, regression gate, process-tree attribution, or isolated coverage of sync, snapshot and live status. Existing live workloads can access canonical checkouts and external services.
+- **Recommendation:** Add isolated representative workloads and process-tree attribution, then qualify interleaved comparisons and a regression gate on an appropriate host. Keep Full manual-only.
+- **Fix with:** bench-pyramid
+- **Effort:** M
