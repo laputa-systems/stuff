@@ -13,15 +13,6 @@ The other components below remain. Ground covers the whole repository (`AGENTS.m
 
 ## Tickets
 
-### DSLP-19 · P2 · A small wheel can expand to gigabytes in memory during RECORD verification
-
-- **Area:** mypypi · wheel archive
-- **Where:** crates/mypypi/src/wheel_zip.rs Archive::read; crates/mypypi/src/validate.rs metadata_from_wheel (RECORD hash loop)
-- **Problem:** Confirmed on 52c3999d with a generated wheel. metadata_from_wheel hashes every member by reading it whole into a Vec, and nothing limits a member's or the archive's uncompressed size (only the 1 GiB compressed download limit applies). A 2.4 MB wheel holding one 512 MiB zero member with a correct RECORD row was accepted by inspect_wheel after 3.4 s with a 558 MB peak resident set; 128 MiB gave 155 MB, so memory is linear in the member. Deflate reaches about 1000:1, so a wheel within the download limit can demand a terabyte, and PyPI's own file size limit permits 100 GB. A hostile upstream package can kill the publisher on any target, because every target runs this inspection before install.
-- **Recommendation:** Hash members through a streaming reader bounded by the declared size, bound Archive::read to a metadata-sized limit (every caller reads METADATA, WHEEL, RECORD, setup.py or a metadata member), and reject archives whose declared member sizes sum above a fixed limit when opening. Keep accepting large members that RECORD describes correctly.
-- **Fix with:** deslop
-- **Effort:** S
-
 ### DSLP-12 · P3 · Deslop crates/mypypi: wheel acquisition and PyPI publication
 
 - **Area:** deslop · mypypi

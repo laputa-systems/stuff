@@ -209,6 +209,12 @@ pub fn inspect_wheel(path: &Path, target: &Target, linux_repair_policy: &str) ->
     metadata_from_wheel(path, target, linux_repair_policy)
 }
 
+fn streamed_digest<D: Digest>(archive: &crate::wheel_zip::Archive, name: &str) -> std::result::Result<String, crate::wheel_zip::ArchiveError> {
+    let mut hasher = D::new();
+    archive.stream(name, |chunk| hasher.update(chunk))?;
+    Ok(base64_url_nopad(&hasher.finalize()))
+}
+
 fn metadata_from_wheel(path: &Path, target: &Target, linux_repair_policy: &str) -> Result<WheelMetadata> {
     let filename = path.file_name().and_then(|s| s.to_str()).unwrap_or("").to_string();
     let identity = WheelIdentity::parse(&filename).map_err(|e| failure(None, target, format!("invalid wheel {filename}: {}", e.detail)))?;
@@ -359,26 +365,13 @@ fn metadata_from_wheel(path: &Path, target: &Target, linux_repair_policy: &str) 
         if !sep || !matches!(algorithm, "sha256" | "sha384" | "sha512") {
             return Err(fail(format!("wheel RECORD has an invalid hash for {name}")));
         }
-        let hasher_bytes =
-            archive.read(name).map_err(|e| fail(format!("wheel RECORD has an invalid hash for {name}: {e}")))?;
+        let stream_error = |e: crate::wheel_zip::ArchiveError| fail(format!("wheel RECORD has an invalid hash for {name}: {e}"));
         let computed = match algorithm {
-            "sha256" => {
-                let mut h = Sha256::new();
-                h.update(&hasher_bytes);
-                base64_url_nopad(&h.finalize())
-            }
-            "sha384" => {
-                let mut h = Sha384::new();
-                h.update(&hasher_bytes);
-                base64_url_nopad(&h.finalize())
-            }
-            "sha512" => {
-                let mut h = Sha512::new();
-                h.update(&hasher_bytes);
-                base64_url_nopad(&h.finalize())
-            }
-            _ => unreachable!(),
-        };
+            "sha256" => streamed_digest::<Sha256>(&archive, name),
+            "sha384" => streamed_digest::<Sha384>(&archive, name),
+            _ => streamed_digest::<Sha512>(&archive, name),
+        }
+        .map_err(stream_error)?;
         if computed != *expected_digest {
             return Err(fail(format!("wheel RECORD hash does not match {name}")));
         }
@@ -939,6 +932,16 @@ mod tests {
         let metadata = validate_wheel(&wheel, &target, dir.path(), &ValidationPolicy::default(), "manylinux_2_28").unwrap();
 
         assert_eq!(metadata.imports, ["benign_pkg"]);
+    }
+
+    #[test]
+    fn verifies_a_member_larger_than_the_metadata_read_limit_against_record() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("pkg-1.0-py3-none-any.whl");
+        let big = "x".repeat(65 * 1024 * 1024);
+        write_pure_wheel(&path, "pkg", &[("pkg/data.txt", &big)]);
+
+        assert!(inspect_wheel(&path, &target(), "manylinux_2_28").is_ok());
     }
 
     #[test]
