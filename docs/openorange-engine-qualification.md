@@ -6,6 +6,12 @@ The private candidate is based on Rivet
 image is `docker.io/rivetdev/engine@sha256:6e585002b700dd4d3630808eb67884aa15d1a602d83781984edac47023b6d40f`;
 its `--version` exits 0 and reports `Rivet 3.1.1`.
 
+The two qualification scripts are kept byte-for-byte in
+`deploy/openorange/qualification/` so their recorded SHA-256 values stay
+valid. They import the Stats canary helpers from the canonical checkout at
+`/Users/josh/repos/stats`; run them with that checkout present at Stats
+`b58a339` or later.
+
 The builder is
 `ghcr.io/rivet-dev/rivet/engine-base-builder@sha256:61ba0bec231a20ebe8501be2d26b4649bbb74f31353d0ea8740785ee467d5d11`.
 The Mac ran Linux x86-64 under Docker emulation. Each build used `--cpus 4`,
@@ -40,7 +46,7 @@ were local; no production host was contacted.
 The runtime command was:
 
 ```sh
-TMPDIR="$PWD/.work/tmp" node .work/tmp/engine-qualification-runner.mts "$PWD/.work/tmp/engine-qualification-build-v3/rivet-engine" "$PWD/.work/tmp/engine-qualification-runtime" > .work/tmp/engine-qualification-runtime.log 2>&1
+TMPDIR="$PWD/.work/tmp" node deploy/openorange/qualification/engine-qualification-runner.mts "$PWD/.work/tmp/engine-qualification-build-v3/rivet-engine" "$PWD/.work/tmp/engine-qualification-runtime" > .work/tmp/engine-qualification-runtime.log 2>&1
 ```
 
 The receipt SHA-256 is
@@ -206,7 +212,7 @@ and after opening with the candidate. Each hash covers the two canonical JSON
 payloads separated and terminated by newlines. The inspection exited 0:
 
 ```sh
-TMPDIR="$PWD/.work/tmp" node .work/tmp/engine-qualification-samples.mts "$PWD/.work/tmp/engine-qualification-build-v3/rivet-engine" "$PWD/.work/tmp/engine-qualification-samples-v2" "$PWD/.work/tmp/engine-qualification-runtime" > .work/tmp/engine-qualification-samples-v2.log 2>&1
+TMPDIR="$PWD/.work/tmp" node deploy/openorange/qualification/engine-qualification-samples.mts "$PWD/.work/tmp/engine-qualification-build-v3/rivet-engine" "$PWD/.work/tmp/engine-qualification-samples-v2" "$PWD/.work/tmp/engine-qualification-runtime" > .work/tmp/engine-qualification-samples-v2.log 2>&1
 ```
 
 Its receipt SHA-256 is
