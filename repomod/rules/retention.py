@@ -62,6 +62,11 @@ def _policy() -> dict[str, Any]:
     return data
 
 
+def _registered(repository: Repository, guarantee: str) -> bool:
+    """Whether the retention policy explicitly registers the repository for a guarantee."""
+    return str(repository.id) in _policy()[guarantee]['repositories']
+
+
 def _targets(root: Path, repository: Repository, rule: str, target: str) -> list[Finding]:
     path = root / 'Makefile'
     try:

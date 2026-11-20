@@ -436,17 +436,30 @@ pin in `pyproject.toml` and `uv.lock`.
 `strict-typing-profile` checks the adopted settings in the same retention policy for eligible
 Rust repositories. Register a setting only after its qualification passes.
 
-`make-coverage-target` and `mutants-diff-lane` extend the same guarantees to Rust repositories whose deslop pass reached the Tests step (`TODO-DESLOP.md`
-without an open DSLP-4 ticket) or that already carry a `coverage` or `mutants-diff` target;
-plain forks are excluded unless they are tagged `fork-diverged`. `mutants-diff-lane`
+`make-coverage-target` and `mutants-diff-lane` extend the same guarantees to Rust repositories that
+`fleet/policy/retention.toml` registers explicitly (`[coverage-target]` and `[mutation-lane]`);
+campaign records, Makefile targets and other repository files never select them. Plain forks are
+excluded unless they are tagged `fork-diverged`. `mutants-diff-lane`
 additionally requires the pull-request workflow job to pin cargo-mutants at the approved
 release, to check out with full history, and to pass `BASE_REF` through `env`
 (`github.base_ref`). Its fixer writes the reference gate
-(`scripts/mutants_gate.py` and its test, vendored byte-identically from
-`laputa-systems/srv` for this purpose), a `.cargo/mutants-gate.toml` scoped to `src/`, the
-`BASE ?= origin/main`, `mutants-selftest`, and `mutants-diff` Makefile block, and the srv job
+(`scripts/mutants_gate.py` and its test, vendored byte-identically from `repomod/fixers/`),
+the `BASE ?= origin/main`, `mutants-selftest`, and `mutants-diff` Makefile block, and the srv job
 inserted as the first job after the workflow's `jobs:` key; a repository without a
 pull_request workflow keeps the tooling but needs a test workflow first (`gha-test-workflow`).
+
+The fixer never writes a mutation scope. Blocking mutation covers a small scope around an
+important contract, so the repository declares it in `.cargo/mutants-gate.toml`: `scope`, an
+explicit list of `.rs` files (no directory or glob), and `critical`, a regex over mutant names
+that selects the important functions. A missing or invalid declaration is a non-fixable
+`mutants-diff-lane` finding. The gate selects by change: production changes mutate their
+changed lines only; a change to tests, fixtures, build configuration, the gate, or test code
+inside a production file (including deleting a protecting test) also mutates `scope` filtered
+by `critical`; a mixed change selects both; documentation-only changes select nothing. A timeout
+is replayed at 3x on exactly one mutant (a one-line `--in-diff` plus an exact-name `--re`,
+because cargo-mutants 27.1.0 lists struct-field deletions regardless of `--re`); a replay that
+cannot select exactly that mutant leaves an unresolved timeout, which fails the gate. Broad audits
+stay advisory.
 Neither rule fixes Python or TypeScript repositories; those lanes follow STUF-83.
 
 `github-protection` requires zero approving reviews on protected branches so owner-only
