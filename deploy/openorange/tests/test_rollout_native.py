@@ -51,7 +51,7 @@ def runner(payload):
     if result.returncode != 0:
         raise OSError(result.stderr)
     return result.stdout
-adapter = oorollout_native.NativeAdapter(runner, health_url=spec['health_url'], health_deadline_s=5, min_free_bytes=1)
+adapter = oorollout_native.NativeAdapter(runner, health_url=spec['health_url'], health_deadline_s=5, min_free_bytes=1, bound_s=10)
 journal = oorollout.Journal(spec['journal'])
 if not journal.records:
     journal.append('start', config=spec['config'])
@@ -111,7 +111,7 @@ class NativeAdapterTest(unittest.TestCase):
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         self.health_url = f'http://127.0.0.1:{self.server.server_address[1]}/health'
         self.env = {**os.environ, 'ROLLOUT_GUEST_ROOT': str(self.guest), 'PATH': f'{fake_bin}:{os.environ["PATH"]}'}
-        self.adapter = oorollout_native.NativeAdapter(self.local_runner, health_url=self.health_url, health_deadline_s=5, min_free_bytes=1)
+        self.adapter = oorollout_native.NativeAdapter(self.local_runner, health_url=self.health_url, health_deadline_s=5, min_free_bytes=1, bound_s=10)
         self.baseline = self.adapter.observe()['selected']
         self.evidence = self.base / 'evidence'
         self.evidence.mkdir()
@@ -183,7 +183,7 @@ class NativeAdapterTest(unittest.TestCase):
 
     def engine(self, staged, crash=None):
         receipt, evidence, evaluator = receipt_support.make_receipt(self.base / 'qualification', self.baseline, staged['release'], self.adapter.observe()['digest'], staged['digest'])
-        config = {'target_kind': 'native', 'host': 'simulated', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': staged['release'], 'artifact': staged['digest'], 'baseline': self.baseline, 'policy': {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 600, 'observation_s': 0, 'check_interval_s': 0.01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'deadline_s': 60}
+        config = {'target_kind': 'native', 'host': 'simulated', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': staged['release'], 'artifact': staged['digest'], 'baseline': self.baseline, 'policy': {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 600, 'observation_s': 0, 'check_interval_s': 0.01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'bound_s': 10, 'deadline_s': 60}
         spec = {'env': self.env, 'health_url': self.health_url, 'journal': str(self.journal), 'config': config}
         env = {**os.environ, **({'ROLLOUT_CRASH': crash} if crash else {})}
         return subprocess.run([sys.executable, '-c', ENGINE_CHILD, str(LIB), json.dumps(spec)], capture_output=True, text=True, env=env)

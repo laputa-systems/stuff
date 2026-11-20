@@ -300,9 +300,6 @@ def stage(args):
         os.mkdir(staging)
         incoming = path(args['archive'])
         try:
-            if 'archive_data' in args:
-                with open(incoming, 'xb') as out:
-                    out.write(base64.b64decode(args['archive_data'], validate=True))
             with tarfile.open(incoming) as archive:
                 declared = archive.pax_headers.get('openorange.manifest_digest')
                 archive.extractall(staging, filter='data')
@@ -371,7 +368,7 @@ def ssh_runner(ssh_config, host):
 
 
 class NativeAdapter:
-    def __init__(self, runner, health_url='http://127.0.0.1:8080/health', engine_container='live-stats-engine', min_free_bytes=1 << 30, health_deadline_s=180, bound_s=10):
+    def __init__(self, runner, health_url='http://127.0.0.1:8080/health', engine_container='live-stats-engine', min_free_bytes=1 << 30, health_deadline_s=180, bound_s=240):
         self.runner = runner
         self.settings = {'bound_s': bound_s, 'health_url': health_url, 'engine_container': engine_container, 'min_free_bytes': min_free_bytes, 'health_deadline_s': health_deadline_s}
 
@@ -424,8 +421,8 @@ class NativeAdapter:
     def complete(self, holder, token, state, release, digest):
         self.call('complete', holder=holder, token=token, release=release, digest=digest)
 
-    def stage(self, holder, token, archive, source, **kwargs):
-        return self.call('stage', holder=holder, token=token, archive=archive, source=source, **kwargs)
+    def stage(self, holder, token, archive, source):
+        return self.call('stage', holder=holder, token=token, archive=archive, source=source)
 
     def check(self, release, digest):
         return self.call('check', release=release, digest=digest)

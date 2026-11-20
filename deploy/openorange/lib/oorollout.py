@@ -241,10 +241,10 @@ def adapter_for(config):
         return FakeAdapter(config['target'])
     if config['target_kind'] == 'native':
         import oorollout_native
-        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']), bound_s=config.get('bound_s', 10))
+        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']), bound_s=config['bound_s'])
     if config['target_kind'] == 'oo-containers':
         import oorollout_containers
-        return oorollout_containers.ContainersAdapter(oorollout_containers.ssh_runner(config['ssh_config'], config['host']), config['app'], bound_s=config.get('bound_s', 10))
+        return oorollout_containers.ContainersAdapter(oorollout_containers.ssh_runner(config['ssh_config'], config['host']), config['app'], bound_s=config['bound_s'])
     raise ValueError('unknown target kind: ' + str(config['target_kind']))
 
 
@@ -273,7 +273,7 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
         adapter = adapter_for(config)
     policy = config['policy']
     duration = config['deadline_s']
-    lease_s = max(duration, config.get('bound_s', 10) + 10)
+    lease_s = max(duration, config['bound_s'] + 10)
     run_id = config['run_id']
     holder = 'watchdog-' + uuid.uuid4().hex if recovered_by else run_id
     with (journal.directory / '.controller').open('a+') as guard:

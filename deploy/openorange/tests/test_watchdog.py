@@ -27,7 +27,7 @@ def test_sigkill_controller_watchdog_takes_lease_and_recovers(guest):
     policy.write_text(json.dumps({'max_age_s': 600, 'observation_s': 60, 'check_interval_s': .1, 'functional_check': {'argv': [sys.executable, '-c', 'import json,os; print(json.dumps({"ok": bool(os.environ.get("ROLLOUT_RELEASE")) and bool(os.environ.get("ROLLOUT_DIGEST")), "release": os.environ.get("ROLLOUT_RELEASE"), "digest": os.environ.get("ROLLOUT_DIGEST")}))'], 'timeout_s': 5}}))
     journals = guest.base / 'runs'
     journals.mkdir()
-    cmd = [str(CLI), 'start', '--candidate', staged['release'], '--artifact', staged['digest'], '--baseline', guest.baseline, '--target-kind', 'native', '--host', 'guest', '--ssh-config', 'unused', '--policy', str(policy), '--receipt', str(receipt), '--evaluator', str(evaluator), '--evidence-dir', str(evidence), '--journal-dir', str(journals), '--deadline-s', '2', '--json']
+    cmd = [str(CLI), 'start', '--candidate', staged['release'], '--artifact', staged['digest'], '--baseline', guest.baseline, '--target-kind', 'native', '--host', 'guest', '--ssh-config', 'unused', '--policy', str(policy), '--receipt', str(receipt), '--evaluator', str(evaluator), '--evidence-dir', str(evidence), '--journal-dir', str(journals), '--deadline-s', '2', '--bound-s', '3', '--json']
     controller = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=guest.env)
     watchdog = None
     log = guest.base / 'watchdog.log'

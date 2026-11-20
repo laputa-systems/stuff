@@ -124,7 +124,7 @@ def ssh_runner(ssh_config, host):
 
 
 class ContainersAdapter(oorollout_native.NativeAdapter):
-    def __init__(self, runner, app, min_free_bytes=1 << 30, health_deadline_s=180, bound_s=10):
+    def __init__(self, runner, app, min_free_bytes=1 << 30, health_deadline_s=180, bound_s=240):
         if not re.fullmatch(r'[a-z][a-z0-9-]{0,31}', app):
             raise ValueError('invalid app name')
         self.runner = runner
