@@ -9,7 +9,7 @@ builds artifacts.
 `start` requires `--receipt`, `--evidence-dir`, and `--evaluator` alongside
 release IDs, the candidate sha256 digest, a target, rollout policy JSON and
 controller journal folder. The policy fields are `max_age_s`, `observation_s`,
-and `check_interval_s`. The qualification receipt binds the release labels and
+and `check_interval_s`, plus `functional_check` with a nonempty `argv` array and positive `timeout_s`. The controller executes that command locally with `ROLLOUT_RELEASE` and `ROLLOUT_DIGEST` set to the release under test. It must exit zero and print a JSON object with `ok: true`. The qualification receipt binds the release labels and
 artifact digests, profile, policy, workload, evaluator, observations, complete
 evidence file set and decision. The controller verifies every file and replays
 `node EVALUATOR verify release --evidence DIR --replay --json`. Only a passing
@@ -26,10 +26,7 @@ The journal progresses through staged, qualified, prepared, activated,
 verifying and promoted. A failed pre-activation gate is rejected. After
 preparation, failure or abort enters recovering and ends in recovered or
 needs-operator. Verification repeatedly asks the adapter for identity and its
-post-activation checks through the configured observation window. A real
-adapter must check authenticated readiness, real ingest, durable readback and
-duplicate handling. Recovery reactivates and verifies the recorded baseline
-digest. No promotion implies a build.
+post-activation checks and runs the functional check through the configured observation window. Both must pass. The functional check must exercise real ingest, durable readback and duplicate handling. Recovery reactivates the recorded baseline digest and requires a fresh passing adapter and baseline functional check. Each result is journaled. No promotion implies a build.
 
 Each run has a controller-host directory outside the target, with an append-only
 `journal.jsonl` and controller serialization lock. Records have increasing
@@ -40,8 +37,7 @@ line is reported and discarded before the next append. `resume --run PATH`
 compares selected release, running release and digest before reapplying an
 idempotent conditional effect. Ambiguous identity requires an operator.
 `abort --run PATH` rejects before preparation and recovers afterward.
-`watchdog --journal-dir DIR` recovers post-prepare runs with overdue
-heartbeats through the same lock and reconciliation path.
+`watchdog --journal-dir DIR` scans once for post-prepare runs with overdue heartbeats. Add `--loop --interval-s 10` for continuous supervision and one JSON line per pass. It waits for the controller lease to expire, takes a new fencing token under its own holder, and journals recovery with `recovered-by: watchdog`; it never calls abort. A held lease is retried on the next pass.
 
 The adapter provides acquire, release, observe, conditional activate and
 check operations, plus two hooks. `classify(state, expected, release,
@@ -54,8 +50,7 @@ target directory. A single maintenance lock covers deployment, backup/fence,
 Engine replacement, ingress change and writer handoff. Its record contains
 holder, operation, monotonically increasing fencing token and lease expiry.
 Acquisition creates the lock exclusively; expired takeover advances the token.
-Each target mutation checks the holder, live lease and token under the same
-atomic serialization boundary. A real host adapter must supply an equivalent
+Every guest mutation requires a positive execution bound, checks holder and token, and requires at least the bound plus one second of lease remaining. The guest holds the lease guard during the mutation, runs it in a process group and kills that group when the bound expires. A controller renews before mutations and verification. `start` and `stage` accept `--bound-s` (default 10 seconds) to set the bound for their guest mutations; choose a value that covers restart, health waits and staging on the target. A real host adapter must supply an equivalent
 host-wide atomic lock and reject stale tokens at every mutation boundary; the
 fake's local filesystem lock is not a distributed lock.
 
@@ -99,7 +94,7 @@ native --host stats-standby --ssh-config FILE --json` is read-only.
   is the next step.
 - **Lock.** `/var/lib/openorange-rollout/lock.json` with a fencing counter,
   created exclusively under `flock`; every mutating guest operation rechecks
-  holder, token and lease in the same invocation.
+  holder, token and the lease margin before bounded execution.
 - **Checks.** Guest health, the expected selected and running release and
   digest, and a running Engine container. Real ingest, durable readback and
   duplicate handling remain the Stats canary's checks.
@@ -128,3 +123,25 @@ healthy activation in place for a retry. The same guest-wide fenced lock as the
 native adapter serializes mutations. Images must already be present locally.
 The adapter checks identity and readiness, not the canary's ingest and durable
 readback checks.
+
+## Shared lease and supervision
+
+Non-rollout mutation paths use the same guest-wide lock:
+
+```sh
+rollout lease run --target-kind native --host HOST --ssh-config CONFIG \
+  --operation backup-fence --bound-s 60 -- COMMAND ARGUMENTS
+```
+
+The command executes on the guest with a fresh holder and fencing token. A held lease exits 4; otherwise the command's exit status is returned and release is attempted even on failure. A timeout kills its process group. The bound must include the whole operation, including any child work. Commands must not detach children from that group. The mutation paths identified for this wrapper are the Stats standby deploy, collector install, backup fence, native-stats restarts and writer handoff; their callers live in Stats and must use this protocol before running concurrently with rollout.
+
+Render a service with explicit paths, then install or load it using the host's service manager:
+
+```sh
+deploy/openorange/watchdog/install --kind launchd --journal-dir /absolute/journals \
+  --rollout /absolute/path/to/rollout --output /absolute/path/to/watchdog.plist
+deploy/openorange/watchdog/install --kind openrc --journal-dir /absolute/journals \
+  --rollout /absolute/path/to/rollout --output /absolute/path/to/openorange-watchdog
+```
+
+The service account needs access to the journal, SSH configuration, target and functional-check command. Supervision restarts a stopped watchdog; journal storage must survive controller failure.

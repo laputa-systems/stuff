@@ -77,7 +77,7 @@ def runner(payload):
     p = subprocess.run([sys.executable, '-c', oorollout_containers.GUEST_SCRIPT], input=payload, text=True, capture_output=True, env=spec['env'])
     if p.returncode: raise OSError(p.stderr)
     return p.stdout
-adapter = oorollout_containers.ContainersAdapter(runner, 'app', min_free_bytes=1, health_deadline_s=2)
+adapter = oorollout_containers.ContainersAdapter(runner, 'app', min_free_bytes=1, health_deadline_s=2, bound_s=10)
 journal = oorollout.Journal(spec['journal'])
 if not journal.records:
     journal.append('start', config=spec['config'])
@@ -110,7 +110,7 @@ class ContainersTest(unittest.TestCase):
         self.server.healthy = True
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         self.env = {**os.environ, 'ROLLOUT_GUEST_ROOT': str(self.root), 'PATH': str(self.root / 'bin') + ':' + os.environ['PATH'], 'HEALTH_URL': f'http://127.0.0.1:{self.server.server_address[1]}/health'}
-        self.adapter = oorollout_containers.ContainersAdapter(self.runner, 'app', min_free_bytes=1, health_deadline_s=2)
+        self.adapter = oorollout_containers.ContainersAdapter(self.runner, 'app', min_free_bytes=1, health_deadline_s=2, bound_s=10)
         self.evidence = Path(self.tmp.name) / 'evidence'
         self.evidence.mkdir()
         self.journal = Path(self.tmp.name) / 'journal'
@@ -131,7 +131,7 @@ class ContainersTest(unittest.TestCase):
 
     def engine(self, crash=None, recovery=False, guest_crash=None):
         receipt, evidence, evaluator = make_receipt(Path(self.tmp.name), BASE, CANDIDATE, IDS[BASE], IDS[CANDIDATE])
-        config = {'target_kind': 'oo-containers', 'host': 'simulated', 'app': 'app', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': CANDIDATE, 'artifact': IDS[CANDIDATE], 'baseline': BASE, 'policy': {'max_age_s': 600, 'observation_s': 0, 'check_interval_s': .01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'deadline_s': 60}
+        config = {'target_kind': 'oo-containers', 'host': 'simulated', 'app': 'app', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': CANDIDATE, 'artifact': IDS[CANDIDATE], 'baseline': BASE, 'policy': {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 600, 'observation_s': 0, 'check_interval_s': .01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'bound_s': 10, 'deadline_s': 60}
         spec = {'env': {**self.env, **({'GUEST_CRASH': guest_crash} if guest_crash else {})}, 'journal': str(self.journal), 'config': config, 'recovery': recovery}
         env = {**os.environ, **({'ROLLOUT_CRASH': crash} if crash else {})}
         return subprocess.run([sys.executable, '-c', ENGINE, str(LIB), json.dumps(spec)], text=True, capture_output=True, env=env)
