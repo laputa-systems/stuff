@@ -1,4 +1,4 @@
-.PHONY: help preview dev worker-dev-test release lint ts-lint repomod-test repomod-lint deps bench bench-cli deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css ts-assets test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
+.PHONY: help preview dev worker-dev-test release lint ts-lint repomod-test repomod-lint deps bench bench-cli bench-list bench-check deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css ts-assets test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
 
 help: ## Show this help
 	@grep -E '^[a-z-]+: ## ' $(MAKEFILE_LIST) | sort | awk -F': ## ' '{printf "  make %-14s %s\n", $$1, $$2}'
@@ -52,8 +52,18 @@ preview: ## Render the dependency dashboard from its canonical preview dataset a
 preview-check: ## Check the preview's layout in a real browser at 390 and 1440 px
 	@sh tools/dashboard-layout-check.sh
 
-bench: ## Measure dependency dashboard render phases, cold and warm ([RUNS=3])
+bench: ## Measure live dashboard phases, or run a tier ([TIER=edit|change|scenario|full])
+ifeq ($(origin TIER), undefined)
 	@uv run python bench/deps_perf.py phases --mode both --runs $(RUNS)
+else
+	@TIER="$(TIER)" WORKLOAD="$(WORKLOAD)" ALLOW_FULL="$(ALLOW_FULL)" uv run --offline --no-sync python bench/suite.py run
+endif
+
+bench-list: ## List isolated benchmark workloads
+	@uv run --offline --no-sync python bench/suite.py list
+
+bench-check: ## Select and preflight isolated benchmarks without running them
+	@TIER="$(if $(TIER),$(TIER),edit)" WORKLOAD="$(WORKLOAD)" ALLOW_FULL="$(ALLOW_FULL)" uv run --offline --no-sync python bench/suite.py check
 
 bench-cli: ## Measure the real deps render command, cold and warm ([RUNS=3])
 	@uv run python bench/deps_perf.py workflow --mode both --runs $(RUNS)
