@@ -202,7 +202,7 @@ def gate(config):
     receipt, reasons = ooreceipt.verify(config['receipt'], config['evidence_dir'], config['evaluator'])
     if reasons:
         return None, reasons
-    if receipt['candidate']['releaseId'] != config['candidate'] or receipt['baseline']['releaseId'] != config['baseline']:
+    if receipt['candidate']['releaseId'] != config['candidate']:
         return None, ['release-identity-mismatch']
     if receipt['candidate']['artifactDigest'] != config['artifact']:
         return None, ['artifact-not-qualified']
@@ -316,7 +316,7 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
                 age = now() * 1000 - receipt['decision']['evaluatedAtMs']
                 recovery_digest = receipt['baseline']['artifactDigest']
                 reasons = []
-                if target.get('running') != receipt['baseline']['releaseId'] or target.get('selected') != receipt['baseline']['releaseId']:
+                if target.get('running') != config['baseline'] or target.get('selected') != config['baseline']:
                     reasons.append('baseline-identity-mismatch')
                 if age < 0 or age > policy['max_age_s'] * 1000:
                     reasons.append('stale-decision')
@@ -337,7 +337,7 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
             qualified_receipt = next(r['receipt'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'qualified')
             qualified_digest = qualified_receipt['candidate']['artifactDigest']
             candidate = qualified_receipt['candidate']['releaseId']
-            baseline = qualified_receipt['baseline']['releaseId']
+            baseline = config['baseline']
             baseline_digest = next(r['baseline_digest'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'prepared')
             if state == 'prepared':
                 try:

@@ -181,8 +181,8 @@ class NativeAdapterTest(unittest.TestCase):
         self.assertEqual(tampered['artifacts'], state['artifacts'])
         self.assertEqual(tampered['artifacts'][staged['release']], staged['digest'])
 
-    def engine(self, staged, crash=None):
-        receipt, evidence, evaluator = receipt_support.make_receipt(self.base / 'qualification', self.baseline, staged['release'], self.adapter.observe()['digest'], staged['digest'])
+    def engine(self, staged, crash=None, baseline_label=None, baseline_digest=None):
+        receipt, evidence, evaluator = receipt_support.make_receipt(self.base / 'qualification', baseline_label or self.baseline, staged['release'], baseline_digest or self.adapter.observe()['digest'], staged['digest'])
         config = {'target_kind': 'native', 'host': 'simulated', 'ssh_config': 'unused', 'run_id': str(self.journal), 'candidate': staged['release'], 'artifact': staged['digest'], 'baseline': self.baseline, 'policy': {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 600, 'observation_s': 0, 'check_interval_s': 0.01}, 'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': str(evaluator), 'evidence_dir': str(evidence), 'bound_s': 10, 'deadline_s': 60}
         spec = {'env': self.env, 'health_url': self.health_url, 'journal': str(self.journal), 'config': config}
         env = {**os.environ, **({'ROLLOUT_CRASH': crash} if crash else {})}
@@ -191,6 +191,18 @@ class NativeAdapterTest(unittest.TestCase):
     def restarts(self):
         path = self.guest / 'restarts'
         return path.read_text().split() if path.exists() else []
+
+    def test_baseline_is_matched_by_content_digest_not_by_receipt_label(self):
+        staged = self.stage_candidate()
+        mismatched = self.engine(staged, baseline_label='rt-rebuilt00000', baseline_digest='sha256:' + 'f' * 64)
+        self.assertEqual(json.loads(mismatched.stdout.splitlines()[-1])['state'], 'rejected')
+        self.assertIn('baseline-artifact-mismatch', ''.join(p.read_text() for p in self.journal.rglob('journal.jsonl')))
+        self.tearDown()
+        self.setUp()
+        staged = self.stage_candidate()
+        result = self.engine(staged, baseline_label='rt-rebuilt00000')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout.splitlines()[-1])['state'], 'promoted')
 
     def test_observe_before_conversion_identifies_the_in_place_runtime(self):
         state = self.adapter.observe()
