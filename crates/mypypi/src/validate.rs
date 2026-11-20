@@ -944,6 +944,49 @@ mod tests {
         assert!(inspect_wheel(&path, &target(), "manylinux_2_28").is_ok());
     }
 
+    fn wheel_with_record_rows(path: &Path, content: &[u8], recorded_content: &[u8], recorded_size: usize) {
+        use sha2::{Digest, Sha256};
+        let metadata = b"Metadata-Version: 2.1\nName: pkg\nVersion: 1.0\nRequires-Python: >=3.9\n";
+        let wheel = b"Wheel-Version: 1.0\nGenerator: test\nRoot-Is-Purelib: true\nTag: py3-none-any\n";
+        let row = |name: &str, bytes: &[u8], size: usize| {
+            let mut h = Sha256::new();
+            h.update(bytes);
+            format!("{name},sha256={},{size}\n", base64_url_nopad(&h.finalize()))
+        };
+        let record = format!(
+            "{}{}{}pkg-1.0.dist-info/RECORD,,\n",
+            row("pkg-1.0.dist-info/METADATA", metadata, metadata.len()),
+            row("pkg-1.0.dist-info/WHEEL", wheel, wheel.len()),
+            row("pkg/data.txt", recorded_content, recorded_size),
+        );
+        crate::wheel_zip::testing::write_files(
+            path,
+            &[
+                ("pkg-1.0.dist-info/METADATA", metadata),
+                ("pkg-1.0.dist-info/WHEEL", wheel),
+                ("pkg/data.txt", content),
+                ("pkg-1.0.dist-info/RECORD", record.as_bytes()),
+            ],
+        );
+    }
+
+    #[test]
+    fn rejects_a_member_that_differs_from_its_record_row() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("pkg-1.0-py3-none-any.whl");
+
+        wheel_with_record_rows(&path, b"shipped", b"shipped", 7);
+        assert!(inspect_wheel(&path, &target(), "manylinux_2_28").is_ok());
+
+        wheel_with_record_rows(&path, b"shipped", b"audited", 7);
+        let err = inspect_wheel(&path, &target(), "manylinux_2_28").unwrap_err();
+        assert!(err.detail.contains("RECORD hash does not match pkg/data.txt"), "{}", err.detail);
+
+        wheel_with_record_rows(&path, b"shipped", b"shipped", 8);
+        let err = inspect_wheel(&path, &target(), "manylinux_2_28").unwrap_err();
+        assert!(err.detail.contains("RECORD size does not match pkg/data.txt"), "{}", err.detail);
+    }
+
     #[test]
     fn rejects_a_wheel_with_a_symbolic_link() {
         let dir = tempfile::tempdir().unwrap();
