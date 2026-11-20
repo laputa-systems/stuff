@@ -34,6 +34,21 @@ def component():
     return item
 
 
+def package_descriptor(path):
+    descriptor = json.loads(Path(path).read_text())
+    item = component()
+    if descriptor['schema'] != 'openorange-package-build/1' or not re.fullmatch(r'[0-9a-f]{40}', descriptor['upstream']['revision']):
+        raise ValueError('invalid package descriptor')
+    if not descriptor['upstream']['repository'] or descriptor['patches'] != [{'file': p['file'], 'sha256': 'sha256:' + p['sha256']} for p in item['patches']]:
+        raise ValueError('descriptor differs from sources registry')
+    for key in ('node_version', 'pnpm_version'):
+        if not re.fullmatch(r'\d+\.\d+\.\d+', descriptor[key]):
+            raise ValueError('invalid ' + key)
+    if not re.fullmatch(r'sha512-[A-Za-z0-9+/]{86}==', descriptor['pnpm_integrity']):
+        raise ValueError('invalid pnpm integrity')
+    return descriptor
+
+
 def requirements(src, runner=run):
     package = json.loads((src / 'package.json').read_text())
     required_pnpm = package['packageManager']
@@ -51,12 +66,13 @@ def integrity(data):
     return 'sha512-' + base64.b64encode(hashlib.sha512(data).digest()).decode('ascii')
 
 
-def acquire_pnpm(root, version):
+def acquire_pnpm(root, version, expected):
     with urllib.request.urlopen('https://registry.npmjs.org/pnpm/' + version) as response:
         metadata = json.load(response)
     if metadata['name'] != 'pnpm' or metadata['version'] != version:
         raise ValueError('pnpm registry identity mismatch')
-    expected = metadata['dist']['integrity']
+    if metadata['dist']['integrity'] != expected:
+        raise ValueError('pnpm registry integrity mismatch')
     with urllib.request.urlopen(metadata['dist']['tarball']) as response:
         data = response.read()
     if integrity(data) != expected:
@@ -109,8 +125,9 @@ def downstream_version(version, patches):
     return f'{version}-laputa.{len(patches)}'
 
 
-def acquire(out, runner=run):
-    item = component()
+def acquire(out, descriptor, runner=run):
+    spec = package_descriptor(descriptor)
+    item = {**component(), 'upstream': spec['upstream']['repository'], 'revision': spec['upstream']['revision']}
     out = Path(out).resolve()
     out.mkdir(parents=True, exist_ok=False)
     src = out / 'source'
@@ -126,8 +143,12 @@ def acquire(out, runner=run):
         runner(['git', 'apply', '--check', path], cwd=src)
         runner(['git', 'apply', path], cwd=src)
     _, required_pnpm = requirements(src, runner)
-    acquire_pnpm(out, required_pnpm)
-    _, _, _, command = toolchain(out, src, runner)
+    if required_pnpm != spec['pnpm_version']:
+        raise ValueError('pnpm version differs from descriptor')
+    acquire_pnpm(out, required_pnpm, spec['pnpm_integrity'])
+    node, pnpm, integrity_value, command = toolchain(out, src, runner)
+    if (node, pnpm, integrity_value) != (spec['node_version'], spec['pnpm_version'], spec['pnpm_integrity']):
+        raise ValueError('toolchain differs from descriptor')
     env = pnpm_environment(out)
     store = str(out / 'store')
     runner([*command, 'fetch', '--frozen-lockfile', '--store-dir', store], cwd=src, env=env)
@@ -161,8 +182,9 @@ def validate_record(record):
     return record
 
 
-def build(src, out, runner=run):
-    item = component()
+def build(src, out, descriptor, runner=run):
+    spec = package_descriptor(descriptor)
+    item = {**component(), 'upstream': spec['upstream']['repository'], 'revision': spec['upstream']['revision']}
     root = Path(src).resolve()
     source, store = root / 'source', root / 'store'
     if not store.is_dir():
@@ -172,6 +194,8 @@ def build(src, out, runner=run):
     for patch in item['patches']:
         runner(['git', 'apply', '--reverse', '--check', str(ROOT / 'patches' / patch['file'])], cwd=source)
     node, pnpm, pnpm_integrity, command = toolchain(root, source, runner)
+    if (node, pnpm, pnpm_integrity) != (spec['node_version'], spec['pnpm_version'], spec['pnpm_integrity']):
+        raise ValueError('toolchain differs from descriptor')
     epoch = int(runner(['git', 'show', '-s', '--format=%ct', item['revision']], cwd=source))
     package_path = source / 'package.json'
     original = package_path.read_text()

@@ -11,15 +11,17 @@ parser = argparse.ArgumentParser(description='Acquire and build the owned OpenOr
 sub = parser.add_subparsers(dest='command', required=True)
 acquire = sub.add_parser('acquire')
 acquire.add_argument('--out', required=True)
+acquire.add_argument('--descriptor', required=True)
 build = sub.add_parser('build')
 build.add_argument('--src', required=True)
 build.add_argument('--out', required=True)
+build.add_argument('--descriptor', required=True)
 args = parser.parse_args()
 try:
     if args.command == 'acquire':
-        oobuild.acquire(args.out)
+        oobuild.acquire(args.out, args.descriptor)
     else:
-        oobuild.build(args.src, args.out)
+        oobuild.build(args.src, args.out, args.descriptor)
 except (OSError, ValueError, subprocess.CalledProcessError) as exc:
     print(f'build-open-orange: {exc}', file=sys.stderr)
     sys.exit(1)

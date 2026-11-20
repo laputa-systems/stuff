@@ -9,7 +9,7 @@ import shlex
 import subprocess
 from pathlib import Path
 
-GUEST_SCRIPT = r'''
+GUEST_SCRIPT = Path(__file__).with_name('oomanifest.py').read_text() + r'''
 import fcntl, hashlib, json, os, shutil, subprocess, sys, tarfile, time, urllib.request, uuid
 
 ROOT = os.environ.get('ROLLOUT_GUEST_ROOT', '/')
@@ -50,29 +50,6 @@ def sha(p):
         for chunk in iter(lambda: f.read(1 << 20), b''):
             h.update(chunk)
     return h.hexdigest()
-
-
-def closure_digest(root):
-    modules = os.path.join(root, 'node_modules')
-    identity = {'package.json': sha(os.path.join(root, 'package.json')), 'pnpm-lock.yaml': sha(os.path.join(root, 'pnpm-lock.yaml')), 'open-orange/dist/bin.js': sha(os.path.join(modules, 'open-orange/dist/bin.js'))}
-    for name in ('open-orange', 'rivetkit'):
-        with open(os.path.join(modules, name, 'package.json')) as f:
-            identity[name + '@version'] = json.load(f)['version']
-    store = os.path.join(modules, '.pnpm')
-    for entry in sorted(os.listdir(store)) if os.path.isdir(store) else []:
-        if not entry.startswith('@rivetkit+rivetkit-napi'):
-            continue
-        for dirpath, _, files in os.walk(os.path.join(store, entry)):
-            for file in sorted(files):
-                if file.endswith('.node'):
-                    full = os.path.join(dirpath, file)
-                    identity[os.path.relpath(full, store)] = sha(full)
-    canonical = json.dumps(identity, sort_keys=True, separators=(',', ':')).encode()
-    return 'sha256:' + hashlib.sha256(canonical).hexdigest()
-
-
-def release_id(digest):
-    return 'rt-' + digest.removeprefix('sha256:')[:12]
 
 
 def release_record(directory):
@@ -140,7 +117,8 @@ def observe(args):
         running = selected
     else:
         running = previous
-    state.update(selected=selected, running=running, previous=previous, digest=state['artifacts'].get(selected), healthy=health(args['health_url']))
+    digest = closure_digest(os.path.join(RELEASES, selected)) if os.path.islink(RUNTIME) and selected in state['artifacts'] else state['artifacts'].get(selected)
+    state.update(selected=selected, running=running, previous=previous, digest=digest, healthy=health(args['health_url']))
     usage = shutil.disk_usage(path('/opt'))
     state['headroom'] = usage.free >= args['min_free_bytes']
     state['headroom_detail'] = {'free_bytes': usage.free, 'required_bytes': args['min_free_bytes']}
@@ -240,8 +218,8 @@ def activate(args):
         if state['selected'] != args['expected'] or not state['converted']:
             raise ValueError('conditional activation identity mismatch')
         directory = os.path.join(RELEASES, args['release'])
-        if release_record(directory)['digest'] != args['digest'] or closure_digest(directory) != args['digest']:
-            raise ValueError('staged release digest mismatch')
+        if closure_digest(directory) != args['digest']:
+            raise ValueError('staged-content-mismatch')
         write_atomic(PREVIOUS, args['expected'] + '\n')
         point_runtime(args['release'])
         return {}
@@ -251,7 +229,11 @@ def activate(args):
 
 
 def complete(args):
-    guarded(lambda: check_token(args))
+    def body():
+        check_token(args)
+        if closure_digest(os.path.join(RELEASES, args['release'])) != args['digest']:
+            raise ValueError('staged-content-mismatch')
+    guarded(body)
     restart(args)
     return {}
 
@@ -263,16 +245,26 @@ def stage(args):
         staging = os.path.join(RELEASES, '.staging-' + uuid.uuid4().hex)
         os.mkdir(staging)
         incoming = path(args['archive'])
-        with tarfile.open(incoming) as archive:
-            archive.extractall(staging, filter='data')
-        if os.path.dirname(incoming) == LOCKS:
-            os.unlink(incoming)
-        digest = closure_digest(staging)
+        try:
+            with tarfile.open(incoming) as archive:
+                declared = archive.pax_headers.get('openorange.manifest_digest')
+                archive.extractall(staging, filter='data')
+            digest = closure_digest(staging)
+            if digest != declared:
+                raise ValueError('artifact manifest digest mismatch')
+        except Exception:
+            shutil.rmtree(staging)
+            raise
+        finally:
+            if os.path.dirname(incoming) == LOCKS:
+                os.unlink(incoming)
         name = release_id(digest)
         write_atomic(os.path.join(staging, 'release.json'), json.dumps({'release': name, 'digest': digest, 'source': args['source']}))
         target = os.path.join(RELEASES, name)
         if os.path.exists(target):
             shutil.rmtree(staging)
+            if closure_digest(target) != digest:
+                raise ValueError('staged-content-mismatch')
         else:
             os.rename(staging, target)
             sync_dir(RELEASES)
@@ -359,7 +351,7 @@ class NativeAdapter:
         self.call('activate', holder=holder, token=token, expected=expected, release=release, digest=digest)
 
     def complete(self, holder, token, state, release, digest):
-        self.call('complete', holder=holder, token=token)
+        self.call('complete', holder=holder, token=token, release=release, digest=digest)
 
     def stage(self, holder, token, archive, source):
         return self.call('stage', holder=holder, token=token, archive=archive, source=source)

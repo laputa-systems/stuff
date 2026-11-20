@@ -58,10 +58,10 @@ transport failure. Inspection is not a release, health or recovery proof.
 
 ## Owned OpenOrange package
 
-`bin/build-open-orange acquire --out DIR` fetches the registered revision,
+`bin/build-open-orange acquire --descriptor FILE --out DIR` fetches the pinned revision,
 applies its ordered patches, verifies the pinned pnpm tarball against its npm
 registry integrity, and fills `DIR/store` and `DIR/toolchain`. With the upstream
-Node requirement on PATH, `bin/build-open-orange build --src DIR --out OUT`
+Node requirement on PATH, `bin/build-open-orange build --descriptor FILE --src DIR --out OUT`
 builds offline. Upstream 1.0.2 plus one registered patch maps to
 `1.0.2-laputa.1`; the deployed package remains upstream 1.0.2. The build record
 `openorange-build-record/1` identifies the source, ordered patch digests,
@@ -90,3 +90,18 @@ The first candidate record hashes to
 `sha256:bd867994865b4c250f87683453e45cfbf78143aafe5201eaeff499b18244e620`
 and names binary
 `sha256:9c1f1c7a1b55b66d730ae6b483fe98a1b0d6b871a36f58bf09b27f5965a3db56`.
+
+Native runtime artifacts use `openorange-runtime-build/1` descriptors. Run
+`deploy/openorange/bin/build-runtime-artifact --descriptor FILE --stats-repo PATH --out DIR`
+with a Stats checkout containing the pinned revision. The builder verifies the
+three input hashes and the pinned pnpm integrity before installing the closure.
+It writes `runtime.tar`, `manifest.json`, and `build.json`. The tar carries the
+manifest digest in its PAX header, which the native stage operation verifies
+against extracted content. `release.json` is the sole excluded path; release
+labels do not determine identity.
+
+The OpenOrange package builder requires `--descriptor FILE` for both `acquire`
+and `build`. Its `openorange-package-build/1` descriptor names `upstream`
+(`repository` and `revision`), `patches` (`file` and `sha256`), `node_version`,
+`pnpm_version`, and `pnpm_integrity`. The upstream and patches must agree with
+`sources/sources.toml`. Set `STATS_REPO` to the Stats checkout for qualification.
