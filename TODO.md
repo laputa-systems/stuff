@@ -64,16 +64,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Effort:** L
 
 
-### STUF-92 · P2 · Deliver deployment markers through the native Stats ingress
-
-- **Area:** OpenOrange deployment
-- **Where:** deploy/openorange/lib/deployments.py:69; deploy/openorange/DEPLOYMENTS.md; Lisa /etc/openorange/stats-direct.Caddyfile
-- **Problem:** On 2026-11-18 OpenOrange activated Discover image discover:41024bef8145 and verified health, then oo record-deployment discover --if-current discover:41024bef8145 returned HTTP 404. The host queued oo-discover-5.json and the release command exited 1 despite the live release. The deployed deployments.py matches the repository SHA-256 0097baed7583228662b01a19508e3938a63955dc40bea2747d4b26bb94610cc8. The current Stats direct proxy on the configured private address accepts only POST /ingest/observe/v1/:service/batches and responds 404 for POST /ingest/services/:name/deployments.
-- **Recommendation:** Route authenticated marker delivery through a supported Stats deployment-ingest surface while preserving the private proxy’s exact route allowlist. Confirm a real Discover marker reaches Stats, then use oo sync-deployments discover to drain the existing queue idempotently without restarting Discover. Document service enrollment for new apps such as discover-wine.
-- **Fix with:** security
-- **Effort:** M
-
-
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
 
 - **Area:** Owned-tool help

@@ -36,3 +36,10 @@ Physical backups include `deployments/` under each app's lock, together with
 the deploy credentials in `etc/`. Restore rehearsals copy and checksum that
 state without replaying it against live Stats. A real restore must restore
 `deployments/` as well as Engine, Store and `etc/` before marker delivery resumes.
+
+While the Stats standby holds write authority, the private Stats address is
+Lisa's relay (Stats `deploy/orange/recovery/stats-direct.Caddyfile`), which
+forwards `POST /ingest/services/NAME/deployments` to the standby alongside
+signed application events. Stats authenticates the marker with the service's
+deploy token. Service enrollment for a new app is `statsctl service create`
+followed by installing `{name, hostIds, deployToken}` here as described above.
