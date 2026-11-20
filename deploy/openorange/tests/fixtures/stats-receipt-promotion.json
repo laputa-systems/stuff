@@ -1,0 +1,148 @@
+{
+  "schema": "stats-qualification-receipt/1",
+  "profile": {
+    "name": "promotion",
+    "definitionSha256": "305cef653e5cbb0c06e426b4e09c48d71701a372306b9a9b84371971bb528027"
+  },
+  "baseline": {
+    "releaseId": "rt-64e03bb8519a",
+    "artifactDigest": "sha256:64e03bb8519a3ddc2e584af59142006ad0cc0c72329c612b8348a5c806458f67",
+    "components": {
+      "runtime-archive": "sha256:c073141d17289a40a1194c48664b4ff2ab5736966fb34a51d19252dc5b6505ad",
+      "stats-worker": "sha256:7be96e76ca0f27f0d0cf789fed69ddeaa6e1a2191c63678893e71713cdc8ef0f",
+      "observe-worker": "sha256:aa67ee0d3c71c77b34f375960f30b7888fd9c27cdc5c2a5e3321ce03a52a1987",
+      "infra-collector": "sha256:fbf28419910682814abc50c6ab4d79257226a3fda6061c491101ee59549288ee",
+      "container-image": "sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5"
+    }
+  },
+  "candidate": {
+    "releaseId": "rt-2c70c316ce8d",
+    "artifactDigest": "sha256:2c70c316ce8d89e4eabf42e12dcb9f9356c98d8da96a4a5c10eacd14839a3f2f",
+    "components": {
+      "runtime-archive": "sha256:6cb79216324d5f683f912980a2c3b082cb08d6a66948118c9dc589241810f8ae",
+      "stats-worker": "sha256:7be96e76ca0f27f0d0cf789fed69ddeaa6e1a2191c63678893e71713cdc8ef0f",
+      "observe-worker": "sha256:aa67ee0d3c71c77b34f375960f30b7888fd9c27cdc5c2a5e3321ce03a52a1987",
+      "infra-collector": "sha256:fbf28419910682814abc50c6ab4d79257226a3fda6061c491101ee59549288ee",
+      "container-image": "sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5"
+    }
+  },
+  "policy": {
+    "id": "orange-promotion",
+    "sha256": "095b451ad0832bcbe50c08ab64224b90be0ed2bb06fdabcd3568c0d8d022951b"
+  },
+  "workload": {
+    "id": "canary-v1",
+    "sha256": "d24f71cd733b9cac085413e603aefb745aa4bb37b45f75f856849ca0e587a3e6"
+  },
+  "evaluator": {
+    "name": "statsctl verify release",
+    "version": "0.1.0",
+    "sha256": "41b2bbb618a91d5a27340a9ff04e316e4cd89249bcc450e0e985e4a229cef346"
+  },
+  "observations": [
+    {
+      "source": "engine:live",
+      "producer": "infra",
+      "releaseId": "rt-64e03bb8519a",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    },
+    {
+      "source": "worker:stats-observe:1",
+      "producer": "infra",
+      "releaseId": "rt-64e03bb8519a",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    },
+    {
+      "source": "worker:stats:0",
+      "producer": "infra",
+      "releaseId": "rt-64e03bb8519a",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    },
+    {
+      "source": "collector:infra",
+      "producer": "infra",
+      "releaseId": "rt-64e03bb8519a",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    },
+    {
+      "source": "engine:live",
+      "producer": "infra",
+      "releaseId": "rt-2c70c316ce8d",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    },
+    {
+      "source": "worker:stats-observe:1",
+      "producer": "infra",
+      "releaseId": "rt-2c70c316ce8d",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    },
+    {
+      "source": "worker:stats:0",
+      "producer": "infra",
+      "releaseId": "rt-2c70c316ce8d",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    },
+    {
+      "source": "collector:infra",
+      "producer": "infra",
+      "releaseId": "rt-2c70c316ce8d",
+      "windowStartMs": 1795211925273,
+      "windowEndMs": 1795212526015
+    }
+  ],
+  "inputs": [
+    {
+      "path": "baseline.manifest.json",
+      "sha256": "0eb14419cf6513a69fe197699e9d54192d381e5c5356d31fad8ef97c1d3b0b3d",
+      "bytes": 640
+    },
+    {
+      "path": "candidate.manifest.json",
+      "sha256": "2cfbb6cf1922b0391e6cb0bb94c6992703b19809c7e63545141e20494980710e",
+      "bytes": 640
+    },
+    {
+      "path": "decision.json",
+      "sha256": "2920475b8a51d86abff32456c4fe14de1917fdc46883790c96780bdf51cb7352",
+      "bytes": 79
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "004ef84e27c7f7db9d8b38a3fafea281b061a2dd04866021380c0cb2198f7720",
+      "bytes": 1227681
+    },
+    {
+      "path": "observations.json",
+      "sha256": "6f1521a71a3a41c258258aa3eac6ea2eb0d401363e1ad869ca3f80404b2f78f8",
+      "bytes": 19574
+    },
+    {
+      "path": "policy.json",
+      "sha256": "095b451ad0832bcbe50c08ab64224b90be0ed2bb06fdabcd3568c0d8d022951b",
+      "bytes": 2324
+    },
+    {
+      "path": "recovery.json",
+      "sha256": "3d48b6bbba4b6aa300ecb5ba7791897d217e002765dc7f936fde8f15c83e20f6",
+      "bytes": 130
+    },
+    {
+      "path": "workload.json",
+      "sha256": "d24f71cd733b9cac085413e603aefb745aa4bb37b45f75f856849ca0e587a3e6",
+      "bytes": 408
+    }
+  ],
+  "decision": {
+    "verdict": "pass",
+    "reasonCodes": [],
+    "evaluatedAtMs": 1795212580598
+  },
+  "createdAtMs": 1795212621341
+}

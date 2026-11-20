@@ -42,7 +42,9 @@ def verify(receipt_path, evidence_dir, evaluator_path):
             string(value)
             if len(value) > 128 or any(c.isspace() for c in value):
                 raise ValueError()
-        obj(receipt, 'profile baseline candidate policy workload evaluator observations inputs decision createdAtMs')
+        obj(receipt, 'schema profile baseline candidate policy workload evaluator observations inputs decision createdAtMs')
+        if receipt['schema'] != 'stats-qualification-receipt/1':
+            raise ValueError()
         obj(receipt['profile'], 'name definitionSha256')
         if receipt['profile']['name'] not in ('promotion', 'smoke'):
             raise ValueError()

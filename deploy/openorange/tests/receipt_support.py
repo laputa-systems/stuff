@@ -15,7 +15,7 @@ def make_receipt(root, baseline, candidate, baseline_digest, candidate_digest, v
         (evidence / name).write_text(json.dumps(value))
     sha = lambda data: hashlib.sha256(data).hexdigest()
     inputs = [{'path': p.name, 'sha256': sha(p.read_bytes()), 'bytes': p.stat().st_size} for p in sorted(evidence.iterdir())]
-    receipt = {'profile': {'name': profile, 'definitionSha256': '0' * 64},
+    receipt = {'schema': 'stats-qualification-receipt/1', 'profile': {'name': profile, 'definitionSha256': '0' * 64},
                'baseline': {'releaseId': baseline, 'artifactDigest': baseline_digest, 'components': {}},
                'candidate': {'releaseId': candidate, 'artifactDigest': candidate_digest, 'components': {}},
                'policy': {'id': 'policy', 'sha256': sha((evidence / 'policy.json').read_bytes())},

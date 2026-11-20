@@ -22,6 +22,25 @@ class ReceiptTest(unittest.TestCase):
     def verify(self):
         return ooreceipt.verify(*self.paths)
 
+    def test_fixture_matches_the_stats_receipt_writer_shape(self):
+        def shape(value):
+            if isinstance(value, dict):
+                return {key: shape(item) for key, item in value.items() if key != 'components'}
+            if isinstance(value, list):
+                return [shape(value[0])] if value else []
+            return type(value).__name__
+        real = json.loads((Path(__file__).parent / 'fixtures/stats-receipt-promotion.json').read_text())
+        self.assertEqual(shape(json.loads(self.paths[0].read_text())), shape(real))
+
+    def test_missing_or_unknown_schema_rejects(self):
+        for value in (None, 'stats-qualification-receipt/2'):
+            with self.subTest(schema=value):
+                receipt = json.loads(self.paths[0].read_text())
+                if value is None: del receipt['schema']
+                else: receipt['schema'] = value
+                self.paths[0].write_text(json.dumps(receipt))
+                self.assertEqual(self.verify(), (None, ['invalid-evidence']))
+
     def test_evidence_mutations_reject(self):
         for name in ('policy.json', 'workload.json', 'ledger.json', 'missing', 'extra', 'symlink'):
             with self.subTest(name=name):
