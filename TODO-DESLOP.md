@@ -25,7 +25,9 @@ records deleted paths and the six dynamic uses. All 98 CLI, catalog,
 snapshot and dashboard checks passed. The canonical preview rendered
 31 pages.
 
-Bench audit: [evidence and gaps](docs/deslop-repomod-bench.md). The existing live-status harness has no tiered entrypoint; its isolated Edit and Change proof remains unrun. The host readiness check reported load above its threshold.
+Bench: [audit and remaining gaps](docs/deslop-repomod-bench.md). The isolated Edit selection tests and Change preview render passed; the rendered content matched the golden fixture. The busy-host measurement is operability only, with no performance verdict. DSLP-9 remains open for comparisons and attribution. Full was not run.
+
+Cumulative review: reviewed the diff from `96188b1038ac8bd8e26c0b50ce8a00240e93250a`, including the test inventory, benchmark audit, entrypoint and backlog. No demonstrated new defect found. Hosted mutation qualification and paired suite cost remain unverified as recorded in the test inventory. Review was performed locally without an independent agent, as the lane forbids delegation.
 
 ## Tickets
 
@@ -47,12 +49,12 @@ Bench audit: [evidence and gaps](docs/deslop-repomod-bench.md). The existing liv
 - **Fix with:** durable-state
 - **Effort:** S
 
-### DSLP-9 · P3 · Qualify isolated repomod benchmark entrypoint
+### DSLP-9 · P3 · Qualify repomod performance comparisons and attribution
 
 - **Area:** repomod · benchmarks
-- **Where:** bench/deps_perf.py, Makefile
-- **Problem:** The existing dashboard benchmark collects live fleet status and lacks tiered selection, preflight, isolated inputs, correctness checks, result logs and resource attribution. Its wall timings have no comparison gate.
-- **Recommendation:** Extend the existing harness with an isolated representative workload and the bench-pyramid entrypoint, prove Edit and Change on a ready host, and add process-tree resource attribution. Keep Full manual-only.
+- **Where:** bench/deps_perf.py, bench/suite.py, docs/deslop-repomod-bench.md
+- **Problem:** The isolated preview workload verifies content and reports single-process resources, but has no reference comparison, regression gate, process-tree attribution, or isolated coverage of sync, snapshot and live status. Existing live workloads can access canonical checkouts and external services.
+- **Recommendation:** Add isolated representative workloads and process-tree attribution, then qualify interleaved comparisons and a regression gate on an appropriate host. Keep Full manual-only.
 - **Fix with:** bench-pyramid
 - **Effort:** M
 

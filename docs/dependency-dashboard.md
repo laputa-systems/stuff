@@ -324,10 +324,24 @@ that varies: it reads the tracked inventory, collects live repository status, an
 dashboard. `bench/deps_perf.py` separates warm-cache behavior from an isolated cold run.
 
 ```sh
-make bench              # phase breakdown, cold and warm, 3 runs each
+make bench              # live phase breakdown, cold and warm, 3 runs each
 make bench-cli          # the real `uv run repomod deps render --status` command
 make bench RUNS=1
+make bench-list         # list isolated workloads
+make bench-check        # dry selection and preflight (default: edit)
+make bench TIER=edit
+make bench TIER=change WORKLOAD=preview-render
 ```
+
+The isolated tiered entrypoint requires the existing `uv` environment and tracked preview fixture.
+`TIER` is a ceiling: `edit`, `change`, `scenario`, or `full`. `WORKLOAD` selects a named workload.
+An unknown name or empty selection fails. Full requires `ALLOW_FULL=1` and is manual-only.
+Scenario and Full currently add no workloads or comparison rounds. `selection` runs harness tests;
+`preview-render` renders the canonical preview and checks its content against the golden fixture
+before printing timing and process RSS JSON. Both take an estimated few seconds. These single-run
+measurements are operability evidence, not a performance verdict. The isolated entrypoint uses no
+canonical checkouts or GitHub; the default live commands above retain their existing behavior.
+
 
 `warm` uses the real cache directory, as `make deps` does. `cold` points `XDG_CACHE_HOME` at a
 scratch directory under `.work/tmp/` and clears it before each run, so it measures the first run
