@@ -31,7 +31,8 @@ post-activation checks and runs the functional check through the configured obse
 Each run has a controller-host directory outside the target, with an append-only
 `journal.jsonl` and controller serialization lock. Records have increasing
 sequence numbers and are fsynced with their directory. Transitions have
-deadlines, heartbeats carry deadlines, and activation and recovery have intent
+deadlines (`--deadline-s`; for `verifying`, the observation window plus
+`--deadline-s`), heartbeats carry deadlines, and activation and recovery have intent
 and observed done records. `status --run PATH` replays records; a torn final
 line is reported and discarded before the next append. `resume --run PATH`
 compares selected release, running release and digest before reapplying an

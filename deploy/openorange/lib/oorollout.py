@@ -367,7 +367,7 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
                     journal.transition('recovering', duration, reason=str(exc))
                     state = 'recovering'
             if state == 'activated':
-                journal.transition('verifying', duration, observation_until=now() + policy['observation_s'])
+                journal.transition('verifying', policy['observation_s'] + duration, observation_until=now() + policy['observation_s'])
                 state = 'verifying'
             if state == 'verifying':
                 until = journal.last('state')['observation_until']

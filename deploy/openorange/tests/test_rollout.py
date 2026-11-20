@@ -160,6 +160,12 @@ class RolloutTest(unittest.TestCase):
         self.assertEqual(self.command('resume', '--run', self.only_run()).returncode, 0)
         self.assertEqual(self.state()['digest'], A)
 
+    def test_observation_window_longer_than_transition_deadline_promotes(self):
+        self.write(self.policy, {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 1000, 'observation_s': 3, 'check_interval_s': .2})
+        result = self.command('start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', self.target, '--policy', self.policy, '--receipt', self.receipt, '--evaluator', self.evaluator, '--evidence-dir', self.evidence, '--journal-dir', self.journals, '--deadline-s', '1.5', '--json')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(self.state()['digest'], A)
+
     def test_lock_race_and_fence(self):
         self.write(self.policy, {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5}, 'max_age_s': 1000, 'observation_s': 2, 'check_interval_s': .05})
         args = [str(CLI), 'start', '--candidate', 'new', '--artifact', A, '--baseline', 'old', '--target-kind', 'fake', '--target', str(self.target), '--policy', str(self.policy), '--receipt', str(self.receipt), '--evaluator', str(self.evaluator), '--evidence-dir', str(self.evidence), '--journal-dir', str(self.journals), '--deadline-s', '30', '--json']
