@@ -7,19 +7,27 @@ established, so the slop cannot return.
 
 ## Status
 
-Paused 2026-11-20. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." First command: `for p in joshuarli/kache#85 laputa-systems/fastermod#43 joshuarli/ish#34 joshuarli/tansu#33; do gh pr checks ${p#*#} -R ${p%#*}; done`.
+Resumed 2026-11-20. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." First command: `for p in laputa-systems/smolith#14 laputa-systems/smolith#15 joshuarli/ish#37 joshuarli/tansu#34; do gh pr checks ${p#*#} -R ${p%#*}; done`.
 
-Last accepted: stuff `main` at this commit (local, not pushed); fleet merges through img #10, kache #84, tm #43, tansu #32, ish #33. Integration branches are green except as noted.
+Merged since the pause: kache #85 (DSLP-89 P1), fastermod #43 (deslop finish; Groovy catch-parameter equivalent mutant removed, macOS mutation budget 900 s), ish #34, #35 (epsh), #36 (ish-fs, fdu), smolith #13 (Ground and Diagnose), stuff #176 (mynpm, mypypi), #177 (myoci; two P2s fixed), #178 (stuff-worker), #179 (shared crates; stuff-oci P2 fixed), tansu #33 (DSLP-25..27), tm #44 (DSLP-17..25). stuff has no open component tickets.
 
-Open PRs, pushed, not merged: kache #85 (DSLP-89 P1, linker inputs in the cache key), fastermod #43 (deslop finish; ARM text-source mutation check failed, logs unread), ish #34 (shell and editor components; x86 PTY flake DSLP-32, rerun requested), tansu #33 (P2s DSLP-25..27; residuals DSLP-32/33). Merge each when green, then run Phase 4 on its repo.
+Open PRs, merge each when green:
+- smolith #14: P2 fixes DSLP-42 (h2 setup deadline), DSLP-43 (accept retries `EMFILE`/`ENFILE`), DSLP-44 (8 KiB read window). Each has a regression test that fails with the fix reverted.
+- smolith #15: runtime scheduling and synchronization (DSLP-3/4/5).
+- ish #37: integration tests, examples and workloads (DSLP-21..26). This finishes ish's component tickets, so ish is ready for check-up and Phase 4.
+- tansu #34: search and shared crates (DSLP-6/12/18), and closes DSLP-24. `@pnpm/exe` 12.21.0 is now published on the npm mirror; the repomod gap that missed it is STUF-97.
 
-Parked local branches, not pushed:
-- stuff canonical checkout `deslop/registry-crates` (f083ee86): mynpm and mypypi done (DSLP-11/12 closed; DSLP-17, 19 P2 fixed). myoci DSLP-13 not started; unfiled leads: `src/push.rs` `read_chunked_body` length overflow, `src/mirror/acquire.rs` temp file left on digest mismatch. Retry: `cargo test -p mynpm -p mypypi` and `make lint` pass, then open a PR.
-- smolith `deslop/ground` (ca34cbc): Ground and Diagnose; P2 DSLP-42..44 filed. Cold `make test` timing not cleanly measured. Retry: push and open a PR.
-- tm `deslop/terminal-copy-harness` (8ac5d96): partial audit of DSLP-17..25 plus flake tickets DSLP-26/27; worker stopped before proof. Retry: finish the audit, `make test`.
-- play `fix/playlist-encoding` (pushed, no PR): owner-deferred; headful tests disrupt the host.
+Running lanes (bridge workers; worktree under `.work/wt/`): smolith `runtime-io` (DSLP-6/18/30) and tansu `app-tests` (DSLP-3/4/5).
 
-Next slice: the four PRs above, then ish DSLP-7..26, stuff DSLP-14/15, smolith and tansu components, kache components (bound with the owner first). Then the final closeout: scorecard, move rules into docs/fleet.md and docs/policy-development.md, retire these docs and ~/d/stuff. Unfiled P3 follow-ups are listed under Accepted work.
+Component slices on Darwin have recorded coverage, mutation and dependency-liveness tools under Needs environment rather than adding repo-level recipes. Workers that read the deslop skill literally report that gap as unmet acceptance; the parent accepts the slice on its ticket commands.
+
+Parked: play `fix/playlist-encoding` (pushed, no PR), owner-deferred because headful tests disrupt the host.
+
+Needs you:
+- kache components: set their bounds before seeding.
+- The local stuff cargo publish state is behind the live crates generation. `repomod deps mirror --repo joshuarli/tansu` refuses with "remote current is 'ad583483869fda11e6803149', expected 'a7753c6e9eb945aeeadf121f'", so 18 crates.io versions tansu's upgrades need are unmirrored. The recovery in docs/PUBLISHING.md moves every local publisher to a fresh `STUFF_STATE_HOME`/`STUFF_CACHE_HOME`, which also affects other sessions' publishers. Recommendation: run it when no other publisher is active.
+
+Next slice: the remaining smolith components (DSLP-7..17, 19..29, 31..41, plus DSLP-1's CI acceptance), the remaining tansu components (web editor, web application, web UI and browser tests, Loupe, tooling: DSLP-7..11, 13..17, 19..23), check-up and Phase 4 per settled repo, then kache once bounded. Then the final closeout: scorecard, move rules into docs/fleet.md and docs/policy-development.md, retire these docs and ~/d/stuff. Unfiled P3 follow-ups are listed under Accepted work.
 
 ## Accepted work
 
