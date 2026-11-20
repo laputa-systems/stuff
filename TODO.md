@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 96
+Next: 97
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -84,3 +84,13 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Add isolated representative workloads and process-tree attribution, then qualify interleaved comparisons and a regression gate on an appropriate host. Keep Full manual-only.
 - **Fix with:** bench-pyramid
 - **Effort:** M
+
+### STUF-96 · P3 · Qualify and retain a small hosted publication mutation check
+
+- **Area:** repomod · publication
+- **Where:** repomod/fix.py (push_fix_branch); tests/repomod/test_fix_push.py; tests/repomod/test_fix_safety.py; docs/deslop-repomod-tests.md
+- **Problem:** The hosted publication mutation check was once called required but no job, selection or retention was ever qualified, so it is advisory. Publication is protected only by the ordinary suite; six of 127 push_fix_branch mutants survive as recorded equivalence dispositions.
+- **Recommendation:** Only if wanted: choose an explicit list of publication functions and a critical regex naming them (push_fix_branch and its refusal checks), never a whole file or the whole inventory. Accept when (1) a hosted job runs the shared gate with that declared scope and fails on a missed mutant, (2) negative controls fail it: delete a refusal test and weaken one refusal branch, (3) the 3x timeout replay selects exactly one mutant, (4) runner cost and wall time are recorded and within a stated budget, and (5) the job is retained by registering the repository in fleet/policy/retention.toml [mutation-lane]. Run it first as advisory, then block only after those controls pass.
+- **Fix with:** test-audit
+- **Effort:** M
+
