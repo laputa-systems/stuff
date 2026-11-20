@@ -63,12 +63,12 @@ One test was added to close a gap and was proven by one hand-injected fault, res
 
 ## Dead code
 
-`cargo rustc -p mypypi --lib -- --force-warn dead_code --force-warn unreachable_pub` exited 0. Before the removals it reported one `dead_code` warning and ten `unreachable_pub` warnings (nine in `wheel_zip.rs`, one in `publish.rs`); afterwards only the ten `unreachable_pub` warnings remain. The `wheel_zip` module is private to the crate and the `publish.rs` item sits in a function that is not exported, so those are only a `pub` spelling and no code is dead.
+`cargo rustc -p mypypi --lib -- --force-warn dead_code --force-warn unreachable_pub` exited 0. Before the removals it reported one `dead_code` warning and ten `unreachable_pub` warnings (nine in `wheel_zip.rs`, one in `publish.rs`); afterwards only the ten `unreachable_pub` warnings remain. The `wheel_zip` module is private to the crate and the `publish.rs` item is `TempScope::create`, a method of a `pub(crate)` type, so those are only a `pub` spelling and no code is dead.
 
 The compiler could not see unused items in the `pub` modules, so a reference count over every Rust file under `crates/` found them. Eight items had no caller, in the crate, the other crates, `deploy/`, or `docs/`, and were removed:
 
 - `acquire::CompatibilityRejection::to_error`, `add::resolve_dependencies` and `add::canonical_pin`.
-- `build::validate_wheel_identity`: the same checks run in `acquire::validate_wheel`.
+- `build::validate_wheel_identity`: the same filename and identity checks run in `acquire::validate_wheel_metadata_at`.
 - `index::Index::targets_sorted`, `process_policy::check_captured`, and `validate::canonical_package_name`.
 - `validate::version_parse_unused`, an `#[allow(dead_code)]` function whose name says it is unused.
 
