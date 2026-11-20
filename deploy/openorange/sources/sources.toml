@@ -1,0 +1,181 @@
+schema = 1
+
+[[components]]
+name = "rivetkit"
+upstream = "https://github.com/rivet-dev/rivet"
+license = "Apache-2.0"
+ownership = "source-rebuilt"
+artifacts = ["rivetkit TypeScript packages"]
+gaps = []
+revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
+patches = []
+
+[[components]]
+name = "rivet-native"
+upstream = "https://github.com/rivet-dev/rivet"
+license = "Apache-2.0"
+ownership = "source-rebuilt"
+artifacts = ["platform N-API addon"]
+gaps = []
+revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
+patches = []
+
+[[components]]
+name = "rivet-engine-source"
+upstream = "https://github.com/rivet-dev/rivet"
+license = "Apache-2.0"
+ownership = "source-rebuilt"
+artifacts = ["Engine executable"]
+gaps = ["Requested lifecycle then inventory order conflicts with docs/openorange-actor-lifecycle.md, which requires inventory first; apply order is unverified."]
+revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
+[[components.patches]]
+file = "rivet-e5ed391-staged-refusal.patch"
+sha256 = "a2d1d5373f097cac4541a84bd17094dbb1e482085089f0e8fd4d0b483fd2505d"
+purpose = "staged refusal"
+affects = "Rivet Engine"
+proof = "deploy/openorange/patches/README.md"
+[[components.patches]]
+file = "rivet-e5ed391-staged-head.patch"
+sha256 = "f94e5474e879b225b2bcb6873c4cea2f9debf1207b8d41b94e7c9ad86a379732"
+purpose = "staged head"
+affects = "Rivet Engine"
+proof = "deploy/openorange/patches/README.md"
+[[components.patches]]
+file = "rivet-e5ed391-empty-abort.patch"
+sha256 = "d2074588cf857f41c47b620ad8303562702e8f386bfe2cda58c6e458399cda02"
+purpose = "empty abort"
+affects = "Rivet Engine"
+proof = "deploy/openorange/patches/README.md"
+[[components.patches]]
+file = "rivet-e5ed391-page-read-refusal.patch"
+sha256 = "c756a9f95c64a00bf5fac77e9bf96205ffd4a16c10b009fe0286448c91e5b769"
+purpose = "page read refusal"
+affects = "Rivet Engine"
+proof = "deploy/openorange/patches/README.md"
+[[components.patches]]
+file = "rivet-e5ed391-actor-lifecycle.patch"
+sha256 = "039c0bb5206f2f9815e45b27d1f0d15a35b41eaab0441f18231e8fa29ffe2689"
+purpose = "actor lifecycle"
+affects = "Rivet Engine"
+proof = "docs/openorange-actor-lifecycle.md"
+[[components.patches]]
+file = "rivet-e5ed391-inventory-read.patch"
+sha256 = "4ed8deee5eb7fc9681cc9155ebba75cd87c08cb00105f486a2808cb948fd9b6f"
+purpose = "inventory read"
+affects = "Rivet Engine"
+proof = "docs/openorange-inventory-retries.md"
+
+[[components]]
+name = "rivet-inspector"
+upstream = "https://github.com/rivet-dev/rivet"
+license = "Apache-2.0"
+ownership = "source-rebuilt"
+artifacts = ["embedded inspector assets"]
+gaps = ["Inspector asset build choice is undeclared."]
+revision = "e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9"
+patches = []
+
+[[components]]
+name = "open-orange"
+upstream = "https://github.com/rivet-dev/open-orange"
+license = "Apache-2.0"
+ownership = "source-rebuilt"
+artifacts = ["open-orange"]
+gaps = []
+revision = "1cabf2e9db300361c9f0b751c7723da7eb706f5e"
+patches = []
+
+[[components]]
+name = "rivet-services"
+upstream = "https://github.com/rivet-dev/services"
+license = "UNLICENSED"
+ownership = "unrebuildable"
+artifacts = ["@rivet-dev/services"]
+gaps = ["Repository unavailable; confirm whether production orange serve executes it."]
+version = "0.2.5"
+digest = "sha512-RKraXpp6T05qC/+v1NwqWmedkjcD9mkPc3AgzGlNdPWKKhZabTIuEprVpW5a1Qca2v3b2cRwUVXvij7IW02JBw=="
+patches = []
+
+[[components]]
+name = "image-engine"
+upstream = "https://docker.io/rivetdev/engine"
+license = "NOASSERTION"
+ownership = "mirrored-unchanged"
+artifacts = ["docker.io/rivetdev/engine"]
+gaps = ["License and source rebuild path not established in the deployment records."]
+version = "3.1.2-rc.1"
+digest = "sha256:6e585002b700dd4d3630808eb67884aa15d1a602d83781984edac47023b6d40f"
+image = "engine"
+patches = []
+
+[[components]]
+name = "image-store"
+upstream = "https://docker.io/versity/versitygw"
+license = "NOASSERTION"
+ownership = "mirrored-unchanged"
+artifacts = ["docker.io/versity/versitygw"]
+gaps = ["License and source rebuild path not established in the deployment records."]
+version = "v1.11.0"
+digest = "sha256:8319a530d08d537426e2f855bae5280709795dc73a3f0c347973ef915d6343c5"
+image = "store"
+patches = []
+
+[[components]]
+name = "image-caddy_builder"
+upstream = "https://docker.io/library/caddy"
+license = "NOASSERTION"
+ownership = "mirrored-unchanged"
+artifacts = ["docker.io/library/caddy"]
+gaps = ["License and source rebuild path not established in the deployment records."]
+version = "2.11.9-builder-alpine"
+digest = "sha256:646fee578e680989ca5c7fd1ce6f1de574d19fd71ef2221810cc0510a9f40c86"
+image = "caddy_builder"
+patches = []
+
+[[components]]
+name = "image-caddy_runtime"
+upstream = "https://docker.io/library/caddy"
+license = "NOASSERTION"
+ownership = "mirrored-unchanged"
+artifacts = ["docker.io/library/caddy"]
+gaps = ["License and source rebuild path not established in the deployment records."]
+version = "2.11.9-alpine"
+digest = "sha256:003a97808e781aa9f7e75cc2f43d34d461099031faf5e20faefb9f61126836f0"
+image = "caddy_runtime"
+patches = []
+
+[[components]]
+name = "image-identity_base"
+upstream = "https://docker.io/library/python"
+license = "NOASSERTION"
+ownership = "mirrored-unchanged"
+artifacts = ["docker.io/library/python"]
+gaps = ["License and source rebuild path not established in the deployment records."]
+version = "3.14-alpine"
+digest = "sha256:5862d971d1f0ae26b258cefa4e893556b1d3aba81bd2ff30888704ad378bab67"
+image = "identity_base"
+patches = []
+
+[[components]]
+name = "image-cloudflared"
+upstream = "https://docker.io/cloudflare/cloudflared"
+license = "NOASSERTION"
+ownership = "mirrored-unchanged"
+artifacts = ["docker.io/cloudflare/cloudflared"]
+gaps = ["License and source rebuild path not established in the deployment records."]
+version = "2026.10.7"
+digest = "sha256:4955524aeaa379e154023d5a027c250f7b35041a2e7e950cf13f144bc9b9c5ba"
+image = "cloudflared"
+patches = []
+
+[[components]]
+name = "image-coredns"
+upstream = "https://docker.io/coredns/coredns"
+license = "NOASSERTION"
+ownership = "mirrored-unchanged"
+artifacts = ["docker.io/coredns/coredns"]
+gaps = ["License and source rebuild path not established in the deployment records."]
+version = "1.15.0"
+digest = "sha256:0a9d8c8ddf34347eb59aad9a8784f0710de88d6d112726d11d271f9bc6daca26"
+image = "coredns"
+patches = []

@@ -1,0 +1,17 @@
+ssh_config = "~/.config/stats/standby/ssh_config"
+
+[hosts.lisa]
+kind = "oo-containers"
+doas = true
+engine_container = "oo-engine"
+engine_config = "/etc/openorange/engine/config.json"
+storage_roots = ["/var/lib/openorange/engine/log", "/var/lib/openorange/engine/objects", "/var/lib/openorange/store"]
+writer_address = "REPLACE_WITH_LISA_WRITER_ROUTE"
+
+[hosts.stats-standby]
+kind = "native"
+doas = false
+engine_container = "REPLACE_WITH_ENGINE_CONTAINER"
+engine_config = "/REPLACE_WITH_ENGINE_CONFIG"
+storage_roots = ["/opt/native-rehearsal/app/.open-orange", "/REPLACE_WITH_ENGINE_STORAGE"]
+writer_address = "REPLACE_WITH_STANDBY_WRITER_ROUTE"

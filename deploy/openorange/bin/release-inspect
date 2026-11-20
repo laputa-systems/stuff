@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import argparse
+import json
+import sys
+import tomllib
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'lib'))
+import oorelease  # noqa: E402
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Inspect OpenOrange targets over SSH from the operator workstation using read-only commands. Reads no environment or secret files.', epilog='Exit codes: 0 consistent, 3 drift or unknown identity, 2 usage, 1 runtime or transport failure.')
+    parser.add_argument('--inventory', required=True, type=Path, help='TOML inventory with target hosts and SSH config')
+    parser.add_argument('--stats-repo', required=True, type=Path, help='Stats checkout for runtime pin comparison')
+    args = parser.parse_args()
+    try:
+        inventory = tomllib.loads(args.inventory.read_text())
+        config = Path(inventory['ssh_config']).expanduser()
+        result = oorelease.inspect(inventory, args.stats_repo, lambda host, command: oorelease.ssh_runner(config, host, command, privilege=inventory['hosts'][host]['doas']))
+        print(json.dumps(result, indent=2))
+        return oorelease.inspection_exit_code(result)
+    except (OSError, ValueError, KeyError, TypeError, RuntimeError) as exc:
+        print(f'release-inspect: {exc}', file=sys.stderr)
+        return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

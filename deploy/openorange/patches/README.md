@@ -108,3 +108,5 @@ The independent review did not cover this later patch and remains incomplete.
 
 Private import and recovery evidence, its limits and the remaining checks
 are recorded in [the diagnosis](../../../docs/openorange-engine-diagnosis.md).
+
+See [runtime releases](../../../docs/openorange-releases.md) for the source registry and inspection contract.

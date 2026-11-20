@@ -1,0 +1,41 @@
+import importlib.machinery
+import importlib.util
+import json
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+loader = importlib.machinery.SourceFileLoader('sources', str(ROOT / 'bin/sources'))
+spec = importlib.util.spec_from_loader(loader.name, loader)
+sources = importlib.util.module_from_spec(spec)
+loader.exec_module(sources)
+
+
+class SourceRegistryTest(unittest.TestCase):
+    def setUp(self):
+        self.data = sources.tomllib.loads((ROOT / 'sources/sources.toml').read_text())
+        self.lock = json.loads((ROOT / 'images.lock.json').read_text())
+
+    def test_registry_and_patch_integrity(self):
+        sources.verify(self.data, self.lock)
+        engine = next(item for item in self.data['components'] if item['name'] == 'rivet-engine-source')
+        engine['patches'][0]['sha256'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, 'sha256 mismatch'):
+            sources.verify(self.data, self.lock)
+
+    def test_order_images_and_unknown_fields(self):
+        engine = next(item for item in self.data['components'] if item['name'] == 'rivet-engine-source')
+        engine['patches'].reverse()
+        with self.assertRaisesRegex(ValueError, 'patch order'):
+            sources.verify(self.data, self.lock)
+        engine['patches'].reverse()
+        self.data['components'] = [x for x in self.data['components'] if x.get('image') != 'engine']
+        with self.assertRaisesRegex(ValueError, 'missing images'):
+            sources.verify(self.data, self.lock)
+        self.data['components'][0]['surprise'] = True
+        with self.assertRaisesRegex(ValueError, 'unknown keys'):
+            sources.verify(self.data, self.lock)
+
+
+if __name__ == '__main__':
+    unittest.main()

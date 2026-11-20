@@ -971,3 +971,5 @@ latency, upgrade compatibility or a safe live backend migration. HTTP remains
 permitted only inside this isolated experiment. Production remains on the
 filesystem tier. No upstream defect was established by this configuration
 test, so no bug was filed. S3 backup work remains separate and deferred.
+
+See [runtime releases](openorange-releases.md) for source ownership and read-only inspection.
