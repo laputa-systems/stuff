@@ -1,0 +1,279 @@
+From 8aecc5b551064c31740c499e79d69feedcccff7d Mon Sep 17 00:00:00 2001
+From: Joshua Li <joshuarli98@gmail.com>
+Date: Fri, 20 Nov 2026 07:57:33 -0800
+Subject: [PATCH] feat(serve): serve prometheus metrics for every worker
+
+Expose each runtime separately so scrapers can identify all Workers and detect process resets.
+---
+ docs/modules/multi-worker.mdx                 |  5 +-
+ docs/operations/monitoring.mdx                |  6 ++-
+ .../src/internal/metrics-server.test.ts       | 17 +++++++
+ .../src/internal/metrics-server.ts            | 32 +++++++++++-
+ packages/runtime-node/src/runner.ts           |  5 +-
+ src/runtime/spawn.ts                          |  8 +--
+ src/serve/session.ts                          |  6 ++-
+ tests/orange-serve.test.ts                    | 49 +++++++++++++++++--
+ 8 files changed, 110 insertions(+), 18 deletions(-)
+ create mode 100644 packages/runtime-node/src/internal/metrics-server.test.ts
+
+diff --git a/docs/modules/multi-worker.mdx b/docs/modules/multi-worker.mdx
+index 6f5598f..a59333f 100644
+--- a/docs/modules/multi-worker.mdx
++++ b/docs/modules/multi-worker.mdx
+@@ -246,8 +246,9 @@ $ orange serve -c app/wrangler.json -c api/wrangler.json -c jobs/wrangler.json
+   signature, the request is routed and seen as that host. Without the secret
+   or with another signature, the headers are ignored. A Worker never sees
+   either header.
+-- Only the first Worker's runtime serves `RIVETKIT_METRICS_PORT`, so the
+-  cluster's metrics cover that Worker's actors only.
++- Each Worker serves metrics on loopback at `RIVETKIT_METRICS_PORT` plus its
++  index. Scrape each port to collect every Worker's metrics. Startup fails if
++  the range exceeds port 65535.
+ 
+ #### Workers that are not running
+ 
+diff --git a/docs/operations/monitoring.mdx b/docs/operations/monitoring.mdx
+index fda2733..a4c2bd4 100644
+--- a/docs/operations/monitoring.mdx
++++ b/docs/operations/monitoring.mdx
+@@ -96,8 +96,10 @@ RivetKit serves Prometheus metrics at `http://127.0.0.1:$RIVETKIT_METRICS_PORT/m
+ - **Self-hosted:** the endpoint listens on `127.0.0.1` only, so `docker run -p` does not expose
+   it. Scrape it from the same network namespace, such as a sidecar in the same Kubernetes pod.
+ - `orange dev` serves no metrics.
+-- With several Workers, only the first Worker's runtime serves metrics, so they cover that
+-  Worker's objects only.
++- With several Workers, Worker index 0 serves on the configured port and each subsequent
++  Worker serves on that port plus its index. Scrape each port in the same network namespace.
++  Each response identifies its Worker with `openorange_worker_info` and its runtime start time
++  with `openorange_worker_start_time_seconds`. Startup fails if the port range exceeds 65535.
+ 
+ | Metric | What it shows |
+ |---|---|
+diff --git a/packages/runtime-node/src/internal/metrics-server.test.ts b/packages/runtime-node/src/internal/metrics-server.test.ts
+new file mode 100644
+index 0000000..10430ce
+--- /dev/null
++++ b/packages/runtime-node/src/internal/metrics-server.test.ts
+@@ -0,0 +1,17 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++
++import { appendWorkerMetrics, metricsPortForWorkers } from "./metrics-server.js";
++
++test("validates the complete metrics port range", () => {
++	assert.equal(metricsPortForWorkers(undefined, 2), undefined);
++	assert.equal(metricsPortForWorkers(65535, 1), 65535);
++	assert.equal(metricsPortForWorkers(65534, 2), 65534);
++	assert.throws(() => metricsPortForWorkers(65535, 2), /RIVETKIT_METRICS_PORT.*65535/);
++});
++
++test("appends escaped Worker identity and process start time without duplicating existing names", () => {
++	const result = appendWorkerMetrics("rivet_metric 3", 'a\\b"c\nd', 1, 123.5);
++	assert.equal(result, 'rivet_metric 3\n# HELP openorange_worker_info Identifies this Worker.\n# TYPE openorange_worker_info gauge\nopenorange_worker_info{worker="a\\\\b\\"c\\nd",index="1"} 1\n# HELP openorange_worker_start_time_seconds Runtime process start time in seconds.\n# TYPE openorange_worker_start_time_seconds gauge\nopenorange_worker_start_time_seconds 123.5\n');
++	assert.equal(appendWorkerMetrics(result, "other", 2, 456), result);
++});
+diff --git a/packages/runtime-node/src/internal/metrics-server.ts b/packages/runtime-node/src/internal/metrics-server.ts
+index 72e6752..7f56ebd 100644
+--- a/packages/runtime-node/src/internal/metrics-server.ts
++++ b/packages/runtime-node/src/internal/metrics-server.ts
+@@ -22,9 +22,35 @@ export function metricsPortFromEnvironment(
+ 	return port;
+ }
+ 
++export function metricsPortForWorkers(base: number | undefined, workers: number): number | undefined {
++	if (base !== undefined && base + workers - 1 > 65_535) {
++		throw new Error(`${metricsPortVariable} plus ${workers - 1} Worker offsets exceeds TCP port 65535`);
++	}
++	return base;
++}
++
++export function appendWorkerMetrics(text: string, worker: string, index: number, startTime: number): string {
++	const escaped = worker.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/"/g, '\\"');
++	const series = [
++		["openorange_worker_info", `# HELP openorange_worker_info Identifies this Worker.\n# TYPE openorange_worker_info gauge\nopenorange_worker_info{worker="${escaped}",index="${index}"} 1\n`],
++		["openorange_worker_start_time_seconds", `# HELP openorange_worker_start_time_seconds Runtime process start time in seconds.\n# TYPE openorange_worker_start_time_seconds gauge\nopenorange_worker_start_time_seconds ${startTime}\n`],
++	];
++	let result = text;
++	for (const [name, value] of series) {
++		if (name !== undefined && value !== undefined && !new RegExp(`^(?:# (?:HELP|TYPE) )?${name}(?:[\\s{]|$)`, "m").test(text)) {
++			if (result.length > 0 && !result.endsWith("\n")) result += "\n";
++			result += value;
++		}
++	}
++	return result;
++}
++
+ export async function startMetricsServer(
+ 	port: number,
+ 	metrics: () => Promise<Response>,
++	worker: string,
++	index: number,
++	startTime: number,
+ ): Promise<MetricsServer> {
+ 	const server = createServer((incoming, outgoing) => {
+ 		const pathname = (incoming.url ?? "/").split("?", 1)[0];
+@@ -36,8 +62,10 @@ export async function startMetricsServer(
+ 			try {
+ 				const response = await metrics();
+ 				outgoing.statusCode = response.status;
+-				response.headers.forEach((value, name) => outgoing.setHeader(name, value));
+-				outgoing.end(Buffer.from(await response.arrayBuffer()));
++				response.headers.forEach((value, name) => {
++					if (name !== "content-length" || !response.ok) outgoing.setHeader(name, value);
++				});
++				outgoing.end(response.ok ? appendWorkerMetrics(await response.text(), worker, index, startTime) : Buffer.from(await response.arrayBuffer()));
+ 			} catch (error: unknown) {
+ 				outgoing.writeHead(500, { "content-type": "text/plain; charset=utf-8" });
+ 				outgoing.end(`metrics failed: ${error instanceof Error ? error.message : String(error)}\n`);
+diff --git a/packages/runtime-node/src/runner.ts b/packages/runtime-node/src/runner.ts
+index e3bf0aa..94c4189 100644
+--- a/packages/runtime-node/src/runner.ts
++++ b/packages/runtime-node/src/runner.ts
+@@ -1276,6 +1276,8 @@ export async function startRuntime(
+ 	}
+ 	// A Rivet cluster scrapes the runner's metrics. A local Engine has no scraper.
+ 	const metricsPort = externalEngine ? metricsPortFromEnvironment(process.env) : undefined;
++	const metricsWorkerIndex = Number(process.env.OPENORANGE_METRICS_WORKER_INDEX ?? 0);
++	const metricsWorkerName = message.workerName ?? String(metricsWorkerIndex);
+ 	const metricsServer =
+ 		metricsPort === undefined
+ 			? undefined
+@@ -1284,7 +1286,8 @@ export async function startRuntime(
+ 						return new Response("registry not started\n", { status: 503 });
+ 					}
+ 					return await durableObjectRegistry.prometheusMetrics();
+-				});
++				}, metricsWorkerName, metricsWorkerIndex, (Date.now() - process.uptime() * 1000) / 1000);
++	if (metricsPort !== undefined) process.stderr.write(`Worker ${metricsWorkerName} metrics: http://127.0.0.1:${metricsPort}/metrics\n`);
+ 	// The cron actor runs in this process.
+ 	const cronSync = new AbortController();
+ 	if (durableObjectRegistry !== undefined && (crons.length > 0 || staleCronJobs)) {
+diff --git a/src/runtime/spawn.ts b/src/runtime/spawn.ts
+index c0581b9..7cbd107 100644
+--- a/src/runtime/spawn.ts
++++ b/src/runtime/spawn.ts
+@@ -56,8 +56,8 @@ export interface SpawnRuntimeOptions {
+ 	rivetEndpoint?: string;
+ 	rivetNamespace: string;
+ 	rivetStoragePath: string;
+-	// False keeps the runtime from serving RIVETKIT_METRICS_PORT.
+-	serveMetrics?: boolean;
++	metricsPort?: number;
++	metricsWorkerIndex?: number;
+ 	session?: RuntimeSessionConfiguration;
+ 	startupTimeoutMs?: number;
+ 	// Where the runtime's standard output goes. Commands whose standard output
+@@ -133,8 +133,8 @@ export async function spawnRuntime(
+ 			// environment. Bun does not copy runtime `process.env` writes there.
+ 			RIVETKIT_STORAGE_PATH: options.rivetStoragePath,
+ 			...(options.rivetLogLevel === undefined ? {} : { RIVET_LOG_LEVEL: options.rivetLogLevel }),
+-			// One port can have one metrics server, so only one runtime of a deployment serves it.
+-			...(options.serveMetrics === false ? { RIVETKIT_METRICS_PORT: undefined } : {}),
++			...(options.metricsPort === undefined ? {} : { RIVETKIT_METRICS_PORT: String(options.metricsPort) }),
++			OPENORANGE_METRICS_WORKER_INDEX: String(options.metricsWorkerIndex ?? 0),
+ 		},
+ 		// The built package runs plain JavaScript. Only a source checkout needs tsx,
+ 		// and it has tsx installed.
+diff --git a/src/serve/session.ts b/src/serve/session.ts
+index b19ad8e..410a8fb 100644
+--- a/src/serve/session.ts
++++ b/src/serve/session.ts
+@@ -10,6 +10,7 @@ import type { ResolvedWranglerConfiguration } from "../config/load-wrangler.js";
+ import { resolveDeploymentStorages } from "../runtime/deployment.js";
+ import { spawnRuntime, type RuntimeProcess } from "../runtime/spawn.js";
+ import type { RuntimeSessionWorker } from "../../packages/runtime-node/src/process-protocol.js";
++import { metricsPortForWorkers, metricsPortFromEnvironment } from "../../packages/runtime-node/src/internal/metrics-server.js";
+ import { primaryRivetPoolName } from "../../packages/runtime-node/src/session/workers.js";
+ import { forwardedHostSecretVariable, startFront, type FrontTarget, type RunningFront } from "./front.js";
+ import { compileRoutes } from "./routes.js";
+@@ -61,6 +62,7 @@ export interface ServeSessionOptions {
+  * request, and with the first Worker otherwise.
+  */
+ export async function serveSession(options: ServeSessionOptions): Promise<number> {
++	const metricsPort = metricsPortForWorkers(metricsPortFromEnvironment(process.env), options.configs.length);
+ 	const names = new Set<string>();
+ 	for (const config of options.configs) {
+ 		if (config.workerName === undefined) {
+@@ -132,8 +134,8 @@ export async function serveSession(options: ServeSessionOptions): Promise<number
+ 				rivetEndpoint: options.endpoint,
+ 				rivetNamespace: options.namespace,
+ 				rivetStoragePath: primaryStorage.rivetStoragePath,
+-				// The cluster scrapes one metrics port, which the first Worker's runtime serves.
+-				serveMetrics: index === 0,
++				...(metricsPort === undefined ? {} : { metricsPort: metricsPort + index }),
++				metricsWorkerIndex: index,
+ 				session: {
+ 					self: config.workerName ?? "",
+ 					sharedPool: true,
+diff --git a/tests/orange-serve.test.ts b/tests/orange-serve.test.ts
+index 333712c..6403ddf 100644
+--- a/tests/orange-serve.test.ts
++++ b/tests/orange-serve.test.ts
+@@ -1078,20 +1078,59 @@ test("under orange serve, inbound email needs the shared secret, and a provider'
+ 
+ const multiWorkerFixture = join(repositoryRoot, "tests", "fixtures", "serve-multi-worker");
+ 
++test("orange serve exposes each Worker's metrics and a new start time after restart", { timeout: 240_000 }, async () => {
++	const engine = await startStandaloneEngine();
++	const project = await copyProject(multiWorkerFixture);
++	let serve: RunningServe | undefined;
++	try {
++		let metricsPort: number;
++		for (;;) {
++			metricsPort = await freePort();
++			if (metricsPort === 65535) continue;
++			const probe = createServer();
++			const available = await new Promise<boolean>((resolve) => {
++				probe.once("error", () => resolve(false));
++				probe.listen(metricsPort + 1, "127.0.0.1", () => probe.close(() => resolve(true)));
++			});
++			if (available) break;
++		}
++		const configs = ["wrangler.jsonc", "wrangler.peer.jsonc"];
++		const start = async () => await startServe(project.directory, engine.endpoint, await freePort(), { RIVETKIT_METRICS_PORT: String(metricsPort) }, configs);
++		serve = await start();
++		const scrape = async (index: number, name: string): Promise<number> => {
++			const response = await fetch(`http://127.0.0.1:${metricsPort + index}/metrics`);
++			assert.equal(response.status, 200, serve?.output());
++			const body = await response.text();
++			assert.match(body, /^# (?:HELP|TYPE) rivet_/m);
++			assert.ok(body.includes(`openorange_worker_info{worker="${name}",index="${index}"} 1`));
++			const time = body.match(/^openorange_worker_start_time_seconds ([\d.]+)$/m);
++			assert.ok(time);
++			return Number(time[1]);
++		};
++		const first = await scrape(0, "serve-primary");
++		await scrape(1, "serve-peer");
++		assert.match(serve.output(), new RegExp(`Worker serve-peer metrics: http://127\\.0\\.0\\.1:${metricsPort + 1}/metrics`));
++		await stopServe(serve);
++		serve = undefined;
++		serve = await start();
++		assert.ok(await scrape(0, "serve-primary") > first);
++	} finally {
++		await stopServe(serve);
++		await project.dispose();
++		await engine.stop();
++	}
++});
++
+ test("orange serve with several Workers sends each request to the Worker its route names, and the Workers reach each other", { timeout: 240_000 }, async () => {
+ 	const engine = await startStandaloneEngine();
+ 	const project = await copyProject(multiWorkerFixture);
+ 	const port = await freePort();
+-	const metricsPort = await freePort();
+-	const serve = await startServe(project.directory, engine.endpoint, port, { RIVETKIT_METRICS_PORT: String(metricsPort) }, [
++	const serve = await startServe(project.directory, engine.endpoint, port, {}, [
+ 		"wrangler.jsonc",
+ 		"wrangler.peer.jsonc",
+ 	]);
+ 	try {
+ 		const origin = `http://127.0.0.1:${port}`;
+-		// Only one runtime serves the cluster's metrics port, so the deployment starts.
+-		const metrics = await fetch(`http://127.0.0.1:${metricsPort}/metrics`);
+-		assert.equal(metrics.status, 200, serve.output());
+ 		const json = async (path: string): Promise<unknown> => {
+ 			const response = await fetch(`${origin}${path}`);
+ 			assert.equal(response.status, 200, serve.output());
+-- 
+2.56.0
+
