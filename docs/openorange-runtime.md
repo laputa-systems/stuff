@@ -294,6 +294,11 @@ applied live the same night; Threadripper's standby VM passed a load-76
 drill with the same settings. The remaining Engine reconnect storm is
 STUF-102.
 
+`[engine]` in `apps.toml` optionally caps the Engine container with `cpus`
+(a positive number) and `memory` (a Docker size such as `"3g"`). The renderer
+passes them as `--cpus` and `--memory`; leaving either unset leaves the
+Engine run arguments unchanged.
+
 ## Install (on `lisa`, as root; `doas` is the privilege tool there, not `sudo`)
 
 `doas` does not search `/sbin`: spell out `/sbin/rc-service` or work in a root shell.
@@ -442,6 +447,13 @@ run `oo reload-ingress` and probe each changed route.
   refuse the local app while this declaration is present. The read-only
   `oo deployment NAME` response includes `recoveryWriter` with the
   configured upstream while the fence is active.
+- A primary has `"mode": "primary"` and a private IPv4 `upstream` with a
+  port. It applies to an Orange app that has public hostnames. The public
+  listener sends those hostnames to `upstream` with `X-Forwarded-Proto
+  https` and no gateway secret, while keeping the app's public path
+  exclusions and method rules in front. The tailnet hostnames behave as a
+  writer route: recovery gateway secret plus identity. Startup and image
+  selection fence the local app as for a writer.
 
 Before activating a writer route, stop the local app and confirm its
 container exited. Run an authenticated write and readback after reload.

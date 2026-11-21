@@ -199,6 +199,7 @@ class Config:
     apps: dict[str, App] = field(default_factory=dict)
     tunnel: dict = field(default_factory=dict)
     dns: dict = field(default_factory=dict)
+    engine: dict = field(default_factory=dict)
     rivet: RivetDashboard | None = None
     platform_bridge: PlatformBridge | None = None
 
@@ -284,7 +285,7 @@ def load(path: str | os.PathLike | None = None, overlay: str | os.PathLike | Non
 
 
 def validate(raw: dict) -> Config:
-    _only(raw, {"schema", "stack", "network", "ingress", "store", "apps", "tunnel", "dns", "rivet", "platform_bridge"}, "apps.toml")
+    _only(raw, {"schema", "stack", "network", "ingress", "store", "engine", "apps", "tunnel", "dns", "rivet", "platform_bridge"}, "apps.toml")
     if raw.get("schema") != 1:
         raise ConfigError("schema must be 1")
     stack, net, ing, store = (raw.get(k, {}) for k in ("stack", "network", "ingress", "store"))
@@ -319,6 +320,20 @@ def validate(raw: dict) -> Config:
             raise ConfigError("ingress.public.port must be 1024-65535")
     _only(store, {"region"}, "store")
     _req(store, "region", str, "store")
+
+    engine = raw.get("engine", {})
+    if not isinstance(engine, dict):
+        raise ConfigError("engine must be a table")
+    _only(engine, {"cpus", "memory"}, "engine")
+    if "cpus" in engine:
+        cpus = engine["cpus"]
+        if isinstance(cpus, bool) or not isinstance(cpus, (int, float)) or not cpus > 0:
+            raise ConfigError("engine.cpus must be a positive number")
+    if "memory" in engine:
+        memory = engine["memory"]
+        size = re.fullmatch(r"([0-9]+(?:\.[0-9]+)?)([bkmgBKMG]?)", memory) if isinstance(memory, str) else None
+        if size is None or float(size[1]) <= 0:
+            raise ConfigError("engine.memory must be a positive Docker size such as 3g")
 
     tunnel = raw.get("tunnel", {})
     _only(tunnel, {"enabled", "id", "metrics_port"}, "tunnel")
@@ -485,7 +500,7 @@ def validate(raw: dict) -> Config:
             raise ConfigError("invalid platform_bridge resource or version")
         if enabled:
             platform = PlatformBridge(source, ip, port, sample, service, orange, kit, native)
-    return Config(raw, stack, net, ing, store, apps, tunnel, dns, rivet, platform)
+    return Config(raw, stack, net, ing, store, apps, tunnel, dns, engine, rivet, platform)
 
 
 def dns_routes(cfg: Config) -> dict[str, list[str]]:
@@ -629,10 +644,15 @@ def engine_args(cfg: Config, name: str, ip: str, env_file: Path, config_file: Pa
     """`docker run` arguments for one Engine instance. Shared by the live unit and the restore rehearsal."""
     # The Engine takes an ownership lock next to its object tier under /var/lib/rivet, so that
     # directory is a tmpfs with the two data directories bind-mounted into it.
+    limits = []
+    if cfg.engine.get("cpus") is not None:
+        limits += ["--cpus", str(cfg.engine["cpus"])]
+    if cfg.engine.get("memory") is not None:
+        limits += ["--memory", cfg.engine["memory"]]
     return COMMON + (["-d"] if detach else []) + [
         "--name", name, *_net(cfg, ip), "--read-only", "--stop-timeout", "120",
         "--tmpfs", f"/var/lib/rivet:uid={UID},gid={UID},mode=0700", "--ulimit", "nofile=1048576:1048576",
-        "--user", f"{UID}:{UID}", "--env-file", str(env_file),
+        *limits, "--user", f"{UID}:{UID}", "--env-file", str(env_file),
         "-v", f"{config_file}:/etc/rivet/config.json:ro",
         "-v", f"{log_dir}:/var/lib/rivet/log", "-v", f"{objects_dir}:/var/lib/rivet/objects",
         "--tmpfs", "/tmp", image or image_ref("engine")]
@@ -787,10 +807,15 @@ class RecoveryRoute:
     read_hosts: tuple[str, ...]
     deny_paths: tuple[str, ...]
     snapshot_at: str | None
+    mode: str = "reader"
 
     @property
     def writer(self) -> bool:
         return not self.read_hosts
+
+    @property
+    def primary(self) -> bool:
+        return self.mode == "primary"
 
 
 def load_recovery_routes(cfg) -> dict[str, RecoveryRoute]:
@@ -822,7 +847,12 @@ def load_recovery_routes(cfg) -> dict[str, RecoveryRoute]:
         if spec.get("mode") == "writer":
             if app.public_hostnames or set(spec) != {"mode", "upstream"}:
                 raise ConfigError(f"{where}: writer recovery requires a tailnet-only app and no read options")
-            routes[name] = RecoveryRoute(address, (), (), None)
+            routes[name] = RecoveryRoute(address, (), (), None, "writer")
+            continue
+        if spec.get("mode") == "primary":
+            if set(spec) != {"mode", "upstream"}:
+                raise ConfigError(f"{where}: primary recovery requires no read options")
+            routes[name] = RecoveryRoute(address, (), (), None, "primary")
             continue
         hosts, paths, snapshot = spec.get("hosts"), spec.get("deny_paths"), spec.get("snapshot_at")
         if spec.get("mode") != "reader" or not isinstance(hosts, list) or not hosts or any(

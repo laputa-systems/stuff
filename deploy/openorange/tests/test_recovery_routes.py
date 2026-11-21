@@ -7,6 +7,7 @@ import tempfile
 import unittest
 
 COMMANDS = runpy.run_path(str(Path(__file__).resolve().parents[1] / "bin/oo"))
+FIXTURE = Path(__file__).resolve().parent / "fixtures/caddyfile-no-primary.txt"
 
 
 class RecoveryRoutesTests(unittest.TestCase):
@@ -61,6 +62,51 @@ class RecoveryRoutesTests(unittest.TestCase):
         self.assertEqual(caddy.count("reverse_proxy 172.29.80.22:8080"), 2)
         self.assertNotIn("Stats-Gateway-Secret", caddy.split("reverse_proxy @recoveryRead", 1)[1].split("}", 1)[0])
         COMMANDS["require_local_writer"](self.cfg, "discover")
+
+    def test_primary_route_serves_public_hosts_off_host_and_fences_the_tailnet(self):
+        stuff = self.cfg.apps["stuff"]
+        self.write_routes({"stuff": {"mode": "primary", "upstream": "127.0.0.1:18491"}})
+        route = COMMANDS["oolib"].load_recovery_routes(self.cfg)["stuff"]
+        self.assertTrue(route.primary)
+        self.assertTrue(route.writer)
+        caddy = COMMANDS["render_caddyfile"](self.cfg)
+        tailnet = caddy.split("# Stuff registries (orange)", 1)[1].split("# Tansu (native)", 1)[0]
+        public = caddy.split("# Public listener:", 1)[1]
+        public_stuff = public.split("# Stuff registries (public)", 1)[1].split("# Discover (public)", 1)[0]
+
+        self.assertIn(", ".join(stuff.hostnames), tailnet)
+        self.assertIn("forward_auth unix//run/identity/identity.sock", tailnet)
+        self.assertIn("reverse_proxy 127.0.0.1:18491 {\n\t\t\theader_up Stats-Gateway-Secret "
+                      "{$GW_SECRET_RECOVERY_STUFF}", tailnet)
+        self.assertNotIn("reverse_proxy 172.29.80.21:8080", tailnet)
+        self.assertNotIn("app not deployed", tailnet)
+
+        for host in stuff.public_hostnames:
+            self.assertIn(f"http://{host}:18480", public_stuff)
+        self.assertIn("reverse_proxy 127.0.0.1:18491 {\n\t\t\theader_up X-Forwarded-Proto https", public_stuff)
+        self.assertNotIn("header_up Stats-Gateway-Secret", public_stuff)
+        self.assertNotIn("app not deployed", public_stuff)
+        for i, path in enumerate(stuff.public_deny_paths):
+            self.assertIn(f"@deny{i} path {path} {path}/*", public_stuff)
+            self.assertIn(f"respond @deny{i} 404", public_stuff)
+            self.assertIn(f"respond @denyre{i} 404", public_stuff)
+        self.assertIn("respond @private_method 405", public_stuff)
+
+    def test_a_route_file_without_primary_renders_byte_identically(self):
+        routes = {
+            "stats": {"mode": "writer", "upstream": "127.0.0.1:18489"},
+            "discover": {
+                "mode": "reader",
+                "upstream": "127.0.0.1:18485",
+                "hosts": ["hq.17166969.xyz"],
+                "deny_paths": ["/mcp"],
+                "snapshot_at": "2026-11-18T01:24:07Z",
+            },
+        }
+        self.write_routes(routes)
+        loaded = COMMANDS["oolib"].load_recovery_routes(self.cfg)
+        self.assertFalse(any(route.primary for route in loaded.values()))
+        self.assertEqual(COMMANDS["render_caddyfile"](self.cfg), FIXTURE.read_text())
 
     def test_malformed_inputs_fail_before_rendering(self):
         for app, spec in (
