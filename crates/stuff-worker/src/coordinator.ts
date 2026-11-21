@@ -197,7 +197,8 @@ export class PublicationCoordinator {
     const store = this.env[binding];
     const sql = this.state.storage.sql;
     const frozen = this.isFrozen();
-    if (op === "current" && req.method === "GET") return response(200, await this.current(store));
+    const current = op === "import" ? undefined : await this.current(store);
+    if (op === "current" && req.method === "GET") return response(200, current);
     if (op === "export" && req.method === "GET") {
       if (!frozen) return response(409, { error: "not frozen" });
       const existing = this.one<Lease>("SELECT kind, token, expires FROM lease WHERE id=1");
@@ -205,7 +206,7 @@ export class PublicationCoordinator {
       return response(200, {
         schemaVersion: 1,
         registry,
-        current: this.one<Current>("SELECT revision, generation, manifest, pending FROM current WHERE id=1") ?? await this.current(store),
+        current: current!,
         receipts: Array.from(sql.exec<ReceiptRow>("SELECT key, payload, revision, generation, manifest FROM receipts ORDER BY key")),
         retired_generations: Array.from(sql.exec<{ generation: string }>("SELECT generation FROM retired_generations ORDER BY generation"), row => row.generation),
         retired_versions: Array.from(sql.exec<{ key: string; version_id: string }>("SELECT key, version_id FROM retired_versions ORDER BY key, version_id")),
@@ -214,7 +215,7 @@ export class PublicationCoordinator {
     if (op === "freeze" && req.method === "POST") {
       this.setFrozen(true);
       const existing = this.one<Lease>("SELECT kind, token, expires FROM lease WHERE id=1");
-      return response(200, { current: await this.current(store), liveLease: !!existing && existing.expires > Date.now() });
+      return response(200, { current, liveLease: !!existing && existing.expires > Date.now() });
     }
     if (op === "thaw" && req.method === "POST") {
       this.setFrozen(false);
@@ -253,7 +254,7 @@ export class PublicationCoordinator {
       const token = crypto.randomUUID();
       const expires = Date.now() + 300000;
       sql.exec("INSERT OR REPLACE INTO lease VALUES (1, ?, ?, ?)", op === "begin" ? "upload" : "gc", token, expires);
-      return response(200, { token, expires, revision: (await this.current(store)).revision });
+      return response(200, { token, expires, revision: current!.revision });
     }
     if (op === "renew" || op === "abort") {
       if (!this.lease("upload", body.token) && !this.lease("gc", body.token)) return response(409, { error: "stale lease" });
@@ -267,8 +268,7 @@ export class PublicationCoordinator {
       const receipt = this.one<Receipt>("SELECT payload, revision, generation, manifest FROM receipts WHERE key=?", body.key);
       if (receipt) return receipt.payload === payload ? response(200, { revision: receipt.revision, generation: receipt.generation, manifest: receipt.manifest }) : response(409, { error: "idempotency conflict" });
       if (!this.lease("upload", body.token)) return response(409, { error: "stale lease" });
-      const current = await this.current(store);
-      if (current.revision !== body.expectedRevision) return response(409, { error: "revision conflict" });
+      if (current!.revision !== body.expectedRevision) return response(409, { error: "revision conflict" });
       const manifest = await this.manifest(store, body.generation);
       if (manifest.identity !== body.manifest) return response(409, { error: "manifest conflict" });
       const retired = new Set(Array.from(sql.exec<{ generation: string }>("SELECT generation FROM retired_generations"), row => row.generation));
@@ -290,7 +290,7 @@ export class PublicationCoordinator {
           return response(409, { error: "OCI blob missing or invalid" });
       }
       if (!this.lease("upload", body.token)) return response(409, { error: "stale lease" });
-      const revision = current.revision + 1;
+      const revision = current!.revision + 1;
       this.state.storage.transactionSync(() => {
         sql.exec("UPDATE current SET revision=?, generation=?, manifest=?, pending=1 WHERE id=1", revision, body.generation as string, body.manifest as string);
         sql.exec("INSERT INTO receipts VALUES (?, ?, ?, ?, ?)", body.key as string, payload, revision, body.generation as string, body.manifest as string);
@@ -313,8 +313,7 @@ export class PublicationCoordinator {
     }
     if (op === "gc-delete") {
       if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
-      const current = await this.current(store);
-      if (!validGeneration(body.generation) || body.generation === current.generation) return response(409, { error: "invalid generation" });
+      if (!validGeneration(body.generation) || body.generation === current!.generation) return response(409, { error: "invalid generation" });
       const prefix = `generations/${body.generation}/`;
       let cursor: string | undefined;
       const keys: string[] = [];
