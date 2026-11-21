@@ -32,8 +32,11 @@ as unclassified.
 
 ### Pins and the bootstrap
 
-Consumers pin `laputa-buildlib==<version>` and its wheel digest in `pyproject.toml` and `uv.lock`.
-A repository that uses buildlib or needs a newer Python than its distribution ships vendors
+Consumers pin `laputa-buildlib==<version>` and its wheel digest in `pyproject.toml` and `uv.lock`,
+with the wheel identity also agreeing in `sources.lock.json` when that file is present.
+`fleet/policy/buildlib.toml` owns the approved wheel and bootstrap shim identities; see
+[policy development](policy-development.md#release-policy) for the exact checks. A repository that
+uses buildlib or needs a newer Python than its distribution ships vendors
 buildlib's `bootstrap/buildlib-run` and `bootstrap/python.lock` unchanged at the revision the
 policy approves, and runs Python through it (`PYTHON ?= sh bootstrap/buildlib-run --`). The shim
 checks the size and SHA-256 of the python-build or uv archive before extracting it and pins the

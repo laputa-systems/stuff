@@ -362,55 +362,18 @@ their own build systems; policy coverage does not require moving them to the sha
 Run their heavy qualification on an appropriate Linux host and confirm commands against their
 current documentation.
 
-On 2026-11-12 the owner declined migrating conventional Rust builders to the shared image. No
-repository consumed it, and each builder keeps its own musl toolchain under the
-`linux-musl-toolchain` rule and the static ELF verifier. The image and the procedure above remain
-for a future migration, which starts again from the canary gate. python-build and node-build
-qualify their musl builds in their release workflows on the pinned Alpine 3.24.2 image; Chromium's
-Linux builds stay local and Zig runtime proofs stay with `zzz`.
+The owner has declined migrating conventional Rust builders to the shared image; each keeps its
+own musl toolchain under this rule and the static ELF verifier. The image and procedure above
+remain for a future owner-run migration.
 
 ## Owned-tool support
 
-`fleet/policy/owned-tools.toml` maps each maintained repository in the `joshuarli` and
-`laputa-systems` namespaces (`owners`) to the commands it ships. The catalog stays the repository
-inventory, and usr's installer stays authoritative for installed products. The policy adds only what
-neither records: command names, how each command's help names its maintainer, the upstream a fork
-credits, owned source forks a build distribution uses (`sources`), and where its install record
-lives. Each command declares exactly one of:
-
-- `help = { source, test }`: `source` contains the footer line
-  `Maintained by Joshua Li: https://github.com/OWNER/REPO`, and `test` checks that link against the
-  built command's help.
-- `gap = "reason"`: a concrete unfinished migration. It is reported as a warning, never as coverage.
-- `exempt = "reason"`: a companion, shim, or non-agent-facing command, with its support route.
-
-The top-level `install_manifest` names usr's home-relative ownership manifest. Optional `record`
-(a home-relative install record that lists the command's sha256; without it the manifest is the
-evidence and `$XDG_STATE_HOME/dl/COMMAND` supplies only the revision),
-`launcher_dir` (default `.local/bin`), and `installed_from` (usr installs the upstream build, not
-the fork) describe the consumer's install for `repomod tools which`. `[not_applicable]` gives a
-reason for a non-library repository with no command.
-
-`owned-tool-support` applies to every catalogued repository and is read-only. It reports:
-
-- An owned repository with a primary tag other than `library` or `data` and neither a producer
-  entry nor a `not_applicable` reason. Forks are included. A `tool` or `build` repository cannot be
-  `not_applicable`.
-- A declared help source that is missing, lacks the footer line, or names another repository, and a
-  declared help test that is missing or never checks the link.
-- A `Cargo.toml`, `package.json`, or `pyproject.toml` repository link that names neither the
-  maintained repository nor the declared `upstream`.
-- For a producer with `installer`: each owned repository the installer references without a
-  producer entry, which catches renamed and uncatalogued sources. The adapter parses the installer
-  with `ast` and reads string literals and literal owner tables; it never imports or runs it. For
-  `bin` directories: each executable file that is not a declared command.
-
-The source and test checks compare the complete repository name, so `acme/tool-old` does not
-satisfy `acme/tool`; a comment containing the footer still satisfies them. Static findings show that the metadata and the declared source agree. They do not show that help
-renders the footer: that proof is each tool's own help test, run against the built command by its
-repository's gates. Lint builds and executes nothing. `repomod tools coverage` accounts for every
-owned catalog entry, including ignored repositories that usr still installs, and also reports
-duplicate commands, producers missing from the catalog, and catalog overrides that ignore this rule.
+`fleet/policy/owned-tools.toml` maps owned repositories in the `joshuarli` and `laputa-systems`
+namespaces to their commands, declaring for each a help source and test, a `gap`, or an `exempt`
+reason, plus install evidence (`install_manifest`, `record`, `launcher_dir`, `installed_from`) and
+`[not_applicable]` entries. The read-only `owned-tool-support` rule checks that data against
+manifests and installers. The lookup contract, evidence table, and status meanings live in
+[owned tools](fleet.md#owned-tools).
 
 ## Other policy rules
 
@@ -479,13 +442,17 @@ is replayed at 3x on exactly one mutant (a one-line `--in-diff` plus an exact-na
 because cargo-mutants 27.1.0 lists struct-field deletions regardless of `--re`); a replay that
 cannot select exactly that mutant leaves an unresolved timeout, which fails the gate. Broad audits
 stay advisory.
-Neither rule fixes Python or TypeScript repositories; those lanes follow STUF-83.
+Neither rule fixes Python or TypeScript repositories.
 
 `github-protection` requires zero approving reviews on protected branches so owner-only
 automation never waits on reviews. It also reports required GitHub Actions status checks that no workflow produces, expanding job
 `name:` templates over `strategy.matrix` (including `include` and `exclude`) and falling back to
 the job id; a workflow whose names cannot be determined statically (for example a matrix from
 `fromJSON`, or a reusable-workflow job) suppresses the check for that repository.
+GitHub applies each `include` to the original combinations without overwriting original values;
+a later include can overwrite values added by an earlier one, and an unmatched include becomes a
+separate combination that later includes do not match
+([GitHub's include semantics](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations#expanding-or-adding-matrix-configurations)).
 Repositories without branch protection are skipped. It has no fixer; change protection with explicit API calls.
 
 `rust-release-profiles` rule for binary-shipping Rust repositories. `[profile.release]`
@@ -592,9 +559,10 @@ per lockfile and source, listing the first packages.
 
 `laputa-rustix` prefers `laputa-rustix`, the laputa-systems fork of `rustix` with
 Windows support removed, over the crates.io `rustix` crate. It reports a direct
-dependency on `rustix` in tracked `Cargo.toml` files and rewrites the requirement to
-`package = "laputa-rustix"`, keeping the same dependency key so `rustix::` paths in
-dependent code stay unchanged. Dependencies that rename a different package, that point
+dependency on `rustix` in tracked `Cargo.toml` files and rewrites its version requirement into
+an inline table carrying `package = "laputa-rustix", registry = "mycrates"` plus the version.
+The dependency key stays the same so `rustix::` paths in dependent code remain unchanged, but
+the manifest gains a `mycrates` registry source. Dependencies that rename a different package, that point
 at a `path` or `git` source, and fixtures, snapshots, vendored trees, and the
 `workspace.exclude` subtrees are left alone, as is anything that already resolves to
 `laputa-rustix`. The fixer rewrites the manifest and refreshes each affected

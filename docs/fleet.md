@@ -71,10 +71,9 @@ uv run repomod topics apply --repo joshuarli/stuff
 
 When a repository leaves the catalog (for example after a rename), its old
 checkout stays on disk. Preview the leftovers with `gc --dry-run`, then remove
-them with `gc`. Ordinary removal requires a clean checkout, verified publication of all retained
-refs, and no stashes or other registered worktrees. Unknown remote state blocks removal.
-`--force` overrides checkout-state and publication checks and permits stray-file removal.
-Recovery refs, shared worktrees, symlinks, unverified paths, and catalogued origins remain protected:
+them with `gc`. The same [removal contract](fleet-design.md#checkout-removal) applies: `--force`
+overrides checkout-state and publication checks and permits stray-file removal, but never
+recovery refs, shared worktrees, symlinks, unverified paths, or catalogued origins:
 
 ```sh
 uv run repomod gc --dry-run
@@ -225,10 +224,8 @@ uv run repomod deps enrich
 uv run repomod deps render
 ```
 
-Install the dashboard's pinned CSS package once with `pnpm install --frozen-lockfile`.
-For a local server, `make deps` syncs the checkouts, re-snapshots the tracked inventory
-(committing any changes under `fleet/dependencies/v1/` and `fleet/loc/v1/`), renders with live status, and serves the
-dashboard at `http://127.0.0.1:8765` with `srv`; use `make deps PORT=9000` for another port.
+Install the dashboard's pinned CSS package once with `pnpm install --frozen-lockfile`;
+`make deps` serves the local dashboard — see [dependency dashboard](dependency-dashboard.md).
 
 See [dependency inventory](dependency-inventory.md) for the data layout, coverage kinds,
 update flow, and limits. Open `.work/dependencies/dashboard/index.html` in your browser;
@@ -305,11 +302,10 @@ uv run repomod fix --rule audit-upgrades
 
 ## Quality standard
 
-The 2026-11 deslop campaign set the bar every in-scope repository keeps. The usr `deslop` skill is
-the procedure for bringing a repository up to it; its tool recipes live in the skill's tools
-reference. In scope are first-party Rust, Python and TypeScript repositories and the
-`fork-diverged` forks, limited to their changes against upstream. Effectively-upstream forks,
-pristine vendored trees and owner-excluded repositories are out. The rules that check it are in
+These rules apply to first-party Rust, Python and TypeScript repositories and to the
+`fork-diverged` forks, limited to their changes against upstream; effectively-upstream forks,
+pristine vendored trees and owner-excluded repositories are out. The usr `deslop` skill is the
+procedure for bringing a repository up to this standard, and the rules that check it are in
 [policy development](policy-development.md#other-policy-rules).
 
 - **CI runs the tests.** A pull-request workflow runs `make test` or `make test-ci`
@@ -342,5 +338,6 @@ pristine vendored trees and owner-excluded repositories are out. The rules that 
   known consumers' tests against the candidate; `repomod deps` finds them.
 - **Shared build tooling** follows [build repositories](build-repos.md#shared-build-tooling-across-the-fleet).
 
-The per-repository record of the campaign, with each repository's closing revision, is the
-[deslop scorecard](campaigns/deslop-scorecard.md).
+The mutation, coverage, and strict-profile guarantees are registered per repository in
+`fleet/policy/retention.toml` and checked as described in
+[policy development](policy-development.md#other-policy-rules).

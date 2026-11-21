@@ -108,29 +108,24 @@ repomod commands. Other writers can race after the final check, and remote refs 
 advertisement; the inspection guarantees neither atomic exclusion nor permanent remote retention.
 Dry-run applies the same eligibility checks without deleting files.
 
+Retiring a completed, integrated worktree uses
+`worktree-retire <path> --into <sha> --discard-ignored`. Before retirement, verify that the
+checkout is clean (`git status --short --untracked-files=all` is empty), its HEAD is an ancestor
+of the integration commit (`git merge-base --is-ancestor <head> <sha>` exits 0), and no process
+holds files in it (`lsof -nP +D <path>` reports no open files). Review ignored files before
+discarding them: `--discard-ignored` removes rebuildable caches and artifacts, so preserve any
+evidence that is needed before they are gone.
+
 ## Dependency inventory
 
-`repomod/dependencies/` owns the tracked inventory at `fleet/dependencies/v1/`.
-`snapshot.py` reads each canonical checkout's `refs/remotes/origin/HEAD` tree through Git
-plumbing; `git_tree.py` reads trees and blobs; `discover.py` classifies recognized inputs;
-ecosystem adapters under `dependencies/adapters/` are frozen classes with `name`,
-`matches(path)`, and `extract(inputs)` that perform no I/O; `model.py` defines the closed scopes,
-sources, resolutions, coverage kinds, and states. `check` regenerates the same bytes in memory
-and never writes. `graph.py`, `analysis.py`, `diff.py`, `enrich.py`, and `render.py` are
-read-only consumers, except that `enrich` writes its local cache and `render` writes its output
-directory.
-
-The inventory records `{path, blob}` inputs and a fingerprint over their sorted list plus
-`PARSER_VERSION`. It never records absolute paths, timestamps, commands, credentials, auth
-tokens, environment values, or unredacted userinfo and download queries. The dashboard is
-static output under `.work/dependencies/dashboard/`; it is disposable and needs no runtime data
-fetch or CDN. Explore uses the vendored graph renderer described in [dependency dashboard](dependency-dashboard.md#source-and-verification).
-
-`cmd/deps.py` imports `repomod.dependencies` inside its handler, so other commands do not load
-`ruamel.yaml` or `packaging`. Policy rules stay read-only, and fixers keep explicit, validated
-file plans. The inventory does not feed lint or fix decisions automatically; it informs people
-and agents. Do not add a database, a background worker, or a generic workflow framework for it.
-See [dependency inventory](dependency-inventory.md).
+`repomod/dependencies/` owns the tracked inventory at `fleet/dependencies/v1/`. Its module
+layering, lazy import in `cmd/deps.py`, read-only policy boundary, and the "no database,
+background worker, or generic workflow framework" rule are described in
+[dependency inventory](dependency-inventory.md#layering). The inventory records `{path, blob}`
+inputs and a fingerprint over their sorted list plus `PARSER_VERSION`; it never stores absolute
+paths, timestamps, credentials, or unredacted URLs. The dashboard is static output under
+`.work/dependencies/dashboard/` and needs no runtime data fetch or CDN; Explore uses the
+vendored graph renderer described in [dependency dashboard](dependency-dashboard.md#source-and-verification).
 
 ## Repair and writes
 
@@ -164,33 +159,5 @@ each selected checkout's current branch when it is ahead of its origin upstream 
 anything else with a reason. `topics apply`
 replaces GitHub topics with the catalog's complete tag set.
 
-`pins refresh` updates the local approved pins from their upstream sources: `fleet/policy/actions.toml`,
-`fleet/policy/python-tools.toml`, `fleet/policy/typescript-tools.toml`, and `fleet/policy/musl-toolchain.toml`. `--only` restricts
-the run to `actions`, `python`, `typescript`, or `musl` so one domain's upstream outage or
-drift does not block another. `--check` fetches and compares every selected file, prints the
-paths that would change, writes nothing, and exits 1 on drift. A fetch or parse failure
-writes no file and exits 2. The command stages refreshed content in a disposable directory
-and validates it before any file is replaced, so a failed fetch or validation leaves approved
-pins untouched. Each final file replacement is atomic; the set of pin files is not one transaction.
-
-`fleet/policy/musl-toolchain.toml` is the approved source for musl Linux builds. It records the upstream
-musl release, the `stable` Alpine channel with its index and per-architecture
-manifest digests, exact direct package versions per architecture, the LLVM, mold,
-and rustup archives with SHA256 checksums, the bespoke builder adapters, and an optional
-published canonical image. The refresh reads only the musl release page, the Alpine
-`APKINDEX` files, and Docker image metadata; it preserves the manually owned toolchain
-versions and checksums. The stable channel approves one immutable patch, so the moving
-`alpine:<branch>` release is reported as an observation and never written. The owner reviews
-that observation, updates `image` and `index_digest`, and builds the image before a newer
-patch becomes approved. See [policy development](policy-development.md) for the checks the
-lock enforces. The `linux-musl-toolchain` rule enforces the lock across conventional
-builders, tansu, and the bespoke adapters; its fixer repairs only deterministic base-digest
-and package-version edits.
-
-`docker/musl/Dockerfile` is the canonical builder source. Its build arguments default to the
-lock's stable image, package versions, and toolchain archive pins, so a direct build without
-arguments uses approved values. `repomod musl build` validates the Dockerfile and its
-`rust-toolchain.toml` against the lock, builds one platform under `.work/`, and writes a local
-OCI layout with no push path. A published digest is recorded in `[image]`; a builder may then
-use that image by digest and keep its package setup in the image. Publishing and consumer
-migration stay owner-run.
+`pins refresh`, the musl toolchain lock, and the canonical musl image are described in
+[fleet](fleet.md#pins) and [policy development](policy-development.md#musl-toolchain-lock).
