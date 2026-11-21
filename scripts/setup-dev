@@ -44,7 +44,7 @@ fi
 
 $sudo env DEBIAN_FRONTEND=noninteractive apt-get update -q
 $sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
-  bubblewrap build-essential ca-certificates curl git make pkg-config python3 xz-utils
+  bubblewrap build-essential ca-certificates curl git make pkg-config procps python3 xz-utils
 
 fetch() {
   url=$1 sha=$2 out=$3

@@ -16,7 +16,7 @@ verifies every download against a pinned SHA-256. Other distributions are refuse
 | --- | --- | --- |
 | `build-essential`, `pkg-config`, `make` | distribution | Rust build scripts with C sources; the `Makefile` |
 | `bubblewrap` | distribution | mypypi's Linux Python execution boundary in `make test` |
-| `python3` | distribution | `python3` subprocesses in the Rust tests |
+| `python3`, `procps` | distribution | `python3` and `/bin/kill` subprocesses in the Rust tests |
 | `git`, `curl`, `ca-certificates`, `xz-utils` | distribution | clones, verified downloads, the Node archive |
 | uv | `deploy/uv-version` | repomod and mycrates (`uv run`) |
 | CPython 3.15 | `pyproject.toml` | repomod, installed by uv |
