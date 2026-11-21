@@ -345,4 +345,5 @@ zzz = { help = { source = "zzz.zig", test = "Makefile" } }
 [not_applicable]
 "joshuarli/discover" = "web application; its support link belongs in the app, not a command"
 "joshuarli/extensions" = "browser extensions without a command-line interface"
+"joshuarli/niceforge" = "self-hosted forge and CI services run from a checkout; no installed command"
 "laputa-systems/laputa" = "operating-system image; the commands it ships belong to their own producers"
