@@ -314,8 +314,9 @@ def _enrolled(root: Path, repository: Repository, entry: object, policy: Policy)
     except ValueError as error:
         findings.append(violation(repository, _RULE, _POLICY, str(error)))
         local = {}
-    findings.extend(_pin(root, repository, policy))
-    findings.extend(_uv_lock(root, repository, policy))
+    if bootstrap is not True or (root / 'pyproject.toml').exists():
+        findings.extend(_pin(root, repository, policy))
+        findings.extend(_uv_lock(root, repository, policy))
     findings.extend(_sources_lock(root, repository, policy))
     findings.extend(_bootstrap(root, repository, bootstrap is True, policy.bootstrap_sha256, local))
     findings.extend(_entrypoints(root, repository, entrypoints))

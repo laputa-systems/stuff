@@ -12,13 +12,19 @@ bootstrap_revision = "30ad4a0a8b697031a008b1de3b5359fc5cf6f2fe"
 
 [assess."joshuarli/pi-build"]
 
+[enrolled."joshuarli/play"]
+entrypoints = ["scripts/fetch-ffmpeg-runtime.sh", "scripts/fetch_ffmpeg_runtime.py"]
+bootstrap = true
+
+[enrolled."laputa-systems/ffmpeg-build"]
+entrypoints = ["build.py", "bootstrap.py", ".github/scripts/assemble_release.py", "scripts/setup-dev"]
+bootstrap = true
+
 [enrolled."laputa-systems/node-build"]
 entrypoints = ["build.py", "buildsys/__init__.py", "scripts/setup-dev"]
 bootstrap = true
 
 [assess."joshuarli/img"]
-
-[assess."joshuarli/play"]
 
 [assess."joshuarli/shck"]
 
@@ -27,8 +33,6 @@ bootstrap = true
 [assess."laputa-systems/chromium-build"]
 
 [assess."laputa-systems/cmake-build"]
-
-[assess."laputa-systems/ffmpeg-build"]
 
 [exempt."joshuarli/ctrs"]
 reason = "The BLD-2 ctrs acquisition slice is owned by another session; this policy pass changes no pin or vendored bootstrap."

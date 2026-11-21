@@ -133,6 +133,20 @@ def test_enrolled_conforming_consumer_is_clean(project: tuple[Path, Repository, 
     assert buildlib._check(root, repository) == []
 
 
+def test_shim_only_consumer_is_pinned_by_its_bootstrap(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    (root / 'pyproject.toml').unlink()
+    (root / 'uv.lock').unlink()
+    assert buildlib._check(root, repository) == []
+
+    (root / 'bootstrap/python.lock').write_bytes(LOCK + b'#\n')
+    assert any('python.lock' in finding.message for finding in buildlib._check(root, repository))
+
+    (root / 'bootstrap/python.lock').write_bytes(LOCK)
+    _write_policy(policy, _policy_text(enrolled=_enrolled_text(bootstrap=False)))
+    assert any('missing pyproject.toml' in finding.message for finding in buildlib._check(root, repository))
+
+
 def test_exempt_native_repository_is_clean(project: tuple[Path, Repository, Path]) -> None:
     root, repository, policy = project
     _write_policy(policy, _policy_text(exempt=_exempt_text()))
