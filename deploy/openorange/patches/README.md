@@ -2,7 +2,7 @@
 
 The forks carry the same series as commits on the pinned revisions:
 [`laputa-systems/rivet` `laputa/e5ed391`](https://github.com/laputa-systems/rivet/tree/laputa/e5ed391)
-(six Rivet patches in `sources.toml` order, head `128bcfc0`) and
+(seven Rivet patches in `sources.toml` order, head `128bcfc0`) and
 [`laputa-systems/open-orange` `laputa/1cabf2e`](https://github.com/laputa-systems/open-orange/tree/laputa/1cabf2e)
 (head `7169510`). Develop a new patch on the fork branch, then export it here
 with `git format-patch` and list it in `sources.toml`; the build still applies
@@ -115,33 +115,11 @@ cargo test --locked --offline -j4 -p sqlite-embedded-filesystem
 cargo build --locked --offline -j4 -p rivet-engine --bin rivet-engine
 ```
 
-The segment and finalize regressions fail on the original implementation
-because it loses the stage after refusal. With the patch, both retain the
-stage, issue no abort, resend successfully and read the committed page
-bytes. A third test rejects retry hints for admitted-token overloads,
-fences, conflicts and deadline failures. All three pass in the builder.
-The refusal candidate's full Engine dev and release builds pass, as do
-its three regressions in both profiles. The additional head regression
-also passes in both profiles. The two-patch release candidate completed a
-preserved-depot import and the preparation integrity checks. The three-patch
-release candidate additionally completes a fresh 203,950-row import within
-the 1,800-second bound and passes the preparation integrity checks. It records
-4,160 memory-limit events and no OOM events or kills. Three gated Engine-only
-restarts satisfy the owner's revised requirement on this source; the original
-ten-cycle receipt remains incomplete. No performance acceptance follows from
-these builds.
-
-The independent read-only review found no implementation defect in the
-inspected refusal and retention logic, but stopped over the added test
-dependency edges and flagged the absence of an integrated admitted-token
-scenario. That review was incomplete. The parent checked the lockfile diff:
-only those four edges changed. That token test covers classification. The
-later staged-head regression additionally exercises an admitted finalize
-whose outcome is unknown and settles in the next acquisition barrier.
-The independent review did not cover this later patch and remains incomplete.
-
-Private import and recovery evidence, its limits and the remaining checks
-are recorded in [the diagnosis](../../../docs/openorange-engine-diagnosis.md).
+Regression, build, import, restart and review results for this series, with
+their limits, are recorded in
+[the Engine diagnosis](../../../docs/openorange-engine-diagnosis.md) and
+[the page-read diagnosis](../../../docs/openorange-sqlite-page-read.md). None
+of these builds establishes performance acceptance.
 
 See [runtime releases](../../../docs/openorange-releases.md) for the source registry and inspection contract.
 
@@ -149,5 +127,5 @@ See [runtime releases](../../../docs/openorange-releases.md) for the source regi
 
 `open-orange-1cabf2e-serve-version.patch` applies after the metrics patch.
 It appends the package version to both single- and multi-Worker serve startup
-lines. `tests/orange-serve.test.ts` checks both paths. Production runs
-`1.0.2-laputa.1`; this second patch is a candidate.
+lines. `tests/orange-serve.test.ts` checks both paths. Both this patch and the
+metrics patch are in the production `1.0.2-laputa.2` package.

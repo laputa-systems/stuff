@@ -5,8 +5,9 @@ install its service creation response as `/etc/openorange/deploy-markers/APP.jso
 It must contain `name`, `hostIds`, and `deployToken`, be owned by root, and have
 mode 0600; its directory must be root-only. Transfer the credential over a
 protected channel without putting the token in command arguments, logs, or app
-bindings. Stats service creation and token rotation are documented in the Stats
-`docs/operations.md` service markers section. Replace this file after rotation.
+bindings. Stats service creation and token rotation are documented in the
+[joshuarli/stats `docs/operations.md` service markers section](https://github.com/joshuarli/stats/blob/master/docs/operations.md).
+Replace this file after rotation.
 
 After selecting the image, restarting the app, and completing deploy health
 checks, call `doas /opt/openorange/bin/oo record-deployment APP --if-current IMAGE`.
@@ -38,8 +39,9 @@ state without replaying it against live Stats. A real restore must restore
 `deployments/` as well as Engine, Store and `etc/` before marker delivery resumes.
 
 While the Stats standby holds write authority, the private Stats address is
-Lisa's relay (Stats `deploy/orange/recovery/stats-direct.Caddyfile`), which
-forwards `POST /ingest/services/NAME/deployments` to the standby alongside
+Lisa's relay, defined in
+[joshuarli/stats `deploy/orange/recovery/stats-direct.Caddyfile`](https://github.com/joshuarli/stats/blob/master/deploy/orange/recovery/stats-direct.Caddyfile),
+which forwards `POST /ingest/services/NAME/deployments` to the standby alongside
 signed application events. Stats authenticates the marker with the service's
 deploy token. Service enrollment for a new app is `statsctl service create`
 followed by installing `{name, hostIds, deployToken}` here as described above.

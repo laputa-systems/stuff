@@ -1,5 +1,7 @@
 # Committed SQLite page-read refusal
 
+Live topic: [private Engine patch candidates](../deploy/openorange/patches/README.md).
+
 The private polling/import failure reaches the native SQLite durability flusher
 through `probe_depot_head` → `get_pages`. Its captured error is:
 

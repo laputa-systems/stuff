@@ -1,5 +1,7 @@
 # Engine durability and lifecycle diagnosis
 
+Live topic: [OpenOrange shared host stack](openorange-runtime.md).
+
 This record identifies the deployed source and preserves the failed private
 attempts. The verified private SQLite repair and three-restart proof are in
 [the page-read diagnosis](openorange-sqlite-page-read.md). Production inventory
@@ -38,8 +40,16 @@ docker buildx imagetools inspect \
 
 The source contains two API routers. The deployed V3 contract matches
 [`api-public-shim/src/lib.rs`](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/engine/packages/api-public-shim/src/lib.rs),
-which registers `/pools`. Reading only `api-public/src/router.rs`, which
-registers `/runner-pools`, incorrectly suggests a source mismatch.
+which registers `/pools`. Reading only
+[`api-public/src/router.rs`](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/engine/packages/api-public/src/router.rs),
+which registers `/runner-pools`, incorrectly suggests a source mismatch.
+
+A read-only 2026-11-14 inspection of the running image found no OCI revision
+label. Authenticated GETs returned 200 for `/namespaces`, `/pools`,
+`/pools/default/nodes`, `/actors/names` and a name-filtered actor list;
+`/health` needed no authentication. `/runner-pools` and `/ui` returned 404, and
+an actor list with only a namespace returned 400. These are observations of
+that date, not a guarantee for other routes.
 
 ## Lifecycle timestamps
 

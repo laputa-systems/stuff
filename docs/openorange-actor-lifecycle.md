@@ -1,5 +1,7 @@
 # Observe actor sleep and wake
 
+Live topic: [Rivet explorer](../deploy/openorange/rivet/README.md).
+
 The attested Engine reads an actor's committed phase and epoch, but its public
 adapter discarded them. It deliberately returns null lifecycle timestamps
 because its state does not store those times. Null timestamps alone cannot
