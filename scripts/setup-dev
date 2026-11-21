@@ -1,0 +1,90 @@
+#!/bin/sh
+# Install what `make lint test` needs on a fresh Ubuntu 24.04+ or Debian 13 host.
+# Idempotent: rerunning skips installed pins. Run as root, or as a user with sudo.
+# Tools go to ~/.local (uv, Node, pnpm) and ~/.cargo (rustup); add them to PATH:
+#   export PATH="$HOME/.local/bin:$HOME/.local/share/stuff-dev/node/bin:$HOME/.cargo/bin:$PATH"
+set -eu
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+
+UV_VERSION=$(tr -d '[:space:]' < "$ROOT/deploy/uv-version")
+UV_SHA256_x86_64=f29c3e94ffabd7e6f3ba521dba169a9b7ec12100bf3257087f0f24f6123f3645
+UV_SHA256_aarch64=229e194255c7958d86d56e8790d969a6f74736592133f0dfd0076f754c642c1d
+NODE_VERSION=26.13.1
+NODE_SHA256_x64=5c063e46bab0fbc1c17cc445d7ff129cbdcd0471be6ed83b6ab864f8143bc864
+NODE_SHA256_arm64=89e1853138db51e8b82d3e98ba9c0d3f2956a28e5e55ea1b7e12d25aae92d5dd
+PNPM_VERSION=$(sed -n 's/.*"packageManager": *"pnpm@\([^"]*\)".*/\1/p' "$ROOT/crates/stuff-worker/package.json")
+RUSTUP_VERSION=1.29.0
+RUSTUP_SHA256_x86_64=4acc9acc76d5079515b46346a485974457b5a79893cfb01112423c89aeb5aa10
+RUSTUP_SHA256_aarch64=9732d6c5e2a098d3521fca8145d826ae0aaa067ef2385ead08e6feac88fa5792
+PYTHON_VERSION=3.15
+
+fail() {
+  echo "setup-dev: $1" >&2
+  exit 1
+}
+
+. /etc/os-release
+case "$ID:${VERSION_ID:-}" in
+  ubuntu:24.04|ubuntu:26.04|debian:13) ;;
+  *) fail "unverified distribution $ID ${VERSION_ID:-}; verified: Ubuntu 24.04, Ubuntu 26.04, Debian 13" ;;
+esac
+
+case "$(uname -m)" in
+  x86_64) arch=x86_64 node_arch=x64 ;;
+  aarch64|arm64) arch=aarch64 node_arch=arm64 ;;
+  *) fail "unsupported architecture $(uname -m)" ;;
+esac
+
+if [ "$(id -u)" -eq 0 ]; then
+  sudo=
+else
+  command -v sudo >/dev/null || fail "run as root or install sudo"
+  sudo=sudo
+fi
+
+$sudo env DEBIAN_FRONTEND=noninteractive apt-get update -q
+$sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
+  bubblewrap build-essential ca-certificates curl git make pkg-config python3 xz-utils
+
+fetch() {
+  url=$1 sha=$2 out=$3
+  curl --proto '=https' --tlsv1.2 -fsSL --retry 3 -o "$out" "$url"
+  echo "$sha  $out" | sha256sum -c --quiet - || fail "checksum mismatch for $url"
+}
+
+scratch=$(mktemp -d)
+trap 'rm -rf "$scratch"' EXIT
+mkdir -p "$HOME/.local/bin"
+
+if [ "$("$HOME/.local/bin/uv" --version 2>/dev/null | cut -d' ' -f2)" != "$UV_VERSION" ]; then
+  eval "uv_sha=\$UV_SHA256_$arch"
+  fetch "https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-$arch-unknown-linux-gnu.tar.gz" "$uv_sha" "$scratch/uv.tar.gz"
+  tar -xzf "$scratch/uv.tar.gz" -C "$scratch"
+  install -m 755 "$scratch/uv-$arch-unknown-linux-gnu/uv" "$scratch/uv-$arch-unknown-linux-gnu/uvx" "$HOME/.local/bin/"
+fi
+"$HOME/.local/bin/uv" python install "$PYTHON_VERSION"
+
+node_home=$HOME/.local/share/stuff-dev/node
+if [ "$("$node_home/bin/node" --version 2>/dev/null)" != "v$NODE_VERSION" ]; then
+  eval "node_sha=\$NODE_SHA256_$node_arch"
+  fetch "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$node_arch.tar.xz" "$node_sha" "$scratch/node.tar.xz"
+  rm -rf "$node_home"
+  mkdir -p "$node_home"
+  tar -xJf "$scratch/node.tar.xz" -C "$node_home" --strip-components=1
+fi
+if [ "$("$node_home/bin/pnpm" --version 2>/dev/null)" != "$PNPM_VERSION" ]; then
+  PATH="$node_home/bin:$PATH" npm install -g --no-fund --no-audit "pnpm@$PNPM_VERSION"
+fi
+
+if ! command -v rustup >/dev/null && [ ! -x "$HOME/.cargo/bin/rustup" ]; then
+  eval "rustup_sha=\$RUSTUP_SHA256_$arch"
+  fetch "https://static.rust-lang.org/rustup/archive/$RUSTUP_VERSION/$arch-unknown-linux-gnu/rustup-init" "$rustup_sha" "$scratch/rustup-init"
+  chmod +x "$scratch/rustup-init"
+  "$scratch/rustup-init" -y --no-modify-path --profile minimal --default-toolchain none
+fi
+(cd "$ROOT" && PATH="$HOME/.cargo/bin:$PATH" rustup toolchain install)
+
+(cd "$ROOT" && PATH="$HOME/.local/bin:$PATH" uv sync --locked --group dev)
+(cd "$ROOT" && PATH="$node_home/bin:$PATH" pnpm --dir crates/stuff-worker install --frozen-lockfile)
+
+echo "setup-dev: done. Add to PATH: $HOME/.local/bin $node_home/bin $HOME/.cargo/bin"
