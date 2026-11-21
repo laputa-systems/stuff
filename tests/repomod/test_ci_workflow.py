@@ -28,11 +28,21 @@ def found(root: Path, project: Repository) -> list[tuple[str | None, bool]]:
 
 def test_only_a_pull_request_make_test_or_test_ci_step_satisfies_the_rule(tmp_path: Path) -> None:
     makefile(tmp_path)
-    for step in ("make test", "make test-ci TARGET=x"):
+    for step in (
+        "make test",
+        "make test-ci TARGET=x",
+        'make test-ci TARGET="${{ matrix.target }}" PLATFORM="${{ matrix.platform }}"',
+    ):
         workflow(tmp_path, "ci.yml", PULL_REQUEST + f"      - run: {step}\n")
         assert found(tmp_path, repository()) == [], step
 
-    for step in ("make test-mypypi-native", "make testing", "echo make test-ci-extra"):
+    for step in (
+        "make test-mypypi-native",
+        "make testing",
+        "echo make test-ci-extra",
+        'make test-ci TARGET="a b"',
+        'make test-ci TARGET="${{ matrix.target }} x"',
+    ):
         workflow(tmp_path, "ci.yml", PULL_REQUEST + f"      - run: {step}\n")
         assert found(tmp_path, repository()) == [(".github/workflows/ci.yml", False)], step
 

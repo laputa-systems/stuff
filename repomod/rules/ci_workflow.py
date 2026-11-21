@@ -35,6 +35,9 @@ def _covered(repository: Repository) -> bool:
     return "fork" not in tags or "fork-diverged" in tags
 
 
+_MAKE_ASSIGNMENT = re.compile(r"[A-Za-z_][A-Za-z_0-9]*=(?:[A-Za-z0-9_./:$-]|\$\{\{ *[A-Za-z0-9_.]+ *\}\})*")
+
+
 def _make_command(command: str, targets: frozenset[str]) -> bool:
     if "\n" in command.strip():
         return False
@@ -48,7 +51,7 @@ def _make_command(command: str, targets: frozenset[str]) -> bool:
     return (
         sum(token in targets for token in rest) == 1
         and all(
-            token in targets or re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*=[A-Za-z0-9_./:$-]*", token)
+            token in targets or _MAKE_ASSIGNMENT.fullmatch(token)
             for token in rest
         )
     )
