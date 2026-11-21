@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 103
+Next: 104
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -12,6 +12,15 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Mirror pollution**: 2006-era packages remain on the mirror, unactioned.
 - **npm mirror 500s**: recurring HTTP 500s (outages ~16:26-01:00 UTC and ~02:14 UTC on 2026-11-14); mirror packages (pnpm 12.20/12.21, playwright-core 1.65.1, vitest 5.0.3, ws 8.23.0, vite 8.3.6) still absent. Snapshots of deps/loc must wait for merges and a healthy mirror.
 ## Tickets
+
+### STUF-103 · P1 · Roll Lisa's Engine onto the patched laputa-systems build through a qualified rollout
+
+- **Area:** OpenOrange Engine · Rollout
+- **Where:** deploy/openorange/sources/sources.toml; deploy/openorange/lib/oobuild.py; deploy/openorange/patches/README.md; docs/openorange-rollouts.md; Lisa's `oo-engine` unit
+- **Problem:** Production on Lisa runs the upstream `rivetdev/engine` image (`sha256:6e585002…`). The six Rivet repairs, now also on `laputa-systems/rivet` `laputa/e5ed391` (`128bcfc0`), have never run in production, and STUF-102's reconnect fix will join them. The rollout controller's only real adapter is the Stats native app on the Threadripper standby guest; nothing builds a patched Engine image, qualifies it against a copy of Lisa's Engine state, or swaps `oo-engine` under the maintenance lock with rollback.
+- **Recommendation:** Build the patched Engine image reproducibly from the fork branch through `oobuild`, pinned in `images.lock.json`. Add an Engine adapter to the rollout controller: stage the image, take a fenced backup of the Engine log and objects, swap `oo-engine` under the lock, check ingress reads for crates, npm, pypi and mirror plus app readiness, and roll back to the upstream image on failure. Rehearse it on a restored copy of Lisa's state (bin/restore-rehearsal) and run the 2026-11-21 contention drill against the rehearsal before the production swap.
+- **Fix with:** blast-radius
+- **Effort:** L
 
 ### STUF-102 · P1 · Stop refused envoy reconnects from feeding the Engine overload that refused them
 
