@@ -1,8 +1,68 @@
 # Deslop scorecard
 
-One row per in-scope repository for the [deslop campaign](deslop.md). The campaign agent fills each
+One row per in-scope repository for the deslop campaign, which closed on 2026-11-21; its lasting
+rules are the fleet's [quality standard](../fleet.md#quality-standard). The campaign agent fills each
 row from the repo's `## Report` at check-up. Cells hold `before → after`. Coverage is recorded but
 never gated.
+
+## Campaign close, 2026-11-21
+
+Every in-scope repository finished its pass: its Report is written, its remaining tickets moved to
+its own `TODO.md`, and the commit below deleted its `TODO-DESLOP.md`. Default-branch CI was green
+for each at close. `uv run repomod lint --rule gha-test-workflow --rule mutants-diff-lane
+--rule strict-typing-profile --rule buildlib-usage --include-private` reported findings only in
+owner-excluded repositories (bctl, discover, niceforge, laputa, python-build, xsh, chromium-build),
+in usr, and in repositories with no Rust, Python or TypeScript scope (mactop, git-build,
+llvm-prebuilt-musl, ssh-build, zzz).
+
+| Repository | Closing commit | Date |
+| --- | --- | --- |
+| srv | `b19c4c3` | 2026-11-20 |
+| buildlib | `65ccf57` | 2026-11-20 |
+| extensions | `ddf765b` | 2026-11-20 |
+| fastermod | `1986f976` | 2026-11-20 |
+| pytest-parallel | `22e9e57` | 2026-11-20 |
+| ptytest | `81e5717` | 2026-11-20 |
+| pi-build | `3cbd3c119` | 2026-11-20 |
+| ffmpeg-build | `585d0f73` | 2026-11-20 |
+| node-build | `a3a455427` | 2026-11-20 |
+| fz | `db50e59` | 2026-11-20 |
+| doas-rs | `1e61895` | 2026-11-20 |
+| mdevd-rs | `5fd4cdb` | 2026-11-20 |
+| diff-pretty | `9b86cae` | 2026-11-20 |
+| vault | `87e2045e` | 2026-11-20 |
+| cmake-build | `8031b5ebd7` | 2026-11-20 |
+| hi-lite | `a703079` | 2026-11-20 |
+| lz | `b972664` | 2026-11-20 |
+| rustybench | `879cbaf2` | 2026-11-20 |
+| loc | `01ca0c4d` | 2026-11-20 |
+| laputa-ui-dashboard | `cd18e48` | 2026-11-20 |
+| tinyland | `35bd880` | 2026-11-20 |
+| e | `3fbb0ee` | 2026-11-20 |
+| defuddle-rs | `25fa32ac7` | 2026-11-20 |
+| gluon | `94c5f68e7` | 2026-11-20 |
+| img | `82d67c0` | 2026-11-21 |
+| tm | `6f93003` | 2026-11-21 |
+| ish | `09ef08239a` | 2026-11-21 |
+| smolith | `fc84413` | 2026-11-20 |
+| play | `c3bcf7b7f` | 2026-11-20 |
+| tansu | `3d38fdf` | 2026-11-20 |
+| stuff | `4b6c8119` | 2026-11-20 |
+| jaq | `37e94fb7e` | 2026-11-20 |
+| rust-fontconfig | `b5b9b36` | 2026-11-20 |
+| rustix | `15e30b4` | 2026-11-20 |
+| rage | `1c52d3e` | 2026-11-20 |
+| fd | `9e0c70b` | 2026-11-20 |
+| oxish | `855c64b` | 2026-11-20 |
+| crabtables | `17fdc8c` | 2026-11-20 |
+| soulseek-rs | `9a90b00` | 2026-11-20 |
+
+Not closed by this campaign: kache, whose pass continues in its own session as
+[kache#106](https://github.com/joshuarli/kache/pull/106) with its `TODO-DESLOP.md` still in
+place; toolbox (out of scope, decision of 2026-11-15); ctrs, stats and usr closed their passes on
+2026-11-20 and are now worked by other sessions. Open P3 and P4 follow-ups, including the
+owner-decision tickets (CMKB-1, SMOL-15, SMOL-16, vault's VLT-3 two-Mac recovery), live in each
+repository's `TODO.md`.
 
 ## Buildlib adoption lane
 
