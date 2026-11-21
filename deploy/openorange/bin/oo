@@ -7,6 +7,7 @@
     oo run-args SERVICE [APP]   docker run argument vector (used by OpenRC units)
     oo secrets                  create missing secrets/env files (root-only, never printed)
     oo prepare SERVICE [APP]    create directories and ownership a unit needs
+    oo set-engine-image sha256:ID|upstream   select the Engine image for the next oo-engine start
     oo render [--stdout [--tls internal|acme]]   write engine config, Caddyfile, ingress env, conf.d
     oo network                  ensure the private docker network
     oo provision [APP...]       store users/buckets, Rivet namespaces/pools
@@ -415,6 +416,19 @@ def require_tailnet_address(cfg) -> None:
         die(f"tailnet address {address} is not assigned after {TAILNET_ADDRESS_WAIT}s; check `tailscale status`")
 
 
+def cmd_set_engine_image(cfg, rest: list[str]) -> None:
+    if len(rest) != 1 or not (rest[0] == "upstream" or re.fullmatch(r"sha256:[0-9a-f]{64}", rest[0])):
+        die("usage: oo set-engine-image sha256:IMAGE_ID|upstream")
+    selected = cfg.etc / oolib.ENGINE_IMAGE_FILE
+    if rest[0] == "upstream":
+        selected.unlink(missing_ok=True)
+    else:
+        if oolib.docker("image", "inspect", rest[0], check=False).returncode != 0:
+            die(f"{rest[0]} is not a local image")
+        replace_platform_file(selected, rest[0] + "\n")
+    print(oolib.engine_image(cfg))
+
+
 def cmd_prepare(cfg, service: str, app: str | None) -> None:
     u = int(UID)
     if service == "store":
@@ -803,6 +817,8 @@ def main(argv: list[str]) -> None:
             file = cfg.etc / "rivet.image"
             file.write_text(rest[0] + "\n")
             file.chmod(0o600)
+        elif cmd == "set-engine-image":
+            cmd_set_engine_image(cfg, rest)
         elif cmd == "dns-routes":
             print(json.dumps(oolib.dns_routes(cfg)))
         elif cmd == "secrets":

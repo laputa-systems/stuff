@@ -89,6 +89,25 @@ checks the closed schema and registered identities. Qualification results and
 limitations are in [Engine qualification](openorange-engine-qualification.md).
 This build record is not a production release manifest or promotion.
 
+`bin/build-rivet-engine image --build OUT` runs on the target host. It checks
+the record against the registry and the binary against the record. It then
+copies only `/usr/bin/rivet-engine` over the pinned upstream Engine image
+(`engine/Dockerfile`) and labels the image with the record's SHA-256. Before
+printing the local image ID it confirms that the binary inside the image
+matches the record and that `--version` exits 0. The entrypoint, user and
+layout stay upstream's, so the live unit and the restore rehearsal run it
+unchanged.
+
+The image is selected by ID, not pulled from a registry, because Lisa's own
+Engine serves the OCI registry. `oo set-engine-image sha256:ID` writes
+`/etc/openorange/engine.image` (root-owned, 0440) after checking that the
+host has the image. The next `oo-engine` start runs it. `oo set-engine-image
+upstream` removes the file, so the next start runs the `images.lock.json`
+pin again; that is the rollback. A malformed selection makes `oo run-args
+engine` fail rather than fall back. `bin/restore-rehearsal --engine-image
+sha256:ID` runs a candidate against a backup; without the flag it runs the
+backup's selected image or its pin.
+
 The first candidate record hashes to
 `sha256:bd867994865b4c250f87683453e45cfbf78143aafe5201eaeff499b18244e620`
 and names binary

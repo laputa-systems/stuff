@@ -311,3 +311,35 @@ def build_engine(src, out, runner=run):
     validate_engine_record(record)
     (output / 'build-record.json').write_text(json.dumps(record, sort_keys=True, indent=2) + '\n')
     print(f'{record["binary"]["sha256"]}  {output / "rivet-engine"}')
+
+
+def build_engine_image(build, runner=run):
+    """Wrap a recorded patched Engine build in the pinned upstream Engine image; return the local image ID.
+
+    Only /usr/bin/rivet-engine differs from the upstream image, so its entrypoint, user and filesystem
+    layout stay what the live unit and the restore rehearsal already run."""
+    build = Path(build).resolve()
+    record_file = build / 'build-record.json'
+    record = validate_engine_record(json.loads(record_file.read_text()))
+    binary = build / 'rivet-engine'
+    if digest(binary) != record['binary']['sha256']:
+        raise ValueError('Engine binary differs from its build record')
+    pin = json.loads((ROOT / 'images.lock.json').read_text())['images']['engine']
+    upstream = f"{pin['repository']}@{pin['index_digest']}"
+    context = build / 'image-context'
+    context.mkdir(exist_ok=False)
+    try:
+        (context / 'rivet-engine').write_bytes(binary.read_bytes())
+        (context / 'rivet-engine').chmod(0o755)
+        image = runner(['docker', 'build', '--quiet', '--platform', 'linux/amd64', '-f', str(ROOT / 'engine/Dockerfile'), '--build-arg', f'UPSTREAM={upstream}', '--build-arg', f'BUILD_RECORD_SHA256={digest(record_file)}', str(context)])
+    finally:
+        for path in context.iterdir():
+            path.unlink()
+        context.rmdir()
+    if not re.fullmatch(r'sha256:[0-9a-f]{64}', image):
+        raise ValueError('docker build did not return an image ID')
+    inside = runner(['docker', 'run', '--rm', '--entrypoint', 'sha256sum', image, '/usr/bin/rivet-engine']).split()[0]
+    if 'sha256:' + inside != record['binary']['sha256']:
+        raise ValueError('image binary differs from its build record')
+    runner(['docker', 'run', '--rm', image, '--version'])
+    return image

@@ -529,6 +529,20 @@ def image_ref(key: str) -> str:
     return f"{img['repository']}@{img['index_digest']}"
 
 
+ENGINE_IMAGE_FILE = "engine.image"
+
+
+def engine_image(cfg: "Config") -> str:
+    """The Engine image the live unit runs: a locally built image ID selected with `oo set-engine-image`, or the upstream pin."""
+    selected = cfg.etc / ENGINE_IMAGE_FILE
+    if not selected.exists():
+        return image_ref("engine")
+    image = selected.read_text().strip()
+    if not re.fullmatch(r"sha256:[0-9a-f]{64}", image):
+        raise ConfigError(f"{selected} must hold one sha256 image ID")
+    return image
+
+
 def local_tag(key: str) -> str:
     return lock()["local_builds"][key]["tag"]
 
@@ -689,7 +703,7 @@ def _run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:
                           versions_dir=cfg.state / "store" / "versions", iam_dir=cfg.state / "store" / "iam", admin_dir=cfg.run / "store-admin")
     if service == "engine":
         return engine_args(cfg, "oo-engine", n["engine_ip"], cfg.engine_env, cfg.etc / "engine" / "config.json",
-                           cfg.state / "engine" / "log", cfg.state / "engine" / "objects")
+                           cfg.state / "engine" / "log", cfg.state / "engine" / "objects", image=engine_image(cfg))
     if service == "tunnel":
         if not cfg.tunnel.get("enabled"):
             raise ConfigError("tunnel is disabled")

@@ -5,6 +5,7 @@ import hashlib
 import ipaddress
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -107,6 +108,7 @@ def main():
     ap.add_argument("--expect")
     ap.add_argument("--headers-file", type=Path)
     ap.add_argument("--purge", action="store_true")
+    ap.add_argument("--engine-image", help="sha256 image ID to run instead of the backup's Engine image")
     a = ap.parse_args()
     if bool(a.app) != bool(a.probe) or (a.expect and not a.probe) or (a.headers_file and not a.probe):
         ap.error("--app and --probe must be supplied together; --expect and --headers-file require them")
@@ -123,6 +125,11 @@ def main():
     pins = json.loads((src / "images.lock.json").read_text())["images"]
     def image(key):
         return f"{pins[key]['repository']}@{pins[key]['index_digest']}"
+    if a.engine_image is not None and not re.fullmatch(r"sha256:[0-9a-f]{64}", a.engine_image):
+        ap.error("--engine-image must be a sha256 image ID")
+    backed_engine = (etc / oolib.ENGINE_IMAGE_FILE).read_text().strip() if (etc / oolib.ENGINE_IMAGE_FILE).exists() else image("engine")
+    engine_image = a.engine_image or backed_engine
+    print(f"engine image: {engine_image}")
     sums = (src / "SHA256SUMS").read_text().splitlines()
     if not all(any(line.endswith("  " + name) for line in sums) for name in ("apps.toml", "images.lock.json")):
         raise RuntimeError("backup lacks declaration checksums")
@@ -153,7 +160,7 @@ def main():
         store_url = f"http://{store_ip}:{oolib.STORE_PORT}"
         runtime_cfg = replace(cfg, network={**cfg.network, "name": network_name})
         subprocess.run(["docker", *oolib.store_args(runtime_cfg, names[0], store_ip, etc / "store.env", data_dir=root / "store/data", versions_dir=root / "store/versions", iam_dir=root / "store/iam", admin_dir=admin, detach=True, image=image("store"))], check=True, capture_output=True)
-        subprocess.run(["docker", *oolib.engine_args(runtime_cfg, names[1], engine_ip, etc / "engine.env", etc / "engine/config.json", root / "engine/log", root / "engine/objects", True, image=image("engine"))], check=True, capture_output=True)
+        subprocess.run(["docker", *oolib.engine_args(runtime_cfg, names[1], engine_ip, etc / "engine.env", etc / "engine/config.json", root / "engine/log", root / "engine/objects", True, image=engine_image)], check=True, capture_output=True)
         for url, auth in ((store_url + "/health", None), (engine_url + "/health", token)):
             for _ in range(60):
                 if call(url, auth, timeout=3)[0] == 200:

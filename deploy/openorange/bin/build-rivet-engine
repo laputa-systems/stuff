@@ -14,12 +14,16 @@ acquire.add_argument('--out', required=True)
 build = sub.add_parser('build')
 build.add_argument('--src', required=True)
 build.add_argument('--out', required=True)
+image = sub.add_parser('image', help='wrap a recorded build in the pinned upstream image and print its image ID')
+image.add_argument('--build', required=True)
 args = parser.parse_args()
 try:
     if args.command == 'acquire':
         oobuild.acquire_engine(args.out)
-    else:
+    elif args.command == 'build':
         oobuild.build_engine(args.src, args.out)
+    else:
+        print(oobuild.build_engine_image(args.build))
 except (OSError, ValueError, subprocess.CalledProcessError) as exc:
     print(f'build-rivet-engine: {exc}', file=sys.stderr)
     sys.exit(1)
