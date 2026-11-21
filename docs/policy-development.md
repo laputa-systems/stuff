@@ -45,9 +45,17 @@ database, background worker, or generic workflow framework to support the invent
 ## Release policy
 
 The [shared build-tooling policy](build-repos.md#shared-build-tooling-across-the-fleet) also
-applies outside `build`-tagged repositories. Its [deslop plan](campaigns/deslop-buildlib.md)
-proposes a read-only `buildlib-usage` rule with explicit applicability, immutable pins,
-bootstrap provenance and reasoned exceptions. It is not implemented or enforced yet. Keep
+applies outside `build`-tagged repositories. `buildlib-usage` is implemented in
+`rules/buildlib.py` with its admission data in `fleet/policy/buildlib.toml`. That policy owns the
+approved wheel version, filename and sha256, the approved bootstrap shim identities, and each
+active repository's classification: `enrolled` declares entrypoints, whether the bootstrap is
+required, and any declared local shim difference; `assess` marks an eligible repository that is
+reported informationally; `exempt` requires a reason and a reassessment condition. An active
+catalog repository outside the policy is reported as an informational `unclassified` finding.
+For enrolled consumers the rule checks the exact `laputa-buildlib==<approved>` pin, agreement on
+the approved wheel digest in `uv.lock` and `sources.lock.json` when present, required bootstrap
+files and their approved or declared digests, and declared entrypoint existence. It reads files
+only: it never executes consumer scripts, fetches artifacts, starts containers or publishes. Keep
 consumer behavior proof separate from static lint, reconcile existing lock-validator semantics,
 and preserve stuff's ability to build while its own registries are unavailable.
 

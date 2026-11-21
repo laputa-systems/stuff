@@ -1,0 +1,193 @@
+version = 1
+
+[artifact]
+wheel_version = "0.2.0"
+wheel_filename = "laputa_buildlib-0.2.0-py3-none-any.whl"
+wheel_sha256 = "aaee620f0478544b1d32075b44de48e69bbcbd8b974d5f599d037494d59f4b4a"
+bootstrap_revision = "30ad4a0a8b697031a008b1de3b5359fc5cf6f2fe"
+
+[artifact.bootstrap_sha256]
+"buildlib-run" = "e7f957ca6af0b151d25a9ff5bedb5deca0bfc86ba05ff3225a5405d56fa95957"
+"python.lock" = "cab50541ce8b2c2a6a41829f26aac19344532d239535f4d6795d80d5af933832"
+
+[assess."joshuarli/pi-build"]
+
+[assess."laputa-systems/chromium-build"]
+
+[assess."laputa-systems/cmake-build"]
+
+[assess."laputa-systems/ffmpeg-build"]
+
+[assess."laputa-systems/node-build"]
+
+[exempt."joshuarli/ctrs"]
+reason = "The BLD-2 ctrs acquisition slice is owned by another session; this policy pass changes no pin or vendored bootstrap."
+reassess = "Reassess after the ctrs kernel/patch identity slice lands and its vendored bootstrap is audited."
+
+[exempt."joshuarli/kache"]
+reason = "The repository is under active work in another session."
+reassess = "Reassess when that session completes or verified build and release tooling appears."
+
+[exempt."joshuarli/usr"]
+reason = "Deferred: usr owns the vendored buildlib bootstrap, the linux-capsule skill, and the install surface, which need integrator review before adoption."
+reassess = "Reassess when the integrator reconciles shared bootstrap and skill ownership."
+
+[exempt."laputa-systems/git-build"]
+reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
+reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
+
+[exempt."laputa-systems/laputa"]
+reason = "Intentional XSH-native package/seed bootstrap; buildlib models no XSH target."
+reassess = "Reassess only if the XSH-native exclusion lifts and a supported target is named."
+
+[exempt."laputa-systems/llvm-prebuilt-musl"]
+reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
+reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
+
+[exempt."laputa-systems/python-build"]
+reason = "Owner exclusion 2026-11-14: heavy development in another session; the existing consumer is audited separately."
+reassess = "Reassess when the exclusion lifts and the pin audit lands."
+
+[exempt."laputa-systems/ssh-build"]
+reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
+reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
+
+[exempt."laputa-systems/stuff"]
+reason = "Own-registry independence invariant: stuff must build while its own package registries are unavailable."
+reassess = "Reassess after an offline vendored artifact or independent pinned source is proven."
+
+[exempt."joshuarli/defuddle-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/extensions"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/gh"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/ish"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/loc"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/lz"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/mactop"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/pytest-parallel"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/soulseek-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/syncthing"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/tansu"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/crabtables"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/diff-pretty"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/doas-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/e"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/fastermod"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/fd"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/fz"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/gluon"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/hi-lite"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/jaq"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/laputa-ui-dashboard"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/mdevd-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/oxish"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/ptytest"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rage"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rust-fontconfig"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rustix"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rustybench"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/smolith"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/srv"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/tinyland"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/tm"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/zzz"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
