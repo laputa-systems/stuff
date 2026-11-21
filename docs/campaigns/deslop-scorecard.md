@@ -68,7 +68,7 @@ repository's `TODO.md`.
 
 Closed 2026-11-21 (STUF-101). The durable rules now live in
 [build-repos.md](../build-repos.md#shared-build-tooling-across-the-fleet) and
-`fleet/policy/buildlib.toml`; the [BLD-0 inventory](deslop-buildlib-inventory.md) holds the
+`fleet/policy/buildlib.toml`; the [build-repo contract](../build-repos.md#shared-build-tooling-across-the-fleet) holds the
 per-repository review. Artifact: buildlib 0.2.0 (`30ad4a0`, wheel
 `aaee620f…f4b4a`), on stuff PyPI and the GitHub release.
 
@@ -91,7 +91,7 @@ as upgrades, not new migrations.
 
 M2 qualified representative workloads with explicit deferrals. Three
 Tier A repositories have passed check-up, opening the Tier B passes. The
-[resumption roadmap](deslop-roadmap.md) records the remaining acceptance
+[fleet quality standard](../fleet.md#quality-standard) records the remaining acceptance
 conditions. Discover is outside scope during the owner's rearchitecture.
 Chromium-build is outside scope by owner decision on November 19.
 

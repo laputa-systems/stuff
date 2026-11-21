@@ -1,6 +1,6 @@
 # Deslop cleanup pass
 
-The later [duplicate-checkout preservation](d-overlap-preservation.md) moved the
+The later [duplicate-checkout preservation](../fleet-design.md#checkout-removal) moved the
 overlapping `~/d` clones to Trash and recreated the active Vault and Diff worktrees
 under `~/repos`. The historical retirement evidence below predates that move.
 
