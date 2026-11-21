@@ -99,6 +99,10 @@ def verify_bucket(client, bucket, data_dir):
     print(f"bucket {bucket}: objects={count} bytes={size} sha256={aggregate.hexdigest()}")
 
 
+def rehearsal_root(state: Path, stamp: str, pid: int) -> Path:
+    return state / "restore" / f"{stamp}-{pid}"
+
+
 SOAK_PROBE_INTERVAL_S = 10
 SOAK_RECOVERY_S = 120
 
@@ -189,7 +193,7 @@ def main():
         raise RuntimeError("backup lacks declaration checksums")
     subprocess.run(["sha256sum", "-c", "SHA256SUMS"], cwd=src, stdout=subprocess.DEVNULL, check=True)
     stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
-    root = live.state / "restore" / stamp
+    root = rehearsal_root(live.state, stamp, os.getpid())
     root.mkdir(parents=True, mode=0o700)
     for sub in ("engine/log", "engine/objects", "store/data", "store/versions", "store/iam", *(("deployments",) if (src / "deployments").exists() else ())):
         (root / sub).mkdir(parents=True)

@@ -129,3 +129,12 @@ class SoakTests(unittest.TestCase):
     def test_an_engine_that_does_not_recover_fails_the_soak(self):
         with self.assertRaises(RuntimeError):
             self.soak([], soak_s=60, restart_every_s=10, recovers=False)
+
+
+class RehearsalRootTests(unittest.TestCase):
+    def test_rehearsals_started_in_the_same_second_get_separate_copies(self):
+        state = Path('/var/lib/openorange')
+        first = restore['rehearsal_root'](state, '20261121T071514Z', 101)
+        second = restore['rehearsal_root'](state, '20261121T071514Z', 102)
+        self.assertNotEqual(first, second)
+        self.assertEqual(first.parent, state / 'restore')
