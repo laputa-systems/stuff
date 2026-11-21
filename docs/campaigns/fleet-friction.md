@@ -20,6 +20,25 @@ each item's next step.
 | F5 | macOS host drift: Homebrew encoder upgrades break fixture hashes (play PLAY-55); `cargo-llvm-cov` and `cargo-mutants` are missing on the Darwin lane host. | Install the measurement tools through usr's sync; pin or decouple brew-dependent checks per repository. | Deslop component slices on the Mac record coverage and mutation numbers; PLAY-55 is closed. |
 | F6 | CI runner economics: larger runner labels queue for minutes, and private repositories are refused for billing. | Move jobs that do not need larger runners to standard labels. Billing is the owner's. | Each workflow's runner choice is justified in the repository, and queued time on standard jobs drops. |
 
+## F4 inventory, 2026-11-21
+
+Eleven first-party producers publish to stuff or crates.io (smolith, ptytest, rustybench, hi-lite,
+the deser/rg/rustix/rage forks, stats, defuddle-rs, laputa-ui-dashboard, buildlib, pytest-parallel).
+Every hand-off from a release to its consumers is manual. The only partial automation is
+`repomod fix --rule audit-upgrades`: for crates.io releases it mirrors and bumps caret pins in
+public, non-fork consumers, but nothing runs it when a release lands. The gaps, in the order to
+close them:
+
+1. No trigger: a release never starts the consumer update, and producer scripts do not push.
+2. Own-registry publishes do not clear audit-upgrades' 24-hour latest-version cache.
+3. `=`/`==` and git pins are never fixable (xsh, laputa, e, tinyland, img, defuddle-rs, lz, ctrs,
+   and all six buildlib consumers).
+4. The fixer cannot write `sources.lock.json`, vendored copies (stats-producer in tansu, discover
+   and stuff) or derived assets (stuff's `make catalog-css`).
+5. deser, rg, rustix, defuddle-rs, ui-dashboard, buildlib and stats-producer have no bump or tag
+   tooling; the published stats-producer 0.2.0 is behind its source.
+6. Private repositories (bctl, discover, toolbox) are outside audit-upgrades and the mirror.
+
 ## Order
 
 F1 first: it has the largest blast radius. F2 and F3 run alongside it, because they touch usr and
