@@ -1,5 +1,5 @@
 # OpenOrange source build
 
-The registered revision is upstream 1.0.2. Its ordered metrics patch builds as
-`1.0.2-laputa.1`; production still runs the unchanged upstream 1.0.2 package.
-See `docs/openorange-releases.md` for the offline build and record.
+The registered revision is upstream 1.0.2. Its two ordered patches build as
+`1.0.2-laputa.2`, the owned package running in production. See
+`docs/openorange-releases.md` for the offline build and record.

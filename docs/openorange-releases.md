@@ -64,9 +64,9 @@ transport failure. Inspection is not a release, health or recovery proof.
 applies its ordered patches, verifies the pinned pnpm tarball against its npm
 registry integrity, and fills `DIR/store` and `DIR/toolchain`. With the upstream
 Node requirement on PATH, `bin/build-open-orange build --descriptor FILE --src DIR --out OUT`
-builds offline. Production runs the owned `1.0.2-laputa.1` package. Upstream 1.0.2 plus
-two registered patches maps to the candidate `1.0.2-laputa.2`, whose serve
-startup log reports its package version. The build record
+builds offline. Production runs the owned `1.0.2-laputa.2` package: upstream
+1.0.2 with the two registered patches. Its serve startup log reports the
+package version. The build record
 `openorange-build-record/1` identifies the source, ordered patch digests,
 lockfile, toolchain and pnpm tarball integrity, commit time, platform and
 resulting tarball for a later release manifest. The build sets

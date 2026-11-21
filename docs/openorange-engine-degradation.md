@@ -7,8 +7,39 @@ guest, Engine refusals in sequence ending in
 Every Engine claim below cites a file at Rivet
 `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`; every open-orange claim cites a file
 at `1cabf2e9db300361c9f0b751c7723da7eb706f5e` (the revision `deploy/openorange`
-resolves, `deploy/openorange/sources/sources.toml:90`). Paths are
+resolves, `deploy/openorange/sources/sources.toml:96`). Paths are
 repository-relative to those trees.
+
+## Earlier host incident: HPET clocksource (2026-11-18)
+
+A different saturation event preceded the 2026-11-21 incident analysed below.
+The kernel demoted TSC to HPET, so every clock read became a syscall: 3.1–7.4
+µs from Python against about 50 ns normally. The Engine's Tokio workers ran
+at about 600% CPU with 261,000 `clock_gettime` calls in 5 s under `strace -c`.
+Storage commands missed their deadlines, runner registration failed with
+"storage could not register", and `oo-app.stuff` crash-looped on its 30 s
+wait. A demotion lasts until reboot; writing `tsc` to `current_clocksource` is
+refused.
+
+Diagnose by reading `current_clocksource` (must be `tsc`) and
+`available_clocksource` under `/sys/devices/system/clocksource/clocksource0/`
+and profiling the Engine PID with `strace -c -f -p`; a healthy Engine does not
+show `clock_gettime`. The usr Alpine provisioner (`host/alpine` in
+joshuarli/usr) sets `tsc=nowatchdog` where the CPU has `constant_tsc` and
+`nonstop_tsc`, installs `amd-ucode`, runs the `performance` governor and sets
+BBR with fq, 7.5 MB socket buffers and `vm.swappiness = 10`. After a drained
+reboot, clock reads cost 138 ns and Engine CPU fell to 65–110%.
+
+The reboot also exposed an `actor_inbound` envoy queue pinned at 128/128 with
+all apps idle. About 70 minutes after boot,
+`rivet_state_machine_durable_stale_alarm_deliveries_total{machine="actor"}`
+reached 15,975 (roughly 4/s): alarms for revisions no longer armed, from
+actors of the fenced `stats-prod` namespace, which has no runner on Lisa.
+Without a runner their alarms cannot fire, wake attempts time out and stop
+commands go unanswered, re-arming the alarms. Do not destroy those actors:
+they are Lisa's copy of Stats data needed for writer-route failback. The
+attribution is a hypothesis, not proven; raising
+`pegboard.envoy_actor_inbound_capacity` would hide the symptom.
 
 ## Source identity
 
@@ -17,9 +48,9 @@ are the same commit, not alternatives.
 
 - `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9` is exactly tag `v3.1.2-rc.1`
   (verified by `git rev-parse v3.1.2-rc.1^{commit}`).
-- Its workspace version is `3.1.1` (`Cargo.toml:82`), which is why the deployed
-  binary reports `Rivet 3.1.1` while the image tag is `3.1.2-rc.1`
-  (`docs/openorange-runtime.md:32-41`, `sources.toml:124-125`).
+- Its workspace version is `3.1.1` (Rivet `e5ed391` workspace `Cargo.toml`),
+  which is why the deployed binary reports `Rivet 3.1.1` while the image tag is
+  `3.1.2-rc.1` (`docs/openorange-runtime.md:32-41`, `sources.toml:130`).
 - The image's attached BuildKit provenance names the same revision
   (`docs/openorange-engine-diagnosis.md:18-23`).
 

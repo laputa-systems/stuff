@@ -100,10 +100,6 @@ native --host stats-standby --ssh-config FILE --json` is read-only.
   digest, and a running Engine container. Real ingest, durable readback and
   duplicate handling remain the Stats canary's checks.
 
-On 2026-11-20 live `observe` reported the unconverted baseline
-`rt-13b896622da5` (`sha256:13b89662…`), selected and running, healthy, with
-8.9 GB free.
-
 ## OpenOrange containers adapter
 
 `rollout observe --target-kind oo-containers --host lisa --ssh-config FILE

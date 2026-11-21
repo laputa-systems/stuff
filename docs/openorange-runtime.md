@@ -461,128 +461,9 @@ service, container and runner checks and instead sends the readiness
 request to the writer upstream with `apps/NAME.recovery.env`. The platform
 bridge's runtime-pin check reports WARN while its source app is fenced.
 
-## Engine starvation from the HPET clocksource (2026-11-18)
-
-**Symptom.** From about 02:28 UTC every Engine storage command missed its
-deadline (`request_deadline_exceeded`). The Engine refused runner connections
-because "storage could not register", `oo-app.stuff` failed its 30 s
-registration wait and crash-looped, and Discover logged connection failures.
-Restarting the Engine did not help. Public registry reads continued through
-the separate `oo-stuff-read-*` reader.
-
-**Cause.** The kernel had demoted the TSC and fallen back to the HPET
-clocksource; `tsc` was no longer in `available_clocksource`. Every clock
-read became a system call: 3.1 to 7.4 µs per read from Python, against about
-50 ns normally. The Engine's Tokio runtime reads the clock constantly. Its
-eight workers ran at about 600% CPU, 261,000 `clock_gettime` calls in 5 s
-under `strace -c`. The host showed 0% idle with 65% system time. The
-clocksource watchdog can wrongly mark a stable TSC unstable when the host is
-overloaded. A demotion lasts until reboot, and writing `tsc` to
-`current_clocksource` is refused.
-
-**Diagnose.**
-
-```sh
-cat /sys/devices/system/clocksource/clocksource0/current_clocksource   # must be tsc
-cat /sys/devices/system/clocksource/clocksource0/available_clocksource
-doas timeout -s INT 5 strace -c -f -p "$(docker inspect -f '{{.State.Pid}}' oo-engine)"
-```
-
-A healthy Engine does not show `clock_gettime` in the profile at all.
-
-**Fix.** The usr Alpine provisioner (`host/alpine` in joshuarli/usr) adds
-`tsc=nowatchdog` to `GRUB_CMDLINE_LINUX_DEFAULT` on x86_64 CPUs with
-`constant_tsc` and `nonstop_tsc` and regenerates the GRUB menu. It also
-installs `amd-ucode`, runs the `performance` CPU governor at boot, and sets
-BBR with fq, 7.5 MB socket buffers and `vm.swappiness = 10`. Lisa was
-drained with `bin/drain` and rebooted. Afterwards the clocksource was
-`tsc`, a clock read cost 138 ns, the Engine dropped from 430 to 600% CPU to
-about 65 to 110%, host load fell from 12 to 3, and `oo-app.stuff` registered
-with 1/1 nodes connected.
-
-**Follow-ups found on the reboot.**
-
-- `oo-dns` started before the tailnet address existed; see
-  [Supervision design](#supervision-design).
-- The hand-made `oo-stuff-read-app` crash-looped: its `/app/.open-orange`
-  tmpfs came back root-owned, and the container runs as uid 1000. It was
-  recreated once with `uid=1000,gid=1000` on that tmpfs. After byte-identical
-  responses from the primary and the reader on nine read paths, the `stuff`
-  reader route was retired by the procedure in
-  [Recovery routes](#recovery-routes). Both reader containers are stopped
-  with restart policy `no`. The pre-change routes file is
-  `/root/recovery-routes.json.pre-stuff-retire` on Lisa.
-- The Engine's `actor_inbound` envoy queue still reports 128 of 128 every
-  30 s. Before 2026-11-18 this warning appeared once or twice a day. It
-  started during the outage and persists after the reboot while all apps
-  are idle. See
-  [Engine queue saturation](#engine-queue-saturation-after-the-outage).
-
-### Engine queue saturation after the outage
-
-After the reboot, with every app container near 0% CPU, the Engine still
-used 65 to 110% CPU, almost all in user space. Its `actor_inbound` envoy
-queue stayed at exactly 128 of 128. Two metric samples 30 s apart from
-`http://172.29.80.11:6430/metrics` showed:
-
-| Metric | Change in 30 s |
-| --- | --- |
-| `rivet_depot_alarm_candidates` | 33, unchanged |
-| `rivet_depot_alarm_discovery_rows_total` | +660 (about 22 rows/s) |
-| `pegboard.actor.alarm` commands completed (`rivet_depot_client_command_duration_seconds_count`) | +22 (about 0.7/s, 120 ms mean) |
-
-The candidate count does not fall, so this is not a backlog draining. The
-same alarms are rediscovered and redelivered continuously. Discover's
-envoy also renewed its heartbeat about a sixth as often as the other apps'
-(`rivet_pegboard_envoy_index_upserts_total`: 135 against 730 to 820), and
-Discover, Discover Preview and Discover Wine logged the most
-`actor.not_found` responses. The working hypothesis is alarms scheduled for
-actors that were destroyed or lost during the outage. Those alarms keep
-retrying against a missing actor and hold one envoy's inbound queue full.
-This is not yet proven. The Engine log line does not name the envoy, and no
-route that lists alarm targets has been verified.
-
-`rivet_state_machine_durable_stale_alarm_deliveries_total{machine="actor"}`
-reached 15,975 about 70 minutes after boot, roughly 4 per second. In the
-pinned source (`engine/packages/state-machine-durable/src/metrics.rs` at
-`e5ed391`) a stale delivery is an alarm for a revision that is no longer
-armed, acknowledged without firing. Acknowledged alarms do not retry, so
-the rate means actor state machines keep re-arming and invalidating their
-alarms. That fits the boot-time warnings "failed to send stop command; the
-stop timer resends it" and "actor stop went unanswered past the stop
-threshold". Discover's runner also alternated between connected and absent
-in `bin/health` within an hour of the reboot.
-
-The public actor listing (`/actors?namespace=NS&name=NAME`) omits lifecycle
-state. The Engine's lifecycle warnings do name actors. Since the reboot, the
-actor with the most "did not become ready before the gateway deadline"
-warnings is `lv9klsjvpn1runcelvimxtw7s2bl00` (41), followed by other
-`stats-prod` actors, all resolved with `/actors?namespace=stats-prod&actor_ids=ID`.
-
-**Attribution.** The cycling actors belong to `stats-prod`. Stats is fenced
-by its writer recovery route and served off-host, so `stats-prod` has no
-runner on Lisa (`/pools/default/nodes?namespace=stats-prod` returns no
-nodes). Its actors remain in Lisa's Engine: one `installation-917ceba9`
-and 14 `observation-store-13f29dce` actors. `/actors/names` returns no names
-for the namespace, so query by name. With no runner, their alarms cannot
-fire, wake attempts time out and stop commands go unanswered, which re-arms
-the alarms. Restarting Discover on 2026-11-18 at 21:16 left the stale
-alarm rate unchanged at about 3 per second. The queue warnings began the
-day Stats moved to its recovery writer.
-
-Do not destroy these actors to stop the loop. They are Lisa's copy of the
-Stats data, which the writer-route failback in [Recovery routes](#recovery-routes)
-must keep until the standby's newest data is transferred and verified. The
-loop ends when Stats fails back to Lisa and its runner reconnects, or with
-a supported Engine operation that suspends alarms for a fenced namespace;
-the pinned Engine's peer API (`engine/packages/api-peer`) has none. Raising
-`pegboard.envoy_actor_inbound_capacity` would hide the symptom without
-stopping the retries.
-
-Discover's `research-space` actor `pa0699azx51wll1le1qmumrnv3dl00` also
-failed to wake from `sleeping` before the gateway deadline while Discover's
-runner flapped. Restarting `oo-app.discover` restored its runner, HTTP 200
-on its private listener and `hq.17166969.xyz`.
+Engine refusals under host CPU saturation, including the 2026-11-18 HPET
+clocksource outage and the follow-on envoy queue saturation, are recorded in
+[Engine degradation](openorange-engine-degradation.md).
 
 ## Loss model
 
@@ -598,32 +479,6 @@ S3 bucket alone does not establish Engine recovery after log-disk loss.
 Application logical exports provide an additional recovery path independent
 of Engine internals. Store object checksums have passed isolated restore tests.
 Full-host replacement RTO and bucket-version recovery remain unmeasured.
-
-## Rehearsal record (lisa, 2026-11-13)
-
-Demo Worker `deploy/openorange/demo` (SQLite Durable Object + R2 binding)
-answered `stats.17166969.xyz` and `demo.17166969.xyz` in namespace `demo`
-(overlay `rehearsal/overlay.toml`). From the Mac (100.107.2.101),
-`tests/client-checks.sh`: identity forwarded as `user:<login>`; forged
-`Stats-Tailnet-Identity`, `Stats-Gateway-Secret`, `Tailscale-*`,
-`X-Forwarded-*`, `X-OO-Peer` stripped or overwritten; Tansu `/api/v2/health`
-200 via ingress; ports 6420/6421/6422/6430/7070/7071/8080/80/18480 closed on
-`100.68.104.43` and `10.0.1.56`, 443 open only on the tailnet address.
-`public-listener-checks.sh` on the host: `/admin` and ten variants 404, forged
-headers not delivered, loopback only. DO count survived app restart, Engine
-restart and an Engine SIGKILL (supervisor respawn); backup at count 9 then
-restore into a fresh directory returned 9 while the live count was 11.
-Tagged-node identity: not run on a real device (no tagged node on the tailnet;
-`tailscale status --json` shows no tags); the mapping is unit-tested with
-canned `whois` documents only.
-
-After the demo was removed (`oo remove demo --purge-store`, overlay deleted)
-the stack stays running, idle: `oo-store`, `oo-engine`, `oo-identity`,
-`oo-ingress` (all four boot-enabled), Caddy on `100.68.104.43:443` and
-`127.0.0.1:18480`, namespaces `stats stuff discover discover-preview` (plus the
-leftover `demo` namespace, whose Actor state cannot be deleted) with all apps
-answering `503 app not deployed`. `oo-app.stats` and `oo-app.stuff` init
-instances exist but are not in the default runlevel until an image is deployed.
 
 ## Deviations and open items
 
@@ -655,55 +510,6 @@ to `lisa/post-stuff-cutover/state.tar` and verified against SHA-256
 `39caece0385a875ca8b19e7cbc94826e18186139d86426584789652893b8b48d`.
 The current Stuff build context and ingress/secret configuration overlay
 are preserved under `stuff/runtime-9da0f029c115` in that backup directory.
-
-## Stuff production cutover (2026-11-14)
-
-All eight public pull names route through the connector to Lisa. Anonymous
-Cargo, npm, PyPI, OCI and mirror reads pass, including a checksum-verified
-Cargo download, HEAD, conditional 304, byte-range 206 and invalid-range 416.
-Public writes return 405 and publishing paths return 404. Public upstream
-requests explicitly carry HTTPS so generated links retain the correct scheme.
-Mac, Threadripper and Lisa use the protected credentials file with the private
-publishing hostname; real publications and coordinator conflict checks pass.
-
-The Cloudflare Worker `stuff` and its six R2 buckets (`stuff-mycrates`,
-`stuff-mynpm`, `stuff-mypypi`, `stuff-oci`, `stuff-mirror`, `stuff-oci-blobs`)
-were deleted after source identity checks, full-data recovery and off-host
-archive verification. Protected source inventories, copy ledgers and final
-retirement receipts are under `stuff/source-cutover` in the Mac backup.
-Cloudflare DNS, the public connector and immutable-blob cache rules still
-serve public access; application compute, coordination and storage run on Lisa.
-
-The temporary private-DNS interval interrupted GitHub consumers. Public DNS
-now returns edge addresses, and the previously failing Ish lint workflow
-downloaded its Stuff dependencies and passed on a fresh GitHub runner.
-
-Discover production and preview also completed cutover. Their selected spaces
-are `replacement-orange-live-20261114` and
-`replacement-orange-preview-live-20261114`, restored from fresh fenced source
-snapshots with 15,475 and 667 verified rows and independent recovery proofs.
-The source Workers, Durable Object namespaces, two artifact buckets and two
-Discover Access applications are deleted. Public search index checksums match;
-reader and bearer MCP requests pass, public admin routes return 404, and the
-private admin form origin and CSRF checks pass. Their protected snapshots,
-runtime contexts and final configuration overlay live under `discover/` and
-`discover-preview/` in the Mac backup directory.
-
-## Nanoshop
-
-Nanoshop is deployed at `https://shop.17166969.xyz`, with private owner and
-operator access at `https://shop-admin.17166969.xyz/admin`. Public cart and
-webhook methods are permitted; public `/admin` is denied. The app has its own
-namespace/bucket, no published ports and no internet egress. Its operator hash
-is supplied through the root-owned `apps/nanoshop.extra.env`.
-
-`make deploy` in the Nanoshop repository builds and activates only this app,
-with image preflight, rollback and a Stats deployment marker. Image
-`nanoshop:159a08d7ed2e` passed that path on 2026-11-14. Public health/home,
-private administration, cart POST and cart read passed. The old Cloudflare
-Worker, Durable Object namespace, empty bucket, Access app and dedicated
-service token were deleted. The owner explicitly discarded the old test data;
-the native shop uses the repository fixture.
 
 ## agentctl
 
@@ -797,43 +603,6 @@ the actor's current state. Engine storage health, logs, metrics, arbitrary actor
 inspection and WebSockets are unavailable; links lead to Stats' existing
 service deployments and host metrics. No SQLite inspection or cluster-wide
 actor total is inferred.
-
-#### Production acceptance (2026-11-14)
-
-Stack revision `1011f69` was deployed with explorer image
-`sha256:e487fe8adba8e159725220cffce764a4091dc6b5fc13ae0d5174628a3b1bd6ad`.
-The authorized Mac browser loaded valid HTTPS over HTTP/3, listed all eight
-production/rehearsal namespaces, and displayed real Stats actor metadata and
-lifecycle events. Stats had two connected nodes and Stuff had one. Namespace
-switching, actor selection/search, Back, reload and the 390 px layout passed.
-
-Unlisted operators and missing/forged gateway credentials received 403;
-mutations received 405. The public listener returned 404 even with forged
-identity headers. Asset/API scans found no Engine or gateway credentials.
-Restarting only `oo-rivet` preserved the Engine and application container IDs
-and start times; the Engine configuration and credential hashes were unchanged.
-Shared health reported 92 passes, one disk-capacity warning and no failures.
-
-The protected configuration and selected image were copied to the Mac's
-`~/backups/openorange/rivet/production/`. The earlier full physical backup
-predates the explorer; retain this supplement with it for recovery.
-
-#### UI selection and pinned Engine evidence
-
-On 2026-11-14, the running `oo-engine` image was inspected read-only. Its
-image reference was the Engine index digest in `images.lock.json`; the binary
-reported `Rivet 3.1.1`, although the configured image tag is `3.1.2-rc.1`.
-The image did not expose an OCI revision label. Its attached BuildKit
-provenance identifies source revision `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`;
-see [the Engine diagnosis](openorange-engine-diagnosis.md) for the digest
-binding and qualification. Authenticated GETs returned 200 for
-`/namespaces`, `/pools?namespace=stats-prod`,
-`/pools/default/nodes?namespace=stats-prod`,
-`/actors/names?namespace=stats-prod`, and an actor list filtered by name;
-`/health` returned 200 without authentication. `/runner-pools` and `/ui`
-returned 404. Actor lists require a name or actor ID; a request with only a
-namespace returned 400. These observations do not establish the availability
-or safety of other routes.
 
 How this Engine refuses work when its host is CPU-saturated, and which limits
 turn those refusals into slowness, is in
