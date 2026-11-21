@@ -253,9 +253,8 @@ platforms = ["linux-x86_64", "linux-musl-x86_64", "macos-arm64"]
 linux_repair_policy = "manylinux_2_28"
 ```
 
-Platform names are `linux-x86_64`, `linux-aarch64`, `linux-musl-x86_64`,
-`linux-musl-aarch64`, and `macos-arm64`. `macos-x86_64` is retired and never
-planned; a manifest that records it stays readable and is carried forward.
+Platform names and the retired `macos-x86_64` are in
+[Publish and validate platforms](#publish-and-validate-platforms).
 
 The publisher writes that origin into the generation's `llms.txt`, so a
 deployment at another origin publishes pip instructions for its own index.

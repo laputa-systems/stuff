@@ -54,7 +54,7 @@ The checked-in deployment disables network pushes. Deployments that enable them 
 
 ## Browse and inspect
 
-Every published generation includes `catalog.json`, an HTML landing page, and an LLM-readable `llms.txt` derived from the published registry state.
+Every published Cargo, npm, PyPI, and OCI generation includes `catalog.json`, an HTML landing page, and an LLM-readable `llms.txt` derived from the published registry state. The static mirror publishes `catalog.json`, `SHA256SUMS`, and one `<id>.tar.xz` per artifact instead; see [mymirror](crates/mymirror/README.md).
 
 ```sh
 stuff ls
@@ -66,24 +66,18 @@ stuff render --output index.html
 stuff render --output llms.txt
 ```
 
-Commands read the live registries by default without credentials. Use `--cargo-dir`, `--npm-dir`, `--pypi-dir`, or `--oci-dir` to inspect a local site, generation, or catalog. `--json` emits inventory as JSON; `--versions` includes every published version.
+Commands read the live registries by default without credentials. Use `--cargo-dir`, `--npm-dir`, `--pypi-dir`, `--oci-dir`, or `--mirror-dir` to inspect a local site, generation, or catalog. `--json` emits inventory as JSON; `--versions` includes every published version.
 
 With any local directory supplied, `doctor` skips omitted registries. It refuses `--expected-generation` unless every selected registry is checked. An explicitly selected registry needs its local directory or an explicit base URL when another registry is local. Artifact sampling checks hashes as well as availability.
 
 Catalog pages link packages to their dependencies and dependents, grouped by dependency kind. Search matches package name, registry, and source, and remains hidden when scripts are disabled. The [catalog format](docs/mycrates-contracts.md#catalogjson-schema-4) describes schema compatibility and ecosystem-specific dependency data.
 
-The aggregate page and `/llms.txt` combine all four catalogs and cache responses for 60 seconds. A missing or invalid generation pointer returns 404; on a render-cache miss, a missing catalog object also returns 404. If catalog bytes exist but some cannot be parsed, the renderer lists compatible catalogs with notices. It fails when none can be parsed. `stuff render` requires all selected catalogs to load.
+The aggregate page and `/llms.txt` combine all five catalogs. Responses carry an HTTP `Cache-Control: max-age=60` header; the in-process render cache holds 64 pages up to 16 MiB (LRU). A missing or invalid generation pointer returns 404; on a render-cache miss, a missing catalog object also returns 404. If catalog bytes exist but some cannot be parsed, the renderer lists compatible catalogs with notices. It fails when none can be parsed. `stuff render` requires all selected catalogs to load.
 
 ## Serve a local site
 
-```sh
-cargo run -p stuff-server -- --route /=path/to/site
-cargo run -p stuff-server -- --route /mirror=path/to/mirror --max-connections 64
-```
-
-The server follows `current` to a generation, serves immutable `generations/` paths, and supports conditional and range requests. Directory requests serve `index.html`. `/`, `/index.html`, `/catalog.json`, `/llms.txt`, and `/simple/...` alias through the current generation.
-
-The native server and Worker support shared wheel/tarball aliases and npm's standard `current/<name>/-/<basename>-<version>.tgz` lookup. Metadata-only npm versions support lockfile checks for excluded platforms without hosting their artifacts; see [mynpm](crates/mynpm/README.md).
+To serve a downloaded site locally with `stuff-server`, see
+[docs/development.md](docs/development.md#serve-a-local-site).
 
 ## Exit codes and further usage
 

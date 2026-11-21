@@ -67,10 +67,10 @@ is missing or mismatched.
 
 ## Test
 
-`make worker-test` builds the bundle and runs it under workerd with Wrangler's
-integration test harness. The tests seed local R2 bindings and use the built
-Worker's compatibility date. They cover cold-HEAD caching, root links, pinned
-artifact aliases, OCI reads, and OCI writes.
+`make worker-test` builds the bundle and runs the Node test suite
+(`pnpm run test:runtime` → `node --test`, see `package.json`). The runtime tests
+seed local storage and cover cold-HEAD caching, root links, pinned artifact
+aliases, OCI reads, and OCI writes.
 
 `pnpm run check` builds the Worker, runs Oxlint and the TypeScript checker, and
 runs the Worker tests. The Node.js requirement is `engines.node` in `package.json`.
@@ -140,16 +140,16 @@ Cloudflare-specific surfaces and what replaced them:
 
 | Surface | On OpenOrange |
 | --- | --- |
-| `ctx.exports.Registry.fetch` with `cf.cacheKey` | Removed; one fetch handler. Orange builds `request.url` from the Host header (`runner.js:25926` in 1.0.2), so hostname routing is unchanged |
+| `ctx.exports.Registry.fetch` with `cf.cacheKey` | Removed; one fetch handler. Orange 1.0.2 builds `request.url` from the Host header, so hostname routing is unchanged |
 | `caches.default` render cache | In-process LRU of rendered unified pages (64 entries, 16 MiB) keyed by origin, release, generation ids and path; artifact bodies always stream from storage |
 | `env.VERSION` | `STUFF_RELEASE` text binding |
-| `.wasm` import + `initSync` | Orange loads `.wasm` imports as `WebAssembly.Module` (`bin.js:8100`); unchanged |
-| Conditional R2 `put` | The S3 facade pins the write with `If-None-Match: *` or `If-Match` (`runner.js:14178`); the self-hosted store honors both |
+| `.wasm` import + `initSync` | Orange loads `.wasm` imports as `WebAssembly.Module`; unchanged |
+| Conditional R2 `put` | The S3 facade pins the write with `If-None-Match: *` or `If-Match`; the self-hosted store honors both |
 
-The facade spools streamed S3 PUT bodies to a temporary file
-(`runner.js:14006`). Publishers upload natively through the Rust S3 client,
-so only Worker-side OCI pushes take that path. GET and range reads stream
-(`runner.js:14134`).
+The facade spools streamed S3 PUT bodies to a temporary file. Publishers upload
+natively through the Rust S3 client, so only Worker-side OCI pushes take that
+path. GET and range reads stream. The runtime is pinned in `orange/package.json`
+and not vendored here, so its source line numbers are not quoted.
 
 ### Coordinated native uploads
 
@@ -160,6 +160,25 @@ the upload lease in `x-amz-security-token`. The gateway checks the payload
 while streaming and keeps the final bytes back until its digest matches.
 Backing S3 credentials stay inside the Worker. Immutable PUTs and multipart
 completion use conditional creation. Direct writes to `current` are refused.
+
+The management endpoint is `/_publication/<registry>/<operation>` on the stuff
+host, with registries `cargo`, `npm`, `pypi`, `oci`, and `mirror`. Requests use
+`Authorization: Bearer <STUFF_COORDINATOR_TOKEN>`. `GET current` returns
+`revision`, `generation`, `manifest`, and `pending`; all other operations are
+POST with JSON. `begin` and `gc-claim` return an exclusive five-minute lease,
+expiry in Unix milliseconds, and the current revision; `renew` and `abort` take
+`{"token":"..."}`. `activate` and `rollback` take `token`, `key` (idempotency
+key), `generation`, `manifest` (lowercase SHA-256 of the manifest bytes), and
+`expectedRevision`; both verify the existing version-1 manifest and its objects
+before committing, and a replay of the same key and payload returns its receipt.
+`gc-delete` takes a GC `token` and `generation`, refuses the current generation
+and references from other manifests, and does not collect shared objects. The
+Durable Object serializes operations and checks lease expiry. Its SQLite row is
+the authority for revision, generation, manifest identity and pending state;
+R2 `current` is a repairable compatibility projection, so mutable reads use
+SQLite and the next operation repairs drift. Before any delete it durably
+retires the exact S3 version IDs; retirement is permanent and the immutable
+generation ID is never reused for different bytes.
 
 Direct Stats events use the vendored producer 0.2.0 artifact, whose source
 revision and hashes are recorded under `vendor/stats-producer`. Configure

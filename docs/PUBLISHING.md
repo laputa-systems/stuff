@@ -118,7 +118,7 @@ The protocol, storage, and activation design is in
 generation, syncs blobs before metadata, and flips `current`. The metadata
 bucket is `stuff-oci`; blob bytes live in `stuff-oci-blobs` under
 `sha256/<hex>`. `oci.bucket` and `oci.blobs_bucket` in
-`$XDG_CONFIG_HOME/stuff/config.json` override both names.
+`${XDG_CONFIG_HOME:-$HOME/.config}/stuff/config.json` override both names.
 
 ```sh
 stuff publish oci --image example/app=ghcr.io/example/app:v1
@@ -358,7 +358,7 @@ The mirror's `catalog.json` carries the artifact manifest itself (`artifacts` wi
 
 ## Republish without new packages
 
-A renderer or catalog change reaches a registry's pages only when that registry publishes again. `stuff republish cargo|npm|pypi` reads the live generation, renders it again, and promotes it without package inputs. OCI also has a republish command, but renderer-only or public-origin changes currently reuse its generation ID and conflict with immutable output ([STUF-78](../TODO.md)). `stuff republish mirror` re-derives its generation from the manifest; an unchanged manifest uses cached downloads and produces no new generation. Older manifests remain until `make gc` prunes them outside its retention window.
+A renderer or catalog change reaches a registry's pages only when that registry publishes again. `stuff republish cargo|npm|pypi` reads the live generation, renders it again, and promotes it without package inputs. `stuff republish oci` fingerprints the catalog and public URL in its generation v2, so a renderer or origin change produces a new generation. `stuff republish mirror` re-derives its generation from the manifest; an unchanged manifest uses cached downloads and produces no new generation. Older manifests remain until `make gc` prunes them outside its retention window.
 
 Republish uses the observed live generation as its promotion base even when this machine's last promoted generation is older. If another publisher changes `current` during the operation, republish refuses the competing update; rerun it to render the new live generation.
 
@@ -405,21 +405,9 @@ A machine with no local state reads the live generation and manifest, verifies t
 
 The Python `mycrates` adoption sequence (`mycrates init`, `adopt`, and `verify`) belongs to the legacy oracle and its golden tests; it is not a publishing entry point.
 
-## Upgrading mycrates state from the Rust tool
+## Legacy mycrates tools
 
-The Rust `mycrates` stored native records and pins as TOML; the Python tool stores JSON and refuses a state directory with TOML records left in it. Once, per state directory, with a backup in hand (`cp -a "$H/mycrates" "$H/mycrates.bak"`), run:
-
-```sh
-crates/mycrates/bin/mycrates migrate-state --state-dir "$H/mycrates/state"
-```
-
-`stuff publish cargo` has its own automatic migration: it backs up the selected legacy state, copies records and pins into its `cargo` state directory, and converts legacy TOML records. Source selection, conflicts, and backup paths are documented in [mycrates state migration](mycrates-migration.md). The standalone command above converts a Python oracle state directory in place.
-
-## mycrates auth
-
-This describes the legacy Python write path, kept as the parity oracle. `mycrates` writes require the publish token, whether `--token-file` supplies it or you set `MYCRATES_TOKEN`. Reads follow `auth_required` in `config.json`, and the generated `current/registry/config.json` advertises the same value as `auth-required`.
-
-Keep `auth_required` false for archive static servers. Production registry reads are anonymous; the publishing service authenticates mutations behind the tailnet ingress. The publish server serves `blobs/` for Cargo verification, so a dependent native crate publishes without `--no-verify`.
+`mycrates migrate-state` converts a Rust-tool state directory's TOML records to JSON; other commands refuse a directory that still holds TOML. `stuff publish cargo` migrates its own legacy state automatically. See [mycrates state migration](mycrates-migration.md) and the [mycrates README](../crates/mycrates/README.md). The legacy Python write path's token and `auth_required` rules are in [mycrates contracts](mycrates-contracts.md#upload-and-yank-api).
 
 ## Deploy the serving application
 
@@ -480,16 +468,14 @@ can be uploaded safely. Bucket versioning must be enabled and verified.
 
 ## Fix common failures
 
-| Message | Cause | Fix |
-| --- | --- | --- |
-| `publishing service credentials are required` | No service credential file is configured | Install the owner-only service credential file below |
-| `current changed during promotion` | Another publisher moved `current` | Pull the new generation, merge your changes, and publish again |
-| `immutable object differs` | A local immutable file differs from R2 | Find which side is wrong; immutable objects are never overwritten |
-| `exceeds the 300 MB single-PUT cap` | Large object without S3 credentials | Set `R2_S3_*` |
-| `differs from its manifest ETag` | A pulled object does not match the generation's manifest | Rerun the pull; if it repeats, the bucket is inconsistent |
-| `publish: waiting for active writer` | Another publish, rollback, or gc holds the lock | Wait for it to finish |
-| `remote current is '...', expected '...'; refusing to overwrite a competing publication` | Another machine published, or rolled back, since this machine's last promotion | Stop local publishers and GC, inspect the live generation, then switch all local writers to the same fresh `STUFF_STATE_HOME` and `STUFF_CACHE_HOME` directories. Repeating publish does not clear the stale record, and a no-op republish does not refresh it. |
-| `generation ... drops N versions served by live generation ...` | The proposed catalog lacks served versions | Re-plan against the current publication; use explicit rollback for a deliberate generation switch |
+Exact error strings live in the CLI (`crates/stuff/tests/cli.rs` pins the contract). Common causes:
+
+- No service credential file is configured — install the owner-only credential file below.
+- Another publisher moved `current`, or this machine lags the live generation — pull the new generation, re-plan, and republish; a no-op republish does not clear a stale promoted record.
+- A local immutable file differs from the remote, or a pulled object fails its manifest ETag — find which side is wrong; immutable objects are never overwritten.
+- An object exceeds the 300 MB single-PUT cap — set `R2_S3_*` for multipart.
+- Another publish, rollback, or GC holds the lease — wait for it to finish.
+- A proposed catalog drops versions served by the live generation — re-plan against the current publication; use explicit rollback for a deliberate generation switch.
 
 ## Copy a registry bucket to another store
 
@@ -514,40 +500,12 @@ uses it; see [registry failover](registry-failover.md).
 
 ### Publication coordinator
 
-A per-registry Durable Object owns publication. The service requires
-`STUFF_COORDINATOR_ENABLED=true`; enable it only after validating the copied
-registries and fencing legacy writers during cutover. Its
-SQLite row owns the activation revision, generation, manifest SHA-256, and pending
-projection state. An activation transaction also stores its idempotency receipt.
-After the SQLite commit the owner writes R2 `current` as a compatibility projection;
-it compares the projection with authority and repairs drift before responding or
-serving a coordinator-backed mutable pointer. SQLite and R2 are not one atomic
-transaction. A request still in flight when an actor dies may finish late; all
-mutable reads use SQLite authority, and the next coordinator operation repairs
-the projection. Direct reads of the compatibility marker must be fenced at
-cutover. Immutable downloads use the S3-backed registry and blob readers.
-
-The authenticated management endpoint is `/_publication/<registry>/<operation>`
-on the stuff host. Registries are `cargo`, `npm`, `pypi`, `oci`, and `mirror`.
-Requests use `Authorization: Bearer <STUFF_COORDINATOR_TOKEN>`; the token is a
-publishing service credential. `GET current` returns `revision`, `generation`, `manifest`, and
-`pending`. All other operations use POST with JSON. `begin` and `gc-claim` return
-an exclusive five-minute lease token, expiry in Unix milliseconds, and the current
-revision. `renew` and `abort` accept `{"token":"..."}`. `activate` and `rollback`
-accept `token`, `key` (an idempotency key), `generation`, `manifest` (lowercase
-SHA-256 of the exact manifest bytes), and `expectedRevision`. Both verify the
-existing version-1 manifest and its metadata-bucket objects before committing. A
-replay of the same key and operation payload returns its original receipt; reuse
-with another payload conflicts. A fresh request with a stale revision or lease
-conflicts. `gc-delete` accepts a GC `token` and `generation`: it only deletes the
-manifest and generation tree, refuses the current generation and references from
-other manifests, and does not collect shared objects. The owner serializes these
-operations and checks lease expiry before activation and each delete. Before
-issuing any delete, it durably retires that generation. Retirement is permanent:
-neither the generation nor references to its tree or manifest may be activated
-again, even if a crashed collector's deletion is still in flight. Re-uploading
-its manifest cannot undo retirement. This makes late external completion safe;
-the immutable generation ID must never be reused for different bytes.
+The publishing service's Durable Object owns each registry's activation revision;
+R2 `current` is a repairable compatibility projection, not the authority. The
+management endpoint, lease and activation operations, and retirement rules are in
+the [Worker README](../crates/stuff-worker/README.md#coordinated-native-uploads).
+The service requires `STUFF_COORDINATOR_ENABLED=true`; enable it only after
+validating copied registries and fencing legacy writers during cutover.
 
 Native publication, rollback, both GC helpers and optional OCI manifest pushes
 use this authority. Immutable uploads stream through the authenticated S3 gateway,
@@ -569,8 +527,8 @@ Store service credentials in `~/.config/stuff/credentials.json` with mode 600
 (or select a file with `STUFF_CREDENTIAL_FILE`). `STUFF_CONFIG_HOME` and
 `XDG_CONFIG_HOME` follow the existing configuration directory rules. The JSON
 has schema 1 and requires `endpoint`, `coordinator_token`, `access_key_id`,
-`secret_access_key`, and `region`. Use `auto` for the service region; the client
-currently accepts other values that the gateway rejects ([STUF-81](../TODO.md)).
+`secret_access_key`, and `region`. Use `auto` for the service region; other values
+are rejected before any network request, matching the gateway (see below).
 The endpoint is the management origin, for
 example `https://stuff-publish.17166969.xyz`; its S3 route is derived from that origin.
 These are service credentials, distinct from the backing store credentials.

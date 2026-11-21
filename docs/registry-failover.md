@@ -1,14 +1,10 @@
 # Registry failover
 
-Every public registry hostname resolves Cloudflare → `cloudflared` tunnel →
-Caddy on Lisa → the `stuff` Worker on OpenOrange/workerd → R2-compatible
-bindings backed by the host's versitygw store. When Lisa's Engine fails, the
-origin answers every registry with 500/530. A second origin keeps reads
-available: a Cloudflare Worker that forwards to the origin first and serves from
-an R2 replica only when the origin does not answer.
-
-The replica is a read path. Publishing, OCI pushes and every mutation stay on
-the origin and are unavailable during a failover.
+When the OpenOrange origin fails, public registry reads are served from an R2
+replica by a route-attached Cloudflare Worker. The replica is a read path:
+publishing, OCI pushes and every mutation stay on the origin and are
+unavailable during a failover. Registry access and the replica's purpose are
+described in [PUBLISHING.md](PUBLISHING.md#registry-access).
 
 ## Shape
 
@@ -100,124 +96,23 @@ live under `generations/<id>/`, the shared stores (`blobs/`, `tarballs/`,
 `wheels/`, `manifests/`, `sha256/`) sit at the root, and `current` is a pointer
 object naming a generation.
 
-`deploy/store-copy.py sync SOURCE DEST --ledger FILE` copies the shared stores
-and the generation `current` names, verifies the destination holds them, and
-only then copies `current`. Other generations are not copied, so the replica
-holds the generations that were current at some sync since it was seeded.
-It refuses to move the pointer when the source names a generation with no
-`generations/<id>/` objects, and it never deletes at the destination, so the
-previously published generation stays readable while a newer one copies. An
-interrupted sync leaves the destination pointer where it was, so the replica
-never names a generation it does not hold.
+`deploy/store-copy.py sync` copies the shared stores and current generation
+names before moving `current`, so an interrupted sync never names a generation
+the replica lacks; see
+[PUBLISHING.md](PUBLISHING.md#copy-a-registry-bucket-to-another-store).
 
 ## Deploy
 
-Deployment is done by the owner. Nothing here contacts Cloudflare or Lisa.
-Replace the placeholders with the account's own values.
-
-1. Build the replica bundle (writes `build/failover/`):
-
-   ```sh
-   cd crates/stuff-worker
-   pnpm install --frozen-lockfile
-   pnpm run check:failover
-   pnpm run build:failover
-   ```
-
-   The config also needs the Worker's entry module; `pnpm exec cf deploy` (or
-   `cf build`) reads `cloudflare.config.ts`, so build it with the project's own
-   `cf` dev dependency.
-
-2. Create the six R2 buckets that back the bindings and copy them from Lisa:
-
-   ```sh
-   BUCKET=stuff-mycrates   # repeat for all six
-   REPLICA_SYNC_ENV=/etc/openorange/replica-sync.env deploy/replica-sync.sh "$BUCKET"
-   ```
-
-   Destination credentials come from `/etc/openorange/replica-sync.env`
-   (mode 0700 root), holding `STUFF_COPY_SOURCE_S3_*` (the store's S3 user) and
-   `STUFF_COPY_DEST_S3_*` (the R2 replica token). They are never committed.
-
-3. Install the sync unit on Lisa and start it:
-
-   ```sh
-   doas install -m 0755 deploy/openorange/openrc/oo-replica-sync /etc/init.d/oo-replica-sync
-   doas install -d -m 0755 /opt/openorange/replica-sync
-   doas install -m 0755 deploy/replica-sync.sh deploy/store-copy.py deploy/r2_common.py deploy/r2-multipart.py deploy/r2-put.py deploy/publication_service.py /opt/openorange/replica-sync/
-   doas install -m 0700 replica-sync.env /etc/openorange/replica-sync.env
-   doas rc-update add oo-replica-sync default
-   doas /sbin/rc-service oo-replica-sync start
-   ```
-
-4. Deploy the Worker with its routes. The route list is expressed in
-   `cloudflare.config.ts` as `<host>/*` for all eight hostnames. Build the WASM
-   first, then deploy through the staging script; `cf deploy` run inside
-   `crates/stuff-worker` picks Vite, which that package lists for the search
-   bundle, and fails to find an entry:
-
-   ```sh
-   (cd crates/stuff-worker && pnpm install --frozen-lockfile && node scripts/build.mjs)
-   deploy/failover-deploy.sh --dry-run    # prints the eight route patterns
-   deploy/failover-deploy.sh --message "..."
-   ```
-
-   To route one hostname first, deploy from a local edit of `HOSTS` and confirm
-   healthy pass-through before deploying the committed list.
-
-   Do not add `domains`: a custom domain detaches the hostname from the tunnel
-   and the origin subrequest no longer resolves.
-
-## Deployment record
-
-Deployed 2026-11-21: mirror alone first (version `bf6fea72`), then all eight
-hostnames (version `e0984013`). Healthy requests returned 200 with no
-`x-stuff-served-by` header and the mirror's Node archive matched its catalog
-SHA-256. `oo-replica-sync` runs on Lisa from `/opt/openorange/replica-sync/`;
-its first full pass copied the current generation of every bucket.
-
-Drill, 09:28 to 09:30 UTC, `oo-app.stuff` stopped on Lisa: crates, npm, pypi
-and mirror answered 200 with `x-stuff-served-by: replica`; cold-cache
-`cargo fetch --locked` and `pnpm install --frozen-lockfile` in tansu and
-`uv sync --frozen` in buildlib exited 0, the mirror archive verified, and no
-consumer log showed a 5xx or a retry. After the restart the origin answered
-again without the header.
-
-## Drill
-
-Prove failover without touching the origin:
-
-1. Run the tests, which drive an injected origin and a seeded replica:
-
-   ```sh
-   make worker-test
-   ```
-
-   They assert that 200/304/404 pass through untagged, and that 500/502/503/530,
-   a thrown error and a header timeout serve the replica with
-   `x-stuff-served-by: replica` for the cargo index, cargo blob, npm packument
-   and tarball alias, PyPI simple page and wheel alias, mirror file and OCI
-   blob.
-
-2. In production, block the origin for one hostname at the Worker (for example
-   by temporarily omitting one route) or stop `oo-app.stuff` on Lisa, then
-   request a known path and check the header:
-
-   ```sh
-   curl -sS -D- -o /dev/null https://crates.17166969.xyz/current/registry/config.json
-   # healthy: no x-stuff-served-by
-   # origin down: x-stuff-served-by: replica
-   ```
-
-3. Verify replica freshness before relying on it:
-
-   ```sh
-   doas tail -n 20 /var/log/openorange/replica-sync.log
-   ```
+Deployment is done by the owner. The replica bundle build, bucket seed, sync
+unit install, and Worker route deploy are in
+[crates/stuff-worker/README.md](../crates/stuff-worker/README.md#read-replica)
+and `deploy/failover-deploy.sh`; nothing here contacts Cloudflare or Lisa.
+Do not add `domains` to the Worker config: a custom domain detaches the
+hostname from the tunnel and the origin subrequest no longer resolves.
 
 ## Remove
 
-Delete the Worker's routes (the four-step deploy above, reversed) and the
+Delete the Worker's routes (the deploy steps linked above, reversed) and the
 Worker. With the routes gone, the eight hostnames resolve to the tunnel again
 and the origin serves every request. Then stop and remove the sync:
 
