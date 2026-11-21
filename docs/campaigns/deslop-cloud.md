@@ -7,9 +7,8 @@ remains the handoff; this page covers what changes on Linux.
 
 ## Before leaving the Mac
 
-A cloud host sees only what is pushed. At the 2026-11-21 pause, every parked branch named in
-**Status** existed only in the Mac's local clones, except play `fix/playlist-encoding`. Push each parked
-branch, or record it as Mac-only in **Status**, before resuming elsewhere. Check with:
+A cloud host sees only what is pushed. Every parked branch named in **Status** was pushed on
+2026-11-21. Before resuming elsewhere, push any branch parked after that, or record it as Mac-only in **Status**. Check with:
 
 ```sh
 git -C <checkout> ls-remote --exit-code --heads origin <branch>
