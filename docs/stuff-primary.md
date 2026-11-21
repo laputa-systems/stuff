@@ -23,6 +23,18 @@ coordinator handoff ops (`docs/openorange-runtime.md`), not by copying a depot.
 The Stuff buckets are copied with their extended attributes, so object ETags
 and version IDs stay identical.
 
+## Load drill
+
+On 2026-11-21 from 16:48 to 17:19 UTC, Threadripper ran 64 unconfined busy
+loops and repeated 8 GB direct writes beside the VM's image while the guest
+served reads. Host load ranged from 10 to 132. All 30 one-minute samples showed
+no Engine warning (`command_capacity`, `could not register`,
+`request_deadline_exceeded`, `fenced`, `overloaded`) and no failed probe round.
+The guest's probe made 845 reads of five registry paths, every one a 200:
+p50 116 ms, p99 433 ms, max 4.3 s, against a p99 of 338 ms beforehand.
+Production Stats health on the same host stayed 200 throughout. The
+reservation holds; disk contention adds tail latency but no errors.
+
 ## Cutover
 
 Run after Lisa's Engine soak has ended and been recorded. Each step lists its
@@ -46,12 +58,37 @@ only writer and every step is reversible.
    it and restart `oo-app.stuff`.
    Check: `curl -H 'Host: crates.17166969.xyz' http://172.29.80.21:8080/current/registry/config.json`
    in the guest answers 200.
-3. **Pre-copy the buckets.** From Lisa, as root, stream
-   `store/data/stuff-*` and `store/versions/stuff-*` into the guest with GNU tar
-   `--xattrs --xattrs-include='user.*' --numeric-owner`. Repeat with `rsync -aHAX
-   --numeric-ids --delete` to shrink the final delta.
-   Check: object counts per bucket match, and a sampled object's `user.etag`
-   and `user.version-id` are equal on both sides.
+3. **Pre-copy the buckets.** Lisa's root has no route to the guest, and the
+   guest's sshd allows no remote forwards, so the operator's machine relays one
+   rsync session. Lisa runs the sender, the guest runs the client, and two pipes
+   carry the protocol between them:
+
+   ```sh
+   mkfifo f
+   ssh lisa 'doas rsync --server --sender -lHogDtpAXre.iLsfxCIvu --numeric-ids . SRC/' < f |
+     ssh -F ~/.config/stuff/primary/ssh_config stuff-primary \
+       'rsync -aHAX --numeric-ids --delete -e /root/stdio-rsh x:SRC/ SRC/ 3<&0 4>&1 1>&2' > f
+   ```
+
+   `/root/stdio-rsh` copies its stdin to fd 4 and fd 3 to its stdout, and exits
+   when fd 3 closes:
+
+   ```sh
+   #!/bin/sh
+   exec 5<&0
+   cat <&5 >&4 &
+   out=$!
+   cat <&3
+   kill $out 2>/dev/null
+   ```
+
+   Run it for each `store/data/stuff-*` and `store/versions/stuff-*` under
+   `/var/lib/openorange`. The sender's flags are what the guest's rsync 3.5.2
+   asks for with `-aHAX --numeric-ids --delete`; print them again with
+   `-e` pointing at a script that echoes its arguments if either rsync changes.
+   Check: a repeat run reports `Number of regular files transferred: 0`, and a
+   sampled object's `user.etag` is equal on both sides. On 2026-11-21 the
+   relay carried `stuff-oci` with every `user.*` attribute intact.
 4. **Freeze Lisa's coordinators.** For `cargo npm pypi oci mirror`:
    `POST https://stuff-publish.17166969.xyz/_publication/REGISTRY/freeze`.
    New publishes now receive 503 with `Retry-After: 30` and retry. In-flight
@@ -64,7 +101,9 @@ only writer and every step is reversible.
    object in the guest.
 6. **Import into the guest.** Post each export to the guest coordinator's
    `import` op through the guest app with the coordinator token and the
-   gateway secret.
+   gateway secret. Import must be the first op each guest coordinator sees:
+   any other op, `export` included, seeds an empty coordinator from the
+   bucket's `current` object, and import then answers `409`.
    Check: each guest export equals Lisa's export. Rollback: stop the guest app,
    discard its Engine depot, thaw Lisa.
 7. **Switch the route and thaw the guest. Point of no return.**
