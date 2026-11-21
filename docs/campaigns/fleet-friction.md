@@ -17,7 +17,19 @@ Active 2026-11-21. Resume by reading this section.
 - F3: done 2026-11-21 (STUF-101 closed). Eight consumers are enrolled in `buildlib-usage` on
   buildlib 0.2.0, the other 58 active entries have reviewed exemptions, and each shim consumer
   records both cold Linux capsule paths ([scorecard](deslop-scorecard.md#buildlib-adoption-lane)).
-- F4 to F6: not started; F4's inventory is below.
+- F4: one pair carried through on 2026-11-21. laputa-ptytest 0.5.0 (crates.io) reached tm's
+  `Cargo.lock` through `uv run repomod sync`, then
+  `uv run repomod fix --repo laputa-systems/tm --rule audit-upgrades --no-mirror`, then
+  `uv run repomod merge --repo laputa-systems/tm`. That produced tm#47 (merged as `b2fdb027`, CI
+  green on Linux and macOS). `--no-mirror` respected the Cargo publish hold; lint reports only
+  versions the configured registry already serves. Two gaps outside the inventory showed up:
+  - the fixer upgrades every outdated direct dependency, so the hand-off also carried
+    rustybench 0.5 → 0.6 and cannot be limited to the released crate;
+  - tm requires no status checks, so `fix` skipped auto-merge and the merge was a separate step.
+
+  Still outstanding from the inventory: gap 1 (no trigger) and the remaining ptytest consumers
+  (fz, xsh, e and defuddle-rs on `0.4`, soulseek-rs on `0.3`, lz's git pin).
+- F5 and F6: not started.
 
 ## Items
 
