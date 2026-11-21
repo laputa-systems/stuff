@@ -6,9 +6,10 @@ repositories (or forks tagged `fork-diverged`) with a root Cargo.toml that
 `[mutation-lane]`; repository files and campaign state never select them.
 Python and TypeScript lanes follow STUF-83. `mutants-diff-lane` has a fixer
 that writes the reference mutation gate but never its scope: the repository
-declares `scope` (files) and `critical` (a regex) in `.cargo/mutants-gate.toml`,
-and a missing declaration is a non-fixable finding. `fleet/policy/rust-tools.toml`
-pins the cargo-mutants version the lane installs. `fleet/policy/retention.toml`
+declares `scope` (files) and `critical` (a regex), or per-file `[[critical]]`
+tables, in `.cargo/mutants-gate.toml`, and a missing declaration is a
+non-fixable finding. `fleet/policy/rust-tools.toml` pins the cargo-mutants
+version the lane installs. `fleet/policy/retention.toml`
 owns the registrations and adopted strict typing settings.
 """
 
@@ -194,6 +195,13 @@ def _gate_declaration(root: Path, repository: Repository) -> list[Finding]:
     if text is None:
         return [violation(repository, rule, _GATE_CONFIG, 'missing gate config; ' + hint)]
     try:
+        declared = tomllib.loads(text)
+    except tomllib.TOMLDecodeError:
+        declared = None
+    if declared is not None and isinstance(declared.get('critical'), list):
+        problem = _critical_tables_problem(declared)
+        return [] if problem is None else [violation(repository, rule, _GATE_CONFIG, f'{problem}; ' + hint)]
+    try:
         module = _gate_module()
     except (ValueError, OSError, SyntaxError) as error:
         return [operational(repository, rule, _GATE_CONFIG, str(error))]
@@ -202,6 +210,25 @@ def _gate_declaration(root: Path, repository: Repository) -> list[Finding]:
     except module.GateError as error:
         return [violation(repository, rule, _GATE_CONFIG, f'{error}; ' + hint)]
     return []
+
+
+def _critical_tables_problem(config: dict[str, Any]) -> str | None:
+    """Validate the per-file form: [[critical]] tables of one .rs file and an optional function regex."""
+    tables = config['critical']
+    if not tables:
+        return 'critical must name at least one file'
+    for table in tables:
+        if not isinstance(table, dict) or set(table) - {'file', 'regex'}:
+            return 'each [[critical]] table holds only file and an optional regex'
+        path = table.get('file')
+        if not isinstance(path, str) or not path.endswith('.rs') or any(c in path for c in '*?['):
+            return 'each [[critical]] file must be one explicit .rs file, not a directory or glob'
+        regex = table.get('regex')
+        if regex is not None and (not isinstance(regex, str) or not regex.strip()):
+            return 'a [[critical]] regex must name functions'
+    if not isinstance(config.get('irrelevant'), list):
+        return 'gate config must declare irrelevant as a list of patterns'
+    return None
 
 
 def _mutants_diff_lane(root: Path, repository: Repository) -> list[Finding]:

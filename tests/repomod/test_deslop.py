@@ -252,6 +252,29 @@ def test_missing_or_defaulted_scope_declaration_is_a_non_fixable_finding(project
         assert 'declare the required mutation scope' in findings[0].message
 
 
+def test_per_file_critical_tables_declare_the_scope(project: tuple[Path, Repository]) -> None:
+    root, repo = project
+    config = root / '.cargo/mutants-gate.toml'
+    config.write_text(
+        "irrelevant = ['*.md']\n"
+        "[[critical]]\nfile = 'src/lib.rs'\n"
+        "[[critical]]\nfile = 'src/render.rs'\nregex = 'has_terminal_controls|push_metadata_line'\n"
+    )
+    assert deslop._mutants_diff_lane(root, repo) == []
+    for tables in (
+        "[[critical]]\nfile = 'src/'\n",
+        "[[critical]]\nfile = 'src/*.rs'\n",
+        "[[critical]]\nfile = 'src/lib.rs'\nregex = ' '\n",
+        "[[critical]]\nregex = 'parse'\n",
+        "[[critical]]\nfile = 'src/lib.rs'\nextra = 1\n",
+        "critical = []\n",
+    ):
+        config.write_text("irrelevant = ['*.md']\n" + tables)
+        findings = deslop._mutants_diff_lane(root, repo)
+        expected = [('.cargo/mutants-gate.toml', False, 'violation')]
+        assert [(f.file, f.fixable, f.kind) for f in findings] == expected, tables
+
+
 def test_gate_template_selftest_passes() -> None:
     fixers = Path(deslop.__file__).resolve().parent.parent / 'fixers'
     result = subprocess.run(

@@ -458,8 +458,10 @@ pull_request workflow keeps the tooling but needs a test workflow first (`gha-te
 The fixer never writes a mutation scope. Blocking mutation covers a small scope around an
 important contract, so the repository declares it in `.cargo/mutants-gate.toml`: `scope`, an
 explicit list of `.rs` files (no directory or glob), and `critical`, a regex over mutant names
-that selects the important functions. A missing or invalid declaration is a non-fixable
-`mutants-diff-lane` finding. The gate selects by change: production changes mutate their
+that selects the important functions. A repository whose own gate script reads per-file
+`[[critical]]` tables (each an explicit `.rs` `file` and an optional function `regex`, as
+diff-pretty's does) declares its scope that way instead. A missing or invalid declaration is a
+non-fixable `mutants-diff-lane` finding. The gate selects by change: production changes mutate their
 changed lines only; a change to tests, fixtures, build configuration, the gate, or test code
 inside a production file (including deleting a protecting test) also mutates `scope` filtered
 by `critical`; a mixed change selects both; documentation-only changes select nothing. A timeout
