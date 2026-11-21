@@ -4,6 +4,7 @@ from pathlib import Path
 import runpy
 import tempfile
 import unittest
+import unittest.mock
 
 ROOT = Path(__file__).resolve().parents[1]
 restore = runpy.run_path(str(ROOT / 'bin/restore-rehearsal'))
@@ -71,3 +72,60 @@ class RestoreTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class FakeClock:
+    def __init__(self):
+        self.now = 0.0
+
+    def monotonic(self):
+        return self.now
+
+    def sleep(self, seconds):
+        self.now += seconds
+
+
+class SoakTests(unittest.TestCase):
+    def soak(self, statuses, soak_s=60, restart_every_s=0, recovers=True):
+        clock = FakeClock()
+        stops = []
+        globals_ = restore['soak'].__globals__
+        saved = globals_['time'], globals_['subprocess']
+        globals_['time'] = clock
+        globals_['subprocess'] = type('Subprocess', (), {'run': staticmethod(lambda argv, **kw: stops.append(argv))})
+        self.addCleanup(lambda: globals_.update(time=saved[0], subprocess=saved[1]))
+        answers = iter(statuses)
+
+        def probe():
+            clock.now += 0.05
+            return next(answers, 200), b''
+
+        def healthy():
+            clock.now += 1
+            return recovers
+
+        args = type('Args', (), {'soak_s': soak_s, 'restart_every_s': restart_every_s})()
+        out = io.StringIO()
+        with unittest.mock.patch('sys.stdout', out):
+            restore['soak'](args, probe, 'engine', lambda: None, healthy)
+        return [line for line in out.getvalue().splitlines()], stops
+
+    def test_reports_latency_and_passes_when_every_probe_answers(self):
+        lines, stops = self.soak([])
+        self.assertIn('"ok_probes": 6', lines[-1])
+        self.assertIn('"failed_outside_recovery": 0', lines[-1])
+        self.assertEqual(stops, [])
+
+    def test_a_failure_outside_a_restart_window_fails_the_soak(self):
+        with self.assertRaises(RuntimeError):
+            self.soak([200, 503])
+
+    def test_failures_right_after_an_engine_restart_are_excused(self):
+        lines, stops = self.soak([200, 200, 200, 503, 503], soak_s=60, restart_every_s=20)
+        self.assertEqual(stops, [['docker', 'stop', '-t', '120', 'engine']] * 2)
+        self.assertIn('"restarts": 2', lines[-1])
+        self.assertIn('"failed_outside_recovery": 0', lines[-1])
+
+    def test_an_engine_that_does_not_recover_fails_the_soak(self):
+        with self.assertRaises(RuntimeError):
+            self.soak([], soak_s=60, restart_every_s=10, recovers=False)

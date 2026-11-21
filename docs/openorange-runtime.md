@@ -393,7 +393,13 @@ for the Cloudflare plugin).
   synthetic gateway identity. Probe output is limited to status, byte count and
   SHA-256; responses over 1 MiB fail. An optional root-protected `KEY=value`
   headers file supplies operator authentication. Containers are removed afterward;
-  `--purge` also removes the copied data. Older backups without checksums for
+  `--purge` also removes the copied data. `--soak-s N` keeps the copy running
+  after it passes and probes the app every 10 s for N seconds; `--restart-every-s M`
+  restarts only the Engine every M seconds and waits for its health. Each restart
+  and failed probe prints a JSON line, and a final `soak` line reports probe count,
+  p50/p99/max latency, restarts and the slowest recovery. The run fails if a
+  probe fails more than 120 s after the last restart, or if an Engine does not
+  recover within 120 s. `--engine-image sha256:ID` runs a candidate Engine. Older backups without checksums for
   `apps.toml` and `images.lock.json` cannot be rehearsed by this command.
   A real restore copies the data into live directories with the stack stopped.
 * **Upgrade:** (1) `bin/backup`; (2) `bin/pin-verify --resolve` after choosing

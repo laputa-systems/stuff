@@ -99,6 +99,56 @@ def verify_bucket(client, bucket, data_dir):
     print(f"bucket {bucket}: objects={count} bytes={size} sha256={aggregate.hexdigest()}")
 
 
+SOAK_PROBE_INTERVAL_S = 10
+SOAK_RECOVERY_S = 120
+
+
+def soak(a, probe, engine_name, start_engine, engine_healthy):
+    """Probe the restored app for a.soak_s seconds, restarting only the Engine every a.restart_every_s.
+
+    A probe failure counts against the run unless it falls within SOAK_RECOVERY_S of a restart."""
+    started = time.monotonic()
+    next_restart = started + a.restart_every_s if a.restart_every_s else None
+    last_restart = None
+    latencies, outside, restarts, worst_recovery = [], 0, 0, 0.0
+    while time.monotonic() - started < a.soak_s:
+        if next_restart is not None and time.monotonic() >= next_restart:
+            t0 = time.monotonic()
+            subprocess.run(["docker", "stop", "-t", "120", engine_name], check=True, capture_output=True)
+            start_engine()
+            while not engine_healthy():
+                if time.monotonic() - t0 > SOAK_RECOVERY_S:
+                    raise RuntimeError("soak: Engine did not recover after a restart")
+                time.sleep(1)
+            recovery = time.monotonic() - t0
+            restarts += 1
+            worst_recovery = max(worst_recovery, recovery)
+            last_restart = time.monotonic()
+            next_restart = last_restart + a.restart_every_s
+            print(json.dumps({"event": "restart", "n": restarts, "recovery_s": round(recovery, 1)}))
+        t0 = time.monotonic()
+        try:
+            st, _ = probe()
+        except OSError:
+            st = 0
+        ms = (time.monotonic() - t0) * 1000
+        excused = last_restart is not None and time.monotonic() - last_restart < SOAK_RECOVERY_S
+        if st == 200:
+            latencies.append(ms)
+        elif not excused:
+            outside += 1
+        if st != 200:
+            print(json.dumps({"event": "probe_failed", "status": st, "ms": round(ms), "excused": excused}))
+        time.sleep(max(0.0, SOAK_PROBE_INTERVAL_S - (time.monotonic() - t0)))
+    latencies.sort()
+    pick = lambda q: round(latencies[min(len(latencies) - 1, int(q * len(latencies)))]) if latencies else None
+    summary = {"event": "soak", "seconds": a.soak_s, "ok_probes": len(latencies), "failed_outside_recovery": outside,
+               "p50_ms": pick(0.5), "p99_ms": pick(0.99), "max_ms": pick(1.0), "restarts": restarts, "worst_recovery_s": round(worst_recovery, 1)}
+    print(json.dumps(summary))
+    if outside:
+        raise RuntimeError("soak: probes failed outside a restart recovery window")
+
+
 def main():
     sys.stdout.reconfigure(line_buffering=True)
     ap = argparse.ArgumentParser()
@@ -108,10 +158,14 @@ def main():
     ap.add_argument("--expect")
     ap.add_argument("--headers-file", type=Path)
     ap.add_argument("--purge", action="store_true")
+    ap.add_argument("--soak-s", type=int, default=0, help="after passing, keep probing the app for this many seconds")
+    ap.add_argument("--restart-every-s", type=int, default=0, help="during a soak, restart the Engine this often")
     ap.add_argument("--engine-image", help="sha256 image ID to run instead of the backup's Engine image")
     a = ap.parse_args()
     if bool(a.app) != bool(a.probe) or (a.expect and not a.probe) or (a.headers_file and not a.probe):
         ap.error("--app and --probe must be supplied together; --expect and --headers-file require them")
+    if a.soak_s < 0 or a.restart_every_s < 0 or (a.soak_s and not a.probe) or (a.restart_every_s and not a.soak_s):
+        ap.error("--soak-s needs --app and --probe; --restart-every-s needs --soak-s; both must be non-negative")
     if os.geteuid() != 0:
         sys.exit("restore-rehearsal: run as root")
     live = oolib.load()
@@ -160,7 +214,9 @@ def main():
         store_url = f"http://{store_ip}:{oolib.STORE_PORT}"
         runtime_cfg = replace(cfg, network={**cfg.network, "name": network_name})
         subprocess.run(["docker", *oolib.store_args(runtime_cfg, names[0], store_ip, etc / "store.env", data_dir=root / "store/data", versions_dir=root / "store/versions", iam_dir=root / "store/iam", admin_dir=admin, detach=True, image=image("store"))], check=True, capture_output=True)
-        subprocess.run(["docker", *oolib.engine_args(runtime_cfg, names[1], engine_ip, etc / "engine.env", etc / "engine/config.json", root / "engine/log", root / "engine/objects", True, image=engine_image)], check=True, capture_output=True)
+        def start_engine():
+            subprocess.run(["docker", *oolib.engine_args(runtime_cfg, names[1], engine_ip, etc / "engine.env", etc / "engine/config.json", root / "engine/log", root / "engine/objects", True, image=engine_image)], check=True, capture_output=True)
+        start_engine()
         for url, auth in ((store_url + "/health", None), (engine_url + "/health", token)):
             for _ in range(60):
                 if call(url, auth, timeout=3)[0] == 200:
@@ -205,6 +261,8 @@ def main():
             print(f"probe: status={st} bytes={len(body)} sha256={hashlib.sha256(body).hexdigest()}")
             if st != 200 or len(body) > LIMIT or (a.expect and a.expect.encode() not in body):
                 raise RuntimeError("probe failed, exceeded limit, or expected text absent")
+        if a.soak_s:
+            soak(a, lambda: call(f"http://{app_ip}:{app.port}{a.probe}", headers=headers), names[1], start_engine, lambda: call(engine_url + "/health", token, timeout=3)[0] == 200)
         print("restore rehearsal: PASS")
     finally:
         for name in reversed(names):
