@@ -311,3 +311,48 @@ The byte-identical build record, retained here independently of scratch output:
   }
 }
 ```
+
+## Native build and production-state rehearsal (2026-11-21)
+
+A native build on Threadripper did not reproduce the qualified binary. It
+used `bin/build-rivet-engine acquire` and `build` from Stuff `c7782d25` with
+the same six patches, Cargo.lock, builder image, Rust 1.99.0, flags, jobs,
+memory and `source_date_epoch` (`1794444796`); every build-record field
+except `binary.sha256` matches the record above. Cargo reported 22m 56s. The
+binary hashes to
+`sha256:f8e364dc11aa840fe5cda39ccfa5c844390880898e6102d03ac108642e8ae9af`,
+not `9c1f1c7a…`. The two qualified builds ran under Docker emulation on the
+Mac; this one ran natively on x86-64, so the build is reproducible on one
+host but not across hosts. The qualified binary was in scratch and no longer
+exists, so the workload, restart and cross-version results above apply to
+`9c1f1c7a…` only.
+
+`bin/build-rivet-engine image` wrapped the native binary as
+`sha256:98d3d60b85d5f918bfd5710a8b8d18565849b9bfc46ce7608992ea4682d60a84`
+(build-record label
+`sha256:a3bed25cf8ca5dac76a7ed8b530387947af04226083fd687dc5689d32fe7ad1b`).
+`docker save | docker load` moved it to Lisa under the same ID, and
+`--version` reported `Rivet 3.1.1`.
+
+`bin/restore-rehearsal` ran twice on Lisa from the fenced backup
+`20261121T060252Z` (169,844 files), each time with `--app stuff --probe
+/llms.txt --purge`: once with `--engine-image` set to the candidate and once
+with the backup's upstream pin. Both passed. Their outputs, apart from the
+`engine image:` line, are identical: twelve buckets with the same object
+counts, bytes and aggregate SHA-256s (for example `stuff-mycrates` 130,515
+objects, 1,184,357,837 bytes, `e6cd0c84…`; `stuff-mirror` 45 objects,
+`91d1d434…`), and the same probe (status 200, 183,759 bytes, `f03ff746…`).
+The live registries returned 200 on 5-second probes throughout, except for one
+client-side timeout. The live `/llms.txt` differs by 11 bytes because the
+rehearsal sends the app's configured host, as the upstream run shows.
+
+**Recommendation: still HOLD production promotion.** The candidate opens and
+serves current production state exactly as upstream does, but this binary
+has not run the fixed workload, the Engine-only restart cycles or the
+cross-version depot copies, and no build has had a sustained availability
+run. Before the swap: run `engine-qualification-runner.mts` against
+`f8e364dc…`, then soak the candidate on a restored copy for at least 24
+hours under a registry read workload with periodic Engine restarts and host
+contention, comparing refusals and latency with an upstream run. Swap
+production with `oo set-engine-image` and an Engine-only restart, keeping
+`oo set-engine-image upstream` as the rollback.
