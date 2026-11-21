@@ -1,5 +1,14 @@
 # Private Engine SQLite repair candidates
 
+The forks carry the same series as commits on the pinned revisions:
+[`laputa-systems/rivet` `laputa/e5ed391`](https://github.com/laputa-systems/rivet/tree/laputa/e5ed391)
+(six Rivet patches in `sources.toml` order, head `128bcfc0`) and
+[`laputa-systems/open-orange` `laputa/1cabf2e`](https://github.com/laputa-systems/open-orange/tree/laputa/1cabf2e)
+(head `7169510`). Develop a new patch on the fork branch, then export it here
+with `git format-patch` and list it in `sources.toml`; the build still applies
+these files to the upstream revision. Production on Lisa runs the upstream
+Engine image until a patched build passes its rollout qualification.
+
 `rivet-e5ed391-staged-refusal.patch` applies to Rivet revision
 `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`, the source named by the deployed
 image's BuildKit provenance. Rivet and this patch use Apache-2.0.
