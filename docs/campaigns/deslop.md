@@ -22,7 +22,7 @@ Parked branches (committed locally, not pushed; retry condition after the arrow)
 
 Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); diff-pretty (format waiver or repomod change); gluon (release-profile test skipped); node-build (controller gate); srv, soulseek-rs, oxish (macOS 104-byte socket paths; rerun from a short scratch path); vault VLT-2, tm CLI load, ish DSLP-34 soak and DSLP-37/38/41, check-ups of jaq, rust-fontconfig, rustix, rage (lanes interrupted, no commits); stats, laputa-ui-dashboard, mdevd-rs (verdicts incomplete); smolith SMOL-15 (keep Hyper FFI?) and SMOL-16 (CI timeout); chromium-build DSLP-17; usr CI (dotfiles 126 vs 127); crabtables (hosted kernel); kache daemon not starting. Bridge defects to file: `blocked_transition` not cancellable; codex content filter refusal.
 
-Next slice: merge kache #95, then the parked kache branches; fix the three red default branches. Never wrap builds in `cpu-guard`.
+Next slice: merge kache #95, then the parked kache branches; fix the three red default branches. Never wrap builds in `cpu-guard`. To resume on a cloud Linux host, follow [deslop-cloud.md](deslop-cloud.md) first.
 
 Queued for resumption: the owner-requested [buildlib adoption lane](deslop-buildlib.md),
 tracked by STUF-101. Inventory and artifact qualification precede pilots, rollout and staged
