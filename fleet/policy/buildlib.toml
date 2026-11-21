@@ -12,6 +12,14 @@ bootstrap_revision = "30ad4a0a8b697031a008b1de3b5359fc5cf6f2fe"
 
 [assess."joshuarli/pi-build"]
 
+[assess."joshuarli/img"]
+
+[assess."joshuarli/play"]
+
+[assess."joshuarli/shck"]
+
+[assess."joshuarli/stats"]
+
 [assess."laputa-systems/chromium-build"]
 
 [assess."laputa-systems/cmake-build"]
@@ -191,3 +199,43 @@ reassess = "Reassess if verified acquisition, release, or archive tooling appear
 [exempt."laputa-systems/zzz"]
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/buildlib"]
+reason = "The provider of the wheel and bootstrap, which it builds and tests from source."
+reassess = "Not applicable while buildlib is the provider."
+
+[exempt."laputa-systems/deser"]
+reason = "Deferred: no material custom tooling; its scripts only fetch test corpora."
+reassess = "Reassess if it gains release or acquisition tooling."
+
+[exempt."laputa-systems/lexopt"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/rawzip"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/rg"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/rustls"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/vault"]
+reason = "Owner exclusion; cargo and make cover its build with no material custom tooling."
+reassess = "Reassess if the owner lifts the exclusion or release tooling appears."
+
+[exempt."laputa-systems/webpki"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/xsh"]
+reason = "Deferred: its locks serve benchmarks and upstream checks, not build or release acquisition."
+reassess = "Reassess if build or release acquisition moves into custom tooling."
+
+[exempt."laputa-systems/zlib-rs"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
