@@ -80,8 +80,8 @@ Best-effort, because they depend on what the last sync copied:
 
 - **Replica lag.** `oo-replica-sync` copies every five minutes, so the replica
   trails the origin by up to that cadence plus the copy time. A generation
-  published inside the window is not on the replica yet: reads of an older
-  generation and the current pointer's previous target still answer, while a
+  published inside the window is not on the replica yet: the current pointer's
+  previous target still answers, while a
   brand-new generation URL returns 404 until the next sync. Live publication
   therefore keeps working only while the origin does.
 - **The unified page** renders only when every one of the five registry buckets
@@ -100,8 +100,10 @@ live under `generations/<id>/`, the shared stores (`blobs/`, `tarballs/`,
 `wheels/`, `manifests/`, `sha256/`) sit at the root, and `current` is a pointer
 object naming a generation.
 
-`deploy/store-copy.py sync SOURCE DEST --ledger FILE` copies every object except
-`current`, verifies the destination holds them, and only then copies `current`.
+`deploy/store-copy.py sync SOURCE DEST --ledger FILE` copies the shared stores
+and the generation `current` names, verifies the destination holds them, and
+only then copies `current`. Other generations are not copied, so the replica
+holds the generations that were current at some sync since it was seeded.
 It refuses to move the pointer when the source names a generation with no
 `generations/<id>/` objects, and it never deletes at the destination, so the
 previously published generation stays readable while a newer one copies. An

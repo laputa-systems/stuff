@@ -94,7 +94,7 @@ spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYT
 s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
 os.environ.update(R2_S3_ACCESS_KEY_ID="source", R2_S3_SECRET_ACCESS_KEY="source-secret", R2_S3_REGION="us-east-1")
 base = f"http://127.0.0.1:{sys.argv[1]}/site"
-for key in ["generations/g1/catalog.json", "generations/g1/index.html", "generations/g1/simple/proj/index.html"]:
+for key in ["generations/g0/catalog.json", "generations/g1/catalog.json", "generations/g1/index.html", "generations/g1/simple/proj/index.html"]:
     assert s3.request("PUT", f"{base}/{key}", f"{key}\n".encode(), "text/plain")[0] == 200
 assert s3.request("PUT", f"{base}/current", b"g1", "text/plain")[0] == 200
 PY
@@ -126,6 +126,7 @@ assert max(generation) < pointer[-1], f"the pointer was written before a generat
 os.environ.update(R2_S3_ACCESS_KEY_ID="dest", R2_S3_SECRET_ACCESS_KEY="dest-secret", R2_S3_REGION="us-east-1")
 status, body, _ = s3.request("GET", f"http://127.0.0.1:{port}/site/current")
 assert status == 200 and body == b"g1", (status, body)
+assert not any("/generations/g0/" in path for path in puts), f"sync copied a generation the pointer does not name: {puts}"
 PY
 
 # A newer generation is published at the source. The sync is killed while the
@@ -169,9 +170,11 @@ objects = json.load(urllib.request.urlopen(f"http://127.0.0.1:{port}/_fake/state
 present = {entry["key"] for entry in objects if entry["bucket"] == "site"}
 assert "generations/g1/catalog.json" in present, "the g1 generation the pointer names is incomplete"
 PY
+g2_verified=$(grep -c 'generations/g2/' "$work/sync-ledger.jsonl" || true)
+[ "$g2_verified" -ge 1 ] || fail "the interrupted sync recorded no verified g2 object"
 out=$(sync) || fail "resumed sync failed: $out"
 [ "$(echo "$out" | field pointer)" = g2 ] || fail "the resumed sync did not move the pointer: $out"
-[ "$(echo "$out" | field skipped)" -ge 4 ] || fail "the resumed sync re-copied verified objects: $out"
+[ "$(echo "$out" | field skipped)" -ge "$g2_verified" ] || fail "the resumed sync re-copied verified objects: $out"
 
 # A pointer naming a generation with no objects at the source must not be
 # copied: moving it would leave the destination naming a generation it does
@@ -228,4 +231,4 @@ status, body, _ = s3.request("GET", f"http://127.0.0.1:{port}/site/current")
 assert status == 200 and body == b"g2", (status, body)
 PY
 
-echo "OK: copy, ETag-preserving multipart, resume, changed-source, corruption and missing-object detection, paginated listings, sync ordering, interrupted sync and a refused incomplete-generation pointer"
+echo "OK: copy, ETag-preserving multipart, resume, changed-source, corruption and missing-object detection, paginated listings, sync ordering, current-generation-only sync, interrupted sync and a refused incomplete-generation pointer"
