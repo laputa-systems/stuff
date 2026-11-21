@@ -2,7 +2,7 @@
 
 Inventory the immediate directories and symlinks under `/Users/josh/d` before preserving or trashing any duplicate checkout. This report records the read-only snapshot from 2026-11-16. No source or canonical repository was changed.
 
-The subsequent [preservation and Trash operation](d-overlap-preservation.md)
+The subsequent [preservation and Trash operation](../fleet-design.md#checkout-removal)
 completed for all 29 overlaps. This document retains the original inventory;
 the linked record gives the current worktree and recovery locations.
 

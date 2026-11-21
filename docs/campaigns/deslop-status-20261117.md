@@ -516,7 +516,7 @@ Use the campaign Status and roadmap for current state.
   unproven. Diff-pretty [#34](https://github.com/laputa-systems/diff-pretty/pull/34)
   repairs bare-control stripping with full tests and the recorded noisy-but-within-bound
   release workload checks. Their broader Tests and CI qualifications remain open.
-  The repomod [component review](../deslop-repomod-diagnose.md) finds five P2 and
+  The repomod component review (record retired; findings are in `TODO.md` and `repomod/`) finds five P2 and
   two P3 defects; four separate runtime repairs are in stuff #51–54, with
   fail-before/pass-after controls and full repomod tests/lint. DSLP-6 records
   the remaining CI-policy finding. Assertion-only Loc and Onefile slices can

@@ -7,7 +7,7 @@ running process under `.work/clones` or `.work/tmp`. Each path was confirmed
 absent afterwards. The data volume reported 109,284,756 KiB available before
 the removal and 136,953,696 KiB after. The `node-build` clone alone held
 24,438,636 KiB. No worktree was retired: the retained-worktree ledger in
-[the roadmap](deslop-roadmap.md#retained-stuff-worktrees) keeps the stuff
+[the checkout removal contract](../fleet-design.md#checkout-removal) keeps the stuff
 lanes, and `worktree-retire` refuses lanes of other repositories that are
 hosted under stuff's `.work/wt`. Those stay for an owner decision.
 
@@ -271,7 +271,7 @@ Rows marked `retire` have a successful dry-run proof; rows marked `remove-scratc
 - Pull requests: `gh pr list -R <owner/repo> --head <branch> --state all --json state,mergeCommit`; queried where needed for clean, otherwise eligible worktrees. Open PRs are kept; merged PR merge commits were supplied to a dry-run only when the default branch did not contain HEAD.
 - Open handles: one pass, `lsof -Fn -u "$(id -un)"`, filtered against `.work/wt`, `.work/clones`, and `.work/tmp`; exit 0; matching path: `/Users/josh/d/stuff/.work/wt/cleanup-inventory` only. This is the excluded inventory worktree.
 - Temporary references: `ps -axo pid,command`; exit 0. No selected tmp path was referenced by a process outside the inventory command itself. Top-20 sizes and mtime are recorded in the table.
-- Retention source: [deslop-roadmap.md](deslop-roadmap.md#retained-stuff-worktrees), lines 565–697. Its explicit `(retained)` paths are kept unless the row is a deliberate `control` worktree; those rows retain the branch but may be retired if the dry-run proves safety. The campaign doc's Status (since retired), lines 52–53, pointed to this retained-path inventory.
+- Retention source: the [checkout removal contract](../fleet-design.md#checkout-removal). The retired roadmap's explicit `(retained)` paths were kept unless the row was a deliberate `control` worktree; those rows retain the branch but may be retired if the dry-run proves safety. The campaign doc's Status (since retired), lines 52–53, pointed to this retained-path inventory.
 - Style reference: [managed-cleanup-20261119.md](managed-cleanup-20261119.md).
 
 ### Commands and exit codes

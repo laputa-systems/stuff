@@ -1,9 +1,10 @@
 # Owner stop: TODO and direct deslop work
 
-The owner stopped this work on 2026-11-16 and requested committed checkpoints.
-Do not resume implementation, measurements, deployment or pending merges until
-asked. The original scope was all stuff P1/P2 tickets except STUF-75, plus the
-non-fleet-scale deslop queue. Fleet rollout remains excluded.
+Historical stop record from 2026-11-16, kept for its checkpoints. Current work
+lives in [TODO.md](../TODO.md) and the fleet quality standard in
+[docs/fleet.md](fleet.md#quality-standard); the deslop campaign closed on
+2026-11-21. The original scope was all stuff P1/P2 tickets except STUF-75, plus
+the non-fleet-scale deslop queue. Fleet rollout remains excluded.
 
 ## Engine and stuff
 
@@ -13,9 +14,9 @@ non-fleet-scale deslop queue. Fleet rollout remains excluded.
   checks passed on `ccd322fd3fa2a47c1965a5cc97d7d74712f74c62`; merge commit
   `f85d8d0a9c2c59a1199b69b3e7c8ef343349540c`. It closes STUF-86 with the
   natural idle/wake proof and stages the bounded inventory API retry patch.
-- [PR39](https://github.com/laputa-systems/stuff/pull/39) remains open at
+- [PR39](https://github.com/laputa-systems/stuff/pull/39) was open at
   `9510e79058a4b0269402d73775c816771c83afad`, mergeable, with macOS Rust CI
-  pending at stop. Do not merge without checking all results on that exact head.
+  pending at the stop. It merged on 2026-11-16 as `511cf183…`.
   It closes STUF-87 in its branch with the fourth SQLite patch: committed-page
   read refusals preserve stages only while filesystem ownership is valid.
   Eight dev/release regressions and three hand faults pass; independent source
@@ -64,6 +65,6 @@ was released. No local measurement or delegated worker remains active.
 Other authorized direct work remains: loc mutation/dead code; stats calibration
 and macOS/CI findings; stuff repomod calibration; buildlib mutation qualification;
 extensions calibration; tm's macOS flake. No additional repository work was
-started during the Engine close-out. Resume the campaign from its owning
-campaign doc (retired 2026-11-21), then verify current branches and PR heads; this
-handoff is a stop record, not a claim that the backlog is complete.
+started during the Engine close-out. Verify current branches and PR heads before
+using any checkpoint above; this handoff is a stop record, not a claim that the
+backlog is complete.
