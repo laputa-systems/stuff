@@ -50,7 +50,7 @@ async function serve(data: string, guard: number) {
   child.stdout.on('data', c => {output += c;}); child.stderr.on('data', c => {output += c;});
   const deadline=Date.now()+120000;
   while (!output.includes('orange serve listening on')) { if (child.exitCode !== null || Date.now()>deadline) throw new Error(`serve failed ${output}`); await delay(250); }
-  return {origin:`http://127.0.0.1:${port}`,release:'engine-qualification',headers:{'Stats-Gateway-Secret':'engine-qualification-secret','Stats-Tailnet-Identity':'user:canary@example.com'},stop:async()=>{if(child.exitCode===null){const exited=new Promise<void>(r=>child.once('exit',()=>r())); child.kill('SIGTERM'); await exited;}}};
+  return {origin:`http://127.0.0.1:${port}`,release:'engine-qualification',historyRuns:[],infraEnabled:false,headers:{'Stats-Gateway-Secret':'engine-qualification-secret','Stats-Tailnet-Identity':'user:canary@example.com'},stop:async()=>{if(child.exitCode===null){const exited=new Promise<void>(r=>child.once('exit',()=>r())); child.kill('SIGTERM'); await exited;}}};
 }
 async function verify(stack: any, result: any) {
  const h=await fetch(stack.origin+result.historyPath,{headers:{...stack.headers,'accept-encoding':'identity'}}); const hb=Buffer.from(await h.arrayBuffer());

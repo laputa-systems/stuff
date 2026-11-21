@@ -346,12 +346,20 @@ The live registries returned 200 on 5-second probes throughout, except for one
 client-side timeout. The live `/llms.txt` differs by 11 bytes because the
 rehearsal sends the app's configured host, as the upstream run shows.
 
-**Recommendation: still HOLD production promotion.** The candidate opens and
-serves current production state exactly as upstream does, but this binary
-has not run the fixed workload, the Engine-only restart cycles or the
-cross-version depot copies, and no build has had a sustained availability
-run. Before the swap: run `engine-qualification-runner.mts` against
-`f8e364dc…`, then soak the candidate on a restored copy for at least 24
+`engine-qualification-runner.mts` then ran against `f8e364dc…` on the Mac
+(`STATS_REPO=/Users/josh/repos/stats`, Stats `45fe3826036`). The runner now
+gives its app stack the `historyRuns` and `infraEnabled` fields that Stats’
+`runWorkload` requires; without them it failed before any request. It exited 0.
+Its 14-line receipt (SHA-256
+`3f1e798a76e37e093b9b363694180df00e735e449377706251381da5842cb4ff`) matches
+the first qualification line for line: candidate and production each
+completed 10 of 10 requests with 2 acknowledged writes, 2 verified readbacks
+and no failures, mismatches or lost writes; ten Engine-only restart cycles
+all read back; and each Engine read back the other’s depot copy.
+
+**Recommendation: still HOLD production promotion until the soak passes.** The
+candidate serves current production state exactly as upstream does and passes
+the fixed workload, but no build has had a sustained availability run. Soak the candidate on a restored copy for at least 24
 hours under a registry read workload with periodic Engine restarts and host
 contention, comparing refusals and latency with an upstream run. Swap
 production with `oo set-engine-image` and an Engine-only restart, keeping
