@@ -1,0 +1,13 @@
+#!/sbin/openrc-run
+
+description="Restart the Stuff primary VM after it crashes"
+supervisor=supervise-daemon
+command=/usr/local/libexec/vm-watchdog
+. /etc/conf.d/stuff-primary-vm
+export WATCHDOG_SERVICE=stuff-primary-vm WATCHDOG_VM_DIR="${vm_dir}"
+respawn_delay=10
+respawn_max=0
+
+depend() {
+    after stuff-primary-vm
+}

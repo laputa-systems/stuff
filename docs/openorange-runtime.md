@@ -294,6 +294,11 @@ applied live the same night; Threadripper's standby VM passed a load-76
 drill with the same settings. The remaining Engine reconnect storm is
 STUF-102.
 
+`[engine]` in `apps.toml` optionally caps the Engine container with `cpus`
+(a positive number) and `memory` (a Docker size such as `"3g"`). The renderer
+passes them as `--cpus` and `--memory`; leaving either unset leaves the
+Engine run arguments unchanged.
+
 ## Install (on `lisa`, as root; `doas` is the privilege tool there, not `sudo`)
 
 `doas` does not search `/sbin`: spell out `/sbin/rc-service` or work in a root shell.
@@ -420,6 +425,37 @@ for the Cloudflare plugin).
   --app ... --probe ...` from the pre-upgrade backup if anything looks wrong.
   Caddy-only changes: `oo reload-ingress` (validates, graceful reload).
 
+### Publication coordinator handoff
+
+The publication coordinator is one Durable Object per registry, so its SQLite
+state (`current`, receipts, retired generations and versions) lives with a
+host. Moving a primary without losing a write uses four operator calls on the
+publishing hostname, all behind the existing bearer token:
+
+1. `POST /_publication/<registry>/freeze` sets the frozen flag and reports the
+   current revision plus whether a live lease exists. `begin` and `gc-claim`
+   then answer `503 {"error":"frozen"}` with `Retry-After: 30`, so publishers
+   retry instead of failing. Renewal, abort and activation of an already-held
+   lease keep working so in-flight publications finish, and `GET current`
+   keeps serving reads.
+2. `GET /_publication/<registry>/export` waits until no unexpired lease exists
+   (`409` while one is held) and returns
+   `{schemaVersion:1, registry, current, receipts, retired_generations,
+   retired_versions}`. The lease and its token are never exported.
+3. `POST /_publication/<registry>/import` on the new host's empty coordinator
+   writes that document in one transaction and leaves the instance frozen. It
+   refuses with `409` if `current` or any other table already holds data, and
+   accepts bodies up to 8 MiB because a receipt payload can exceed the normal
+   16 KiB request cap. Import writes coordinator state only; it does not write
+   a projection into object storage.
+4. `POST /_publication/<registry>/thaw` on the new host. Publishers stop
+   retrying and publication resumes.
+
+The old primary stays frozen throughout the move; retire it only after the new
+host reports the same `current` and the two exports compare equal. Bucket
+contents and object versions are not part of this state and must already be
+visible to the new host through the usual replicated store or backup/restore.
+
 ### Recovery routes
 
 Put active recovery routes in the root-only
@@ -442,6 +478,13 @@ run `oo reload-ingress` and probe each changed route.
   refuse the local app while this declaration is present. The read-only
   `oo deployment NAME` response includes `recoveryWriter` with the
   configured upstream while the fence is active.
+- A primary has `"mode": "primary"` and a private IPv4 `upstream` with a
+  port. It applies to an Orange app that has public hostnames. The public
+  listener sends those hostnames to `upstream` with `X-Forwarded-Proto
+  https` and no gateway secret, while keeping the app's public path
+  exclusions and method rules in front. The tailnet hostnames behave as a
+  writer route: recovery gateway secret plus identity. Startup and image
+  selection fence the local app as for a writer.
 
 Before activating a writer route, stop the local app and confirm its
 container exited. Run an authenticated write and readback after reload.

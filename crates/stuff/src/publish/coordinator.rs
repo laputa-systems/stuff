@@ -19,6 +19,8 @@ pub struct Coordinator {
     endpoint: String,
     token: String,
     registry: Registry,
+    retry_window: Duration,
+    sleeper: Arc<dyn Fn(Duration) + Send + Sync>,
 }
 
 impl std::fmt::Debug for Coordinator {
@@ -38,29 +40,65 @@ pub struct Lease {
 
 impl Coordinator {
     pub fn configured(env: &Environment, registry: Registry) -> Result<Option<Self>, PublishError> {
-        Ok(PublishingService::configured(env)?.map(|service| Self { endpoint: service.endpoint, token: service.coordinator_token, registry }))
+        Ok(PublishingService::configured(env)?.map(|service| Self {
+            endpoint: service.endpoint,
+            token: service.coordinator_token,
+            registry,
+            retry_window: Duration::from_secs(15 * 60),
+            sleeper: Arc::new(thread::sleep),
+        }))
+    }
+
+    pub fn with_retry_window(mut self, window: Duration) -> Self {
+        self.retry_window = window;
+        self
+    }
+
+    pub fn with_sleeper<F>(mut self, sleeper: F) -> Self
+    where
+        F: Fn(Duration) + Send + Sync + 'static,
+    {
+        self.sleeper = Arc::new(sleeper);
+        self
     }
 
     fn request(&self, operation: &str, body: Option<&str>) -> Result<Value, PublishError> {
         let url = format!("{}/_publication/{}/{}", self.endpoint, self.registry.as_str(), operation);
-        let request = http::Request::builder()
-            .method(if body.is_some() { "POST" } else { "GET" })
-            .uri(&url)
-            .header("authorization", format!("Bearer {}", self.token))
-            .header("content-type", "application/json")
-            .body(body.unwrap_or("").as_bytes().to_vec())
-            .map_err(|e| PublishError::Config(format!("coordinator request: {e}")))?;
-        let client = Client::builder().connect_timeout(Duration::from_secs(10)).expect("non-zero connect timeout").build();
-        let mut response = client.request_with_timeout(request, Some(Duration::from_secs(30)))
-            .map_err(|e| PublishError::Transport(format!("coordinator {operation}: {e}")))?;
-        let status = response.status().as_u16();
-        let mut bytes = Vec::new();
-        response.body_mut().take(65_537).read_to_end(&mut bytes)
-            .map_err(|e| PublishError::Transport(format!("coordinator {operation}: {e}")))?;
-        if bytes.len() > 65_536 { return Err(PublishError::Integrity("coordinator response exceeds 64 KiB".into())); }
-        if status == 409 { return Err(PublishError::Conflict(format!("coordinator {operation} conflicts with current publication state"))); }
-        if !(200..300).contains(&status) { return Err(PublishError::Transport(format!("coordinator {operation}: HTTP {status}"))); }
-        deser_json::from_slice(&bytes).map_err(|e| PublishError::Integrity(format!("coordinator {operation}: {e}")))
+        let payload = body.unwrap_or("").as_bytes().to_vec();
+        let mut waited = Duration::ZERO;
+        loop {
+            let request = http::Request::builder()
+                .method(if body.is_some() { "POST" } else { "GET" })
+                .uri(&url)
+                .header("authorization", format!("Bearer {}", self.token))
+                .header("content-type", "application/json")
+                .body(payload.clone())
+                .map_err(|e| PublishError::Config(format!("coordinator request: {e}")))?;
+            let client = Client::builder().connect_timeout(Duration::from_secs(10)).expect("non-zero connect timeout").build();
+            let mut response = client.request_with_timeout(request, Some(Duration::from_secs(30)))
+                .map_err(|e| PublishError::Transport(format!("coordinator {operation}: {e}")))?;
+            let status = response.status().as_u16();
+            let retry_after = response.headers().get("retry-after")
+                .and_then(|value| value.to_str().ok())
+                .and_then(|value| value.trim().parse::<u64>().ok())
+                .map(Duration::from_secs);
+            let mut bytes = Vec::new();
+            response.body_mut().take(65_537).read_to_end(&mut bytes)
+                .map_err(|e| PublishError::Transport(format!("coordinator {operation}: {e}")))?;
+            if status == 503
+                && let Some(delay) = retry_after
+                && waited < self.retry_window
+            {
+                let wait = delay.min(Duration::from_secs(60)).max(Duration::from_secs(1)).min(self.retry_window - waited);
+                (self.sleeper)(wait);
+                waited += wait;
+                continue;
+            }
+            if bytes.len() > 65_536 { return Err(PublishError::Integrity("coordinator response exceeds 64 KiB".into())); }
+            if status == 409 { return Err(PublishError::Conflict(format!("coordinator {operation} conflicts with current publication state"))); }
+            if !(200..300).contains(&status) { return Err(PublishError::Transport(format!("coordinator {operation}: HTTP {status}"))); }
+            return deser_json::from_slice(&bytes).map_err(|e| PublishError::Integrity(format!("coordinator {operation}: {e}")));
+        }
     }
 
     pub fn current(&self) -> Result<(u64, Option<String>), PublishError> {
@@ -166,7 +204,7 @@ mod tests {
                 write!(socket, "HTTP/1.1 200 OK\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{}", reply.len(), reply).unwrap();
             }
         });
-        let coordinator = Coordinator { endpoint, token: "service".into(), registry: Registry::Cargo };
+        let coordinator = Coordinator { endpoint, token: "service".into(), registry: Registry::Cargo, retry_window: Duration::from_secs(15 * 60), sleeper: Arc::new(thread::sleep) };
         let lease = coordinator.begin().unwrap();
         assert_eq!(lease.revision, 7);
         lease.activate("activate", "generation-1", b"manifest").unwrap();

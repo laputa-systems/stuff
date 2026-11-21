@@ -324,8 +324,13 @@ def render_caddyfile(cfg, recovery: dict[str, oolib.RecoveryRoute] | None = None
                 lines += [f"\t\t@private_method not method {' '.join(app.public_methods)}",
                           f"\t\theader @private_method Allow \"{', '.join(app.public_methods)}\"",
                           "\t\trespond @private_method 405"]
-            lines += reader_proxy(app, recovery.get(app.name))
-            if app.kind == "orange" and not cfg.app_image_file(app).exists():
+            route = recovery.get(app.name)
+            fenced = route is not None and route.writer
+            lines += reader_proxy(app, route)
+            if route is not None and route.primary:
+                lines += [f"\t\treverse_proxy {route.upstream} {{",
+                          "\t\t\theader_up X-Forwarded-Proto https", "\t\t}"]
+            elif app.kind == "orange" and not fenced and not cfg.app_image_file(app).exists():
                 lines += ['\t\trespond "app not deployed" 503']
             else:
                 lines += [f"\t\treverse_proxy {app.ip}:{app.port} {{",
