@@ -11,7 +11,7 @@ Paused 2026-11-21. Resume prompt: "Resume the deslop campaign from the Status in
 
 Last accepted revision: stuff main `4b6c8119` (CI and lint green). Settled since the last pause: smolith, tansu, stuff, lz, rustybench, hi-lite, doas-rs, e, defuddle-rs (scorecard). Open: kache #95 (k7, checks passing, not merged). Red default-branch CI after merge: tansu (check/lint, npm registry 500 suspected), loc (Shebang mutation budget, 245 untested), discover (lint).
 
-Parked branches (committed locally, not pushed; retry condition after the arrow):
+Parked branches (all pushed to origin 2026-11-21, no PRs; retry condition after the arrow):
 - kache `deslop/k1`, `k2`, `k3`, `k4`, `k6` (components 1–16, 21–24): lint green, `make test` unfinished under load → run `make test` on an idle host, then PR each.
 - tinyland `fix/seatd-stale-socket` (forked child held dropped listeners; 1600/1600 loaded runs pass) → PR. `fix/deslop-ci` (docs) → PR.
 - ctrs `fix/deslop-ci`: ARM64 runner finding → owner approves a workflow change.
