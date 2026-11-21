@@ -494,7 +494,7 @@ Use the campaign Status and roadmap for current state.
   3. CI repairs require explicit authorization under the lean contract. The
      concrete pending request covers platform-aware bounded deslop mutation
      jobs and their whole-change selection and negative controls.
-- **Resume prompt:** `Execute docs/campaigns/deslop.md from its Status. Follow its Charter.` After
+- **Resume prompt:** `Execute the deslop campaign doc from its Status. Follow its Charter.` (the doc retired on 2026-11-21) After
   the dispatched batch, the next direct slices are loc's sharded lane under
   `cpu-guard` and the remaining calibration/pilot harness qualifications.
   Fleet fixer application waits for the prescribed qualification and M2 review.
