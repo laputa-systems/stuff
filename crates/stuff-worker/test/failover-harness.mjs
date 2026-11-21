@@ -6,7 +6,10 @@ import { createTestHarness } from "wrangler";
 
 export const workerDir = fileURLToPath(new URL("..", import.meta.url));
 const builtBundle = join(workerDir, "build/orange/workers/default/bundle");
-export const bundle = join(workerDir, "build/failover-test");
+// node --test runs each test file in its own process, and two files build the
+// bundle, so each process owns a directory instead of racing on one.
+export const bundle = join(workerDir, "build", `failover-test-${process.pid}`);
+process.on("exit", () => rmSync(bundle, { recursive: true, force: true }));
 const harnessRoot = fileURLToPath(new URL("../../../.work/tmp", import.meta.url));
 
 export const ROUTES = JSON.stringify([
