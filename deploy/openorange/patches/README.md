@@ -67,14 +67,16 @@ connect whose first storage read or registration write is refused never
 reached the record or the active index, so its disconnect wrote a pool lease
 deletion and a record update that only added storage load to the refusal that
 caused them: on 2026-11-21 that write was itself refused as overloaded. The
-patch skips every disconnect write for a connection whose registration never
-landed. The envoy client also grows its reconnect wait under repeated refusals
+patch skips the disconnect writes when neither the pool admission nor the
+record write landed; a connection whose admission landed still releases its
+pool lease. The envoy client also grows its reconnect wait under repeated refusals
 instead of reusing one server hint forever: the floor stays at the hint, the
 ceiling doubles per consecutive refusal and is capped by the ordinary reconnect
 ceiling, and a session the engine registered with an init resets the streak.
-Five client regressions and two disconnect regressions pass in dev and fail on
-the original implementation. `cargo check` passes for `pegboard-envoy` and
-`rivet-envoy-client`; no Engine binary was built or run. It is not deployed.
+The client half reaches production only through the published rivetkit N-API
+addon, which is mirrored unchanged, so the Engine image carries only the
+server half. Five client regressions and two disconnect regressions fail on
+the original implementation and pass with the patch.
 
 The retry hint has one owner in the page protocol, used by both stage
 cleanup and the Envoy caller. The existing cold-read predicate still serves

@@ -227,8 +227,8 @@ ENGINE_BUILDER = 'ghcr.io/rivet-dev/rivet/engine-base-builder@sha256:61ba0bec231
 def engine_component():
     registry = tomllib.loads((ROOT / 'sources/sources.toml').read_text())
     items = [x for x in registry['components'] if x['name'] == 'rivet-engine-source']
-    if len(items) != 1 or len(items[0]['patches']) != 6:
-        raise ValueError('expected one Engine component with six patches')
+    if len(items) != 1 or not items[0]['patches']:
+        raise ValueError('expected one patched Engine component')
     item = items[0]
     for patch in item['patches']:
         if digest(ROOT / 'patches' / patch['file']) != 'sha256:' + patch['sha256']:

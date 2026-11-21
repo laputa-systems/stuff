@@ -79,7 +79,7 @@ described in [OpenOrange rollout transactions](openorange-rollouts.md).
 ## Rivet Engine candidate
 
 `bin/build-rivet-engine acquire --out DIR` fetches the registered source,
-checks and applies its six patches in order, acquires the source-pinned Rust
+checks and applies its registered patches in order, acquires the source-pinned Rust
 and vendors the locked Cargo dependencies. `bin/build-rivet-engine build --src
 DIR --out OUT` checks the patched source against the registry and builds in the
 pinned Linux x86-64 builder with networking disabled. Its

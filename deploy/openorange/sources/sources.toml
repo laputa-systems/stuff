@@ -67,6 +67,12 @@ sha256 = "039c0bb5206f2f9815e45b27d1f0d15a35b41eaab0441f18231e8fa29ffe2689"
 purpose = "actor lifecycle"
 affects = "Rivet Engine"
 proof = "docs/openorange-actor-lifecycle.md"
+[[components.patches]]
+file = "rivet-e5ed391-envoy-refusal.patch"
+sha256 = "17041863ae7269915bdfb3b0a46c4a685f86768f33592e95fdd8a06668d95f50"
+purpose = "envoy refusal"
+affects = "Rivet Engine"
+proof = "deploy/openorange/patches/README.md"
 
 [[components]]
 name = "rivet-inspector"

@@ -22,7 +22,7 @@ class EngineBuildTest(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=Path.cwd() / '.work/tmp') as tmp:
             oobuild.acquire_engine(Path(tmp) / 'acquired', runner)
         applies = [command for command in commands if command[:2] == ['git', 'apply']]
-        self.assertEqual(len(applies), 12)
+        self.assertEqual(len(applies), 2 * len(item['patches']))
         for index, entry in enumerate(item['patches']):
             check, apply = applies[2 * index:2 * index + 2]
             self.assertEqual(check[2], '--check')
