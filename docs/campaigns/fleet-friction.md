@@ -10,7 +10,7 @@ Active 2026-11-21. Resume by reading this section.
 
 - F1: done 2026-11-21. The failover Worker routes all eight registry hostnames and
   `oo-replica-sync` keeps the R2 replica current; the origin-down drill passed its acceptance
-  ([deployment record](../registry-failover.md#deployment-record)).
+  ([deploy](../registry-failover.md#deploy)).
 - F2: usr#49 merged: kache and clang are optional under usr's cargo config and glibc hosts get
   CPython through uv. The clean-clone capsule rerun waits on a kache release that contains
   kache#104; kache and usr now belong to other sessions, so that release is theirs.

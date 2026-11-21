@@ -2,7 +2,7 @@
 
 The forks carry the same series as commits on the pinned revisions:
 [`laputa-systems/rivet` `laputa/e5ed391`](https://github.com/laputa-systems/rivet/tree/laputa/e5ed391)
-(seven Rivet patches in `sources.toml` order, head `128bcfc0`) and
+(the six committed Rivet patches, head `128bcfc0`; `sources.toml` also registers the seventh, envoy-refusal) and
 [`laputa-systems/open-orange` `laputa/1cabf2e`](https://github.com/laputa-systems/open-orange/tree/laputa/1cabf2e)
 (head `7169510`). Develop a new patch on the fork branch, then export it here
 with `git format-patch` and list it in `sources.toml`; the build still applies
