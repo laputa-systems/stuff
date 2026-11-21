@@ -364,3 +364,78 @@ hours under a registry read workload with periodic Engine restarts and host
 contention, comparing refusals and latency with an upstream run. Swap
 production with `oo set-engine-image` and an Engine-only restart, keeping
 `oo set-engine-image upstream` as the rollback.
+
+## Envoy-refusal contention drill (2026-11-21)
+
+STUF-102's candidate ran against the pinned upstream image in an isolated
+Store-and-Engine stack on Threadripper. Both runs used the same harness, client
+count, overload duration, write limit and catalog setup. The drill is
+`deploy/openorange/bin/drill-envoy-storm`; its pure parts are covered by
+`deploy/openorange/tests/test_drill_envoy_storm.py`.
+
+The candidate is
+`sha256:7df2c2be40ce9d4fa40ddccc4ae20383088b9a5b38754ea94d7430c7c5e74918`
+(build-record label
+`sha256:ee055f3cdb6cef1875059aa6452435948f3ed57d0f1896671c675fe8ddf0ccdd`),
+built from Stuff `a2a0fa79` with all seven patches. The comparison is the
+`deploy/openorange/images.lock.json` pin
+`docker.io/rivetdev/engine@sha256:66de9f77cde47be3cd7af2c001e8083784f6b91ca58b0ab5d7878677cff5bd5d`
+(index `sha256:6e585002…`).
+
+Each run created a private `drill-` network, a fresh versitygw Store and one
+Engine with a fresh bucket and depot, then created the `drill` namespace and
+the `default` pool. One warm envoy registered. The Engine's write bandwidth on
+the host disk (`259:0`) was limited to 1 KiB/s through its cgroup `io.max`; 64
+clients sent a real `ToRivetMetadata` init and reconnected after each refusal
+for 30 seconds. The limit was lifted in place, without an Engine restart, and a
+fresh envoy was driven until it received `ToEnvoyInit`.
+
+Metrics:
+
+- Refused connect: `refusing envoy connect that storage could not register`.
+- Disconnect write: `retrying envoy disconnect write` plus
+  `envoy disconnect write failed`, with `RUST_LOG=info,pegboard_envoy=debug`.
+- Drain: seconds after lifting the limit until a fresh envoy received init.
+- Quiesce: seconds after lifting until the refusal and disconnect-write log
+  count stopped growing for 2 s.
+
+The worktree's `deploy/openorange` was copied to Threadripper, then run as:
+
+```sh
+cd /Users/josh/repos/laputa-systems/stuff/.work/wt/envoy-drill/deploy/openorange
+tar czf - bin/drill-envoy-storm lib/oolib.py images.lock.json \
+  | ssh threadripper 'mkdir -p ~/repos/laputa-systems/stuff/.work/tmp/envoy-drill-run/deploy/openorange && cd ~/repos/laputa-systems/stuff/.work/tmp/envoy-drill-run/deploy/openorange && tar xzf - && chmod +x bin/drill-envoy-storm'
+
+cd ~/repos/laputa-systems/stuff/.work/tmp/envoy-drill-run/deploy/openorange
+./bin/drill-envoy-storm --clients 64 --overload-seconds 30 --settle-seconds 8 --drain-timeout 60
+```
+
+Exit 0. The result lines were:
+
+```json
+{"client_failed": 2, "client_refused": 33510, "client_registered": 1, "clients": 64, "device": "259:0", "disconnect_failures": 0, "disconnect_retries": 0, "disconnect_writes": 0, "disconnect_writes_per_refusal": 0.0, "drain_phase": {"disconnect_writes": 0, "refused_connects": 2}, "drain_seconds": 0.129, "engine_restarts": 0, "image": "sha256:7df2c2be40ce9d4fa40ddccc4ae20383088b9a5b38754ea94d7430c7c5e74918", "io_max": "259:0 rbps=max wbps=1024 riops=max wiops=max", "kind": "candidate", "overload_seconds": 30, "platform": "linux/amd64", "quiesce_seconds": 5.59, "refused_connects": 33510, "total_log": {"disconnect_failures": 0, "disconnect_retries": 0, "disconnect_writes": 0, "refused_connects": 33512}, "write_bps": 1024}
+{"client_failed": 2, "client_refused": 24688, "client_registered": 1, "clients": 64, "device": "259:0", "disconnect_failures": 24690, "disconnect_retries": 74070, "disconnect_writes": 98760, "disconnect_writes_per_refusal": 4.000324044069994, "drain_phase": {"disconnect_writes": 1, "refused_connects": 1}, "drain_seconds": 0.068, "engine_restarts": 0, "image": "docker.io/rivetdev/engine@sha256:66de9f77cde47be3cd7af2c001e8083784f6b91ca58b0ab5d7878677cff5bd5d", "io_max": "259:0 rbps=max wbps=1024 riops=max wiops=max", "kind": "upstream", "overload_seconds": 30, "platform": "linux/amd64", "quiesce_seconds": 6.325, "refused_connects": 24688, "total_log": {"disconnect_failures": 24690, "disconnect_retries": 74071, "disconnect_writes": 98761, "refused_connects": 24689}, "write_bps": 1024}
+{"candidate_ok": true, "upstream_ok": true, "verdict": true}
+```
+
+| Image | Refused connects | Disconnect writes | Writes per refusal | Drain (s) | Quiesce (s) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| candidate `7df2c2be…` | 33,510 | 0 | 0 | 0.129 | 5.590 |
+| upstream `66de9f77…` | 24,688 | 98,760 | 4.0003 | 0.068 | 6.325 |
+
+The candidate's server-side skip emitted no disconnect write for any refused
+connect. Upstream emitted four write attempts per refused connect: three
+`retrying envoy disconnect write` lines and one `envoy disconnect write failed`.
+Both Envoys drained and the log quiesced without an Engine restart. The load
+was isolated: Engine `--cpus 2 --memory 3g`, Store `--cpus 0.5 --memory 512m`,
+probe `--cpus 0.1 --memory 64m`, and the I/O limit was on the Engine cgroup
+only. The run removed every `drill-` container, network and volume; no `oo-`
+container was touched.
+
+Limits: the drill uses a synthetic per-cgroup I/O limit and 64 client threads,
+not host CPU saturation, and it counts log lines rather than storage commands.
+Upstream's four attempts per refusal are the original disconnect retry loop, not
+four distinct storage commands. The drain number is the first fresh
+registration after lifting; quiesce covers the pending disconnect backlog. The
+run used one host and one Engine per image and does not establish 24-hour soak
+behavior.
