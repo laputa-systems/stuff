@@ -807,6 +807,10 @@ returned 404. Actor lists require a name or actor ID; a request with only a
 namespace returned 400. These observations do not establish the availability
 or safety of other routes.
 
+How this Engine refuses work when its host is CPU-saturated, and which limits
+turn those refusals into slowness, is in
+[Engine degradation](openorange-engine-degradation.md).
+
 The [Rivet `v3.1.2-rc.1` tag](https://github.com/rivet-dev/rivet/tree/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9)
 resolves to `e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9`. Its
 [public router](https://github.com/rivet-dev/rivet/blob/e5ed3911ebff8ddc35c08b3f6c6eb3f795d042f9/engine/packages/api-public/src/router.rs)
