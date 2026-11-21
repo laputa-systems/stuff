@@ -1,0 +1,7 @@
+vm_dir=/var/lib/stuff-primary
+vm_user=josh
+vm_ssh_port=49187
+vm_host_key_alias=stuff-primary
+vm_cpus=8
+vm_memory_mib=8192
+vm_memory_min=9G

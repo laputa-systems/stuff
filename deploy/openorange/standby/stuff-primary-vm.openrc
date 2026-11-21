@@ -1,0 +1,80 @@
+#!/sbin/openrc-run
+
+description="Stuff primary VM"
+qemu=/usr/bin/qemu-system-x86_64
+pidfile="${vm_dir}/qemu.pid"
+forward="user,model=virtio-net-pci,hostfwd=tcp:127.0.0.1:${vm_ssh_port}-:22"
+
+vm_io_device() {
+    n=$(stat -c %d "$vm_dir/data.qcow2" 2>/dev/null) || return 1
+    block="/sys/dev/block/$(( (n >> 8) & 0xfff )):$(( (n & 0xff) | ((n >> 12) & 0xfff00) ))"
+    [ -f "$block/partition" ] && block="$block/.."
+    cat "$block/dev" 2>/dev/null
+}
+
+# Build load on this host runs in the root cgroup at the default weight. Without a
+# high weight, a memory floor without swap and a disk latency target, a saturated
+# host starves the guest's Engine until its storage refuses work.
+vm_io=$(vm_io_device)
+rc_cgroup_settings="cpu.weight 10000
+memory.min ${vm_memory_min:-9G}
+memory.swap.max 0
+${vm_io:+io.latency $vm_io target=10000}"
+
+depend() {
+    need localmount
+}
+
+guest_running() {
+    [ -r "$pidfile" ] || return 1
+    read -r pid < "$pidfile" || return 1
+    case "$pid" in ""|*[!0-9]*) return 1 ;; esac
+    [ "$(readlink "/proc/$pid/exe")" = "$qemu" ] &&
+        tr '\000' '\n' < "/proc/$pid/cmdline" | grep -Fxq -- "$forward"
+}
+
+guest_control() {
+    /usr/bin/ssh -F /dev/null -o BatchMode=yes -o ConnectTimeout=5 -o IdentitiesOnly=yes \
+        -o StrictHostKeyChecking=yes -o "HostKeyAlias=$vm_host_key_alias" \
+        -o "UserKnownHostsFile=$vm_dir/known_hosts" -i "$vm_dir/shutdown" \
+        -p "$vm_ssh_port" root@127.0.0.1 "$1"
+}
+
+start() {
+    ebegin "Starting Stuff primary VM"
+    if guest_running; then
+        eend 0
+        return
+    fi
+    for file in os.qcow2 data.qcow2 seed.iso; do
+        if [ ! -s "$vm_dir/$file" ]; then
+            eend 1 "$vm_dir/$file is missing"
+            return 1
+        fi
+    done
+    start-stop-daemon --start --user "$vm_user" --chdir "$vm_dir" \
+        --pidfile "$pidfile" --exec "$qemu" -- -enable-kvm -cpu host -smp "${vm_cpus:-8}" -m "${vm_memory_mib:-8192}" \
+        -drive file=os.qcow2,format=qcow2,if=virtio -drive file=data.qcow2,format=qcow2,if=virtio,cache=none,aio=native \
+        -cdrom seed.iso -nic "$forward" -display none -serial file:console.log -monitor none \
+        -pidfile qemu.pid -daemonize && guest_running
+    eend $?
+}
+
+stop() {
+    ebegin "Shutting down Stuff primary VM"
+    if ! guest_running; then
+        eend 0
+        return
+    fi
+    if ! guest_control poweroff; then
+        eend 1 "Guest did not accept a graceful shutdown"
+        return 1
+    fi
+    elapsed=0
+    while guest_running && [ "$elapsed" -lt 90 ]; do
+        sleep 1
+        elapsed=$((elapsed + 1))
+    done
+    ! guest_running
+    eend $?
+}
