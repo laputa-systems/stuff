@@ -1,0 +1,361 @@
+diff --git a/engine/packages/pegboard-envoy/src/connection.rs b/engine/packages/pegboard-envoy/src/connection.rs
+index 08eddb34a..ab72555a2 100644
+--- a/engine/packages/pegboard-envoy/src/connection.rs
++++ b/engine/packages/pegboard-envoy/src/connection.rs
+@@ -664,13 +664,12 @@ async fn evict_actors_from_superseded_envoy(ctx: &EngineContext, conn: &Connecti
+ }
+ 
+ /// Writes the disconnect and leaves the active index, retrying with a short backoff within a
+-/// fixed budget.
++/// fixed budget. A connection whose registration never landed has nothing to undo.
+ async fn disconnect(ctx: &EngineContext, conn: &Connection) {
+-	const ATTEMPTS: u32 = 4;
+ 	let clock = ctx.env().clock();
+-	let mut backoff = std::time::Duration::from_millis(100);
+-	for attempt in 1..=ATTEMPTS {
+-		let result = async {
++	disconnect_registered(
++		&conn.record,
++		|| async {
+ 			pegboard::catalog::pool(
+ 				ctx,
+ 				&conn.scope.namespace,
+@@ -683,9 +682,30 @@ async fn disconnect(ctx: &EngineContext, conn: &Connection) {
+ 				entry.connected = false;
+ 			})
+ 			.await
+-		}
+-		.await;
+-		match result {
++		},
++		|backoff| rivet_env::sleep(clock.as_ref(), backoff),
++	)
++	.await;
++}
++
++/// Runs the disconnect writes for a connection whose registration landed.
++async fn disconnect_registered<W, Fut, S, FutS>(
++	record: &Mutex<crate::envoy_record::RecordState>,
++	mut write: W,
++	mut sleep: S,
++) where
++	W: FnMut() -> Fut,
++	Fut: std::future::Future<Output = Result<()>>,
++	S: FnMut(std::time::Duration) -> FutS,
++	FutS: std::future::Future<Output = Result<(), rivet_env::ClockError>>,
++{
++	const ATTEMPTS: u32 = 4;
++	if !record.lock().await.connected {
++		return;
++	}
++	let mut backoff = std::time::Duration::from_millis(100);
++	for attempt in 1..=ATTEMPTS {
++		match write().await {
+ 			Ok(()) => return,
+ 			Err(error) if error.is::<crate::envoy_record::Superseded>() => return,
+ 			Err(error) if attempt == ATTEMPTS => {
+@@ -699,13 +719,63 @@ async fn disconnect(ctx: &EngineContext, conn: &Connection) {
+ 				tracing::debug!(?error, attempt, "retrying envoy disconnect write");
+ 			}
+ 		}
+-		if rivet_env::sleep(clock.as_ref(), backoff).await.is_err() {
++		if sleep(backoff).await.is_err() {
+ 			return;
+ 		}
+ 		backoff *= 2;
+ 	}
+ }
+ 
++#[cfg(test)]
++mod disconnect_tests {
++	use super::*;
++	use crate::envoy_record::RecordState;
++	use std::sync::atomic::{AtomicUsize, Ordering};
++
++	fn record(connected: bool) -> Mutex<RecordState> {
++		let mut state = RecordState::new(None, "envoy".to_owned(), vec![1], vec![2], 3, 1_000);
++		state.connected = connected;
++		Mutex::new(state)
++	}
++
++	#[tokio::test]
++	async fn a_refused_connect_writes_no_disconnect() {
++		let record = record(false);
++		let writes = AtomicUsize::new(0);
++		let sleeps = AtomicUsize::new(0);
++		disconnect_registered(
++			&record,
++			|| async {
++				writes.fetch_add(1, Ordering::SeqCst);
++				Ok(())
++			},
++			|_| async {
++				sleeps.fetch_add(1, Ordering::SeqCst);
++				Ok(())
++			},
++		)
++		.await;
++		assert_eq!(writes.load(Ordering::SeqCst), 0, "an unregistered connect must not write");
++		assert_eq!(sleeps.load(Ordering::SeqCst), 0, "nothing to retry means no wait");
++	}
++
++	#[tokio::test]
++	async fn a_registered_connect_writes_its_disconnect() {
++		let record = record(true);
++		let writes = AtomicUsize::new(0);
++		disconnect_registered(
++			&record,
++			|| async {
++				writes.fetch_add(1, Ordering::SeqCst);
++				Ok(())
++			},
++			|_| async { Ok(()) },
++		)
++		.await;
++		assert_eq!(writes.load(Ordering::SeqCst), 1, "a registered connect clears its record once");
++	}
++}
++
+ /// The request class a stream must be opened under, decided by its first message. Commands are
+ /// `EnvoyCommand`; a tunnel starts with `ToEnvoyRequestStart` (`GatewayHttp`) or
+ /// `ToEnvoyWebSocketOpen` (`GatewayWebSocket`). Any other first message is invalid.
+diff --git a/engine/sdks/rust/envoy-client/src/connection/native.rs b/engine/sdks/rust/envoy-client/src/connection/native.rs
+index 91414739f..52c63c02d 100644
+--- a/engine/sdks/rust/envoy-client/src/connection/native.rs
++++ b/engine/sdks/rust/envoy-client/src/connection/native.rs
+@@ -15,7 +15,7 @@ use crate::envoy::ToEnvoyMessage;
+ use crate::handle::EnvoyHandle;
+ use crate::metrics::METRICS;
+ use crate::time::Instant;
+-use crate::utils::{ParsedCloseReason, parse_ws_close_reason, reconnect_delay};
++use crate::utils::{ParsedCloseReason, next_attempt, parse_ws_close_reason, reconnect_delay};
+ 
+ const STABLE_CONNECTION_MS: u64 = 60_000;
+ const OPEN_TIMEOUT: Duration = Duration::from_secs(30);
+@@ -75,11 +75,13 @@ async fn connection_loop(shared: Arc<SharedContext>) {
+ 		let connected_at = crate::time::Instant::now();
+ 
+ 		let mut retry_after_ms = None;
++		let mut registered = false;
+ 		match single_connection(&shared).await {
+ 			Ok((session, SessionEnd::Closed(close_reason, contact_deadline))) => {
+ 				retry_after_ms = close_reason
+ 					.as_ref()
+ 					.and_then(|reason| reason.retry_after_ms);
++				registered = contact_deadline.is_some();
+ 				if super::report_connection_close(&shared, session, close_reason, contact_deadline)
+ 				{
+ 					return;
+@@ -101,16 +103,14 @@ async fn connection_loop(shared: Arc<SharedContext>) {
+ 			}
+ 		}
+ 
+-		if connected_at.elapsed().as_millis() >= STABLE_CONNECTION_MS as u128 {
+-			attempt = 0;
+-		}
+-
+ 		if shared.shutting_down.load(Ordering::Acquire) {
+ 			tracing::debug!("skipping reconnect because envoy is shutting down");
+ 			return;
+ 		}
+ 
+ 		let lost_threshold_ms = super::reconnect_lost_threshold_ms(&shared).await;
++		let stable = connected_at.elapsed().as_millis() >= STABLE_CONNECTION_MS as u128;
++		attempt = next_attempt(attempt, stable, registered);
+ 		let delay = reconnect_delay(attempt, retry_after_ms, lost_threshold_ms);
+ 		tracing::info!(attempt, delay_ms = delay.as_millis() as u64, "reconnecting");
+ 		tokio::time::sleep(delay).await;
+diff --git a/engine/sdks/rust/envoy-client/src/connection/wasm.rs b/engine/sdks/rust/envoy-client/src/connection/wasm.rs
+index 736c5d664..7767d35f1 100644
+--- a/engine/sdks/rust/envoy-client/src/connection/wasm.rs
++++ b/engine/sdks/rust/envoy-client/src/connection/wasm.rs
+@@ -15,7 +15,7 @@ mod imp {
+ 
+ 	use crate::context::{HttpWsTxMessage, SharedContext, WsTxMessage};
+ 	use crate::envoy::ToEnvoyMessage;
+-	use crate::utils::{parse_ws_close_reason, reconnect_delay};
++	use crate::utils::{next_attempt, parse_ws_close_reason, reconnect_delay};
+ 
+ 	const STABLE_CONNECTION_MS: u64 = 60_000;
+ 	const NORMAL_CLOSE_CODE: u16 = 1000;
+@@ -46,11 +46,13 @@ mod imp {
+ 			let connected_at_ms = js_sys::Date::now();
+ 
+ 			let mut retry_after_ms = None;
++			let mut registered = false;
+ 			match single_connection(&shared).await {
+-				Ok((session, close_reason)) => {
++				Ok((session, close_reason, session_registered)) => {
+ 					retry_after_ms = close_reason
+ 						.as_ref()
+ 						.and_then(|reason| reason.retry_after_ms);
++					registered = session_registered;
+ 					if super::super::report_connection_close(&shared, session, close_reason, None) {
+ 						return;
+ 					}
+@@ -72,16 +74,14 @@ mod imp {
+ 				}
+ 			}
+ 
+-			if js_sys::Date::now() - connected_at_ms >= STABLE_CONNECTION_MS as f64 {
+-				attempt = 0;
+-			}
+-
+ 			if shared.shutting_down.load(Ordering::Acquire) {
+ 				tracing::debug!("skipping reconnect because envoy is shutting down");
+ 				return;
+ 			}
+ 
+ 			let lost_threshold_ms = super::super::reconnect_lost_threshold_ms(&shared).await;
++			let stable = js_sys::Date::now() - connected_at_ms >= STABLE_CONNECTION_MS as f64;
++			attempt = next_attempt(attempt, stable, registered);
+ 			let delay = reconnect_delay(attempt, retry_after_ms, lost_threshold_ms);
+ 			tracing::info!(attempt, delay_ms = delay.as_millis() as u64, "reconnecting");
+ 			sleep(delay).await;
+@@ -91,7 +91,7 @@ mod imp {
+ 
+ 	async fn single_connection(
+ 		shared: &Arc<SharedContext>,
+-	) -> anyhow::Result<(u64, Option<crate::utils::ParsedCloseReason>)> {
++	) -> anyhow::Result<(u64, Option<crate::utils::ParsedCloseReason>, bool)> {
+ 		let url = super::super::ws_url(shared);
+ 		let protocols = protocols(&shared.config.token);
+ 		let ws = WebSocket::new_with_str_sequence(&url, protocols.as_ref())
+@@ -254,6 +254,7 @@ mod imp {
+ 		});
+ 
+ 		let mut result = None;
++		let mut registered = false;
+ 		let debug_latency_ms = shared.config.debug_latency_ms;
+ 
+ 		while let Some(event) = event_rx.recv().await {
+@@ -271,6 +272,7 @@ mod imp {
+ 						data.into(),
+ 						protocol::PROTOCOL_VERSION,
+ 					)?;
++					registered |= matches!(decoded, protocol::ToEnvoy::ToEnvoyInit(_));
+ 
+ 					super::super::forward_to_envoy(shared, session, decoded).await;
+ 				}
+@@ -299,7 +301,7 @@ mod imp {
+ 		ws.set_onerror(None);
+ 		drop((onopen, onmessage, onclose, onerror));
+ 
+-		Ok((session, result))
++		Ok((session, result, registered))
+ 	}
+ 
+ 	enum EitherWrite {
+diff --git a/engine/sdks/rust/envoy-client/src/utils.rs b/engine/sdks/rust/envoy-client/src/utils.rs
+index e983d1d32..047e7e8ae 100644
+--- a/engine/sdks/rust/envoy-client/src/utils.rs
++++ b/engine/sdks/rust/envoy-client/src/utils.rs
+@@ -191,9 +191,11 @@ pub fn calculate_backoff(attempt: u32, options: &BackoffOptions) -> Duration {
+ }
+ 
+ /// The wait before reconnect attempt `attempt`. A close that carried a retry hint (`retry_after_ms`), as guard
+-/// sends when it sheds a connect at admission, spreads retries between one and two hints.
+-/// Otherwise the jittered backoff applies. Half the advertised lost threshold caps either wait
+-/// to leave time for the handshake, even when that requires retrying before a server hint.
++/// sends when it sheds a connect at admission, draws from a step that starts at one hint and
++/// doubles with each consecutive refusal, so a server that keeps refusing is asked again at
++/// a falling rate. Otherwise the jittered backoff applies. Half the advertised lost threshold
++/// caps either wait to leave time for the handshake, even when that requires retrying before a
++/// server hint.
+ pub fn reconnect_delay(
+ 	attempt: u32,
+ 	retry_after_ms: Option<u64>,
+@@ -201,8 +203,8 @@ pub fn reconnect_delay(
+ ) -> Duration {
+ 	let delay = match retry_after_ms.map(|hint| hint.clamp(MIN_RETRY_HINT_MS, MAX_RETRY_HINT_MS)) {
+ 		Some(hint) => {
+-			let spread = rand::thread_rng().gen_range(0..=hint);
+-			Duration::from_millis(hint + spread)
++			let (floor, ceiling) = refusal_delay_bounds(attempt, hint);
++			Duration::from_millis(rand::thread_rng().gen_range(floor..=ceiling))
+ 		}
+ 		None => calculate_backoff(attempt, &BackoffOptions::default()),
+ 	};
+@@ -211,6 +213,18 @@ pub fn reconnect_delay(
+ 	))
+ }
+ 
++fn refusal_delay_bounds(attempt: u32, hint: u64) -> (u64, u64) {
++	let cap = MAX_RECONNECT_DELAY_MS.max(hint.saturating_mul(2));
++	let ceiling = hint
++		.saturating_mul(1u64 << attempt.saturating_add(1).min(32))
++		.min(cap);
++	(hint, ceiling)
++}
++
++pub(crate) fn next_attempt(attempt: u32, stable: bool, registered: bool) -> u32 {
++	if stable || registered { 0 } else { attempt }
++}
++
+ pub struct ParsedCloseReason {
+ 	pub group: String,
+ 	pub error: String,
+@@ -348,3 +362,63 @@ fn cyrb53(buffers: &[&[u8]]) -> String {
+ 	let result = (2097151 & h2 as u64) * 4294967296 + h1 as u64;
+ 	format!("{result:x}")
+ }
++
++#[cfg(test)]
++mod tests {
++	use super::*;
++
++	fn delay_ms(attempt: u32) -> u64 {
++		reconnect_delay(attempt, Some(100), 40_000).as_millis() as u64
++	}
++
++	#[test]
++	fn a_refusal_hint_is_the_floor_of_every_wait() {
++		for attempt in 0..8 {
++			assert!(delay_ms(attempt) >= 100, "attempt {attempt} drew below the hint");
++		}
++	}
++
++	#[test]
++	fn repeated_refusals_at_one_hint_stretch_the_wait() {
++		let ceiling = |attempt: u32| refusal_delay_bounds(attempt, 100).1;
++		assert_eq!(refusal_delay_bounds(0, 100), (100, 200));
++		assert_eq!(refusal_delay_bounds(1, 100), (100, 400));
++		assert_eq!(refusal_delay_bounds(2, 100), (100, 800));
++		let mut previous = 0;
++		for attempt in 0..8 {
++			let next = ceiling(attempt);
++			assert!(next >= previous, "attempt {attempt} shrank its window");
++			previous = next;
++		}
++		assert_eq!(ceiling(5), MAX_RECONNECT_DELAY_MS, "the ceiling is bounded");
++		assert_eq!(ceiling(64), MAX_RECONNECT_DELAY_MS, "the shift saturates");
++	}
++
++	#[test]
++	fn a_large_hint_keeps_its_own_growth() {
++		assert_eq!(refusal_delay_bounds(0, 5_000), (5_000, 10_000));
++		assert_eq!(refusal_delay_bounds(3, 5_000), (5_000, 10_000));
++		assert!(delay_ms(0) >= 100);
++	}
++
++	#[test]
++	fn the_lost_threshold_caps_every_wait() {
++		let cap = Duration::from_millis((40_000 - 1) / 2);
++		for attempt in 0..12 {
++			assert!(reconnect_delay(attempt, Some(5_000), 40_000) <= cap);
++			assert!(reconnect_delay(attempt, None, 40_000) <= cap);
++		}
++	}
++
++	#[test]
++	fn a_registered_connection_resets_the_refusal_streak() {
++		let capped = 20;
++		assert_eq!(next_attempt(capped, false, true), 0);
++		assert_eq!(next_attempt(capped, true, false), 0);
++		assert_eq!(next_attempt(capped, false, false), capped);
++		assert_eq!(
++			refusal_delay_bounds(next_attempt(capped, false, true), 100),
++			refusal_delay_bounds(0, 100)
++		);
++	}
++}

@@ -59,6 +59,23 @@ The source review found no demonstrated introduced defect. See
 [the page-read diagnosis](../../../docs/openorange-sqlite-page-read.md) for
 the exact source, patch and runtime evidence.
 
+`rivet-e5ed391-inventory-read.patch` applies fifth and
+`rivet-e5ed391-actor-lifecycle.patch` sixth.
+
+`rivet-e5ed391-envoy-refusal.patch` applies seventh, after all six above. A
+connect whose first storage read or registration write is refused never
+reached the record or the active index, so its disconnect wrote a pool lease
+deletion and a record update that only added storage load to the refusal that
+caused them: on 2026-11-21 that write was itself refused as overloaded. The
+patch skips every disconnect write for a connection whose registration never
+landed. The envoy client also grows its reconnect wait under repeated refusals
+instead of reusing one server hint forever: the floor stays at the hint, the
+ceiling doubles per consecutive refusal and is capped by the ordinary reconnect
+ceiling, and a session the engine registered with an init resets the streak.
+Five client regressions and two disconnect regressions pass in dev and fail on
+the original implementation. `cargo check` passes for `pegboard-envoy` and
+`rivet-envoy-client`; no Engine binary was built or run. It is not deployed.
+
 The retry hint has one owner in the page protocol, used by both stage
 cleanup and the Envoy caller. The existing cold-read predicate still serves
 the prefetch planner. The patch adds four test dependency edges to packages
@@ -76,6 +93,12 @@ git apply --check /path/to/rivet-e5ed391-empty-abort.patch
 git apply /path/to/rivet-e5ed391-empty-abort.patch
 git apply --check /path/to/rivet-e5ed391-page-read-refusal.patch
 git apply /path/to/rivet-e5ed391-page-read-refusal.patch
+git apply --check /path/to/rivet-e5ed391-inventory-read.patch
+git apply /path/to/rivet-e5ed391-inventory-read.patch
+git apply --check /path/to/rivet-e5ed391-actor-lifecycle.patch
+git apply /path/to/rivet-e5ed391-actor-lifecycle.patch
+git apply --check /path/to/rivet-e5ed391-envoy-refusal.patch
+git apply /path/to/rivet-e5ed391-envoy-refusal.patch
 ```
 
 The tested builder is
