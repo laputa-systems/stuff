@@ -20,16 +20,16 @@ Verified on `ubuntu:24.04` arm64 on 2026-11-21. Run as a user whose home holds t
 the fleet expects: `~/usr`, `~/repos/<name>` for `joshuarli` repositories, and
 `~/repos/laputa-systems/<name>` for `laputa-systems` repositories.
 
-1. System packages: `apt-get install -y git ca-certificates curl python3 libatomic1 build-essential`.
-   `usr`'s sync has no Python bootstrap on glibc Linux, and Node needs `libatomic1`
-   ([USR-128](https://github.com/joshuarli/usr/blob/main/TODO.md)).
+1. System packages: `apt-get install -y git ca-certificates curl xz-utils python3 libatomic1 clang build-essential`.
+   usr's sync has no Python bootstrap on glibc Linux, Node needs `libatomic1`, and the linked
+   cargo config compiles C through `kache clang` ([usr README](https://github.com/joshuarli/usr#readme)).
 2. Install rustup before syncing. The linked `~/.cargo/config.toml` sets `rustc-wrapper = "kache"`,
    and sync installs kache only when rustup is already present. Without kache, cargo fails in
    every Rust repository.
 3. `git clone https://github.com/joshuarli/usr ~/usr && sh ~/usr/sync`. This links the skills
    (`deslop`, `orchestrate`, `campaign-winddown`) and installs `todo`, `worktree-retire`,
-   `mdtool`, `fastermod`, `fd` and `rg`. On Ubuntu 24.04 its `python3` and `ffmpeg` tools fail
-   because their builds need musl 1.2.5 (python-build#19); neither is needed for the campaign.
+   `mdtool`, `fastermod`, `fd`, `rg`, kache and Node. Without a musl loader it leaves out its
+   musl-linked `python3`, `ffmpeg` and `player` (python-build#19); the campaign needs none of them.
    Install `jaq` separately; sync's Linux defaults omit it.
 4. `git clone https://github.com/laputa-systems/stuff ~/repos/laputa-systems/stuff`, then
    `scripts/setup-dev` there (see [development](../development.md)). repomod's F2/F3 checks run from this checkout.
@@ -61,7 +61,7 @@ Its native macOS checks still need the Mac.
 
 ## Delegation
 
-The Pi bridge needs Node and `pi`, which sync installs only once USR-128's prerequisites are
-met. Its providers also need credentials that a cloud host does not have. Use the harness's
-native subagents under `orchestrate`'s native fallback: same brief, worktree, scope check and
-independent review. Never wrap builds in `cpu-guard`.
+The Pi bridge stays the default on the Mac. Its providers need credentials a cloud host does
+not have, so set `USR_DELEGATION=native` in the cloud environment. usr's startup hook then
+tells the session to use the tier-matched native subagents in `orchestrate`, with the same brief,
+worktree, scope check and independent review. Never wrap builds in `cpu-guard`.
