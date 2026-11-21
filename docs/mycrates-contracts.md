@@ -30,7 +30,7 @@ Pretty JSON, two-space indent, no trailing newline, fields in this order. Unknow
 | `version` | 1 | 1 |
 | `public_base_url` | string | `http://localhost:8080` |
 | `upstream.index_url` | string | `https://index.crates.io/` |
-| `limits.*` | integers: `max_compressed`, `max_expanded`, `max_entries`, `max_ratio`, `concurrent_requests`, `fetch_bytes`, `fetch_timeout_secs`, `request_timeout_secs`, `redirects`, `serve_connections`, `serve_writes`, `upload_timeout_secs` | see README |
+| `limits.*` | integers: `max_compressed`, `max_expanded`, `max_entries`, `max_ratio`, `concurrent_requests`, `fetch_bytes`, `fetch_timeout_secs`, `request_timeout_secs`, `redirects`, `serve_connections`, `serve_writes`, `upload_timeout_secs` | see [mycrates README](../crates/mycrates/README.md#configuration) |
 | `auth_required` | bool | false |
 
 ### Native record

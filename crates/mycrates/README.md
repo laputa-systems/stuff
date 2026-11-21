@@ -8,30 +8,14 @@ maintenance interface, including executable test examples.
 
 ## Architecture
 
-The system provides two logically separate registry sparse indexes over a content-addressed artifact store:
-
-1. **Native Registry (`current/registry/`)**: An independent Cargo registry for privately published packages (`cargo publish --registry mycrates`).
-2. **Crates.io Archive (`current/crates-io/`)**: An exact-byte mirror for locked upstream releases consumed via Cargo source replacement.
-
-```
-site/
-  blobs/
-    <sha256>.crate
-  generations/
-    <generation-id>/
-      registry/
-        config.json
-        <shard>/<name>
-      crates-io/
-        config.json
-        <shard>/<name>
-  current -> generations/<generation-id>
-```
-
-- **Static Read Path**: All downloads and index lookups are static HTTP GET requests. No runtime database or application server is needed on the read path.
-- **Atomic Generations**: Publications create a deterministic generation ID from a canonical manifest of index files, link blobs, and atomically update the `current` symlink.
-- **Configured Origins**: The generated `llms.txt` names the configured `public_base_url` in its Cargo instructions and origin, so a deployment at another origin does not point clients at a different registry. Published generations use renderer 4; generations rendered by earlier versions stay readable.
-- **Strict Verification**: Lockfile checksum equals upstream sparse index checksum equals downloaded archive SHA-256.
+`mycrates` serves two sparse indexes over a content-addressed blob store:
+`current/registry/` for privately published crates and `current/crates-io/`
+for byte-exact locked upstream releases. Generations are immutable and selected
+by `current`; the read path is static HTTP, and the trust chain is lockfile
+checksum = upstream index `cksum` = downloaded archive SHA-256. Wire and on-disk
+formats are in [mycrates contracts](../../docs/mycrates-contracts.md), and
+publication is through `stuff publish cargo`
+([PUBLISHING.md](../../docs/PUBLISHING.md)).
 
 ## Installation
 
@@ -222,51 +206,11 @@ mycrates validate --project-dir .
 
 ## Web Server Deployment
 
-The site directory is plain static files, so any static server can host the read path. The write API is not meant to be exposed; it exists for the loopback publication flow above.
-
-### Nginx
-
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name deps.example.net;
-
-    ssl_certificate /etc/ssl/certs/deps.crt;
-    ssl_certificate_key /etc/ssl/private/deps.key;
-
-    # Static registry files and blobs
-    location /mycrates/ {
-        alias /var/lib/mycrates/site/;
-        autoindex off;
-        etag on;
-        add_header Cache-Control "public, max-age=60";
-    }
-
-    location /mycrates/blobs/ {
-        alias /var/lib/mycrates/site/blobs/;
-        etag on;
-        add_header Cache-Control "public, max-age=31536000, immutable";
-    }
-}
-```
-
-### Caddy
-
-```caddy
-deps.example.net {
-    handle /mycrates/blobs/* {
-        root * /var/lib/mycrates/site
-        file_server
-        header Cache-Control "public, max-age=31536000, immutable"
-    }
-
-    handle /mycrates/* {
-        root * /var/lib/mycrates/site
-        file_server
-        header Cache-Control "public, max-age=60"
-    }
-}
-```
+The site directory is plain static files, so any static server can host the read
+path with the [cache and ETag semantics](#cache-and-etag-semantics) below. The
+write API is not meant to be exposed; it exists for the loopback publication
+flow above. Served paths are in
+[mycrates contracts](../../docs/mycrates-contracts.md#site-layout).
 
 ## Cache and ETag Semantics
 

@@ -55,20 +55,10 @@ HTTP is used only for loopback hosts; everything else requires TLS.
 
 ## Mirror
 
-`myoci mirror resolve` refreshes the lock, verifying roots, complete graphs,
-and referrer discovery; it writes the lock atomically and never on failure.
-`myoci mirror plan` is local and read-only and never initializes state.
-`myoci mirror sync --locked` acquires exactly the locked digests (never a
-tag), applies managed aliases all-or-nothing into one recoverable transaction,
-and records ownership in state `mirror.json`; `--offline` replays acquisition
-from local state only. `--entry` refreshes a targeted entry and preserves
-the rest. `myoci publish` includes the `provenance.json` sidecar in the
-generation, and `myoci adopt` restores it; old generations without one adopt
-cleanly with no managed aliases. The full operator runbook is in
-[PUBLISHING.md](../../docs/PUBLISHING.md#operate-the-oci-mirror); the design
-is in [oci-design.md](../../docs/oci-design.md). Transaction pending errors
-name the recovering command; alias conflicts abort the whole batch with
-`conflict-unmanaged` or `conflict-stale` and move nothing.
+`myoci mirror resolve|plan|sync` mirrors declared roots from the inventory and
+lock under `deploy/`. The [operator runbook](../../docs/PUBLISHING.md#operate-the-oci-mirror)
+owns the inventory format, verification rules, alias ownership, conflicts, and
+recovery; the [design](../../docs/oci-design.md#mirror) points at it.
 
 ## Serve and push
 
@@ -103,13 +93,9 @@ recorded in [docs/oci-benchmarks.md](../../docs/oci-benchmarks.md).
 
 ## Limits and exit codes
 
-Repository names are at most 255 characters; tags at most 128 and match
-`[A-Za-z0-9_][A-Za-z0-9._-]*`; manifests at most 4 MiB; upload sessions live
-one hour; one upload is at most 20 GiB. The registry is sha256-only and reads
-are anonymous.
-
-Exit codes: `2` usage/input, `3` integrity, `4` conflict, `5` limit, `6`
-network, `1` other.
+The sha256-only registry caps and anonymous read posture are in
+[PUBLISHING.md](../../docs/PUBLISHING.md#publish-the-oci-registry). Exit codes:
+`2` usage/input, `3` integrity, `4` conflict, `5` limit, `6` network, `1` other.
 
 ## Tests
 

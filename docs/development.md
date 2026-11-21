@@ -36,3 +36,16 @@ Optional workflows need more than this: `make smoke` (pinned npm and repair tool
 (`wasm32-unknown-unknown` and `wasm-bindgen-cli`, see
 [the Worker README](../crates/stuff-worker/README.md)), and publication credentials
 ([PUBLISHING.md](PUBLISHING.md)).
+
+## Serve a local site
+
+`stuff-server` serves a site directory downloaded from a registry:
+
+```sh
+cargo run -p stuff-server -- --route /=path/to/site
+cargo run -p stuff-server -- --route /mirror=path/to/mirror --max-connections 64
+```
+
+The server follows `current` to a generation, serves immutable `generations/` paths, and supports conditional and range requests. Directory requests serve `index.html`. `/`, `/index.html`, `/catalog.json`, `/llms.txt`, and `/simple/...` alias through the current generation.
+
+The native server and Worker support shared wheel/tarball aliases and npm's standard `current/<name>/-/<basename>-<version>.tgz` lookup. Metadata-only npm versions support lockfile checks for excluded platforms without hosting their artifacts; see [mynpm](../crates/mynpm/README.md#metadata-only-versions).

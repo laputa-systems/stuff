@@ -6,20 +6,11 @@ README for serving and the exit-code contract).
 
 ## Fleet ingest
 
-`deploy/ingest-npm-fleet.sh` imports every pnpm lockfile listed in
-`deploy/npm-fleet.txt` (`<path under REPOS_DIR> <project id>`) with all six
-darwin/linux targets from `mynpm init-config --all-targets` (mac-arm64,
-mac-x64, linux-x64-gnu, linux-x64-musl, linux-arm64-gnu, linux-arm64-musl),
-then runs `fetch` and `publish`. It never writes to R2.
-
-Re-running is safe. A project import is identified by its content (id,
-lockfile path, targets, roots, packages including platform and optional flags,
-aliases, pin, and a digest of the project snapshot), so an unchanged lockfile
-leaves the inventory byte-identical, while a changed one is recorded as an
-additional import under the same project id and already hosted versions stay.
-`fetch` reuses verified artifacts. An artifact is promoted as soon as it verifies,
-so a later package failure or the time limit keeps the finished downloads for the
-next run instead of discarding them.
+`deploy/fleet-ingest.sh` drives the npm import, fetch, and publish for a whole
+fleet into a local site; see [PUBLISHING.md](../../docs/PUBLISHING.md#publish-a-registry).
+Re-running is safe: imports are identified by content, unchanged lockfiles leave
+the inventory byte-identical, and `fetch` promotes each artifact as soon as it
+verifies.
 
 ## Metadata-only versions
 
@@ -45,10 +36,10 @@ Contract: inventory `schemaVersion` is 2 until a metadata-only record exists
 and 3 afterwards (`metadataOnly` array), so existing state loads unchanged and
 stays byte-identical until `fetch` records one; older binaries cannot read a
 version 3 inventory. Publication renderer 6 adds `metadataOnly` to
-`manifest.json` and stub-only packuments; generation renderer 7 renders
-`llms.txt` with each generation's configured `publicBaseUrl` so a deployment
-at another origin publishes its own registry instructions. Generations of
-renderer 1 to 6 stay valid.
+`manifest.json` and stub-only packuments; generation renderer 8 (the current
+renderer) renders `llms.txt` with each generation's configured `publicBaseUrl`
+so a deployment at another origin publishes its own registry instructions.
+Generations of renderer 1 to 7 stay valid.
 
 ## First-party packages
 

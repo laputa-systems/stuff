@@ -12,55 +12,28 @@ are in [oci-benchmarks.md](oci-benchmarks.md) and [TODO.md](../TODO.md).
 
 ## Architecture
 
-- `crates/stuff-oci` is the I/O-free, `wasm`-safe protocol core: digests,
-  references, media types, manifest/index parsing, storage keys, request
-  parsing, response plans, OCI errors, and upload-session tokens.
-- `crates/myoci` is the CLI and native server: import, inspect, publish,
-  verify, adopt, tag, `serve`, `writer`, and `bench`.
-- The Cloudflare Worker serves the read API from R2 and accepts push requests
-  through the same `stuff-oci` plans.
-- A separate `myoci writer` owns only blob bytes. The front owns
-  authentication, manifest validation, generation creation, and the
-  `current` flip. The writer never sees registry credentials.
-- `stuff-catalog` renders OCI into catalog schema 4, HTML, and `llms.txt`
-  alongside the other registries.
+The I/O-free protocol core and its module split live in
+[stuff-oci](../crates/stuff-oci/README.md#scope); the CLI, server, and command
+set live in [myoci](../crates/myoci/README.md). Only `stuff-oci` is shared
+between the native server and the Worker, so the wasm bundle does not inherit
+the CLI's HTTP client. A separate `myoci writer` owns only blob bytes; the front
+owns authentication, manifest validation, generation creation, and the
+`current` flip, and never shares registry credentials with the writer.
+`stuff-catalog` renders OCI into catalog schema 4 alongside the other registries.
 
-The wasm bundle must not inherit the CLI's HTTP client, so only `stuff-oci`
-is shared between the native server and the Worker.
+## Read and push API
 
-## Read API
-
-| Request | Required behavior |
-| --- | --- |
-| `GET /v2/` | 200 with `Docker-Distribution-Api-Version: registry/2.0` |
-| `GET`/`HEAD /v2/<name>/manifests/<tag|digest>` | Resolve the tag; serve the stored media type and `Docker-Content-Digest`; 404 `MANIFEST_UNKNOWN` |
-| `GET`/`HEAD /v2/<name>/blobs/<digest>` | Serve blob bytes with `Docker-Content-Digest`; ranges return 206/416; 404 `BLOB_UNKNOWN` |
-| `GET /v2/<name>/tags/list` | Sorted tags with `n`/`last` and a `Link` header when more remain; 404 `NAME_UNKNOWN` |
-| `GET /v2/<name>/referrers/<digest>` | Precomputed OCI index, `artifactType` filter, pagination; empty index for an unknown subject |
-| Any other `/v2` path | 404 `NAME_UNKNOWN` |
-| Malformed name/digest/tag | 400 with the matching OCI error code |
+The read and push request/response behavior is the OCI Distribution 1.1 contract
+implemented in [stuff-oci](../crates/stuff-oci/README.md#scope); the conformance
+gate below pins the spec commit and enabled rows. Delete endpoints stay
+unimplemented and the conformance delete flags stay off.
 
 Manifest GET and HEAD return the stored media type even when the request's
 `Accept` list omits it. Strict negotiation would turn valid indexes into false
-404s, and clients accept either OCI or Docker schema 2 families. The stored
-type is authoritative.
-
-A manifest request reads at most the generation pointer, one
-`repository.json`, and one manifest object. A blob request reads only
-`sha256/<hex>` from the blob bucket. The serving path does not list, scan,
-hash, or parse.
-
-## Push API
-
-| Request | Required behavior |
-| --- | --- |
-| `POST /v2/<name>/blobs/uploads/` | 202 with a signed writer `Location` and `Docker-Upload-UUID`; a mount hit returns 201 |
-| `PATCH`/`PUT` upload | 202/201; streamed; digest and size verified; 400 `DIGEST_INVALID` on mismatch |
-| `GET`/`DELETE` upload | 204 with `Range`; cancel 204 |
-| `PUT /v2/<name>/manifests/<tag|digest>` | 201 with digest and `OCI-Subject` when present; verifies blobs/children; creates a generation; retries conflicts |
-| Auth | Basic on every write; 401 challenge; constant-time comparison |
-
-Delete endpoints stay unimplemented and the conformance delete flags stay off.
+404s, and clients accept either OCI or Docker schema 2 families. A manifest
+request reads at most the generation pointer, one `repository.json`, and one
+manifest object; a blob request reads only `sha256/<hex>` from the blob bucket.
+The serving path does not list, scan, hash, or parse.
 
 ## Media and digests
 
@@ -130,60 +103,10 @@ mismatched digest/size, a foreign layer, and schema 1. The tag comes from
 
 ## Mirror
 
-`myoci mirror resolve|plan|sync` mirrors declared OCI roots into this
-registry. The inventory `deploy/oci-mirror.toml` (schema and policy version
-1) declares entries: an `id`, a `source` (tag or digest reference; Docker
-Hub shorthand normalized once at parse), a `destination` repository name,
-`aliases`, `platforms` (a minimum, never a filter; OS, architecture, and an
-optional variant), and `referrers` (`snapshot` also observes direct referrer
-roots of the root and of each reachable child manifest, recursively,
-deduplicated and revisit-capped; `none` disables only that additional
-discovery). The lock `deploy/oci-mirror.lock` records what was verified:
-the normalized inventory fingerprint, the resolved root descriptor, resolved
-platforms, and each additional referrer descriptor with its subject; never
-layer bytes, sizes it did not verify, or timestamps. Deterministic
-serialization; sorted entries, aliases, platforms, and referrers.
-
-`resolve` verifies the tag against the registry, re-fetches the root by
-digest, and walks complete graphs — nested indexes, supported manifests,
-configs, layers, and index-embedded attestations — enforcing the shared caps
-(manifest 4 MiB, depth 32, 100,000 descriptors per entry). Referrer
-enumeration distinguishes empty from unsupported or failed discovery; failure
-aborts resolution, and an attachment added after `resolve` is never
-acquired. `--entry` refreshes selected entries and preserves unselected
-entries byte for byte; a policy or input change to an unselected entry fails
-instead of retaining stale data. The lock is rewritten atomically on success
-and never on failure.
-
-`resolve` also persists a reconstructible graph cache next to the lock
-(`<lock>.cache`, excluded from the repository); `plan` uses it for transfer
-estimates and degrades to `unknown`, never zero, when it is missing or
-stale.
-
-`plan` is local and read-only: desired aliases, local conflicts, missing
-objects, deduplicated known transfer bytes. It never initializes, mutates, or
-recovers state, and fails clearly when a transaction is pending.
-
-`sync --locked` acquires exactly the locked digests — never a tag, never a
-re-resolution — verifies digests, sizes, media types, and whole closures,
-skips foreign layers and unacquired storage, deduplicates shared objects,
-and imports without relying on layout order. Aliases are applied
-all-or-nothing after the entire batch revalidates against current state; a
-conflict at any entry moves no alias anywhere. The last applied mapping is
-persisted in state `mirror.json`; ownership survives adoption and rollback
-through the generation's `provenance.json` sidecar, a deterministic,
-versioned file inserted into the generation file map before the ID hash
-(inventory fingerprint, policy, source intent, root, referrers, destination,
-and applied aliases — no timestamps). `--offline` replays acquisition
-entirely from local state and fails naming missing objects otherwise.
-
-Alias ownership is all-or-nothing: removing an inventory entry or alias
-relinquishes ownership without deleting tags or objects; identical unmanaged
-aliases adopt into managed ownership; different unmanaged mappings and stale
-managed mappings refuse the batch (safe defaults, never implicit takeover).
-An interrupted commit recovers to the complete old or new metadata snapshot
-before any reader or writer proceeds, via a staged snapshot and a single
-durable marker. The full operator runbook lives in
+`myoci mirror resolve|plan|sync` mirrors declared roots from
+`deploy/oci-mirror.toml` into this registry using `deploy/oci-mirror.lock`.
+The inventory and lock format, verification rules, alias ownership, and
+transaction recovery are documented as the operator runbook in
 [PUBLISHING.md](PUBLISHING.md#operate-the-oci-mirror).
 
 ## Push authentication and writer
@@ -219,11 +142,9 @@ references a blob absent from the blob bucket.
 
 ## Limits
 
-Repository name at most 255 characters matching the distribution grammar; tag
-at most 128 characters matching `[A-Za-z0-9_][A-Za-z0-9._-]*`; manifest body
-and descriptor at most 4 MiB; upload sessions live one hour; one upload at
-most 20 GiB. Oversize or malformed input is a loud 4xx with the OCI error
-code, never a truncated write.
+Repository, tag, manifest, session, and upload caps are in
+[PUBLISHING.md](PUBLISHING.md#publish-the-oci-registry). Oversize or malformed
+input is a loud 4xx with the OCI error code, never a truncated write.
 
 ## Conformance and benchmarks
 
