@@ -277,6 +277,20 @@ some seconds after OpenRC starts it at boot. Both units order after
 starting either listener. Without that wait, `oo-dns` failed its readiness
 check on the 2026-11-18 reboot and stayed stopped.
 
+Every container runs under the cgroup v2 parent `oo.slice` (`--cgroup-parent`,
+one child slice per role). Once a unit passes its checks, `oo prepare` gives
+`oo.slice` `cpu.weight 10000`, `memory.min` 6 GiB, `memory.swap.max 0`, and
+`io.latency` with a 10 ms target on the whole disk that holds `state_dir`.
+Each later unit start reapplies them. Other containers and host builds still
+run, but they yield to the stack instead of starving it. On 2026-11-21 three
+capsule containers and a host `cargo test` held Lisa at load 16–21 with the
+default weight of 100. The Engine's storage refused commands as
+`command_capacity`, its worker lease expired waiting on the object store,
+and the registries returned 500 from 05:02 to 05:24 UTC. The reservation was
+applied live the same night; Threadripper's standby VM passed a load-76
+drill with the same settings. The remaining Engine reconnect storm is
+STUF-102.
+
 ## Install (on `lisa`, as root; `doas` is the privilege tool there, not `sudo`)
 
 `doas` does not search `/sbin`: spell out `/sbin/rc-service` or work in a root shell.
