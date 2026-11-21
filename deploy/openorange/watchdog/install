@@ -12,7 +12,12 @@ parser.add_argument('--rollout', required=True)
 parser.add_argument('--python', required=True, help='absolute Python 3.9+ interpreter that runs the rollout')
 parser.add_argument('--log', required=True, help='absolute file that receives the watchdog JSON passes and errors')
 parser.add_argument('--output', required=True)
+parser.add_argument('--user', help='OpenRC only: account that runs the watchdog and owns the journal, SSH configuration and log')
 args = parser.parse_args()
+if (args.kind == 'openrc') != (args.user is not None):
+    parser.error('--user is required for openrc and not accepted for launchd')
+if args.user is not None and not re.fullmatch(r'[a-z_][a-z0-9_-]*', args.user):
+    parser.error('--user must be a plain account name')
 paths = (args.journal_dir, args.rollout, args.python, args.log)
 for value in paths:
     if not os.path.isabs(value) or any(c in value for c in '\n\r\0'):
@@ -22,7 +27,7 @@ if args.kind == 'openrc' and any(not re.fullmatch(r'/[A-Za-z0-9_./-]+', value) f
 template = Path(__file__).with_name('launchd.plist.in' if args.kind == 'launchd' else 'openrc.in').read_text()
 escape = html.escape if args.kind == 'launchd' else str
 rendered = template
-for key, value in (('@ROLLOUT@', args.rollout), ('@JOURNAL@', args.journal_dir), ('@PYTHON@', args.python), ('@LOG@', args.log)):
+for key, value in (('@ROLLOUT@', args.rollout), ('@JOURNAL@', args.journal_dir), ('@PYTHON@', args.python), ('@LOG@', args.log), ('@USER@', args.user or '')):
     rendered = rendered.replace(key, escape(value))
 output = Path(args.output)
 output.write_text(rendered)

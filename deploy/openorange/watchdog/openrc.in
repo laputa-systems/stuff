@@ -1,8 +1,14 @@
 #!/sbin/openrc-run
 name="OpenOrange rollout watchdog"
+supervisor=supervise-daemon
 command="@PYTHON@"
 command_args="@ROLLOUT@ watchdog --journal-dir @JOURNAL@ --loop --interval-s 10"
-command_background="yes"
+command_user="@USER@"
 output_log="@LOG@"
 error_log="@LOG@"
-pidfile="/run/openorange-rollout-watchdog.pid"
+respawn_delay=10
+respawn_max=0
+
+depend() {
+    need net
+}

@@ -79,7 +79,10 @@ def test_watchdog_service_templates_render_explicit_paths(tmp_path):
     for kind in ('launchd', 'openrc'):
         output = tmp_path / kind
         log = tmp_path / (kind + '.log')
-        result = subprocess.run([str(installer), '--kind', kind, '--journal-dir', str(tmp_path / 'journals'), '--rollout', str(CLI), '--python', sys.executable, '--log', str(log), '--output', str(output)], capture_output=True, text=True)
+        argv = [str(installer), '--kind', kind, '--journal-dir', str(tmp_path / 'journals'), '--rollout', str(CLI), '--python', sys.executable, '--log', str(log), '--output', str(output)]
+        wrong = argv + ['--user', 'josh'] if kind == 'launchd' else argv
+        assert subprocess.run(wrong, capture_output=True, text=True).returncode == 2
+        result = subprocess.run(argv + ['--user', 'josh'] if kind == 'openrc' else argv, capture_output=True, text=True)
         assert result.returncode == 0, result.stderr
         rendered = output.read_text()
         assert str(CLI) in rendered and str(tmp_path / 'journals') in rendered
@@ -88,3 +91,5 @@ def test_watchdog_service_templates_render_explicit_paths(tmp_path):
         assert '--loop' in rendered and '--interval-s' in rendered
         if kind == 'openrc':
             assert os.access(output, os.X_OK)
+            assert 'supervisor=supervise-daemon' in rendered and 'command_user="josh"' in rendered
+            assert 'respawn_max=0' in rendered and 'command_background' not in rendered
