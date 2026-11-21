@@ -65,5 +65,5 @@ Other authorized direct work remains: loc mutation/dead code; stats calibration
 and macOS/CI findings; stuff repomod calibration; buildlib mutation qualification;
 extensions calibration; tm's macOS flake. No additional repository work was
 started during the Engine close-out. Resume the campaign from its owning
-`docs/campaigns/deslop.md`, then verify current branches and PR heads; this
+campaign doc (retired 2026-11-21), then verify current branches and PR heads; this
 handoff is a stop record, not a claim that the backlog is complete.

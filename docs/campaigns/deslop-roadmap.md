@@ -1,9 +1,10 @@
 # Deslop resumption roadmap
 
-The owner requested this stopping point on 2026-11-17. The full-fleet goal
-remains open. This document accounts for the owner's six-part M2 request and
+Historical: the deslop campaign closed on 2026-11-21, and its lasting rules are the fleet's
+[quality standard](../fleet.md#quality-standard). The owner requested this stopping point on
+2026-11-17. This document accounts for the owner's six-part M2 request and
 the subsequent Solid 2.0 upgrade and buildlib adoption requests. It is a work queue, not a qualification
-report. Use [Status](deslop.md#status) and the [scorecard](deslop-scorecard.md)
+report. Use the [scorecard](deslop-scorecard.md)
 for the checked revisions. Earlier chronology is in
 [historical status](deslop-status-20261117.md).
 
@@ -368,7 +369,7 @@ the remaining dynamic boundaries.
 ## Qualify meaningful retained gates
 
 This section applies only to mutation scopes retained as required checks under
-[decision 4](deslop.md#owner-2026-11-14). Broader sweeps stay advisory and need
+[the quality standard](../fleet.md#quality-standard). Broader sweeps stay advisory and need
 none of these controls. A repository completes its pass without exhaustive
 mutation qualification.
 
@@ -399,7 +400,7 @@ existing recipes and pinned tools; build no generic workflow or shell interprete
 
 Measure wall time and total runner-minutes, including every shard and retry.
 Trials stay within the 10 aggregate runner-minute budget in
-[Prescribed](deslop.md#prescribed) unless a recorded exception names the
+[the quality standard](../fleet.md#quality-standard) unless a recorded exception names the
 behavior. More shards or larger timeouts do not hide cost. Local component
 receipts do not qualify the aggregate workflow.
 

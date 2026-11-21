@@ -302,3 +302,45 @@ to skip it.
 uv run repomod deps mirror --dry-run
 uv run repomod fix --rule audit-upgrades
 ```
+
+## Quality standard
+
+The 2026-11 deslop campaign set the bar every in-scope repository keeps. The usr `deslop` skill is
+the procedure for bringing a repository up to it; its tool recipes live in the skill's tools
+reference. In scope are first-party Rust, Python and TypeScript repositories and the
+`fork-diverged` forks, limited to their changes against upstream. Effectively-upstream forks,
+pristine vendored trees and owner-excluded repositories are out. The rules that check it are in
+[policy development](policy-development.md#other-policy-rules).
+
+- **CI runs the tests.** A pull-request workflow runs `make test` or `make test-ci`
+  (`gha-test-workflow`), and the repository's adopted strict typing settings stay on
+  (`strict-typing-profile`).
+- **Mutation guards a small critical scope.** Blocking mutation covers only an important
+  contract: archive admission, cache integrity, atomic publication, success and failure
+  reporting, cleanup, or an authorization decision (`mutants-diff-lane`). A survivor fails unless
+  the repository's mutation config lists it with a reason, and weakening a protecting test
+  reopens that scope. A new or wider mutation trial gets 10 aggregate runner-minutes unless it
+  names an unresolved important behavior first. Broad sweeps are advisory. Coverage is measured
+  and reported, never gated.
+- **Tests stay cheap.** A change may raise warm `make test` time by at most 20% or 30 seconds,
+  whichever is larger.
+- **Performance does not regress.** Perf-sensitive repositories (fastermod, lz, loc, e, ish, and
+  any repository that declares a workload) gate refactors on the declared workload's path with
+  at least five interleaved baseline and candidate pairs of the shipped profile. On a quiet host a
+  median regression larger than the observed spread and 2% blocks the change; on a busy host use
+  the busy-host rules in usr's `performance.md`. Benchmarks follow the `bench-pyramid` skill, and
+  only the owner runs the Full tier.
+- **Dead-code tools and strict settings join on evidence.** A dead-code tool joins `make lint`
+  only when the repository is clean under it with at most five allowlisted entries, each with a
+  reason. A strict typing setting joins the fleet profile only after it rejected a real defect
+  or removed an escape hatch, at no more than one suppression per 5k lines.
+- **Removals of live behavior are the owner's.** Behavior-preserving cuts land on their own.
+  Removing a CLI flag, public API, compatibility path or format is filed as a `Needs owner ·`
+  ticket in the repository's `TODO.md`.
+- **Library changes run their consumers.** A change to a published or consumed library (smolith,
+  ptytest, hi-lite, rustybench, laputa-ui-dashboard, buildlib, pytest-parallel) also runs its
+  known consumers' tests against the candidate; `repomod deps` finds them.
+- **Shared build tooling** follows [build repositories](build-repos.md#shared-build-tooling-across-the-fleet).
+
+The per-repository record of the campaign, with each repository's closing revision, is the
+[deslop scorecard](campaigns/deslop-scorecard.md).
