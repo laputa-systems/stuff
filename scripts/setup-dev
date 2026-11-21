@@ -83,6 +83,9 @@ if ! command -v rustup >/dev/null && [ ! -x "$HOME/.cargo/bin/rustup" ]; then
   "$scratch/rustup-init" -y --no-modify-path --profile minimal --default-toolchain none
 fi
 (cd "$ROOT" && PATH="$HOME/.cargo/bin:$PATH" rustup toolchain install)
+if ! PATH="$HOME/.cargo/bin:$PATH" rustup default >/dev/null 2>&1; then
+  PATH="$HOME/.cargo/bin:$PATH" rustup default "$(sed -n 's/^channel = "\(.*\)"/\1/p' "$ROOT/rust-toolchain.toml")"
+fi
 
 (cd "$ROOT" && PATH="$HOME/.local/bin:$PATH" uv sync --locked --group dev)
 (cd "$ROOT" && PATH="$node_home/bin:$PATH" pnpm --dir crates/stuff-worker install --frozen-lockfile)
