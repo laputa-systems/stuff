@@ -3,8 +3,8 @@
 #
 # The failover Worker (crates/stuff-worker/cloudflare.ts) answers from this
 # replica when the origin does not, so the replica must hold a generation
-# before its `current` pointer names it. `store-copy.py sync` copies every
-# object except the pointer, verifies them, and writes `current` last; it never
+# before its `current` pointer names it. `store-copy.py sync` copies the
+# shared stores and the current generation, verifies them, and writes `current` last; it never
 # deletes at the destination, so the previously published generation stays
 # readable while a newer one copies.
 #
@@ -49,8 +49,10 @@ while [ "$#" -gt 0 ]; do
 done
 
 [ -r "$ENV_FILE" ] || fail "cannot read $ENV_FILE"
+set -a
 # shellcheck disable=SC1090
 . "$ENV_FILE"
+set +a
 
 for name in STUFF_COPY_SOURCE_S3_ENDPOINT STUFF_COPY_SOURCE_S3_ACCESS_KEY_ID STUFF_COPY_SOURCE_S3_SECRET_ACCESS_KEY \
             STUFF_COPY_DEST_S3_ENDPOINT STUFF_COPY_DEST_S3_ACCESS_KEY_ID STUFF_COPY_DEST_S3_SECRET_ACCESS_KEY; do

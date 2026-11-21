@@ -7,7 +7,8 @@
 #
 # Install:
 #   install -m 0755 openrc/oo-replica-sync /etc/init.d/oo-replica-sync
-#   install -m 0755 replica-sync.sh /opt/openorange/replica-sync.sh
+#   install -d -m 0755 /opt/openorange/replica-sync
+#   install -m 0755 replica-sync.sh store-copy.py r2_common.py r2-multipart.py r2-put.py publication_service.py /opt/openorange/replica-sync/
 #   install -m 0700 replica-sync.env /etc/openorange/replica-sync.env
 #   rc-update add oo-replica-sync default
 #   rc-service oo-replica-sync start
@@ -15,7 +16,7 @@
 description="OpenOrange registry replica sync to R2"
 supervisor=supervise-daemon
 command=/bin/sh
-command_args="/opt/openorange/replica-sync.sh --interval 300"
+command_args="/opt/openorange/replica-sync/replica-sync.sh --interval 300"
 respawn_delay=5
 respawn_max=0
 respawn_period=60
@@ -30,6 +31,6 @@ depend() {
 
 start_pre() {
 	[ -r /etc/openorange/replica-sync.env ] || { eerror "missing /etc/openorange/replica-sync.env"; return 1; }
-	[ -x /opt/openorange/replica-sync.sh ] || { eerror "missing /opt/openorange/replica-sync.sh"; return 1; }
+	[ -x /opt/openorange/replica-sync/replica-sync.sh ] || { eerror "missing /opt/openorange/replica-sync/replica-sync.sh"; return 1; }
 	checkpath --directory --mode 0700 /var/lib/openorange/replica-sync
 }

@@ -374,11 +374,11 @@ def copy_keys(source, dest, src_bucket, dst_bucket, objects, present, ledger, le
 
 
 def sync(args):
-    """Copy every object except the pointer, verify them, then move the pointer.
+    """Copy the shared stores and the current generation, then move the pointer.
 
-    The replica serves the generation named by `current`, so the pointer is
-    written last and only once every object of that generation is present at
-    the destination. Nothing is deleted at the destination, so a generation the
+    The replica serves the generation named by `current`, so other generations
+    are not copied, and the pointer is written last and only once every object
+    of that generation is present at the destination. Nothing is deleted at the destination, so a generation the
     destination already published stays readable while a newer one copies.
     """
     source = credentials("STUFF_COPY_SOURCE_S3_", args.source)
@@ -389,6 +389,11 @@ def sync(args):
     pointer = objects.pop(POINTER_KEY, None)
     pointer_text = object_bytes(source, args.source, POINTER_KEY).decode("utf-8", "replace") if pointer is not None else None
     generation = pointer_generation(pointer_text) if pointer_text is not None else None
+    if generation is not None:
+        objects = {
+            key: value for key, value in objects.items()
+            if not key.startswith("generations/") or key.startswith(f"generations/{generation}/")
+        }
 
     outcome = copy_keys(source, dest, args.source, args.dest, objects, present, ledger, args.ledger, args.jobs)
 
