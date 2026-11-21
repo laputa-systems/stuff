@@ -11,7 +11,7 @@ Paused 2026-11-21. Resume prompt: "Resume the deslop campaign from the Status in
 
 Last accepted revision: stuff main `4b6c8119` (CI and lint green). Settled since the last pause: smolith, tansu, stuff, lz, rustybench, hi-lite, doas-rs, e, defuddle-rs (scorecard). Open: kache #95 (k7, checks passing, not merged). Red default-branch CI after merge: tansu (check/lint, npm registry 500 suspected), loc (Shebang mutation budget, 245 untested), discover (lint).
 
-Parked branches (committed locally, not pushed; retry condition after the arrow):
+Parked branches (all pushed to origin 2026-11-21, no PRs; retry condition after the arrow):
 - kache `deslop/k1`, `k2`, `k3`, `k4`, `k6` (components 1–16, 21–24): lint green, `make test` unfinished under load → run `make test` on an idle host, then PR each.
 - tinyland `fix/seatd-stale-socket` (forked child held dropped listeners; 1600/1600 loaded runs pass) → PR. `fix/deslop-ci` (docs) → PR.
 - ctrs `fix/deslop-ci`: ARM64 runner finding → owner approves a workflow change.
@@ -22,7 +22,7 @@ Parked branches (committed locally, not pushed; retry condition after the arrow)
 
 Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); diff-pretty (format waiver or repomod change); gluon (release-profile test skipped); node-build (controller gate); srv, soulseek-rs, oxish (macOS 104-byte socket paths; rerun from a short scratch path); vault VLT-2, tm CLI load, ish DSLP-34 soak and DSLP-37/38/41, check-ups of jaq, rust-fontconfig, rustix, rage (lanes interrupted, no commits); stats, laputa-ui-dashboard, mdevd-rs (verdicts incomplete); smolith SMOL-15 (keep Hyper FFI?) and SMOL-16 (CI timeout); chromium-build DSLP-17; usr CI (dotfiles 126 vs 127); crabtables (hosted kernel); kache daemon not starting. Bridge defects to file: `blocked_transition` not cancellable; codex content filter refusal.
 
-Next slice: merge kache #95, then the parked kache branches; fix the three red default branches. Never wrap builds in `cpu-guard`.
+Next slice: merge kache #95, then the parked kache branches; fix the three red default branches. Never wrap builds in `cpu-guard`. To resume on a cloud Linux host, follow [deslop-cloud.md](deslop-cloud.md) first.
 
 Queued for resumption: the owner-requested [buildlib adoption lane](deslop-buildlib.md),
 tracked by STUF-101. Inventory and artifact qualification precede pilots, rollout and staged

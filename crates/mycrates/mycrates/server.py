@@ -296,6 +296,7 @@ class PublishHandler(BaseHTTPRequestHandler):
         store = Store(config.state_dir)
         store.ensure_dirs()
         staged = None
+        failure = None
         try:
             staged = decode_publish_payload(self.rfile, content_length, config.limits.max_compressed, store.uploads_dir)
             with open(staged.path, "rb") as crate:
@@ -319,11 +320,13 @@ class PublishHandler(BaseHTTPRequestHandler):
                 store.put_native_record(NativeRecord(entry))
                 self.publisher(store).publish()
         except Error as error:
-            self.send_failure(error)
-            return
+            failure = error
         finally:
             if staged is not None:
                 staged.discard()
+        if failure is not None:
+            self.send_failure(failure)
+            return
         self.send_json(200, PUBLISH_RESPONSE)
 
     def serve_static(self, path):
