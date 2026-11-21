@@ -6,16 +6,18 @@ for each item, and what counts as done.
 
 ## Status
 
-Paused 2026-11-21 so deslop can resume on a cloud Linux host. Resume by reading this section.
+Active 2026-11-21. Resume by reading this section.
 
-- F1: the failover Worker, replica sync and runbook merged in stuff#181 ([registry failover](../registry-failover.md)).
-  Not deployed. Lisa holds the R2 credentials in `/etc/openorange/stuff-replica/r2.env`; the
-  seed had copied stuff-oci and stuff-mypypi. Next: finish the seed, install `oo-replica-sync`,
-  route one hostname, drill with the stats session, then route the rest. Needs the Mac or Lisa access.
-- F2: usr#49 makes kache and clang optional and adds the uv CPython fallback. Next: release
-  kache with kache#104, then rerun a cold `ubuntu:24.04` capsule and check `git status` is clean.
-- F3: buildlib#31 fixes root-run tests and the Ubuntu 26.04 cache lock. Next: cut buildlib 0.2.0
-  from tip and move the six consumers and ctrs's vendored bootstrap to it (BLD-1 onward).
+- F1: done 2026-11-21. The failover Worker routes all eight registry hostnames and
+  `oo-replica-sync` keeps the R2 replica current; the origin-down drill passed its acceptance
+  ([deployment record](../registry-failover.md#deployment-record)).
+- F2: usr#49 merged: kache and clang are optional under usr's cargo config and glibc hosts get
+  CPython through uv. The clean-clone capsule rerun waits on a kache release that contains
+  kache#104; kache and usr now belong to other sessions, so that release is theirs.
+- F3: BLD-1 done. buildlib 0.2.0 is published (stuff PyPI and the GitHub release, wheel
+  `aaee620f…`), both Linux bootstrap branches passed cold capsules, and pi-build,
+  cmake-build, node-build, ffmpeg-build and chromium-build pin it. python-build and ctrs are
+  exempt. Next: the BLD-2 pilots in node-build and play.
 - F4 to F6: not started; F4's inventory is below.
 
 ## Items
