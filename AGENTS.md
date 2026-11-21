@@ -60,6 +60,7 @@ Run everything from the repository root.
 | OCI CLI, server, writer, benchmarks | [crates/myoci/README.md](crates/myoci/README.md) |
 | OCI benchmark results and the direct blob origin (A11) | [docs/oci-benchmarks.md](docs/oci-benchmarks.md), [docs/oci-a11.md](docs/oci-a11.md) |
 | Worker host, WASM build, runtime tests | [crates/stuff-worker/README.md](crates/stuff-worker/README.md) |
+| Registry read failover, replica sync, what does not fail over | [docs/registry-failover.md](docs/registry-failover.md) |
 | OpenOrange host stack, ingress, deployment, and recovery | [docs/openorange-runtime.md](docs/openorange-runtime.md) |
 | Shared storage and generation activation | `crates/stuff-store/src/`; `Site` is used by myoci, while mynpm/mypypi activate their own sites |
 | Shared HTTP policy and native adapter | `crates/stuff-http/src/`, `crates/stuff-server/src/` |

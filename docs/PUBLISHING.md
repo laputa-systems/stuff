@@ -441,6 +441,9 @@ tunnel and loopback ingress. Package clients need no Tailscale connection,
 Cloudflare login, or browser challenge. `stuff-publish.17166969.xyz` resolves
 directly to Lisa's tailnet ingress for authenticated publication. The
 [host runbook](openorange-runtime.md#public-listener) defines both listeners.
+When the origin does not answer, reads are served from an R2 replica by a
+route-attached Cloudflare Worker; [registry failover](registry-failover.md)
+defines what fails over, the replica lag, and how to drill and remove it.
 
 Cargo downloads `.crate` files from `crates-blobs.17166969.xyz`; that reader
 accepts only `/blobs/` paths. OCI redirects blob reads to
@@ -502,6 +505,12 @@ entries whose source and destination still match and re-copies changed sources.
 `deploy/store-copy.py verify SOURCE DEST --ledger FILE [--deep]` compares both listings, sizes and
 ETags with the ledger and, with `--deep`, re-downloads the destination and checks SHA-256. It exits 1
 naming each missing, extra, changed or corrupted key. `make test-store-copy` proves both offline.
+
+`deploy/store-copy.py sync SOURCE DEST --ledger FILE` copies every object except the `current`
+pointer, checks the destination holds them, and copies `current` last, so a reader following the
+pointer never lands on a generation the destination lacks. It refuses to move the pointer when the
+source names a generation with no objects and never deletes at the destination. The failover replica
+uses it; see [registry failover](registry-failover.md).
 
 ### Publication coordinator
 

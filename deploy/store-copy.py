@@ -3,11 +3,15 @@
 
   store-copy.py copy   SOURCE_BUCKET DEST_BUCKET --ledger FILE
   store-copy.py verify SOURCE_BUCKET DEST_BUCKET --ledger FILE [--deep]
+  store-copy.py sync   SOURCE_BUCKET DEST_BUCKET --ledger FILE
 
-Source credentials come from STUFF_COPY_SOURCE_S3_{ENDPOINT,ACCESS_KEY_ID,
-SECRET_ACCESS_KEY,REGION,SESSION_TOKEN}, or, when those are unset, from
-`stuff credentials SOURCE_BUCKET` (Cloudflare R2). Destination credentials come
-from STUFF_COPY_DEST_S3_*. Credentials are never printed or passed in argv.
+`sync` copies every object except the `current` pointer, verifies them, and
+only then moves the pointer, so a replica never names a generation it does not
+hold. It never deletes at the destination. Source credentials come from
+STUFF_COPY_SOURCE_S3_{ENDPOINT,ACCESS_KEY_ID,SECRET_ACCESS_KEY,REGION,
+SESSION_TOKEN}, or, when those are unset, from `stuff credentials
+SOURCE_BUCKET` (Cloudflare R2). Destination credentials come from
+STUFF_COPY_DEST_S3_*. Credentials are never printed or passed in argv.
 
 Exit codes: 0 copied or verified, 1 a mismatch or transfer failure, 2 usage.
 """
@@ -286,24 +290,8 @@ def copy(args):
     ledger = read_ledger(args.ledger, repair_tail=True)
     objects = listing(source, args.source)
     present = listing(dest, args.dest)
-    copied = skipped = changed = 0
-    needed = []
-    with tempfile.TemporaryDirectory(prefix="store-copy-", dir=os.environ.get("TMPDIR")) as scratch:
-        for key in sorted(objects):
-            size, etag, _ = objects[key]
-            done = ledger.get(key)
-            if done is not None and done["size"] == size and done["sourceEtag"] == etag and present.get(key, (None, None))[:2] == (size, done["destEtag"]):
-                skipped += 1
-                continue
-            if done is not None:
-                changed += 1
-            needed.append((source, dest, args.source, args.dest, key, size, etag, scratch))
-        for entry in completed_tasks(copy_task, needed, args.jobs):
-            append_ledger(args.ledger, entry)
-            copied += 1
-            if copied % 500 == 0:
-                print(f"{args.source}: {copied} copied, {skipped} already verified", file=sys.stderr)
-    print(json.dumps({"bucket": args.source, "objects": len(objects), "copied": copied, "skipped": skipped, "recopiedChanged": changed}))
+    outcome = copy_keys(source, dest, args.source, args.dest, objects, present, ledger, args.ledger, args.jobs)
+    print(json.dumps({"bucket": args.source, "objects": len(objects), **outcome}))
 
 
 def verify(args):
@@ -344,10 +332,109 @@ def verify(args):
     return 1 if problems else 0
 
 
+POINTER_KEY = "current"
+
+
+def pointer_generation(text):
+    for line in text.splitlines():
+        candidate = line.strip()
+        if candidate:
+            return candidate
+    return None
+
+
+def object_bytes(source, bucket, key):
+    with tempfile.TemporaryDirectory(prefix="store-read-", dir=os.environ.get("TMPDIR")) as scratch:
+        path = os.path.join(scratch, "object")
+        retrying(lambda: download(source, bucket, key, path), f"downloading {key}")
+        with open(path, "rb") as f:
+            return f.read()
+
+
+def copy_keys(source, dest, src_bucket, dst_bucket, objects, present, ledger, ledger_path, jobs):
+    copied = skipped = changed = 0
+    needed = []
+    with tempfile.TemporaryDirectory(prefix="store-copy-", dir=os.environ.get("TMPDIR")) as scratch:
+        for key in sorted(objects):
+            size, etag, _ = objects[key]
+            done = ledger.get(key)
+            if done is not None and done["size"] == size and done["sourceEtag"] == etag and present.get(key, (None, None))[:2] == (size, done["destEtag"]):
+                skipped += 1
+                continue
+            if done is not None:
+                changed += 1
+            needed.append((source, dest, src_bucket, dst_bucket, key, size, etag, scratch))
+        for entry in completed_tasks(copy_task, needed, jobs):
+            append_ledger(ledger_path, entry)
+            ledger[entry["key"]] = entry
+            copied += 1
+            if copied % 500 == 0:
+                print(f"{src_bucket}: {copied} copied, {skipped} already verified", file=sys.stderr)
+    return {"copied": copied, "skipped": skipped, "recopiedChanged": changed}
+
+
+def sync(args):
+    """Copy every object except the pointer, verify them, then move the pointer.
+
+    The replica serves the generation named by `current`, so the pointer is
+    written last and only once every object of that generation is present at
+    the destination. Nothing is deleted at the destination, so a generation the
+    destination already published stays readable while a newer one copies.
+    """
+    source = credentials("STUFF_COPY_SOURCE_S3_", args.source)
+    dest = credentials("STUFF_COPY_DEST_S3_", args.dest)
+    ledger = read_ledger(args.ledger, repair_tail=True)
+    objects = dict(listing(source, args.source))
+    present = listing(dest, args.dest)
+    pointer = objects.pop(POINTER_KEY, None)
+    pointer_text = object_bytes(source, args.source, POINTER_KEY).decode("utf-8", "replace") if pointer is not None else None
+    generation = pointer_generation(pointer_text) if pointer_text is not None else None
+
+    outcome = copy_keys(source, dest, args.source, args.dest, objects, present, ledger, args.ledger, args.jobs)
+
+    placed = listing(dest, args.dest)
+    missing = []
+    for key, (size, etag, _) in sorted(objects.items()):
+        if key not in placed or placed[key][0] != size:
+            missing.append(key)
+            continue
+        entry = ledger.get(key)
+        if entry is not None and entry["sourceEtag"] == etag and placed[key][1] != entry["destEtag"]:
+            missing.append(key)
+    if missing:
+        raise Failure(f"destination is missing {len(missing)} object(s), refusing to move the pointer; first: {missing[0]}")
+
+    if pointer is not None:
+        if generation is not None:
+            prefix = f"generations/{generation}/"
+            generation_keys = [key for key in objects if key.startswith(prefix)]
+            stranded = [key for key in generation_keys if key not in placed]
+            if not generation_keys:
+                raise Failure(f"pointer names generation {generation} but no {prefix} objects exist at the source")
+            if stranded:
+                raise Failure(f"generation {generation} is incomplete at the destination; refusing to move the pointer")
+        if placed.get(POINTER_KEY, (None, None))[:2] != (pointer[0], pointer[1]):
+            copy_keys(source, dest, args.source, args.dest, {POINTER_KEY: pointer}, placed, ledger, args.ledger, args.jobs)
+        after = listing(dest, args.dest)
+        if after.get(POINTER_KEY, (None, None))[:2] != (pointer[0], pointer[1]):
+            raise Failure("the destination pointer does not hold the source pointer")
+        if generation is not None and pointer_generation(object_bytes(dest, args.dest, POINTER_KEY).decode("utf-8", "replace")) != generation:
+            raise Failure("the destination pointer does not name the source generation")
+
+    print(json.dumps({
+        "bucket": args.source,
+        "objects": len(objects) + (1 if pointer is not None else 0),
+        "copied": outcome["copied"],
+        "skipped": outcome["skipped"],
+        "recopiedChanged": outcome["recopiedChanged"],
+        "pointer": generation,
+    }))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("copy", "verify"):
+    for name in ("copy", "verify", "sync"):
         command = sub.add_parser(name)
         command.add_argument("source")
         command.add_argument("dest")
@@ -368,6 +455,9 @@ def main():
                 raise Failure("another copy or verification owns this ledger") from error
             if args.command == "copy":
                 copy(args)
+                return 0
+            if args.command == "sync":
+                sync(args)
                 return 0
             return verify(args)
     except Failure as error:
