@@ -6,21 +6,26 @@ never gated.
 
 ## Buildlib adoption lane
 
-Added 2026-11-20 under STUF-101 and the [adoption plan](deslop-buildlib.md). This lane is separate
-from the completed or ongoing deslop passes below. Baseline source review found 66 active catalog
-entries and six existing 0.1.0 consumers; it did not qualify migrations or run capsules.
+Closed 2026-11-21 (STUF-101). The durable rules now live in
+[build-repos.md](../build-repos.md#shared-build-tooling-across-the-fleet) and
+`fleet/policy/buildlib.toml`; the [BLD-0 inventory](deslop-buildlib-inventory.md) holds the
+per-repository review. Artifact: buildlib 0.2.0 (`30ad4a0`, wheel
+`aaee620f…f4b4a`), on stuff PyPI and the GitHub release.
 
-| Slice | State | Next proof |
+| Disposition | Count | Repositories |
 | --- | --- | --- |
-| BLD-0 | Inventoried 2026-11-21 at stuff `57045a134e2822bf2fe17a2210b869f98b2b615c`; 66 active entries at fresh `origin/HEAD` (12 shared helpers required, 0 bootstrap only, 38 native tooling sufficient, 16 deferred); six 0.1.0 consumers reconciled. See [inventory](deslop-buildlib-inventory.md). | BLD-1 qualifies the candidate wheel, bootstrap and pin upgrades |
-| BLD-1 | Planned; source/wheel gap and validator drift identified | Qualify actual candidate artifacts, known consumers, both Linux interpreter branches and independent registry recovery |
-| BLD-2 | Planned | Node and bounded play pilots; use ctrs acquisition if play's held work prevents an independent slice |
-| BLD-3 | Planned | Consumer-specific migration and capsule receipts; count helpers, bootstrap-only, exceptions and deferrals separately |
-| BLD-4 | Planned; no adoption rule implemented | Read-only rule with negative controls, then staged admission into existing lint |
-| BLD-5 | Planned | Coverage totals, permanent policy, explicit outstanding evidence and durable backlog handoff |
+| Enrolled, shared helpers through the vendored shim | 6 | node-build #90/#91, play #19, ffmpeg-build #83/#84, shck #36, img #13, cmake-build #132/#133 |
+| Enrolled, shared helpers without a vendored shim | 2 | pi-build #49, chromium-build #32 (pin upgrades of 0.1.0 consumers) |
+| Bootstrap only | 0 | |
+| Native tooling or structural exception | 46 | 34 native-sufficient, 6 effectively-upstream forks, git-build, ssh-build and llvm-prebuilt-musl (native shell/jaq), laputa (XSH-native), stuff (own-registry independence), buildlib (provider) |
+| Deferred with a reassess condition | 12 | kache, stats, ctrs, toolbox (other sessions); usr; python-build, bctl, vault, discover (owner exclusions); niceforge (private); deser, xsh (no build acquisition) |
 
-Append exact source/artifact revisions and receipt links as slices complete. Historical consumer
-pins and previous buildlib test results do not satisfy the new lane's acceptance.
+The denominator is the 66 active catalog entries; every one has a policy entry, and
+`repomod lint --rule buildlib-usage --include-private --strict` reports no findings. Each shim
+consumer's own buildlib adoption doc records its cold `ubuntu:24.04` (uv fallback) and
+Ubuntu 26.04 with `musl` (python-build) capsule receipts. The rule landed in stuff #187 and the
+enrollments in #188, #189, #190 and the closing commit. The six historical 0.1.0 imports count
+as upgrades, not new migrations.
 
 ## Current checkpoint, 2026-11-18
 
