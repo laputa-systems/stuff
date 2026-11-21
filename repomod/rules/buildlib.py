@@ -10,7 +10,7 @@ from typing import Any
 
 from repomod import paths
 from repomod.catalog import load_catalog
-from repomod.io import read_json_object
+from repomod.io import read_json_object, safe_relative
 from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, operational, violation
 
 _RULE = 'buildlib-usage'
@@ -19,7 +19,8 @@ _BOOTSTRAP = ('buildlib-run', 'python.lock')
 _SHA256 = re.compile(r'[0-9a-f]{64}')
 _DATE = re.compile(r'\d{4}-\d{2}-\d{2}')
 _PACKAGE = re.compile(r'laputa-buildlib(\[[^\]]*\])?(?:[=<>!~@;\s]|$)', re.IGNORECASE)
-_EXACT = 'laputa-buildlib{}=={}'
+_SOURCE_NAMES = frozenset({'laputa-buildlib', 'buildlib-wheel'})
+_WHEEL_PREFIX = 'laputa_buildlib-'
 
 
 @dataclass(frozen=True, slots=True)
@@ -99,18 +100,24 @@ def _load_policy() -> Policy:
         raise ValueError('artifact wheel_version must be an exact version')
     if not isinstance(filename, str) or not filename.endswith('.whl'):
         raise ValueError('artifact wheel_filename must name a wheel')
+    if not filename.startswith(f'laputa_buildlib-{version}-'):
+        raise ValueError('artifact wheel_filename must agree with wheel_version')
     if not isinstance(digest, str) or _SHA256.fullmatch(digest) is None:
         raise ValueError('artifact wheel_sha256 must be 64 lowercase hex digits')
     revision = artifact.get('bootstrap_revision')
     if revision is not None and (not isinstance(revision, str) or re.fullmatch(r'[0-9a-f]{40}', revision) is None):
         raise ValueError('artifact bootstrap_revision must be a 40-hex revision when present')
+    assess = _table(data, 'assess')
+    for name, entry in assess.items():
+        if not isinstance(entry, dict) or entry:
+            raise ValueError(f'assess {name} must be an empty table')
     return Policy(
         version,
         filename,
         digest,
         _declared_digests(artifact.get('bootstrap_sha256'), 'artifact.bootstrap_sha256'),
         _table(data, 'enrolled'),
-        _table(data, 'assess'),
+        assess,
         _table(data, 'exempt'),
     )
 
@@ -119,27 +126,35 @@ def _known_repositories() -> frozenset[str]:
     return frozenset(str(repository.id) for repository in load_catalog(paths.CATALOG).repositories)
 
 
-def _dependency_strings(value: object) -> list[str]:
-    found: list[str] = []
+def _requirement_strings(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [
+        stripped
+        for stripped in (item.strip() for item in value if isinstance(item, str))
+        if stripped
+    ]
 
-    def walk(node: object) -> None:
-        if isinstance(node, dict):
-            for child in node.values():
-                walk(child)
-        elif isinstance(node, list):
-            for child in node:
-                if isinstance(child, str):
-                    found.append(child)
-                else:
-                    walk(child)
 
-    walk(value)
-    return found
+def _dependency_requirements(data: dict[str, Any]) -> list[str]:
+    requirements: list[str] = []
+    project = data.get('project')
+    if isinstance(project, dict):
+        requirements.extend(_requirement_strings(project.get('dependencies')))
+        optional = project.get('optional-dependencies')
+        if isinstance(optional, dict):
+            for value in optional.values():
+                requirements.extend(_requirement_strings(value))
+    groups = data.get('dependency-groups')
+    if isinstance(groups, dict):
+        for value in groups.values():
+            requirements.extend(_requirement_strings(value))
+    return requirements
 
 
 def _pin(root: Path, repository: Repository, policy: Policy) -> list[Finding]:
     path = root / 'pyproject.toml'
-    expected = _EXACT.format('', policy.wheel_version)
+    expected = f'laputa-buildlib=={policy.wheel_version}'
     try:
         data = tomllib.loads(path.read_text(encoding='utf-8'))
     except FileNotFoundError:
@@ -147,11 +162,15 @@ def _pin(root: Path, repository: Repository, policy: Policy) -> list[Finding]:
                           f'missing pyproject.toml; enrolled consumers must pin {expected}')]
     except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
         return [operational(repository, _RULE, 'pyproject.toml', str(error))]
-    entries = [entry.strip() for entry in _dependency_strings(data) if _PACKAGE.match(entry.strip())]
+    entries = [entry for entry in _dependency_requirements(data) if _PACKAGE.match(entry)]
     if not entries:
         return [violation(repository, _RULE, 'pyproject.toml',
                           f'missing laputa-buildlib dependency; enrolled consumers must pin {expected}')]
-    if any(entry.split(';', 1)[0].strip() == expected for entry in entries):
+    exact = re.compile(
+        rf'laputa-buildlib(?:\[[^\]]*\])?\s*==\s*{re.escape(policy.wheel_version)}\Z',
+        re.IGNORECASE,
+    )
+    if all(exact.fullmatch(entry.split(';', 1)[0].strip()) for entry in entries):
         return []
     return [violation(repository, _RULE, 'pyproject.toml',
                       f'laputa-buildlib must be pinned exactly as {expected}; found {", ".join(entries)}')]
@@ -179,25 +198,80 @@ def _wheel_digests(document: object, filename: str) -> tuple[bool, list[str | No
     return matched, digests
 
 
-def _source_digests(document: dict[str, Any], filename: str) -> list[str | None]:
+def _source_urls(entry: dict[str, Any]) -> list[str]:
+    urls: list[str] = []
+    url = entry.get('url')
+    if isinstance(url, str):
+        urls.append(url)
+    many = entry.get('urls')
+    if isinstance(many, list):
+        urls.extend(item for item in many if isinstance(item, str))
+    return urls
+
+
+def _source_basename(value: str) -> str:
+    return PurePosixPath(value.split('?', 1)[0]).name
+
+
+def _is_buildlib_source(entry: dict[str, Any]) -> bool:
+    name = entry.get('name')
+    if isinstance(name, str) and name in _SOURCE_NAMES:
+        return True
+    filename = entry.get('filename')
+    if isinstance(filename, str) and _source_basename(filename).startswith(_WHEEL_PREFIX):
+        return True
+    return any(_source_basename(url).startswith(_WHEEL_PREFIX) for url in _source_urls(entry))
+
+
+def _source_findings(
+    document: dict[str, Any], repository: Repository, policy: Policy
+) -> list[Finding]:
     inputs = document.get('inputs')
     if not isinstance(inputs, list):
         return []
-    digests: list[str | None] = []
+    findings: list[Finding] = []
     for entry in inputs:
-        if not isinstance(entry, dict):
+        if not isinstance(entry, dict) or not _is_buildlib_source(entry):
             continue
-        urls: list[str] = []
-        url = entry.get('url')
-        if isinstance(url, str):
-            urls.append(url)
-        many = entry.get('urls')
-        if isinstance(many, list):
-            urls.extend(item for item in many if isinstance(item, str))
-        if any(PurePosixPath(item.split('?', 1)[0]).name == filename for item in urls):
-            digest = entry.get('sha256')
-            digests.append(digest if isinstance(digest, str) else None)
-    return digests
+        filename = entry.get('filename')
+        declared = _source_basename(filename) if isinstance(filename, str) else None
+        basenames = [_source_basename(url) for url in _source_urls(entry)]
+        if declared is not None and declared != policy.wheel_filename:
+            findings.append(violation(
+                repository, _RULE, 'sources.lock.json',
+                f'sources.lock.json records wheel filename {declared}; '
+                f'policy approves {policy.wheel_filename}',
+            ))
+        findings.extend(
+            violation(
+                repository, _RULE, 'sources.lock.json',
+                f'sources.lock.json records wheel URL basename {basename}; '
+                f'policy approves {policy.wheel_filename}',
+            )
+            for basename in basenames
+            if basename != policy.wheel_filename
+        )
+        if declared is None and not basenames:
+            findings.append(violation(
+                repository, _RULE, 'sources.lock.json',
+                'sources.lock.json buildlib entry does not record the approved wheel filename or URL',
+            ))
+        version = entry.get('version')
+        if version is not None and version != policy.wheel_version:
+            findings.append(violation(
+                repository, _RULE, 'sources.lock.json',
+                f'sources.lock.json records wheel version {version}; '
+                f'policy approves {policy.wheel_version}',
+            ))
+        digest = entry.get('sha256')
+        if not isinstance(digest, str) or digest != policy.wheel_sha256:
+            findings.append(violation(
+                repository, _RULE, 'sources.lock.json',
+                f'sources.lock.json records wheel sha256 '
+                f'{digest if isinstance(digest, str) else "missing"}; '
+                f'policy approves {policy.wheel_sha256}',
+            ))
+    return findings
 
 
 def _uv_lock(root: Path, repository: Repository, policy: Policy) -> list[Finding]:
@@ -209,16 +283,32 @@ def _uv_lock(root: Path, repository: Repository, policy: Policy) -> list[Finding
                           f'missing uv.lock; cannot verify the approved {policy.wheel_filename} sha256')]
     except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
         return [operational(repository, _RULE, 'uv.lock', str(error))]
+    findings: list[Finding] = []
+    packages = data.get('package')
+    if isinstance(packages, list):
+        for entry in packages:
+            if isinstance(entry, dict) and entry.get('name') == 'laputa-buildlib':
+                version = entry.get('version')
+                if version != policy.wheel_version:
+                    findings.append(violation(
+                        repository, _RULE, 'uv.lock',
+                        f'uv.lock records laputa-buildlib version {version}; '
+                        f'policy approves {policy.wheel_version}',
+                    ))
     matched, digests = _wheel_digests(data, policy.wheel_filename)
     if not matched:
-        return [violation(repository, _RULE, 'uv.lock',
-                          f'uv.lock does not record the approved {policy.wheel_filename} wheel')]
-    return [
+        findings.append(violation(
+            repository, _RULE, 'uv.lock',
+            f'uv.lock does not record the approved {policy.wheel_filename} wheel',
+        ))
+        return findings
+    findings.extend(
         violation(repository, _RULE, 'uv.lock',
                   f'uv.lock records wheel sha256 {digest or "missing"}; policy approves {policy.wheel_sha256}')
         for digest in digests
         if digest != policy.wheel_sha256
-    ]
+    )
+    return findings
 
 
 def _sources_lock(root: Path, repository: Repository, policy: Policy) -> list[Finding]:
@@ -232,13 +322,7 @@ def _sources_lock(root: Path, repository: Repository, policy: Policy) -> list[Fi
     if document is None:
         return [violation(repository, _RULE, 'sources.lock.json',
                           f'sources.lock.json is not a valid JSON object: {error}')]
-    return [
-        violation(repository, _RULE, 'sources.lock.json',
-                  f'sources.lock.json records wheel sha256 {digest or "missing"}; '
-                  f'policy approves {policy.wheel_sha256}')
-        for digest in _source_digests(document, policy.wheel_filename)
-        if digest != policy.wheel_sha256
-    ]
+    return _source_findings(document, repository, policy)
 
 
 def _bootstrap(
@@ -252,7 +336,7 @@ def _bootstrap(
     for name in _BOOTSTRAP:
         relative = f'bootstrap/{name}'
         path = root / 'bootstrap' / name
-        if path.is_symlink():
+        if safe_relative(root, path) is None:
             findings.append(operational(repository, _RULE, relative, f'{relative} is a symlink and was not inspected'))
             continue
         if not path.exists():
@@ -280,8 +364,16 @@ def _entrypoints(root: Path, repository: Repository, entrypoints: list[str]) -> 
         if relpath.is_absolute() or '..' in relpath.parts:
             findings.append(violation(repository, _RULE, _POLICY,
                                       f'enrolled entrypoint {entry!r} must be repository-relative'))
-        elif not (root / relpath).exists():
+            continue
+        relative = safe_relative(root, root / relpath)
+        if relative is None:
+            findings.append(violation(repository, _RULE, entry,
+                                      f'declared entrypoint {entry} must not traverse a symlink'))
+        elif not (root / relative).exists():
             findings.append(violation(repository, _RULE, entry, f'declared entrypoint {entry} does not exist'))
+        elif not (root / relative).is_file():
+            findings.append(violation(repository, _RULE, entry,
+                                      f'declared entrypoint {entry} is not a regular file'))
     return findings
 
 
@@ -344,12 +436,15 @@ def _exempt(repository: Repository, entry: object) -> list[Finding]:
     condition = reassess.strip()
     if _DATE.fullmatch(condition) is not None:
         try:
-            expired = datetime.date.fromisoformat(condition) < datetime.date.today()
+            reassess_date = datetime.date.fromisoformat(condition)
         except ValueError:
-            expired = False
-        if expired:
             findings.append(violation(repository, _RULE, _POLICY,
-                                      f'exempt {name} expired on {condition}; reassess it against current conditions'))
+                                      f'exempt {name} reassess {condition!r} is not a valid date'))
+        else:
+            if reassess_date < datetime.date.today():
+                findings.append(violation(repository, _RULE, _POLICY,
+                                          f'exempt {name} expired on {condition}; '
+                                          'reassess it against current conditions'))
     return findings
 
 

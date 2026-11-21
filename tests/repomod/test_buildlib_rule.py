@@ -105,6 +105,17 @@ def _sources(digest: str = WHEEL_SHA) -> str:
     })
 
 
+def _sources_entry(**overrides: object) -> str:
+    entry: dict[str, object] = {
+        'name': 'laputa-buildlib',
+        'version': '0.2.0',
+        'sha256': WHEEL_SHA,
+        'url': f'https://pypi.example/{WHEEL}',
+    }
+    entry.update(overrides)
+    return json.dumps({'schema_version': 1, 'inputs': [entry]})
+
+
 def _write_policy(policy: Path, text: str) -> None:
     (policy / 'buildlib.toml').write_text(text, encoding='utf-8')
 
@@ -313,3 +324,321 @@ def test_shipped_policy_is_valid_and_catalogued() -> None:
     assert classified <= known
     assert sum(len(group) for group in groups) == len(classified)
     assert len(policy.bootstrap_sha256) == 2
+
+
+def test_sources_lock_old_version_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    (root / 'sources.lock.json').write_text(_sources_entry(version='0.1.0'), encoding='utf-8')
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'records wheel version 0.1.0' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_sources_lock_old_url_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    url = 'https://pypi.example/laputa_buildlib-0.1.0-py3-none-any.whl'
+    (root / 'sources.lock.json').write_text(_sources_entry(url=url), encoding='utf-8')
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'URL basename laputa_buildlib-0.1.0' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_sources_lock_approved_filename_with_other_url_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    url = 'https://pypi.example/laputa_buildlib-0.1.0-py3-none-any.whl'
+    (root / 'sources.lock.json').write_text(
+        _sources_entry(filename=WHEEL, url=url), encoding='utf-8'
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'URL basename laputa_buildlib-0.1.0' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_sources_lock_identity_with_old_url_reports_digest(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    url = 'https://pypi.example/laputa_buildlib-0.1.0-py3-none-any.whl'
+    (root / 'sources.lock.json').write_text(
+        _sources_entry(version='0.1.0', url=url, sha256=OTHER_SHA), encoding='utf-8'
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'records wheel sha256' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_sources_lock_buildlib_wheel_name_is_identified(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    url = 'https://pypi.example/laputa_buildlib-0.1.0-py3-none-any.whl'
+    (root / 'sources.lock.json').write_text(
+        _sources_entry(name='buildlib-wheel', url=url), encoding='utf-8'
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'URL basename laputa_buildlib-0.1.0' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_pin_outside_dependency_sections_does_not_count(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    (root / 'pyproject.toml').write_text(
+        '[project]\nname = "fake"\nversion = "0.1.0"\ndependencies = []\n\n'
+        '[tool.custom]\nkeep = ["laputa-buildlib==0.2.0"]\n',
+        encoding='utf-8',
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'missing laputa-buildlib dependency' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_optional_dependency_looser_pin_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    (root / 'pyproject.toml').write_text(
+        '[project]\nname = "fake"\nversion = "0.1.0"\n'
+        'dependencies = ["laputa-buildlib==0.2.0"]\n\n'
+        '[project.optional-dependencies]\ndev = ["laputa-buildlib>=0.2.0"]\n',
+        encoding='utf-8',
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'pinned exactly' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_dependency_group_exact_pin_is_clean(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    (root / 'pyproject.toml').write_text(
+        '[project]\nname = "fake"\nversion = "0.1.0"\ndependencies = []\n\n'
+        '[dependency-groups]\ndev = ["laputa-buildlib==0.2.0"]\n',
+        encoding='utf-8',
+    )
+    assert buildlib._check(root, repository) == []
+
+
+def test_symlinked_entrypoint_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    target = root / 'real_build.py'
+    target.write_text('print(1)\n', encoding='utf-8')
+    (root / 'scripts/build.py').unlink()
+    (root / 'scripts/build.py').symlink_to(target)
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'symlink' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_entrypoint_directory_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text(enrolled=_enrolled_text(entrypoints=('scripts',))))
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'not a regular file' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_entrypoint_through_symlinked_directory_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    (root / 'linked').symlink_to(root / 'scripts', target_is_directory=True)
+    _write_policy(policy, _policy_text(enrolled=_enrolled_text(entrypoints=('linked/build.py',))))
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'symlink' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_symlinked_bootstrap_directory_is_not_inspected(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    vendor = root / 'vendor-bootstrap'
+    vendor.mkdir()
+    for name in ('buildlib-run', 'python.lock'):
+        (root / 'bootstrap' / name).rename(vendor / name)
+    (root / 'bootstrap').rmdir()
+    (root / 'bootstrap').symlink_to(vendor, target_is_directory=True)
+    findings = buildlib._check(root, repository)
+    matched = [
+        finding for finding in findings
+        if finding.kind == 'operational' and 'symlink' in finding.message
+    ]
+    assert len(matched) == 2
+
+
+def test_assess_entry_with_keys_is_a_policy_error(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text() + f'\n[assess."{REPO}"]\nnote = "pending"\n')
+    findings = buildlib._check(root, repository)
+    matched = [
+        finding for finding in findings
+        if finding.kind == 'operational' and 'must be an empty table' in finding.message
+    ]
+    assert len(matched) == 1
+
+
+def test_assess_scalar_is_a_policy_error(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text() + f'\n[assess]\n"{REPO}" = "pending"\n')
+    findings = buildlib._check(root, repository)
+    matched = [
+        finding for finding in findings
+        if finding.kind == 'operational' and 'must be an empty table' in finding.message
+    ]
+    assert len(matched) == 1
+
+
+def test_wheel_filename_must_agree_with_version(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    text = _policy_text().replace(WHEEL, 'laputa_buildlib-0.1.0-py3-none-any.whl')
+    _write_policy(policy, text)
+    findings = buildlib._check(root, repository)
+    matched = [
+        finding for finding in findings
+        if finding.kind == 'operational' and 'agree with wheel_version' in finding.message
+    ]
+    assert len(matched) == 1
+
+
+def test_unparseable_reassessment_date_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text(exempt=_exempt_text(reassess='2020-02-30')))
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'not a valid date' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_second_unapproved_uv_lock_package_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    (root / 'uv.lock').write_text(
+        _uv_lock() + '\n[[package]]\nname = "laputa-buildlib"\nversion = "0.1.0"\n',
+        encoding='utf-8',
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'records laputa-buildlib version 0.1.0' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_missing_uv_lock_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    (root / 'uv.lock').unlink()
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'missing uv.lock' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_uv_lock_without_approved_wheel_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    (root / 'uv.lock').write_text(
+        'version = 1\n[[package]]\nname = "other"\nversion = "1.0.0"\n',
+        encoding='utf-8',
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'does not record the approved' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_enrolled_without_bootstrap_flag_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(
+        policy,
+        _policy_text(enrolled=f'\n[enrolled."{REPO}"]\nentrypoints = ["scripts/build.py"]\n'),
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'must declare bootstrap' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_enrolled_non_boolean_bootstrap_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(
+        policy,
+        _policy_text(enrolled=(
+            f'\n[enrolled."{REPO}"]\nentrypoints = ["scripts/build.py"]\nbootstrap = "yes"\n'
+        )),
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'must declare bootstrap' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_empty_entrypoints_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text(enrolled=_enrolled_text(entrypoints=())))
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'non-empty entrypoints' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_unknown_enrolled_key_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    _write_policy(
+        policy,
+        _policy_text(enrolled=(
+            f'\n[enrolled."{REPO}"]\nentrypoints = ["scripts/build.py"]\n'
+            'bootstrap = true\nunexpected = 1\n'
+        )),
+    )
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'unknown keys' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+
+
+def test_symlinked_bootstrap_shim_is_not_inspected(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    target = root / 'vendor-run'
+    target.write_bytes(SHIM)
+    (root / 'bootstrap/buildlib-run').unlink()
+    (root / 'bootstrap/buildlib-run').symlink_to(target)
+    findings = buildlib._check(root, repository)
+    matched = [
+        finding for finding in findings
+        if finding.kind == 'operational' and 'buildlib-run is a symlink' in finding.message
+    ]
+    assert len(matched) == 1
+
+
+def test_shim_only_consumer_tampered_buildlib_run_is_a_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    (root / 'pyproject.toml').unlink()
+    (root / 'uv.lock').unlink()
+    (root / 'bootstrap/buildlib-run').write_bytes(SHIM + b'#\n')
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'buildlib-run sha256' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
