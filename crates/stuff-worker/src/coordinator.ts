@@ -14,10 +14,48 @@ interface Env extends StoreEnv { MYCRATES: Bucket; MYNPM: Bucket; PYPI: Bucket; 
 type Current = { revision: number; generation: string | null; manifest: string | null; pending: number };
 type Lease = { kind: string; token: string; expires: number };
 type Receipt = { payload: string; revision: number; generation: string; manifest: string };
+type ReceiptRow = Receipt & { key: string };
+type ExportData = { schemaVersion: 1; registry: string; current: Current; receipts: ReceiptRow[]; retired_generations: string[]; retired_versions: { key: string; version_id: string }[] };
 const bindings: Record<string, "MYCRATES" | "MYNPM" | "PYPI" | "OCI" | "MIRROR"> = { cargo: "MYCRATES", npm: "MYNPM", pypi: "PYPI", oci: "OCI", mirror: "MIRROR" };
 const validGeneration = (value: unknown): value is string => typeof value === "string" && /^[a-zA-Z0-9_-]{1,128}$/.test(value);
 const validToken = (value: unknown): value is string => typeof value === "string" && /^[a-zA-Z0-9_-]{1,128}$/.test(value);
 const response = (status: number, value: unknown): Response => Response.json(value, { status, headers: { "cache-control": "no-store" } });
+const frozenResponse = (): Response => new Response(JSON.stringify({ error: "frozen" }), { status: 503, headers: { "cache-control": "no-store", "retry-after": "30" } });
+const nonEmptyText = (value: unknown, limit: number): value is string => typeof value === "string" && value.length > 0 && value.length <= limit;
+function importedData(registry: string, body: Record<string, unknown>): ExportData | undefined {
+  if (body.schemaVersion !== 1 || body.registry !== registry) return undefined;
+  const receiptsValue = body.receipts;
+  const generationsValue = body.retired_generations;
+  const versionsValue = body.retired_versions;
+  if (!Array.isArray(receiptsValue) || !Array.isArray(generationsValue) || !Array.isArray(versionsValue)) return undefined;
+  const current = body.current;
+  if (!current || typeof current !== "object" || Array.isArray(current)) return undefined;
+  const c = current as Record<string, unknown>;
+  if (!Number.isSafeInteger(c.revision) || (c.revision as number) < 0) return undefined;
+  if (!(c.generation === null || validGeneration(c.generation))) return undefined;
+  if (!(c.manifest === null || (typeof c.manifest === "string" && /^[0-9a-f]{64}$/.test(c.manifest)))) return undefined;
+  if (!(c.pending === 0 || c.pending === 1) || (c.generation === null) !== (c.manifest === null)) return undefined;
+  const receipts: ReceiptRow[] = [];
+  for (const item of receiptsValue) {
+    if (!item || typeof item !== "object" || Array.isArray(item)) return undefined;
+    const row = item as Record<string, unknown>;
+    if (!validToken(row.key) || typeof row.payload !== "string" || !Number.isSafeInteger(row.revision) || (row.revision as number) < 0 || !validGeneration(row.generation) || typeof row.manifest !== "string" || !/^[0-9a-f]{64}$/.test(row.manifest)) return undefined;
+    receipts.push({ key: row.key, payload: row.payload, revision: row.revision as number, generation: row.generation, manifest: row.manifest });
+  }
+  const retired_generations: string[] = [];
+  for (const item of generationsValue) {
+    if (!validGeneration(item)) return undefined;
+    retired_generations.push(item);
+  }
+  const retired_versions: { key: string; version_id: string }[] = [];
+  for (const item of versionsValue) {
+    if (!item || typeof item !== "object" || Array.isArray(item)) return undefined;
+    const row = item as Record<string, unknown>;
+    if (!nonEmptyText(row.key, 1024) || !nonEmptyText(row.version_id, 1024)) return undefined;
+    retired_versions.push({ key: row.key, version_id: row.version_id });
+  }
+  return { schemaVersion: 1, registry, current: { revision: c.revision as number, generation: c.generation as string | null, manifest: c.manifest as string | null, pending: c.pending as number }, receipts, retired_generations, retired_versions };
+}
 async function hash(value: string): Promise<string> {
   const bytes = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value)));
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
@@ -49,8 +87,18 @@ export class PublicationCoordinator {
     sql.exec("CREATE TABLE IF NOT EXISTS receipts (key TEXT PRIMARY KEY, payload TEXT NOT NULL, revision INTEGER NOT NULL, generation TEXT NOT NULL, manifest TEXT NOT NULL)");
     sql.exec("CREATE TABLE IF NOT EXISTS retired_generations (generation TEXT PRIMARY KEY)");
     sql.exec("CREATE TABLE IF NOT EXISTS retired_versions (key TEXT NOT NULL, version_id TEXT NOT NULL, PRIMARY KEY(key, version_id))");
+    sql.exec("CREATE TABLE IF NOT EXISTS frozen (id INTEGER PRIMARY KEY CHECK(id=1), value INTEGER NOT NULL)");
   }
   private one<T>(query: string, ...args: (string | number | null)[]): T | undefined { return Array.from(this.state.storage.sql.exec<T>(query, ...args))[0]; }
+  private isFrozen(): boolean { return this.one<{ value: number }>("SELECT value FROM frozen WHERE id=1")?.value === 1; }
+  private setFrozen(value: boolean): void { this.state.storage.sql.exec("INSERT INTO frozen VALUES (1, ?) ON CONFLICT(id) DO UPDATE SET value=excluded.value", value ? 1 : 0); }
+  private hasData(): boolean {
+    return !!this.one("SELECT id FROM current WHERE id=1")
+      || !!this.one("SELECT id FROM lease WHERE id=1")
+      || !!this.one("SELECT key FROM receipts LIMIT 1")
+      || !!this.one("SELECT generation FROM retired_generations LIMIT 1")
+      || !!this.one("SELECT key FROM retired_versions LIMIT 1");
+  }
   private async manifest(store: Bucket, generation: string): Promise<{ identity: string; objects: { key: string; size: number; etag: string }[] }> {
     const object = await store.get(`manifests/${generation}.json`);
     if (!object) throw new Error("manifest missing");
@@ -147,28 +195,65 @@ export class PublicationCoordinator {
     const binding = registry ? bindings[registry] : undefined;
     if (!binding || !op) return response(404, { error: "not found" });
     const store = this.env[binding];
-    const current = await this.current(store);
-    if (op === "current" && req.method === "GET") return response(200, current);
-    if (req.method !== "POST") return response(405, { error: "method not allowed" });
-    const length = Number(req.headers.get("content-length") ?? "0");
-    if (!Number.isFinite(length) || length > 16384) return response(413, { error: "too large" });
-    const text = await req.text();
-    if (text.length > 16384) return response(413, { error: "too large" });
-    const body = JSON.parse(text) as Record<string, unknown>;
-    if (!body || typeof body !== "object" || Array.isArray(body)) return response(400, { error: "bad request" });
     const sql = this.state.storage.sql;
+    const frozen = this.isFrozen();
+    if (op === "current" && req.method === "GET") return response(200, await this.current(store));
+    if (op === "export" && req.method === "GET") {
+      if (!frozen) return response(409, { error: "not frozen" });
+      const existing = this.one<Lease>("SELECT kind, token, expires FROM lease WHERE id=1");
+      if (existing && existing.expires > Date.now()) return response(409, { error: "lease held" });
+      return response(200, {
+        schemaVersion: 1,
+        registry,
+        current: this.one<Current>("SELECT revision, generation, manifest, pending FROM current WHERE id=1") ?? await this.current(store),
+        receipts: Array.from(sql.exec<ReceiptRow>("SELECT key, payload, revision, generation, manifest FROM receipts ORDER BY key")),
+        retired_generations: Array.from(sql.exec<{ generation: string }>("SELECT generation FROM retired_generations ORDER BY generation"), row => row.generation),
+        retired_versions: Array.from(sql.exec<{ key: string; version_id: string }>("SELECT key, version_id FROM retired_versions ORDER BY key, version_id")),
+      });
+    }
+    if (op === "freeze" && req.method === "POST") {
+      this.setFrozen(true);
+      const existing = this.one<Lease>("SELECT kind, token, expires FROM lease WHERE id=1");
+      return response(200, { current: await this.current(store), liveLease: !!existing && existing.expires > Date.now() });
+    }
+    if (op === "thaw" && req.method === "POST") {
+      this.setFrozen(false);
+      return response(200, { frozen: false });
+    }
+    if (req.method !== "POST") return response(405, { error: "method not allowed" });
+    const limit = op === "import" ? 8 * 1024 * 1024 : 16384;
+    const length = Number(req.headers.get("content-length") ?? "0");
+    if (!Number.isFinite(length) || length > limit) return response(413, { error: "too large" });
+    const text = await req.text();
+    if (text.length > limit) return response(413, { error: "too large" });
+    const body: Record<string, unknown> = text === "" ? {} : JSON.parse(text) as Record<string, unknown>;
+    if (!body || typeof body !== "object" || Array.isArray(body)) return response(400, { error: "bad request" });
+    if (op === "import") {
+      if (this.hasData()) return response(409, { error: "coordinator not empty" });
+      const data = importedData(registry, body);
+      if (!data) return response(400, { error: "bad request" });
+      this.state.storage.transactionSync(() => {
+        sql.exec("INSERT INTO current VALUES (1, ?, ?, ?, ?)", data.current.revision, data.current.generation, data.current.manifest, data.current.pending);
+        for (const row of data.receipts) sql.exec("INSERT INTO receipts VALUES (?, ?, ?, ?, ?)", row.key, row.payload, row.revision, row.generation, row.manifest);
+        for (const generation of data.retired_generations) sql.exec("INSERT INTO retired_generations VALUES (?)", generation);
+        for (const row of data.retired_versions) sql.exec("INSERT INTO retired_versions VALUES (?, ?)", row.key, row.version_id);
+        this.setFrozen(true);
+      });
+      return response(200, { imported: true });
+    }
     if (op === "gateway-lease") {
       if (!this.lease("upload", body.token)) return response(409, { error: "stale lease" });
       if (body.generation !== undefined && (!validGeneration(body.generation) || this.one("SELECT generation FROM retired_generations WHERE generation=?", body.generation))) return response(409, { error: "retired generation" });
       return response(200, { ok: true });
     }
     if (op === "begin" || op === "gc-claim") {
+      if (frozen) return frozenResponse();
       const existing = this.one<Lease>("SELECT kind, token, expires FROM lease WHERE id=1");
       if (existing && existing.expires > Date.now()) return response(409, { error: "lease held" });
       const token = crypto.randomUUID();
       const expires = Date.now() + 300000;
       sql.exec("INSERT OR REPLACE INTO lease VALUES (1, ?, ?, ?)", op === "begin" ? "upload" : "gc", token, expires);
-      return response(200, { token, expires, revision: current.revision });
+      return response(200, { token, expires, revision: (await this.current(store)).revision });
     }
     if (op === "renew" || op === "abort") {
       if (!this.lease("upload", body.token) && !this.lease("gc", body.token)) return response(409, { error: "stale lease" });
@@ -182,6 +267,7 @@ export class PublicationCoordinator {
       const receipt = this.one<Receipt>("SELECT payload, revision, generation, manifest FROM receipts WHERE key=?", body.key);
       if (receipt) return receipt.payload === payload ? response(200, { revision: receipt.revision, generation: receipt.generation, manifest: receipt.manifest }) : response(409, { error: "idempotency conflict" });
       if (!this.lease("upload", body.token)) return response(409, { error: "stale lease" });
+      const current = await this.current(store);
       if (current.revision !== body.expectedRevision) return response(409, { error: "revision conflict" });
       const manifest = await this.manifest(store, body.generation);
       if (manifest.identity !== body.manifest) return response(409, { error: "manifest conflict" });
@@ -227,6 +313,7 @@ export class PublicationCoordinator {
     }
     if (op === "gc-delete") {
       if (!this.lease("gc", body.token)) return response(409, { error: "stale lease" });
+      const current = await this.current(store);
       if (!validGeneration(body.generation) || body.generation === current.generation) return response(409, { error: "invalid generation" });
       const prefix = `generations/${body.generation}/`;
       let cursor: string | undefined;
