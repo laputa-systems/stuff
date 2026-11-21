@@ -420,6 +420,37 @@ for the Cloudflare plugin).
   --app ... --probe ...` from the pre-upgrade backup if anything looks wrong.
   Caddy-only changes: `oo reload-ingress` (validates, graceful reload).
 
+### Publication coordinator handoff
+
+The publication coordinator is one Durable Object per registry, so its SQLite
+state (`current`, receipts, retired generations and versions) lives with a
+host. Moving a primary without losing a write uses four operator calls on the
+publishing hostname, all behind the existing bearer token:
+
+1. `POST /_publication/<registry>/freeze` sets the frozen flag and reports the
+   current revision plus whether a live lease exists. `begin` and `gc-claim`
+   then answer `503 {"error":"frozen"}` with `Retry-After: 30`, so publishers
+   retry instead of failing. Renewal, abort and activation of an already-held
+   lease keep working so in-flight publications finish, and `GET current`
+   keeps serving reads.
+2. `GET /_publication/<registry>/export` waits until no unexpired lease exists
+   (`409` while one is held) and returns
+   `{schemaVersion:1, registry, current, receipts, retired_generations,
+   retired_versions}`. The lease and its token are never exported.
+3. `POST /_publication/<registry>/import` on the new host's empty coordinator
+   writes that document in one transaction and leaves the instance frozen. It
+   refuses with `409` if `current` or any other table already holds data, and
+   accepts bodies up to 8 MiB because a receipt payload can exceed the normal
+   16 KiB request cap. Import writes coordinator state only; it does not write
+   a projection into object storage.
+4. `POST /_publication/<registry>/thaw` on the new host. Publishers stop
+   retrying and publication resumes.
+
+The old primary stays frozen throughout the move; retire it only after the new
+host reports the same `current` and the two exports compare equal. Bucket
+contents and object versions are not part of this state and must already be
+visible to the new host through the usual replicated store or backup/restore.
+
 ### Recovery routes
 
 Put active recovery routes in the root-only
