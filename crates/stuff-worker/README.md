@@ -124,6 +124,18 @@ storage, credentials, and recovery. The checked-in app configuration enables
 the coordinator and private publishing host, with anonymous public registry
 reads. Optional OCI HTTP pushes require separate configuration.
 
+### Read replica
+
+`cloudflare.ts` is a separate Cloudflare entrypoint for a route-attached Worker
+that serves the registry hostnames from an R2 replica when the OpenOrange origin
+does not answer. `cloudflare.config.ts` is its configuration (`stuff-failover`,
+six R2 bindings, no Durable Object, no `domains`). The failover decision lives in
+`src/failover.ts` so it is testable without a network, and
+[registry failover](../../docs/registry-failover.md) owns the routed hosts, the
+replica sync, and what does not fail over. `pnpm run check:failover` type-checks
+the entrypoint and its config, `pnpm run build:failover` emits it under
+`build/failover`, and `pnpm run test:failover` runs its tests.
+
 Cloudflare-specific surfaces and what replaced them:
 
 | Surface | On OpenOrange |

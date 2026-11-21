@@ -202,7 +202,10 @@ and four prepared Discover names to `http://127.0.0.1:18480`. Stuff DNS
 points at this tunnel, as do the four Discover names. Discover's private
 administration uses separate `hq-admin.` and `hq-preview-admin.`
 names that resolve directly to Lisa. ACME uses DNS-01 for both public and
-private names.
+private names. A route-attached Cloudflare Worker forwards the Stuff names to
+this listener and serves reads from an R2 replica when the origin does not
+answer; [registry failover](registry-failover.md) covers what fails over, the
+replica sync unit, and how to remove it.
 
 ### Tansu
 
