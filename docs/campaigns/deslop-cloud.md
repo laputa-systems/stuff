@@ -53,6 +53,13 @@ the fleet expects: `~/usr`, `~/repos/<name>` for `joshuarli` repositories, and
   `cargo install --locked cargo-llvm-cov cargo-mutants`. img DSLP-4 and the kache
   components are the main beneficiaries. tinyland's seatd fix and crabtables' hosted-kernel item are also Linux work. A privileged container may still lack the kernel features crabtables needs.
 
+## The buildlib adoption lane
+
+The queued [buildlib lane](deslop-buildlib.md) (STUF-101) needs cold Linux capsules for each
+adopted bootstrap: `ubuntu:24.04` for the uv fallback, and Debian 13 or Ubuntu 26.04 with musl
+for python-build. A cloud host runs them only with a Docker daemon that allows `--privileged`.
+Its native macOS checks still need the Mac.
+
 ## Delegation
 
 The Pi bridge needs Node and `pi`, which sync installs only once USR-128's prerequisites are
