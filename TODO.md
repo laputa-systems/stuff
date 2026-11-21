@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 104
+Next: 105
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -13,14 +13,14 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **npm mirror 500s**: recurring HTTP 500s (outages ~16:26-01:00 UTC and ~02:14 UTC on 2026-11-14); mirror packages (pnpm 12.20/12.21, playwright-core 1.65.1, vitest 5.0.3, ws 8.23.0, vite 8.3.6) still absent. Snapshots of deps/loc must wait for merges and a healthy mirror.
 ## Tickets
 
-### STUF-103 · P1 · Roll Lisa's Engine onto the patched laputa-systems build through a qualified rollout
+### STUF-75 · P1 · Add integrity-verified S3 backup copies and isolated restore proof
 
-- **Area:** OpenOrange Engine · Rollout
-- **Where:** deploy/openorange/sources/sources.toml; deploy/openorange/lib/oobuild.py; deploy/openorange/patches/README.md; docs/openorange-rollouts.md; Lisa's `oo-engine` unit
-- **Problem:** Production on Lisa runs the upstream `rivetdev/engine` image (`sha256:6e585002…`). The six Rivet repairs, now also on `laputa-systems/rivet` `laputa/e5ed391` (`128bcfc0`), have never run in production, and STUF-102's reconnect fix will join them. The rollout controller's only real adapter is the Stats native app on the Threadripper standby guest; nothing builds a patched Engine image, qualifies it against a copy of Lisa's Engine state, or swaps `oo-engine` under the maintenance lock with rollback.
-- **Recommendation:** Done on 2026-11-21: `oo set-engine-image` with `upstream` rollback and `build-rivet-engine image` (`c7782d25`), the soak mode in `restore-rehearsal` (`13871a7f`), the native build `f8e364dc…` as image `sha256:98d3d60b…` on Lisa, a production-state rehearsal identical to upstream, and the fixed workload qualification (docs/openorange-engine-qualification.md). The qualified build does not reproduce across hosts, so the native build was qualified again. Remaining: the two 24-hour soaks on Lisa started about 07:15 UTC on 2026-11-21 (`/var/log/openorange/soak-{candidate,upstream}.log`); a pass needs no probe failure outside a restart window, all twelve restarts recovered, and candidate latency no worse than upstream. Then swap with `oo set-engine-image sha256:98d3d60b…` and an Engine-only restart, check the registries, and roll back with `oo set-engine-image upstream` on any failure. A contention drill belongs with STUF-102 on Threadripper.
-- **Fix with:** blast-radius
-- **Effort:** L
+- **Area:** OpenOrange durability
+- **Where:** deploy/openorange/bin/backup, bin/restore-rehearsal, docs/openorange-runtime.md; Engine filesystem log and object tier are one recovery unit
+- **Problem:** Fenced backups and known off-host Mac copies are manually made. The shared installer installs log rotation but no recurring backup scheduler was found in its source. There is no recurring independently verified S3 copy or restore freshness guarantee. Host or disk loss can lose writes after the latest independently verified off-host fence. The owner explicitly defers S3 backup implementation as P1.
+- **Recommendation:** Use existing fenced artifacts for protected recurring S3 copies, complete manifests, integrity checks, retention and freshness monitoring. Add a non-production full restore rehearsal measuring RPO/RTO. Keep Engine logs and object state together, distinguish backup storage from the Engine backend, and resume scheduling and credential work when the owner resumes this P1.
+- **Fix with:** durable-state
+- **Effort:** M
 
 ### STUF-102 · P1 · Stop refused envoy reconnects from feeding the Engine overload that refused them
 
@@ -31,14 +31,14 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** root-cause
 - **Effort:** M
 
-### STUF-75 · P1 · Add integrity-verified S3 backup copies and isolated restore proof
+### STUF-103 · P1 · Roll Lisa's Engine onto the patched laputa-systems build through a qualified rollout
 
-- **Area:** OpenOrange durability
-- **Where:** deploy/openorange/bin/backup, bin/restore-rehearsal, docs/openorange-runtime.md; Engine filesystem log and object tier are one recovery unit
-- **Problem:** Fenced backups and known off-host Mac copies are manually made. The shared installer installs log rotation but no recurring backup scheduler was found in its source. There is no recurring independently verified S3 copy or restore freshness guarantee. Host or disk loss can lose writes after the latest independently verified off-host fence. The owner explicitly defers S3 backup implementation as P1.
-- **Recommendation:** Use existing fenced artifacts for protected recurring S3 copies, complete manifests, integrity checks, retention and freshness monitoring. Add a non-production full restore rehearsal measuring RPO/RTO. Keep Engine logs and object state together, distinguish backup storage from the Engine backend, and resume scheduling and credential work when the owner resumes this P1.
-- **Fix with:** durable-state
-- **Effort:** M
+- **Area:** OpenOrange Engine · Rollout
+- **Where:** deploy/openorange/sources/sources.toml; deploy/openorange/lib/oobuild.py; deploy/openorange/patches/README.md; docs/openorange-rollouts.md; Lisa's `oo-engine` unit
+- **Problem:** Production on Lisa runs the upstream `rivetdev/engine` image (`sha256:6e585002…`). The six Rivet repairs, now also on `laputa-systems/rivet` `laputa/e5ed391` (`128bcfc0`), have never run in production, and STUF-102's reconnect fix will join them. The rollout controller's only real adapter is the Stats native app on the Threadripper standby guest; nothing builds a patched Engine image, qualifies it against a copy of Lisa's Engine state, or swaps `oo-engine` under the maintenance lock with rollback.
+- **Recommendation:** Done on 2026-11-21: `oo set-engine-image` with `upstream` rollback and `build-rivet-engine image` (`c7782d25`), the soak mode in `restore-rehearsal` (`13871a7f`), the native build `f8e364dc…` as image `sha256:98d3d60b…` on Lisa, a production-state rehearsal identical to upstream, and the fixed workload qualification (docs/openorange-engine-qualification.md). The qualified build does not reproduce across hosts, so the native build was qualified again. Remaining: the two 24-hour soaks on Lisa started about 07:15 UTC on 2026-11-21 (`/var/log/openorange/soak-{candidate,upstream}.log`); a pass needs no probe failure outside a restart window, all twelve restarts recovered, and candidate latency no worse than upstream. Then swap with `oo set-engine-image sha256:98d3d60b…` and an Engine-only restart, check the registries, and roll back with `oo set-engine-image upstream` on any failure. A contention drill belongs with STUF-102 on Threadripper.
+- **Fix with:** blast-radius
+- **Effort:** L
 
 ### STUF-88 · P2 · Keep actor inventory available during native resource collection
 
@@ -75,6 +75,15 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Execute BLD-0 through BLD-5 in the linked plan under existing campaign authority: classify the active fleet, qualify immutable artifacts and both linux-capsule interpreter paths, prove Node and bounded play pilots, migrate material overlaps, then enforce admitted consumers through read-only policy. Preserve native-tooling exceptions, current exclusions and stuff's independent recovery. Releases retain their existing boundary. Keep this ticket and evidence after deslop's main document retires.
 - **Fix with:** deslop, linux-capsule
 - **Effort:** L
+
+### STUF-104 · P2 · Stop caching blob 404s for a year at the oci-blobs edge
+
+- **Area:** OCI blobs · Edge caching
+- **Where:** oci-blobs.17166969.xyz `/sha256/*` (Cloudflare Cache Rule in front of the Lisa origin); docs/PUBLISHING.md:209-212
+- **Problem:** A GET or HEAD for a blob that is not yet uploaded returns `404 not found` with `cache-control: public, max-age=31536000`, and Cloudflare caches it (`cf-cache-status: HIT`). Reproduction 2026-11-21: a crabc build fetched 153 locked inputs from `https://oci-blobs.17166969.xyz/sha256/<hex>` minutes before `stuff publish oci --layout ... --repository crabc/image-inputs --tag x86_64` (generation 4b124444500568dec2362721) uploaded them. Afterwards every exact URL still answers 404 from cache (`age: 464`) while `?nocache=1` returns 200 with the right bytes, and the registry's own `/v2/crabc/image-inputs/blobs/sha256:<hex>` 307s to the poisoned URL. Any read that races a publish, or probes a digest before it exists, makes that content-addressed URL unusable at that edge for a year.
+- **Recommendation:** Serve misses with `cache-control: no-store` (or a short max-age) and restrict the long immutable TTL to 200/206 responses. Accept when a HEAD for an absent digest followed by its upload and a second HEAD returns 200 on the second request, and existing 200 responses keep `public, max-age=31536000, immutable`.
+- **Fix with:** root-cause
+- **Effort:** S
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
 
