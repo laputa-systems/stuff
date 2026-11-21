@@ -231,4 +231,25 @@ status, body, _ = s3.request("GET", f"http://127.0.0.1:{port}/site/current")
 assert status == 200 and body == b"g2", (status, body)
 PY
 
-echo "OK: copy, ETag-preserving multipart, resume, changed-source, corruption and missing-object detection, paginated listings, sync ordering, current-generation-only sync, interrupted sync and a refused incomplete-generation pointer"
+# replica-sync.sh reads plain assignments from its env file; store-copy.py
+# must still see them, with none inherited from this script's environment.
+env -u STUFF_COPY_SOURCE_S3_ENDPOINT -u STUFF_COPY_SOURCE_S3_ACCESS_KEY_ID -u STUFF_COPY_SOURCE_S3_SECRET_ACCESS_KEY -u STUFF_COPY_SOURCE_S3_REGION \
+	-u STUFF_COPY_DEST_S3_ENDPOINT -u STUFF_COPY_DEST_S3_ACCESS_KEY_ID -u STUFF_COPY_DEST_S3_SECRET_ACCESS_KEY -u STUFF_COPY_DEST_S3_REGION \
+	sh -c 'env | grep "^STUFF_COPY_" && exit 1; exit 0' || fail "the replica-sync case inherited STUFF_COPY_ variables"
+cat >"$work/replica-sync.env" <<EOF
+STUFF_COPY_SOURCE_S3_ENDPOINT=http://127.0.0.1:$src
+STUFF_COPY_SOURCE_S3_ACCESS_KEY_ID=source
+STUFF_COPY_SOURCE_S3_SECRET_ACCESS_KEY=source-secret
+STUFF_COPY_SOURCE_S3_REGION=us-east-1
+STUFF_COPY_DEST_S3_ENDPOINT=http://127.0.0.1:$dst
+STUFF_COPY_DEST_S3_ACCESS_KEY_ID=dest
+STUFF_COPY_DEST_S3_SECRET_ACCESS_KEY=dest-secret
+STUFF_COPY_DEST_S3_REGION=us-east-1
+EOF
+out=$(env -u STUFF_COPY_SOURCE_S3_ENDPOINT -u STUFF_COPY_SOURCE_S3_ACCESS_KEY_ID -u STUFF_COPY_SOURCE_S3_SECRET_ACCESS_KEY -u STUFF_COPY_SOURCE_S3_REGION \
+	-u STUFF_COPY_DEST_S3_ENDPOINT -u STUFF_COPY_DEST_S3_ACCESS_KEY_ID -u STUFF_COPY_DEST_S3_SECRET_ACCESS_KEY -u STUFF_COPY_DEST_S3_REGION \
+	REPLICA_SYNC_ENV="$work/replica-sync.env" REPLICA_SYNC_LEDGER_DIR="$work/replica-ledgers" \
+	sh "$here/replica-sync.sh" site 2>&1) || fail "replica-sync.sh failed with a plain env file: $out"
+echo "$out" | grep -q '"pointer": "g2"' || fail "replica-sync.sh did not sync the site bucket: $out"
+
+echo "OK: copy, ETag-preserving multipart, resume, changed-source, corruption and missing-object detection, paginated listings, sync ordering, current-generation-only sync, interrupted sync, a refused incomplete-generation pointer, and replica-sync.sh with a plain env file"

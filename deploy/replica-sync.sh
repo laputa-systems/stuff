@@ -49,8 +49,10 @@ while [ "$#" -gt 0 ]; do
 done
 
 [ -r "$ENV_FILE" ] || fail "cannot read $ENV_FILE"
+set -a
 # shellcheck disable=SC1090
 . "$ENV_FILE"
+set +a
 
 for name in STUFF_COPY_SOURCE_S3_ENDPOINT STUFF_COPY_SOURCE_S3_ACCESS_KEY_ID STUFF_COPY_SOURCE_S3_SECRET_ACCESS_KEY \
             STUFF_COPY_DEST_S3_ENDPOINT STUFF_COPY_DEST_S3_ACCESS_KEY_ID STUFF_COPY_DEST_S3_SECRET_ACCESS_KEY; do
