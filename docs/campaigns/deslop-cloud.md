@@ -56,10 +56,8 @@ the fleet expects: `~/usr`, `~/repos/<name>` for `joshuarli` repositories, and
 
 ## The buildlib adoption lane
 
-The queued [buildlib lane](deslop-buildlib.md) (STUF-101) needs cold Linux capsules for each
-adopted bootstrap: `ubuntu:24.04` for the uv fallback, and Debian 13 or Ubuntu 26.04 with musl
-for python-build. A cloud host runs them only with a Docker daemon that allows `--privileged`.
-Its native macOS checks still need the Mac.
+The buildlib lane (STUF-101) closed on 2026-11-21; see the
+[scorecard](deslop-scorecard.md#buildlib-adoption-lane).
 
 ## Delegation
 

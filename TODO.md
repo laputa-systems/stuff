@@ -69,15 +69,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** upgrade-the-world
 - **Effort:** L
 
-### STUF-101 · P2 · Adopt buildlib for material shared build tooling
-
-- **Area:** Fleet · build tooling
-- **Where:** docs/campaigns/deslop-buildlib.md; docs/build-repos.md; repomod/rules/build_repos.py; eligible managed repositories
-- **Problem:** Owner-requested 2026-11-20 adoption work. Six known consumers pin the original 0.1.0 wheel while buildlib main has advanced; custom acquisition and packaging remain elsewhere, the two source-lock validators disagree, and fresh Linux bootstrap qualification is not recorded fleet-wide. P2 tracks the requested initiative, not a claim that every non-adopter is defective.
-- **Recommendation:** Execute BLD-0 through BLD-5 in the linked plan under existing campaign authority: classify the active fleet, qualify immutable artifacts and both linux-capsule interpreter paths, prove Node and bounded play pilots, migrate material overlaps, then enforce admitted consumers through read-only policy. Preserve native-tooling exceptions, current exclusions and stuff's independent recovery. Releases retain their existing boundary. Keep this ticket and evidence after deslop's main document retires.
-- **Fix with:** deslop, linux-capsule
-- **Effort:** L
-
 ### STUF-104 · P2 · Stop caching blob 404s for a year at the oci-blobs edge
 
 - **Area:** OCI blobs · Edge caching

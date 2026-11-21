@@ -38,16 +38,8 @@ credentials, hardware and canonical checkouts retain their campaign boundaries.
 
 ## Adopt shared build tooling
 
-The 2026-11-20 owner request adds [BLD-0 to BLD-5](deslop-buildlib.md#work-queue), tracked by
-STUF-101. The reconciled campaign Status is paused; keep this lane queued for resumption.
-Then reconcile parked work, inventory applicability and qualify buildlib's actual wheel/bootstrap.
-Prove Node and a bounded play acquisition/packaging pilot before broader adoption and read-only enforcement.
-Current buildlib main and the pinned 0.1.0 wheel differ; do not assume source fixes are released.
-
-Use usr's latest `linux-capsule` for Ubuntu 24.04's uv fallback and a newer-musl python-build path.
-Preserve native macOS proof, stuff's own-registry independence, established smaller native builds
-and all current exclusions. [Scorecard](deslop-scorecard.md#buildlib-adoption-lane) entries start
-as planned; a plan, import or synthetic bootstrap test is not migration or capsule evidence.
+The 2026-11-20 owner request added BLD-0 to BLD-5 (STUF-101), which closed on 2026-11-21; see the
+[scorecard](deslop-scorecard.md#buildlib-adoption-lane).
 
 ## Resumption receipts
 

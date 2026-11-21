@@ -24,8 +24,9 @@ verifies every download against a pinned SHA-256. Other distributions are refuse
 | Node 26.13.1, pnpm | `crates/stuff-worker/package.json` | `make ts-lint` and Node subprocesses in the tests |
 
 CPython comes from uv's pinned release and uv's upstream CPython metadata. That is the trust path of buildlib's
-uv fallback, not its python-build path. Whether stuff vendors buildlib's bootstrap is decided by
-[STUF-101](campaigns/deslop-buildlib.md); stuff's builds must stay independent of its own registries.
+uv fallback, not its python-build path. stuff does not vendor buildlib's bootstrap: its builds
+must stay independent of its own registries, so the [buildlib policy](build-repos.md#dispositions)
+exempts it.
 
 The first cold run on `ubuntu:24.04` arm64, on a 17-core host, took 28 s for setup, 6 s for
 `make lint` and 57 s for `make test`.

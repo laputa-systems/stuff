@@ -17,13 +17,13 @@ Red default-branch CI: tansu (check and lint), discover (private; Actions refuse
 
 Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); diff-pretty (format waiver or repomod change); gluon (release-profile test skipped); node-build (controller gate); vault VLT-2, tm CLI load, ish DSLP-34 soak and DSLP-37/38/41; check-ups of jaq, rust-fontconfig, rustix, rage (interrupted, no commits); stats, laputa-ui-dashboard, mdevd-rs (verdicts incomplete); smolith SMOL-15 and SMOL-16; chromium-build DSLP-17; crabtables (hosted kernel). srv, soulseek-rs and oxish check-ups can rerun on Linux, where `sun_path` is 108 bytes.
 
-Next slice: fix tansu's red master. Queued after that: the [buildlib adoption lane](deslop-buildlib.md) (STUF-101); BLD-0's inventory is done. Cloud sessions leave usr, ctrs, kache, crabc and python-build alone: other sessions are working on them, and usr is exempt from deslop. Never wrap builds in `cpu-guard`.
+Next slice: fix tansu's red master. Queued after that: the [buildlib adoption lane](deslop-scorecard.md#buildlib-adoption-lane) (STUF-101); BLD-0's inventory is done. Cloud sessions leave usr, ctrs, kache, crabc and python-build alone: other sessions are working on them, and usr is exempt from deslop. Never wrap builds in `cpu-guard`.
 ## Accepted work
 
 ### Shared build tooling, 2026-11-20
 
 The owner requested a buildlib mandate for most nontrivial stuff-managed projects and named
-usr's `linux-capsule` skill. The [plan](deslop-buildlib.md) makes supported shared build
+usr's `linux-capsule` skill. The [plan](deslop-scorecard.md#buildlib-adoption-lane) makes supported shared build
 operations the default, with explicit native-tooling, bootstrap-only and deferred dispositions.
 It preserves the campaign pause, current exclusions and parked lanes. Six existing consumers pin the original
 0.1.0 wheel; current buildlib main is ahead of that release, so artifact/consumer qualification
@@ -687,7 +687,7 @@ tier.
 15. **Shared build tooling (2026-11-20).** Buildlib is the default for material custom tooling
     that duplicates its supported build/release primitives, including non-build-tag projects.
     Apply the [lasting policy](../build-repos.md#shared-build-tooling-across-the-fleet) through
-    [BLD-0 to BLD-5](deslop-buildlib.md#work-queue), tracked by STUF-101. Qualify published bytes,
+    [BLD-0 to BLD-5](deslop-scorecard.md#buildlib-adoption-lane), tracked by STUF-101. Qualify published bytes,
     both Linux capsule bootstrap paths and supported native behavior; keep simple native builds
     and justified exceptions. This adds a bounded lane, not another full pass for settled repos.
     Existing exclusions, publication limits and single-writer ownership remain. The new rule is
@@ -889,7 +889,7 @@ when no F item is open.
 5. Run `ultrareview` on this doc's own deliverables in stuff, roll the lasting rules into
    `docs/fleet.md` and `docs/policy-development.md`, then delete this doc.
 
-Keep STUF-101, its [buildlib plan](deslop-buildlib.md) and scorecard evidence until that lane is
+Keep STUF-101, its [buildlib plan](deslop-scorecard.md#buildlib-adoption-lane) and scorecard evidence until that lane is
 qualified or explicitly deferred under the existing rules. Main campaign retirement must not
 erase unfinished adoption work or turn missing capsule/release evidence into a pass.
 
@@ -978,7 +978,7 @@ the Reports.
 | Critical contracts are mutation-checked | Each repo's required mutation scope names the contracts it protects; `--rule mutants-diff-lane` is clean where a lane is retained, and its negative controls failed as intended. Advisory audit scope is reported separately and is not required for acceptance. |
 | Strict typing is enforced | `--rule strict-typing-profile` is clean for the in-scope set |
 | Benchmarks answer real questions | Each in-scope repo's Report records its `bench-pyramid` audit; repos with benchmarks have a working `bench-check` and tiered `make bench` entrypoint proven at the Edit and Change tiers |
-| Shared build tooling has an explicit disposition | [BLD-5](deslop-buildlib.md#completion-and-authority) records reviewed applicability, qualified migrations, native exceptions and named deferrals; admitted consumers have immutable pins, real reuse and the required environment proof |
+| Shared build tooling has an explicit disposition | [BLD-5](deslop-scorecard.md#buildlib-adoption-lane) records reviewed applicability, qualified migrations, native exceptions and named deferrals; admitted consumers have immutable pins, real reuse and the required environment proof |
 | Nothing regressed | Every perf-gated repo's final verdict is within bound, consumer tests are green, and escaped regressions number zero or each has a guard |
 | The method outlives the campaign | The `deslop` skill exists, and `test-audit` contains the K1 coverage and mutation sections |
 | The tickets are gone | No `TODO-DESLOP.md` remains in any in-scope repo |

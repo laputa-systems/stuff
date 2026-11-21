@@ -14,10 +14,9 @@ Active 2026-11-21. Resume by reading this section.
 - F2: usr#49 merged: kache and clang are optional under usr's cargo config and glibc hosts get
   CPython through uv. The clean-clone capsule rerun waits on a kache release that contains
   kache#104; kache and usr now belong to other sessions, so that release is theirs.
-- F3: BLD-1 done. buildlib 0.2.0 is published (stuff PyPI and the GitHub release, wheel
-  `aaee620f…`), both Linux bootstrap branches passed cold capsules, and pi-build,
-  cmake-build, node-build, ffmpeg-build and chromium-build pin it. python-build and ctrs are
-  exempt. Next: the BLD-2 pilots in node-build and play.
+- F3: done 2026-11-21 (STUF-101 closed). Eight consumers are enrolled in `buildlib-usage` on
+  buildlib 0.2.0, the other 58 active entries have reviewed exemptions, and each shim consumer
+  records both cold Linux capsule paths ([scorecard](deslop-scorecard.md#buildlib-adoption-lane)).
 - F4 to F6: not started; F4's inventory is below.
 
 ## Items
@@ -26,7 +25,7 @@ Active 2026-11-21. Resume by reading this section.
 | --- | --- | --- | --- |
 | F1 | One host serves every registry. On 2026-11-21 Lisa's Engine overload (STUF-102, owned by the stats session) turned crates, npm, pypi and the mirror into HTTP 500, then 530. | Owner chose a second origin first: serve each registry's current R2 generation from a static origin and fail over to it when the Engine is down. Upstream fallback comes later only where it adds value. | With the Engine stopped, `cargo fetch --locked`, `pnpm install --frozen-lockfile` and `uv sync --frozen` succeed against a tansu, a pnpm and a uv consumer, and usr's mirror downloads verify. |
 | F2 | Owner tools are hard requirements: the global cargo config forces `kache` and `kache clang`; python-build and the FFmpeg runtime are musl-only. | Keep them the default where installed; make cargo work without them, and give glibc hosts a verified CPython. | A fresh `ubuntu:24.04` with only rustup builds a crate under usr's linked config with and without kache; `sh sync` gives a working `python3` there. |
-| F3 | Toolchain pins and bootstrap are repeated per repository. | STUF-101's [buildlib plan](deslop-buildlib.md), BLD-0 to BLD-5, including both Linux capsule interpreter paths. | BLD-5's close criteria. |
+| F3 | Toolchain pins and bootstrap are repeated per repository. | STUF-101's buildlib lane, BLD-0 to BLD-5 ([policy](../build-repos.md#shared-build-tooling-across-the-fleet)), including both Linux capsule interpreter paths. | BLD-5's close criteria. |
 | F4 | Cross-repository releases are manual hops (ptytest to ish, smolith's `h12tiny` to stuff, tansu's mirror upgrades). | Inventory the hops first; automate the hand-off in repomod's release and mirror flows. | A dependency release reaches its consumers' lockfiles through one documented command. |
 | F5 | macOS host drift: Homebrew encoder upgrades break fixture hashes (play PLAY-55); `cargo-llvm-cov` and `cargo-mutants` are missing on the Darwin lane host. | Install the measurement tools through usr's sync; pin or decouple brew-dependent checks per repository. | Deslop component slices on the Mac record coverage and mutation numbers; PLAY-55 is closed. |
 | F6 | CI runner economics: larger runner labels queue for minutes, and private repositories are refused for billing. | Move jobs that do not need larger runners to standard labels. Billing is the owner's. | Each workflow's runner choice is justified in the repository, and queued time on standard jobs drops. |

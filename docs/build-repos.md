@@ -12,24 +12,68 @@ checksums, supported target mapping or binary inspection. This applies beyond `b
 repositories. Judge custom build behavior, not product language or codebase size. Native
 compilers, package managers, product policy and existing user entrypoints keep their roles.
 
-Each active repository receives a reviewed disposition: shared helpers required, bootstrap only,
-native tooling sufficient, or deferred with a concrete blocker. Simple native commands and
-established smaller implementations can justify an exception; an unused import cannot satisfy
-adoption. Keep pristine upstream/vendor code and current campaign exclusions outside migration.
-Use only supported helpers, and add upstream abstractions only for two demonstrated consumers.
+### Dispositions
 
-Consumers pin immutable package versions and wheel digests. Repositories using buildlib or
-requiring newer Python use its vendored shell bootstrap with recorded source provenance, plus
-their own documented setup for locked development tools. Qualify both Linux interpreter paths
-with usr's `linux-capsule` skill, preserve supported native macOS checks, and remove the local
-implementation actually replaced. Stuff's own-registry-independent build and recovery paths
-remain an explicit exception to fetching the stuff-hosted wheel.
+Every active catalog entry has exactly one entry in `fleet/policy/buildlib.toml`:
 
-The [deslop adoption plan](campaigns/deslop-buildlib.md) owns sequencing, artifact readiness,
-compatibility checks, exemptions and migration proof. Existing `build-*` rules enforce the
-contract below; they do not yet enforce buildlib adoption. The proposed `buildlib-usage` rule
-becomes blocking only for repositories admitted after qualification. Adoption does not extend
-the build-repository release format to unrelated product releases.
+- `enrolled`: the repository uses shared helpers. The entry names the entrypoints that call them
+  and whether it vendors the bootstrap shim.
+- `assess`: the repository is eligible but not yet migrated. Lint reports it as pending and
+  blocks nothing.
+- `exempt`: native tooling is sufficient, the repository is an effectively-upstream fork, or the
+  work is deferred. Each exemption has a `reason` and a `reassess` condition.
+
+Simple native commands and established smaller implementations justify an exemption; an unused
+import never satisfies enrollment. Keep pristine upstream and vendor code outside migration. Add
+an upstream buildlib abstraction only when two consumers demonstrate it. stuff stays exempt: its
+registries must build while its own package registries are unavailable, so it cannot fetch the
+stuff-hosted wheel. Add a new catalog entry to the policy when it is admitted, or lint reports it
+as unclassified.
+
+### Pins and the bootstrap
+
+Consumers pin `laputa-buildlib==<version>` and its wheel digest in `pyproject.toml` and `uv.lock`.
+A repository that uses buildlib or needs a newer Python than its distribution ships vendors
+buildlib's `bootstrap/buildlib-run` and `bootstrap/python.lock` unchanged at the revision the
+policy approves, and runs Python through it (`PYTHON ?= sh bootstrap/buildlib-run --`). The shim
+checks the size and SHA-256 of the python-build or uv archive before extracting it and pins the
+wheel's SHA-256. On a glibc host without musl 1.2.5 or newer, such as Ubuntu 24.04, it falls back
+to the pinned uv and uv's upstream CPython, whose trust path is uv's own metadata.
+
+The shim provisions only Python and the wheel. Each repository keeps a small idempotent
+`scripts/setup-dev` for its distribution packages, pinned toolchains and locked development tools,
+and a development doc listing each package's consumer. Keep native-only commands usable without
+an interpreter download.
+
+### Migration proof
+
+A migration replaces a local implementation; it does not add a dependency beside one.
+
+1. Record the base revision, the entrypoint, the local code replaced and the buildlib API used.
+   Keep public Make and CLI entrypoints, compiler flags and consumer-specific lock fields.
+2. Exercise the installed wheel through the ordinary user path, and check import provenance so a
+   local source tree or `PYTHONPATH` cannot mask it.
+3. Keep consumer boundary tests for changed behavior: wrong digest, size or target, incomplete
+   downloads, cache reuse, failure propagation and archive layout. buildlib tests its own
+   internals once.
+4. For changed release code, compare target identity, layout, manifests, checksums and hardening
+   on generated artifacts without publishing them.
+5. Pass cold `linux-capsule` runs from a clean clone of the delivered commit: `ubuntu:24.04`
+   (the uv fallback) and Debian 13 or Ubuntu 26.04 with `musl` (the python-build path). Keep the
+   supported macOS checks. Record the selected interpreter branch, commands, exit codes and cold
+   cost in the repository's own buildlib adoption doc.
+6. Land through the repository's required checks, then enroll it in the policy against the merged
+   default branch.
+
+### Enforcement
+
+`buildlib-usage` (`repomod/rules/buildlib.py`) reads the policy. For enrolled repositories it
+checks the exact pin and its agreement across `pyproject.toml`, `uv.lock` and the shim's
+`python.lock`, the vendored shim's digests, and the declared entrypoints. A repository whose
+only consumer is the shim, with no `pyproject.toml`, is pinned by `bootstrap/python.lock`. The
+rule never runs consumer scripts, fetches artifacts or starts containers. File presence cannot
+prove reuse; the consumer's behavior tests do. Adoption does not extend the build-repository
+release format to unrelated product releases.
 
 ## Make targets
 

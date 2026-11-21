@@ -1,6 +1,6 @@
 # Buildlib adoption inventory (BLD-0)
 
-Prepared 2026-11-21 for STUF-101 and the [buildlib adoption plan](deslop-buildlib.md).
+Prepared 2026-11-21 for STUF-101, closed the same day; the [shared build-tooling policy](../build-repos.md#shared-build-tooling-across-the-fleet) now owns the rules.
 This is the BLD-0 inventory: one row per active entry in [fleet/catalog.toml](../../fleet/catalog.toml),
 recording the reviewed disposition, exact default-branch revision, overlapping tooling, affected
 outputs, bootstrap need, exclusions and next action. It is review evidence only; it does not

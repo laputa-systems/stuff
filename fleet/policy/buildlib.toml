@@ -34,9 +34,13 @@ bootstrap = true
 entrypoints = ["build.py", "buildsys/__init__.py", "scripts/setup-dev"]
 bootstrap = true
 
-[assess."joshuarli/img"]
+[enrolled."joshuarli/img"]
+entrypoints = ["scripts/package-release.py"]
+bootstrap = true
 
-[assess."laputa-systems/cmake-build"]
+[enrolled."laputa-systems/cmake-build"]
+entrypoints = ["build.py", "buildsys/buildlib_wheel.py", "scripts/setup-dev"]
+bootstrap = true
 
 [exempt."joshuarli/ctrs"]
 reason = "The BLD-2 ctrs acquisition slice is owned by another session; this policy pass changes no pin or vendored bootstrap."
@@ -253,3 +257,19 @@ reassess = "Reassess if the fork gains its own release or acquisition tooling."
 [exempt."joshuarli/stats"]
 reason = "The repository is under active work in another session (the Engine and OpenOrange soaks); its build-static.sh acquisition is a BLD-3 candidate."
 reassess = "Reassess when that session completes, starting with agent/scripts/build-static.sh."
+
+[exempt."joshuarli/bctl"]
+reason = "Deferred: owner exclusion 2026-11-14 for heavy development; its candidate work is kernel/dev toolchain acquisition only."
+reassess = "Reassess when the exclusion lifts."
+
+[exempt."joshuarli/discover"]
+reason = "Deferred: owner exclusion during the rearchitecture; no release primitive overlap verified."
+reassess = "Reassess after the rearchitecture."
+
+[exempt."joshuarli/niceforge"]
+reason = "Deferred: private repository outside deslop scope; its native-input fetch and smolvm build scripts await an integrator decision."
+reassess = "Reassess after its privacy and CI access change."
+
+[exempt."joshuarli/toolbox"]
+reason = "Deferred: private repository owned by another session; its media tools implement no build or release primitives."
+reassess = "Reassess only if repository access and CI change."
