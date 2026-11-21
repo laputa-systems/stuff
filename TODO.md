@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 98
+Next: 101
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -101,5 +101,32 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Problem:** repomod deps mirror publishes what relocked lockfiles pin. pnpm 12 lockfiles record only pnpm under packageManagerDependencies, so @pnpm/exe at the pinned version is never mirrored. An older pnpm on PATH (for example Homebrew pnpm 11.0.2) switches to the packageManager pin by fetching @pnpm/exe@<pin> and fails with No matching version found against npm.17166969.xyz. Seen 2026-11-20 on joshuarli/tansu (its DSLP-24); repaired by hand with stuff publish npm --lockfile on a scratch lockfile depending on @pnpm/exe@12.21.0.
 - **Recommendation:** When a repository pins packageManager pnpm@X, add @pnpm/exe@X (and its platform optional dependencies) to the mirror plan, with a test that a fleet repo pinning pnpm@X reports @pnpm/exe@X as missing until it is served.
 - **Fix with:** repomod
+- **Effort:** S
+
+### STUF-98 · P3 · Deslop deploy/: OpenOrange host tooling and maintenance scripts
+
+- **Area:** Needs owner · deploy
+- **Where:** deploy/ (141 files), including deploy/openorange/ and its rivet TypeScript
+- **Problem:** Deferred: deploy/openorange/ (host runtime, ingress, storage, recovery) is owned by a separate active OpenOrange campaign with dirty worktrees (docs/openorange-runtime.md, docs/campaigns/deslop-roadmap.md). The generic maintenance scripts (R2 pull, put and gc, store copy, fake S3, smoke checks) share that tree. Deslop edits here would collide with that work.
+- **Recommendation:** The owner decides whether the OpenOrange campaign has finished or whether deslop takes the non-OpenOrange scripts separately. Until then do not schedule this component. If scheduled: Diagnose first (none exists), then Types, Tests and Dead code; accept with `make test-r2`, `make test-publish-lock`, `make test-store-copy`, `make pipecheck`, `make worker-deploy-test`; live checks (`make test-r2-live`, `make smoke-deployed`, deployments) stay opt-in.
+- **Fix with:** deslop
+- **Effort:** L
+
+### STUF-99 · P3 · Upstream responses are buffered up to 1 GiB plus 64 MiB regardless of the caller's byte limit
+
+- **Area:** mynpm · acquire
+- **Where:** crates/mynpm/src/acquire.rs HttpsExchange::fetch and transfer
+- **Problem:** Unreproduced; read from the code on 52c3999d. HttpsExchange::fetch reads the whole body into memory and stops only at TARBALL_BYTES + 64 MiB. The caller's max_bytes (64 MiB for packuments and metadata) is checked in transfer only after the full body is buffered, and a valid Content-Length is never compared with any limit. A hostile or faulty upstream metadata response can therefore hold about 1.06 GiB in memory per request, and four downloads run concurrently. A reproduction needs a local TLS origin for HttpsExchange; the offline fakes replace the Exchange trait and cannot show it.
+- **Recommendation:** Pass max_bytes into Exchange::fetch, reject a Content-Length above it before reading, and stop the read loop at the caller's limit. Add a test with a fake Exchange that records the limit it receives, and a local TLS origin check if one is available.
+- **Fix with:** deslop
+- **Effort:** S
+
+### STUF-100 · P3 · Wheel member lookups scan every member, so validation is quadratic in the member count
+
+- **Area:** mypypi · wheel archive
+- **Where:** crates/mypypi/src/wheel_zip.rs Archive::member; callers in crates/mypypi/src/validate.rs and acquire.rs
+- **Problem:** Confirmed on 52c3999d in a debug build with generated wheels of empty files. inspect_wheel took 0.31 s for 5,000 members, 0.74 s for 10,000 and 1.74 s for 20,000; each name triggers mode, read, size and read_prefix calls that each scan the member list linearly. A 100 MB wheel can hold on the order of 800,000 central directory entries. Not extrapolated beyond 20,000 members.
+- **Recommendation:** Index members by name when opening the archive (first entry wins, as today). Duplicate names are rejected by the callers, so the index changes no result.
+- **Fix with:** deslop
 - **Effort:** S
 
