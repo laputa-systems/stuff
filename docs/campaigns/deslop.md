@@ -7,28 +7,17 @@ established, so the slop cannot return.
 
 ## Status
 
-Paused 2026-11-21. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." First command: `gh pr view 95 -R joshuarli/kache; gh run list -R joshuarli/tansu --branch master --limit 3`.
+Paused 2026-11-21; resumable on a cloud Linux host. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." On a cloud host, follow [deslop-cloud.md](deslop-cloud.md) first. First command: `gh pr checks 106 -R joshuarli/kache; gh run list -R joshuarli/tansu --branch master --limit 3`.
 
-Last accepted revision: stuff main `4b6c8119` (CI and lint green). Settled since the last pause: smolith, tansu, stuff, lz, rustybench, hi-lite, doas-rs, e, defuddle-rs (scorecard). Open: kache #95 (k7, checks passing, not merged). Red default-branch CI after merge: tansu (check/lint, npm registry 500 suspected), loc (Shebang mutation budget, 245 untested), discover (lint).
+Merged since the last pause: kache #95 and #104, tinyland #16 and #17, ctrs #11, discover #52, play #18 (Report and Phase 4), img #11, buildlib #31. stuff main is green.
 
-Parked branches (all pushed to origin 2026-11-21, no PRs; retry condition after the arrow):
-- kache `deslop/k1`, `k2`, `k3`, `k4`, `k6` (components 1–16, 21–24): lint green, `make test` unfinished under load → run `make test` on an idle host, then PR each.
-- tinyland `fix/seatd-stale-socket` (forked child held dropped listeners; 1600/1600 loaded runs pass) → PR. `fix/deslop-ci` (docs) → PR.
-- ctrs `fix/deslop-ci`: ARM64 runner finding → owner approves a workflow change.
-- discover `deslop/pass`, `fix/deslop-make-test-load`: DSLP-6 fix (0748588e, fc5b76f7) missed #51 → rebase onto main, PR.
-- play `deslop/play-finish`: draft Report 0c29422f3 → check-up, Phase 4.
-- img `deslop/pass` (14 commits; DSLP-3/5/11 closed): DSLP-4 has 61 untested mutants, webpkit DSLP-6..8 partial, final `make test` not rerun → rerun `make test`, PR, then finish DSLP-4.
-- Other lane branches were squash-merged; their names survive only as merged PR heads.
+Open: kache #106 stacks the parked k1–k4 and k6 lanes (components 1–16, 21–24). Its Linux jobs failed because the lane forbade unsafe code in `build_script`, which needs `fcntl` leases on Linux; the forbid is reverted. Retry: CI green, then merge. This is Linux work and suits a cloud host.
 
-Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); diff-pretty (format waiver or repomod change); gluon (release-profile test skipped); node-build (controller gate); srv, soulseek-rs, oxish (macOS 104-byte socket paths; rerun from a short scratch path); vault VLT-2, tm CLI load, ish DSLP-34 soak and DSLP-37/38/41, check-ups of jaq, rust-fontconfig, rustix, rage (lanes interrupted, no commits); stats, laputa-ui-dashboard, mdevd-rs (verdicts incomplete); smolith SMOL-15 (keep Hyper FFI?) and SMOL-16 (CI timeout); chromium-build DSLP-17; usr CI (dotfiles 126 vs 127); crabtables (hosted kernel); kache daemon not starting. Bridge defects to file: `blocked_transition` not cancellable; codex content filter refusal.
+Red default-branch CI: tansu (check and lint), discover (private; Actions refused for billing). Recheck loc (Shebang mutation budget) and img before starting them.
 
-Next slice: merge kache #95, then the parked kache branches; fix the three red default branches. Never wrap builds in `cpu-guard`. To resume on a cloud Linux host, follow [deslop-cloud.md](deslop-cloud.md) first.
+Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); diff-pretty (format waiver or repomod change); gluon (release-profile test skipped); node-build (controller gate); vault VLT-2, tm CLI load, ish DSLP-34 soak and DSLP-37/38/41; check-ups of jaq, rust-fontconfig, rustix, rage (interrupted, no commits); stats, laputa-ui-dashboard, mdevd-rs (verdicts incomplete); smolith SMOL-15 and SMOL-16; chromium-build DSLP-17; crabtables (hosted kernel). srv, soulseek-rs and oxish check-ups can rerun on Linux, where `sun_path` is 108 bytes.
 
-Queued for resumption: the owner-requested [buildlib adoption lane](deslop-buildlib.md),
-tracked by STUF-101. Inventory and artifact qualification precede pilots, rollout and staged
-enforcement. This planning addition preserves the pause and the parked work above.
-
-
+Next slice: get kache #106 green and merged, then fix tansu's red master. Queued after that: the [buildlib adoption lane](deslop-buildlib.md) (STUF-101); BLD-0's inventory is done. ctrs is owned by the owner's cloud session, and usr is exempt from deslop; leave both alone. Never wrap builds in `cpu-guard`.
 ## Accepted work
 
 ### Shared build tooling, 2026-11-20

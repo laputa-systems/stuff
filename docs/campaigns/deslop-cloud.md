@@ -20,17 +20,20 @@ Verified on `ubuntu:24.04` arm64 on 2026-11-21. Run as a user whose home holds t
 the fleet expects: `~/usr`, `~/repos/<name>` for `joshuarli` repositories, and
 `~/repos/laputa-systems/<name>` for `laputa-systems` repositories.
 
-1. System packages: `apt-get install -y git ca-certificates curl xz-utils python3 libatomic1 clang build-essential`.
-   usr's sync has no Python bootstrap on glibc Linux, Node needs `libatomic1`, and the linked
-   cargo config compiles C through `kache clang` ([usr README](https://github.com/joshuarli/usr#readme)).
-2. Install rustup before syncing. The linked `~/.cargo/config.toml` sets `rustc-wrapper = "kache"`,
-   and sync installs kache only when rustup is already present. Without kache, cargo fails in
-   every Rust repository.
+1. System packages: `apt-get install -y git ca-certificates curl xz-utils python3 libatomic1 build-essential`.
+   Node needs `libatomic1`; sync itself needs `python3`, `curl` and `xz-utils`
+   ([usr README](https://github.com/joshuarli/usr#readme)). clang is optional.
+2. Install rustup before syncing; sync installs kache only when rustup is present. The linked
+   `~/.cargo/config.toml` runs rustc and host C through wrappers that use kache and clang when
+   installed and plain `rustc`, `cc` and `c++` otherwise, so cargo works either way.
 3. `git clone https://github.com/joshuarli/usr ~/usr && sh ~/usr/sync`. This links the skills
    (`deslop`, `orchestrate`, `campaign-winddown`) and installs `todo`, `worktree-retire`,
-   `mdtool`, `fastermod`, `fd`, `rg`, kache and Node. Without a musl loader it leaves out its
-   musl-linked `python3`, `ffmpeg` and `player` (python-build#19); the campaign needs none of them.
-   Install `jaq` separately; sync's Linux defaults omit it.
+   `mdtool`, `fastermod`, `fd`, `rg`, kache and Node. Without a musl loader it installs
+   CPython 3.15 through uv instead of python-build, and leaves out the musl-linked `ffmpeg` and
+   `player` (python-build#19); the campaign needs neither. Install `jaq` separately; sync's Linux
+   defaults omit it. kache releases before the one containing kache#104 rewrite the linked cargo
+   config on first use, which dirties `~/usr`; restore it with `git -C ~/usr checkout -- dotfiles/base/.cargo/config.toml`
+   or update kache.
 4. `git clone https://github.com/laputa-systems/stuff ~/repos/laputa-systems/stuff`, then
    `scripts/setup-dev` there (see [development](../development.md)). repomod's F2/F3 checks run from this checkout.
 5. `gh auth login` with a token that can push branches and open pull requests in the public
@@ -38,7 +41,7 @@ the fleet expects: `~/usr`, `~/repos/<name>` for `joshuarli` repositories, and
 
 ## Scope on a public-only host
 
-- **Out of scope:** the private catalog repositories `joshuarli/bctl`, `discover`,
+- **Out of scope:** usr, which is exempt from deslop and from cloud sessions (use its sync, never edit it), and the private catalog repositories `joshuarli/bctl`, `discover`,
   `niceforge` and `toolbox`. That excludes discover's red lint and its DSLP-6 branches. Toolbox
   is also owned by another session.
 - **`repomod sync`** walks the whole catalog and has no repository filter. Clone the repositories a

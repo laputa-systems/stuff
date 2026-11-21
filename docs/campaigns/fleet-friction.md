@@ -6,8 +6,17 @@ for each item, and what counts as done.
 
 ## Status
 
-Started 2026-11-21. F1 design in progress; F2 and F3 ready. Resume by reading this section and
-each item's next step.
+Paused 2026-11-21 so deslop can resume on a cloud Linux host. Resume by reading this section.
+
+- F1: the failover Worker, replica sync and runbook merged in stuff#181 ([registry failover](../registry-failover.md)).
+  Not deployed. Lisa holds the R2 credentials in `/etc/openorange/stuff-replica/r2.env`; the
+  seed had copied stuff-oci and stuff-mypypi. Next: finish the seed, install `oo-replica-sync`,
+  route one hostname, drill with the stats session, then route the rest. Needs the Mac or Lisa access.
+- F2: usr#49 makes kache and clang optional and adds the uv CPython fallback. Next: release
+  kache with kache#104, then rerun a cold `ubuntu:24.04` capsule and check `git status` is clean.
+- F3: buildlib#31 fixes root-run tests and the Ubuntu 26.04 cache lock. Next: cut buildlib 0.2.0
+  from tip and move the six consumers and ctrs's vendored bootstrap to it (BLD-1 onward).
+- F4 to F6: not started; F4's inventory is below.
 
 ## Items
 
