@@ -10,7 +10,17 @@ bootstrap_revision = "30ad4a0a8b697031a008b1de3b5359fc5cf6f2fe"
 "buildlib-run" = "e7f957ca6af0b151d25a9ff5bedb5deca0bfc86ba05ff3225a5405d56fa95957"
 "python.lock" = "cab50541ce8b2c2a6a41829f26aac19344532d239535f4d6795d80d5af933832"
 
-[assess."joshuarli/pi-build"]
+[enrolled."joshuarli/pi-build"]
+entrypoints = ["tools/release.py", "tools/toolchain.sh"]
+bootstrap = false
+
+[enrolled."joshuarli/shck"]
+entrypoints = ["scripts/build-python-release.py"]
+bootstrap = true
+
+[enrolled."laputa-systems/chromium-build"]
+entrypoints = ["scripts/release_assets.py", "scripts/sources_lock.py"]
+bootstrap = false
 
 [enrolled."joshuarli/play"]
 entrypoints = ["scripts/fetch-ffmpeg-runtime.sh", "scripts/fetch_ffmpeg_runtime.py"]
@@ -25,12 +35,6 @@ entrypoints = ["build.py", "buildsys/__init__.py", "scripts/setup-dev"]
 bootstrap = true
 
 [assess."joshuarli/img"]
-
-[assess."joshuarli/shck"]
-
-[assess."joshuarli/stats"]
-
-[assess."laputa-systems/chromium-build"]
 
 [assess."laputa-systems/cmake-build"]
 
@@ -245,3 +249,7 @@ reassess = "Reassess if build or release acquisition moves into custom tooling."
 [exempt."laputa-systems/zlib-rs"]
 reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
 reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."joshuarli/stats"]
+reason = "The repository is under active work in another session (the Engine and OpenOrange soaks); its build-static.sh acquisition is a BLD-3 candidate."
+reassess = "Reassess when that session completes, starting with agent/scripts/build-static.sh."
