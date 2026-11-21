@@ -24,7 +24,21 @@ Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); 
 
 Next slice: merge kache #95, then the parked kache branches; fix the three red default branches. Never wrap builds in `cpu-guard`.
 
+Queued for resumption: the owner-requested [buildlib adoption lane](deslop-buildlib.md),
+tracked by STUF-101. Inventory and artifact qualification precede pilots, rollout and staged
+enforcement. This planning addition preserves the pause and the parked work above.
+
+
 ## Accepted work
+
+### Shared build tooling, 2026-11-20
+
+The owner requested a buildlib mandate for most nontrivial stuff-managed projects and named
+usr's `linux-capsule` skill. The [plan](deslop-buildlib.md) makes supported shared build
+operations the default, with explicit native-tooling, bootstrap-only and deferred dispositions.
+It preserves the campaign pause, current exclusions and parked lanes. Six existing consumers pin the original
+0.1.0 wheel; current buildlib main is ahead of that release, so artifact/consumer qualification
+precedes pin upgrades. No migration, release or capsule pass is claimed by this planning commit.
 
 ### Unfiled P3 follow-ups
 
@@ -681,6 +695,15 @@ tier.
     settled repositories get a Bench ticket and settle again once it closes. Excluded
     repositories stay excluded.
 
+15. **Shared build tooling (2026-11-20).** Buildlib is the default for material custom tooling
+    that duplicates its supported build/release primitives, including non-build-tag projects.
+    Apply the [lasting policy](../build-repos.md#shared-build-tooling-across-the-fleet) through
+    [BLD-0 to BLD-5](deslop-buildlib.md#work-queue), tracked by STUF-101. Qualify published bytes,
+    both Linux capsule bootstrap paths and supported native behavior; keep simple native builds
+    and justified exceptions. This adds a bounded lane, not another full pass for settled repos.
+    Existing exclusions, publication limits and single-writer ownership remain. The new rule is
+    planned; it is not enforced by the current build rules.
+
 ### Prescribed
 
 - **Fan out by size tier, not all at once.** The method must work at each scale before larger repos
@@ -877,6 +900,10 @@ when no F item is open.
 5. Run `ultrareview` on this doc's own deliverables in stuff, roll the lasting rules into
    `docs/fleet.md` and `docs/policy-development.md`, then delete this doc.
 
+Keep STUF-101, its [buildlib plan](deslop-buildlib.md) and scorecard evidence until that lane is
+qualified or explicitly deferred under the existing rules. Main campaign retirement must not
+erase unfinished adoption work or turn missing capsule/release evidence into a pass.
+
 ## Repo pass
 
 The procedure is the `deslop` skill in usr ([SKILL.md](https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/skills/deslop/SKILL.md)).
@@ -962,6 +989,7 @@ the Reports.
 | Critical contracts are mutation-checked | Each repo's required mutation scope names the contracts it protects; `--rule mutants-diff-lane` is clean where a lane is retained, and its negative controls failed as intended. Advisory audit scope is reported separately and is not required for acceptance. |
 | Strict typing is enforced | `--rule strict-typing-profile` is clean for the in-scope set |
 | Benchmarks answer real questions | Each in-scope repo's Report records its `bench-pyramid` audit; repos with benchmarks have a working `bench-check` and tiered `make bench` entrypoint proven at the Edit and Change tiers |
+| Shared build tooling has an explicit disposition | [BLD-5](deslop-buildlib.md#completion-and-authority) records reviewed applicability, qualified migrations, native exceptions and named deferrals; admitted consumers have immutable pins, real reuse and the required environment proof |
 | Nothing regressed | Every perf-gated repo's final verdict is within bound, consumer tests are green, and escaped regressions number zero or each has a guard |
 | The method outlives the campaign | The `deslop` skill exists, and `test-audit` contains the K1 coverage and mutation sections |
 | The tickets are gone | No `TODO-DESLOP.md` remains in any in-scope repo |
@@ -1010,6 +1038,8 @@ These are run by the owner or by CI, never assumed to pass:
 - The new fleet rules (F2, F3) that report findings on every in-scope repo.
 - The test-audit position on coverage.
 - `todo --file`.
+- The shared-build-tooling adoption policy and staged enforcement plan in decision 15. Existing
+  exclusions and release/publication boundaries still apply.
 
 Every other contract change is a walk-back.
 

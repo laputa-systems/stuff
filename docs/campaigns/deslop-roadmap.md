@@ -2,7 +2,7 @@
 
 The owner requested this stopping point on 2026-11-17. The full-fleet goal
 remains open. This document accounts for the owner's six-part M2 request and
-the subsequent Solid 2.0 upgrade request. It is a work queue, not a qualification
+the subsequent Solid 2.0 upgrade and buildlib adoption requests. It is a work queue, not a qualification
 report. Use [Status](deslop.md#status) and the [scorecard](deslop-scorecard.md)
 for the checked revisions. Earlier chronology is in
 [historical status](deslop-status-20261117.md).
@@ -35,6 +35,19 @@ credentials, hardware and canonical checkouts retain their campaign boundaries.
    that skipped a repository proves no pass completion.
 4. Correct stale PR descriptions and obsolete authorization or blocker claims.
    Resolve current main changes before reviewing a parked candidate again.
+
+## Adopt shared build tooling
+
+The 2026-11-20 owner request adds [BLD-0 to BLD-5](deslop-buildlib.md#work-queue), tracked by
+STUF-101. The reconciled campaign Status is paused; keep this lane queued for resumption.
+Then reconcile parked work, inventory applicability and qualify buildlib's actual wheel/bootstrap.
+Prove Node and a bounded play acquisition/packaging pilot before broader adoption and read-only enforcement.
+Current buildlib main and the pinned 0.1.0 wheel differ; do not assume source fixes are released.
+
+Use usr's latest `linux-capsule` for Ubuntu 24.04's uv fallback and a newer-musl python-build path.
+Preserve native macOS proof, stuff's own-registry independence, established smaller native builds
+and all current exclusions. [Scorecard](deslop-scorecard.md#buildlib-adoption-lane) entries start
+as planned; a plan, import or synthetic bootstrap test is not migration or capsule evidence.
 
 ## Resumption receipts
 

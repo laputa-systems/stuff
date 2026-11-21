@@ -73,6 +73,7 @@ Run everything from the repository root.
 | Workflow matrix include proof | [docs/deslop-workflow-matrix.md](docs/deslop-workflow-matrix.md) |
 | Owned-tool ownership lookup and help contract | [docs/fleet.md#owned-tools](docs/fleet.md#owned-tools); `fleet/policy/owned-tools.toml` |
 | Build repositories: make targets, pinned inputs, releases | [docs/build-repos.md](docs/build-repos.md) |
+| Shared build tooling and Linux capsule adoption | [docs/build-repos.md](docs/build-repos.md#shared-build-tooling-across-the-fleet); [deslop adoption plan](docs/campaigns/deslop-buildlib.md) |
 | Dependency policy checks and the registry policy the fleet follows | [docs/audit.md](docs/audit.md); `fleet/registries.toml` |
 | Tracked dependency model and extraction | [docs/dependency-inventory.md](docs/dependency-inventory.md) |
 | Enrichment type-boundary proof | [docs/deslop-enrichment-types.md](docs/deslop-enrichment-types.md) |

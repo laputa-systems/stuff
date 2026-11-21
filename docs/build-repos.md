@@ -4,6 +4,33 @@ A repository tagged `build` produces release archives of upstream software (CPyt
 CMake, FFmpeg, Git, OpenSSH, Chromium, Pi). This document is the contract those repositories share.
 repomod checks it with the `build-release-standard`, `build-make-targets`, and `build-locks` rules.
 
+## Shared build tooling across the fleet
+
+Owner policy, 2026-11-20: use `laputa-buildlib` for material first-party build tooling that
+duplicates its verified acquisition, lock readers, release manifests, reproducible archives,
+checksums, supported target mapping or binary inspection. This applies beyond `build`-tagged
+repositories. Judge custom build behavior, not product language or codebase size. Native
+compilers, package managers, product policy and existing user entrypoints keep their roles.
+
+Each active repository receives a reviewed disposition: shared helpers required, bootstrap only,
+native tooling sufficient, or deferred with a concrete blocker. Simple native commands and
+established smaller implementations can justify an exception; an unused import cannot satisfy
+adoption. Keep pristine upstream/vendor code and current campaign exclusions outside migration.
+Use only supported helpers, and add upstream abstractions only for two demonstrated consumers.
+
+Consumers pin immutable package versions and wheel digests. Repositories using buildlib or
+requiring newer Python use its vendored shell bootstrap with recorded source provenance, plus
+their own documented setup for locked development tools. Qualify both Linux interpreter paths
+with usr's `linux-capsule` skill, preserve supported native macOS checks, and remove the local
+implementation actually replaced. Stuff's own-registry-independent build and recovery paths
+remain an explicit exception to fetching the stuff-hosted wheel.
+
+The [deslop adoption plan](campaigns/deslop-buildlib.md) owns sequencing, artifact readiness,
+compatibility checks, exemptions and migration proof. Existing `build-*` rules enforce the
+contract below; they do not yet enforce buildlib adoption. The proposed `buildlib-usage` rule
+becomes blocking only for repositories admitted after qualification. Adoption does not extend
+the build-repository release format to unrelated product releases.
+
 ## Make targets
 
 The root `Makefile` defines `build`, `verify`, `lint`, and `clean`. `build` produces the release

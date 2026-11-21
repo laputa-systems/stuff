@@ -44,6 +44,13 @@ database, background worker, or generic workflow framework to support the invent
 
 ## Release policy
 
+The [shared build-tooling policy](build-repos.md#shared-build-tooling-across-the-fleet) also
+applies outside `build`-tagged repositories. Its [deslop plan](campaigns/deslop-buildlib.md)
+proposes a read-only `buildlib-usage` rule with explicit applicability, immutable pins,
+bootstrap provenance and reasoned exceptions. It is not implemented or enforced yet. Keep
+consumer behavior proof separate from static lint, reconcile existing lock-validator semantics,
+and preserve stuff's ability to build while its own registries are unavailable.
+
 `fleet/policy/actions.toml` owns approved GitHub Action channels, versions, and commit SHAs.
 `fleet/policy/release-policy.toml` owns package release conventions and the `[binary]` native
 prerelease target contract (portable and single-OS target sets plus forbidden glibc

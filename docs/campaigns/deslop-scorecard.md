@@ -4,6 +4,24 @@ One row per in-scope repository for the [deslop campaign](deslop.md). The campai
 row from the repo's `## Report` at check-up. Cells hold `before → after`. Coverage is recorded but
 never gated.
 
+## Buildlib adoption lane
+
+Added 2026-11-20 under STUF-101 and the [adoption plan](deslop-buildlib.md). This lane is separate
+from the completed or ongoing deslop passes below. Baseline source review found 66 active catalog
+entries and six existing 0.1.0 consumers; it did not qualify migrations or run capsules.
+
+| Slice | State | Next proof |
+| --- | --- | --- |
+| BLD-0 | Planned; concrete candidates and exceptions identified | Reconcile every active entry at its current revision; record the disposition and affected paths |
+| BLD-1 | Planned; source/wheel gap and validator drift identified | Qualify actual candidate artifacts, known consumers, both Linux interpreter branches and independent registry recovery |
+| BLD-2 | Planned | Node and bounded play pilots; use ctrs acquisition if play's held work prevents an independent slice |
+| BLD-3 | Planned | Consumer-specific migration and capsule receipts; count helpers, bootstrap-only, exceptions and deferrals separately |
+| BLD-4 | Planned; no adoption rule implemented | Read-only rule with negative controls, then staged admission into existing lint |
+| BLD-5 | Planned | Coverage totals, permanent policy, explicit outstanding evidence and durable backlog handoff |
+
+Append exact source/artifact revisions and receipt links as slices complete. Historical consumer
+pins and previous buildlib test results do not satisfy the new lane's acceptance.
+
 ## Current checkpoint, 2026-11-18
 
 M2 qualified representative workloads with explicit deferrals. Three
