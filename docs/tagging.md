@@ -8,7 +8,8 @@ publishes the exact catalog tag set.
 Other tags may remain on an ignored repository for later use.
 
 No tag marks a repository as private. GitHub's visibility decides, and repomod caches it for an hour
-in `~/.cache/repomod/visibility.json`. Reporting commands (`status`, `lint`, `deps report`,
+at `$XDG_CACHE_HOME/repomod/visibility.json` (default `~/.cache/repomod/visibility.json`).
+Reporting commands (`status`, `lint`, `deps report`,
 `deps why`, and `deps render`) leave private repositories out unless given `--include-private` or
 the repository by `--repo`. `sync`, `fix`, `push`, `merge`, `topics`, `deps snapshot`, `deps check`,
 and `deps enrich` still cover them. A repository GitHub cannot show is treated as public, so its

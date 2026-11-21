@@ -191,7 +191,7 @@ Overview next to Explore, the interactive dependency graph.
   ecosystem. Search (`/`) finds any package.
   `packages.html#pkg=pkg:cargo/serde` deep-links to its versions and consumers.
 - **Lines** (`lines.html`) counts lines of code by language, from
-  `fleet/loc/v1`, which `repomod loc snapshot` writes from `loc --git . -o json` in each
+  `fleet/loc/v1`, which `repomod loc snapshot` writes from `loc --git . --output json` in each
   selected catalogued checkout. Docs (Markdown and other prose) and data and config (JSON,
   YAML, TOML, lockfiles and similar) are counted apart from code. The page ranks the fleet's
   programming languages, then draws every repository's language mix as a full-width bar with its
@@ -277,12 +277,10 @@ the Explore view controller). The adjacent `browser.d.ts` declares the globals t
 `make ts-assets`; edit the `.ts` sources and commit both together. The Explore
 page loads `assets/atlas.js`, `assets/atlas.css`, a generated
 `assets/atlas-data.js` (the filtered fleet projected to the graph format at render time;
-regenerate by re-rendering), and `assets/vendor/atlas.vendor.js`. The vendor bundle is a
-minified IIFE of pinned MIT packages (sigma 4.0.6, graphology 0.26.0, and their pinned
-dependencies) built by `tools/atlas-vendor` with esbuild; the pins, license texts, and the
-bundle's sha256 live in `repomod/dependencies/assets/vendor/VENDORED.md`. Rendering needs no
-Node install; rebuilding the vendor bundle does (`cd tools/atlas-vendor && npm ci && npm run build`),
-and so does `make ts-assets`.
+regenerate by re-rendering), and `assets/vendor/atlas.vendor.js`, a minified IIFE of pinned MIT
+packages built by `tools/atlas-vendor` with esbuild. Its pins, license texts, sha256, and rebuild
+steps live in [VENDORED.md](../repomod/dependencies/assets/vendor/VENDORED.md). Rendering needs
+no Node install; rebuilding the bundle or running `make ts-assets` does.
 The renderer copies the pinned library's base `styles.css` and `tokens.css` and the `layout.css`
 and `data.css` family sheets from `crates/stuff-catalog/assets/ui-dashboard/`, refreshed from the
 pinned `@laputa-systems/ui-dashboard` in `crates/stuff-worker/package.json` by `make catalog-css`.
@@ -291,18 +289,16 @@ and line counts (committing any changes) before it renders; it does not run Node
 
 ## Budgets and verification
 
-The output budget is 10 MB. The initial overview-render target is 1.5 seconds.
-Measure the generated fleet and the browser load when validating these targets; old fleet
-sizes and timings are not current guarantees.
+The dashboard-byte target is 10 MB and the initial overview-render target is 1.5 seconds
+([inventory budgets](dependency-inventory.md#budgets-and-residual-limits)); these are targets,
+not current measurements. Measure the generated fleet and browser load when validating them.
 
-Measured on the current fleet (62 visible of 64 repositories, 726 projects, 3,084 components,
-4,284 instances, 22,338 edges): the full render writes 75 pages totalling about 14.2 MB
-(before Explore it wrote 74 pages totalling 12.3 MB), of which `assets/atlas-data.js` is
-1.4 MB, the vendor bundle 0.45 MB, and the atlas controller and stylesheet 50 KB together.
-Warm render is about 2.0 s (render only; the full `make deps` path was not re-measured). The
-overview's load does not pay for the atlas on other pages.
-Both figures breach the 10 MB budget: the pre-Explore dashboard already did (12.3 MB), and
-Explore adds 1.9 MB on top; only dropping or moving dashboard output would close the gap.
+A past fleet snapshot (62 visible of 64 repositories, 726 projects, 3,084 components,
+4,284 instances, 22,338 edges) produced 75 pages totalling about 14.2 MB, or 74 pages and
+12.3 MB before Explore; `assets/atlas-data.js` was 1.4 MB, the vendor bundle 0.45 MB, and the
+atlas controller and stylesheet 50 KB together. Warm render was about 2.0 s (render only).
+The overview's load does not pay for the atlas on other pages. Both snapshot sizes exceeded
+the 10 MB target; only dropping or moving dashboard output would close the gap.
 
 The browser checks use agent-browser at 1440×900 and 390×844. They verify no console errors, no
 horizontal page overflow, search for `serde`, the `#pkg=pkg:cargo/serde` route, a back link

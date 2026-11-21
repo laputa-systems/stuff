@@ -2,7 +2,6 @@
 
 The audit rules report stale dependencies, known vulnerabilities, and registry
 policy bans. They trust lockfiles as the source of truth for installed versions.
-Swift is out of scope and is not audited.
 
 `audit-upgrades` is the fixable rule for stale direct dependencies. The
 `audit-lock`, `audit-banned`, `audit-registry`, and `audit-vuln` rules are
@@ -69,9 +68,9 @@ and `deps enrich --refresh` control the separate enrichment cache.
   upstream smol crates (smolith), hyper, h2, and the mainstream HTTP
   clients (h12tiny), zip (rawzip, maintained as the
   [laputa-systems/rawzip](https://github.com/laputa-systems/rawzip) fork),
-  and atty (`std::io::IsTerminal`, stable since Rust 1.70.0). `fastrand` is not banned because common crates such as
-  `tempfile` depend on it, and the `futures-core` and `futures-io` traits
-  remain the interop layer.
+  and atty (`std::io::IsTerminal`, stable since Rust 1.70.0). A crate with no `ban`
+  table entry, such as `fastrand`, is not banned; the `random` role in
+  `fleet/dependency-roles.toml` prefers `laputa-fastrand`.
   Repositories tagged `fork` keep upstream's dependency choices and are not
   checked for banned crates; their lockfiles and vulnerabilities still are.
   A repository with a target-specific transitive crate that is never compiled
