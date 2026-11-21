@@ -548,6 +548,39 @@ test("oci blobs redirect to the configured blob origin", async (t) => {
   }
 });
 
+test("an oci blob read before its upload is not cached, and the uploaded blob is immutable", async (t) => {
+  const server = workerHarness({ STUFF_OCI_BLOB_HOST: "oci-blobs.test" });
+  t.after(() => server.close());
+  await server.listen();
+  const hex = OCI_LAYER.slice("sha256:".length);
+  const bytes = readFileSync(join(OCI_FIXTURE, "blobs", "sha256", hex));
+  const url = `https://oci-blobs.test/sha256/${hex}`;
+  for (const method of ["HEAD", "GET"]) {
+    const absent = await server.getWorker().fetch(url, { method });
+    assert.equal(absent.status, 404, method);
+    assert.equal(absent.headers.get("cache-control"), "no-store", method);
+  }
+  const malformed = await server.getWorker().fetch("https://oci-blobs.test/sha256/abc");
+  assert.equal(malformed.status, 404);
+  assert.equal(malformed.headers.get("cache-control"), "no-store");
+
+  await (await server.getWorker().getEnv())["OCI_BLOBS"].put(`sha256/${hex}`, bytes);
+
+  const immutable = "public, max-age=31536000, immutable";
+  const head = await server.getWorker().fetch(url, { method: "HEAD" });
+  assert.equal(head.status, 200);
+  assert.equal(head.headers.get("cache-control"), immutable);
+  const get = await server.getWorker().fetch(url);
+  assert.equal(get.status, 200);
+  assert.equal(get.headers.get("cache-control"), immutable);
+  assert.deepEqual(Buffer.from(await get.arrayBuffer()), bytes);
+  const range = await server.getWorker().fetch(url, { headers: { range: "bytes=0-3" } });
+  assert.equal(range.status, 206);
+  assert.equal(range.headers.get("cache-control"), immutable);
+  assert.deepEqual(Buffer.from(await range.arrayBuffer()), bytes.subarray(0, 4));
+
+});
+
 function pushWorker() {
   return workerHarness({
     STUFF_OCI_PUSH_TOKEN: "token",

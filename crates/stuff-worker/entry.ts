@@ -235,6 +235,15 @@ function notFound(): Response {
   });
 }
 
+// A blob URL is content-addressed and may be read before its upload lands, so a miss must
+// never be cached; only present blobs get the immutable lifetime.
+function blobNotFound(): Response {
+  return new Response("not found", {
+    status: 404,
+    headers: { "cache-control": "no-store" },
+  });
+}
+
 const UNIFIED_BINDINGS = ["MYCRATES", "MYNPM", "PYPI", "OCI", "MIRROR"] as const;
 
 async function currentGeneration(env: WorkerEnv, binding: string): Promise<string | null> {
@@ -925,7 +934,9 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
     if (cargoBlobHost && !url.pathname.startsWith("/blobs/")) {
       return notFound();
     }
-    const mapped: Mapped = url.hostname === env.STUFF_OCI_BLOB_HOST
+    const ociBlobHost = url.hostname === env.STUFF_OCI_BLOB_HOST;
+    const miss = ociBlobHost ? blobNotFound : notFound;
+    const mapped: Mapped = ociBlobHost
       ? /^\/sha256\/[0-9a-f]{64}$/.test(url.pathname)
         ? { kind: "direct", bucket_binding: "OCI_BLOBS", key: url.pathname.slice(1), cache: "immutable" }
         : { kind: "not_found" }
@@ -934,7 +945,7 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
       throw new Error(mapped.message ?? "routes");
     }
     if (mapped.kind === "not_found" || !mapped.bucket_binding) {
-      return notFound();
+      return miss();
     }
     const store = bucket(env, mapped.bucket_binding);
     const opened = new Set<R2ObjectLike>();
@@ -1087,7 +1098,7 @@ async function serve(req: Request, env: WorkerEnv): Promise<Response> {
       }
     }
     if (object === null) {
-      return notFound();
+      return miss();
     }
     const plan = JSON.parse(
       plan_object_response_json(

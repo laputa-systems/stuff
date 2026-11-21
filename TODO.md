@@ -73,7 +73,13 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Area:** OCI blobs · Edge caching
 - **Where:** oci-blobs.17166969.xyz `/sha256/*` (Cloudflare Cache Rule in front of the Lisa origin); docs/PUBLISHING.md:209-212
 - **Problem:** A GET or HEAD for a blob that is not yet uploaded returns `404 not found` with `cache-control: public, max-age=31536000`, and Cloudflare caches it (`cf-cache-status: HIT`). Reproduction 2026-11-21: a crabc build fetched 153 locked inputs from `https://oci-blobs.17166969.xyz/sha256/<hex>` minutes before `stuff publish oci --layout ... --repository crabc/image-inputs --tag x86_64` (generation 4b124444500568dec2362721) uploaded them. Afterwards every exact URL still answers 404 from cache (`age: 464`) while `?nocache=1` returns 200 with the right bytes, and the registry's own `/v2/crabc/image-inputs/blobs/sha256:<hex>` 307s to the poisoned URL. Any read that races a publish, or probes a digest before it exists, makes that content-addressed URL unusable at that edge for a year.
-- **Recommendation:** Serve misses with `cache-control: no-store` (or a short max-age) and restrict the long immutable TTL to 200/206 responses. Accept when a HEAD for an absent digest followed by its upload and a second HEAD returns 200 on the second request, and existing 200 responses keep `public, max-age=31536000, immutable`.
+- **Recommendation:** Remaining, for the OpenOrange rollout owner (STUF-103), not a separate deployment:
+  1. Deploy a Worker image that contains the origin fix below.
+  2. Change the `/sha256/*` Cache Rule so it no longer overrides the origin lifetime for every status. Use status-code TTLs (200 and 206 for a year, 404 not cached), or respect origin `cache-control`.
+  3. Purge the crabc `image-inputs` URLs that are already poisoned.
+  4. Accept live with a HEAD for an absent digest, its upload, and a second HEAD that must return 200, while existing 200 responses keep `public, max-age=31536000, immutable`.
+
+  Landed 2026-11-21: blob-host misses (an absent object or a malformed `/sha256/` path) now return `cache-control: no-store` instead of `public, max-age=60`. Present blobs keep the immutable header on GET, HEAD and 206. The runtime test `an oci blob read before its upload is not cached, and the uploaded blob is immutable` performs absent HEAD and GET, the upload, then HEAD, GET and range; it fails on the previous Worker with `public, max-age=60`. A live probe the same day showed the edge rewriting a miss to `public, max-age=31536000` even with `?nocache=1`, and the second read was a `cf-cache-status: HIT`. The origin fix alone therefore does not stop edge caching until the rule changes.
 - **Fix with:** root-cause
 - **Effort:** S
 

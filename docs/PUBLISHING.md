@@ -209,7 +209,9 @@ Worker bindings: `OCI` and `OCI_BLOBS`, `STUFF_OCI_HOST`,
 `STUFF_OCI_WRITER_ORIGIN`. `STUFF_OCI_BLOB_ORIGIN` is set in `cloudflare.config.ts` to
 `https://oci-blobs.17166969.xyz`, so blob GET/HEAD returns a `307` to
 `<origin>/sha256/<hex>`; the `oci-blobs` bucket domain needs the Cache Rule
-for `/sha256/*`. Layers over 300 MB upload through S3 multipart. The writer
+for `/sha256/*`. The rule may give the year-long lifetime only to 200 and 206 responses: a miss
+(`404`, sent with `cache-control: no-store`) can precede the blob's upload and must not be
+cached. Layers over 300 MB upload through S3 multipart. The writer
 host needs `R2_S3_*` for `stuff-oci-blobs`; mint them with:
 
 ```sh
