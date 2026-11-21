@@ -438,4 +438,11 @@ Upstream's four attempts per refusal are the original disconnect retry loop, not
 four distinct storage commands. The drain number is the first fresh
 registration after lifting; quiesce covers the pending disconnect backlog. The
 run used one host and one Engine per image and does not establish 24-hour soak
-behavior.
+behavior. A disconnect write that succeeds on its first attempt logs nothing,
+so the count covers only retried and failed writes. Under the same limit every
+upstream write was retried and then failed (24,690 failures), so an attempted
+candidate write would have shown up. Upstream also drained in well under a
+second, so the drill reproduces the write amplification behind the
+2026-11-21 storm but not its self-sustaining phase, which on Lisa came with
+host CPU saturation and a fenced worker. Promotion still requires the
+soak.
