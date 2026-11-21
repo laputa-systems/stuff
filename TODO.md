@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 102
+Next: 103
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -12,6 +12,15 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Mirror pollution**: 2006-era packages remain on the mirror, unactioned.
 - **npm mirror 500s**: recurring HTTP 500s (outages ~16:26-01:00 UTC and ~02:14 UTC on 2026-11-14); mirror packages (pnpm 12.20/12.21, playwright-core 1.65.1, vitest 5.0.3, ws 8.23.0, vite 8.3.6) still absent. Snapshots of deps/loc must wait for merges and a healthy mirror.
 ## Tickets
+
+### STUF-102 · P1 · Stop refused envoy reconnects from feeding the Engine overload that refused them
+
+- **Area:** OpenOrange Engine
+- **Where:** Rivet `e5ed3911` `engine/packages/pegboard-envoy/src/connection.rs` (pre-init `EnvoyRead`, refusal at 1612-1617, disconnect write); the envoy client's reconnect loop; docs/openorange-engine-degradation.md sections 3 and 5
+- **Problem:** On 2026-11-21 three capsule containers (owner unknown) ran `cargo test --workspace` on Lisa from 05:02 to about 05:11 UTC, holding load at 16-21 on 8 cores with 14% iowait. The production Engine's storage refused commands (`command_capacity`), its worker lease expired waiting on the object store, and it fenced and exited at 05:04 and 05:10. crates, mirror, npm and pypi returned 500 from about 05:02 to 05:24. After the outside load ended, the Engine stayed at about 750% CPU with every tokio worker busy. Each minute 150-850 envoy connects were refused as "storage could not register" with `retry_after_ms=100`, and most refusals then attempted an "envoy disconnect write", itself a storage command that also failed. Refusals generated more storage work, so the overload sustained itself until the worker fenced again at 05:21; after that restart it went idle and the registries recovered. A 30 s perf sample after recovery showed slatedb merge-iterator reads and allocation, so the spin itself was not profiled. The same envoy-refusal pattern occurred on the Threadripper standby on 2026-11-20 and 2026-11-21 (Stats STA-135).
+- **Recommendation:** Reproduce in an isolated Engine: hold storage at `command_capacity` with several envoys reconnecting, and measure storage commands per refused connect. Then patch so a refused connect costs no storage write (skip the disconnect record for a connection that was never registered) and envoys back off exponentially with jitter, starting from the server hint and capped. The regression must show storage commands per refusal and the reconnect rate both bounded under sustained refusal, and the Engine draining once capacity returns without a restart. Carry it as a `rivet-e5ed391-*.patch` beside the existing candidates. Profile the next spin with perf (now installed on Lisa) before restarting.
+- **Fix with:** root-cause
+- **Effort:** M
 
 ### STUF-75 · P1 · Add integrity-verified S3 backup copies and isolated restore proof
 
