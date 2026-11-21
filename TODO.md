@@ -76,11 +76,12 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Remaining, in the Stuff primary cutover (`docs/stuff-primary.md` steps 1, 2 and 7):
   1. Deploy a Worker image that contains the origin fix below, to Lisa and to the Threadripper guest.
   2. Accept live with a HEAD for an absent digest, its upload, and a second HEAD that must return 200, while existing 200 responses keep `public, max-age=31536000, immutable`.
-  3. The `crates-blobs.17166969.xyz` `/blobs/*` rule has the same flaw: on 2026-11-21 a HEAD for an absent path returned `404` with `public, max-age=31536000`, and the second was a `cf-cache-status: HIT`. Give it the same status-code TTLs.
 
   Landed 2026-11-21: blob-host misses (an absent object or a malformed `/sha256/` path) now return `cache-control: no-store` instead of `public, max-age=60`. Present blobs keep the immutable header on GET, HEAD and 206. The runtime test `an oci blob read before its upload is not cached, and the uploaded blob is immutable` performs absent HEAD and GET, the upload, then HEAD, GET and range; it fails on the previous Worker with `public, max-age=60`.
 
   Edge, same day: the `/sha256/*` Cache Rule (zone ruleset `stuff cache rules`, version 3) now keeps the year-long edge lifetime for 200 and 206 only, sets 300 to 599 to no-store, and respects the origin's browser lifetime. Before, it overrode every status to a year. The 153 poisoned `crabc/image-inputs` blob URLs were purged. Afterwards all 154 of that manifest's blobs answer 200 with `public, max-age=31536000, immutable`, a second read is a `HIT`, and the registry's `/v2/crabc/image-inputs/blobs/` 307s to a working URL. Three HEADs and a GET for a random absent digest each answered 404 with `cf-cache-status: BYPASS`. The Lisa Worker still sends `public, max-age=60` on that miss until step 1.
+
+  The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an absent path returned `404` with `public, max-age=31536000`, and the second was a `HIT`. It got the same status-code TTLs (ruleset version 4); absent paths now answer `BYPASS`, and `stuff doctor --registry cargo --sample-artifacts` still matches a sampled crate's hash.
 - **Fix with:** root-cause
 - **Effort:** S
 
