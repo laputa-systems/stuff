@@ -38,6 +38,7 @@ llvm-prebuilt-musl, ssh-build, zzz).
 | loc | `01ca0c4d` | 2026-11-20 |
 | laputa-ui-dashboard | `cd18e48` | 2026-11-20 |
 | tinyland | `35bd880` | 2026-11-20 |
+| shck | `9f56f40020` | 2026-11-20 |
 | e | `3fbb0ee` | 2026-11-20 |
 | defuddle-rs | `25fa32ac7` | 2026-11-20 |
 | gluon | `94c5f68e7` | 2026-11-20 |

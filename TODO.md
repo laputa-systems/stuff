@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 105
+Next: 114
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -158,3 +158,83 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** deslop
 - **Effort:** S
 
+### STUF-105 · P3 · A tar.gz mirror artifact buffers a whole member before the decompression cap
+
+- **Area:** mymirror · archive
+- **Where:** crates/mymirror/src/archive.rs `extract` (TarGzip arm) and `tar_members`
+- **Problem:** Reproduced on `d51b2786`. `TarXz` and `Zip` bound decompression with `.take(MAX_DECOMPRESSED + 1)`, but `TarGzip` hands an unbounded `GzDecoder` to `tar_members`, whose `entry.read_to_end` buffers a whole member before `enforce_cap` runs. A 7.3 MB `.tar.gz` holding a single 1.5 GiB member took 10.3 s and peaked at 1.09 GB RSS (debug build, macOS) before it was rejected. macOS compresses zero pages, so that RSS figure understates the buffer. The artifact must first match its manifest SHA-256 pin, so exposure requires a pinned hostile or faulty archive. Reproduction is in docs/campaigns/retired-p3-reconciliation-20261121.md.
+- **Recommendation:** Bound each member read by the remaining cap plus one (or wrap the gzip decoder in `.take(MAX_DECOMPRESSED + 1)`, as for xz). Add a regression that a gzip member larger than a lowered test cap fails without reading past it.
+- **Fix with:** os-boundaries
+- **Effort:** S
+
+### STUF-106 · P3 · myoci push reads chunk-size and trailer lines without a byte cap
+
+- **Area:** myoci · push
+- **Where:** crates/myoci/src/push.rs `read_chunked_body`
+- **Problem:** Reproduced on `d51b2786`. `read_line` for chunk sizes and trailers has no per-line cap or trailer count limit. With a body limit of 1 KiB, a client sent 256 MiB of hex digits with no newline. The server consumed and buffered all of it before failing with `SizeInvalid`. Exposure requires the push token, and `READ_TIMEOUT` applies per read, not per line. `writer.rs` `BodyReader::read_line` already caps lines at 4,096 bytes.
+- **Recommendation:** Read chunk-size and trailer lines through a capped line reader (4 KiB, matching the writer) and bound the trailer count. Add a regression that a newline-free chunk-size line fails after the cap without consuming the rest of the stream.
+- **Fix with:** os-boundaries
+- **Effort:** S
+
+### STUF-107 · P3 · Importing a deeply nested OCI index overflows the stack
+
+- **Area:** myoci · import
+- **Where:** crates/myoci/src/import.rs `walk_descriptor`; callers `import_layout` and `import_from` (crates/stuff/src/publish/oci.rs:462-468)
+- **Problem:** Reproduced on `d51b2786`. `walk_descriptor` recurses once per nested `Image::Index` and has no depth cap. Cycles are stopped by `walk.manifests`, but `mirror/graph.rs` and `mirror/acquire.rs` cap depth at 32. A chain of 10,000 distinct nested indexes aborted the process with a stack overflow on an 8 MiB thread (debug build); 1,000 succeeded. `import_from` copies a remote image with oras before this walk, so an upstream image can reach it during `stuff publish oci`.
+- **Recommendation:** Apply `MAX_GRAPH_DEPTH` to the import walk, or make it iterative with the same cap, and return `Error::Limit`. Add a regression with a chain one deeper than the cap.
+- **Fix with:** os-boundaries
+- **Effort:** S
+
+### STUF-108 · P3 · The mirror's non-public address filter admits IPv6 loopback and unspecified
+
+- **Area:** mymirror · acquire
+- **Where:** crates/mymirror/src/acquire.rs `is_restricted_address`
+- **Problem:** Reproduced on `d51b2786`. `is_restricted_address` returns false for `::1` and `::`, but true for `127.0.0.1`. The IPv6 `SUBNETS` cover ULA, link-local, NAT64 and multicast, and IPv4-mapped addresses are rejected separately. A mirror upstream host whose DNS resolves to `::1` therefore passes the check, and the fetch reaches a local HTTPS listener.
+- **Recommendation:** Add `::/128` and `::1/128`. Extend the address-table test with both, and with `127.0.0.1` for parity.
+- **Fix with:** security
+- **Effort:** S
+
+### STUF-109 · P3 · myoci writer leaves R2 staging on early failure and decrements its connection count by hand
+
+- **Area:** myoci · writer
+- **Where:** crates/myoci/src/writer.rs `upload_r2` (`.r2-<hex>-<session>` staging) and `run` (`active` counter)
+- **Problem:** Code-reading lead on `d51b2786`, not reproduced. When `std::fs::copy` or the keys `write` fails, `upload_r2` returns before `remove_dir_all(&stage)`, leaving a partial blob copy under `uploads/`. No sweep of `.r2-*` was found. `run` decrements `active` after `handle_connection` returns. Native release builds unwind on panic (only `wasm-release` sets `panic = "abort"`), so a panicking connection thread would leak a slot permanently. `serve.rs` uses an `ActiveGuard` drop guard for the same job.
+- **Recommendation:** Reproduce first: inject a copy failure and check for a leftover stage, and inject a handler panic and count `active`. If either reproduces, use drop guards for the stage directory and the counter.
+- **Fix with:** lifecycle-concurrency
+- **Effort:** S
+
+### STUF-110 · P3 · The Worker's immutable publication check leaves the R2 body open on a size mismatch
+
+- **Area:** stuff-worker · OCI publication
+- **Where:** crates/stuff-worker/entry.ts `immutableText` (line 534)
+- **Problem:** Code-reading lead on `d51b2786`, not reproduced. After a conditional `put` conflict, `immutableText` reads `meta.get(key)` and short-circuits on `object.size !== value.byteLength`, throwing `PublicationConflict` without consuming or cancelling `object.body`. `serve` cancels every R2 body it does not hand to a `Response`, so the codebase already treats an open body as a leak. Only the conflict path is affected.
+- **Recommendation:** Cancel `object.body` before throwing on the size mismatch. Cover it with a fake R2 object that records cancellation.
+- **Fix with:** lifecycle-concurrency
+- **Effort:** S
+
+### STUF-111 · P4 · stuff-server matches route prefixes against the raw request target
+
+- **Area:** stuff-server · routing
+- **Where:** crates/stuff-server/src/config.rs `Config::match_route`; caller crates/stuff-server/src/main.rs:224
+- **Problem:** Reproduced on `d51b2786`. `match_route` receives the request target, including its query, so with routes `""` and `mirror`, `/mirror?x=1` selects the root route with rest `/mirror?x=1`. Longer paths are unaffected, because `stuff_http::plan_route` strips the query from the rest. The original report also flagged untrimmed prefixes in a directly constructed `Config`; `main.rs` trims every prefix and only tests construct `Config` directly, so that part is dismissed.
+- **Recommendation:** Strip the query before route matching and add the bare-prefix-with-query case to `longest_prefix_wins`.
+- **Fix with:** root-cause
+- **Effort:** S
+
+### STUF-112 · P4 · Range parsing accepts plus-signed positions
+
+- **Area:** stuff-http · conditional requests
+- **Where:** crates/stuff-http/src/condition.rs `parse_range`
+- **Problem:** Reproduced on `d51b2786`. `parse_range("bytes=+0-+1", 10)` returns `Ok([0..=1])` because `str::parse::<u64>` accepts a leading `+`. RFC 9110 positions are `1*DIGIT`, and an invalid range should be ignored rather than served as a 206.
+- **Recommendation:** Require ASCII digits before parsing each position, and add `+` cases to the invalid-range tests.
+- **Fix with:** root-cause
+- **Effort:** S
+
+### STUF-113 · P4 · Worker OCI error responses set content-length from UTF-16 length
+
+- **Area:** stuff-worker · OCI errors
+- **Where:** crates/stuff-worker/entry.ts `writeErrorPlan` (line 378) and `ociFetch` (line 752)
+- **Problem:** Probed under `workerd` at DSLP-15's base and still present on `d51b2786`. Both set `content-length` from `String.length`, which counts UTF-16 code units. A tags list with `n=%C3%BC` returned a 101-byte body declared as 100. `workerd` drops the header and delivers the full body, so no truncation was observed. Correctness depends on that runtime normalization.
+- **Recommendation:** Use the encoded byte length, or omit the header and let the runtime set it. Assert the header against the byte length in the existing worker harness case.
+- **Fix with:** root-cause
+- **Effort:** S
