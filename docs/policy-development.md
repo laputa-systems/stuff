@@ -52,11 +52,12 @@ active repository's classification: `enrolled` declares entrypoints, whether the
 required, and any declared local shim difference; `assess` marks an eligible repository that is
 reported informationally; `exempt` requires a reason and a reassessment condition. An active
 catalog repository outside the policy is reported as an informational `unclassified` finding.
-For enrolled consumers the rule checks the exact `laputa-buildlib==<approved>` pin, agreement on
-the approved wheel digest in `uv.lock` and `sources.lock.json` when present, required bootstrap
-files and their approved or declared digests, and declared entrypoint existence. A consumer that
-requires the bootstrap and has no `pyproject.toml` (play) is pinned by the shim's approved
-`python.lock` alone. The rule reads files only: it never executes consumer scripts, fetches artifacts, starts containers or publishes. Keep
+For enrolled consumers the rule checks the exact `laputa-buildlib==<approved>` pin in the
+`[project]`, optional-dependency, and dependency-group sections, agreement on the approved wheel
+identity and digest in `uv.lock` and `sources.lock.json` when present, required bootstrap files and
+their approved or declared digests, and declared entrypoints that exist as regular files reached
+without symlinks. A consumer that requires the bootstrap and has no `pyproject.toml` (play) is
+pinned by the shim's approved `python.lock` alone. The rule reads files only: it never executes consumer scripts, fetches artifacts, starts containers or publishes. Keep
 consumer behavior proof separate from static lint, reconcile existing lock-validator semantics,
 and preserve stuff's ability to build while its own registries are unavailable.
 
