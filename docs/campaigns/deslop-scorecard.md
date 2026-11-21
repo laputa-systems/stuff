@@ -35,6 +35,7 @@ Chromium-build is outside scope by owner decision on November 19.
 | doas-rs | `f424b9ecff6aa8ff6a2b4dc97d9f6c691e2f810a` | Ground, Diagnose and Types complete. #15 retains branch coverage, #17 verifies CLI admission and #18 reports config fragment paths and lines. | The stable-builder suite passed 170 tests. The CLI trial caught 43 of 53, with five recurring timeouts. Native x86-64 KVM passed all four installed-operation markers. | Qualify critical mutation scopes, live password entry and ARM64 guest effects |
 | mdevd-rs | `5c323944d1179cd1bc9a41736e262226a065c004` | Ground, Diagnose and Types complete. Native guest and consumer evidence landed. #26 skips node operations when an event explicitly supplies an empty name. | Both PR builds and ordinary default CI passed. All 15 native ARM64 Alpine engine tests passed. The declared storm and idle workload passed its RSS, descriptor and CPU tick gates. | Resolve remaining mutations and verify physical coldplug |
 | cmake-build | `ecdfa5d2ab0863a9e3ee37eeb2c5f81ea3594a4a` | Ground, Diagnose and Types complete. Default rejects invalid benchmark samples and keeps even sample medians finite. Tests cover release dispatch, fetch, doctor and inner build phases. | Both default checks passed. The earlier draft passed all 46 jobs in the 22-scope trial. [CMake default](https://github.com/laputa-systems/cmake-build/actions/runs/44537322457) · [Hosted trial](https://github.com/laputa-systems/cmake-build/actions/runs/44524202496) | Qualify the benchmark coordinator, ELF and `build.py` before promoting the gate |
+| tansu | `0c18c6349dc5f6a1cbbc726c7584bfdfeabfdccb` | Settled 2026-11-20 (Tier D). Component audits #34–#40, P2 fixes #33, completion review and Report #41. Only P3s remain (DSLP-28–36). The fresh clone passed `make test` (321.76s with a warm kache cache, then 52.65s warm) and `make lint` (198.14s), all on a busy host. Re-injecting the path traversal fault failed `paths::tests::rejects_path_traversal`; restored, it passed. | Default `check` and `lint` green; F2/F3 rules (`gha-test-workflow`, `make-coverage-target`, `mutants-diff-lane`, `strict-typing-profile`) clean. #42 clears the mdtool T001/R002 findings the audit docs introduced. | Phase 4: move DSLP-28–36 to `TODO.md`; run the perf gate on a quiet host |
 
 CMake's new TLS scope caught 665 of 668 identities in both
 the native x86-64 and ARM64 Linux jobs. The three remaining
@@ -434,7 +435,7 @@ invalidate their existing receipts.
 | ish | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | smolith | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | play | D |  |  |  |  |  |  |  |  |  |  |  |  |
-| tansu | D |  |  |  |  |  |  |  |  |  |  |  |  |
+| tansu | D | 6af00da | 2026-11-20 | 45,721 → 46,093 | 16,099 → 16,188 | 71.71s → 52.65s (busy host, single runs) | unmeasured (no coverage goal or tool) | unmeasured (no mutation goal or tool) | Rust 1,445 → 1,474, TS 282 → 285 raw matching lines | none proven | 3/3 P2 (DSLP-25–27); 10 P3 filed, DSLP-24 fixed | deferred: no timing run on the busy host | 0 |
 | stuff (repomod) | Calibration | | | | | | | | | | | | |
 | stuff (rest) | D |  |  |  |  |  |  |  |  |  |  |  |  |
 | kache | D |  |  |  |  |  |  |  |  |  |  |  |  |
