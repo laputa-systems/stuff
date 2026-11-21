@@ -58,6 +58,10 @@ reassess = "Reassess when the integrator reconciles shared bootstrap and skill o
 reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
 reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
 
+[exempt."laputa-systems/asterinas"]
+reason = "Upstream kernel fork built with upstream's cargo-osdk toolchain inside the published dev image; buildlib models no kernel image target."
+reassess = "Reassess if Laputa stops consuming upstream's dev image for the kernel build."
+
 [exempt."laputa-systems/laputa"]
 reason = "Intentional XSH-native package/seed bootstrap; buildlib models no XSH target."
 reassess = "Reassess only if the XSH-native exclusion lifts and a supported target is named."

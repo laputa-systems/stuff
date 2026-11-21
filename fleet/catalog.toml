@@ -126,9 +126,14 @@ buildlib = ["library", "python"]
 crabtables = ["fork", "fork-diverged", "rust", "library"]
 stuff = ["openorange", "python", "rust", "typescript"]
 tinyland = ["system", "rust"]
+asterinas = ["system", "rust", "fork", "fork-diverged"]
 [overrides."laputa-systems/chromium-build"]
 ignore = ["mdtool:R005", "no-formatters"]
 ignore_reason = "The macos-native README names Chromium source paths that live in the Chromium checkout. scripts/build-rust-toolchain.sh builds LLVM's clang-format into the Rust toolchain archive because Crubit formats its generated headers with it; the script only checks its version and never formats repository code."
+
+[overrides."laputa-systems/asterinas"]
+ignore = ["rust-toolchain", "no-formatters"]
+ignore_reason = "Kernel fork rebased onto upstream Asterinas: Laputa builds it offline in upstream's published dev image, so rust-toolchain.toml keeps the nightly that image ships, and upstream's formatter configuration and scripts stay in place to keep rebases conflict-free. The fork's own CI runs no formatter."
 
 [overrides."laputa-systems/bbtree"]
 ignore = ["rust-toolchain"]

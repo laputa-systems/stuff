@@ -343,6 +343,7 @@ xsh = { gap = "primary help does not print the owned-tool footer yet" }
 zzz = { help = { source = "zzz.zig", test = "Makefile" } }
 
 [not_applicable]
+"laputa-systems/asterinas" = "kernel fork consumed as Laputa's boot image; its cargo-osdk command is upstream's and not released by us"
 "joshuarli/discover" = "web application; its support link belongs in the app, not a command"
 "joshuarli/extensions" = "browser extensions without a command-line interface"
 "joshuarli/niceforge" = "self-hosted forge and CI services run from a checkout; no installed command"
