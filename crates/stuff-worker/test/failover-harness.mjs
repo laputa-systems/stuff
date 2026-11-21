@@ -6,7 +6,7 @@ import { createTestHarness } from "wrangler";
 
 export const workerDir = fileURLToPath(new URL("..", import.meta.url));
 const builtBundle = join(workerDir, "build/orange/workers/default/bundle");
-export const bundle = join(workerDir, "test/.failover-bundle");
+export const bundle = join(workerDir, "build/failover-test");
 const harnessRoot = fileURLToPath(new URL("../../../.work/tmp", import.meta.url));
 
 export const ROUTES = JSON.stringify([
@@ -120,4 +120,13 @@ export async function originAttempts(server) {
   const count = Number(await env[ORIGIN_NAME].get("count") ?? "0");
   await env[ORIGIN_NAME].put("count", "0");
   return count;
+}
+
+/**
+ * Import the compiled pure decision module in this process. The bundle is
+ * emitted by `buildFailoverBundle`, so the unit tests exercise the same source
+ * the Worker runs without starting workerd.
+ */
+export async function decisionModule() {
+  return await import(join(bundle, "src/failover.js"));
 }

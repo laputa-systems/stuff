@@ -10,10 +10,10 @@
     "dev": "node scripts/dev.mjs",
     "typecheck": "tsrs -p tsconfig.json --noEmit --fast",
     "check:failover": "tsrs --fast --ignoreConfig --noEmit --target es2022 --module esnext --moduleResolution bundler --allowImportingTsExtensions --rewriteRelativeImportExtensions --skipLibCheck --lib ES2022,DOM,DOM.Iterable cloudflare.ts cloudflare.config.ts",
-    "test:runtime": "node --test test/runtime.test.mjs test/body-lifecycle.test.mjs test/render-cache.test.mjs test/failover.test.mjs",
-    "test:failover": "node --test test/failover.test.mjs",
+    "test:runtime": "node --test test/runtime.test.mjs test/body-lifecycle.test.mjs test/render-cache.test.mjs test/failover.test.mjs test/failover-decision.test.mjs",
+    "test:failover": "node --test test/failover.test.mjs test/failover-decision.test.mjs",
     "lint": "oxlint --type-aware entry.ts cloudflare.ts src",
-    "check": "node scripts/build.mjs && oxlint --type-aware entry.ts cloudflare.ts src && tsrs -p tsconfig.json --noEmit --fast && node --test test/runtime.test.mjs test/body-lifecycle.test.mjs test/render-cache.test.mjs test/failover.test.mjs"
+    "check": "node scripts/build.mjs && oxlint --type-aware entry.ts cloudflare.ts src && tsrs -p tsconfig.json --noEmit --fast && node --test test/runtime.test.mjs test/body-lifecycle.test.mjs test/render-cache.test.mjs test/failover.test.mjs test/failover-decision.test.mjs"
   },
   "devDependencies": {
     "@laputa-systems/ui-dashboard": "0.11.3",

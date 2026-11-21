@@ -12,7 +12,7 @@
 // Durable Object, so no publication state exists on this side.
 import handler from "./entry.ts";
 import type { ExecutionContext } from "./src/runtime-types.js";
-import { ORIGIN_HEADER_TIMEOUT_MS, planOriginAttempt, shouldServeReplica } from "./src/failover.js";
+import { ORIGIN_HEADER_TIMEOUT_MS, planOriginAttempt, shouldServeReplica, type OriginOutcome } from "./src/failover.js";
 
 export const SERVED_BY_HEADER = "x-stuff-served-by";
 
@@ -29,6 +29,16 @@ type OriginAttempt =
   | { readonly kind: "response"; readonly response: Response }
   | { readonly kind: "error" }
   | { readonly kind: "timeout" };
+
+/**
+ * Project an attempt onto the pure decision input. `shouldServeReplica` is the
+ * only place that decides failover, so every outcome reaches it.
+ */
+function outcomeOf(attempt: OriginAttempt): OriginOutcome {
+  return attempt.kind === "response"
+    ? { kind: "response", status: attempt.response.status }
+    : attempt;
+}
 
 /**
  * Fetch the origin and settle at response headers. The body keeps streaming
@@ -73,7 +83,8 @@ export function createFailoverWorker(options: FailoverOptions = {}) {
         return origin(request);
       }
       const attempt = await attemptOrigin(request, origin, headerTimeoutMs);
-      if (attempt.kind === "response" && shouldServeReplica({ kind: "response", status: attempt.response.status }).kind === "origin") {
+      const decision = shouldServeReplica(outcomeOf(attempt));
+      if (decision.kind === "origin" && attempt.kind === "response") {
         return attempt.response;
       }
       if (attempt.kind === "response") {
