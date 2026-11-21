@@ -83,4 +83,149 @@ PY
 out=$(verify 2>&1) && fail "verify missed corruption"
 echo "$out" | grep -q 'destination differs from the ledger: objects/0010.txt' || fail "corruption not named: $out"
 echo "$out" | grep -q 'missing at destination: objects/0011.txt' || fail "missing object not named: $out"
-echo "OK: copy, ETag-preserving multipart, resume, changed-source, corruption and missing-object detection, paginated listings"
+
+# --- sync: generations before the pointer, and an interrupted sync keeps the old pointer ---
+G2_OBJECTS=400
+export G2_OBJECTS
+python3 - "$src" <<'PY'
+import importlib.util, os, sys
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+os.environ.update(R2_S3_ACCESS_KEY_ID="source", R2_S3_SECRET_ACCESS_KEY="source-secret", R2_S3_REGION="us-east-1")
+base = f"http://127.0.0.1:{sys.argv[1]}/site"
+for key in ["generations/g1/catalog.json", "generations/g1/index.html", "generations/g1/simple/proj/index.html"]:
+    assert s3.request("PUT", f"{base}/{key}", f"{key}\n".encode(), "text/plain")[0] == 200
+assert s3.request("PUT", f"{base}/current", b"g1", "text/plain")[0] == 200
+PY
+sync() { python3 "$here/store-copy.py" sync site site --ledger "$work/sync-ledger.jsonl"; }
+dest_puts() { python3 - "$dst" "$1" <<'PY'
+import json, sys, urllib.request
+port, needle = sys.argv[1], sys.argv[2]
+log = json.load(urllib.request.urlopen(f"http://127.0.0.1:{port}/_fake/requests"))["requests"]
+puts = [entry["path"] for entry in log if entry["method"] == "PUT" and entry["path"].startswith("/site/")]
+print(len(puts), sum(1 for path in puts if needle in path))
+PY
+}
+out=$(sync) || fail "sync failed: $out"
+[ "$(echo "$out" | field pointer)" = g1 ] || fail "sync did not report the copied pointer: $out"
+[ "$(echo "$out" | field skipped)" = 0 ] || fail "first sync skipped objects: $out"
+python3 - "$dst" <<'PY'
+import importlib.util, json, os, sys, urllib.request
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+port = sys.argv[1]
+log = json.load(urllib.request.urlopen(f"http://127.0.0.1:{port}/_fake/requests"))["requests"]
+puts = [entry["path"] for entry in log if entry["method"] == "PUT" and entry["path"].startswith("/site/")]
+pointer = [index for index, path in enumerate(puts) if path == "/site/current"]
+generation = [index for index, path in enumerate(puts) if "/generations/" in path]
+assert pointer, "sync never wrote the pointer"
+assert generation, "sync never wrote a generation object"
+assert max(generation) < pointer[-1], f"the pointer was written before a generation object: {puts}"
+os.environ.update(R2_S3_ACCESS_KEY_ID="dest", R2_S3_SECRET_ACCESS_KEY="dest-secret", R2_S3_REGION="us-east-1")
+status, body, _ = s3.request("GET", f"http://127.0.0.1:{port}/site/current")
+assert status == 200 and body == b"g1", (status, body)
+PY
+
+# A newer generation is published at the source. The sync is killed while the
+# generation objects are copying, so the destination must still answer g1.
+python3 - "$src" <<'PY'
+import importlib.util, os, sys
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+os.environ.update(R2_S3_ACCESS_KEY_ID="source", R2_S3_SECRET_ACCESS_KEY="source-secret", R2_S3_REGION="us-east-1")
+base = f"http://127.0.0.1:{sys.argv[1]}/site"
+for index in range(int(os.environ["G2_OBJECTS"])):
+    assert s3.request("PUT", f"{base}/generations/g2/objects/{index:03d}.json", b"x" * 65536, "application/json")[0] == 200
+assert s3.request("PUT", f"{base}/current", b"g2", "text/plain")[0] == 200
+PY
+python3 "$here/store-copy.py" sync site site --ledger "$work/sync-ledger.jsonl" --jobs 1 >"$work/sync2.out" 2>"$work/sync2.err" &
+sync_pid=$!
+pids="$pids $sync_pid"
+i=0
+while [ "$i" -lt 2000 ]; do
+	g2=$(dest_puts generations/g2/ | cut -d' ' -f2)
+	[ "$g2" -ge 1 ] && break
+	i=$((i + 1))
+	sleep 0.02
+done
+kill -KILL "$sync_pid" 2>/dev/null || true
+wait "$sync_pid" 2>/dev/null || true
+[ "$g2" -ge 1 ] || fail "the interrupted sync never copied a g2 object"
+g2_placed=$(dest_puts generations/g2/ | cut -d' ' -f2)
+[ "$g2_placed" -lt "$G2_OBJECTS" ] || fail "the sync finished before it could be interrupted; the case proved nothing"
+python3 - "$dst" <<'PY'
+import importlib.util, json, os, sys, urllib.request
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+port = sys.argv[1]
+os.environ.update(R2_S3_ACCESS_KEY_ID="dest", R2_S3_SECRET_ACCESS_KEY="dest-secret", R2_S3_REGION="us-east-1")
+status, body, _ = s3.request("GET", f"http://127.0.0.1:{port}/site/current")
+assert status == 200 and body == b"g1", f"an interrupted sync moved the pointer: {status} {body!r}"
+objects = json.load(urllib.request.urlopen(f"http://127.0.0.1:{port}/_fake/state"))["objects"]
+present = {entry["key"] for entry in objects if entry["bucket"] == "site"}
+assert "generations/g1/catalog.json" in present, "the g1 generation the pointer names is incomplete"
+PY
+out=$(sync) || fail "resumed sync failed: $out"
+[ "$(echo "$out" | field pointer)" = g2 ] || fail "the resumed sync did not move the pointer: $out"
+[ "$(echo "$out" | field skipped)" -ge 4 ] || fail "the resumed sync re-copied verified objects: $out"
+
+# A pointer naming a generation with no objects at the source must not be
+# copied: moving it would leave the destination naming a generation it does
+# not hold. This is the invariant an interrupted sync must also preserve.
+python3 - "$src" <<'PY'
+import importlib.util, os, sys
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+os.environ.update(R2_S3_ACCESS_KEY_ID="source", R2_S3_SECRET_ACCESS_KEY="source-secret", R2_S3_REGION="us-east-1")
+base = f"http://127.0.0.1:{sys.argv[1]}/partial"
+assert s3.request("PUT", f"{base}/generations/g9/catalog.json", b"catalog", "text/plain")[0] == 200
+assert s3.request("PUT", f"{base}/current", b"g9", "text/plain")[0] == 200
+PY
+python3 "$here/store-copy.py" sync partial partial --ledger "$work/partial-ledger.jsonl" >/dev/null || fail "partial sync failed"
+python3 - "$src" <<'PY'
+import importlib.util, os, sys
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+os.environ.update(R2_S3_ACCESS_KEY_ID="source", R2_S3_SECRET_ACCESS_KEY="source-secret", R2_S3_REGION="us-east-1")
+base = f"http://127.0.0.1:{sys.argv[1]}/partial"
+for key in ["current", "generations/g9/catalog.json"]:
+    assert s3.request("DELETE", f"{base}/{key}")[0] in (200, 204)
+assert s3.request("PUT", f"{base}/current", b"g10", "text/plain")[0] == 200
+PY
+if python3 "$here/store-copy.py" sync partial partial --ledger "$work/partial-ledger.jsonl" >/dev/null 2>"$work/partial.err"; then
+	fail "sync copied a pointer that names a missing generation"
+fi
+grep -q 'no generations/g10/' "$work/partial.err" || fail "sync did not name the missing generation: $(cat "$work/partial.err")"
+python3 - "$dst" <<'PY'
+import importlib.util, os, sys
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+os.environ.update(R2_S3_ACCESS_KEY_ID="dest", R2_S3_SECRET_ACCESS_KEY="dest-secret", R2_S3_REGION="us-east-1")
+status, body, _ = s3.request("GET", f"http://127.0.0.1:{sys.argv[1]}/partial/current")
+assert status == 200 and body == b"g9", f"the refused sync moved the destination pointer: {status} {body!r}"
+PY
+python3 - "$dst" <<'PY'
+import importlib.util, json, os, sys, urllib.request
+sys.path.insert(0, os.environ["PYTHONPATH"])
+spec = importlib.util.spec_from_file_location("s3", os.path.join(os.environ["PYTHONPATH"], "r2-multipart.py"))
+s3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(s3)
+port = sys.argv[1]
+log = json.load(urllib.request.urlopen(f"http://127.0.0.1:{port}/_fake/requests"))["requests"]
+puts = [entry["path"] for entry in log if entry["method"] == "PUT" and entry["path"].startswith("/site/")]
+generation = [index for index, path in enumerate(puts) if "/generations/g2/" in path]
+pointer = [index for index, path in enumerate(puts) if path == "/site/current"]
+assert generation and pointer, (generation, pointer)
+assert max(generation) < pointer[-1], f"the pointer was written before a g2 object: {puts}"
+os.environ.update(R2_S3_ACCESS_KEY_ID="dest", R2_S3_SECRET_ACCESS_KEY="dest-secret", R2_S3_REGION="us-east-1")
+status, body, _ = s3.request("GET", f"http://127.0.0.1:{port}/site/current")
+assert status == 200 and body == b"g2", (status, body)
+PY
+
+echo "OK: copy, ETag-preserving multipart, resume, changed-source, corruption and missing-object detection, paginated listings, sync ordering, interrupted sync and a refused incomplete-generation pointer"
