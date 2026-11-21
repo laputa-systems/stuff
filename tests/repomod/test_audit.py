@@ -327,6 +327,35 @@ def test_rust_workspace_inherited_relative_is_exempt_from_banned(tmp_path: Path)
     assert [finding for finding in findings if finding.rule == "audit-registry"] == []
 
 
+def test_rust_workspace_inherited_path_is_resolved_from_the_member_outside_the_checkout(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = repo_root(tmp_path)
+    (root / "Cargo.toml").write_text(
+        '[workspace]\nmembers = ["libs/*"]\n'
+        '[workspace.dependencies]\nutil = { path = "libs/util" }\n',
+        encoding="utf-8",
+    )
+    for name, dependencies in (("util", ""), ("net", 'util = { workspace = true }\n')):
+        member = root / "libs" / name
+        member.mkdir(parents=True)
+        (member / "Cargo.toml").write_text(
+            f'[package]\nname = "{name}"\nversion = "0.1.0"\nedition = "2024"\n'
+            f"[dependencies]\n{dependencies}",
+            encoding="utf-8",
+        )
+    (root / "Cargo.lock").write_text(
+        'version = 4\n[[package]]\nname = "util"\nversion = "0.1.0"\n'
+        '[[package]]\nname = "net"\nversion = "0.1.0"\n',
+        encoding="utf-8",
+    )
+    elsewhere = tmp_path / "elsewhere" / "cwd"
+    elsewhere.mkdir(parents=True)
+    monkeypatch.chdir(elsewhere)
+    findings = _policy_findings(root, repository("tool", "rust"))
+    assert [finding for finding in findings if finding.rule == "audit-registry"] == []
+
+
 def test_js_relative_link_is_exempt(tmp_path: Path) -> None:
     root = repo_root(tmp_path)
     ts = root / "ts"

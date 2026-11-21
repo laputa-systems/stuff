@@ -475,6 +475,7 @@ def _rust_manifest_dependencies(
     *,
     workspace_resolver: Callable[[str], tuple[dict[str, Any] | str, Path | None] | None]
     | None = None,
+    manifest_dir: Path | None = None,
 ) -> list[RustDependency]:
     tables: list[dict[str, Any]] = []
     for key in ("dependencies", "dev-dependencies", "build-dependencies"):
@@ -521,21 +522,14 @@ def _rust_manifest_dependencies(
                         if (
                             path_value is not None
                             and workspace_dir is not None
+                            and manifest_dir is not None
                             and not os.path.isabs(path_value)
                         ):
                             try:
                                 absolute = os.path.normpath(
                                     os.path.join(str(workspace_dir), path_value)
                                 )
-                                manifest_parent = os.path.normpath(
-                                    str(Path(relative).parent)
-                                )
-                                if manifest_parent == ".":
-                                    manifest_parent = ""
-                                rel = os.path.relpath(absolute, start=".")
-                                if manifest_parent:
-                                    rel = os.path.relpath(absolute, start=manifest_parent)
-                                path_value = rel
+                                path_value = os.path.relpath(absolute, start=manifest_dir)
                             except (OSError, ValueError):
                                 pass
                         dependencies.append(
@@ -635,7 +629,10 @@ def _rust_direct_dependencies(root: Path) -> tuple[list[RustDependency], list[st
         relative = manifest.relative_to(root).as_posix()
         dependencies.extend(
             _rust_manifest_dependencies(
-                document, relative, workspace_resolver=make_resolver(manifest)
+                document,
+                relative,
+                workspace_resolver=make_resolver(manifest),
+                manifest_dir=manifest.parent,
             )
         )
     return dependencies, problems
