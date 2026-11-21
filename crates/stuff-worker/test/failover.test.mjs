@@ -5,10 +5,7 @@ import {
   catalog,
   seed,
   seedOci,
-  OCI_ARM64,
-  OCI_INDEX,
   OCI_LAYER,
-  OCI_REFERRER,
 } from "./fixtures.mjs";
 
 buildFailoverBundle();
