@@ -1,3 +1,4 @@
+import json
 import io
 import os
 from pathlib import Path
@@ -98,7 +99,8 @@ class SoakTests(unittest.TestCase):
 
         def probe():
             clock.now += 0.05
-            return next(answers, 200), b''
+            answer = next(answers, 200)
+            return answer if isinstance(answer, tuple) else (answer, b'')
 
         def healthy():
             clock.now += 1
@@ -107,7 +109,7 @@ class SoakTests(unittest.TestCase):
         args = type('Args', (), {'soak_s': soak_s, 'restart_every_s': restart_every_s})()
         out = io.StringIO()
         with unittest.mock.patch('sys.stdout', out):
-            restore['soak'](args, probe, 'engine', lambda: None, healthy)
+            restore['soak'](args, probe, lambda: stops.append(['restart']), healthy)
         return [line for line in out.getvalue().splitlines()], stops
 
     def test_reports_latency_and_passes_when_every_probe_answers(self):
@@ -122,13 +124,67 @@ class SoakTests(unittest.TestCase):
 
     def test_failures_right_after_an_engine_restart_are_excused(self):
         lines, stops = self.soak([200, 200, 200, 503, 503], soak_s=60, restart_every_s=20)
-        self.assertEqual(stops, [['docker', 'stop', '-t', '120', 'engine']] * 2)
+        self.assertEqual(stops, [['restart']] * 2)
         self.assertIn('"restarts": 2', lines[-1])
         self.assertIn('"failed_outside_recovery": 0', lines[-1])
 
     def test_an_engine_that_does_not_recover_fails_the_soak(self):
         with self.assertRaises(RuntimeError):
             self.soak([], soak_s=60, restart_every_s=10, recovers=False)
+
+
+    def test_a_failed_probe_records_when_it_happened_and_what_it_answered(self):
+        clock = FakeClock()
+        globals_ = restore['soak'].__globals__
+        saved = globals_['time']
+        globals_['time'] = clock
+        self.addCleanup(lambda: globals_.update(time=saved))
+        args = type('Args', (), {'soak_s': 20, 'restart_every_s': 0})()
+        out = io.StringIO()
+        with self.assertRaises(RuntimeError), unittest.mock.patch('sys.stdout', out):
+            restore['soak'](args, lambda: (500, b'engine unavailable'), lambda: None, lambda: True)
+        failed = json.loads(out.getvalue().splitlines()[0])
+        self.assertEqual(failed['event'], 'probe_failed')
+        self.assertEqual(failed['body'], 'engine unavailable')
+        self.assertRegex(failed['at'], r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$')
+
+
+class EngineRestartTests(unittest.TestCase):
+    def test_the_engine_restarts_only_after_its_stopped_container_is_removed(self):
+        clock = FakeClock()
+        calls = []
+        present = iter([True, True, False])
+
+        def run(argv, **kw):
+            calls.append(argv[:2])
+            code = 0 if argv[1] != 'inspect' or next(present) else 1
+            return type('Done', (), {'returncode': code})()
+
+        restore['stop_engine']('engine', run, clock)
+        self.assertEqual(calls, [['docker', 'stop'], ['docker', 'inspect'], ['docker', 'inspect'], ['docker', 'inspect']])
+
+    def test_a_stopped_engine_that_is_never_removed_fails_instead_of_racing_its_restart(self):
+        clock = FakeClock()
+        run = lambda argv, **kw: type('Done', (), {'returncode': 0})()
+        with self.assertRaises(RuntimeError):
+            restore['stop_engine']('engine', run, clock)
+
+
+class EvidenceTests(unittest.TestCase):
+    def test_a_failed_rehearsal_keeps_engine_logs_and_container_output(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR')) as directory:
+            root, dest = Path(directory) / 'root', Path(directory) / 'evidence'
+            (root / 'engine/log').mkdir(parents=True)
+            (root / 'engine/log/engine.log').write_text('refusing envoy connect\n')
+
+            def run(argv, **kw):
+                return type('Done', (), {'returncode': 0, 'stdout': f'output of {argv[-1]}\n'.encode(), 'stderr': b''})()
+
+            restore['preserve_evidence'](root, ['store', 'app'], dest, run)
+            self.assertEqual((dest / 'engine-log/engine.log').read_text(), 'refusing envoy connect\n')
+            self.assertEqual((dest / 'app.log').read_bytes(), b'output of app\n')
+            self.assertEqual((dest / 'store.log').read_bytes(), b'output of store\n')
+            self.assertEqual(dest.stat().st_mode & 0o777, 0o700)
 
 
 class RehearsalRootTests(unittest.TestCase):

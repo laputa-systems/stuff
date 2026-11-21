@@ -398,11 +398,16 @@ for the Cloudflare plugin).
   headers file supplies operator authentication. Containers are removed afterward;
   `--purge` also removes the copied data. `--soak-s N` keeps the copy running
   after it passes and probes the app every 10 s for N seconds; `--restart-every-s M`
-  restarts only the Engine every M seconds and waits for its health. Each restart
-  and failed probe prints a JSON line, and a final `soak` line reports probe count,
-  p50/p99/max latency, restarts and the slowest recovery. The run fails if a
-  probe fails more than 120 s after the last restart, or if an Engine does not
-  recover within 120 s. `--engine-image sha256:ID` runs a candidate Engine. Older backups without checksums for
+  restarts only the Engine every M seconds, waiting for Docker to remove the
+  stopped container before starting it again, then waits for its health. Each
+  restart and failed probe prints a timestamped JSON line (a failed probe also
+  carries the first 300 bytes of its response), and a final `soak` line reports
+  probe count, p50/p99/max latency, restarts and the slowest recovery. The run
+  fails if a probe fails more than 120 s after the last restart, or if an Engine
+  does not recover within 120 s. A failed run first copies the Engine log
+  directory and each container's output to
+  `/var/log/openorange/rehearsal-evidence/<stamp>-<pid>/` (root-only), so
+  `--purge` does not destroy them. `--engine-image sha256:ID` runs a candidate Engine. Older backups without checksums for
   `apps.toml` and `images.lock.json` cannot be rehearsed by this command.
   A real restore copies the data into live directories with the stack stopped.
 * **Upgrade:** (1) `bin/backup`; (2) `bin/pin-verify --resolve` after choosing
