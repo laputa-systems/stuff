@@ -7,8 +7,9 @@ repositories (or forks tagged `fork-diverged`) with a root Cargo.toml that
 Python and TypeScript lanes follow STUF-83. `mutants-diff-lane` has a fixer
 that writes the reference mutation gate but never its scope: the repository
 declares `scope` (files) and `critical` (a regex), or per-file `[[critical]]`
-tables, in `.cargo/mutants-gate.toml`, and a missing declaration is a non-fixable finding. `fleet/policy/rust-tools.toml`
-pins the cargo-mutants version the lane installs. `fleet/policy/retention.toml`
+tables, in `.cargo/mutants-gate.toml`, and a missing declaration is a
+non-fixable finding. `fleet/policy/rust-tools.toml` pins the cargo-mutants
+version the lane installs. `fleet/policy/retention.toml`
 owns the registrations and adopted strict typing settings.
 """
 
