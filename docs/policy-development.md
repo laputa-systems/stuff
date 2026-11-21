@@ -54,8 +54,9 @@ reported informationally; `exempt` requires a reason and a reassessment conditio
 catalog repository outside the policy is reported as an informational `unclassified` finding.
 For enrolled consumers the rule checks the exact `laputa-buildlib==<approved>` pin, agreement on
 the approved wheel digest in `uv.lock` and `sources.lock.json` when present, required bootstrap
-files and their approved or declared digests, and declared entrypoint existence. It reads files
-only: it never executes consumer scripts, fetches artifacts, starts containers or publishes. Keep
+files and their approved or declared digests, and declared entrypoint existence. A consumer that
+requires the bootstrap and has no `pyproject.toml` (play) is pinned by the shim's approved
+`python.lock` alone. The rule reads files only: it never executes consumer scripts, fetches artifacts, starts containers or publishes. Keep
 consumer behavior proof separate from static lint, reconcile existing lock-validator semantics,
 and preserve stuff's ability to build while its own registries are unavailable.
 
