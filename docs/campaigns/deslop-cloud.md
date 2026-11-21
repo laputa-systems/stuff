@@ -41,7 +41,7 @@ the fleet expects: `~/usr`, `~/repos/<name>` for `joshuarli` repositories, and
 
 ## Scope on a public-only host
 
-- **Out of scope:** usr, which is exempt from deslop and from cloud sessions (use its sync, never edit it), and the private catalog repositories `joshuarli/bctl`, `discover`,
+- **Out of scope:** usr, which is exempt from deslop and from cloud sessions (use its sync, never edit it); kache, crabc and python-build, which other sessions are working on (use their releases, never edit or build them); ctrs, which the owner's own cloud session owns; and the private catalog repositories `joshuarli/bctl`, `discover`,
   `niceforge` and `toolbox`. That excludes discover's red lint and its DSLP-6 branches. Toolbox
   is also owned by another session.
 - **`repomod sync`** walks the whole catalog and has no repository filter. Clone the repositories a
@@ -52,8 +52,7 @@ the fleet expects: `~/usr`, `~/repos/<name>` for `joshuarli` repositories, and
   occur (`sun_path` is 108 bytes), so rerun those check-ups there.
 - **Linux-favoured work:** coverage and mutation tools that Darwin slices recorded under Needs
   environment (`cargo llvm-cov`, `cargo mutants`) run on Linux. Install them with
-  `cargo install --locked cargo-llvm-cov cargo-mutants`. img DSLP-4 and the kache
-  components are the main beneficiaries. tinyland's seatd fix and crabtables' hosted-kernel item are also Linux work. A privileged container may still lack the kernel features crabtables needs.
+  `cargo install --locked cargo-llvm-cov cargo-mutants`. img DSLP-4 is the main beneficiary. tinyland's seatd fix and crabtables' hosted-kernel item are also Linux work. A privileged container may still lack the kernel features crabtables needs.
 
 ## The buildlib adoption lane
 

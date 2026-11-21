@@ -7,17 +7,17 @@ established, so the slop cannot return.
 
 ## Status
 
-Paused 2026-11-21; resumable on a cloud Linux host. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." On a cloud host, follow [deslop-cloud.md](deslop-cloud.md) first. First command: `gh pr checks 106 -R joshuarli/kache; gh run list -R joshuarli/tansu --branch master --limit 3`.
+Paused 2026-11-21; resumable on a cloud Linux host. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." On a cloud host, follow [deslop-cloud.md](deslop-cloud.md) first. First command: `gh run list -R joshuarli/tansu --branch master --limit 3`.
 
 Merged since the last pause: kache #95 and #104, tinyland #16 and #17, ctrs #11, discover #52, play #18 (Report and Phase 4), img #11, buildlib #31. stuff main is green.
 
-Open: kache #106 stacks the parked k1–k4 and k6 lanes (components 1–16, 21–24). Its Linux jobs failed because the lane forbade unsafe code in `build_script`, which needs `fcntl` leases on Linux; the forbid is reverted. Retry: CI green, then merge. This is Linux work and suits a cloud host.
+Open: kache #106 stacks the parked k1–k4 and k6 lanes (components 1–16, 21–24). Its Linux jobs failed because the lane forbade unsafe code in `build_script`, which needs `fcntl` leases on Linux; the forbid is reverted. Retry: CI green, then merge, on the Mac only.
 
 Red default-branch CI: tansu (check and lint), discover (private; Actions refused for billing). Recheck loc (Shebang mutation budget) and img before starting them.
 
 Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); diff-pretty (format waiver or repomod change); gluon (release-profile test skipped); node-build (controller gate); vault VLT-2, tm CLI load, ish DSLP-34 soak and DSLP-37/38/41; check-ups of jaq, rust-fontconfig, rustix, rage (interrupted, no commits); stats, laputa-ui-dashboard, mdevd-rs (verdicts incomplete); smolith SMOL-15 and SMOL-16; chromium-build DSLP-17; crabtables (hosted kernel). srv, soulseek-rs and oxish check-ups can rerun on Linux, where `sun_path` is 108 bytes.
 
-Next slice: get kache #106 green and merged, then fix tansu's red master. Queued after that: the [buildlib adoption lane](deslop-buildlib.md) (STUF-101); BLD-0's inventory is done. ctrs is owned by the owner's cloud session, and usr is exempt from deslop; leave both alone. Never wrap builds in `cpu-guard`.
+Next slice: fix tansu's red master. Queued after that: the [buildlib adoption lane](deslop-buildlib.md) (STUF-101); BLD-0's inventory is done. Cloud sessions leave usr, ctrs, kache, crabc and python-build alone: other sessions are working on them, and usr is exempt from deslop. Never wrap builds in `cpu-guard`.
 ## Accepted work
 
 ### Shared build tooling, 2026-11-20
