@@ -16,6 +16,7 @@ stuff holds the infrastructure for every repository its owner maintains:
 
 Run everything from the repository root.
 
+- Fresh Linux host: `scripts/setup-dev` installs the pinned toolchains; see [docs/development.md](docs/development.md).
 - Build/test/lint: `make build`, `make test` (Rust workspace, mycrates, and repomod), `make lint` (clippy, ruff, ty).
 - Rust toolchain: `rust-toolchain.toml`; Worker package/tool pins: `crates/stuff-worker/package.json` and `Cargo.lock`.
 - Python oracle: `make test-mycrates` (needs Cargo for the native publication proof).

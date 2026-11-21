@@ -15,6 +15,8 @@ Infrastructure for every repository I maintain:
 
 ## Install
 
+To build and test on Linux, see [docs/development.md](docs/development.md).
+
 Run the `release` workflow from the default branch to build the `stuff` CLI for Apple Silicon and Linux musl. Each `release-<sha>` prerelease contains standalone `stuff-<target>` executables and `SHA256SUMS`. Install with `sh dl stuff` from `~/usr`.
 
 Publication prerequisites, configuration, credentials, and operations are in [docs/PUBLISHING.md](docs/PUBLISHING.md). `stuff --help` provides the complete command reference and examples; command help is also available offline with `-h` or `--help`.
