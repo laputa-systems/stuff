@@ -57,7 +57,8 @@ Build, test, lint, fleet, publishing, OCI and Worker commands are in
 
 The deslop campaign closed on 2026-11-21; its lasting rules are the fleet quality standard in
 [fleet](docs/fleet.md#quality-standard) and the build-repo contracts in
-[build-repos](docs/build-repos.md). Dated records under `docs/campaigns/` are not topic docs.
+[build-repos](docs/build-repos.md). [Campaign records](docs/campaigns/) are dated records, not
+topic docs.
 
 ## Invariants
 
