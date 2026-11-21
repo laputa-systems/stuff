@@ -7,27 +7,22 @@ established, so the slop cannot return.
 
 ## Status
 
-Winding down 2026-11-21: no new lanes; in-flight lanes are finishing and integrating.
+Paused 2026-11-21. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." First command: `gh pr view 95 -R joshuarli/kache; gh run list -R joshuarli/tansu --branch master --limit 3`.
 
-Updated 2026-11-20. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." First command: `gh pr list -R laputa-systems/smolith --label deslop; gh pr list -R joshuarli/ish --label deslop`.
+Last accepted revision: stuff main `4b6c8119` (CI and lint green). Settled since the last pause: smolith, tansu, stuff, lz, rustybench, hi-lite, doas-rs, e, defuddle-rs (scorecard). Open: kache #95 (k7, checks passing, not merged). Red default-branch CI after merge: tansu (check/lint, npm registry 500 suspected), loc (Shebang mutation budget, 245 untested), discover (lint).
 
-Settled: tansu (check-up 2026-11-20, master `0c18c63`; scorecard row in `deslop-scorecard.md`). Its Phase 4 moves DSLP-28..36 to `TODO.md`.
+Parked branches (committed locally, not pushed; retry condition after the arrow):
+- kache `deslop/k1`, `k2`, `k3`, `k4`, `k6` (components 1–16, 21–24): lint green, `make test` unfinished under load → run `make test` on an idle host, then PR each.
+- tinyland `fix/seatd-stale-socket` (forked child held dropped listeners; 1600/1600 loaded runs pass) → PR. `fix/deslop-ci` (docs) → PR.
+- ctrs `fix/deslop-ci`: ARM64 runner finding → owner approves a workflow change.
+- discover `deslop/pass`, `fix/deslop-make-test-load`: DSLP-6 fix (0748588e, fc5b76f7) missed #51 → rebase onto main, PR.
+- play `deslop/play-finish`: draft Report 0c29422f3 → check-up, Phase 4.
+- img `deslop/pass` (14 commits; DSLP-3/5/11 closed): DSLP-4 has 61 untested mutants, webpkit DSLP-6..8 partial, final `make test` not rerun → rerun `make test`, PR, then finish DSLP-4.
+- Other lane branches were squash-merged; their names survive only as merged PR heads.
 
-smolith: P2 fixes DSLP-42/43/44 (#14) and eleven component passes have merged (#15..#23, #25, #26). #24 bounds the descriptor-exhaustion test's connects; before it, a full listen backlog made blocking connects hang Linux CI for over an hour. DSLP-47 (P3, Needs owner) asks whether to keep the Hyper FFI and capi. Two bridge lanes are running: `h12tiny-server` (DSLP-16/28/40) and `repo-tools` (DSLP-17/29/41). After they merge, smolith needs DSLP-1's CI acceptance, `AGENTS.md` links for the `docs/deslop-*.md` audits (mdtool T001), the Report, and the check-up.
+Unsettled, needs owner or environment: cmake-build CMKB-1 (P3 rerank decision); diff-pretty (format waiver or repomod change); gluon (release-profile test skipped); node-build (controller gate); srv, soulseek-rs, oxish (macOS 104-byte socket paths; rerun from a short scratch path); vault VLT-2, tm CLI load, ish DSLP-34 soak and DSLP-37/38/41, check-ups of jaq, rust-fontconfig, rustix, rage (lanes interrupted, no commits); stats, laputa-ui-dashboard, mdevd-rs (verdicts incomplete); smolith SMOL-15 (keep Hyper FFI?) and SMOL-16 (CI timeout); chromium-build DSLP-17; usr CI (dotfiles 126 vs 127); crabtables (hosted kernel); kache daemon not starting. Bridge defects to file: `blocked_transition` not cancellable; codex content filter refusal.
 
-ish: every component ticket is closed (#32..#37); #38 and #39 fixed two CI flakes, and `docs/deslop-flakes.md` records the research. Seven P2 environment tickets remain open: DSLP-27, 28, 30, 31, 32, 34 and 35. DSLP-34 (fdu snapshot) is in progress on `fix/fdu-snapshot-wait`. The harness accepted a frame mid-scan, which a loaded soak reproduces.
-
-Component slices on Darwin record coverage, mutation and dependency-liveness tools under Needs environment rather than adding repo-level recipes. Workers that read the deslop skill literally report that gap as unmet acceptance; the parent accepts the slice on its ticket commands. Do not wrap cargo builds in `cpu-guard`: it killed rustc and clippy in several lanes.
-
-Parked: play `fix/playlist-encoding` (pushed, no PR), owner-deferred because headful tests disrupt the host.
-
-Needs you:
-- kache components: set their bounds before seeding.
-- The local stuff cargo publish state is behind the live crates generation. `repomod deps mirror --repo joshuarli/tansu` refuses with "remote current is 'ad583483869fda11e6803149', expected 'a7753c6e9eb945aeeadf121f'", so 18 crates.io versions tansu's upgrades need are unmirrored. The recovery in docs/PUBLISHING.md moves every local publisher to a fresh `STUFF_STATE_HOME`/`STUFF_CACHE_HOME`, which also affects other sessions' publishers. Recommendation: run it when no other publisher is active.
-- smolith DSLP-47: keep or remove the Hyper FFI and capi.
-- smolith CI has no `timeout-minutes`. A hung test held a runner for over an hour; adding the limit is CI work and needs your go-ahead.
-
-Next slice: finish smolith (the two running lanes, then DSLP-1, the T001 links, the Report and the check-up), then ish's environment tickets, its Report and check-up. Then Phase 4 per settled repo, and kache once bounded. The final closeout: scorecard, move rules into docs/fleet.md and docs/policy-development.md, retire these docs and ~/d/stuff. Unfiled P3 follow-ups are listed under Accepted work.
+Next slice: merge kache #95, then the parked kache branches; fix the three red default branches. Never wrap builds in `cpu-guard`.
 
 ## Accepted work
 
