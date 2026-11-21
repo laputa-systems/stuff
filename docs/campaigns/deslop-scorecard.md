@@ -12,7 +12,7 @@ entries and six existing 0.1.0 consumers; it did not qualify migrations or run c
 
 | Slice | State | Next proof |
 | --- | --- | --- |
-| BLD-0 | Planned; concrete candidates and exceptions identified | Reconcile every active entry at its current revision; record the disposition and affected paths |
+| BLD-0 | Inventoried 2026-11-21 at stuff `57045a134e2822bf2fe17a2210b869f98b2b615c`; 66 active entries at fresh `origin/HEAD` (12 shared helpers required, 0 bootstrap only, 38 native tooling sufficient, 16 deferred); six 0.1.0 consumers reconciled. See [inventory](deslop-buildlib-inventory.md). | BLD-1 qualifies the candidate wheel, bootstrap and pin upgrades |
 | BLD-1 | Planned; source/wheel gap and validator drift identified | Qualify actual candidate artifacts, known consumers, both Linux interpreter branches and independent registry recovery |
 | BLD-2 | Planned | Node and bounded play pilots; use ctrs acquisition if play's held work prevents an independent slice |
 | BLD-3 | Planned | Consumer-specific migration and capsule receipts; count helpers, bootstrap-only, exceptions and deferrals separately |
