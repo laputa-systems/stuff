@@ -637,12 +637,37 @@ def store_args(cfg: Config, name: str, ip: str, env_file: Path, *, data_dir: Pat
                          "--quiet", "posix", "--fsync", "--versioning-dir", "/versions", "/data"]
 
 
+OO_SLICE = "oo.slice"
+SLICE_RESERVATION = (("cpu.weight", "10000"), ("memory.min", str(6 << 30)), ("memory.swap.max", "0"))
+IO_LATENCY_TARGET_US = 10000
+
+
 def cgroup_slice(role: str) -> str:
     """Stable cgroup v2 parent for a long-lived container, so host agents can read its counters across recreation.
 
     The host agent maps `a-b.slice` to `a.slice/a-b.slice`; hyphens inside the role become underscores so one
     role's slice is never nested inside another's (`discover` and `discover-preview`)."""
-    return f"/oo.slice/oo-{role.replace('-', '_')}.slice"
+    return f"/{OO_SLICE}/oo-{role.replace('-', '_')}.slice"
+
+
+def _whole_disk(path: Path, sys_dev_block: Path) -> str:
+    device = os.stat(path).st_dev
+    block = (sys_dev_block / f"{os.major(device)}:{os.minor(device)}").resolve()
+    if (block / "partition").exists():
+        block = block.parent
+    return (block / "dev").read_text().strip()
+
+
+def reserve_slice(state: Path, *, cgroup_root: Path = Path("/sys/fs/cgroup"), sys_dev_block: Path = Path("/sys/dev/block")) -> None:
+    """Give every OpenOrange container precedence over other host work for CPU, memory and the state disk.
+
+    Host builds and unrelated containers otherwise starve the Engine until its storage refuses work and its
+    worker lease expires. cgroup v2 io.latency takes the whole-disk MAJ:MIN, not the partition."""
+    slice_dir = cgroup_root / OO_SLICE
+    slice_dir.mkdir(exist_ok=True)
+    for name, value in SLICE_RESERVATION:
+        (slice_dir / name).write_text(value)
+    (slice_dir / "io.latency").write_text(f"{_whole_disk(state, sys_dev_block)} target={IO_LATENCY_TARGET_US}")
 
 
 def run_args(cfg: Config, service: str, app: str | None = None) -> list[str]:

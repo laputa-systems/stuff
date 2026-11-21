@@ -469,6 +469,7 @@ def cmd_prepare(cfg, service: str, app: str | None) -> None:
     os.chmod(cfg.logs, 0o750)
     cfg.run.mkdir(parents=True, exist_ok=True)
     os.chmod(cfg.run, 0o755)
+    oolib.reserve_slice(cfg.state)
     _ = u
 
 
