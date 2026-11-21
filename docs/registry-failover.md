@@ -151,17 +151,37 @@ Replace the placeholders with the account's own values.
    ```
 
 4. Deploy the Worker with its routes. The route list is expressed in
-   `cloudflare.config.ts` as `<host>/*` for all eight hostnames; confirm the
-   resolved triggers print those eight patterns before deploying:
+   `cloudflare.config.ts` as `<host>/*` for all eight hostnames. Build the WASM
+   first, then deploy through the staging script; `cf deploy` run inside
+   `crates/stuff-worker` picks Vite, which that package lists for the search
+   bundle, and fails to find an entry:
 
    ```sh
-   cd crates/stuff-worker
-   pnpm exec cf workers triggers list          # or the account's route listing
-   pnpm exec cf deploy
+   (cd crates/stuff-worker && pnpm install --frozen-lockfile && node scripts/build.mjs)
+   deploy/failover-deploy.sh --dry-run    # prints the eight route patterns
+   deploy/failover-deploy.sh --message "..."
    ```
+
+   To route one hostname first, deploy from a local edit of `HOSTS` and confirm
+   healthy pass-through before deploying the committed list.
 
    Do not add `domains`: a custom domain detaches the hostname from the tunnel
    and the origin subrequest no longer resolves.
+
+## Deployment record
+
+Deployed 2026-11-21: mirror alone first (version `bf6fea72`), then all eight
+hostnames (version `e0984013`). Healthy requests returned 200 with no
+`x-stuff-served-by` header and the mirror's Node archive matched its catalog
+SHA-256. `oo-replica-sync` runs on Lisa from `/opt/openorange/replica-sync/`;
+its first full pass copied the current generation of every bucket.
+
+Drill, 09:28 to 09:30 UTC, `oo-app.stuff` stopped on Lisa: crates, npm, pypi
+and mirror answered 200 with `x-stuff-served-by: replica`; cold-cache
+`cargo fetch --locked` and `pnpm install --frozen-lockfile` in tansu and
+`uv sync --frozen` in buildlib exited 0, the mirror archive verified, and no
+consumer log showed a 5xx or a retry. After the restart the origin answered
+again without the header.
 
 ## Drill
 
