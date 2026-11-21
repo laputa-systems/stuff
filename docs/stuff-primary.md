@@ -31,14 +31,19 @@ only writer and every step is reversible.
 
 1. **Deploy the handoff build to Lisa.** `crates/stuff-worker/orange/deploy.sh lisa`
    from `main`. Reads fail over to R2 while `oo-app.stuff` restarts.
-   Check: `oo deployment stuff` names the new image, and
+   `main` includes the STUF-104 blob-miss fix.
+   Check: `oo deployment stuff` names the new image, a HEAD for a random
+   absent `https://oci-blobs.17166969.xyz/sha256/<hex>` carries
+   `cache-control: no-store`, and
    `POST /_publication/cargo/thaw` with the coordinator token answers 200; the
    previous build answers 404 for that op.
    Rollback: the script restores the previous image.
 2. **Refresh the guest's Stuff environment.** Copy Lisa's
    `/etc/openorange/apps/stuff.env` and `stuff.extra.env` into the guest. Run
    `oo secrets` there so the Engine-derived values point at the guest Engine,
-   then restart `oo-app.stuff`.
+   then rebuild the guest's image from the `main` deployed in step 1 (the guest
+   still runs `stuff:fdbd63275a79`, which predates the STUF-104 fix), deploy
+   it and restart `oo-app.stuff`.
    Check: `curl -H 'Host: crates.17166969.xyz' http://172.29.80.21:8080/current/registry/config.json`
    in the guest answers 200.
 3. **Pre-copy the buckets.** From Lisa, as root, stream
@@ -72,7 +77,10 @@ only writer and every step is reversible.
    otherwise rewrite R2's `current` objects backwards. Then
    `POST .../thaw` on the guest for all five registries.
    Check: public reads carry no `x-stuff-served-by`; a canary `stuff publish`
-   succeeds and reads back. Lisa stays frozen as the fence.
+   succeeds and reads back. Make the canary an OCI push, and HEAD one of its
+   new layer URLs on `oci-blobs` before the push (404, `BYPASS`) and after it
+   (200, `public, max-age=31536000, immutable`); this is STUF-104's live
+   acceptance. Lisa stays frozen as the fence.
    Rollback before the canary publish: restore `recovery-routes.json` and
    reload, freeze the guest, thaw Lisa, restart Lisa's replica sync. After the
    first write lands on the guest, roll back only by repeating this handoff in
