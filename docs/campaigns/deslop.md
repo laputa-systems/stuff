@@ -7,6 +7,8 @@ established, so the slop cannot return.
 
 ## Status
 
+Winding down 2026-11-21: no new lanes; in-flight lanes are finishing and integrating.
+
 Updated 2026-11-20. Resume prompt: "Resume the deslop campaign from the Status in docs/campaigns/deslop.md." First command: `gh pr list -R laputa-systems/smolith --label deslop; gh pr list -R joshuarli/ish --label deslop`.
 
 Settled: tansu (check-up 2026-11-20, master `0c18c63`; scorecard row in `deslop-scorecard.md`). Its Phase 4 moves DSLP-28..36 to `TODO.md`.
