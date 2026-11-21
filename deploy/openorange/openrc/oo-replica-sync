@@ -8,7 +8,7 @@
 # Install:
 #   install -m 0755 openrc/oo-replica-sync /etc/init.d/oo-replica-sync
 #   install -d -m 0755 /opt/openorange/replica-sync
-#   install -m 0755 replica-sync.sh store-copy.py r2_common.py r2-multipart.py /opt/openorange/replica-sync/
+#   install -m 0755 replica-sync.sh store-copy.py r2_common.py r2-multipart.py r2-put.py publication_service.py /opt/openorange/replica-sync/
 #   install -m 0700 replica-sync.env /etc/openorange/replica-sync.env
 #   rc-update add oo-replica-sync default
 #   rc-service oo-replica-sync start

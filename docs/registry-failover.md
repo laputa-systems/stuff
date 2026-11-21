@@ -144,7 +144,7 @@ Replace the placeholders with the account's own values.
    ```sh
    doas install -m 0755 deploy/openorange/openrc/oo-replica-sync /etc/init.d/oo-replica-sync
    doas install -d -m 0755 /opt/openorange/replica-sync
-   doas install -m 0755 deploy/replica-sync.sh deploy/store-copy.py deploy/r2_common.py deploy/r2-multipart.py /opt/openorange/replica-sync/
+   doas install -m 0755 deploy/replica-sync.sh deploy/store-copy.py deploy/r2_common.py deploy/r2-multipart.py deploy/r2-put.py deploy/publication_service.py /opt/openorange/replica-sync/
    doas install -m 0700 replica-sync.env /etc/openorange/replica-sync.env
    doas rc-update add oo-replica-sync default
    doas /sbin/rc-service oo-replica-sync start
