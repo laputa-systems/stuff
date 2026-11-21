@@ -53,9 +53,11 @@ only writer and every step is reversible.
 2. **Refresh the guest's Stuff environment.** Copy Lisa's
    `/etc/openorange/apps/stuff.env` and `stuff.extra.env` into the guest. Run
    `oo secrets` there so the Engine-derived values point at the guest Engine,
-   then rebuild the guest's image from the `main` deployed in step 1 (the guest
-   still runs `stuff:fdbd63275a79`, which predates the STUF-104 fix), deploy
-   it and restart `oo-app.stuff`.
+   then build the guest's image from the commit deployed to Lisa in step 1
+   (`crates/stuff-worker/orange/build-image.sh stuff-primary`, then
+   `oo set-image stuff stuff:<sha12>`) and restart `oo-app.stuff`. Since
+   2026-11-21 the guest runs `stuff:5020a6f70e24`, which already has the
+   STUF-104 fix; rebuild only if step 1 deploys a later commit.
    Check: `curl -H 'Host: crates.17166969.xyz' http://172.29.80.21:8080/current/registry/config.json`
    in the guest answers 200.
 3. **Pre-copy the buckets.** Lisa's root has no route to the guest, and the
