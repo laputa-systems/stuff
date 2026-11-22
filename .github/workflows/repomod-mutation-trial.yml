@@ -1,0 +1,51 @@
+name: Repomod mutation trial
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+
+jobs:
+  repomod-mutation:
+    name: Repomod mutation (${{ matrix.os }}, ${{ matrix.shard }})
+    if: github.head_ref == 'ci/deslop-repomod-mutation' || github.base_ref == 'ci/deslop-repomod-mutation'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-26.04-arm, xcode-27]
+        shard: [removal, upstream, matrix, snapshot-entries, fix-publish]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Read the uv pin
+        run: echo "UV_VERSION=$(cat deploy/uv-version)" >> "$GITHUB_ENV"
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+      - name: Install pinned mutation tools
+        run: |
+          mkdir -p .work/tmp
+          export TMPDIR="$PWD/.work/tmp"
+          uv python install 3.15
+          uv sync --locked
+          uv pip install --default-index https://pypi.17166969.xyz/current/simple/ mutmut==3.8.1
+      - name: Exercise the selected effects
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          REPOMOD_MUTATION_SHARD: ${{ matrix.shard }}
+        run: |
+          export TMPDIR="$PWD/.work/tmp"
+          BASE="origin/$BASE_REF" make repomod-mutants
