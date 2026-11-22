@@ -198,8 +198,14 @@ class Journal:
         self.append('state', state=state, deadline=now() + deadline_s, **fields)
 
 
+ADMISSION = {'fake': 'promotion', 'native': 'promotion', 'oo-containers': 'promotion', 'native-app': 'app-deploy'}
+
+
 def gate(config):
-    receipt, reasons = ooreceipt.verify(config['receipt'], config['evidence_dir'], config['evaluator'])
+    if ADMISSION[config['target_kind']] == 'app-deploy':
+        receipt, reasons = ooreceipt.verify_admission(config['receipt'], config['evidence_dir'])
+    else:
+        receipt, reasons = ooreceipt.verify(config['receipt'], config['evidence_dir'], config['evaluator'])
     if reasons:
         return None, reasons
     if receipt['candidate']['releaseId'] != config['candidate']:
@@ -241,11 +247,40 @@ def adapter_for(config):
         return FakeAdapter(config['target'])
     if config['target_kind'] == 'native':
         import oorollout_native
-        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']), bound_s=config['bound_s'])
+        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']), 'runtime', bound_s=config['bound_s'])
+    if config['target_kind'] == 'native-app':
+        import oorollout_native
+        return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(config['ssh_config'], config['host']), 'app', bound_s=config['bound_s'])
     if config['target_kind'] == 'oo-containers':
         import oorollout_containers
         return oorollout_containers.ContainersAdapter(oorollout_containers.ssh_runner(config['ssh_config'], config['host']), config['app'], bound_s=config['bound_s'])
     raise ValueError('unknown target kind: ' + str(config['target_kind']))
+
+
+def component_reasons(target, receipt):
+    declared = receipt['candidate']['components']
+    return ['component-mismatch:' + name for name, digest in sorted(target.get('components', {}).items()) if declared.get(name) != digest]
+
+
+def authority(policy):
+    """Reads writer authority through the policy's authority_check; returns (digest, record) or raises."""
+    spec = policy.get('authority_check')
+    if spec is None:
+        return None, None
+    try:
+        child = subprocess.Popen(spec['argv'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
+        try:
+            stdout, stderr = child.communicate(timeout=spec['timeout_s'])
+        except subprocess.TimeoutExpired:
+            os.killpg(child.pid, signal.SIGKILL)
+            child.communicate()
+            raise ValueError('writer authority check timed out')
+        value = json.loads(stdout)
+    except (OSError, ValueError) as exc:
+        raise ValueError('writer authority unavailable: ' + str(exc)) from None
+    if child.returncode != 0 or not isinstance(value, dict) or value.get('ok') is not True or not isinstance(value.get('authority'), dict):
+        raise ValueError('writer authority refused: ' + stdout.strip()[:500])
+    return ooreceipt.sha(ooreceipt.canonical(value['authority'])), value['authority']
 
 
 def functional_check(policy, release, digest):
@@ -329,16 +364,23 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
                     reasons.append('staged-artifact-mismatch')
                 if not target.get('headroom', False):
                     reasons.append('insufficient-headroom:' + str(target.get('headroom_detail', 'unknown')))
+                reasons += component_reasons(target, receipt)
+                try:
+                    authority_digest, authority_record = authority(policy)
+                except ValueError as exc:
+                    authority_digest, authority_record = None, None
+                    reasons.append(str(exc))
                 if reasons:
                     journal.transition('rejected', duration, reasons=reasons)
                     return 'rejected'
-                journal.transition('prepared', duration, baseline_digest=recovery_digest)
+                journal.transition('prepared', duration, baseline_digest=recovery_digest, authority=authority_record, authority_sha256=authority_digest)
                 state = 'prepared'
             qualified_receipt = next(r['receipt'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'qualified')
             qualified_digest = qualified_receipt['candidate']['artifactDigest']
             candidate = qualified_receipt['candidate']['releaseId']
             baseline = config['baseline']
-            baseline_digest = next(r['baseline_digest'] for r in journal.records if r['kind'] == 'state' and r['state'] == 'prepared')
+            prepared = next(r for r in journal.records if r['kind'] == 'state' and r['state'] == 'prepared')
+            baseline_digest = prepared['baseline_digest']
             if state == 'prepared':
                 try:
                     for step in adapter.preparations(config):
@@ -353,9 +395,18 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
                         if not adapter.prepare_observed(step):
                             raise ValueError('preparation incomplete: ' + step)
                         journal.append('done', step=step, observed=adapter.observe())
-                    if adapter.observe().get('artifacts', {}).get(candidate) != qualified_digest:
-                        journal.transition('rejected', duration, reasons=['staged-artifact-mismatch'])
-                        return 'rejected'
+                    if not any(r['kind'] == 'intent' and r['step'] == 'activate' for r in journal.records):
+                        target = adapter.observe()
+                        reasons = [] if target.get('artifacts', {}).get(candidate) == qualified_digest else ['staged-artifact-mismatch']
+                        reasons += component_reasons(target, qualified_receipt)
+                        try:
+                            if authority(policy)[0] != prepared.get('authority_sha256'):
+                                reasons.append('writer-authority-changed')
+                        except ValueError as exc:
+                            reasons.append(str(exc))
+                        if reasons:
+                            journal.transition('rejected', duration, reasons=reasons)
+                            return 'rejected'
                     token = adapter.renew(holder, token, lease_s)
                     reconcile(journal, adapter, holder, token, 'activate', baseline, candidate, qualified_digest)
                     journal.transition('activated', duration)

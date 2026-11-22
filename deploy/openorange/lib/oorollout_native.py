@@ -23,6 +23,14 @@ def path(p):
 RUNTIME = path('/opt/native-rehearsal/orange')
 RELEASES = path('/opt/native-rehearsal/runtime')
 PREVIOUS = os.path.join(RELEASES, '.previous')
+APP = path('/opt/native-rehearsal/app')
+APP_CURRENT = os.path.join(APP, 'current')
+APPS = path('/opt/native-rehearsal/apps')
+APP_PREVIOUS = os.path.join(APPS, '.previous')
+APP_LINKED = ('observe', 'observe.jsonc', 'stats', 'stats.jsonc')
+COLLECTOR = path('/opt/stats-infra-collector')
+COLLECTOR_LINK = 'native-rehearsal/app/current/collector'
+COLLECTOR_MAIN = '/opt/stats-infra-collector/main.mjs'
 LOCKS = path('/var/lib/openorange-rollout')
 
 
@@ -57,17 +65,17 @@ def release_record(directory):
         return json.load(f)
 
 
-def artifacts():
+def artifacts(releases=RELEASES, prefix='rt-'):
     found = {}
-    if os.path.isdir(RELEASES):
-        for name in sorted(os.listdir(RELEASES)):
-            directory = os.path.join(RELEASES, name)
-            if name.startswith('rt-') and os.path.isfile(os.path.join(directory, 'release.json')):
+    if os.path.isdir(releases):
+        for name in sorted(os.listdir(releases)):
+            directory = os.path.join(releases, name)
+            if name.startswith(prefix) and os.path.isfile(os.path.join(directory, 'release.json')):
                 found[name] = release_record(directory)['digest']
     return found
 
 
-def process():
+def process(script=BIN):
     proc = path('/proc')
     with open(os.path.join(proc, 'stat')) as f:
         btime = next(int(line.split()[1]) for line in f if line.startswith('btime '))
@@ -83,7 +91,7 @@ def process():
                 fields = f.read().rsplit(')', 1)[1].split()
         except OSError:
             continue
-        if argv and os.path.basename(argv[0]) == b'node' and len(argv) > 1 and argv[1] == BIN.encode():
+        if argv and os.path.basename(argv[0]) == b'node' and len(argv) > 1 and argv[1] == script.encode():
             matches.append({'pid': int(pid), 'started_at': btime + int(fields[19]) / ticks})
     return matches
 
@@ -96,7 +104,7 @@ def health(url):
         return False
 
 
-def observe(args):
+def observe_runtime(args):
     state = {'kind': 'native', 'converted': os.path.islink(RUNTIME), 'artifacts': artifacts()}
     if os.path.islink(RUNTIME):
         selected = os.path.basename(os.readlink(RUNTIME).rstrip('/'))
@@ -240,7 +248,7 @@ def restart(args):
     raise TimeoutError('native-stats did not become healthy')
 
 
-def convert(args):
+def convert_runtime(args):
     def body():
         check_token(args)
         if os.path.islink(RUNTIME):
@@ -258,10 +266,10 @@ def convert(args):
     return guarded(body)
 
 
-def activate(args):
+def activate_runtime(args):
     def body():
         check_token(args)
-        state = observe(args)
+        state = observe_runtime(args)
         if state['selected'] != args['expected'] or not state['converted']:
             raise ValueError('conditional activation identity mismatch')
         directory = os.path.join(RELEASES, args['release'])
@@ -276,7 +284,7 @@ def activate(args):
     return {}
 
 
-def complete(args):
+def complete_runtime(args):
     def body():
         check_token(args)
         if closure_digest(os.path.join(RELEASES, args['release'])) != args['digest']:
@@ -292,7 +300,7 @@ def run_command(args):
     return {'returncode': result.returncode, 'stdout': base64.b64encode(result.stdout).decode('ascii'), 'stderr': base64.b64encode(result.stderr).decode('ascii')}
 
 
-def stage(args):
+def stage_runtime(args):
     def body():
         check_token(args)
         os.makedirs(RELEASES, exist_ok=True)
@@ -326,15 +334,223 @@ def stage(args):
     return guarded(body)
 
 
-def check(args):
-    state = observe(args)
+def engine_running(args):
     engine = subprocess.run(['docker', 'inspect', '-f', '{{.State.Running}}', args['engine_container']], capture_output=True, text=True)
-    state['engine_running'] = engine.returncode == 0 and engine.stdout.strip() == 'true'
+    return engine.returncode == 0 and engine.stdout.strip() == 'true'
+
+
+def check_runtime(args):
+    state = observe_runtime(args)
+    state['engine_running'] = engine_running(args)
     ok = state['healthy'] and state['engine_running'] and state['selected'] == args['release'] and state['running'] == args['release'] and state['digest'] == args['digest']
     return {'ok': ok, 'state': state}
 
 
-OPERATIONS = {f.__name__: f for f in (observe, acquire, renew, release, convert, activate, complete, stage, check, run_command)}
+def app_inplace_parts():
+    parts = {name: os.path.join(APP, name) for name in APP_LINKED}
+    parts['collector'] = COLLECTOR
+    return parts
+
+
+def app_converted():
+    linked = all(os.path.islink(os.path.join(APP, name)) and os.readlink(os.path.join(APP, name)) == 'current/' + name for name in APP_LINKED)
+    return os.path.islink(APP_CURRENT) and linked and os.path.islink(COLLECTOR) and os.readlink(COLLECTOR) == COLLECTOR_LINK
+
+
+def selected_runtime_digest():
+    if os.path.islink(RUNTIME):
+        return artifacts().get(os.path.basename(os.readlink(RUNTIME).rstrip('/')))
+    return closure_digest(RUNTIME) if os.path.isdir(RUNTIME) else None
+
+
+def running_identity(processes, selected, switched_at, previous):
+    if len(processes) != 1:
+        return None
+    return selected if switched_at is None or processes[0]['started_at'] > switched_at else previous
+
+
+def observe_app(args):
+    found = artifacts(APPS, 'app-')
+    state = {'kind': 'native-app', 'converted': app_converted(), 'artifacts': found}
+    if os.path.islink(APP_CURRENT):
+        selected = os.path.basename(os.readlink(APP_CURRENT).rstrip('/'))
+        switched_at = os.lstat(APP_CURRENT).st_mtime
+        previous = open(APP_PREVIOUS).read().strip() if os.path.exists(APP_PREVIOUS) else None
+        digest = app_digest(os.path.join(APPS, selected)) if selected in found else None
+    elif all(os.path.exists(p) for p in app_inplace_parts().values()):
+        digest = manifest_digest(app_manifest(app_inplace_parts()))
+        selected = app_release_id(digest)
+        found[selected] = digest
+        switched_at, previous = None, selected
+    else:
+        selected, switched_at, previous, digest = None, None, None, None
+    processes = process()
+    collectors = process(COLLECTOR_MAIN)
+    state.update(selected=selected, running=running_identity(processes, selected, switched_at, previous), previous=previous, digest=digest, processes=processes, collector_processes=collectors, collector_running=running_identity(collectors, selected, switched_at, previous), components={'runtime': selected_runtime_digest()}, healthy=health(args['health_url']))
+    usage = shutil.disk_usage(path('/opt'))
+    state['headroom'] = usage.free >= args['min_free_bytes']
+    state['headroom_detail'] = {'free_bytes': usage.free, 'required_bytes': args['min_free_bytes']}
+    return state
+
+
+def point_app(name):
+    link = APP_CURRENT + '.' + uuid.uuid4().hex
+    os.symlink(os.path.join('..', 'apps', name), link)
+    os.replace(link, APP_CURRENT)
+    sync_dir(APP)
+
+
+def replace_with_link(p, target):
+    if os.path.islink(p) and os.readlink(p) == target:
+        return
+    old = None
+    if os.path.lexists(p):
+        old = os.path.join(os.path.dirname(p), '.converted-' + os.path.basename(p) + '-' + uuid.uuid4().hex)
+        os.rename(p, old)
+    link = p + '.' + uuid.uuid4().hex
+    os.symlink(target, link)
+    os.replace(link, p)
+    sync_dir(os.path.dirname(p))
+    if old is not None:
+        if os.path.isdir(old) and not os.path.islink(old):
+            shutil.rmtree(old)
+        else:
+            os.unlink(old)
+
+
+def convert_app(args):
+    def body():
+        check_token(args)
+        if app_converted():
+            return {}
+        os.makedirs(APPS, exist_ok=True)
+        if os.path.islink(APP_CURRENT):
+            name = os.path.basename(os.readlink(APP_CURRENT).rstrip('/'))
+        else:
+            digest = manifest_digest(app_manifest(app_inplace_parts()))
+            name = app_release_id(digest)
+            target = os.path.join(APPS, name)
+            if not os.path.exists(target):
+                staging = os.path.join(APPS, '.staging-' + uuid.uuid4().hex)
+                os.mkdir(staging)
+                for part, source in app_inplace_parts().items():
+                    source = os.path.realpath(source)
+                    if os.path.isdir(source):
+                        shutil.copytree(source, os.path.join(staging, part), symlinks=True)
+                    else:
+                        shutil.copy2(source, os.path.join(staging, part))
+                if app_digest(staging) != digest:
+                    shutil.rmtree(staging)
+                    raise ValueError('in-place app changed during conversion')
+                write_atomic(os.path.join(staging, 'release.json'), json.dumps({'release': name, 'digest': digest, 'source': 'converted in place'}))
+                os.rename(staging, target)
+                sync_dir(APPS)
+            elif app_digest(target) != digest:
+                raise ValueError('staged-content-mismatch')
+            check_token(args)
+            write_atomic(APP_PREVIOUS, name + '\n')
+            point_app(name)
+        check_token(args)
+        for part in APP_LINKED:
+            replace_with_link(os.path.join(APP, part), 'current/' + part)
+        replace_with_link(COLLECTOR, COLLECTOR_LINK)
+        return {'release': name}
+    return guarded(body)
+
+
+def restart_app(args):
+    check_token(args)
+    subprocess.run(['rc-service', 'native-stats', 'restart'], check=True, stdout=subprocess.DEVNULL)
+    deadline = time.time() + args['health_deadline_s']
+    while time.time() < deadline:
+        state = observe_app(args)
+        if state['healthy'] and state['running'] == args['release'] and state['collector_running'] == args['release']:
+            return True
+        time.sleep(1)
+    raise TimeoutError('native-stats or its collector did not become healthy on ' + args['release'])
+
+
+def activate_app(args):
+    def body():
+        check_token(args)
+        state = observe_app(args)
+        if state['selected'] != args['expected'] or not state['converted']:
+            raise ValueError('conditional activation identity mismatch')
+        if app_digest(os.path.join(APPS, args['release'])) != args['digest']:
+            raise ValueError('staged-content-mismatch')
+        check_token(args)
+        write_atomic(APP_PREVIOUS, args['expected'] + '\n')
+        point_app(args['release'])
+        return {}
+    guarded(body)
+    restart_app(args)
+    return {}
+
+
+def complete_app(args):
+    def body():
+        check_token(args)
+        if app_digest(os.path.join(APPS, args['release'])) != args['digest']:
+            raise ValueError('staged-content-mismatch')
+    guarded(body)
+    restart_app(args)
+    return {}
+
+
+def stage_app(args):
+    def body():
+        check_token(args)
+        os.makedirs(APPS, exist_ok=True)
+        staging = os.path.join(APPS, '.staging-' + uuid.uuid4().hex)
+        os.mkdir(staging)
+        incoming = path(args['archive'])
+        try:
+            with tarfile.open(incoming) as archive:
+                declared = archive.pax_headers.get('openorange.manifest_digest')
+                archive.extractall(staging, filter='data')
+            digest = app_digest(staging)
+            if digest != declared:
+                raise ValueError('artifact manifest digest mismatch')
+        except Exception:
+            shutil.rmtree(staging)
+            raise
+        finally:
+            if os.path.dirname(incoming) == LOCKS and os.path.exists(incoming):
+                os.unlink(incoming)
+        name = app_release_id(digest)
+        write_atomic(os.path.join(staging, 'release.json'), json.dumps({'release': name, 'digest': digest, 'source': args['source']}))
+        target = os.path.join(APPS, name)
+        if os.path.exists(target):
+            shutil.rmtree(staging)
+            if app_digest(target) != digest:
+                raise ValueError('staged-content-mismatch')
+        else:
+            os.rename(staging, target)
+            sync_dir(APPS)
+        return {'release': name, 'digest': digest}
+    return guarded(body)
+
+
+def check_app(args):
+    state = observe_app(args)
+    state['engine_running'] = engine_running(args)
+    identity = state['selected'] == args['release'] and state['running'] == args['release'] and state['collector_running'] == args['release'] and state['digest'] == args['digest']
+    return {'ok': state['healthy'] and state['engine_running'] and identity, 'state': state}
+
+
+COMPONENTS = {
+    'runtime': {'observe': observe_runtime, 'convert': convert_runtime, 'activate': activate_runtime, 'complete': complete_runtime, 'stage': stage_runtime, 'check': check_runtime},
+    'app': {'observe': observe_app, 'convert': convert_app, 'activate': activate_app, 'complete': complete_app, 'stage': stage_app, 'check': check_app},
+}
+
+
+def operation(op):
+    if op in ('acquire', 'renew', 'release', 'run_command'):
+        return {'acquire': acquire, 'renew': renew, 'release': release, 'run_command': run_command}[op]
+    return lambda args: COMPONENTS[args['component']][op](args)
+
+
+OPERATIONS = {op: operation(op) for op in ('observe', 'acquire', 'renew', 'release', 'convert', 'activate', 'complete', 'stage', 'check', 'run_command')}
 request = json.loads(sys.stdin.readline())
 try:
     if request['op'] in ('convert', 'activate', 'complete', 'stage', 'run_command') and sys.argv[1:] != ['--internal']:
@@ -367,10 +583,16 @@ def ssh_runner(ssh_config, host):
     return run
 
 
+PREPARATIONS = {'runtime': 'convert-runtime', 'app': 'convert-app'}
+
+
 class NativeAdapter:
-    def __init__(self, runner, health_url='http://127.0.0.1:8080/health', engine_container='live-stats-engine', min_free_bytes=1 << 30, health_deadline_s=180, bound_s=240):
+    def __init__(self, runner, component, health_url='http://127.0.0.1:8080/health', engine_container='live-stats-engine', min_free_bytes=1 << 30, health_deadline_s=180, bound_s=240):
+        if component not in PREPARATIONS:
+            raise ValueError('unknown native component: ' + str(component))
         self.runner = runner
-        self.settings = {'bound_s': bound_s, 'health_url': health_url, 'engine_container': engine_container, 'min_free_bytes': min_free_bytes, 'health_deadline_s': health_deadline_s}
+        self.component = component
+        self.settings = {'component': component, 'bound_s': bound_s, 'health_url': health_url, 'engine_container': engine_container, 'min_free_bytes': min_free_bytes, 'health_deadline_s': health_deadline_s}
 
     def call(self, op, **args):
         reply = json.loads(self.runner(json.dumps({'op': op, 'args': {**self.settings, **args}}) + '\n'))
@@ -398,7 +620,7 @@ class NativeAdapter:
         return self.call('observe')
 
     def preparations(self, config):
-        return ['convert-runtime']
+        return [PREPARATIONS[self.component]]
 
     def prepare_observed(self, step):
         return self.observe()['converted']
@@ -407,9 +629,10 @@ class NativeAdapter:
         self.call('convert', holder=holder, token=token)
 
     def classify(self, state, expected, release, digest):
-        if state['selected'] == release and state['running'] == release and state['digest'] == digest:
+        collector = state['collector_running'] if self.component == 'app' else release
+        if state['selected'] == release and state['running'] == release and collector == release and state['digest'] == digest:
             return 'applied'
-        if state['selected'] == release and state['running'] in (expected, None) and state['digest'] == digest:
+        if state['selected'] == release and state['running'] in (expected, release, None) and state['digest'] == digest:
             return 'partial'
         if state['selected'] == expected and state['running'] == expected:
             return 'not-applied'

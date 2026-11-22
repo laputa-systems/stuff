@@ -51,7 +51,7 @@ def runner(payload):
     if result.returncode != 0:
         raise OSError(result.stderr)
     return result.stdout
-adapter = oorollout_native.NativeAdapter(runner, health_url=spec['health_url'], health_deadline_s=5, min_free_bytes=1, bound_s=10)
+adapter = oorollout_native.NativeAdapter(runner, 'runtime', health_url=spec['health_url'], health_deadline_s=5, min_free_bytes=1, bound_s=10)
 journal = oorollout.Journal(spec['journal'])
 if not journal.records:
     journal.append('start', config=spec['config'])
@@ -111,7 +111,7 @@ class NativeAdapterTest(unittest.TestCase):
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         self.health_url = f'http://127.0.0.1:{self.server.server_address[1]}/health'
         self.env = {**os.environ, 'ROLLOUT_GUEST_ROOT': str(self.guest), 'PATH': f'{fake_bin}:{os.environ["PATH"]}'}
-        self.adapter = oorollout_native.NativeAdapter(self.local_runner, health_url=self.health_url, health_deadline_s=5, min_free_bytes=1, bound_s=10)
+        self.adapter = oorollout_native.NativeAdapter(self.local_runner, 'runtime', health_url=self.health_url, health_deadline_s=5, min_free_bytes=1, bound_s=10)
         self.baseline = self.adapter.observe()['selected']
         self.evidence = self.base / 'evidence'
         self.evidence.mkdir()

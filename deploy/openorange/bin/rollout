@@ -8,19 +8,21 @@ import os
 import re
 import subprocess
 import sys
+import tarfile
 import time
 import uuid
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'lib'))
 import oorollout
+import oomanifest
 
 
 DEFAULT_BOUND_S = 240
 
 
 def add_target(parser):
-    parser.add_argument('--target-kind', required=True, choices=('fake', 'native', 'oo-containers'))
+    parser.add_argument('--target-kind', required=True, choices=('fake', 'native', 'native-app', 'oo-containers'), help='native: the standby OpenOrange runtime; native-app: the standby Stats app and collector')
     parser.add_argument('--target', help='fake: local target directory')
     parser.add_argument('--host', help='ssh host alias')
     parser.add_argument('--app', help='oo-containers: OpenOrange app name')
@@ -33,12 +35,32 @@ def target_config(args):
     return {'target_kind': args.target_kind, 'host': args.host, 'ssh_config': str(Path(args.ssh_config).expanduser()), **({'app': args.app} if args.target_kind == 'oo-containers' else {})}
 
 
+def native_adapter(args, component, **settings):
+    import oorollout_native
+    return oorollout_native.NativeAdapter(oorollout_native.ssh_runner(args.ssh_config, args.host), component, **settings)
+
+
+def root_owned(member):
+    member.uid = member.gid = 0
+    member.uname = member.gname = 'root'
+    return member
+
+
+def check_command(policy, key, required, parser):
+    check = policy.get(key)
+    if check is None and not required:
+        return
+    if not isinstance(check, dict) or set(check) != {'argv', 'timeout_s'} or not isinstance(check.get('argv'), list) or not check['argv'] or not all(isinstance(arg, str) for arg in check['argv']) or not check['argv'][0] or type(check.get('timeout_s')) not in (int, float) or not math.isfinite(check['timeout_s']) or check['timeout_s'] <= 0:
+        parser.error('invalid policy: ' + key)
+
+
 def main():
-    parser = argparse.ArgumentParser(description='Durable OpenOrange rollout controller. Target kinds: fake (a local directory, for tests) and native (the native standby Stats writer over ssh: runtime releases under /opt/native-rehearsal/runtime, activated by switching the /opt/native-rehearsal/orange symlink and restarting native-stats). oo-containers manages an OpenOrange app container over ssh.', epilog='Mutates the target release selection and running identity under a fenced deployment lock. Journals and controller heartbeats live outside the target in journal-dir/RUN_ID/journal.jsonl. Each transition has a deadline; an overdue post-prepare controller is recovered by watchdog. Qualification binds evidence release identities and artifact digest; preparation checks baseline identity, freshness, recovery artifact and headroom. Exit codes: 0 promoted, 3 rejected or recovered (not promoted), 4 lock held, 5 needs operator, 2 usage, 1 runtime error.')
+    parser = argparse.ArgumentParser(description='Durable OpenOrange rollout controller. Target kinds: fake (a local directory, for tests); native (the native standby Stats writer over ssh: runtime releases under /opt/native-rehearsal/runtime, activated by switching the /opt/native-rehearsal/orange symlink and restarting native-stats); native-app (the same guest\'s Stats app and collector: releases under /opt/native-rehearsal/apps, activated by switching /opt/native-rehearsal/app/current and restarting native-stats). oo-containers manages an OpenOrange app container over ssh.', epilog='Mutates the target release selection and running identity under a fenced deployment lock. Journals and controller heartbeats live outside the target in journal-dir/RUN_ID/journal.jsonl. Each transition has a deadline; an overdue post-prepare controller is recovered by watchdog. native and oo-containers admit a passing promotion receipt; native-app admits a stats-app-admission/1 receipt. Preparation checks baseline identity, freshness, recovery artifact, headroom, declared components and, when the policy has authority_check, writer authority, which is checked again before activation. Exit codes: 0 promoted, 3 rejected or recovered (not promoted), 4 lock held, 5 needs operator, 2 usage, 1 runtime error.')
     sub = parser.add_subparsers(dest='command', required=True)
     start = sub.add_parser('start', help='qualify and promote a release')
-    for name in ('candidate', 'artifact', 'baseline', 'policy', 'receipt', 'evaluator', 'evidence-dir', 'journal-dir'):
+    for name in ('candidate', 'artifact', 'baseline', 'policy', 'receipt', 'evidence-dir', 'journal-dir'):
         start.add_argument('--' + name, required=True)
+    start.add_argument('--evaluator', help='statsctl evaluator that replays a promotion receipt; required except for native-app')
     add_target(start)
     start.add_argument('--deadline-s', type=float, default=60)
     start.add_argument('--bound-s', type=float, default=DEFAULT_BOUND_S, help=f'maximum duration of each guest mutation, including a restart and health wait, in seconds (default: {DEFAULT_BOUND_S:g})')
@@ -49,9 +71,10 @@ def main():
     observe = sub.add_parser('observe', help='print the target identity; read-only')
     add_target(observe)
     observe.add_argument('--json', action='store_true')
-    stage = sub.add_parser('stage', help='copy an installed runtime closure archive to a native target as a new release directory; never activates it')
+    stage = sub.add_parser('stage', help='copy a runtime closure archive (native) or an app directory (native-app) to the guest as a new release directory; never activates it')
     add_target(stage)
-    stage.add_argument('--archive', required=True, help='local tar of package.json, pnpm-lock.yaml and node_modules')
+    stage.add_argument('--archive', help='native: local tar of package.json, pnpm-lock.yaml and node_modules')
+    stage.add_argument('--dir', help='native-app: local directory holding exactly ' + ', '.join(oomanifest.APP_PARTS))
     stage.add_argument('--source', required=True, help='provenance recorded in release.json, e.g. a build record digest')
     stage.add_argument('--bound-s', type=float, default=300, help='maximum guest staging duration in seconds (default: 300)')
     lease = sub.add_parser('lease', help='run a guest command under the shared lease')
@@ -72,15 +95,14 @@ def main():
         if args.command in ('start', 'observe', 'stage'):
             if args.target_kind == 'fake' and not args.target:
                 parser.error('--target is required for the fake target kind')
-            if args.target_kind in ('native', 'oo-containers') and not (args.host and args.ssh_config):
+            if args.target_kind in ('native', 'native-app', 'oo-containers') and not (args.host and args.ssh_config):
                 parser.error('--host and --ssh-config are required for remote target kinds')
             if args.target_kind == 'oo-containers' and (not args.app or not re.fullmatch(r'[a-z][a-z0-9-]{0,31}', args.app)):
                 parser.error('--app must be a valid OpenOrange app name')
         if args.command == 'lease':
             if not math.isfinite(args.bound_s) or args.bound_s <= 0 or not args.argv or args.argv[0] != '--' or len(args.argv) == 1:
                 parser.error('lease run requires a positive bound and -- CMD')
-            import oorollout_native
-            adapter = oorollout_native.NativeAdapter(oorollout_native.ssh_runner(args.ssh_config, args.host))
+            adapter = native_adapter(args, 'runtime')
             holder = 'lease-' + uuid.uuid4().hex
             token = adapter.acquire(holder, args.operation, args.bound_s + 5)
             try:
@@ -100,19 +122,29 @@ def main():
         if args.command == 'stage':
             if not math.isfinite(args.bound_s) or args.bound_s <= 0:
                 parser.error('bound must be positive')
-            if args.target_kind != 'native':
-                parser.error('stage supports only the native target kind')
-            import oorollout_native
-            adapter = oorollout_native.NativeAdapter(oorollout_native.ssh_runner(args.ssh_config, args.host), bound_s=args.bound_s)
+            if args.target_kind not in ('native', 'native-app'):
+                parser.error('stage supports only the native and native-app target kinds')
+            if (args.archive is None) != (args.target_kind == 'native-app') or (args.dir is None) != (args.target_kind == 'native'):
+                parser.error('stage takes --archive for native and --dir for native-app')
+            archive = args.archive
+            if args.target_kind == 'native-app':
+                parts = oomanifest.app_release_parts(args.dir)
+                archive = str(Path(args.dir).resolve().parent / ('.app-' + uuid.uuid4().hex + '.tar'))
+                with tarfile.open(archive, 'w', format=tarfile.PAX_FORMAT, pax_headers={'openorange.manifest_digest': oomanifest.manifest_digest(oomanifest.app_manifest(parts))}) as out:
+                    for name, source in parts.items():
+                        out.add(source, arcname=name, filter=root_owned)
+            adapter = native_adapter(args, 'app' if args.target_kind == 'native-app' else 'runtime', bound_s=args.bound_s)
             holder = 'stage-' + uuid.uuid4().hex
             token = adapter.acquire(holder, 'stage', args.bound_s + 10)
             try:
                 remote = '/var/lib/openorange-rollout/incoming-' + uuid.uuid4().hex + '.tar'
-                subprocess.run(['scp', '-q', '-F', str(Path(args.ssh_config).expanduser()), args.archive, args.host + ':' + remote], check=True)
+                subprocess.run(['scp', '-q', '-F', str(Path(args.ssh_config).expanduser()), archive, args.host + ':' + remote], check=True)
                 token = adapter.renew(holder, token, args.bound_s + 10)
                 print(json.dumps(adapter.stage(holder, token, remote, args.source), sort_keys=True))
             finally:
                 adapter.release(holder, token)
+                if args.target_kind == 'native-app':
+                    os.unlink(archive)
             return 0
         if args.command == 'start':
             if not math.isfinite(args.deadline_s) or args.deadline_s <= 0 or not math.isfinite(args.bound_s) or args.bound_s <= 0 or not re.fullmatch(r'sha256:[0-9a-f]{64}', args.artifact):
@@ -127,14 +159,15 @@ def main():
             for key in ('max_age_s', 'observation_s', 'check_interval_s'):
                 if type(policy.get(key)) not in (int, float) or not math.isfinite(policy[key]) or policy[key] < 0 or (key != 'observation_s' and policy[key] == 0):
                     parser.error('invalid policy: ' + key)
-            check = policy.get('functional_check')
-            if not isinstance(check, dict) or not isinstance(check.get('argv'), list) or not check['argv'] or not all(isinstance(arg, str) for arg in check['argv']) or not check['argv'][0] or type(check.get('timeout_s')) not in (int, float) or not math.isfinite(check['timeout_s']) or check['timeout_s'] <= 0:
-                parser.error('invalid policy: functional_check')
+            check_command(policy, 'functional_check', True, parser)
+            check_command(policy, 'authority_check', args.target_kind == 'native-app', parser)
+            if (args.evaluator is None) != (args.target_kind == 'native-app'):
+                parser.error('--evaluator is required for promotion receipts and not accepted for native-app')
             directory = root / uuid.uuid4().hex
             run_id = str(directory)
             directory.mkdir(parents=True)
             oorollout.sync_dir(root)
-            config = {**target_config(args), 'run_id': run_id, 'candidate': args.candidate, 'artifact': args.artifact, 'baseline': args.baseline, 'policy': policy, 'rollout_policy_sha256': hashlib.sha256(policy_bytes).hexdigest(), 'receipt': str(Path(args.receipt).resolve()), 'evaluator': str(Path(args.evaluator).resolve()), 'evidence_dir': os.path.abspath(args.evidence_dir), 'deadline_s': args.deadline_s, 'bound_s': args.bound_s}
+            config = {**target_config(args), 'run_id': run_id, 'candidate': args.candidate, 'artifact': args.artifact, 'baseline': args.baseline, 'policy': policy, 'rollout_policy_sha256': hashlib.sha256(policy_bytes).hexdigest(), 'receipt': str(Path(args.receipt).resolve()), 'evaluator': str(Path(args.evaluator).resolve()) if args.evaluator else None, 'evidence_dir': os.path.abspath(args.evidence_dir), 'deadline_s': args.deadline_s, 'bound_s': args.bound_s}
             journal = oorollout.Journal(directory)
             journal.append('start', config=config)
             journal.transition('staged', args.deadline_s)

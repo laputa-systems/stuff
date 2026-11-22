@@ -2,14 +2,29 @@
 
 `deploy/openorange/bin/rollout` is the rollout controller. `--target-kind`
 selects its adapter: `fake` (a local directory, for tests), `native` (the native standby Stats
-writer), or `oo-containers` (an OpenOrange app). Remote adapters use `--host`
+writer's OpenOrange runtime), `native-app` (the same writer's Stats app and
+collector), or `oo-containers` (an OpenOrange app). Remote adapters use `--host`
 and `--ssh-config`; oo-containers also requires `--app`. The controller never
 builds artifacts.
 
-`start` requires `--receipt`, `--evidence-dir`, and `--evaluator` alongside
-release IDs, the candidate sha256 digest, a target, rollout policy JSON and
-controller journal folder. The policy fields are `max_age_s`, `observation_s`,
-and `check_interval_s`, plus `functional_check` with a nonempty `argv` array and positive `timeout_s`. The controller executes that command locally with `ROLLOUT_RELEASE` and `ROLLOUT_DIGEST` set to the release under test. It must exit zero and print a JSON object with `ok: true`. The qualification receipt binds the release labels and
+`start` requires `--receipt` and `--evidence-dir` alongside release IDs, the
+candidate sha256 digest, a target, rollout policy JSON and controller journal
+folder. The target kind fixes the admission: `native-app` admits a
+`stats-app-admission/1` receipt (below); every other kind admits only a passing
+promotion receipt and also requires `--evaluator`. The policy fields are
+`max_age_s`, `observation_s`, and `check_interval_s`, plus `functional_check`
+with a nonempty `argv` array and positive `timeout_s`. The controller executes that command locally with `ROLLOUT_RELEASE` and `ROLLOUT_DIGEST` set to the release under test. It must exit zero and print a JSON object with `ok: true`.
+
+`authority_check` has the same shape and is required for `native-app`. It
+must exit zero and print `{"ok": true, "authority": {...}}`, where `authority`
+is the authoritative writer record (for Stats, Lisa's recovery route). The
+controller runs it before preparation and records the record and its canonical
+SHA-256 in the `prepared` transition. It runs it again before the activation
+intent; a different record, a refusal or an unreadable result rejects the run
+before any selection changes. A guest lease cannot make a cross-host writer
+transfer atomic, so the transfer itself stays the explicit fence protocol.
+
+The promotion receipt binds the release labels and
 artifact digests, profile, policy, workload, evaluator, observations, complete
 evidence file set and decision. The controller verifies every file and replays
 `node EVALUATOR verify release --evidence DIR --replay --json`. Only a passing
@@ -99,6 +114,52 @@ native --host stats-standby --ssh-config FILE --json` is read-only.
 - **Checks.** Guest health, the expected selected and running release and
   digest, and a running Engine container. Real ingest, durable readback and
   duplicate handling remain the Stats canary's checks.
+
+### Stats app releases (`native-app`)
+
+An app release is a directory `/opt/native-rehearsal/apps/app-<12 hex>/`
+holding exactly `stats/`, `observe/`, `stats.jsonc`, `observe.jsonc` and
+`collector/` (the infrastructure collector's `main.mjs` and `manifest.json`),
+plus `release.json`. Its digest is the canonical `stats-app-manifest/1` over
+those five parts (`lib/oomanifest.py`).
+
+- **Selection.** `/opt/native-rehearsal/app/current` is a symlink to the
+  active release, replaced atomically. `app/` itself stays a real directory
+  holding `.open-orange` runtime state, and `stats`, `observe`, `stats.jsonc`
+  and `observe.jsonc` in it are fixed symlinks into `current/`. The service's
+  working directory, and so OpenOrange's project root and deployment identity,
+  never change. `/opt/stats-infra-collector` is a fixed symlink to
+  `app/current/collector`.
+- **Conversion.** The first rollout's `convert-app` preparation copies the
+  in-place app and collector into their release directory, checks that the
+  digest is unchanged, selects it, then swaps each in-place entry for its
+  symlink. It is idempotent after a crash at any point.
+- **Running identity.** As for runtimes, from the `native-stats` process start
+  time against the `current` switch, with `apps/.previous` naming the release
+  before the switch. The collector process is identified the same way.
+- **Components.** `observe` reports `components.runtime`, the selected runtime
+  release's recorded digest. The admission receipt's
+  `candidate.components.runtime` must match before preparation and again before
+  activation, so an app release can only activate on the runtime it was
+  admitted for, and an app-only change reuses the installed runtime.
+- **Activation.** Conditional on the expected selection and the staged
+  directory's recomputed digest, then `rc-service native-stats restart` (which
+  restarts the collector) and a wait for health with both processes started
+  after the switch. Checks additionally require the collector on the release.
+- **Staging.** `rollout stage --target-kind native-app --dir DIR --source TEXT`
+  archives a local directory holding exactly the five parts, with the manifest
+  digest in a PAX header, and the guest verifies it before creating the
+  release directory.
+
+A `stats-app-admission/1` receipt has `baseline` and `candidate` (`releaseId`,
+`artifactDigest`; the candidate also has `components` with `runtime`),
+`source` (`repository`, 40-hex `commit`), a nonempty `checks` list (`name`,
+`argv`, `exitCode`, `log`), `inputs`, `decision` and `createdAtMs`. The
+evidence directory must hold exactly the listed inputs, including every
+check's log, with matching sizes and digests. The verdict is `admitted` exactly
+when every check exited zero; a failed check rejects the run with
+`check-failed:NAME`. Admission establishes an admissible app release, not a
+qualified or improved one: it has no comparison or workload evidence.
 
 ## OpenOrange containers adapter
 
