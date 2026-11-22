@@ -17,6 +17,7 @@ from repomod.git import GitError, run_git
 from repomod.github import action_tags_many, resolve_tags_many
 from repomod.rules.workflows import workflow_files
 from repomod.types import Finding, Repository, Rule, Severity, TagPredicate, operational, violation
+from repomod.workflow_policy import FORK_CI_WORKFLOW_NAMES
 
 _SHA = re.compile(r"[0-9a-f]{40}\Z", re.IGNORECASE)
 _VERSION = re.compile(r"v([0-9]+)(?:\.([0-9]+))?(?:\.([0-9]+))?\Z")
@@ -201,7 +202,8 @@ def _action_tool_files(
     workflows, problems = workflow_files(root, repository)
     files = set(workflows)
     if "fork" in repository.tags:
-        return sorted(files, key=lambda path: path.relative_to(root).as_posix().casefold()), problems
+        ci_files = [path for path in files if path.stem.casefold() in FORK_CI_WORKFLOW_NAMES]
+        return sorted(ci_files, key=lambda path: path.relative_to(root).as_posix().casefold()), problems
     skipped_directories = {
         ".cache",
         ".git",

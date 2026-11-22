@@ -989,6 +989,7 @@ def test_gha_syntax_validates_owned_fork_workflows(tmp_path: Path, monkeypatch: 
     path = write_workflow(tmp_path, "invalid")
     owned = path.with_name("ci.yml")
     path.rename(owned)
+    path.with_name("release.yml").write_text("on: workflow_dispatch\n", encoding="utf-8")
     validated: list[Path] = []
 
     def lint(_root: Path, _repo: Repository, files: list[Path]) -> list[Finding]:

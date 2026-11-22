@@ -389,8 +389,9 @@ undeterminable triggers as operational findings.
 
 `fork-workflow-names` checks the names of all workflow files in a managed fork. GitHub
 status and workflow policy recognize the same names in
-`repomod/workflow_policy.py`. Compare workflow changes with the upstream merge base
-before importing upstream to catch files with the same name that carry upstream jobs.
+`repomod/workflow_policy.py`. For forks, `gha-syntax` checks the test and lint workflow
+files. Release workflows follow the release rules. Compare workflow changes with the
+upstream merge base to catch files with the same name that carry upstream jobs.
 
 The supported `gha-test-workflow` shape uses an unrestricted `pull_request` trigger, or
 `branches` including the known default branch and `types` including opened, synchronize and

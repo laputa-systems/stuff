@@ -4,7 +4,8 @@ from collections.abc import Iterator, Mapping
 from pathlib import PurePosixPath
 from typing import cast
 
-FORK_WORKFLOW_NAMES = frozenset({"android", "ci", "lint", "prerelease", "release", "test"})
+FORK_CI_WORKFLOW_NAMES = frozenset({"ci", "lint", "test"})
+FORK_WORKFLOW_NAMES = FORK_CI_WORKFLOW_NAMES | {"android", "prerelease", "release"}
 
 
 def is_fork_workflow(path: str | PurePosixPath) -> bool:
