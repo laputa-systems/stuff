@@ -314,6 +314,10 @@ pristine vendored trees and owner-excluded repositories are out. The usr `deslop
 procedure for bringing a repository up to this standard, and the rules that check it are in
 [policy development](policy-development.md#other-policy-rules).
 
+Apply `test-pyramid`, `bench-pyramid`, `test-audit`, and `typing-audit` to the maintained
+code of every managed repository. A conformance assessment records the applicable native
+commands, behavioral evidence, and open gaps for that repository.
+
 - **CI runs the tests.** A pull-request workflow runs `make test` or `make test-ci`
   (`gha-test-workflow`), and the repository's adopted strict typing settings stay on
   (`strict-typing-profile`).
@@ -326,6 +330,11 @@ procedure for bringing a repository up to this standard, and the rules that chec
   and reported, never gated.
 - **Tests stay cheap.** A change may raise warm `make test` time by at most 20% or 30 seconds,
   whichever is larger.
+- **Test tiers and assertions have evidence.** Use `test-pyramid` to keep `make test` a bounded
+  Change gate and to keep Full workloads manual. Use `test-audit` to trace tests to the failures
+  they catch and prove any replacement detects those failures before deleting coverage.
+- **Types describe runtime values.** Use `typing-audit` on the contracts under change. A tightening
+  must eliminate an unchecked assumption or demonstrate a bad program that the checker now rejects.
 - **Performance does not regress.** Perf-sensitive repositories (fastermod, lz, loc, e, ish, and
   any repository that declares a workload) gate refactors on the declared workload's path with
   at least five interleaved baseline and candidate pairs of the shipped profile. On a quiet host a
