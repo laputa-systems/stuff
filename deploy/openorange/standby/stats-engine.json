@@ -18,6 +18,7 @@
     {"source": "/var/lib/live-stats/log", "target": "/var/lib/rivet/log", "read_only": false},
     {"source": "/var/lib/live-stats/objects", "target": "/var/lib/rivet/objects", "read_only": false}
   ],
+  "state_root": {"path": "/var/lib/rivet", "owner": "10001:10001", "mode": "700"},
   "config_path": "/opt/native-rehearsal/live-engine.json",
   "config": {
     "storage": {

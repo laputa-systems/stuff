@@ -1,17 +1,19 @@
 import copy
+import io
 import json
 import os
 import runpy
 import shutil
 import subprocess
 import tempfile
+import time
 import unittest
 import uuid
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TOOL = runpy.run_path(str(ROOT / 'bin/standby-engine'))
-drift, create_args, CONTAINER_FACTS = TOOL['drift'], TOOL['create_args'], TOOL['CONTAINER_FACTS']
+drift, create_args, state_root_archive, CONTAINER_FACTS = TOOL['drift'], TOOL['create_args'], TOOL['state_root_archive'], TOOL['CONTAINER_FACTS']
 DECLARED = json.loads((ROOT / 'standby/stats-engine.json').read_text())
 
 
@@ -26,6 +28,7 @@ def observed():
         },
         'config': copy.deepcopy(DECLARED['config']),
         'listening': [22, 6420, 6430, 8080],
+        'state_root': '10001:10001 700',
         'vcpus': 8,
         'namespace': 'stats-prod',
     }
@@ -45,6 +48,7 @@ class StandbyEngineDriftTest(unittest.TestCase):
             'config': lambda o: o['config']['storage'].update(auto_provision_partitions=4),
             'listener': lambda o: o.update(listening=[22, 6420]),
             'namespace': lambda o: o.update(namespace='stats-staging'),
+            'state root': lambda o: o.update(state_root='0:0 755'),
             'guest vcpus': lambda o: o.update(vcpus=4),
             'state': lambda o: o['inspect']['State'].update(Running=False),
         }
@@ -82,7 +86,7 @@ def image_present():
 
 @unittest.skipUnless(image_present(), 'needs docker with the declared Engine image already pulled')
 class CreateFromDeclarationTest(unittest.TestCase):
-    def test_container_created_from_the_declaration_has_no_container_drift(self):
+    def test_container_created_from_the_declaration_runs_without_drift(self):
         with tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR')) as directory:
             root = Path(directory)
             declared = copy.deepcopy(DECLARED)
@@ -97,11 +101,21 @@ class CreateFromDeclarationTest(unittest.TestCase):
                 mount['source'] = str(source)
             env = root / 'engine.env'
             env.write_text('RIVET__AUTH__ADMIN_TOKEN=test-token\n')
+            for mount in declared['mounts']:
+                os.chmod(mount['source'], 0o777)
             subprocess.run(create_args(declared, env), check=True, capture_output=True)
             try:
+                archive = io.BytesIO()
+                state_root_archive(declared, archive)
+                parent = declared['state_root']['path'].rstrip('/').rsplit('/', 1)[0]
+                subprocess.run(['docker', 'cp', '-', f"{declared['container']}:{parent}"], input=archive.getvalue(), check=True, capture_output=True)
+                subprocess.run(['docker', 'start', declared['container']], check=True, capture_output=True)
+                time.sleep(8)
                 inspect = json.loads(subprocess.run(['docker', 'inspect', declared['container']], check=True, capture_output=True, text=True).stdout)[0]
-                found = [line for line in drift(declared, {'inspect': inspect}) if line.startswith(CONTAINER_FACTS) and not line.startswith('state:')]
-                self.assertEqual(found, [])
-                self.assertFalse(inspect['State']['Running'])
+                root = subprocess.run(['docker', 'exec', declared['container'], 'stat', '-c', '%u:%g %a', declared['state_root']['path']], capture_output=True, text=True).stdout.strip()
+                logs = subprocess.run(['docker', 'logs', declared['container']], capture_output=True, text=True)
+                found = [line for line in drift(declared, {'inspect': inspect, 'state_root': root}) if line.startswith(CONTAINER_FACTS + ('state root',))]
+                self.assertEqual(found, [], logs.stdout + logs.stderr)
+                self.assertTrue(inspect['State']['Running'] and inspect['RestartCount'] == 0, logs.stdout + logs.stderr)
             finally:
                 subprocess.run(['docker', 'rm', '-f', declared['container']], capture_output=True)

@@ -13,6 +13,8 @@ import json, os, subprocess
 container = CONTAINER
 inspect = subprocess.run(['docker', 'inspect', container], capture_output=True, text=True)
 state = {'inspect': json.loads(inspect.stdout)[0] if inspect.returncode == 0 else None}
+root = subprocess.run(['docker', 'exec', container, 'stat', '-c', '%u:%g %a', STATE_ROOT], capture_output=True, text=True)
+state['state_root'] = root.stdout.strip() if root.returncode == 0 else None
 try:
     state['config'] = json.load(open(CONFIG))
 except (OSError, ValueError) as exc:
@@ -72,6 +74,7 @@ def drift(declared, observed):
     for listener in declared['listeners']:
         if listener['port'] not in listening:
             found.append(f"listener: nothing listens on {listener['port']} ({listener['role']})")
+    differ('state root', f"{declared['state_root']['owner']} {declared['state_root']['mode']}", observed.get('state_root'))
     differ('namespace', declared['namespace'], observed.get('namespace'))
     differ('guest vcpus', declared['guest']['vcpus'], observed.get('vcpus'))
     if not container['State']['Running']:
@@ -91,6 +94,22 @@ def env_file_keys(path):
                 raise ValueError(f'{path}: every entry must be KEY=VALUE')
             keys.append(key)
     return keys
+
+
+def state_root_archive(declared, out):
+    """Writes a tar of the declared state root directory with its owner and mode.
+
+    The Engine image has no such directory, so Docker creates it as root for the bind mounts
+    beneath it and the Engine cannot create its store lock there. Copy this archive into the
+    created container (docker cp - CONTAINER:PARENT) before its first start.
+    """
+    import io
+    import tarfile
+    uid, gid = (int(part) for part in declared['state_root']['owner'].split(':'))
+    member = tarfile.TarInfo(declared['state_root']['path'].rstrip('/').rsplit('/', 1)[1])
+    member.type, member.uid, member.gid, member.mode = tarfile.DIRTYPE, uid, gid, int(declared['state_root']['mode'], 8)
+    with tarfile.open(fileobj=out, mode='w|') as archive:
+        archive.addfile(member)
 
 
 def create_args(declared, env_file):
@@ -119,8 +138,13 @@ def main():
     render = sub.add_parser('create-args', help='print the docker create argv for the declared container as JSON; runs nothing', epilog='The env file is read on the machine that runs the printed command and must define exactly the declared env_keys; its values never appear in the argv.')
     render.add_argument('--env-file', required=True, help='KEY=VALUE file holding the declared environment, e.g. the admin token')
     render.add_argument('--declaration', default=str(DECLARATION), help='declaration to render (default: the tracked standby/stats-engine.json)')
+    seed = sub.add_parser('state-root-archive', help='write a tar of the declared state root directory to stdout; runs nothing', epilog='Example: standby-engine state-root-archive | docker cp - live-stats-engine:/var/lib')
+    seed.add_argument('--declaration', default=str(DECLARATION), help='declaration to render (default: the tracked standby/stats-engine.json)')
     args = parser.parse_args()
     declared = json.loads(Path(args.declaration).read_text())
+    if args.command == 'state-root-archive':
+        state_root_archive(declared, sys.stdout.buffer)
+        return 0
     if args.command == 'create-args':
         try:
             print(json.dumps(create_args(declared, args.env_file)))
@@ -128,7 +152,7 @@ def main():
             print(f'standby-engine: {exc}', file=sys.stderr)
             return 1
         return 0
-    script = GUEST.replace('CONTAINER', repr(declared['container'])).replace('CONFIG', repr(declared['config_path']))
+    script = GUEST.replace('CONTAINER', repr(declared['container'])).replace('CONFIG', repr(declared['config_path'])).replace('STATE_ROOT', repr(declared['state_root']['path']))
     result = subprocess.run(['ssh', '-F', str(Path(args.ssh_config).expanduser()), '-o', 'BatchMode=yes', args.host, 'python3 -c ' + shlex.quote(script)], capture_output=True, text=True, timeout=60)
     if result.returncode != 0:
         print(f'standby-engine: cannot inspect {args.host}: {result.stderr.strip()}', file=sys.stderr)
