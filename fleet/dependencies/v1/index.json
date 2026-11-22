@@ -111,6 +111,11 @@
    "inputs_fingerprint": "4e1038c34a1f92c9d45fbaed57eb14fa09001a95824cd4cbfa447e9dc2d66c0f",
    "state": "partial"
   },
+  "joshuarli/stonks": {
+   "commit": "cbaceac71da22a75c9565e027102a314a81546d4",
+   "inputs_fingerprint": "822d1f39779e1ae3190a210fdc4d049c2ff7fc6e6b999978f5774d7d9bb31545",
+   "state": "partial"
+  },
   "joshuarli/syncthing": {
    "commit": "8ff94a7f2a0652aa9688dabc08a8b6039fc81922",
    "inputs_fingerprint": "0e04c4b403c4946654ae6c05704900c09821e5ae23021f6b36ed410dd73e5998",
