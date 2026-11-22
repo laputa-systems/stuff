@@ -84,8 +84,8 @@ def test_without_a_standard_lint_workflow_nothing_is_flagged(tmp_path: Path) -> 
     assert messages(tmp_path / "empty") == []
 
 
-def test_fork_repositories_only_inspect_fork_workflows(tmp_path: Path) -> None:
+def test_fork_repositories_inspect_owned_ci_for_duplicate_lint(tmp_path: Path) -> None:
     write(tmp_path, "lint.yml", LINT)
     write(tmp_path, "ci.yml", workflow("on: [push]", "      - run: make lint\n"))
 
-    assert messages(tmp_path, "fork") == []
+    assert messages(tmp_path, "fork") == [("workflow-redundancy", ".github/workflows/ci.yml")]

@@ -33,6 +33,7 @@ from repomod.rules.template import template_rules
 from repomod.rules.typescript_standard import typescript_standard_rules
 from repomod.rules.workflow_redundancy import workflow_redundancy_rules
 from repomod.rules.workflow_settings import workflow_settings_rules
+from repomod.rules.workflows import fork_workflow_rules
 from repomod.types import Finding, Repository, Rule, TagPredicate
 
 
@@ -70,6 +71,7 @@ def rules() -> tuple[Rule, ...]:
         *typescript_standard_rules(),
         *workflow_redundancy_rules(),
         *workflow_settings_rules(),
+        *fork_workflow_rules(),
         *registry_sources_rules(),
         *laputa_rustix_rules(),
         *release_rules(),

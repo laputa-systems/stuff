@@ -127,7 +127,7 @@ between Ubuntu releases. Its fixer rewrites `ubuntu-latest` and ARM labels to
 `ubuntu-26.04-arm`, and older x86 labels to `ubuntu-26.04` for jobs that need x86. A
 `ubuntu-latest` job or matrix entry that mentions `linux/amd64` also needs x86 and gets
 `ubuntu-26.04`, because an ARM runner cannot execute those images.
-`gha-syntax` skips forks and validates other GitHub Actions files offline with Pinact's default profile and the
+`gha-syntax` validates GitHub Actions files offline with Pinact's default profile and the
 explicit `fleet/policy/actions.toml` catalog. Its fixer returns a catalog-backed Pinact plan from a disposable
 worktree; repomod keeps validation and repository writes.
 `no-formatters` rejects formatter
@@ -384,8 +384,13 @@ directly (`cargo test`, `pytest`, `vitest`, a package-manager test script, `node
 repository-specific. Without any test step, a repository that has a `test` target and no `ci.yml`
 gets a fixer that writes `.github/workflows/ci.yml` from the lint workflow
 template with a `make test` step; one without a `test` target, or with an existing `ci.yml`, is a
-manual finding. The rule reads every workflow, skips forks unless they are tagged `fork-diverged`,
-and reports unreadable workflows or undeterminable triggers as operational findings.
+manual finding. The rule covers every managed fork and reports unreadable workflows or
+undeterminable triggers as operational findings.
+
+`fork-workflow-names` checks the names of all workflow files in a managed fork. GitHub
+status and workflow policy recognize the same names in
+`repomod/workflow_policy.py`. Compare workflow changes with the upstream merge base
+before importing upstream to catch files with the same name that carry upstream jobs.
 
 The supported `gha-test-workflow` shape uses an unrestricted `pull_request` trigger, or
 `branches` including the known default branch and `types` including opened, synchronize and

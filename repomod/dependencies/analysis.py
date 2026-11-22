@@ -666,7 +666,7 @@ def report_text(value: Mapping[str, Any]) -> list[str]:
     lines.append("source risk")
     lines.extend(_risk_lines(_table(value["source_risk"])))
     lines.append("")
-    lines.append("source risk in forks (upstream workflows stay outside local policy)")
+    lines.append("source risk in forks")
     lines.extend(_risk_lines(_table(value["source_risk_forks"])))
     lines.append("")
     lines.append("scopes")

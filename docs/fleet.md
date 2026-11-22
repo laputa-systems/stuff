@@ -308,11 +308,10 @@ uv run repomod fix --rule audit-upgrades
 
 ## Quality standard
 
-These rules apply to first-party Rust, Python and TypeScript repositories and to the
-`fork-diverged` forks, limited to their changes against upstream; effectively-upstream forks,
-pristine vendored trees and owner-excluded repositories are out. The usr `deslop` skill is the
-procedure for bringing a repository up to this standard, and the rules that check it are in
-[policy development](policy-development.md#other-policy-rules).
+These source rules apply to first-party Rust, Python and TypeScript repositories and to
+the maintained changes in `fork-diverged` forks. Managed forks also follow the fleet CI
+standard. Use the usr `deslop` skill for source conformance and see the
+[policy rules](policy-development.md#other-policy-rules).
 
 Apply `test-pyramid`, `bench-pyramid`, `test-audit`, and `typing-audit` to the maintained
 code of every managed repository. A conformance assessment records the applicable native
@@ -321,6 +320,12 @@ commands, behavioral evidence, and open gaps for that repository.
 - **CI runs the tests.** A pull-request workflow runs `make test` or `make test-ci`
   (`gha-test-workflow`), and the repository's adopted strict typing settings stay on
   (`strict-typing-profile`).
+- **Forks own their CI.** Keep a fork-owned PR test and lint gate, with pinned actions,
+  read-only GitHub permissions, `persist-credentials: false`, and the fleet shell and
+  concurrency settings. Retire inherited
+  workflows when importing upstream changes. Review changes in `.github/workflows`,
+  including files that share a name with upstream. Check that existing required job
+  names still resolve before merging. Keep fork-owned releases and platform builds.
 - **Mutation guards a small critical scope.** Blocking mutation covers only an important
   contract: archive admission, cache integrity, atomic publication, success and failure
   reporting, cleanup, or an authorization decision (`mutants-diff-lane`). A survivor fails unless

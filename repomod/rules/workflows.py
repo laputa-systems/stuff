@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from repomod.run_cache import cached
-from repomod.types import Repository
+from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 from repomod.workflow_policy import is_fork_workflow
 
 
@@ -61,4 +61,35 @@ def read_workflow_sources(
     return cached(
         ("workflow_sources", root, repository is not None and "fork" in repository.tags),
         lambda: _read_workflow_sources(root, repository),
+    )
+
+
+def _fork_workflow_findings(root: Path, repository: Repository) -> list[Finding]:
+    files, problems = workflow_files(root)
+    rule = "fork-workflow-names"
+    findings = [operational(repository, rule, path, message) for path, message in problems]
+    findings.extend(
+        violation(
+            repository,
+            rule,
+            path.relative_to(root).as_posix(),
+            "use a fleet workflow name and retire the upstream workflow",
+        )
+        for path in files
+        if not is_fork_workflow(path.name)
+    )
+    return findings
+
+
+def fork_workflow_rules() -> tuple[Rule, ...]:
+    return (
+        Rule(
+            "fork-workflow-names",
+            "Require forks to use fleet workflow names",
+            TagPredicate(all_of=frozenset({"fork"})),
+            _fork_workflow_findings,
+            None,
+            None,
+            (),
+        ),
     )

@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from repomod.rules.ci_workflow import _ci_workflow_findings, _ci_workflow_fix
+from repomod.rules.workflows import fork_workflow_rules
 from repomod.types import RepoId, Repository
 
 PULL_REQUEST = "on:\n  pull_request:\njobs:\n  ci:\n    runs-on: ubuntu-26.04-arm\n    steps:\n"
@@ -101,12 +102,24 @@ def test_an_existing_ci_workflow_without_tests_is_a_manual_repair(tmp_path: Path
     assert _ci_workflow_fix(tmp_path, repository()) == {}
 
 
-def test_pristine_forks_are_skipped_and_diverged_forks_read_every_workflow(tmp_path: Path) -> None:
+def test_forks_require_the_root_test_entrypoint(tmp_path: Path) -> None:
     makefile(tmp_path)
     workflow(tmp_path, "ci.yml", PULL_REQUEST + "      - run: cargo test\n")
 
-    assert found(tmp_path, repository("tool", "fork")) == []
-    assert found(tmp_path, repository("tool", "fork", "fork-diverged")) == [(".github/workflows/ci.yml", False)]
+    for tags in (("tool", "fork"), ("tool", "fork", "fork-diverged")):
+        assert found(tmp_path, repository(*tags)) == [(".github/workflows/ci.yml", False)]
+
+
+def test_fork_workflow_names_flag_an_inherited_file(tmp_path: Path) -> None:
+    workflow(tmp_path, "ci.yml", PULL_REQUEST + "      - run: make test\n")
+    workflow(tmp_path, "android.yml", "on: workflow_dispatch\n")
+    workflow(tmp_path, "upstream-tests.yml", PULL_REQUEST + "      - run: cargo test\n")
+    (rule,) = fork_workflow_rules()
+    fork = repository("tool", "fork")
+
+    assert rule.applies_to.matches(fork.tags)
+    assert not rule.applies_to.matches(repository().tags)
+    assert [item.file for item in rule.check(tmp_path, fork)] == [".github/workflows/upstream-tests.yml"]
 
 
 def test_unsupported_workflow_shapes_name_the_construct(tmp_path: Path) -> None:

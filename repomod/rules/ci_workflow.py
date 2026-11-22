@@ -30,11 +30,6 @@ _DIRECT_TEST = re.compile(
 )
 
 
-def _covered(repository: Repository) -> bool:
-    tags = set(repository.tags)
-    return "fork" not in tags or "fork-diverged" in tags
-
-
 _MAKE_ASSIGNMENT = re.compile(r"[A-Za-z_][A-Za-z_0-9]*=(?:[A-Za-z0-9_./:$-]|\$\{\{ *[A-Za-z0-9_.]+ *\}\})*")
 
 
@@ -195,8 +190,6 @@ def _has_test_target(root: Path) -> bool:
 
 
 def _ci_workflow_findings(root: Path, repository: Repository) -> list[Finding]:
-    if not _covered(repository):
-        return []
     workflows, problems, supported = _pull_request_workflows(root)
     if problems:
         return [operational(repository, RULE, path, message) for path, message in problems]
