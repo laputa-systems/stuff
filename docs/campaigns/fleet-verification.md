@@ -76,7 +76,7 @@ and reports workflow names outside the fleet set.
   [Crabtables 4](https://github.com/laputa-systems/crabtables/pull/4).
 - Asterinas, fd, jaq, rage, ripgrep and Soulseek already had fork-owned CI.
 
-The following check returned no findings across the 18 managed forks.
+The following check returned no findings across the 18 managed forks. `workflow-redundancy` and `gha-triggers` also passed. `gha-settings` flagged the release workflows in jaq and ripgrep. These releases retain their own settings and receive separate review.
 
 ```sh
 uv run repomod lint --include-private --tag fork --rule fork-workflow-names \
@@ -93,11 +93,20 @@ repository still needs evidence that its targets run the intended work.
 
 Scoped cleanup probes passed for Rustix `d8c2624`, Crabtables `07006ef`, Stuff
 `a6b44acc6`, Gluon `5616e9118`, Pi Build `7cbb75f88`, and rust-fontconfig
-`f17da1f`. Each probe exercised repeat cleanup, an external target or scratch
-sentinel, a nested fixture, and symlink refusal. Rustix's default benchmark ran
-its `getpid` Change workload. The full Criterion suite is available through the
-explicit `make bench-full` command. The workload is a syscall microbenchmark.
-Representative downstream benchmarks still need qualification.
+`f17da1f`. The same cleanup controls passed for Asterinas `e310190ae`, Buildlib
+`76e00f8`, Chromium Build `76a3b07dc`, CMake Build `ac7f087dbc`, FFmpeg Build
+`673d0d9f`, Node Build `ee79e76b5`, SSH Build `f915b51`, Git Build `7e12a61`,
+and LLVM Prebuilt Musl `d667755`. LLVM rejects redirected work or release paths
+and preserves other architectures and package versions. Asterinas preserves the
+installed cargo-osdk even if the Make variable points outside the checkout.
+
+Rustix's default benchmark ran its `getpid` Change workload. The full Criterion
+suite uses Rustix's `bench-full` Make target. The Change workload is a syscall
+microbenchmark. Representative downstream benchmarks still need qualification.
+Agentctl `0a54fe3` ran the real SQLite inbox workload through ingestion, replay,
+and rebuild. It rejected an unknown workload and a planted empty rebuild.
+The inbox test suite and benchmark script syntax checks passed. The full
+control-plane fixture and browser workload remains manual.
 
 The focused fleet policy check reported 17 first-party PR test workflow gaps.
 The existing lanes need individual inspection for job scope and required check
