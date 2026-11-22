@@ -12,7 +12,7 @@ The rollout covers all 72 managed repositories in `fleet/catalog.toml` at `40724
 | `joshuarli/lz` | `338c9dd` passed cleanup. `485743e` rejects name-only and malformed benchmark results. `make test`, `ty check benches/driver.py`, the driver self-tests, and `make bench TIER=change WORKLOAD=search_hit_literal` passed. | DSLP-12 and DSLP-13 track representative journeys and paired comparisons. |
 | `laputa-systems/fz` | `77c5c53` passed cleanup and `make test`. `4006032` rejects a missing measurement for the exact Rust benchmark name. Seven driver tests, `ty` on the driver and a run of `make bench BENCH_ARGS='--tier change --name rust-search'` passed. | Qualify the fzy comparison on a host with the pinned oracle and review Rust type boundaries. |
 | `laputa-systems/e` | `695942e` passed cleanup. `7fa70d5` fixed two wrap-sensitive PTY lock tests and passed `make test`, including 165 PTY tests. `7c0522c` passed `ty` on the benchmark driver, its five self-tests, and `make bench BENCH_ARGS='--tier Change --name render_full_frame_plain'`. A fixture proved a successful subprocess with name-only output fails the gate. | Audit paired comparisons and current Rust type boundaries. |
-| `joshuarli/defuddle-rs` | `79628f266` passed scoped Rust cleanup. | Verify test, benchmark, and type gates. |
+| `joshuarli/defuddle-rs` | `79628f266` passed scoped Rust cleanup. `a163fc7b9` passed the native Change suite, four driver tests, `ty` on the driver, and the HTML and Markdown corpus benchmark. Profiling mode previously exited successfully without timing either workload and now fails the gate. | Paired comparisons and WASM browser qualification remain open. |
 | `joshuarli/shck` | `57ccab859c` passed scoped Rust cleanup. | Verify test, benchmark, and type gates. |
 | `joshuarli/play` | `95da2e9f6` passed scoped Rust cleanup. | Verify test, benchmark, and type gates. |
 | `joshuarli/stonks` | `a31033e` passed cleanup for Rust and Vite outputs, including refusal of a symlinked `web` parent. `42dfa6a` passed `make test` with 670 Rust tests and four web model tests. Eight provider or child tests were ignored as documented. The strengthened SMA test detected a planted null-for-zero result. The earnings fixture now uses its recorded date. | `50e44c0` passed the common replay Change workload. The gate rejected an unknown workload, the manual sustained profile and an empty report. The web type checker passed under Node 26.13.1. Paired comparisons and full replay qualification remain open. |
@@ -76,7 +76,7 @@ and reports workflow names outside the fleet set.
   [Crabtables 4](https://github.com/laputa-systems/crabtables/pull/4).
 - Asterinas, fd, jaq, rage, ripgrep and Soulseek already had fork-owned CI.
 
-The following check returned no findings across the 18 managed forks. `workflow-redundancy` and `gha-triggers` also passed. `gha-settings` flagged the release workflows in jaq and ripgrep. These releases retain their own settings and receive separate review.
+Across all 18 defaults, no retained workflow file matches the version at its local upstream merge base. The following check also returned no findings. `workflow-redundancy` and `gha-triggers` also passed. `gha-settings` flagged the release workflows in jaq and ripgrep. These releases retain their own settings and receive separate review.
 
 ```sh
 uv run repomod lint --include-private --tag fork --rule fork-workflow-names \
@@ -87,7 +87,7 @@ uv run repomod lint --include-private --tag fork --rule fork-workflow-names \
 
 All 72 catalogued default branches define a root `make test` target. Kache is
 currently the only default branch missing `make clean`. Its [open cleanup PR](https://github.com/joshuarli/kache/pull/140)
-contains the verified recipe. Discover's `9a187429` is on its default branch and
+contains the verified recipe. Thirty-eight defaults have a root `bench` target. The other repositories may provide named workloads under different commands. Discover's `9a187429` is on its default branch and
 passes the entrypoint rule. The source scan checks target declarations. Each
 repository still needs evidence that its targets run the intended work.
 
@@ -98,7 +98,7 @@ Scoped cleanup probes passed for Rustix `d8c2624`, Crabtables `07006ef`, Stuff
 `673d0d9f`, Node Build `ee79e76b5`, SSH Build `f915b51`, Git Build `7e12a61`,
 and LLVM Prebuilt Musl `d667755`. LLVM rejects redirected work or release paths
 and preserves other architectures and package versions. Asterinas preserves the
-installed cargo-osdk even if the Make variable points outside the checkout.
+installed cargo-osdk even if the Make variable points outside the checkout. Mactop `a38941b` passed its local cleanup probes, 42 Swift tests, and both hosted checks. [Mactop 13](https://github.com/joshuarli/mactop/pull/13).
 
 Rustix's default benchmark ran its `getpid` Change workload. The full Criterion
 suite uses Rustix's `bench-full` Make target. The Change workload is a syscall
@@ -108,14 +108,13 @@ and rebuild. It rejected an unknown workload and a planted empty rebuild.
 The inbox test suite and benchmark script syntax checks passed. The full
 control-plane fixture and browser workload remains manual.
 
-The focused fleet policy check reported 17 first-party PR test workflow gaps.
+The focused fleet policy check reported 16 first-party PR test workflow gaps on default branches. Chromium Build passed when checked at its default branch instead of the active feature checkout.
 The existing lanes need individual inspection for job scope and required check
 names before translation to `make test` or `make test-ci`.
 
 - Applications and tools: Agentctl, Aincrad2, bctl, Discover, Mactop,
   Niceforge, Obscura, Shadowdriver, Stonks, usr, Laputa, and xsh.
-- Build repositories: Chromium Build, Git Build, LLVM Prebuilt Musl,
-  Python Build, and SSH Build.
+- Build repositories: Git Build, LLVM Prebuilt Musl, Python Build, and SSH Build.
 
 ## Qualify a repository
 
