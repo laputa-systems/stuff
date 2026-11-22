@@ -280,7 +280,12 @@ fleet-ingest: ## Ingest fleet lists into local per-registry sites, no R2 (FLEET_
 
 .PHONY: clean
 clean:
-	rm -rf .venv
-	find . -path './.git' -prune -o -path './.work' -prune -o -name __pycache__ -type d -prune -exec rm -rf {} +
-	find . -path './.git' -prune -o -path './.work' -prune -o -name node_modules -type d -prune -exec rm -rf {} +
-	find . -path './.git' -prune -o -path './.work' -prune -o -name target -type d -prune -exec rm -rf {} +
+	@for parent in ./crates ./crates/stuff-worker; do \
+	  if test -L "$$parent"; then printf '%s\n' "make clean: $$parent must be a local directory" >&2; exit 1; fi; \
+	done
+	@for artifact in ./target ./crates/stuff-worker/build ./.pytest_cache ./.ruff_cache; do \
+	  if test -L "$$artifact" || { test -e "$$artifact" && ! test -d "$$artifact"; }; then \
+	    printf '%s\n' "make clean: $$artifact must be a local build directory" >&2; exit 1; \
+	  fi; \
+	done
+	rm -rf -- ./target ./crates/stuff-worker/build ./.pytest_cache ./.ruff_cache

@@ -54,6 +54,8 @@ The native server and Worker support shared wheel/tarball aliases and npm's stan
 
 Run these from the repository root. The main targets are `make build`, `make test`
 (Rust workspace, mycrates and repomod) and `make lint` (clippy, ruff, ty).
+`make clean` removes the root Cargo target, the Worker build output, and the root pytest and
+Ruff caches. It preserves installed dependencies and refuses symlinked outputs or Worker parents.
 
 | Area | Commands |
 | --- | --- |
