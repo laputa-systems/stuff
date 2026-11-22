@@ -214,10 +214,6 @@ reassess = "Reassess if verified acquisition, release, or archive tooling appear
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
 
-[exempt."laputa-systems/zzz"]
-reason = "Native tooling sufficient."
-reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
-
 [exempt."laputa-systems/buildlib"]
 reason = "The provider of the wheel and bootstrap, which it builds and tests from source."
 reassess = "Not applicable while buildlib is the provider."
