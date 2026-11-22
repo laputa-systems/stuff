@@ -15,7 +15,7 @@ The rollout covers all 72 managed repositories in `fleet/catalog.toml` at `40724
 | `joshuarli/defuddle-rs` | `79628f266` passed scoped Rust cleanup. | Verify test, benchmark, and type gates. |
 | `joshuarli/shck` | `57ccab859c` passed scoped Rust cleanup. | Verify test, benchmark, and type gates. |
 | `joshuarli/play` | `95da2e9f6` passed scoped Rust cleanup. | Verify test, benchmark, and type gates. |
-| `joshuarli/stonks` | `a31033e` passed cleanup for Rust and Vite outputs, including refusal of a symlinked `web` parent. `42dfa6a` passed `make test` with 670 Rust tests and four web model tests. Eight provider or child tests were ignored as documented. The strengthened SMA test detected a planted null-for-zero result. The earnings fixture now uses its recorded date. | Qualify the benchmark entrypoint and verify the web type checker. |
+| `joshuarli/stonks` | `a31033e` passed cleanup for Rust and Vite outputs, including refusal of a symlinked `web` parent. `42dfa6a` passed `make test` with 670 Rust tests and four web model tests. Eight provider or child tests were ignored as documented. The strengthened SMA test detected a planted null-for-zero result. The earnings fixture now uses its recorded date. | `50e44c0` passed the common replay Change workload. The gate rejected an unknown workload, the manual sustained profile and an empty report. The web type checker passed under Node 26.13.1. Paired comparisons and full replay qualification remain open. |
 | `joshuarli/toolbox` | `c0010ff` passed cleanup for the test and lint caches while preserving the dependency environment and local data. | Verify test, benchmark, and type gates. |
 | `laputa-systems/laputa-ui-dashboard` | `af5b046` passed scoped cleanup while preserving installed packages. | Verify test, benchmark, and type gates. |
 | `laputa-systems/fastermod` | `8fce05b5` passed cleanup and required PR checks. [PR 45](https://github.com/laputa-systems/fastermod/pull/45). | Verify benchmark and audit coverage. |
@@ -48,7 +48,7 @@ At rollout start, the focused repomod check flagged 46 repositories for missing 
 | Python Build, LLVM Prebuilt Musl and SSH Build | `689519644` passed 360 controller tests and cleanup probes that preserved research data. `d6267bc` reaches the LLVM artifact tests, which rejected two stale Clang footer outputs. The patch applied once and reversed correctly against pinned source. `b5046ca` passed server and key-generation tests with the installed wrapper disabled for that invocation. |
 | Lexopt, Rustls, WebPKI and zlib-rs | `b856de2`, `c11b6b59`, `17d1eb6` and `9327926` passed their new local test targets and cleanup probes. |
 | Syncthing, Mactop and Soulseek | `9aca13072` passed the short Go suite for 48 packages. Mactop passed 42 Swift tests and Soulseek passed its bounded native suite. Both PRs passed hosted checks. [Mactop PR 12](https://github.com/joshuarli/mactop/pull/12), [Soulseek PR 12](https://github.com/joshuarli/soulseek-rs/pull/12). |
-| Kache | The cleanup probe and pre-PR Linux arm64 container check passed 5,048 tests with 48 ignored. Use the repository Dockerfile and container-local `TMPDIR` and `KACHE_TEST_SCRATCH_DIR`; host bind-mounts do not reproduce the filesystem semantics. The hosted x86 musl check failed in the compiler-family probe. DSLP-125 records the installed wrapper's separate integration-test compile failure. [PR 140](https://github.com/joshuarli/kache/pull/140). |
+| Kache | The cleanup probe and pre-PR Linux arm64 container check passed 5,048 tests with 48 ignored. Use the repository Dockerfile and container-local `TMPDIR` and `KACHE_TEST_SCRATCH_DIR`; host bind-mounts do not reproduce the filesystem semantics. The hosted x86 musl check failed in the compiler-family probe. `5d2e8d807` switched its fixture to the existing executable writer that prevents a fork from inheriting the writable descriptor. The targeted probe passed in the Linux arm64 container. Fresh hosted checks are pending. DSLP-125 records the installed wrapper's separate integration-test compile failure. [PR 140](https://github.com/joshuarli/kache/pull/140). |
 
 ## Fork CI
 
@@ -70,16 +70,43 @@ and reports workflow names outside the fleet set.
   branches. GitHub returned no runs for the PRs after reopening or for the merge
   commits at this checkpoint. [Rustls 4](https://github.com/laputa-systems/rustls/pull/4),
   [WebPKI 3](https://github.com/laputa-systems/webpki/pull/3).
-- Deser and Crabtables still have hosted checks running. [Deser 9](https://github.com/laputa-systems/deser/pull/9),
+- Deser and Crabtables both passed hosted test and lint and merged at
+  `22bc8963c` and `4624c7325`. Deser also passed `no_std`, MSRV and Miri.
+  [Deser 9](https://github.com/laputa-systems/deser/pull/9),
   [Crabtables 4](https://github.com/laputa-systems/crabtables/pull/4).
 - Asterinas, fd, jaq, rage, ripgrep and Soulseek already had fork-owned CI.
 
-Recheck the default branches with:
+The following check returned no findings across the 18 managed forks.
 
 ```sh
 uv run repomod lint --include-private --tag fork --rule fork-workflow-names \
   --rule gha-test-workflow --rule gha-lint-workflow --rule gha-syntax
 ```
+
+## Default-branch entrypoints
+
+All 72 catalogued default branches define a root `make test` target. Kache is
+currently the only default branch missing `make clean`. Its [open cleanup PR](https://github.com/joshuarli/kache/pull/140)
+contains the verified recipe. Discover's `9a187429` is on its default branch and
+passes the entrypoint rule. The source scan checks target declarations. Each
+repository still needs evidence that its targets run the intended work.
+
+Scoped cleanup probes passed for Rustix `d8c2624`, Crabtables `07006ef`, Stuff
+`a6b44acc6`, Gluon `5616e9118`, Pi Build `7cbb75f88`, and rust-fontconfig
+`f17da1f`. Each probe exercised repeat cleanup, an external target or scratch
+sentinel, a nested fixture, and symlink refusal. Rustix's default benchmark ran
+its `getpid` Change workload. The full Criterion suite is available through the
+explicit `make bench-full` command. The workload is a syscall microbenchmark.
+Representative downstream benchmarks still need qualification.
+
+The focused fleet policy check reported 17 first-party PR test workflow gaps.
+The existing lanes need individual inspection for job scope and required check
+names before translation to `make test` or `make test-ci`.
+
+- Applications and tools: Agentctl, Aincrad2, bctl, Discover, Mactop,
+  Niceforge, Obscura, Shadowdriver, Stonks, usr, Laputa, and xsh.
+- Build repositories: Chromium Build, Git Build, LLVM Prebuilt Musl,
+  Python Build, and SSH Build.
 
 ## Qualify a repository
 
