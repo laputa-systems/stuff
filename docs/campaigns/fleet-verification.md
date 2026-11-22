@@ -117,11 +117,14 @@ names before translation to `make test` or `make test-ci`.
   Niceforge, Obscura, Shadowdriver, Stonks, usr, Laputa, and xsh.
 - Build repositories: Git Build, LLVM Prebuilt Musl, Python Build, and SSH Build.
 
-The tier review found two concrete root-command gaps. Aincrad2's verification
-registry classifies its whole-workspace `make test` as manual and exposes a
-separate change-selected gate. Crabtables's root suite includes privileged
-packet qualification. Its hosted kernel CI and existing coverage need to
-remain available while a bounded local default is qualified.
+Aincrad2's verification registry classifies the whole-workspace `make test`
+command as manual and exposes a separate change-selected gate. Its root Change
+entrypoint still needs to be mapped to that registry.
+
+Crabtables `6307958` runs a bounded local suite. The Python harness check and
+26 Rust tests passed in the pinned Linux image with networking and capabilities
+dropped. Two socket fault cases need netlink privileges. The hosted
+`make test-ci` plan still runs the original full suite and constants validation.
 
 ## Qualify a repository
 
