@@ -48,7 +48,7 @@ At rollout start, the focused repomod check flagged 46 repositories for missing 
 | Python Build, LLVM Prebuilt Musl and SSH Build | `689519644` passed 360 controller tests and cleanup probes that preserved research data. `9599b54` makes the LLVM Change gate exercise the release scripts against local fixtures for both target triples. It rejects stale manifests and changed asset bytes. The separate artifact gate rejected two stale Clang footer outputs. The patch applied once and reversed correctly against pinned source. `b5046ca` passed server and key-generation tests with the installed wrapper disabled for that invocation. |
 | Lexopt, Rustls, WebPKI and zlib-rs | `b856de2`, `c11b6b59`, `17d1eb6` and `9327926` passed their new local test targets and cleanup probes. |
 | Syncthing, Mactop and Soulseek | `9aca13072` passed the short Go suite for 48 packages. Mactop passed 42 Swift tests and Soulseek passed its bounded native suite. Both PRs passed hosted checks. [Mactop PR 12](https://github.com/joshuarli/mactop/pull/12), [Soulseek PR 12](https://github.com/joshuarli/soulseek-rs/pull/12). |
-| Kache | The cleanup probe and pre-PR Linux arm64 container check passed 5,048 tests with 48 ignored. Use the repository Dockerfile and container-local `TMPDIR` and `KACHE_TEST_SCRATCH_DIR`; host bind-mounts do not reproduce the filesystem semantics. The hosted x86 musl check failed in the compiler-family probe. `5d2e8d807` switched its fixture to the existing executable writer that prevents a fork from inheriting the writable descriptor. The targeted probe passed in the Linux arm64 container. The new hosted unit-test steps passed on Linux x86 musl, Linux arm64 musl and macOS. The exact merge tree with default `a99ddee96` passed all 399 compiler tests in the Linux arm64 image and passed the cleanup probe. Hosted compiler oracles remain pending. DSLP-125 records the installed wrapper's separate integration-test compile failure. [PR 140](https://github.com/joshuarli/kache/pull/140). |
+| Kache | Cleanup merged at `4a473c5b5f` after all 10 hosted checks passed. The initial x86 musl failure was in the compiler-family fixture. `5d2e8d807` uses the repository's executable writer to prevent an inherited writable descriptor. The exact merge tree with base `8d4f0d47de` passed 401 compiler tests and 124 probe tests in the Linux arm64 image. Cleanup passed twice, preserved nested and external targets, and refused a symlink. An earlier full controller check passed 5,048 tests with 48 ignored. Use the Dockerfile and container-local `TMPDIR` and `KACHE_TEST_SCRATCH_DIR` for filesystem semantics. DSLP-125 tracks the installed wrapper's separate integration-test compile failure. [PR 140](https://github.com/joshuarli/kache/pull/140). |
 
 ## Fork CI
 
@@ -85,9 +85,9 @@ uv run repomod lint --include-private --tag fork --rule fork-workflow-names \
 
 ## Default-branch entrypoints
 
-All 72 catalogued default branches define a root `make test` target. Kache is
-currently the only default branch missing `make clean`. Its [open cleanup PR](https://github.com/joshuarli/kache/pull/140)
-contains the verified recipe. Thirty-nine defaults have a root `bench` target. The other repositories may provide named workloads under different commands. Discover's `9a187429` is on its default branch and
+All 72 catalogued default branches declare root `make test` and `make clean`
+targets. Kache closed the final cleanup declaration gap. Thirty-nine defaults
+have a root `bench` target. The other repositories may provide named workloads under different commands. Discover's `9a187429` is on its default branch and
 passes the entrypoint rule. Discover `5665263a` also expands the root Change suite to Artist, Wine, research-core and site-kit. It passed 466 tests, and regeneration from the corrected template passed the documentation parity check.
 
 Repomod `0cf751d5b` checks the `make-test-target` rule for every managed repository. A `.PHONY` entry alone fails. All 72 default branches pass the declaration check, including SSH Build at its default branch. The full Repomod suite passed 1,565 tests with three skips, and Ruff and ty passed. The source scan checks target declarations. Each
@@ -124,7 +124,8 @@ entrypoint still needs to be mapped to that registry.
 Crabtables `6307958` runs a bounded local suite. The Python harness check and
 26 Rust tests passed in the pinned Linux image with networking and capabilities
 dropped. Two socket fault cases need netlink privileges. The hosted
-`make test-ci` plan still runs the original full suite and constants validation.
+`make test-ci` ran the original full suite and constants validation, and the
+latest default-branch CI and lint both passed.
 
 ## Qualify a repository
 
