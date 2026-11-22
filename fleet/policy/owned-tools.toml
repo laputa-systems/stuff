@@ -4,6 +4,22 @@ procedure = "https://github.com/joshuarli/usr/blob/main/dotfiles/base/.agents/in
 owners = ["joshuarli", "laputa-systems"]
 install_manifest = ".local/state/sync/dl-owned.verified.json"
 
+[producers."joshuarli/agentctl"]
+
+[producers."joshuarli/agentctl".commands]
+"agentctl.mjs" = { gap = "operator command prints usage without the owned-tool footer" }
+agentctl-node = { exempt = "supervised node launcher; operators use agentctl.mjs for service control" }
+
+[producers."joshuarli/aincrad2"]
+
+[producers."joshuarli/aincrad2".commands]
+a2-cardinal = { gap = "content compiler help has no owned-tool footer" }
+a2-cards = { gap = "card authoring command help has no owned-tool footer" }
+a2-gateway = { gap = "gateway command help has no owned-tool footer" }
+a2-server = { gap = "realm operator command help has no owned-tool footer" }
+battlelab = { gap = "battle simulator help has no owned-tool footer" }
+worldlab = { gap = "simulation command help has no owned-tool footer" }
+
 [producers."joshuarli/bctl"]
 
 [producers."joshuarli/bctl".commands]
@@ -71,6 +87,16 @@ upstream = "rui314/mold"
 "ld.mold" = { exempt = "linker alias of mold; mold --help is its support route" }
 mold = { gap = "ignored in the catalog with no checkout; help is not migrated" }
 
+[producers."joshuarli/nanoshop"]
+
+[producers."joshuarli/nanoshop".commands]
+nanoshop = { gap = "shop operator CLI help has no owned-tool footer" }
+
+[producers."joshuarli/obscura"]
+
+[producers."joshuarli/obscura".commands]
+obscura-print = { gap = "image rendering CLI help has no owned-tool footer" }
+
 [producers."joshuarli/pi-build"]
 
 [producers."joshuarli/pi-build".commands]
@@ -80,6 +106,17 @@ pi = { help = { source = "overlays/pi-cli/help.mjs", test = "tests/pi-help.test.
 
 [producers."joshuarli/play".commands]
 player = { gap = "primary help does not print the owned-tool footer yet" }
+
+[producers."joshuarli/shadowdriver"]
+
+[producers."joshuarli/shadowdriver".commands]
+grab = { gap = "site archive CLI help has no owned-tool footer" }
+ig = { gap = "archive CLI help has no owned-tool footer" }
+
+[producers."joshuarli/stonks"]
+
+[producers."joshuarli/stonks".commands]
+stonks = { gap = "primary help does not print the owned-tool footer yet" }
 
 [producers."joshuarli/shck"]
 

@@ -191,3 +191,7 @@ ignore_reason = "sources/ holds preserved upstream TypeScript snapshots that the
 [overrides."laputa-systems/zzz"]
 ignore = ["release-archive-format", "binary-release-standard"]
 ignore_reason = "The owner excluded zzz from the tar.xz release-archive campaign: it keeps its zip release archives. binary-release-standard is ignored whole because its archive check, and its fixer, would rewrite the packaging to tar.xz."
+
+[overrides."laputa-systems/xsh"]
+ignore = ["make-lint-target"]
+ignore_reason = "The owner keeps xsh's make lint as an explicit repair command. Use make check for lint verification."
