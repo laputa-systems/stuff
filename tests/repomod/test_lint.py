@@ -223,20 +223,20 @@ def test_lint_target_follows_prerequisites(tmp_path: Path) -> None:
 def test_lint_rules_are_registered_and_blacklistable() -> None:
     rule_ids = {rule.id for rule in rules()}
 
-    assert {"gha-lint-workflow", "make-lint-target", "make-clean-target"} <= rule_ids
+    assert {"gha-lint-workflow", "make-lint-target", "make-clean-target", "make-test-target"} <= rule_ids
 
     ignored = Repository(
         RepoId("acme", "demo"),
         ("tool",),
-        ignored_rules=frozenset({"gha-lint-workflow", "make-lint-target", "make-clean-target"}),
+        ignored_rules=frozenset({"gha-lint-workflow", "make-lint-target", "make-clean-target", "make-test-target"}),
     )
     validate_ignored_rules((ignored,))
 
 
 def test_missing_makefile_needs_manual_clean_target(tmp_path: Path) -> None:
-    from repomod.rules.lint import _make_clean_target_findings
+    from repomod.rules.lint import _required_make_target_findings
 
-    findings = _make_clean_target_findings(tmp_path, repository("tool"))
+    findings = _required_make_target_findings(tmp_path, repository("tool"), target="clean")
 
     assert [(item.rule, item.file, item.fixable) for item in findings] == [
         ("make-clean-target", "Makefile", False)
@@ -246,18 +246,18 @@ def test_missing_makefile_needs_manual_clean_target(tmp_path: Path) -> None:
 
 
 def test_makefile_without_clean_target_needs_manual_change(tmp_path: Path) -> None:
-    from repomod.rules.lint import _make_clean_target_findings
+    from repomod.rules.lint import _required_make_target_findings
 
     (tmp_path / "Makefile").write_text(".PHONY: lint\nlint:\n\t@echo ok\n", encoding="utf-8")
 
-    findings = _make_clean_target_findings(tmp_path, repository("tool"))
+    findings = _required_make_target_findings(tmp_path, repository("tool"), target="clean")
 
     assert len(findings) == 1
     assert not findings[0].fixable
 
 
 def test_clean_target_can_preserve_dependencies(tmp_path: Path) -> None:
-    from repomod.rules.lint import _make_clean_target_findings
+    from repomod.rules.lint import _required_make_target_findings
 
     (tmp_path / "package.json").write_text('{"name":"demo"}\n', encoding="utf-8")
     src = tmp_path / "src" / "index.ts"
@@ -267,4 +267,15 @@ def test_clean_target_can_preserve_dependencies(tmp_path: Path) -> None:
         ".PHONY: clean\nclean:\n\trm -rf ./dist\n", encoding="utf-8"
     )
 
-    assert _make_clean_target_findings(tmp_path, repository("tool", "typescript")) == []
+    assert _required_make_target_findings(tmp_path, repository("tool", "typescript"), target="clean") == []
+
+
+def test_make_test_target_requires_a_rule_for_all_repositories(tmp_path: Path) -> None:
+    makefile = tmp_path / "makefile"
+    makefile.write_text(".PHONY: test\n", encoding="utf-8")
+    rule = next(rule for rule in rules() if rule.id == "make-test-target")
+    repo = repository("config")
+    assert rule.applies_to.matches(repo.tags)
+    assert [(item.file, item.fixable) for item in rule.check(tmp_path, repo)] == [("makefile", False)]
+    makefile.write_text(".PHONY: test unit\ntest: unit\nunit:\n\t@./test.sh\n", encoding="utf-8")
+    assert rule.check(tmp_path, repo) == []

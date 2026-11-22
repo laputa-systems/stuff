@@ -116,7 +116,7 @@ def _make_targets(command: str) -> list[str]:
     return targets
 
 
-def _declared_make_targets(makefile: Path) -> set[str] | None:
+def _declared_make_targets(makefile: Path, *, include_phony: bool = True) -> set[str] | None:
     if makefile.is_symlink():
         return None
     source = makefile.read_text(encoding="utf-8")
@@ -148,7 +148,8 @@ def _declared_make_targets(makefile: Path) -> set[str] | None:
         if not separator or right.startswith("=") or "=" in left:
             continue
         if left == ".PHONY":
-            targets.update(target for target in right.split() if _MAKE_TARGET.fullmatch(target))
+            if include_phony:
+                targets.update(target for target in right.split() if _MAKE_TARGET.fullmatch(target))
             continue
         for target in left.split():
             if "%" not in target and "$" not in target:

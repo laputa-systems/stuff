@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from functools import partial
 from pathlib import Path
 
 from repomod.git import GitError
@@ -358,29 +359,33 @@ def _make_lint_target_findings(root: Path, repository: Repository) -> list[Findi
     return _linter_findings(repository, relative, _language_sources(root), recipe)
 
 
-def _make_clean_target_findings(root: Path, repository: Repository) -> list[Finding]:
+def _required_make_target_findings(root: Path, repository: Repository, *, target: str) -> list[Finding]:
+    rule = f"make-{target}-target"
     makefile = _root_makefile(root)
     if makefile is None:
         return [
-            violation(repository, "make-clean-target", "Makefile", "add a root Makefile with a clean target")
+            violation(repository, rule, "Makefile", f"add a root Makefile with a {target} target")
         ]
     relative = makefile.relative_to(root).as_posix()
     if makefile.is_symlink():
         return [
-            operational(repository, "make-clean-target", relative, "root makefile is a symlink and was not inspected")
+            operational(repository, rule, relative, "root makefile is a symlink and was not inspected")
         ]
     try:
         source = makefile.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as error:
         return [
-            operational(repository, "make-clean-target", relative, f"cannot read root Makefile: {error}")
+            operational(repository, rule, relative, f"cannot read root Makefile: {error}")
         ]
-    targets = _declared_make_targets(makefile)
-    has_clean = "clean" in targets if targets is not None else re.search(r"(?m)^clean\s*:", source) is not None
-    if has_clean:
+    targets = _declared_make_targets(makefile, include_phony=False)
+    if targets is not None:
+        has_target = target in targets
+    else:
+        has_target = re.search(rf"(?m)^{re.escape(target)}\s*:", source) is not None
+    if has_target:
         return []
     return [
-        violation(repository, "make-clean-target", relative, "root Makefile does not define a clean target")
+        violation(repository, rule, relative, f"root Makefile does not define a {target} target")
     ]
 
 
@@ -405,13 +410,16 @@ def lint_rules() -> tuple[Rule, ...]:
             None,
             (),
         ),
-        Rule(
-            "make-clean-target",
-            "Require a root Makefile clean target",
-            TagPredicate(),
-            _make_clean_target_findings,
-            None,
-            None,
-            (),
+        *(
+            Rule(
+                f"make-{target}-target",
+                f"Require a root Makefile {target} target",
+                TagPredicate(),
+                partial(_required_make_target_findings, target=target),
+                None,
+                None,
+                (),
+            )
+            for target in ("test", "clean")
         ),
     )

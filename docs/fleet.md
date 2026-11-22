@@ -317,6 +317,8 @@ Apply `test-pyramid`, `bench-pyramid`, `test-audit`, and `typing-audit` to the m
 code of every managed repository. A conformance assessment records the applicable native
 commands, behavioral evidence, and open gaps for that repository.
 
+- **Every managed repository exposes a Change test command.** The root Makefile
+  defines `make test` (`make-test-target`), including for local-only verification.
 - **CI runs the tests.** A pull-request workflow runs `make test` or `make test-ci`
   (`gha-test-workflow`), and the repository's adopted strict typing settings stay on
   (`strict-typing-profile`).

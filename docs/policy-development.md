@@ -188,6 +188,10 @@ Makefile `clean` target. Each repository defines which generated outputs the com
 In a disposable checkout, prove that `make clean` removes those outputs, preserves tracked
 fixtures and unrelated local state, and succeeds when repeated. Recipe safety needs that
 behavioral check. Repomod only inspects the entrypoint and has no generic clean fixer.
+`make-test-target` checks for a declared root `test` rule across the catalog,
+including repositories with local-only verification. A `.PHONY` entry alone
+does not satisfy it. Choose the native tests for each repository and verify
+that the target exercises its bounded Change suite.
 
 Catalog-backed fixes preserve action subpaths, refuse major changes and downgrades, and do not
 treat an unlabeled SHA as approval. The bounded checker is not a complete implementation of
