@@ -1,0 +1,37 @@
+{
+  "schema": "openorange-standby-engine/1",
+  "target": "the native Stats standby writer guest on Threadripper (ssh alias stats-standby)",
+  "container": "live-stats-engine",
+  "image": "docker.io/rivetdev/engine@sha256:6e585002b700dd4d3630808eb67884aa15d1a602d83781984edac47023b6d40f",
+  "entrypoint": ["/usr/bin/rivet-engine"],
+  "cmd": ["--config", "/etc/rivet/config.json"],
+  "user": "10001:10001",
+  "network": "host",
+  "restart": "unless-stopped",
+  "nano_cpus": 4000000000,
+  "memory_bytes": 3221225472,
+  "memory_swap_bytes": 6442450944,
+  "env_keys": ["RIVET__AUTH__ADMIN_TOKEN"],
+  "mounts": [
+    {"source": "/opt/native-rehearsal/live-engine.json", "target": "/etc/rivet/config.json", "read_only": true},
+    {"source": "/var/lib/live-stats/log", "target": "/var/lib/rivet/log", "read_only": false},
+    {"source": "/var/lib/live-stats/objects", "target": "/var/lib/rivet/objects", "read_only": false}
+  ],
+  "config_path": "/opt/native-rehearsal/live-engine.json",
+  "config": {
+    "storage": {
+      "log_directory": "/var/lib/rivet/log",
+      "auto_provision_partitions": 1,
+      "balancing": {"enabled": false}
+    },
+    "object_storage": {"primary": {"file_system": {"path": "/var/lib/rivet/objects"}}},
+    "telemetry": {"enabled": false}
+  },
+  "listeners": [
+    {"port": 6420, "role": "guard; native-stats RIVET_ENDPOINT and its start_pre health wait"},
+    {"port": 6430, "role": "Prometheus metrics scraped by stats-infra-collector as engine:live"}
+  ],
+  "namespace": "stats-prod",
+  "guest": {"vcpus": 8},
+  "dependents": ["native-stats (OpenRC, need docker; waits for http://127.0.0.1:6420/health)"]
+}

@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+import argparse
+import json
+import shlex
+import subprocess
+import sys
+from pathlib import Path
+
+DECLARATION = Path(__file__).resolve().parent.parent / 'standby/stats-engine.json'
+
+GUEST = r'''
+import json, os, subprocess
+container = CONTAINER
+inspect = subprocess.run(['docker', 'inspect', container], capture_output=True, text=True)
+state = {'inspect': json.loads(inspect.stdout)[0] if inspect.returncode == 0 else None}
+try:
+    state['config'] = json.load(open(CONFIG))
+except (OSError, ValueError) as exc:
+    state['config'] = None
+    state['config_error'] = str(exc)
+ports = set()
+for name in ('/proc/net/tcp', '/proc/net/tcp6'):
+    try:
+        for line in open(name).read().splitlines()[1:]:
+            fields = line.split()
+            if fields[3] == '0A':
+                ports.add(int(fields[1].rsplit(':', 1)[1], 16))
+    except OSError:
+        pass
+state['listening'] = sorted(ports)
+state['vcpus'] = os.cpu_count()
+namespace = None
+try:
+    for line in open('/etc/conf.d/native-stats'):
+        if line.startswith('RIVET_NAMESPACE='):
+            namespace = line.split('=', 1)[1].strip().strip('"\'')
+except OSError:
+    pass
+state['namespace'] = namespace
+print(json.dumps(state))
+'''
+
+
+def drift(declared, observed):
+    """Returns human-readable differences between the declaration and an observation; empty when they match."""
+    found = []
+    def differ(name, want, got):
+        if want != got:
+            found.append(f'{name}: declared {json.dumps(want, sort_keys=True)}, observed {json.dumps(got, sort_keys=True)}')
+    container = observed.get('inspect')
+    if container is None:
+        return [f"container {declared['container']} is absent"]
+    config, host = container['Config'], container['HostConfig']
+    differ('image', declared['image'], config['Image'])
+    differ('image id', declared['image'].rsplit('@', 1)[1], container['Image'])
+    differ('entrypoint', declared['entrypoint'], config['Entrypoint'])
+    differ('cmd', declared['cmd'], config['Cmd'])
+    differ('user', declared['user'], config['User'])
+    differ('network', declared['network'], host['NetworkMode'])
+    differ('restart', declared['restart'], host['RestartPolicy']['Name'])
+    differ('nano_cpus', declared['nano_cpus'], host['NanoCpus'])
+    differ('memory_bytes', declared['memory_bytes'], host['Memory'])
+    differ('memory_swap_bytes', declared['memory_swap_bytes'], host['MemorySwap'])
+    env = {entry.split('=', 1)[0] for entry in config['Env'] or []}
+    for key in declared['env_keys']:
+        if key not in env:
+            found.append(f'env: {key} is not set')
+    mounts = sorted(({'source': m['Source'], 'target': m['Destination'], 'read_only': not m['RW']} for m in container['Mounts']), key=lambda m: m['target'])
+    differ('mounts', sorted(declared['mounts'], key=lambda m: m['target']), mounts)
+    differ('config', declared['config'], observed.get('config'))
+    listening = set(observed.get('listening', []))
+    for listener in declared['listeners']:
+        if listener['port'] not in listening:
+            found.append(f"listener: nothing listens on {listener['port']} ({listener['role']})")
+    differ('namespace', declared['namespace'], observed.get('namespace'))
+    differ('guest vcpus', declared['guest']['vcpus'], observed.get('vcpus'))
+    if not container['State']['Running']:
+        found.append('state: the container is not running')
+    return found
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Compare the standby Stats Engine container, its configuration file, listeners and guest with the tracked declaration in deploy/openorange/standby/stats-engine.json. Read-only: it runs docker inspect and reads files over SSH and changes nothing.', epilog='Exit codes: 0 matches, 1 drift or unreadable target, 2 usage.')
+    sub = parser.add_subparsers(dest='command', required=True)
+    inspect = sub.add_parser('inspect', help='report differences between the target and the declaration')
+    inspect.add_argument('--host', required=True, help='SSH host alias of the standby guest')
+    inspect.add_argument('--ssh-config', required=True, help='ssh_config that resolves --host')
+    inspect.add_argument('--declaration', default=str(DECLARATION), help='declaration to compare (default: the tracked standby/stats-engine.json)')
+    inspect.add_argument('--json', action='store_true', help='print {"ok", "drift", "observed"} JSON')
+    args = parser.parse_args()
+    declared = json.loads(Path(args.declaration).read_text())
+    script = GUEST.replace('CONTAINER', repr(declared['container'])).replace('CONFIG', repr(declared['config_path']))
+    result = subprocess.run(['ssh', '-F', str(Path(args.ssh_config).expanduser()), '-o', 'BatchMode=yes', args.host, 'python3 -c ' + shlex.quote(script)], capture_output=True, text=True, timeout=60)
+    if result.returncode != 0:
+        print(f'standby-engine: cannot inspect {args.host}: {result.stderr.strip()}', file=sys.stderr)
+        return 1
+    observed = json.loads(result.stdout)
+    found = drift(declared, observed)
+    if args.json:
+        print(json.dumps({'ok': not found, 'drift': found, 'observed': observed}, sort_keys=True))
+    else:
+        print('\n'.join(found) if found else f"{declared['container']} matches {args.declaration}")
+    return 1 if found else 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
