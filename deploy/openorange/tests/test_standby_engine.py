@@ -1,11 +1,17 @@
 import copy
 import json
+import os
 import runpy
+import shutil
+import subprocess
+import tempfile
 import unittest
+import uuid
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-drift = runpy.run_path(str(ROOT / 'bin/standby-engine'))['drift']
+TOOL = runpy.run_path(str(ROOT / 'bin/standby-engine'))
+drift, create_args, CONTAINER_FACTS = TOOL['drift'], TOOL['create_args'], TOOL['CONTAINER_FACTS']
 DECLARED = json.loads((ROOT / 'standby/stats-engine.json').read_text())
 
 
@@ -50,9 +56,52 @@ class StandbyEngineDriftTest(unittest.TestCase):
                 self.assertEqual(len(found), 1, found)
                 self.assertTrue(found[0].startswith(prefix), found)
 
+    def test_create_args_refuse_an_env_file_without_exactly_the_declared_keys(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR')) as directory:
+            env = Path(directory) / 'engine.env'
+            for text in ('', 'OTHER=1\n', 'RIVET__AUTH__ADMIN_TOKEN=\n', 'RIVET__AUTH__ADMIN_TOKEN=a\nOTHER=1\n'):
+                env.write_text(text)
+                with self.assertRaises(ValueError):
+                    create_args(DECLARED, env)
+            env.write_text('RIVET__AUTH__ADMIN_TOKEN=secret-value\n')
+            argv = create_args(DECLARED, env)
+            self.assertNotIn('secret-value', ' '.join(argv))
+            self.assertEqual(argv[-3:], [DECLARED['image'], *DECLARED['cmd']])
+
     def test_absent_container_is_drift(self):
         self.assertEqual(drift(DECLARED, {'inspect': None}), ['container live-stats-engine is absent'])
 
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def image_present():
+    return shutil.which('docker') is not None and subprocess.run(['docker', 'image', 'inspect', DECLARED['image']], capture_output=True).returncode == 0
+
+
+@unittest.skipUnless(image_present(), 'needs docker with the declared Engine image already pulled')
+class CreateFromDeclarationTest(unittest.TestCase):
+    def test_container_created_from_the_declaration_has_no_container_drift(self):
+        with tempfile.TemporaryDirectory(dir=os.environ.get('TMPDIR')) as directory:
+            root = Path(directory)
+            declared = copy.deepcopy(DECLARED)
+            declared['container'] = 'standby-engine-test-' + uuid.uuid4().hex[:12]
+            for mount in declared['mounts']:
+                source = root / mount['source'].lstrip('/')
+                if mount['target'].endswith('.json'):
+                    source.parent.mkdir(parents=True, exist_ok=True)
+                    source.write_text(json.dumps(declared['config']))
+                else:
+                    source.mkdir(parents=True)
+                mount['source'] = str(source)
+            env = root / 'engine.env'
+            env.write_text('RIVET__AUTH__ADMIN_TOKEN=test-token\n')
+            subprocess.run(create_args(declared, env), check=True, capture_output=True)
+            try:
+                inspect = json.loads(subprocess.run(['docker', 'inspect', declared['container']], check=True, capture_output=True, text=True).stdout)[0]
+                found = [line for line in drift(declared, {'inspect': inspect}) if line.startswith(CONTAINER_FACTS) and not line.startswith('state:')]
+                self.assertEqual(found, [])
+                self.assertFalse(inspect['State']['Running'])
+            finally:
+                subprocess.run(['docker', 'rm', '-f', declared['container']], capture_output=True)

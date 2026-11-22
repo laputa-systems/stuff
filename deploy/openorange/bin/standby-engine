@@ -79,6 +79,35 @@ def drift(declared, observed):
     return found
 
 
+CONTAINER_FACTS = ('image', 'image id', 'entrypoint', 'cmd', 'user', 'network', 'restart', 'nano_cpus', 'memory_bytes', 'memory_swap_bytes', 'env:', 'mounts', 'state')
+
+
+def env_file_keys(path):
+    keys = []
+    for line in Path(path).read_text().splitlines():
+        if line.strip() and not line.startswith('#'):
+            key, sep, value = line.partition('=')
+            if not sep or not value:
+                raise ValueError(f'{path}: every entry must be KEY=VALUE')
+            keys.append(key)
+    return keys
+
+
+def create_args(declared, env_file):
+    """Returns the docker argv that creates the declared container; secrets come only from env_file."""
+    if sorted(env_file_keys(env_file)) != sorted(declared['env_keys']):
+        raise ValueError(f"{env_file} must define exactly {', '.join(declared['env_keys'])}")
+    if len(declared['entrypoint']) != 1:
+        raise ValueError('docker --entrypoint takes one executable')
+    args = ['create', '--name', declared['container'], '--platform', declared['platform'], '--network', declared['network'],
+            '--restart', declared['restart'], '--user', declared['user'], '--cpus', f"{declared['nano_cpus'] / 1e9:g}",
+            '--memory', f"{declared['memory_bytes']}b", '--memory-swap', f"{declared['memory_swap_bytes']}b",
+            '--env-file', str(env_file), '--entrypoint', declared['entrypoint'][0]]
+    for mount in declared['mounts']:
+        args += ['--mount', f"type=bind,source={mount['source']},target={mount['target']}" + (',readonly' if mount['read_only'] else '')]
+    return ['docker', *args, declared['image'], *declared['cmd']]
+
+
 def main():
     parser = argparse.ArgumentParser(description='Compare the standby Stats Engine container, its configuration file, listeners and guest with the tracked declaration in deploy/openorange/standby/stats-engine.json. Read-only: it runs docker inspect and reads files over SSH and changes nothing.', epilog='Exit codes: 0 matches, 1 drift or unreadable target, 2 usage.')
     sub = parser.add_subparsers(dest='command', required=True)
@@ -87,8 +116,18 @@ def main():
     inspect.add_argument('--ssh-config', required=True, help='ssh_config that resolves --host')
     inspect.add_argument('--declaration', default=str(DECLARATION), help='declaration to compare (default: the tracked standby/stats-engine.json)')
     inspect.add_argument('--json', action='store_true', help='print {"ok", "drift", "observed"} JSON')
+    render = sub.add_parser('create-args', help='print the docker create argv for the declared container as JSON; runs nothing', epilog='The env file is read on the machine that runs the printed command and must define exactly the declared env_keys; its values never appear in the argv.')
+    render.add_argument('--env-file', required=True, help='KEY=VALUE file holding the declared environment, e.g. the admin token')
+    render.add_argument('--declaration', default=str(DECLARATION), help='declaration to render (default: the tracked standby/stats-engine.json)')
     args = parser.parse_args()
     declared = json.loads(Path(args.declaration).read_text())
+    if args.command == 'create-args':
+        try:
+            print(json.dumps(create_args(declared, args.env_file)))
+        except (OSError, ValueError) as exc:
+            print(f'standby-engine: {exc}', file=sys.stderr)
+            return 1
+        return 0
     script = GUEST.replace('CONTAINER', repr(declared['container'])).replace('CONFIG', repr(declared['config_path']))
     result = subprocess.run(['ssh', '-F', str(Path(args.ssh_config).expanduser()), '-o', 'BatchMode=yes', args.host, 'python3 -c ' + shlex.quote(script)], capture_output=True, text=True, timeout=60)
     if result.returncode != 0:

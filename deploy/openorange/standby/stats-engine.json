@@ -3,6 +3,7 @@
   "target": "the native Stats standby writer guest on Threadripper (ssh alias stats-standby)",
   "container": "live-stats-engine",
   "image": "docker.io/rivetdev/engine@sha256:6e585002b700dd4d3630808eb67884aa15d1a602d83781984edac47023b6d40f",
+  "platform": "linux/amd64",
   "entrypoint": ["/usr/bin/rivet-engine"],
   "cmd": ["--config", "/etc/rivet/config.json"],
   "user": "10001:10001",
