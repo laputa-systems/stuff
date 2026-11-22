@@ -29,7 +29,7 @@ The rollout covers all 72 managed repositories in `fleet/catalog.toml` at `40724
 | `joshuarli/stats` | `79ef16a41c3` passed cleanup for the agent and release outputs, including refusal of an aliased parent. | Verify the Change, benchmark and type gates independently of deployment. |
 | `joshuarli/tansu` | `afb2f9aa` passed cleanup for the Cargo and frontend outputs. | Verify the current Change and browser benchmark gates. |
 | `joshuarli/bctl` | `f602a256` passed cleanup for the Rust and dashboard outputs, 89 local host tests with 39 VM-only cases ignored, and 27 benchmark suite tests. `1a97f7ec` fixed the preflight interpreter selection. The full Edit harness completed 177 tests with four skips and one fixture-thread warning. Dashboard typecheck passed. | VM and kernel workloads require separate runner evidence. |
-| `joshuarli/shadowdriver` | `037578c` passed scoped Rust cleanup. `60eed68` keeps the malformed-queue regression aligned with pending-row preservation and asserts no malformed entry reaches the browser. The prior assertion failed on a fresh checkout. After correction the Rust, Python and Node lanes and Grab-TS type checking passed. | Live browser qualification remains separate. |
+| `joshuarli/shadowdriver` | `037578c` passed scoped Rust cleanup. `60eed68` keeps the malformed-queue regression aligned with pending-row preservation and asserts no malformed entry reaches the browser. The prior assertion failed on a fresh checkout. After correction the Rust, Python and Node lanes and Grab-TS type checking passed. `e27f445` isolates lane result files per run. A deterministic overlapping-run regression failed with the old wrapper and passed with the fix. The full local gate passed again. | Live browser qualification remains separate. |
 | `laputa-systems/doas-rs`, `mdevd-rs` | `44a0de6` and `2752e33` passed scoped cleanup. | Runtime-specific proof uses the documented Linux runners. |
 | `laputa-systems/hi-lite`, `rustybench` | `71530bc` and `ef955ceb` passed scoped cleanup and required checks. [Hi-lite PR 33](https://github.com/laputa-systems/hi-lite/pull/33), [Rustybench PR 30](https://github.com/laputa-systems/rustybench/pull/30). | Verify current benchmark and audit evidence. |
 | `laputa-systems/oxish`, `rage`, `rg`, `smolith`, `xsh` | `0bd0c26`, `8439c3f`, `4a41eba`, `589ff14` and `e59dae73a` passed scoped cleanup. | Audit each repo’s existing test, benchmark and type boundaries. |
@@ -48,7 +48,7 @@ At rollout start, the focused repomod check flagged 46 repositories for missing 
 | Python Build, LLVM Prebuilt Musl and SSH Build | `689519644` passed 360 controller tests and cleanup probes that preserved research data. `9599b54` makes the LLVM Change gate exercise the release scripts against local fixtures for both target triples. It rejects stale manifests and changed asset bytes. The separate artifact gate rejected two stale Clang footer outputs. The patch applied once and reversed correctly against pinned source. `b5046ca` passed server and key-generation tests with the installed wrapper disabled for that invocation. |
 | Lexopt, Rustls, WebPKI and zlib-rs | `b856de2`, `c11b6b59`, `17d1eb6` and `9327926` passed their new local test targets and cleanup probes. |
 | Syncthing, Mactop and Soulseek | `9aca13072` passed the short Go suite for 48 packages. Mactop passed 42 Swift tests and Soulseek passed its bounded native suite. Both PRs passed hosted checks. [Mactop PR 12](https://github.com/joshuarli/mactop/pull/12), [Soulseek PR 12](https://github.com/joshuarli/soulseek-rs/pull/12). |
-| Kache | The cleanup probe and pre-PR Linux arm64 container check passed 5,048 tests with 48 ignored. Use the repository Dockerfile and container-local `TMPDIR` and `KACHE_TEST_SCRATCH_DIR`; host bind-mounts do not reproduce the filesystem semantics. The hosted x86 musl check failed in the compiler-family probe. `5d2e8d807` switched its fixture to the existing executable writer that prevents a fork from inheriting the writable descriptor. The targeted probe passed in the Linux arm64 container. The new hosted unit-test steps passed on Linux x86 musl, Linux arm64 musl and macOS. Separate compiler oracles and fixture runs remain pending. DSLP-125 records the installed wrapper's separate integration-test compile failure. [PR 140](https://github.com/joshuarli/kache/pull/140). |
+| Kache | The cleanup probe and pre-PR Linux arm64 container check passed 5,048 tests with 48 ignored. Use the repository Dockerfile and container-local `TMPDIR` and `KACHE_TEST_SCRATCH_DIR`; host bind-mounts do not reproduce the filesystem semantics. The hosted x86 musl check failed in the compiler-family probe. `5d2e8d807` switched its fixture to the existing executable writer that prevents a fork from inheriting the writable descriptor. The targeted probe passed in the Linux arm64 container. The new hosted unit-test steps passed on Linux x86 musl, Linux arm64 musl and macOS. The exact merge tree with default `a99ddee96` passed all 399 compiler tests in the Linux arm64 image and passed the cleanup probe. Hosted compiler oracles remain pending. DSLP-125 records the installed wrapper's separate integration-test compile failure. [PR 140](https://github.com/joshuarli/kache/pull/140). |
 
 ## Fork CI
 
@@ -116,6 +116,12 @@ names before translation to `make test` or `make test-ci`.
 - Applications and tools: Agentctl, Aincrad2, bctl, Discover, Mactop,
   Niceforge, Obscura, Shadowdriver, Stonks, usr, Laputa, and xsh.
 - Build repositories: Git Build, LLVM Prebuilt Musl, Python Build, and SSH Build.
+
+The tier review found two concrete root-command gaps. Aincrad2's verification
+registry classifies its whole-workspace `make test` as manual and exposes a
+separate change-selected gate. Crabtables's root suite includes privileged
+packet qualification. Its hosted kernel CI and existing coverage need to
+remain available while a bounded local default is qualified.
 
 ## Qualify a repository
 
