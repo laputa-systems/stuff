@@ -15,6 +15,16 @@ promotion receipt and also requires `--evaluator`. The policy fields are
 `max_age_s`, `observation_s`, and `check_interval_s`, plus `functional_check`
 with a nonempty `argv` array and positive `timeout_s`. The controller executes that command locally with `ROLLOUT_RELEASE` and `ROLLOUT_DIGEST` set to the release under test. It must exit zero and print a JSON object with `ok: true`.
 
+`ready_s` (optional, seconds, default 0) bounds functional readiness after a
+restart. A target's health route can answer before its actors serve requests
+again; on the Stats standby a restart took about 50 s to accept ingest after
+health returned. After activation, failed checks are journaled as `readiness`
+and retried every 5 s until the first passing check or `ready_s`; the
+observation window starts at that first pass, every later check must pass,
+and `promoted` records `ready_after_s`. Recovery applies the same budget to
+the baseline before `needs-operator`. With `ready_s` 0 the first check must
+pass.
+
 `authority_check` has the same shape and is required for `native-app`. It
 must exit zero and print `{"ok": true, "authority": {...}}`, where `authority`
 is the authoritative writer record (for Stats, Lisa's recovery route). The

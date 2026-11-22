@@ -12,6 +12,7 @@ from pathlib import Path
 
 
 TERMINAL = {'promoted', 'rejected', 'recovered', 'needs-operator'}
+READINESS_INTERVAL_S = 5
 POST_PREPARE = {'prepared', 'activated', 'verifying', 'recovering'}
 
 
@@ -417,11 +418,13 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
                 except ValueError as exc:
                     journal.transition('recovering', duration, reason=str(exc))
                     state = 'recovering'
+            ready_s = policy.get('ready_s', 0)
             if state == 'activated':
-                journal.transition('verifying', policy['observation_s'] + duration, observation_until=now() + policy['observation_s'])
+                journal.transition('verifying', ready_s + policy['observation_s'] + duration, ready_until=now() + ready_s, observation_s=policy['observation_s'])
                 state = 'verifying'
             if state == 'verifying':
-                until = journal.last('state')['observation_until']
+                verifying = journal.last('state')
+                ready = next((r for r in journal.records if r['kind'] == 'check' and r['seq'] > verifying['seq'] and r['ok']), None)
                 while True:
                     journal.append('intent', step='lock-renew', fencing_token=token)
                     token = adapter.renew(holder, token, lease_s)
@@ -433,27 +436,41 @@ def run(journal, recovery=False, adapter=None, recovered_by=None):
                         break
                     result = adapter.check(candidate, qualified_digest)
                     functional = functional_check(policy, candidate, qualified_digest)
-                    journal.append('check', result=result, functional=functional)
-                    if not result['ok'] or not functional['ok']:
-                        journal.transition('recovering', duration, reason='post-activation check failed', evidence=result)
+                    ok = result['ok'] and functional['ok']
+                    record = journal.append('check', result=result, functional=functional, ok=ok, phase='verification' if ready else 'readiness')
+                    if not ok:
+                        if ready is None and now() < verifying['ready_until']:
+                            time.sleep(min(READINESS_INTERVAL_S, verifying['ready_until'] - now()))
+                            continue
+                        journal.transition('recovering', duration, reason='post-activation check failed' if ready else f'not functionally ready within {ready_s:g}s of activation', evidence=result)
                         state = 'recovering'
                         break
+                    ready = ready or record
+                    until = ready['at'] + verifying['observation_s']
                     if now() >= until:
                         token = adapter.renew(holder, token, lease_s)
-                        journal.transition('promoted', duration)
+                        journal.transition('promoted', duration, ready_after_s=ready['at'] - verifying['at'])
                         return 'promoted'
                     time.sleep(min(policy['check_interval_s'], until - now()))
             if state == 'recovering':
                 try:
                     token = adapter.renew(holder, token, lease_s)
                     reconcile(journal, adapter, holder, token, 'recover', candidate, baseline, baseline_digest)
-                    result = adapter.check(baseline, baseline_digest)
-                    functional = functional_check(policy, baseline, baseline_digest)
-                    journal.append('check', result=result, functional=functional)
-                    if not result['ok'] or not functional['ok']:
-                        raise ValueError('baseline verification failed: ' + json.dumps({'adapter': result, 'functional': functional}))
+                    recovered_at = now()
+                    while True:
+                        result = adapter.check(baseline, baseline_digest)
+                        functional = functional_check(policy, baseline, baseline_digest)
+                        ok = result['ok'] and functional['ok']
+                        journal.append('check', result=result, functional=functional, ok=ok, phase='recovery')
+                        if ok:
+                            break
+                        if now() >= recovered_at + ready_s:
+                            raise ValueError('baseline verification failed: ' + json.dumps({'adapter': result, 'functional': functional}))
+                        token = adapter.renew(holder, token, lease_s)
+                        journal.append('heartbeat', deadline=now() + duration)
+                        time.sleep(min(READINESS_INTERVAL_S, recovered_at + ready_s - now()))
                     token = adapter.renew(holder, token, lease_s)
-                    journal.transition('recovered', duration, evidence=result, **({'recovered-by': recovered_by} if recovered_by else {}))
+                    journal.transition('recovered', duration, evidence=result, ready_after_s=now() - recovered_at, **({'recovered-by': recovered_by} if recovered_by else {}))
                     return 'recovered'
                 except ValueError as exc:
                     journal.transition('needs-operator', duration, reason=str(exc), evidence=adapter.observe())

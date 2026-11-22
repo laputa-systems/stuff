@@ -159,6 +159,8 @@ def main():
             for key in ('max_age_s', 'observation_s', 'check_interval_s'):
                 if type(policy.get(key)) not in (int, float) or not math.isfinite(policy[key]) or policy[key] < 0 or (key != 'observation_s' and policy[key] == 0):
                     parser.error('invalid policy: ' + key)
+            if 'ready_s' in policy and (type(policy['ready_s']) not in (int, float) or not math.isfinite(policy['ready_s']) or policy['ready_s'] < 0):
+                parser.error('invalid policy: ready_s')
             check_command(policy, 'functional_check', True, parser)
             check_command(policy, 'authority_check', args.target_kind == 'native-app', parser)
             if (args.evaluator is None) != (args.target_kind == 'native-app'):

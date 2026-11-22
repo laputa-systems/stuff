@@ -185,7 +185,7 @@ class NativeAppTest(unittest.TestCase):
         (root / 'receipt.json').write_text(json.dumps(receipt))
         return root / 'receipt.json', evidence
 
-    def controller(self, name, candidate, baseline=None, crash=None, recovery=False, admission=None):
+    def controller(self, name, candidate, baseline=None, crash=None, recovery=False, admission=None, policy=None):
         receipt, evidence = admission or self.admission(name, candidate)
         journal = self.journals / name
         journal.mkdir(exist_ok=True)
@@ -193,7 +193,7 @@ class NativeAppTest(unittest.TestCase):
         config = {'target_kind': 'native-app', 'host': 'simulated', 'ssh_config': 'unused', 'run_id': str(journal), 'candidate': candidate['release'], 'artifact': candidate['digest'], 'baseline': baseline or self.baseline,
                   'policy': {'functional_check': {'argv': [sys.executable, '-c', 'import json; print(json.dumps(dict(ok=True)))'], 'timeout_s': 5},
                              'authority_check': {'argv': [sys.executable, '-c', read_authority, str(self.authority)], 'timeout_s': 5},
-                             'max_age_s': 600, 'observation_s': 0, 'check_interval_s': 0.01},
+                             'max_age_s': 600, 'observation_s': 0, 'check_interval_s': 0.01, **(policy or {})},
                   'rollout_policy_sha256': '0' * 64, 'receipt': str(receipt), 'evaluator': None, 'evidence_dir': str(evidence), 'bound_s': 10, 'deadline_s': 60}
         spec = {'env': self.env, 'health_url': self.health_url, 'journal': str(journal), 'config': config, 'recovery': recovery}
         env = {**os.environ, **({'ROLLOUT_CRASH': crash} if crash else {})}
@@ -322,6 +322,57 @@ class NativeAppTest(unittest.TestCase):
         self.assertIn('collector did not become healthy', self.journal_text('run'))
         self.assertEqual(self.identity(), (self.baseline, self.baseline, self.baseline, self.baseline_digest))
         self.assertEqual(self.restarts(), [candidate['release'], self.baseline])
+
+    def scripted_functional_check(self, release, outcomes):
+        """Functional check whose Nth call for release passes when outcomes[N] is 'T'; later calls repeat the last outcome."""
+        counter = self.base / ('functional-' + release)
+        script = ('import json, os, sys\n'
+                  'release, counter, outcomes = sys.argv[1], sys.argv[2], sys.argv[3]\n'
+                  'n = int(open(counter).read()) if os.path.exists(counter) else 0\n'
+                  'ok = os.environ["ROLLOUT_RELEASE"] != release or outcomes[min(n, len(outcomes) - 1)] == "T"\n'
+                  'if os.environ["ROLLOUT_RELEASE"] == release: open(counter, "w").write(str(n + 1))\n'
+                  'print(json.dumps({"ok": ok})); sys.exit(0 if ok else 1)\n')
+        return {'argv': [sys.executable, '-c', script, release, str(counter), outcomes], 'timeout_s': 5}
+
+    def slow_functional_check(self, release, failures):
+        return self.scripted_functional_check(release, 'F' * failures + 'T')
+
+    def checks(self, name):
+        return [json.loads(line) for line in self.journal_text(name).splitlines() if json.loads(line)['kind'] == 'check']
+
+    def test_candidate_that_becomes_ready_within_ready_s_is_promoted(self):
+        candidate = self.stage('bbbbbbbbbbbb')
+        policy = {'ready_s': 30, 'functional_check': self.slow_functional_check(candidate['release'], 2)}
+        self.assertEqual(self.controller('run', candidate, policy=policy), 'promoted', self.journal_text('run'))
+        self.assertEqual([(c['phase'], c['ok']) for c in self.checks('run')], [('readiness', False), ('readiness', False), ('readiness', True)])
+        self.assertIn('ready_after_s', self.journal_text('run'))
+
+    def test_candidate_not_ready_within_ready_s_recovers(self):
+        candidate = self.stage('bbbbbbbbbbbb')
+        policy = {'ready_s': 1, 'functional_check': self.slow_functional_check(candidate['release'], 100)}
+        self.assertEqual(self.controller('run', candidate, policy=policy), 'recovered', self.journal_text('run'))
+        self.assertIn('not functionally ready within 1s', self.journal_text('run'))
+        self.assertEqual(self.identity(), (self.baseline, self.baseline, self.baseline, self.baseline_digest))
+
+    def test_failure_after_readiness_recovers_without_waiting(self):
+        candidate = self.stage('bbbbbbbbbbbb')
+        policy = {'ready_s': 60, 'observation_s': 2, 'check_interval_s': 0.2, 'functional_check': self.scripted_functional_check(candidate['release'], 'TF')}
+        started = time.time()
+        self.assertEqual(self.controller('run', candidate, policy=policy), 'recovered', self.journal_text('run'))
+        self.assertLess(time.time() - started, 30)
+        self.assertIn('post-activation check failed', self.journal_text('run'))
+        self.assertEqual([(c['phase'], c['ok']) for c in self.checks('run')][:2], [('readiness', True), ('verification', False)])
+
+    def test_recovery_waits_ready_s_for_the_baseline(self):
+        for ready_s, outcome in ((30, 'recovered'), (0, 'needs-operator')):
+            with self.subTest(ready_s=ready_s):
+                self.tearDown()
+                self.setUp()
+                candidate = self.stage('bbbbbbbbbbbb')
+                (self.guest / 'fail-release').write_text(candidate['release'])
+                policy = {'ready_s': ready_s, 'functional_check': self.slow_functional_check(self.baseline, 2)}
+                self.assertEqual(self.controller('run', candidate, policy=policy), outcome, self.journal_text('run'))
+                self.assertEqual(self.adapter.observe()['selected'], self.baseline)
 
     def test_unhealthy_candidate_recovers_to_the_baseline(self):
         candidate = self.stage('bbbbbbbbbbbb')
