@@ -1,6 +1,16 @@
 {
  "parser_version": 7,
  "repositories": {
+  "joshuarli/agentctl": {
+   "commit": "8b2d4316c345d44eb70f05e34672a0888c9f504a",
+   "inputs_fingerprint": "055e1205ba5ab58e175cca06aad8da5a69b8a49949fc622edfdf366eb21e4101",
+   "state": "partial"
+  },
+  "joshuarli/aincrad2": {
+   "commit": "8ce9fd3b4a7a1de122c5d15e67e08f7c1ffb20f6",
+   "inputs_fingerprint": "59c752bc382cf258a3ca43f9160d524571baa3b1f6b3f39545746943a2751ebc",
+   "state": "failed"
+  },
   "joshuarli/bctl": {
    "commit": "9ba6935201d5742cc4e7541036c01976c171c711",
    "inputs_fingerprint": "f7eab1ace508fd4cff432e2cc8bbe923105b3f045ea2aba39a0668809280badb",
@@ -59,6 +69,16 @@
   "joshuarli/mactop": {
    "commit": "75f78d7cce4ead473f03717bf77a1c47347e33af",
    "inputs_fingerprint": "59465cce8f9f426e77c4d0d2ddf3c1fa2d398c1112f60328e8ba030003ea364f",
+   "state": "partial"
+  },
+  "joshuarli/nanoshop": {
+   "commit": "8002ace45a2e54e38ae444a18254514f917b4f76",
+   "inputs_fingerprint": "a2b559078a4e122b8c6481c2209ee549710f8bfe265f491321ffa38c6e7c7057",
+   "state": "partial"
+  },
+  "joshuarli/obscura": {
+   "commit": "6777ed81dd69a9ba6fd6b443692ecaf996225ef1",
+   "inputs_fingerprint": "7a2c23238aa14684fa9d54c22a333bb626a5eb08f6f204187089f9939a19b553",
    "state": "partial"
   },
   "joshuarli/pi-build": {

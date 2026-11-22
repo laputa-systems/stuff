@@ -1,6 +1,16 @@
 {
  "loc_version": "loc 2.0.0 (git 4a187628d36a)",
  "repositories": {
+  "joshuarli/agentctl": {
+   "commit": "8b2d4316c345d44eb70f05e34672a0888c9f504a",
+   "loc_fingerprint": "f1ef5e4925abd5a680e194d669803a51008b4e631fc3d13c23ebfb65dc02ae87",
+   "state": "complete"
+  },
+  "joshuarli/aincrad2": {
+   "commit": "8ce9fd3b4a7a1de122c5d15e67e08f7c1ffb20f6",
+   "loc_fingerprint": "d2dd66c02ceaef6f6da2338d5045ae5558219abe203274af9f1934ea8f722237",
+   "state": "complete"
+  },
   "joshuarli/bctl": {
    "commit": "9ba6935201d5742cc4e7541036c01976c171c711",
    "loc_fingerprint": "9d9ab9ddcd071d391931a52dd2c22302e42a9d72a5cdd3635ce2b399e61e3994",
@@ -59,6 +69,16 @@
   "joshuarli/mactop": {
    "commit": "75f78d7cce4ead473f03717bf77a1c47347e33af",
    "loc_fingerprint": "63c41df61ea3a5888ba4524bb3bc87e65c3189559ac90adb819c89e72952e9e4",
+   "state": "complete"
+  },
+  "joshuarli/nanoshop": {
+   "commit": "8002ace45a2e54e38ae444a18254514f917b4f76",
+   "loc_fingerprint": "69cc2e3735c42a5261165da7a3174d37752ef1fe697e51d3c167e5eafbfd280f",
+   "state": "complete"
+  },
+  "joshuarli/obscura": {
+   "commit": "6777ed81dd69a9ba6fd6b443692ecaf996225ef1",
+   "loc_fingerprint": "ab1f6d020d5c555e12ba7960cea11275d513bef6f86ff2eb607711c142d293fa",
    "state": "complete"
   },
   "joshuarli/pi-build": {

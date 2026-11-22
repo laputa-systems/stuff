@@ -1,0 +1,181 @@
+{
+ "commit": "8b2d4316c345d44eb70f05e34672a0888c9f504a",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 918560,
+    "file_count": 112,
+    "lines": {
+     "blank": 1231,
+     "code": 16771,
+     "comment": 623,
+     "shebang": 0,
+     "total": 18625
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 292887,
+    "file_count": 34,
+    "lines": {
+     "blank": 279,
+     "code": 4710,
+     "comment": 367,
+     "shebang": 3,
+     "total": 5359
+    },
+    "name": "JavaScript"
+   },
+   {
+    "bytes": 105020,
+    "file_count": 53,
+    "lines": {
+     "blank": 0,
+     "code": 3845,
+     "comment": 0,
+     "shebang": 0,
+     "total": 3845
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 295497,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 19,
+       "comment": 0,
+       "shebang": 0,
+       "total": 19
+      },
+      "name": "Mermaid"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 16,
+       "comment": 0,
+       "shebang": 0,
+       "total": 16
+      },
+      "name": "JSON"
+     }
+    ],
+    "file_count": 22,
+    "lines": {
+     "blank": 802,
+     "code": 2565,
+     "comment": 0,
+     "shebang": 0,
+     "total": 3367
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 21595,
+    "file_count": 2,
+    "lines": {
+     "blank": 9,
+     "code": 237,
+     "comment": 10,
+     "shebang": 0,
+     "total": 256
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 10748,
+    "file_count": 6,
+    "lines": {
+     "blank": 0,
+     "code": 168,
+     "comment": 34,
+     "shebang": 6,
+     "total": 208
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 4665,
+    "file_count": 1,
+    "lines": {
+     "blank": 7,
+     "code": 101,
+     "comment": 4,
+     "shebang": 0,
+     "total": 112
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 1044,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 27,
+     "comment": 0,
+     "shebang": 0,
+     "total": 27
+    },
+    "name": "HTML"
+   },
+   {
+    "bytes": 1046,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 19,
+     "comment": 5,
+     "shebang": 0,
+     "total": 24
+    },
+    "name": "Dockerfile"
+   },
+   {
+    "bytes": 245,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 12,
+     "comment": 0,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 511,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 12,
+     "comment": 0,
+     "shebang": 0,
+     "total": 12
+    },
+    "name": "JSONC"
+   }
+  ],
+  "paths": [
+   "joshuarli/agentctl"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 1651818,
+   "file_count": 235,
+   "lines": {
+    "blank": 2328,
+    "code": 28467,
+    "comment": 1043,
+    "shebang": 9,
+    "total": 31847
+   }
+  }
+ },
+ "repository": "joshuarli/agentctl",
+ "schema": 1,
+ "state": "complete"
+}

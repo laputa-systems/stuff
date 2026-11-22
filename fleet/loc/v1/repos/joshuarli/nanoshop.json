@@ -1,0 +1,167 @@
+{
+ "commit": "8002ace45a2e54e38ae444a18254514f917b4f76",
+ "error": null,
+ "loc": {
+  "hidden_languages": 0,
+  "languages": [
+   {
+    "bytes": 4704337,
+    "file_count": 677,
+    "lines": {
+     "blank": 7554,
+     "code": 80124,
+     "comment": 439,
+     "shebang": 0,
+     "total": 88117
+    },
+    "name": "TypeScript"
+   },
+   {
+    "bytes": 12958742,
+    "file_count": 67,
+    "lines": {
+     "blank": 1,
+     "code": 30533,
+     "comment": 0,
+     "shebang": 0,
+     "total": 30534
+    },
+    "name": "JSON"
+   },
+   {
+    "bytes": 1323434,
+    "file_count": 34,
+    "lines": {
+     "blank": 3474,
+     "code": 9091,
+     "comment": 585,
+     "shebang": 0,
+     "total": 13150
+    },
+    "name": "SQL"
+   },
+   {
+    "bytes": 680061,
+    "embedded": [
+     {
+      "lines": {
+       "blank": 0,
+       "code": 45,
+       "comment": 0,
+       "shebang": 0,
+       "total": 45
+      },
+      "name": "Bash"
+     },
+     {
+      "lines": {
+       "blank": 0,
+       "code": 40,
+       "comment": 0,
+       "shebang": 0,
+       "total": 40
+      },
+      "name": "JSON"
+     },
+     {
+      "lines": {
+       "blank": 1,
+       "code": 9,
+       "comment": 0,
+       "shebang": 0,
+       "total": 10
+      },
+      "name": "HTML"
+     }
+    ],
+    "file_count": 28,
+    "lines": {
+     "blank": 1306,
+     "code": 3299,
+     "comment": 0,
+     "shebang": 0,
+     "total": 4605
+    },
+    "name": "Markdown"
+   },
+   {
+    "bytes": 21476,
+    "file_count": 8,
+    "lines": {
+     "blank": 195,
+     "code": 1098,
+     "comment": 8,
+     "shebang": 0,
+     "total": 1301
+    },
+    "name": "CSS"
+   },
+   {
+    "bytes": 1592,
+    "file_count": 1,
+    "lines": {
+     "blank": 17,
+     "code": 37,
+     "comment": 7,
+     "shebang": 0,
+     "total": 61
+    },
+    "name": "Makefile"
+   },
+   {
+    "bytes": 2661,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 52,
+     "comment": 0,
+     "shebang": 2,
+     "total": 54
+    },
+    "name": "Bash"
+   },
+   {
+    "bytes": 1171,
+    "file_count": 2,
+    "lines": {
+     "blank": 0,
+     "code": 32,
+     "comment": 0,
+     "shebang": 0,
+     "total": 32
+    },
+    "name": "YAML"
+   },
+   {
+    "bytes": 593,
+    "file_count": 1,
+    "lines": {
+     "blank": 0,
+     "code": 11,
+     "comment": 0,
+     "shebang": 0,
+     "total": 11
+    },
+    "name": "Dockerfile"
+   }
+  ],
+  "paths": [
+   "joshuarli/nanoshop"
+  ],
+  "schema_version": 2,
+  "totals": {
+   "bytes": 19694067,
+   "file_count": 820,
+   "lines": {
+    "blank": 12547,
+    "code": 124277,
+    "comment": 1039,
+    "shebang": 2,
+    "total": 137865
+   }
+  }
+ },
+ "repository": "joshuarli/nanoshop",
+ "schema": 1,
+ "state": "complete"
+}
