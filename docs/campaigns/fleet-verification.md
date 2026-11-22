@@ -87,8 +87,10 @@ uv run repomod lint --include-private --tag fork --rule fork-workflow-names \
 
 All 72 catalogued default branches define a root `make test` target. Kache is
 currently the only default branch missing `make clean`. Its [open cleanup PR](https://github.com/joshuarli/kache/pull/140)
-contains the verified recipe. Thirty-eight defaults have a root `bench` target. The other repositories may provide named workloads under different commands. Discover's `9a187429` is on its default branch and
-passes the entrypoint rule. The source scan checks target declarations. Each
+contains the verified recipe. Thirty-nine defaults have a root `bench` target. The other repositories may provide named workloads under different commands. Discover's `9a187429` is on its default branch and
+passes the entrypoint rule. Discover `5665263a` also expands the root Change suite to Artist, Wine, research-core and site-kit. It passed 466 tests, and regeneration from the corrected template passed the documentation parity check.
+
+Repomod `0cf751d5b` checks the `make-test-target` rule for every managed repository. A `.PHONY` entry alone fails. All 72 default branches pass the declaration check, including SSH Build at its default branch. The full Repomod suite passed 1,565 tests with three skips, and Ruff and ty passed. The source scan checks target declarations. Each
 repository still needs evidence that its targets run the intended work.
 
 Scoped cleanup probes passed for Rustix `d8c2624`, Crabtables `07006ef`, Stuff
@@ -98,11 +100,10 @@ Scoped cleanup probes passed for Rustix `d8c2624`, Crabtables `07006ef`, Stuff
 `673d0d9f`, Node Build `ee79e76b5`, SSH Build `f915b51`, Git Build `7e12a61`,
 and LLVM Prebuilt Musl `d667755`. LLVM rejects redirected work or release paths
 and preserves other architectures and package versions. Asterinas preserves the
-installed cargo-osdk even if the Make variable points outside the checkout. Mactop `a38941b` passed its local cleanup probes, 42 Swift tests, and both hosted checks. [Mactop 13](https://github.com/joshuarli/mactop/pull/13). Laputa `0314dc0` preserves mirror data, Asterinas run disks, and installed mirror dependencies. Shared Docker image and volume removal moved to the existing explicit `distclean` target. Local cleanup probes passed and the Linux dry run only invoked a checkout-local cleanup container.
+installed cargo-osdk even if the Make variable points outside the checkout. Mactop `a38941b` passed its local cleanup probes, 42 Swift tests, and both hosted checks. [Mactop 13](https://github.com/joshuarli/mactop/pull/13). Laputa `0314dc0` preserves mirror data, Asterinas run disks, and installed mirror dependencies. Shared Docker image and volume removal moved to the existing explicit `distclean` target. Local cleanup probes passed and the Linux dry run planned a checkout-local cleanup container. GitHub CLI `2883e6df0fd` refuses symlinked outputs before deleting either build directory. The disposable probe and both required hosted checks passed. [gh 18](https://github.com/joshuarli/gh/pull/18).
 
 Rustix's default benchmark ran its `getpid` Change workload. The full Criterion
-suite uses Rustix's `bench-full` Make target. The Change workload is a syscall
-microbenchmark. Representative downstream benchmarks still need qualification.
+suite uses Rustix's `bench-full` Make target. `b5234b4` requires completed samples and estimates for each expected Criterion result. All four named workloads passed. A fake runner that printed only the benchmark names was rejected. These workloads are syscall microbenchmarks. Representative downstream benchmarks still need qualification.
 Agentctl `0a54fe3` ran the real SQLite inbox workload through ingestion, replay,
 and rebuild. It rejected an unknown workload and a planted empty rebuild.
 The inbox test suite and benchmark script syntax checks passed. The full
