@@ -2,8 +2,8 @@
  "loc_version": "loc 2.0.0 (git 4a187628d36a)",
  "repositories": {
   "joshuarli/bctl": {
-   "commit": "7b176b538558aa46f0f0a9cdc74a10670c9397d4",
-   "loc_fingerprint": "ec60d35c1dc634cf34da6f9d4e873a9a6f400b68a40bf1ff73d38c0b2e476480",
+   "commit": "9ba6935201d5742cc4e7541036c01976c171c711",
+   "loc_fingerprint": "9d9ab9ddcd071d391931a52dd2c22302e42a9d72a5cdd3635ce2b399e61e3994",
    "state": "complete"
   },
   "joshuarli/ctrs": {
@@ -74,6 +74,11 @@
   "joshuarli/pytest-parallel": {
    "commit": "bde8faff34539f5db8ce84433b509cae82af781b",
    "loc_fingerprint": "a2cc3d24a87f80ef87320716bbe26b2866dd40190d7db2d725fdee555b61b635",
+   "state": "complete"
+  },
+  "joshuarli/shadowdriver": {
+   "commit": "cca1c53b771fa2d8224de1a50c9d043e0010d908",
+   "loc_fingerprint": "d7d50e4ec1c8b3b2faf205e2c7d41a02a62e0d1926d8d7414af54834cd44efc5",
    "state": "complete"
   },
   "joshuarli/soulseek-rs": {

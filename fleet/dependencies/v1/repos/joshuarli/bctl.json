@@ -199,6 +199,12 @@
    "purl": "pkg:artifact/libudev-zero?download_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Flibudev-zero"
   },
   {
+   "display_name": "rustup-init",
+   "ecosystem": "artifact",
+   "name": "rustup-init",
+   "purl": "pkg:artifact/rustup-init?download_url=https%3A%2F%2Fstatic.rust-lang.org%2Frustup%2Farchive%2F1.29.3%2Faarch64-unknown-linux-gnu%2Frustup-init"
+  },
+  {
    "display_name": "sh.rustup.rs",
    "ecosystem": "artifact",
    "name": "sh.rustup.rs",
@@ -2599,6 +2605,12 @@
    "purl": "pkg:cargo/time-macros"
   },
   {
+   "display_name": "tinyland-remote",
+   "ecosystem": "cargo",
+   "name": "tinyland-remote",
+   "purl": "pkg:cargo/tinyland-remote?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Ftinyland"
+  },
+  {
    "display_name": "tinystr",
    "ecosystem": "cargo",
    "name": "tinystr",
@@ -3403,6 +3415,12 @@
    "purl": "pkg:docker/guest"
   },
   {
+   "display_name": "guest-control",
+   "ecosystem": "docker",
+   "name": "guest-control",
+   "purl": "pkg:docker/guest-control"
+  },
+  {
    "display_name": "tinyland",
    "ecosystem": "docker",
    "name": "tinyland",
@@ -3505,6 +3523,12 @@
    "purl": "pkg:local/bctl-guest"
   },
   {
+   "display_name": "bctl-guest-control",
+   "ecosystem": "local",
+   "name": "bctl-guest-control",
+   "purl": "pkg:local/bctl-guest-control"
+  },
+  {
    "display_name": "bctl-jobs",
    "ecosystem": "local",
    "name": "bctl-jobs",
@@ -3521,6 +3545,12 @@
    "ecosystem": "local",
    "name": "bctl-rfb",
    "purl": "pkg:local/bctl-rfb"
+  },
+  {
+   "display_name": "bctl-rfb-encode",
+   "ecosystem": "local",
+   "name": "bctl-rfb-encode",
+   "purl": "pkg:local/bctl-rfb-encode"
   },
   {
    "display_name": "bctl-runtime",
@@ -3545,6 +3575,12 @@
    "ecosystem": "local",
    "name": "guest-agent",
    "purl": "pkg:local/guest-agent"
+  },
+  {
+   "display_name": "hydrogen-rust",
+   "ecosystem": "local",
+   "name": "hydrogen-rust",
+   "purl": "pkg:local/hydrogen-rust"
   },
   {
    "display_name": "imago",
@@ -3883,12 +3919,6 @@
    "purl": "pkg:npm/%40babel/helper-module-transforms"
   },
   {
-   "display_name": "@babel/helper-plugin-utils",
-   "ecosystem": "npm",
-   "name": "@babel/helper-plugin-utils",
-   "purl": "pkg:npm/%40babel/helper-plugin-utils"
-  },
-  {
    "display_name": "@babel/helper-string-parser",
    "ecosystem": "npm",
    "name": "@babel/helper-string-parser",
@@ -3917,12 +3947,6 @@
    "ecosystem": "npm",
    "name": "@babel/parser",
    "purl": "pkg:npm/%40babel/parser"
-  },
-  {
-   "display_name": "@babel/plugin-syntax-jsx",
-   "ecosystem": "npm",
-   "name": "@babel/plugin-syntax-jsx",
-   "purl": "pkg:npm/%40babel/plugin-syntax-jsx"
   },
   {
    "display_name": "@babel/template",
@@ -4201,12 +4225,6 @@
    "purl": "pkg:npm/%40rolldown/pluginutils"
   },
   {
-   "display_name": "@solidjs/babel-plugin",
-   "ecosystem": "npm",
-   "name": "@solidjs/babel-plugin",
-   "purl": "pkg:npm/%40solidjs/babel-plugin"
-  },
-  {
    "display_name": "@solidjs/compiler",
    "ecosystem": "npm",
    "name": "@solidjs/compiler",
@@ -4271,30 +4289,6 @@
    "ecosystem": "npm",
    "name": "@tybys/wasm-util",
    "purl": "pkg:npm/%40tybys/wasm-util"
-  },
-  {
-   "display_name": "@types/babel__core",
-   "ecosystem": "npm",
-   "name": "@types/babel__core",
-   "purl": "pkg:npm/%40types/babel__core"
-  },
-  {
-   "display_name": "@types/babel__generator",
-   "ecosystem": "npm",
-   "name": "@types/babel__generator",
-   "purl": "pkg:npm/%40types/babel__generator"
-  },
-  {
-   "display_name": "@types/babel__template",
-   "ecosystem": "npm",
-   "name": "@types/babel__template",
-   "purl": "pkg:npm/%40types/babel__template"
-  },
-  {
-   "display_name": "@types/babel__traverse",
-   "ecosystem": "npm",
-   "name": "@types/babel__traverse",
-   "purl": "pkg:npm/%40types/babel__traverse"
   },
   {
    "display_name": "@typescript/typescript-aix-ppc64",
@@ -4465,12 +4459,6 @@
    "purl": "pkg:npm/electron-to-chromium"
   },
   {
-   "display_name": "entities",
-   "ecosystem": "npm",
-   "name": "entities",
-   "purl": "pkg:npm/entities"
-  },
-  {
    "display_name": "escalade",
    "ecosystem": "npm",
    "name": "escalade",
@@ -4493,12 +4481,6 @@
    "ecosystem": "npm",
    "name": "gensync",
    "purl": "pkg:npm/gensync"
-  },
-  {
-   "display_name": "html-entities",
-   "ecosystem": "npm",
-   "name": "html-entities",
-   "purl": "pkg:npm/html-entities"
   },
   {
    "display_name": "is-what",
@@ -4633,12 +4615,6 @@
    "purl": "pkg:npm/node-releases"
   },
   {
-   "display_name": "parse5",
-   "ecosystem": "npm",
-   "name": "parse5",
-   "purl": "pkg:npm/parse5"
-  },
-  {
    "display_name": "picocolors",
    "ecosystem": "npm",
    "name": "picocolors",
@@ -4768,7 +4744,7 @@
  "edges": [
   {
    "condition": null,
-   "constraint": "nightly-2026-09-15",
+   "constraint": "nightly-2026-11-09",
    "evidence": [
     {
      "locator": "L1",
@@ -4779,10 +4755,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "nightly-2026-09-15",
+   "resolved_version": "nightly-2026-11-09",
    "scope": "toolchain",
    "source_kind": "url",
-   "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
   },
   {
    "condition": null,
@@ -5270,7 +5246,7 @@
   },
   {
    "condition": null,
-   "constraint": "31a9badb3198ec413d45e07ce8e46d5f5f6ef1c5",
+   "constraint": "c8b3bc293636c285f6e58369fdffb7633bc4c516",
    "evidence": [
     {
      "locator": "dependencies.zlib-rs",
@@ -5974,6 +5950,28 @@
   },
   {
    "condition": null,
+   "constraint": "c8b3bc293636c285f6e58369fdffb7633bc4c516",
+   "evidence": [
+    {
+     "locator": "dependencies.zlib-rs",
+     "path": "crates/rfb-encode/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-rfb-encode,version=0.1.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/rfb-encode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.6.8",
+   "scope": "runtime",
+   "source_kind": "git",
+   "to": "pkg:cargo/zlib-rs@0.6.8?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fzlib-rs#"
+  },
+  {
+   "condition": null,
    "constraint": "1",
    "evidence": [
     {
@@ -5981,7 +5979,7 @@
      "path": "crates/runtime-nanos/Cargo.toml"
     },
     {
-     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[1]",
+     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[4]",
      "path": "Cargo.lock"
     }
    ],
@@ -5996,6 +5994,116 @@
   },
   {
    "condition": null,
+   "constraint": "caefd703596378155e2b90726fb8f7bc5fc23b5f",
+   "evidence": [
+    {
+     "locator": "dependencies.tinyland-remote",
+     "path": "crates/runtime-nanos/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[5]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/runtime-nanos:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.0",
+   "scope": "runtime",
+   "source_kind": "git",
+   "to": "pkg:cargo/tinyland-remote@0.1.0?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Ftinyland#"
+  },
+  {
+   "condition": null,
+   "constraint": "c8b3bc293636c285f6e58369fdffb7633bc4c516",
+   "evidence": [
+    {
+     "locator": "dependencies.zlib-rs",
+     "path": "crates/runtime-nanos/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[6]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/runtime-nanos:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.6.8",
+   "scope": "runtime",
+   "source_kind": "git",
+   "to": "pkg:cargo/zlib-rs@0.6.8?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fzlib-rs#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.bctl-guest-control",
+     "path": "crates/runtime-nanos/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/runtime-nanos:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.0",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/bctl-guest-control@0.1.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.bctl-rfb-encode",
+     "path": "crates/runtime-nanos/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[2]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/runtime-nanos:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.0",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/bctl-rfb-encode@0.1.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.bctl-rfb",
+     "path": "crates/runtime-nanos/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/runtime-nanos:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.0",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/bctl-rfb@0.1.0#"
+  },
+  {
+   "condition": null,
    "constraint": null,
    "evidence": [
     {
@@ -6003,7 +6111,7 @@
      "path": "crates/runtime-nanos/Cargo.toml"
     },
     {
-     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[0]",
+     "locator": "package[name=bctl-runtime-nanos,version=0.1.0].dependencies[3]",
      "path": "Cargo.lock"
     }
    ],
@@ -6135,7 +6243,7 @@
      "path": "guest/appliance/Cargo.toml"
     },
     {
-     "locator": "package[name=bctl-guest,version=0.1.0].dependencies[0]",
+     "locator": "package[name=bctl-guest,version=0.1.0].dependencies[1]",
      "path": "guest/Cargo.lock"
     }
    ],
@@ -6147,6 +6255,50 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/libc@0.2.182#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.1",
+   "evidence": [
+    {
+     "locator": "dependencies.miniserde",
+     "path": "guest/appliance/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-guest,version=0.1.0].dependencies[2]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "guest/appliance:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.46",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/miniserde@0.1.46#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.bctl-guest-control",
+     "path": "guest/appliance/Cargo.toml"
+    },
+    {
+     "locator": "package[name=bctl-guest,version=0.1.0].dependencies[0]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "guest/appliance:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.0",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/bctl-guest-control@0.1.0#"
   },
   {
    "condition": null,
@@ -6189,7 +6341,7 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L39",
+     "locator": "L41",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6243,7 +6395,7 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L39",
+     "locator": "L41",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6261,7 +6413,7 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L39",
+     "locator": "L41",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6297,7 +6449,7 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L39",
+     "locator": "L41",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6387,7 +6539,7 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L39",
+     "locator": "L41",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6441,7 +6593,7 @@
    "constraint": "sha256:49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
    "evidence": [
     {
-     "locator": "L37",
+     "locator": "L39",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6470,14 +6622,32 @@
    "resolved_version": null,
    "scope": "image",
    "source_kind": "image",
-   "to": "pkg:docker/tinyland#"
+   "to": "pkg:docker/guest-control#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "L33",
+     "locator": "L34",
+     "path": "guest/harness/image/Dockerfile"
+    }
+   ],
+   "from": "guest/harness/image:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/guest-control#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L24",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6495,7 +6665,25 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L45",
+     "locator": "L35",
+     "path": "guest/harness/image/Dockerfile"
+    }
+   ],
+   "from": "guest/harness/image:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/tinyland#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L47",
      "path": "guest/harness/image/Dockerfile"
     }
    ],
@@ -6514,10 +6702,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6531,11 +6719,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L64",
-     "path": "images/helium/Dockerfile"
+     "locator": "L65",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6550,10 +6738,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6568,10 +6756,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6586,10 +6774,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6604,10 +6792,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6621,11 +6809,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L57",
-     "path": "images/helium/Dockerfile"
+     "locator": "L58",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6640,10 +6828,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6658,10 +6846,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6676,10 +6864,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6693,11 +6881,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L64",
-     "path": "images/helium/Dockerfile"
+     "locator": "L65",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6712,10 +6900,10 @@
    "evidence": [
     {
      "locator": "L3",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6729,11 +6917,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L57",
-     "path": "images/helium/Dockerfile"
+     "locator": "L58",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6747,11 +6935,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L22",
-     "path": "images/helium/Dockerfile"
+     "locator": "L23",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -6765,11 +6953,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L41",
-     "path": "images/helium/Dockerfile"
+     "locator": "L42",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6784,10 +6972,10 @@
    "evidence": [
     {
      "locator": "L9",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6801,11 +6989,11 @@
    "constraint": "sha256:e7a1a92a5bfeee40966aea60f0796b0e7917cc35591542701834f03a68fa3d18",
    "evidence": [
     {
-     "locator": "L62",
-     "path": "images/helium/Dockerfile"
+     "locator": "L63",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -6820,10 +7008,10 @@
    "evidence": [
     {
      "locator": "L2",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -6837,11 +7025,11 @@
    "constraint": "sha256:49340b346798875b5592e5d420241f2f9cfba5f47e62ebb1446a1b34734e898f",
    "evidence": [
     {
-     "locator": "L55",
-     "path": "images/helium/Dockerfile"
+     "locator": "L56",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -6855,11 +7043,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L66",
-     "path": "images/helium/Dockerfile"
+     "locator": "L67",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6874,10 +7062,10 @@
    "evidence": [
     {
      "locator": "L15",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6892,10 +7080,10 @@
    "evidence": [
     {
      "locator": "L16",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6910,10 +7098,10 @@
    "evidence": [
     {
      "locator": "L17",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6927,11 +7115,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "L67",
-     "path": "images/helium/Dockerfile"
+     "locator": "L68",
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -6946,10 +7134,28 @@
    "evidence": [
     {
      "locator": "L18",
-     "path": "images/helium/Dockerfile"
+     "path": "images/hydrogen/Dockerfile"
     }
    ],
-   "from": "images/helium:repo",
+   "from": "images/hydrogen:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/guest-control#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L19",
+     "path": "images/hydrogen/Dockerfile"
+    }
+   ],
+   "from": "images/hydrogen:repo",
    "optional": false,
    "relation": "direct",
    "resolution": "declared_only",
@@ -8145,6 +8351,24 @@
    "scope": "build",
    "source_kind": "url",
    "to": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L9",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "build",
+   "source_kind": "url",
+   "to": "pkg:artifact/rustup-init?download_url=https%3A%2F%2Fstatic.rust-lang.org%2Frustup%2Farchive%2F1.29.3%2Faarch64-unknown-linux-gnu%2Frustup-init#"
   },
   {
    "condition": null,
@@ -26331,8 +26555,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=mini-internal,version=0.1.46].dependencies[0]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/mini-internal@0.1.46#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.107",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/proc-macro2@1.0.107#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=mini-internal,version=0.1.46].dependencies[1]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/mini-internal@0.1.46#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.47",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/quote@1.0.47#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mini-internal,version=0.1.46].dependencies[1]",
+     "path": "guest/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/mini-internal@0.1.46#",
@@ -26367,8 +26627,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=mini-internal,version=0.1.46].dependencies[2]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/mini-internal@0.1.46#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "3.0.9",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/syn@3.0.9#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=miniserde,version=0.1.46].dependencies[0]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/miniserde@0.1.46#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.18",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/itoa@1.0.18#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=miniserde,version=0.1.46].dependencies[0]",
+     "path": "guest/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/miniserde@0.1.46#",
@@ -26403,8 +26699,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=miniserde,version=0.1.46].dependencies[1]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/miniserde@0.1.46#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.1.46",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/mini-internal@0.1.46#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=miniserde,version=0.1.46].dependencies[2]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/miniserde@0.1.46#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.23",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/zmij@1.0.23#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=miniserde,version=0.1.46].dependencies[2]",
+     "path": "guest/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/miniserde@0.1.46#",
@@ -29499,6 +29831,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=proc-macro2,version=1.0.107].dependencies[0]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/proc-macro2@1.0.107#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.27",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/unicode-ident@1.0.27#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=prost-build,version=0.8.0].dependencies[0]",
      "path": "third_party/smolvm/Cargo.lock"
     }
@@ -30437,6 +30787,24 @@
     {
      "locator": "package[name=quote,version=1.0.47].dependencies[0]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/quote@1.0.47#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.107",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/proc-macro2@1.0.107#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=quote,version=1.0.47].dependencies[0]",
+     "path": "guest/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/quote@1.0.47#",
@@ -37347,6 +37715,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=syn,version=3.0.9].dependencies[0]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/syn@3.0.9#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.107",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/proc-macro2@1.0.107#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=syn,version=3.0.9].dependencies[1]",
      "path": "Cargo.lock"
     }
@@ -37365,8 +37751,44 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=syn,version=3.0.9].dependencies[1]",
+     "path": "guest/Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/syn@3.0.9#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.47",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/quote@1.0.47#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=syn,version=3.0.9].dependencies[2]",
      "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/syn@3.0.9#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.27",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/unicode-ident@1.0.27#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=syn,version=3.0.9].dependencies[2]",
+     "path": "guest/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/syn@3.0.9#",
@@ -49767,24 +50189,6 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@babel/helper-module-imports@7.18.6'].dependencies.'@babel/types'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40babel/helper-module-imports@7.18.6#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.11",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/types@7.29.11#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
      "locator": "snapshots['@babel/helper-module-imports@7.29.7'].dependencies.'@babel/traverse'",
      "path": "web/pnpm-lock.yaml"
     }
@@ -49941,42 +50345,6 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:npm/%40babel/types@7.29.11#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.13)'].dependencies.'@babel/core'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40babel/plugin-syntax-jsx@7.29.7#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.13",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/core@7.29.13#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.13)'].dependencies.'@babel/helper-plugin-utils'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40babel/plugin-syntax-jsx@7.29.7#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.7",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/helper-plugin-utils@7.29.7#"
   },
   {
    "condition": null,
@@ -50379,36 +50747,36 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@laputa-systems/ui-dashboard@0.5.0(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)'].optionalDependencies.'@solidjs/web'",
+     "locator": "snapshots['@laputa-systems/ui-dashboard@0.5.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)'].optionalDependencies.'@solidjs/web'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)",
+   "from": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)"
+   "to": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@laputa-systems/ui-dashboard@0.5.0(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)'].optionalDependencies.solid-js",
+     "locator": "snapshots['@laputa-systems/ui-dashboard@0.5.0(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)'].optionalDependencies.solid-js",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)",
+   "from": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/solid-js@2.0.0-rc.20#"
+   "to": "pkg:npm/solid-js@2.0.0#"
   },
   {
    "condition": null,
@@ -50487,119 +50855,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/babel-plugin@2.0.0-rc.21(@babel/core@7.29.13)'].dependencies.'@babel/core'",
+     "locator": "snapshots['@solidjs/compiler-wasm32-wasi@2.0.0'].dependencies.'@emnapi/core'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.13",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/core@7.29.13#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/babel-plugin@2.0.0-rc.21(@babel/core@7.29.13)'].dependencies.'@babel/helper-module-imports'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.18.6",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/helper-module-imports@7.18.6#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/babel-plugin@2.0.0-rc.21(@babel/core@7.29.13)'].dependencies.'@babel/plugin-syntax-jsx'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.7",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/plugin-syntax-jsx@7.29.7#(@babel/core@7.29.13)"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/babel-plugin@2.0.0-rc.21(@babel/core@7.29.13)'].dependencies.'@babel/types'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.11",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/types@7.29.11#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/babel-plugin@2.0.0-rc.21(@babel/core@7.29.13)'].dependencies.html-entities",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "2.3.3",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/html-entities@2.3.3#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/babel-plugin@2.0.0-rc.21(@babel/core@7.29.13)'].dependencies.parse5",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.3.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/parse5@7.3.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/compiler-wasm32-wasi@2.0.0-rc.21'].dependencies.'@emnapi/core'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50613,11 +50873,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler-wasm32-wasi@2.0.0-rc.21'].dependencies.'@emnapi/runtime'",
+     "locator": "snapshots['@solidjs/compiler-wasm32-wasi@2.0.0'].dependencies.'@emnapi/runtime'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50631,11 +50891,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler-wasm32-wasi@2.0.0-rc.21'].dependencies.'@napi-rs/wasm-runtime'",
+     "locator": "snapshots['@solidjs/compiler-wasm32-wasi@2.0.0'].dependencies.'@napi-rs/wasm-runtime'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50649,119 +50909,119 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler@2.0.0-rc.21'].optionalDependencies.'@solidjs/compiler-darwin-arm64'",
+     "locator": "snapshots['@solidjs/compiler@2.0.0'].optionalDependencies.'@solidjs/compiler-darwin-arm64'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler@2.0.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/compiler-darwin-arm64@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/compiler-darwin-arm64@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler@2.0.0-rc.21'].optionalDependencies.'@solidjs/compiler-darwin-x64'",
+     "locator": "snapshots['@solidjs/compiler@2.0.0'].optionalDependencies.'@solidjs/compiler-darwin-x64'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler@2.0.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/compiler-darwin-x64@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/compiler-darwin-x64@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler@2.0.0-rc.21'].optionalDependencies.'@solidjs/compiler-linux-arm64-gnu'",
+     "locator": "snapshots['@solidjs/compiler@2.0.0'].optionalDependencies.'@solidjs/compiler-linux-arm64-gnu'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler@2.0.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/compiler-linux-arm64-gnu@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/compiler-linux-arm64-gnu@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler@2.0.0-rc.21'].optionalDependencies.'@solidjs/compiler-linux-x64-gnu'",
+     "locator": "snapshots['@solidjs/compiler@2.0.0'].optionalDependencies.'@solidjs/compiler-linux-x64-gnu'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler@2.0.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/compiler-linux-x64-gnu@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/compiler-linux-x64-gnu@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler@2.0.0-rc.21'].optionalDependencies.'@solidjs/compiler-wasm32-wasi'",
+     "locator": "snapshots['@solidjs/compiler@2.0.0'].optionalDependencies.'@solidjs/compiler-wasm32-wasi'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler@2.0.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/compiler@2.0.0-rc.21'].optionalDependencies.'@solidjs/compiler-win32-x64-msvc'",
+     "locator": "snapshots['@solidjs/compiler@2.0.0'].optionalDependencies.'@solidjs/compiler-win32-x64-msvc'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#",
+   "from": "pkg:npm/%40solidjs/compiler@2.0.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/compiler-win32-x64-msvc@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/compiler-win32-x64-msvc@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.'@ampproject/remapping'",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.'@ampproject/remapping'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50775,16 +51035,16 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.'@babel/core'",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].optionalDependencies.'@babel/core'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
-   "optional": false,
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
+   "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
    "resolved_version": "7.29.13",
-   "scope": "runtime",
+   "scope": "optional",
    "source_kind": "registry",
    "to": "pkg:npm/%40babel/core@7.29.13#"
   },
@@ -50793,83 +51053,47 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.'@solidjs/babel-plugin'",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.'@solidjs/compiler'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)"
+   "to": "pkg:npm/%40solidjs/compiler@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.'@solidjs/compiler'",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.'@solidjs/web'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.'@solidjs/web'",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.magic-string",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.'@types/babel__core'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.20.5",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/babel__core@7.20.5#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.magic-string",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50883,11 +51107,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.merge-anything",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.merge-anything",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50901,29 +51125,29 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.solid-js",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.solid-js",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
+   "resolved_version": "2.0.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/solid-js@2.0.0-rc.20#"
+   "to": "pkg:npm/solid-js@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.vite",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.vite",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50937,11 +51161,11 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/vite-plugin@3.0.0-next.54(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)'].dependencies.vitefu",
+     "locator": "snapshots['@solidjs/vite-plugin@3.0.1(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)'].dependencies.vitefu",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "from": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -50955,54 +51179,72 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20)'].dependencies.seroval-plugins",
+     "locator": "snapshots['@solidjs/web@2.0.0(solid-js@2.0.0)'].dependencies.csstype",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)",
+   "from": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "1.7.0",
+   "resolved_version": "3.2.3",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/seroval-plugins@1.7.0#(seroval@1.7.0)"
+   "to": "pkg:npm/csstype@3.2.3#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20)'].dependencies.seroval",
+     "locator": "snapshots['@solidjs/web@2.0.0(solid-js@2.0.0)'].dependencies.seroval-plugins",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)",
+   "from": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "1.7.0",
+   "resolved_version": "1.8.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/seroval@1.7.0#"
+   "to": "pkg:npm/seroval-plugins@1.8.0#(seroval@1.8.1)"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20)'].dependencies.solid-js",
+     "locator": "snapshots['@solidjs/web@2.0.0(solid-js@2.0.0)'].dependencies.seroval",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)",
+   "from": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
+   "resolved_version": "1.8.1",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/solid-js@2.0.0-rc.20#"
+   "to": "pkg:npm/seroval@1.8.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@solidjs/web@2.0.0(solid-js@2.0.0)'].dependencies.solid-js",
+     "path": "web/pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.0.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/solid-js@2.0.0#"
   },
   {
    "condition": null,
@@ -51021,168 +51263,6 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:npm/tslib@2.9.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__core@7.20.5'].dependencies.'@babel/parser'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__core@7.20.5#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.13",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/parser@7.29.13#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__core@7.20.5'].dependencies.'@babel/types'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__core@7.20.5#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.11",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/types@7.29.11#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__core@7.20.5'].dependencies.'@types/babel__generator'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__core@7.20.5#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.27.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/babel__generator@7.27.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__core@7.20.5'].dependencies.'@types/babel__template'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__core@7.20.5#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.4.4",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/babel__template@7.4.4#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__core@7.20.5'].dependencies.'@types/babel__traverse'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__core@7.20.5#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.28.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/babel__traverse@7.28.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__generator@7.27.0'].dependencies.'@babel/types'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__generator@7.27.0#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.11",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/types@7.29.11#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__template@7.4.4'].dependencies.'@babel/parser'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__template@7.4.4#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.13",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/parser@7.29.13#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__template@7.4.4'].dependencies.'@babel/types'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__template@7.4.4#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.11",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/types@7.29.11#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/babel__traverse@7.28.0'].dependencies.'@babel/types'",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/babel__traverse@7.28.0#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.29.11",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40babel/types@7.29.11#"
   },
   {
    "condition": null,
@@ -51579,24 +51659,6 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:npm/is-what@4.1.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[parse5@7.3.0].dependencies.entities",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/parse5@7.3.0#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "6.0.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/entities@6.0.1#"
   },
   {
    "condition": null,
@@ -52233,90 +52295,72 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots['seroval-plugins@1.7.0(seroval@1.7.0)'].dependencies.seroval",
+     "locator": "snapshots['seroval-plugins@1.8.0(seroval@1.8.1)'].dependencies.seroval",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/seroval-plugins@1.7.0#(seroval@1.7.0)",
+   "from": "pkg:npm/seroval-plugins@1.8.0#(seroval@1.8.1)",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "1.7.0",
+   "resolved_version": "1.8.1",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/seroval@1.7.0#"
+   "to": "pkg:npm/seroval@1.8.1#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[solid-js@2.0.0-rc.20].dependencies.'@solidjs/signals'",
+     "locator": "snapshots[solid-js@2.0.0].dependencies.'@solidjs/signals'",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/solid-js@2.0.0-rc.20#",
+   "from": "pkg:npm/solid-js@2.0.0#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.21",
+   "resolved_version": "2.0.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/signals@2.0.0-rc.21#"
+   "to": "pkg:npm/%40solidjs/signals@2.0.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[solid-js@2.0.0-rc.20].dependencies.csstype",
+     "locator": "snapshots[solid-js@2.0.0].dependencies.seroval-plugins",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/solid-js@2.0.0-rc.20#",
+   "from": "pkg:npm/solid-js@2.0.0#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "3.2.3",
+   "resolved_version": "1.8.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/csstype@3.2.3#"
+   "to": "pkg:npm/seroval-plugins@1.8.0#(seroval@1.8.1)"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[solid-js@2.0.0-rc.20].dependencies.seroval-plugins",
+     "locator": "snapshots[solid-js@2.0.0].dependencies.seroval",
      "path": "web/pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/solid-js@2.0.0-rc.20#",
+   "from": "pkg:npm/solid-js@2.0.0#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "1.7.0",
+   "resolved_version": "1.8.1",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/seroval-plugins@1.7.0#(seroval@1.7.0)"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[solid-js@2.0.0-rc.20].dependencies.seroval",
-     "path": "web/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/solid-js@2.0.0-rc.20#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.7.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/seroval@1.7.0#"
+   "to": "pkg:npm/seroval@1.8.1#"
   },
   {
    "condition": null,
@@ -60845,7 +60889,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[4]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[5]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -60867,7 +60911,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[5]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[6]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -60889,7 +60933,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[6]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[7]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -60911,7 +60955,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[7]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[8]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -60933,7 +60977,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[8]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[9]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -60955,7 +60999,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[9]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[10]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -60977,7 +61021,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[10]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[11]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -60999,7 +61043,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[11]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[12]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61021,7 +61065,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[12]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[13]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61043,7 +61087,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[13]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[14]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61065,7 +61109,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[14]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[15]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61087,7 +61131,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[15]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[16]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61109,7 +61153,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[16]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[17]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61131,7 +61175,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[17]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[18]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61153,7 +61197,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[19]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[20]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61175,7 +61219,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[18]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[19]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61197,7 +61241,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[20]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[21]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61219,7 +61263,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[21]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[22]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61241,7 +61285,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[22]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[23]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61263,7 +61307,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[23]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[24]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61285,7 +61329,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[24]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[25]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61307,7 +61351,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[25]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[26]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61329,7 +61373,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[26]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[27]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61351,7 +61395,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[28]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[29]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61373,7 +61417,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[29]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[30]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61395,7 +61439,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[30]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[31]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61417,7 +61461,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[27]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[28]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61439,7 +61483,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[31]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[32]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61461,7 +61505,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[32]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[33]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61483,7 +61527,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[33]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[34]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61505,7 +61549,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[34]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[35]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61527,7 +61571,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[35]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[36]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61549,7 +61593,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[36]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[37]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61571,7 +61615,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[45]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[46]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61593,7 +61637,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[46]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[47]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61615,7 +61659,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[47]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[48]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61637,7 +61681,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[47]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[48]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61659,7 +61703,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[48]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[49]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61681,7 +61725,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[50]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[51]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61703,7 +61747,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[51]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[52]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61725,7 +61769,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[52]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[53]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61747,7 +61791,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[49]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[50]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61769,7 +61813,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[53]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[54]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61791,7 +61835,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[55]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[56]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61813,7 +61857,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[54]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[55]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61835,7 +61879,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[54]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[55]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61857,7 +61901,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[57]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[58]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61879,7 +61923,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[56]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[57]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61901,7 +61945,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[59]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[60]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61923,7 +61967,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[58]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[59]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61945,7 +61989,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[60]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[61]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61967,7 +62011,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[61]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[62]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -61989,7 +62033,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[62]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[63]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62011,7 +62055,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[63]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[64]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62026,6 +62070,28 @@
   },
   {
    "condition": null,
+   "constraint": "c8b3bc293636c285f6e58369fdffb7633bc4c516",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.zlib-rs",
+     "path": "third_party/smolvm/Cargo.toml"
+    },
+    {
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[65]",
+     "path": "third_party/smolvm/Cargo.lock"
+    }
+   ],
+   "from": "third_party/smolvm:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.6.8",
+   "scope": "dev",
+   "source_kind": "vendored",
+   "to": "pkg:cargo/zlib-rs@0.6.8?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fzlib-rs#"
+  },
+  {
+   "condition": null,
    "constraint": "0.14.3",
    "evidence": [
     {
@@ -62033,7 +62099,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[64]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[66]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62048,6 +62114,28 @@
   },
   {
    "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.bctl-rfb-encode",
+     "path": "third_party/smolvm/Cargo.toml"
+    },
+    {
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[4]",
+     "path": "third_party/smolvm/Cargo.lock"
+    }
+   ],
+   "from": "third_party/smolvm:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.0",
+   "scope": "runtime",
+   "source_kind": "vendored",
+   "to": "pkg:local/bctl-rfb-encode@0.1.0#"
+  },
+  {
+   "condition": null,
    "constraint": "1.34.1",
    "evidence": [
     {
@@ -62055,7 +62143,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[37]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[38]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62077,7 +62165,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[38]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[39]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62099,7 +62187,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[39]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[40]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62121,7 +62209,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[40]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[41]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62143,7 +62231,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[41]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[42]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62165,7 +62253,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[42]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[43]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62187,7 +62275,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[43]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[44]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62209,7 +62297,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[43]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[44]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62231,7 +62319,7 @@
      "path": "third_party/smolvm/Cargo.toml"
     },
     {
-     "locator": "package[name=smolvm,version=1.34.1].dependencies[44]",
+     "locator": "package[name=smolvm,version=1.34.1].dependencies[45]",
      "path": "third_party/smolvm/Cargo.lock"
     }
    ],
@@ -62278,7 +62366,7 @@
    "resolved_version": "0.5.0",
    "scope": "runtime",
    "source_kind": "url",
-   "to": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)"
+   "to": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)"
   },
   {
    "condition": null,
@@ -62318,7 +62406,7 @@
   },
   {
    "condition": null,
-   "constraint": "3.0.0-next.54",
+   "constraint": "3.0.1",
    "evidence": [
     {
      "locator": "importers[.].devDependencies.'@solidjs/vite-plugin'",
@@ -62329,14 +62417,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "3.0.0-next.54",
+   "resolved_version": "3.0.1",
    "scope": "dev",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)"
+   "to": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)"
   },
   {
    "condition": null,
-   "constraint": "2.0.0-rc.20",
+   "constraint": "2.0.0",
    "evidence": [
     {
      "locator": "importers[.].dependencies.'@solidjs/web'",
@@ -62347,10 +62435,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
+   "resolved_version": "2.0.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)"
+   "to": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)"
   },
   {
    "condition": null,
@@ -62372,7 +62460,7 @@
   },
   {
    "condition": null,
-   "constraint": "2.0.0-rc.20",
+   "constraint": "2.0.0",
    "evidence": [
     {
      "locator": "importers[.].dependencies.solid-js",
@@ -62383,10 +62471,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
+   "resolved_version": "2.0.0",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:npm/solid-js@2.0.0-rc.20#"
+   "to": "pkg:npm/solid-js@2.0.0#"
   },
   {
    "condition": null,
@@ -62445,7 +62533,7 @@
  ],
  "inputs": [
   {
-   "blob": "11ee72ebacec30bf031a0f3db8cb1a2c4ac64d82",
+   "blob": "eb97c291f5d6c8099e7633df2075c7529cf7550a",
    "path": "Cargo.lock"
   },
   {
@@ -62453,11 +62541,15 @@
    "path": "Cargo.toml"
   },
   {
+   "blob": "eb1c2094cfad997b25684046918e44cab04408db",
+   "path": "Makefile"
+  },
+  {
    "blob": "a63b06b0f6abe6029367533aeebe842d979c2e3f",
    "path": "crates/automation/Cargo.toml"
   },
   {
-   "blob": "f2cfb036ac3ce80b4c4297570189de3a4d35a5a0",
+   "blob": "03e22f63244a5477b2833ae4af84913acc627c00",
    "path": "crates/bctl/Cargo.toml"
   },
   {
@@ -62473,6 +62565,10 @@
    "path": "crates/core/Cargo.toml"
   },
   {
+   "blob": "aa9f2a20bbf35006378384c510303172c02344f3",
+   "path": "crates/guest-control/Cargo.toml"
+  },
+  {
    "blob": "062279092f6771d4726702075a61454413b76de5",
    "path": "crates/jobs/Cargo.toml"
   },
@@ -62481,11 +62577,15 @@
    "path": "crates/proof/Cargo.toml"
   },
   {
+   "blob": "5ac9422d171bb4ab52b5199c6192969ec9a9405d",
+   "path": "crates/rfb-encode/Cargo.toml"
+  },
+  {
    "blob": "e16313e060b26d5764a1b34c37642847b2c5a0e1",
    "path": "crates/rfb/Cargo.toml"
   },
   {
-   "blob": "3d9aaaa5afcc39f0079b3cb891b6d867be038969",
+   "blob": "ae2a12b8071a310e22aee52635414f8b7230b368",
    "path": "crates/runtime-nanos/Cargo.toml"
   },
   {
@@ -62497,7 +62597,7 @@
    "path": "crates/runtime/Cargo.toml"
   },
   {
-   "blob": "02045c95507bfe60419e0ca9c96e62621807b468",
+   "blob": "554f3499c04122e82cbe6d886b1144681536dae8",
    "path": "guest/Cargo.lock"
   },
   {
@@ -62505,39 +62605,39 @@
    "path": "guest/Cargo.toml"
   },
   {
-   "blob": "46b415dcfb3e42e462d23721413d9f3a8fec8383",
+   "blob": "4670a84f00923709c433d71651f207061287c4c0",
    "path": "guest/appliance/Cargo.toml"
   },
   {
-   "blob": "3ec4dd65d229c8084c9d1052ce69a2badf254e65",
+   "blob": "cd04c630b3cf98025ec801f7aef098db38ce983f",
    "path": "guest/harness/image/Dockerfile"
   },
   {
-   "blob": "7abe1667a207eaac87885a7c30e526375376a8b3",
-   "path": "images/helium/Dockerfile"
+   "blob": "b7b981dd4f13894a5537c9339cfb7b9bc3f609e4",
+   "path": "images/hydrogen/Dockerfile"
   },
   {
    "blob": "66ec6e3816f18bcf076b7aff5eea33537f186f77",
    "path": "images/ref-alpine-chromium/Dockerfile"
   },
   {
-   "blob": "8abe1a4bca5f50d9567a0ba0a4056210542621eb",
+   "blob": "179be2f4d476d6451fafab705080492a069d2b99",
    "path": "images/ref-alpine-tinyland/Dockerfile"
   },
   {
-   "blob": "2a86ec362f850c0c876a87da09c7c00389aa17ff",
+   "blob": "64164d7b4c669480416508e0962f20ffeed060cb",
    "path": "images/ref-scratch-chromium/Dockerfile"
   },
   {
-   "blob": "0d9d66cf1117108039ef2ccb167ba1929bec0cd1",
+   "blob": "4a28ad22dde4244a2a321b87dd01fae76e96c752",
    "path": "kernel/dev/aarch64.Dockerfile"
   },
   {
-   "blob": "4a803254ea549d8951a2e02476e2cfbfd1135fbd",
+   "blob": "65aaa08f4e2d1fd12ff81e5c7b92d6a736c317c1",
    "path": "kernel/nanos/Makefile"
   },
   {
-   "blob": "e22c0346b659c3a85b71e36ba8fa5befe5a40137",
+   "blob": "dc3d4462777bb4d40c88de85730fb37ccc04982b",
    "path": "kernel/nanos/platform/pc/Makefile"
   },
   {
@@ -62549,7 +62649,7 @@
    "path": "kernel/nanos/platform/riscv-virt/Makefile"
   },
   {
-   "blob": "9d56a1e24821591d3d1c6fc72a3d6484ff23dd3c",
+   "blob": "1c0c97367a5ddf5103b08d884827496efe24c4d1",
    "path": "kernel/nanos/platform/virt/Makefile"
   },
   {
@@ -62573,11 +62673,11 @@
    "path": "kernel/nanos/test/go/go.mod"
   },
   {
-   "blob": "1ca8f8904a9e4f1663199e59e3b8b27e3c2179bd",
+   "blob": "594d9d875c5856f0d15ba52515410faffef337af",
    "path": "kernel/nanos/test/runtime/Makefile"
   },
   {
-   "blob": "d770e71d733af4949c7f8499f0fb0387fb494e50",
+   "blob": "34d594524a0d8408ead2d195c0cee65d45c539d5",
    "path": "kernel/nanos/test/unit/Makefile"
   },
   {
@@ -62585,15 +62685,23 @@
    "path": "kernel/nanos/tools/Makefile"
   },
   {
+   "blob": "2dbfae18baf775f3e8c38eee003132916e07996d",
+   "path": "kernel/rust/Cargo.lock"
+  },
+  {
+   "blob": "fac4d6856d182ca5471ef6065bf6f9ea3b25015b",
+   "path": "kernel/rust/Cargo.toml"
+  },
+  {
+   "blob": "5b2533a790e31819346f503403b6542f474f9fee",
+   "path": "kernel/tests/browser/Makefile"
+  },
+  {
    "blob": "b5a0fe7dc1b13fa25723586d811f644cb1b567cb",
    "path": "kernel/tests/external/Makefile"
   },
   {
-   "blob": "0a139f402b935959446b7a1c864a1dcb645f72fc",
-   "path": "kernel/tests/helium/Makefile"
-  },
-  {
-   "blob": "a3528bd2c34bde71066b6b33ed27a2314a2ea532",
+   "blob": "451cfd88c25ded91ac62773f4093ab2293889cde",
    "path": "kernel/tests/mini_chromium/Makefile"
   },
   {
@@ -62601,19 +62709,19 @@
    "path": "runtime/nanos-arm64.Dockerfile"
   },
   {
-   "blob": "a6a805c458344bd3efc73df29f0c99420d5f3fde",
+   "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
   },
   {
-   "blob": "02117fbbfab1f1311be2a213548b5aefaca788df",
+   "blob": "bcda07081412d30e7f510d3b97e350af0e5112ab",
    "path": "tests/interop/webmcp/Dockerfile"
   },
   {
-   "blob": "4f78cb3c4ef8502f0f534698cfcebeac5b8b3bac",
+   "blob": "33b6c1f7ff48ae6b4be6babcbca51661d0fa3a56",
    "path": "third_party/smolvm/Cargo.lock"
   },
   {
-   "blob": "5cf6482483d6fc1265a0617b8faacd7129b41e28",
+   "blob": "4bd385bab5ce559d775049582adee5d86d60e670",
    "path": "third_party/smolvm/Cargo.toml"
   },
   {
@@ -62865,15 +62973,15 @@
    "path": "third_party/smolvm/rust-toolchain.toml"
   },
   {
-   "blob": "e404ed95da68830d397235c47efff9b79a1f5c39",
+   "blob": "b70ceadb34da39fee4a005a41506d0a74f6f076c",
    "path": "web/package.json"
   },
   {
-   "blob": "d3a9e3584116bad0854f0f065d895c5d636eed8a",
+   "blob": "534345140ac547763c373142782d091d4609537a",
    "path": "web/pnpm-lock.yaml"
   }
  ],
- "inputs_fingerprint": "7efb7bc099e89e1b41021ff8970d3260a2aec99a4822731e8eefc22b9798b770",
+ "inputs_fingerprint": "f7eab1ace508fd4cff432e2cc8bbe923105b3f045ea2aba39a0668809280badb",
  "instances": [
   {
    "commit": null,
@@ -63298,6 +63406,19 @@
    "first_party": false,
    "id": "pkg:artifact/libudev-zero?download_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Flibudev-zero#",
    "purl": "pkg:artifact/libudev-zero?download_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Flibudev-zero",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/rustup-init?download_url=https%3A%2F%2Fstatic.rust-lang.org%2Frustup%2Farchive%2F1.29.3%2Faarch64-unknown-linux-gnu%2Frustup-init",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/rustup-init?download_url=https%3A%2F%2Fstatic.rust-lang.org%2Frustup%2Farchive%2F1.29.3%2Faarch64-unknown-linux-gnu%2Frustup-init#",
+   "purl": "pkg:artifact/rustup-init?download_url=https%3A%2F%2Fstatic.rust-lang.org%2Frustup%2Farchive%2F1.29.3%2Faarch64-unknown-linux-gnu%2Frustup-init",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
@@ -70455,6 +70576,19 @@
    "version": "0.3.47"
   },
   {
+   "commit": "caefd703596378155e2b90726fb8f7bc5fc23b5f",
+   "component": "pkg:cargo/tinyland-remote?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Ftinyland",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/tinyland-remote@0.1.0?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Ftinyland#",
+   "purl": "pkg:cargo/tinyland-remote@0.1.0?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Ftinyland",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/tinyland",
+   "version": "0.1.0"
+  },
+  {
    "commit": null,
    "component": "pkg:cargo/tinystr",
    "context": "",
@@ -72808,7 +72942,7 @@
    "version": "0.6.3"
   },
   {
-   "commit": "31a9badb3198ec413d45e07ce8e46d5f5f6ef1c5",
+   "commit": "c8b3bc293636c285f6e58369fdffb7633bc4c516",
    "component": "pkg:cargo/zlib-rs?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fzlib-rs",
    "context": "",
    "first_party": false,
@@ -73043,6 +73177,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:docker/guest-control",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:docker/guest-control#",
+   "purl": "pkg:docker/guest-control",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "image",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:docker/tinyland",
    "context": "",
    "first_party": false,
@@ -73238,6 +73385,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:local/bctl-guest-control",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/bctl-guest-control@0.1.0#",
+   "purl": "pkg:local/bctl-guest-control@0.1.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.1.0"
+  },
+  {
+   "commit": null,
    "component": "pkg:local/bctl-guest",
    "context": "",
    "first_party": true,
@@ -73269,6 +73429,19 @@
    "first_party": true,
    "id": "pkg:local/bctl-proof@0.1.0#",
    "purl": "pkg:local/bctl-proof@0.1.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.1.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/bctl-rfb-encode",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/bctl-rfb-encode@0.1.0#",
+   "purl": "pkg:local/bctl-rfb-encode@0.1.0",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
@@ -73352,6 +73525,19 @@
    "source_kind": "workspace",
    "vcs_url": null,
    "version": "0.0.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/hydrogen-rust",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/hydrogen-rust@0.1.0#",
+   "purl": "pkg:local/hydrogen-rust@0.1.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.1.0"
   },
   {
    "commit": null,
@@ -74073,19 +74259,6 @@
    "component": "pkg:npm/%40babel/helper-module-imports",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40babel/helper-module-imports@7.18.6#",
-   "purl": "pkg:npm/%40babel/helper-module-imports@7.18.6",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.18.6"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40babel/helper-module-imports",
-   "context": "",
-   "first_party": false,
    "id": "pkg:npm/%40babel/helper-module-imports@7.29.7#",
    "purl": "pkg:npm/%40babel/helper-module-imports@7.29.7",
    "registry_url": "https://npm.17166969.xyz/current/",
@@ -74119,19 +74292,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "7.29.13"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40babel/helper-plugin-utils",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/%40babel/helper-plugin-utils@7.29.7#",
-   "purl": "pkg:npm/%40babel/helper-plugin-utils@7.29.7",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.29.7"
   },
   {
    "commit": null,
@@ -74197,32 +74357,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "7.29.13"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40babel/plugin-syntax-jsx",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/%40babel/plugin-syntax-jsx@7.29.7#",
-   "purl": "pkg:npm/%40babel/plugin-syntax-jsx@7.29.7",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.29.7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40babel/plugin-syntax-jsx",
-   "context": "(@babel/core@7.29.13)",
-   "first_party": false,
-   "id": "pkg:npm/%40babel/plugin-syntax-jsx@7.29.7#(@babel/core@7.29.13)",
-   "purl": "pkg:npm/%40babel/plugin-syntax-jsx@7.29.7",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.29.7"
   },
   {
    "commit": null,
@@ -74383,9 +74517,9 @@
   {
    "commit": null,
    "component": "pkg:npm/%40laputa-systems/ui-dashboard?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz",
-   "context": "(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)",
+   "context": "(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)",
    "first_party": false,
-   "id": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)",
+   "id": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz#(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)",
    "purl": "pkg:npm/%40laputa-systems/ui-dashboard@0.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fdb0901dbb1bf3f9ec70c369036b9874fb56aa5fe7854b2846ec3a132ec8655aa32c2c6dca8e026f9d034bf2548bd5f56da5e5b5439acae1107132181a85ef58d.tgz",
    "registry_url": null,
    "repository_url": null,
@@ -74850,185 +74984,159 @@
   },
   {
    "commit": null,
-   "component": "pkg:npm/%40solidjs/babel-plugin",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.0.0-rc.21"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40solidjs/babel-plugin",
-   "context": "(@babel/core@7.29.13)",
-   "first_party": false,
-   "id": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21#(@babel/core@7.29.13)",
-   "purl": "pkg:npm/%40solidjs/babel-plugin@2.0.0-rc.21",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.0.0-rc.21"
-  },
-  {
-   "commit": null,
    "component": "pkg:npm/%40solidjs/compiler-darwin-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/compiler-darwin-arm64@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/compiler-darwin-arm64@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/compiler-darwin-arm64@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/compiler-darwin-arm64@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/compiler-darwin-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/compiler-darwin-x64@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/compiler-darwin-x64@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/compiler-darwin-x64@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/compiler-darwin-x64@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/compiler-linux-arm64-gnu",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/compiler-linux-arm64-gnu@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/compiler-linux-arm64-gnu@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/compiler-linux-arm64-gnu@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/compiler-linux-arm64-gnu@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/compiler-linux-x64-gnu",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/compiler-linux-x64-gnu@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/compiler-linux-x64-gnu@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/compiler-linux-x64-gnu@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/compiler-linux-x64-gnu@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/compiler-wasm32-wasi",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/compiler-wasm32-wasi@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/compiler-win32-x64-msvc",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/compiler-win32-x64-msvc@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/compiler-win32-x64-msvc@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/compiler-win32-x64-msvc@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/compiler-win32-x64-msvc@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/compiler",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/compiler@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/compiler@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/compiler@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/signals",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/signals@2.0.0-rc.21#",
-   "purl": "pkg:npm/%40solidjs/signals@2.0.0-rc.21",
+   "id": "pkg:npm/%40solidjs/signals@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/signals@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.21"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/vite-plugin",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#",
-   "purl": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54",
+   "id": "pkg:npm/%40solidjs/vite-plugin@3.0.1#",
+   "purl": "pkg:npm/%40solidjs/vite-plugin@3.0.1",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "3.0.0-next.54"
+   "version": "3.0.1"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/vite-plugin",
-   "context": "(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
+   "context": "(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.6)",
-   "purl": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.54",
+   "id": "pkg:npm/%40solidjs/vite-plugin@3.0.1#(@babel/core@7.29.13)(@solidjs/web@2.0.0(solid-js@2.0.0))(solid-js@2.0.0)(vite@8.3.6)",
+   "purl": "pkg:npm/%40solidjs/vite-plugin@3.0.1",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "3.0.0-next.54"
+   "version": "3.0.1"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/web",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/web@2.0.0-rc.20#",
-   "purl": "pkg:npm/%40solidjs/web@2.0.0-rc.20",
+   "id": "pkg:npm/%40solidjs/web@2.0.0#",
+   "purl": "pkg:npm/%40solidjs/web@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.20"
+   "version": "2.0.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40solidjs/web",
-   "context": "(solid-js@2.0.0-rc.20)",
+   "context": "(solid-js@2.0.0)",
    "first_party": false,
-   "id": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)",
-   "purl": "pkg:npm/%40solidjs/web@2.0.0-rc.20",
+   "id": "pkg:npm/%40solidjs/web@2.0.0#(solid-js@2.0.0)",
+   "purl": "pkg:npm/%40solidjs/web@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.20"
+   "version": "2.0.0"
   },
   {
    "commit": null,
@@ -75042,58 +75150,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.10.4"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40types/babel__core",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/%40types/babel__core@7.20.5#",
-   "purl": "pkg:npm/%40types/babel__core@7.20.5",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.20.5"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40types/babel__generator",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/%40types/babel__generator@7.27.0#",
-   "purl": "pkg:npm/%40types/babel__generator@7.27.0",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.27.0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40types/babel__template",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/%40types/babel__template@7.4.4#",
-   "purl": "pkg:npm/%40types/babel__template@7.4.4",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.4.4"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/%40types/babel__traverse",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/%40types/babel__traverse@7.28.0#",
-   "purl": "pkg:npm/%40types/babel__traverse@7.28.0",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.28.0"
   },
   {
    "commit": null,
@@ -75461,19 +75517,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:npm/entities",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/entities@6.0.1#",
-   "purl": "pkg:npm/entities@6.0.1",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "6.0.1"
-  },
-  {
-   "commit": null,
    "component": "pkg:npm/escalade",
    "context": "",
    "first_party": false,
@@ -75536,19 +75579,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.0.0-beta.2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:npm/html-entities",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/html-entities@2.3.3#",
-   "purl": "pkg:npm/html-entities@2.3.3",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.3.3"
   },
   {
    "commit": null,
@@ -75838,19 +75868,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:npm/parse5",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/parse5@7.3.0#",
-   "purl": "pkg:npm/parse5@7.3.0",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.3.0"
-  },
-  {
-   "commit": null,
    "component": "pkg:npm/picocolors",
    "context": "",
    "first_party": false,
@@ -75958,52 +75975,52 @@
    "component": "pkg:npm/seroval-plugins",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/seroval-plugins@1.7.0#",
-   "purl": "pkg:npm/seroval-plugins@1.7.0",
+   "id": "pkg:npm/seroval-plugins@1.8.0#",
+   "purl": "pkg:npm/seroval-plugins@1.8.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "1.7.0"
+   "version": "1.8.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/seroval-plugins",
-   "context": "(seroval@1.7.0)",
+   "context": "(seroval@1.8.1)",
    "first_party": false,
-   "id": "pkg:npm/seroval-plugins@1.7.0#(seroval@1.7.0)",
-   "purl": "pkg:npm/seroval-plugins@1.7.0",
+   "id": "pkg:npm/seroval-plugins@1.8.0#(seroval@1.8.1)",
+   "purl": "pkg:npm/seroval-plugins@1.8.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "1.7.0"
+   "version": "1.8.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/seroval",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/seroval@1.7.0#",
-   "purl": "pkg:npm/seroval@1.7.0",
+   "id": "pkg:npm/seroval@1.8.1#",
+   "purl": "pkg:npm/seroval@1.8.1",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "1.7.0"
+   "version": "1.8.1"
   },
   {
    "commit": null,
    "component": "pkg:npm/solid-js",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/solid-js@2.0.0-rc.20#",
-   "purl": "pkg:npm/solid-js@2.0.0-rc.20",
+   "id": "pkg:npm/solid-js@2.0.0#",
+   "purl": "pkg:npm/solid-js@2.0.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.0.0-rc.20"
+   "version": "2.0.0"
   },
   {
    "commit": null,
@@ -76153,13 +76170,13 @@
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
-   "id": "pkg:toolchain/rust@nightly-2026-09-15#",
-   "purl": "pkg:toolchain/rust@nightly-2026-09-15",
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "nightly-2026-09-15"
+   "version": "nightly-2026-11-09"
   },
   {
    "commit": null,
@@ -76176,6 +76193,12 @@
   }
  ],
  "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  },
   {
    "kind": "unsupported_format",
    "locator": null,
@@ -76246,13 +76269,13 @@
    "kind": "unsupported_format",
    "locator": null,
    "message": "no parser for Makefile",
-   "path": "kernel/tests/external/Makefile"
+   "path": "kernel/tests/browser/Makefile"
   },
   {
    "kind": "unsupported_format",
    "locator": null,
    "message": "no parser for Makefile",
-   "path": "kernel/tests/helium/Makefile"
+   "path": "kernel/tests/external/Makefile"
   },
   {
    "kind": "unsupported_format",
@@ -76341,6 +76364,11 @@
    "id": "crates/core:cargo"
   },
   {
+   "directory": "crates/guest-control",
+   "ecosystem": "cargo",
+   "id": "crates/guest-control:cargo"
+  },
+  {
    "directory": "crates/jobs",
    "ecosystem": "cargo",
    "id": "crates/jobs:cargo"
@@ -76349,6 +76377,11 @@
    "directory": "crates/proof",
    "ecosystem": "cargo",
    "id": "crates/proof:cargo"
+  },
+  {
+   "directory": "crates/rfb-encode",
+   "ecosystem": "cargo",
+   "id": "crates/rfb-encode:cargo"
   },
   {
    "directory": "crates/rfb",
@@ -76381,9 +76414,9 @@
    "id": "guest/harness/image:repo"
   },
   {
-   "directory": "images/helium",
+   "directory": "images/hydrogen",
    "ecosystem": "generic",
-   "id": "images/helium:repo"
+   "id": "images/hydrogen:repo"
   },
   {
    "directory": "images/ref-alpine-chromium",
@@ -76414,6 +76447,11 @@
    "directory": "kernel/nanos/test/go",
    "ecosystem": "golang",
    "id": "kernel/nanos/test/go:golang"
+  },
+  {
+   "directory": "kernel/rust",
+   "ecosystem": "cargo",
+   "id": "kernel/rust:cargo"
   },
   {
    "directory": "runtime",
@@ -76680,6 +76718,7 @@
  "schema": 1,
  "tags": [
   "rust",
-  "tool"
+  "tool",
+  "typescript"
  ]
 }

@@ -2,8 +2,8 @@
  "parser_version": 7,
  "repositories": {
   "joshuarli/bctl": {
-   "commit": "7b176b538558aa46f0f0a9cdc74a10670c9397d4",
-   "inputs_fingerprint": "7efb7bc099e89e1b41021ff8970d3260a2aec99a4822731e8eefc22b9798b770",
+   "commit": "9ba6935201d5742cc4e7541036c01976c171c711",
+   "inputs_fingerprint": "f7eab1ace508fd4cff432e2cc8bbe923105b3f045ea2aba39a0668809280badb",
    "state": "partial"
   },
   "joshuarli/ctrs": {
@@ -74,6 +74,11 @@
   "joshuarli/pytest-parallel": {
    "commit": "b94019e0beb4e330fa25e1cdf4bb449e608ad42a",
    "inputs_fingerprint": "c9d087bf7e9dd34ba511c2d214313ab1b620a0409490b8381f9d98783ae66f15",
+   "state": "partial"
+  },
+  "joshuarli/shadowdriver": {
+   "commit": "cca1c53b771fa2d8224de1a50c9d043e0010d908",
+   "inputs_fingerprint": "231a863853162da3353b2691b1838c19c67951c21ad6d5d9a11c7bca629e9616",
    "state": "partial"
   },
   "joshuarli/soulseek-rs": {

@@ -60,6 +60,12 @@ entries `IGNORE`. Removal verifies publication of retained refs against live rem
 nonignored untracked files, recovery refs, and shared worktree storage. See the
 [removal contract](fleet-design.md#checkout-removal).
 
+To opt a private repository into fleet management, assign its role and language tags and remove
+`IGNORE` if present. Use `repomod lint --repo OWNER/REPO` to run its policy checks locally and
+`make deps PRIVATE=1` to include managed private repositories in the dashboard. Local checks and
+inventory collection use no GitHub Actions minutes. The public `stuff` checkout tracks repository
+names, dependency metadata and line counts for managed private repositories.
+
 Tag edits need a separate publish step: `sync` only manages checkouts and never
 touches GitHub topics. Preview the difference with `topics diff`, then publish
 the catalog tag set with `topics apply`:
