@@ -296,6 +296,43 @@ tunable; the shed does not become unbounded queueing.
   (`engine/packages/pegboard-gateway/src/retry_budget.rs:31-37`,
   `278-322`).
 
+## 6. Reproduced: a log shard sized from free disk at startup (2026-11-22)
+
+With `storage.log_shard.max_disk_bytes` and `storage.cold_store.disk_cache_bytes`
+unset, a storage worker sizes both at startup from its filesystem: free space
+plus what its own directories hold, minus a reserve of 10% or 4 GiB, split
+50/50 between the log and the cache (Rivet `engine/packages/depot-worker/src/disk_budget.rs`:
+`AUTO_LOG_SHARE_PERCENT`, `RESERVE_PERCENT`, `MIN_RESERVE_BYTES`, `pool_bytes`).
+The size never changes until the next start. The standby guest has a 26 GiB
+root holding the depot, old runtimes and on-disk captures, so the budget
+follows whatever free space a restart happens to see.
+
+Production's own starts: 01:37 UTC on 2026-11-22 resolved 289 MB (a 3.6 GiB
+partial capture copy was on the disk) and the STA-135 loop followed at 01:45;
+01:46 resolved 257 MB and logged the log shard near capacity; 02:36, after the
+partial was deleted, resolved 936 MB and stayed healthy.
+
+The Stats drill (`deploy/orange/recovery/engine-pressure-drill.sh` in
+`joshuarli/stats`, record `bench/results/2026-11-22-engine-degradation/`)
+restored the validated capture `sim-20261122T0236Z` on a disposable guest and
+left a production-like 4.0–4.3 GB free before an Engine restart. When the
+resolved log budget came within about 2% of the shard's resident 134–135 MB
+(136 MB and 137 MB), every write command missed its deadline (`loading the
+migration state failed … request_deadline_exceeded`), the app logged
+`RivetKit registry did not register with the Engine within 30000ms` and never
+answered health, at about 1% Engine CPU. At 179 MB (75% resident) and 339–463 MB the
+log wrote to cold early but served. Declaring `max_disk_bytes` 1 GiB and
+`disk_cache_bytes` 512 MiB in `standby/stats-engine.json` made the same
+condition pass three of three 10-minute load cycles with no refusal or deadline
+warning, and applying it to the failed guest made the app healthy 6 s after
+the Engine started. A configured capacity that does not fit fails startup
+instead of shrinking (`disk_budget.rs`), so a full disk is now a loud start
+failure rather than an unusable log.
+
+Not explained by this: the CPU spin. The 2026-11-21 22:40 loop's start-time
+budget was not preserved, and the 400% CPU of the 01:45 relapse was not
+reproduced; the drill's failure was a deadline stall at low CPU.
+
 ## Candidate changes, ranked
 
 Each is a lever that converts a refusal into slowness (or removes the
