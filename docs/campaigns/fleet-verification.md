@@ -21,22 +21,65 @@ The rollout covers all 72 managed repositories in `fleet/catalog.toml` at `40724
 | `laputa-systems/fastermod` | `8fce05b5` passed cleanup and required PR checks. [PR 45](https://github.com/laputa-systems/fastermod/pull/45). | Verify benchmark and audit coverage. |
 | `joshuarli/ish` | `e38c83d0` passed cleanup and all required PR jobs. [PR 49](https://github.com/joshuarli/ish/pull/49). | Verify benchmark entrypoints and audit coverage. |
 | `joshuarli/ctrs` | `0480e4e` passed scoped cleanup for the Cargo target. | Verify other gates with the repo's runner and host requirements. |
-| `joshuarli/agentctl` | `78b0804` passed cleanup for the web bundle and its new `make test`, which reuses the prior package test commands. Workspace type checking passed with `pnpm -r --if-present run typecheck`. | Verify benchmark and hosted workflow coverage. |
-| `joshuarli/obscura` | `c1e823c` passed scoped cleanup and the new `make test`, with 86 renderer tests. | Verify the Android, benchmark and typing boundaries separately. |
+| `joshuarli/agentctl` | `78b0804` passed cleanup for the web bundle and its new `make test`, which reuses the prior package test commands. Workspace type checking passed with `pnpm -r --if-present run typecheck`. | `99934b5` validates the native owner status response. The test first reproduced acceptance of a malformed response and then passed with the fix. |
+| `joshuarli/obscura` | `c1e823c` passed scoped cleanup and 86 renderer tests. The Edit benchmark harness and the named `develop-synthetic` Change workload completed. | Qualify Android and current type boundaries separately. |
 | `laputa-systems/srv` | `c0cbbff` passed cleanup, 92 local tests, and the required hosted CI, lint, and mutation checks. The code now uses one ordering comparison, making a stale exemption for an equivalent mutant unnecessary. [PR 51](https://github.com/laputa-systems/srv/pull/51). | SRV-5 tracks representative serving benchmarks. |
 | `joshuarli/pytest-parallel` | `f3794e6` passed the cleanup probe and the required Linux, macOS, and lint checks. [PR 46](https://github.com/joshuarli/pytest-parallel/pull/46). | Verify current benchmark and type gates. |
-| `laputa-systems/tm` | Cleanup passed locally. The first macOS job caught a status test reading a stale frame after selecting a window. `d822762` waits for the named window to appear and all four status tests passed locally with socket and configuration isolation. The next Linux run caught a separate suspend test sending `SIGCONT` before the child stopped. [PR 48](https://github.com/laputa-systems/tm/pull/48). | Required checks on the new PR head. |
+| `laputa-systems/tm` | `9904111` scopes cleanup and makes status and suspend tests wait for the window and kernel stop events. Focused PTY tests with the pinned tmux reference and required Linux, macOS and lint checks passed. [PR 48](https://github.com/laputa-systems/tm/pull/48). | Qualify benchmark entrypoints and the remaining typing audit. |
 | `joshuarli/stats` | `79ef16a41c3` passed cleanup for the agent and release outputs, including refusal of an aliased parent. | Verify the Change, benchmark and type gates independently of deployment. |
 | `joshuarli/tansu` | `afb2f9aa` passed cleanup for the Cargo and frontend outputs. | Verify the current Change and browser benchmark gates. |
-| `joshuarli/bctl` | `f602a256` passed cleanup for the Rust and dashboard outputs, 89 local host tests with 39 VM-only cases ignored, and 27 benchmark suite tests. A selection containing only unsupported workloads now fails explicitly. | VM and kernel workloads require separate runner evidence. |
+| `joshuarli/bctl` | `f602a256` passed cleanup for the Rust and dashboard outputs, 89 local host tests with 39 VM-only cases ignored, and 27 benchmark suite tests. `1a97f7ec` fixed the preflight interpreter selection. The full Edit harness completed 177 tests with four skips and one fixture-thread warning. Dashboard typecheck passed. | VM and kernel workloads require separate runner evidence. |
 | `joshuarli/shadowdriver` | `037578c` passed scoped Rust cleanup. | Verify current SDK test and type evidence. |
 | `laputa-systems/doas-rs`, `mdevd-rs` | `44a0de6` and `2752e33` passed scoped cleanup. | Runtime-specific proof uses the documented Linux runners. |
 | `laputa-systems/hi-lite`, `rustybench` | `71530bc` and `ef955ceb` passed scoped cleanup and required checks. [Hi-lite PR 33](https://github.com/laputa-systems/hi-lite/pull/33), [Rustybench PR 30](https://github.com/laputa-systems/rustybench/pull/30). | Verify current benchmark and audit evidence. |
 | `laputa-systems/oxish`, `rage`, `rg`, `smolith`, `xsh` | `0bd0c26`, `8439c3f`, `4a41eba`, `589ff14` and `e59dae73a` passed scoped cleanup. | Audit each repo’s existing test, benchmark and type boundaries. |
 | `laputa-systems/deser`, `tinyland` | `b13180c` and `1137aed` passed scoped cleanup. | Verify the supported benchmark tier and native or container-based test paths. |
-| `laputa-systems/diff-pretty`, `fd`, `jaq`, `ptytest`, `rawzip`, `vault` | Scoped cleanup passed locally. [Diff-pretty PR 52](https://github.com/laputa-systems/diff-pretty/pull/52), [Fd PR 25](https://github.com/laputa-systems/fd/pull/25), [Jaq PR 17](https://github.com/laputa-systems/jaq/pull/17), [Ptytest PR 34](https://github.com/laputa-systems/ptytest/pull/34), [Rawzip PR 8](https://github.com/laputa-systems/rawzip/pull/8), [Vault PR 45](https://github.com/laputa-systems/vault/pull/45). | Required hosted gates. |
+| `laputa-systems/diff-pretty`, `fd`, `jaq`, `ptytest`, `rawzip`, `vault` | Scoped cleanup and required hosted checks passed and merged. Rawzip also verified both timestamp paths with a local archive. [Diff-pretty PR 52](https://github.com/laputa-systems/diff-pretty/pull/52), [Fd PR 25](https://github.com/laputa-systems/fd/pull/25), [Jaq PR 17](https://github.com/laputa-systems/jaq/pull/17), [Ptytest PR 34](https://github.com/laputa-systems/ptytest/pull/34), [Rawzip PR 8](https://github.com/laputa-systems/rawzip/pull/8), [Vault PR 45](https://github.com/laputa-systems/vault/pull/45). | Verify current benchmark and audit evidence. |
 
-At rollout start, the focused repomod check flagged 46 repositories for missing `make clean` and 17 for PR test workflow conformance. The later checkpoint had 13 cleanup and 17 PR workflow findings, including open cleanup PRs. Neither run reported retained strict-profile violations. The strict-profile result covers only repositories registered for those rules, so it is insufficient as a type audit.
+At rollout start, the focused repomod check flagged 46 repositories for missing `make clean` and 17 for PR test workflow conformance. The first checkpoints reported no retained strict-profile violations. The strict-profile result covers only repositories registered for those rules, so it is insufficient as a type audit.
+
+
+### Local command changes
+
+| Repositories | Verification and remaining evidence |
+| --- | --- |
+| Discover, Extensions and usr | `9a187429`, `66c69b1` and `6373284e` passed scoped cleanup probes in isolated worktrees. |
+| Aincrad2 and Niceforge | `5aed2be2` and `ac07e6f` preserve simulation results, installed dependencies and local state. Cleanup probes passed. |
+| Python Build, LLVM Prebuilt Musl and SSH Build | `689519644` passed 360 controller tests and cleanup probes that preserved research data. `d6267bc` reaches the LLVM artifact tests, which rejected two stale Clang footer outputs. The patch applied once and reversed correctly against pinned source. `b5046ca` passed server and key-generation tests with the installed wrapper disabled for that invocation. |
+| Lexopt, Rustls, WebPKI and zlib-rs | `b856de2`, `c11b6b59`, `17d1eb6` and `9327926` passed their new local test targets and cleanup probes. |
+| Syncthing, Mactop and Soulseek | `9aca13072` passed the short Go suite for 48 packages. Mactop passed 42 Swift tests and Soulseek passed its bounded native suite. Both PRs passed hosted checks. [Mactop PR 12](https://github.com/joshuarli/mactop/pull/12), [Soulseek PR 12](https://github.com/joshuarli/soulseek-rs/pull/12). |
+| Kache | The cleanup probe and pre-PR Linux arm64 container check passed 5,048 tests with 48 ignored. Use the repository Dockerfile and container-local `TMPDIR` and `KACHE_TEST_SCRATCH_DIR`; host bind-mounts do not reproduce the filesystem semantics. The hosted x86 musl check failed in the compiler-family probe. DSLP-125 records the installed wrapper's separate integration-test compile failure. [PR 140](https://github.com/joshuarli/kache/pull/140). |
+
+## Fork CI
+
+The rollout covers 18 managed forks. Inspect the workflow diff from the upstream
+merge base. Keep fork-owned release and platform workflows, and preserve
+required check names. The regular gates run `make test` or `make test-ci` and
+`make lint`. Repomod checks action pins and workflow syntax on those CI files
+and reports workflow names outside the fleet set.
+
+- Green and merged on the first two waves: [Lexopt 5](https://github.com/laputa-systems/lexopt/pull/5),
+  [zlib-rs 5](https://github.com/laputa-systems/zlib-rs/pull/5),
+  [Rawzip 9](https://github.com/laputa-systems/rawzip/pull/9),
+  [Rustix 5](https://github.com/laputa-systems/rustix/pull/5),
+  [gh 17](https://github.com/joshuarli/gh/pull/17),
+  [rust-fontconfig 4](https://github.com/laputa-systems/rust-fontconfig/pull/4),
+  [Oxish 5](https://github.com/laputa-systems/oxish/pull/5),
+  and [Syncthing 10](https://github.com/joshuarli/syncthing/pull/10).
+- Rustls and WebPKI merged from locally verified test and lint runs on unprotected
+  branches. GitHub returned no runs for the PRs after reopening or for the merge
+  commits at this checkpoint. [Rustls 4](https://github.com/laputa-systems/rustls/pull/4),
+  [WebPKI 3](https://github.com/laputa-systems/webpki/pull/3).
+- Deser and Crabtables still have hosted checks running. [Deser 9](https://github.com/laputa-systems/deser/pull/9),
+  [Crabtables 4](https://github.com/laputa-systems/crabtables/pull/4).
+- Asterinas, fd, jaq, rage, ripgrep and Soulseek already had fork-owned CI.
+
+Recheck the default branches with:
+
+```sh
+uv run repomod lint --include-private --tag fork --rule fork-workflow-names \
+  --rule gha-test-workflow --rule gha-lint-workflow --rule gha-syntax
+```
 
 ## Qualify a repository
 
