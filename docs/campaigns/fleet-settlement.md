@@ -36,23 +36,23 @@ These tips still have distinct patches outside the default branch. Branches with
 
 | Branch | Tip | Reason |
 | --- | --- | --- |
-| `build/linux-dev-setup` | `3a4d0ca7c660` | Historical setup and campaign snapshot conflicts with the current command reference and retired campaign index. |
-| `deslop/controller-alignment` | `61f18b891143` | Older controller policy and ticket layout conflict with current fleet rules and campaign closure. |
-| `deslop/repomod-finish` | `14904fe1b988` | Snapshot revises the retired test and benchmark notes and conflicts with the current ticket ledger. |
-| `deslop/stuff-publisher` | `248d3df6fa69` | Earlier diagnosis and typing notes use the retired campaign ticket ledger. |
-| `deslop/stuff-publisher-tests` | `b19099e7eefa` | Earlier publisher test and dead-code findings use the retired campaign ticket ledger. |
-| `docs/deslop-stable-alpine-checkpoint` | `89892c11244f` | Pre-closure scorecard and policy would replace newer retention decisions. |
-| `docs/deslop-tier-a-settlement` | `f716efa95bb7` | Status snapshot includes the retired roadmap and an older scorecard. |
-| `feat/buildlib-usage-rule` | `0e43f9e04dc0` | PR 192 carries the current rule and tests. This earlier policy conflicts with current repository dispositions. |
-| `feat/registry-failover` | `e7a091f02ac5` | PR 181 shipped failover. This pre-deployment version conflicts with the later replica tests and deployment contract. |
-| `fix/staged-sqlite-refusal` | `a690f5bf50d4` | PR 34 shipped the refusal repair. The private diagnostic sequence conflicts with the current patch index, diagnosis and backlog. |
-| `parked/deslop-managed-cleanup-20261119` | `2a628dd927eb` | Read-only inventory retains pre-retirement decisions that differ from the dated final receipt. |
-| `test/deslop-repomod-deletion` | `0c67aa31dee2` | Mutation trial control removes test coverage. |
-| `test/deslop-repomod-docs` | `87374f4f3ee3` | Documentation-only mutation trial control. |
-| `test/deslop-repomod-mixed` | `0a50e824a899` | Mutation trial control alters source and removes coverage. |
-| `test/deslop-repomod-region-mixed` | `d5d77f713d2d` | Source-region trial control alters source and removes coverage. |
-| `test/deslop-repomod-region-uncovered` | `dac988911e07` | Source-region trial control alters cleanup behavior. |
-| `test/deslop-repomod-uncovered` | `193c3b3b56d2` | Mutation trial control alters cleanup behavior. |
+| build/linux-dev-setup | `3a4d0ca7c660` | Historical setup and campaign snapshot conflicts with the current command reference and retired campaign index. |
+| deslop/controller-alignment | `61f18b891143` | Older controller policy and ticket layout conflict with current fleet rules and campaign closure. |
+| deslop/repomod-finish | `14904fe1b988` | Snapshot revises the retired test and benchmark notes and conflicts with the current ticket ledger. |
+| deslop/stuff-publisher | `248d3df6fa69` | Earlier diagnosis and typing notes use the retired campaign ticket ledger. |
+| deslop/stuff-publisher-tests | `b19099e7eefa` | Earlier publisher test and dead-code findings use the retired campaign ticket ledger. |
+| docs/deslop-stable-alpine-checkpoint | `89892c11244f` | Pre-closure scorecard and policy would replace newer retention decisions. |
+| docs/deslop-tier-a-settlement | `f716efa95bb7` | Status snapshot includes the retired roadmap and an older scorecard. |
+| feat/buildlib-usage-rule | `0e43f9e04dc0` | PR 192 carries the current rule and tests. This earlier policy conflicts with current repository dispositions. |
+| feat/registry-failover | `e7a091f02ac5` | PR 181 shipped failover. This pre-deployment version conflicts with the later replica tests and deployment contract. |
+| fix/staged-sqlite-refusal | `a690f5bf50d4` | PR 34 shipped the refusal repair. The private diagnostic sequence conflicts with the current patch index, diagnosis and backlog. |
+| parked/deslop-managed-cleanup-20261119 | `2a628dd927eb` | Read-only inventory retains pre-retirement decisions that differ from the dated final receipt. |
+| test/deslop-repomod-deletion | `0c67aa31dee2` | Mutation trial control removes test coverage. |
+| test/deslop-repomod-docs | `87374f4f3ee3` | Documentation-only mutation trial control. |
+| test/deslop-repomod-mixed | `0a50e824a899` | Mutation trial control alters source and removes coverage. |
+| test/deslop-repomod-region-mixed | `d5d77f713d2d` | Source-region trial control alters source and removes coverage. |
+| test/deslop-repomod-region-uncovered | `dac988911e07` | Source-region trial control alters cleanup behavior. |
+| test/deslop-repomod-uncovered | `193c3b3b56d2` | Mutation trial control alters cleanup behavior. |
 
 ## Local cleanup
 
@@ -74,41 +74,41 @@ The unpublished files in the dirty lanes include `crates/stuff-worker/orange.jso
 
 ### Pruned local Stuff branches
 
-- `chore/deslop-cleanup-apps`
-- `chore/deslop-cleanup-builds`
-- `chore/deslop-cleanup-cli`
-- `chore/deslop-cleanup-systems`
-- `chore/h12tiny-upstream`
-- `chore/managed-cleanup-inventory`
-- `ci/deslop-repomod-mutation`
-- `ci/deslop-repomod-snapshot-shard`
-- `ci/deslop-repomod-source-regions`
-- `deslop/f2-test-workflow`
-- `docs/buildlib-close`
-- `docs/deslop-calibration-results`
-- `docs/deslop-contract-results`
-- `docs/deslop-current-results`
-- `docs/deslop-managed-cleanup-wave-two`
-- `docs/deslop-module-results`
-- `docs/release-archives-status`
-- `docs/resolve-stuf-82`
-- `docs/resolve-stuf-84`
-- `docs/router-refresh`
-- `docs/stuf89-progress`
-- `docs/todo-2026-11-16-review`
-- `feat/owned-tool-support`
-- `feat/stats-runtime-hardening`
-- `fix/actor-lifecycle`
-- `fix/archive-fixer-keeps-comments`
-- `fix/doctor-mirror-file-name`
-- `fix/inventory-read-refusals`
-- `fix/mutants-gate-per-file-critical`
-- `fix/r2-upload-timeout`
-- `fix/replica-current-generation`
-- `fix/runner-amd64-on-arm`
-- `fix/stable-cmake-fleet-policy`
-- `fix/stats-campaign-blockers`
-- `fix/worker-miniflare-response-owners`
-- `fleet/scoped-clean`
-- `policy/retain-fz-assurance`
-- `repomod/fix/7f449b1e0c184eb68f49327738a553f1`
+- chore/deslop-cleanup-apps
+- chore/deslop-cleanup-builds
+- chore/deslop-cleanup-cli
+- chore/deslop-cleanup-systems
+- chore/h12tiny-upstream
+- chore/managed-cleanup-inventory
+- ci/deslop-repomod-mutation
+- ci/deslop-repomod-snapshot-shard
+- ci/deslop-repomod-source-regions
+- deslop/f2-test-workflow
+- docs/buildlib-close
+- docs/deslop-calibration-results
+- docs/deslop-contract-results
+- docs/deslop-current-results
+- docs/deslop-managed-cleanup-wave-two
+- docs/deslop-module-results
+- docs/release-archives-status
+- docs/resolve-stuf-82
+- docs/resolve-stuf-84
+- docs/router-refresh
+- docs/stuf89-progress
+- docs/todo-2026-11-16-review
+- feat/owned-tool-support
+- feat/stats-runtime-hardening
+- fix/actor-lifecycle
+- fix/archive-fixer-keeps-comments
+- fix/doctor-mirror-file-name
+- fix/inventory-read-refusals
+- fix/mutants-gate-per-file-critical
+- fix/r2-upload-timeout
+- fix/replica-current-generation
+- fix/runner-amd64-on-arm
+- fix/stable-cmake-fleet-policy
+- fix/stats-campaign-blockers
+- fix/worker-miniflare-response-owners
+- fleet/scoped-clean
+- policy/retain-fz-assurance
+- repomod/fix/7f449b1e0c184eb68f49327738a553f1

@@ -8,6 +8,8 @@ Thirty-nine repositories advertise a root benchmark target. The remaining 33 inc
 
 The configured strict-typing rule and fork workflow naming rule yielded no findings. That policy result covers configured checks. The typing column records substantive gaps such as unchecked boundary payloads or missing execution on the supported runner. The [existing workflow gap list](fleet-verification.md) covers 16 first-party defaults. Private repositories remain part of local policy and dependency inventory regardless of hosted runner availability.
 
+The [settlement and cleanup record](fleet-settlement.md) tracks the Stuff branches integrated or retained during this audit.
+
 ## Reproduce the review
 
 From a clean canonical Stuff checkout, run `uv run repomod sync` and then run:
