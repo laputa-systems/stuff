@@ -1,0 +1,11 @@
+[apps]
+
+[apps.stats]
+hostnames = ["stats.17166969.xyz"]
+
+[apps.stats-perf]
+kind = "native"
+display = "Stats scale fixture"
+hostnames = ["stats-next.17166969.xyz"]
+upstream = "172.31.90.2:8787"
+health_path = "/health"
