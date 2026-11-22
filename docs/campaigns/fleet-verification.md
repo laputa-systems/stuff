@@ -2,7 +2,7 @@
 
 ## Status
 
-The rollout covers all 72 managed repositories in `fleet/catalog.toml` at `407249c6c`, including private repositories. The catalog excludes `zzz`. This record distinguishes completed changes from full repository conformance.
+The rollout covers all 72 managed repositories in `fleet/catalog.toml` at `407249c6c`, including private repositories. The catalog excludes `zzz`. The [default-branch source audit](fleet-audit.md) records all 72 repositories and their remaining verification gaps.
 
 | Repository | Accepted evidence | Remaining proof |
 | --- | --- | --- |
