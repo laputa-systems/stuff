@@ -136,7 +136,7 @@ stats = { help = { source = "agent/src/main.rs", test = "agent/tests/cli_help.rs
 [producers."joshuarli/swift-bylaws"]
 
 [producers."joshuarli/swift-bylaws".commands]
-bylaws = { gap = "help is not migrated" }
+bylaws = { help = { source = "Sources/bylaws-cli/Commands/BylawsCommand.swift", test = "Tests/CLITests/Commands/CLIHelpTests.swift" } }
 
 [producers."joshuarli/syncthing"]
 upstream = "syncthing/syncthing"
