@@ -46,7 +46,7 @@ gh = { help = { source = "pkg/cmd/root/help.go", test = "cmd/gh/footer_test.go" 
 upstream = "ghostty-org/ghostty"
 
 [producers."joshuarli/ghostty".commands]
-ghostty-custom = { gap = "ignored in the catalog with no checkout; the installed app's About surface is not migrated" }
+ghostty-custom = { gap = "the installed app's About surface is not migrated" }
 
 [producers."joshuarli/img"]
 
