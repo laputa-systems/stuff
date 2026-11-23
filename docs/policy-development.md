@@ -132,7 +132,9 @@ explicit `fleet/policy/actions.toml` catalog. Its fixer returns a catalog-backed
 worktree; repomod keeps validation and repository writes.
 `no-formatters` rejects formatter
 commands, formatter dependencies, and formatter configuration files. Ruff lint commands such as
-`ruff check` remain allowed. Ruff's format command and format configuration are banned. `mdtool`
+`ruff check` remain allowed. Ruff's format command and format configuration are banned. The rule
+also bans SwiftLint commands, configuration, and `Package.swift` dependencies. Use
+[swift-bylaws](https://github.com/joshuarli/swift-bylaws) for Swift project rules. `mdtool`
 runs the read-only documentation audit at `~/.local/bin/mdtool` for each repository,
 except repositories tagged `fork`, which are exempt. Both rules skip paths under directories
 excluded from the Cargo workspace, since vendored fork crates are not maintained documentation.

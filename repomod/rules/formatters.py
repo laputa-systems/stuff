@@ -52,6 +52,10 @@ _PATHS = (
     ":(glob)**/.clang-format",
     ":(glob)**/_clang-format",
     ":(glob)**/.swift-format",
+    ":(glob)**/.swiftformat",
+    ":(glob)**/.swiftlint.yml",
+    ":(glob)**/.swiftlint.yaml",
+    ":(glob)**/Package.swift",
     ":(glob)**/package.json",
     ":(glob)**/pyproject.toml",
     ":(glob)**/requirements.txt",
@@ -112,11 +116,15 @@ _FORMATTER_CONFIGS = {
     ".clang-format",
     "_clang-format",
     ".swift-format",
+    ".swiftformat",
     ".style.yapf",
 }
 _DEPENDENCY = re.compile(r"^([A-Za-z0-9_.-]+)")
 _BANNED_PACKAGES = {"black", "autopep8", "yapf", "prettier", "oxfmt", "dprint"}
 _FORMATTER_CONFIG_NAMES = {name.casefold() for name in _FORMATTER_CONFIGS}
+_SWIFTLINT_CONFIG_NAMES = {".swiftlint.yml", ".swiftlint.yaml"}
+_SWIFTLINT_PACKAGE = re.compile(r"github\.com/(?:realm|SimplyDanny)/SwiftLint\b", re.IGNORECASE)
+_SWIFTLINT_BAN = "SwiftLint is banned; use https://github.com/joshuarli/swift-bylaws"
 _SINGLE_COMMANDS = {
     "rustfmt": "rustfmt",
     "gofmt": "gofmt",
@@ -129,11 +137,13 @@ _SINGLE_COMMANDS = {
     "yapf": "yapf",
     "clang-format": "clang-format",
     "swift-format": "swift-format",
+    "swiftformat": "swiftformat",
     "shfmt": "shfmt",
     "google-java-format": "google-java-format",
     "scalafmt": "scalafmt",
     "nixfmt": "nixfmt",
     "alejandra": "alejandra",
+    "swiftlint": "swiftlint",
 }
 _PAIR_COMMANDS = {
     ("go", "fmt"): "go fmt",
@@ -347,6 +357,8 @@ def _python_dependencies(document: dict[str, Any]) -> set[str]:
 def _document_findings(repository: Repository, relative: str, source: str) -> list[Finding]:
     path = PurePosixPath(relative)
     findings = []
+    if path.name == "Package.swift" and _SWIFTLINT_PACKAGE.search(source):
+        findings.append(violation(repository, "no-formatters", relative, _SWIFTLINT_BAN))
     if path.name.casefold() == "package.json":
         try:
             document = json.loads(source)
@@ -493,6 +505,9 @@ def _formatting_findings(root: Path, repository: Repository) -> list[Finding]:
                 )
             )
             continue
+        if path.name.casefold() in _SWIFTLINT_CONFIG_NAMES:
+            findings.append(violation(repository, "no-formatters", relative, _SWIFTLINT_BAN))
+            continue
         try:
             source = _read_file(root, relative)
         except (OSError, UnicodeError) as error:
@@ -502,13 +517,16 @@ def _formatting_findings(root: Path, repository: Repository) -> list[Finding]:
             continue
         findings.extend(_document_findings(repository, relative, source))
         commands = _commands("\n".join(_command_lines(relative, source)))
-        if commands:
+        if "swiftlint" in commands:
+            findings.append(violation(repository, "no-formatters", relative, _SWIFTLINT_BAN))
+        formatters = [command for command in commands if command != "swiftlint"]
+        if formatters:
             findings.append(
                 violation(
                     repository,
                     "no-formatters",
                     relative,
-                    "formatter commands are banned: " + ", ".join(commands),
+                    "formatter commands are banned: " + ", ".join(formatters),
                 )
             )
     return findings
@@ -518,7 +536,7 @@ def formatter_rules() -> tuple[Rule, ...]:
     return (
         Rule(
             "no-formatters",
-            "Ban language formatters, formatter commands, and formatter configuration",
+            "Ban language formatters, SwiftLint, and their commands and configuration",
             TagPredicate(),
             _formatting_findings,
             None,

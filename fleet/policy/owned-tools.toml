@@ -136,7 +136,7 @@ stats = { help = { source = "agent/src/main.rs", test = "agent/tests/cli_help.rs
 [producers."joshuarli/swift-bylaws"]
 
 [producers."joshuarli/swift-bylaws".commands]
-bylaws = { gap = "ignored in the catalog with no checkout; help is not migrated" }
+bylaws = { gap = "help is not migrated" }
 
 [producers."joshuarli/syncthing"]
 upstream = "syncthing/syncthing"
