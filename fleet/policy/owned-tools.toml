@@ -219,7 +219,7 @@ zsh = { exempt = "shim that executes the real zsh; its help belongs to zsh" }
 [producers."joshuarli/view"]
 
 [producers."joshuarli/view".commands]
-view = { gap = "the app's About surface is not migrated" }
+view = { help = { source = "src/bin/app.rs", test = "tests/app_regression.rs" } }
 
 [producers."laputa-systems/chromium-build"]
 upstream = "chromium/chromium"
@@ -382,7 +382,7 @@ zzz = { help = { source = "zzz.zig", test = "Makefile" } }
 [producers."joshuarli/iss"]
 
 [producers."joshuarli/iss".commands]
-iss = { gap = "help is not migrated" }
+iss = { help = { source = "iss.c", test = "Makefile" } }
 
 [not_applicable]
 "joshuarli/tf" = "server application installed from its own Homebrew tap; usr installs no tf command"

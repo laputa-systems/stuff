@@ -150,6 +150,10 @@ ignore_reason = "The Rust and TypeScript sources are upstream editor extensions 
 ignore = ["binary-release-tags"]
 ignore_reason = "Ghostty Custom is an app: its release ships a macOS disk image and Laputa tarballs rather than the standard tool binary contract."
 
+[overrides."joshuarli/crabc"]
+ignore = ["linux-musl-toolchain"]
+ignore_reason = "crabc pins its Alpine images and packages in compat/upstreams.toml as inputs to its recorded ABI and compatibility evidence, so the fleet musl pins cannot replace them without invalidating that baseline."
+
 [overrides."laputa-systems/bbtree"]
 ignore = ["rust-toolchain"]
 ignore_reason = "Fork whose CI and flake pin the nightly the Verus build needs."
