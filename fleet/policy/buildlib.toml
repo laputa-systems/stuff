@@ -301,3 +301,7 @@ reassess = "Reassess if the fork gains a multi-step artifact build."
 [exempt."laputa-systems/harfrust"]
 reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
 reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/graviola"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
