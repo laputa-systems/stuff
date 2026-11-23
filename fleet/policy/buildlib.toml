@@ -281,3 +281,7 @@ reassess = "Reassess if zzz gains generated inputs or a multi-step release build
 [exempt."joshuarli/iss"]
 reason = "One C source file built directly by its Makefile; it has no build tooling for buildlib to own."
 reassess = "Reassess if iss gains generated inputs or a multi-step release build."
+
+[exempt."joshuarli/swift-bylaws"]
+reason = "SwiftPM owns the fork's build, and its release is one direct swift build; buildlib has no Swift target."
+reassess = "Reassess if the fork gains a multi-step artifact build."

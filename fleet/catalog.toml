@@ -26,7 +26,7 @@ niceforge = ["app", "rust", "typescript"]
 play = ["tool", "rust"]
 soulseek-rs = ["tool", "rust", "fork", "fork-diverged"]
 stats = ["openorange", "javascript", "rust", "typescript"]
-swift-bylaws = ["fork", "tool", "swift"]
+swift-bylaws = ["fork", "tool", "macos", "swift"]
 sx = ["IGNORE"]
 syncthing = ["fork", "tool", "go"]
 view = ["app", "macos", "rust"]
@@ -141,6 +141,10 @@ ignore_reason = "The macos-native README names Chromium source paths that live i
 [overrides."laputa-systems/asterinas"]
 ignore = ["rust-toolchain", "no-formatters"]
 ignore_reason = "Kernel fork rebased onto upstream Asterinas: Laputa builds it offline in upstream's published dev image, so rust-toolchain.toml keeps the nightly that image ships, and upstream's formatter configuration and scripts stay in place to keep rebases conflict-free. The fork's own CI runs no formatter."
+
+[overrides."joshuarli/swift-bylaws"]
+ignore = ["make-lint-target", "rust-toolchain"]
+ignore_reason = "The Rust and TypeScript sources are upstream editor extensions outside this fork's CLI; Zed builds its extension with its own toolchain."
 
 [overrides."laputa-systems/bbtree"]
 ignore = ["rust-toolchain"]
