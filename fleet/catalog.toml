@@ -150,6 +150,10 @@ ignore_reason = "The Rust and TypeScript sources are upstream editor extensions 
 ignore = ["rust-toolchain"]
 ignore_reason = "Fork whose CI and flake pin the nightly the Verus build needs."
 
+[overrides."laputa-systems/harfrust"]
+ignore = ["audit-registry"]
+ignore_reason = "Upstream pins harfbuzz_rs by git revision as a test-only comparison dependency; it is not shipped by the library."
+
 [overrides."laputa-systems/rawzip"]
 ignore = ["rust-project:lockfile:compare"]
 ignore_reason = "compare/ is a development tool for comparing against other zip crates, and the repository ignores Cargo.lock on purpose."
