@@ -22,6 +22,7 @@ _ZIP = re.compile(
     r"|\bzipfile\.ZipFile\s*\([^\n]*[,=]\s*['\"](?:w|x|a)['\"]|\b(?:tools/)?make-archive\b)"
 )
 _PY_TAR = re.compile(r"\btarfile\.open\s*\([^\n]*[,=]\s*['\"]w(?::[^'\"]*)?['\"]")
+_PACKAGE_INSTALL = re.compile(r"\b(?:apk\s+add|apt(?:-get)?\s+install|brew\s+install|dnf\s+install)\b")
 _ASSET = re.compile(r"[^\s\"'`(),]+\.(?:zip|tar\.gz|tar\.zst|tgz|tar)(?![\w.])", re.IGNORECASE)
 
 
@@ -119,6 +120,7 @@ def _findings(root: Path, repository: Repository) -> list[Finding]:
             construct = None
             tar = _PY_TAR.search(line) or (
                 _TAR.search(line)
+                and _PACKAGE_INSTALL.search(line) is None
                 and (asset or re.search(r"\btar\b[^\n]*\s-?[a-zA-Z]*f[a-zA-Z]*\b|\|\s*gzip\b", line))
             )
             standard_tar = re.search(r"(?:\.tar\.xz|\bcJf\b|\b-cJf\b|\|\s*xz\b|w:xz)", line)

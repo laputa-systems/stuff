@@ -146,6 +146,10 @@ ignore_reason = "Kernel fork rebased onto upstream Asterinas: Laputa builds it o
 ignore = ["make-lint-target", "rust-toolchain"]
 ignore_reason = "The Rust and TypeScript sources are upstream editor extensions outside this fork's CLI; Zed builds its extension with its own toolchain."
 
+[overrides."joshuarli/ghostty"]
+ignore = ["binary-release-tags"]
+ignore_reason = "Ghostty Custom is an app: its release ships a macOS disk image and Laputa tarballs rather than the standard tool binary contract."
+
 [overrides."laputa-systems/bbtree"]
 ignore = ["rust-toolchain"]
 ignore_reason = "Fork whose CI and flake pin the nightly the Verus build needs."

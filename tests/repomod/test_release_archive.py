@@ -29,6 +29,14 @@ def test_nonstandard_constructs_report_line_and_construct(tmp_path: Path, constr
     ]
 
 
+@pytest.mark.parametrize("install", [
+    "apk add --no-cache bash file tar zstd libxkbcommon-dev libffi-dev",
+    "apt-get install -y curl tar libxkbcommon-dev libffi-dev",
+])
+def test_installing_tar_is_not_an_archive_construct(tmp_path: Path, install: str) -> None:
+    assert check(tmp_path, "          " + install) == []
+
+
 def test_softprops_zip_asset(tmp_path: Path) -> None:
     findings = check(
         tmp_path, "      - uses: softprops/action-gh-release@v2\n        with:\n          files: dist/*.zip"
