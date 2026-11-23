@@ -321,3 +321,7 @@ reassess = "Reassess if the fork gains a multi-step artifact build."
 [exempt."joshuarli/crabc"]
 reason = "Its sysroot and qualification builds are bound to pinned images and evidence ledgers that buildlib does not model."
 reassess = "Reassess after feature completeness, when its qualification inputs can be refreshed deliberately."
+
+[exempt."joshuarli/github-actions-report"]
+reason = "Node CLI run from source with no native build or release artifact."
+reassess = "Reassess if it gains a native build or release artifact."
