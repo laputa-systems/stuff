@@ -106,6 +106,10 @@ reassess = "Reassess if verified acquisition, release, or archive tooling appear
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
 
+[exempt."joshuarli/ghostty"]
+reason = "Zig and Xcode own the fork's build; buildlib has no target for either toolchain."
+reassess = "Reassess if the fork's release packaging gains shared Python build tooling."
+
 [exempt."joshuarli/mactop"]
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
