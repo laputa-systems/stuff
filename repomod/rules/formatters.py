@@ -190,6 +190,7 @@ _COMMAND_FILES = {
 _WORKFLOW_RUN = re.compile(r"^(?P<indent> *)(?:-\s*)?run\s*:\s*(?P<value>.*)$")
 _QUOTED_SPAN = re.compile(r"'[^']*'|\"[^\"]*\"")
 _COMMENT_START = re.compile(r"(?:^|\s)#")
+_ZIG_VARIABLE = re.compile(r"\$(?:\(zig(?:_bin)?\)|\{zig(?:_bin)?\}|zig(?:_bin)?)")
 
 
 def _paren_balance(line: str) -> int:
@@ -284,6 +285,8 @@ def _command_segment(tokens: list[str], found: set[str]) -> None:
         return
     for index, token in enumerate(tokens):
         name = Path(token.removeprefix("@")).name.casefold()
+        if _ZIG_VARIABLE.fullmatch(name):
+            name = "zig"
         if name in _SINGLE_COMMANDS:
             found.add(_SINGLE_COMMANDS[name])
         if index + 1 < len(tokens):

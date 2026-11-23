@@ -219,7 +219,7 @@ zsh = { exempt = "shim that executes the real zsh; its help belongs to zsh" }
 [producers."joshuarli/view"]
 
 [producers."joshuarli/view".commands]
-view = { gap = "ignored in the catalog with no checkout; the app's About surface is not migrated" }
+view = { gap = "the app's About surface is not migrated" }
 
 [producers."laputa-systems/chromium-build"]
 upstream = "chromium/chromium"
