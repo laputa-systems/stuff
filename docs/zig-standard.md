@@ -12,8 +12,8 @@ or limits on language features such as `@ptrCast`. Each repository keeps its own
 | Z1a | CI toolchain | Each `mlugg/setup-zig` step omits `version:` or sets it to the pinned version. Any other Zig install uses the pinned version and verifies a checksum. |
 | Z1b | CI caches | A Zig cache key contains the pinned version or `hashFiles('build.zig.zon')`. |
 | Z2 | Dependencies | Each remote dependency has an immutable URL and a `.hash`. `build.zig.zon` declares `.fingerprint` and explicit `.paths`. A build step fetches outside the Zig package manager only with a verified checksum. |
-| Z3 | Formatting | CI runs `zig fmt --check` on first-party Zig. Agents run the formatter only when asked. |
-| Z4 | Entry points | The root Makefile defines `make test` and `make lint` as thin wrappers over the repository's `zig build` gates and `zig fmt --check`. |
+| Z3 | Formatting | No workflow, Makefile, or hook runs `zig fmt`, including `zig fmt --check`. The fleet `no-formatters` rule applies without a Zig exception. |
+| Z4 | Entry points | The root Makefile defines `make test` and `make lint` as thin wrappers over the repository's `zig build` gates. `make lint` runs a compile or static check, never a formatter. |
 | Z5 | Known failures | A tracked document lists each known test failure by exact name with its reason. A known failure never hides a new failure. |
 | Z6 | Published artifacts | Each published artifact has a fixed, documented optimize mode, target, and CPU baseline. A published artifact never targets the host's native CPU. |
 
@@ -35,6 +35,4 @@ These gates stay outside the shared standard:
 
 ## Exceptions and enforcement
 
-The fleet `no-formatters` rule currently reports `zig fmt`, including `zig fmt --check`, so Z3 needs
-an owner-approved rule exception before both repositories can pass it. No repomod rule enforces
-this standard yet.
+The fleet `no-formatters` rule enforces Z3. No repomod rule enforces the other requirements yet.
