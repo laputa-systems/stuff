@@ -46,7 +46,7 @@ gh = { help = { source = "pkg/cmd/root/help.go", test = "cmd/gh/footer_test.go" 
 upstream = "ghostty-org/ghostty"
 
 [producers."joshuarli/ghostty".commands]
-ghostty-custom = { gap = "the installed app's About surface is not migrated" }
+ghostty-custom = { help = { source = "src/cli/help.zig", test = "src/cli/help.zig" } }
 
 [producers."joshuarli/img"]
 
@@ -385,6 +385,7 @@ zzz = { help = { source = "zzz.zig", test = "Makefile" } }
 iss = { gap = "help is not migrated" }
 
 [not_applicable]
+"joshuarli/tf" = "server application installed from its own Homebrew tap; usr installs no tf command"
 "joshuarli/crabc" = "libc, dynamic linker, and runtime libraries; it installs no owned command"
 "laputa-systems/asterinas" = "kernel fork consumed as Laputa's boot image; its cargo-osdk command is upstream's and not released by us"
 "joshuarli/discover" = "web application; its support link belongs in the app, not a command"

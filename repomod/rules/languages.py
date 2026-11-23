@@ -19,7 +19,7 @@ _LOCKFILES = {
     "bun.lock": "bun",
     "bun.lockb": "bun",
 }
-_IGNORED_PACKAGES = {".git", ".work", "node_modules", "vendor", "dist", "build", ".venv"}
+_IGNORED_PACKAGES = {".git", ".work", "node_modules", "vendor", "dist", "build", ".venv", "zig-pkg"}
 _IGNORED_SOURCE_PARTS = {
     ".git",
     ".venv",
@@ -33,6 +33,7 @@ _IGNORED_SOURCE_PARTS = {
     "tests",
     "third_party",
     "vendor",
+    "zig-pkg",
 }
 _MANIFEST_SEARCH_DEPTH = 4
 _LANGUAGE_NAMES = {

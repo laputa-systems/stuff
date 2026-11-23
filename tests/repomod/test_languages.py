@@ -193,7 +193,9 @@ def test_rust_source_is_found_beside_nested_cargo_manifests(tmp_path: Path) -> N
 
 
 def test_manifests_in_vendored_and_fixture_trees_are_ignored(tmp_path: Path) -> None:
-    for ignored in ("vendor", "third_party", "tests", "fixtures", "node_modules"):
+    for ignored in ("vendor", "third_party", "tests", "fixtures", "node_modules", "zig-pkg"):
+        _write(tmp_path / ignored / "dep" / "package.json", "{}\n")
+        _write(tmp_path / ignored / "dep" / "src" / "index.js")
         _write(tmp_path / ignored / "dep" / "pyproject.toml", "[project]\n")
         _write(tmp_path / ignored / "dep" / "src" / "dep" / "mod.py")
         _write(tmp_path / ignored / "dep" / "go.mod", "module dep\n")
