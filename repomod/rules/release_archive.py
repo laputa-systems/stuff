@@ -118,10 +118,13 @@ def _findings(root: Path, repository: Repository) -> list[Finding]:
                 command = True
             asset = _ASSET.search(line)
             construct = None
-            tar = _PY_TAR.search(line) or (
-                _TAR.search(line)
+            tar = _PY_TAR.search(line) is not None or (
+                _TAR.search(line) is not None
                 and _PACKAGE_INSTALL.search(line) is None
-                and (asset or re.search(r"\btar\b[^\n]*\s-?[a-zA-Z]*f[a-zA-Z]*\b|\|\s*gzip\b", line))
+                and (
+                    asset is not None
+                    or re.search(r"\btar\b[^\n]*\s-?[a-zA-Z]*f[a-zA-Z]*\b|\|\s*gzip\b", line) is not None
+                )
             )
             standard_tar = re.search(r"(?:\.tar\.xz|\bcJf\b|\b-cJf\b|\|\s*xz\b|w:xz)", line)
             if _ZIP.search(line) or (tar and not standard_tar) or (asset and (upload or command)):
