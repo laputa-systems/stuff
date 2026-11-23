@@ -239,6 +239,18 @@ see [dependency dashboard](dependency-dashboard.md). The repo-local
 [`upgrade-the-world`](../.agents/skills/upgrade-the-world/SKILL.md) skill upgrades every public,
 non-fork repository and loops until CI is green.
 
+## CI timings
+
+`make ci-report` backfills GitHub Actions timings for every catalog repository with
+[github-actions-report](https://github.com/joshuarli/github-actions-report), then serves an offline
+report from `.work/ci-report`. Set `DAYS` for the first backfill; the default is 90. The collector
+pauses when 1,500 GitHub API requests remain. The report contains private repository names, so
+keep it local.
+
+Later runs resume the saved date range and do not add newer days. To collect a new range, move
+`.work/ci-report/data` aside first. Rankings use default-branch runs for durations and all branches
+for runner minutes.
+
 ## Push
 
 `repomod push` pushes each selected checkout's current branch when it is ahead of

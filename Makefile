@@ -1,4 +1,4 @@
-.PHONY: help preview dev worker-dev-test release lint ts-lint repomod-test repomod-lint deps bench bench-cli bench-list bench-check deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css ts-assets test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
+.PHONY: help ci-report ci-report-build preview dev worker-dev-test release lint ts-lint repomod-test repomod-lint deps bench bench-cli bench-list bench-check deploy stuff-release install republish-mycrates republish-mynpm republish-mypypi republish-mirror republish-oci search-bundle catalog-css ts-assets test-search build test test-mycrates test-stuff test-stuff-parity test-stuff-e2e clippy smoke smoke-deployed pipecheck worker-build worker-bundle worker-check worker-deploy worker-deploy-test worker-test worker-orange-test worker-orange-package-test gc serve stuff test-publish-lock test-r2 test-r2-live test-r2-gc-blobs test-oci-conformance-fixture test-oci-conformance test-oci-conformance-push test-oci-pull test-oci-push test-oci-publish oci-bench test-r2-multipart fleet-ingest test-mypypi-native test-mypypi-linux-native
 
 help: ## Show this help
 	@grep -E '^[a-z-]+: ## ' $(MAKEFILE_LIST) | sort | awk -F': ## ' '{printf "  make %-14s %s\n", $$1, $$2}'
@@ -50,6 +50,14 @@ deps: ## Sync, snapshot, and serve the fleet dependency dashboard ([PORT=8765] [
 	fi
 	@uv run repomod deps render --status $(if $(filter 1,$(PRIVATE)),--include-private)
 	@exec srv -p $(PORT) .work/dependencies/dashboard
+
+DAYS ?= 90
+
+ci-report-build: ## Backfill fleet CI timings and build the offline report ([DAYS=90])
+	@uv run python tools/ci_report.py --days $(DAYS)
+
+ci-report: ci-report-build ## Build and serve the fleet CI timing report ([DAYS=90] [PORT=8765])
+	@exec srv -p $(PORT) .work/ci-report
 
 preview: ## Render the dependency dashboard from its canonical preview dataset and serve it ([PORT=8765])
 	@TMPDIR="$$PWD/.work/tmp" uv run python -m repomod.dependencies.preview render
