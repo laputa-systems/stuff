@@ -285,3 +285,11 @@ reassess = "Reassess if iss gains generated inputs or a multi-step release build
 [exempt."joshuarli/swift-bylaws"]
 reason = "SwiftPM owns the fork's build, and its release is one direct swift build; buildlib has no Swift target."
 reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/miniserde"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/rust-brotli"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
