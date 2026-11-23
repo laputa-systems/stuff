@@ -151,8 +151,8 @@ ignore = ["binary-release-tags"]
 ignore_reason = "Ghostty Custom is an app: its release ships a macOS disk image and Laputa tarballs rather than the standard tool binary contract."
 
 [overrides."joshuarli/crabc"]
-ignore = ["linux-musl-toolchain", "audit-upgrades:crates:chacha20", "audit-upgrades:crates:loom", "audit-upgrades:crates:rand_pcg", "audit-upgrades:crates:rand_xoshiro", "audit-upgrades:crates:zeroize", "mdtool:R001", "mdtool:R002", "mdtool:R004", "mdtool:R005"]
-ignore_reason = "crabc pins its Alpine images and packages in compat/upstreams.toml as inputs to its recorded ABI and compatibility evidence, so the fleet musl pins cannot replace them without invalidating that baseline. Its allocator and libc RNG dependencies are exact pins for the same reason. Its compatibility docs and dated evidence records cite paths, scripts and make targets inside the upstream musl, mimalloc, LLVM and Rust trees they compare against."
+ignore = ["linux-musl-toolchain", "audit-upgrades:crates:chacha20", "audit-upgrades:crates:loom", "audit-upgrades:crates:rand_pcg", "audit-upgrades:crates:rand_xoshiro", "audit-upgrades:crates:zeroize", "mdtool:R001", "mdtool:R002", "mdtool:R004", "mdtool:R005", "registry-sources", "rust-collections", "rust-project:lockfile:compat/perf/native"]
+ignore_reason = "crabc pins its Alpine images and packages in compat/upstreams.toml as inputs to its recorded ABI and compatibility evidence, so the fleet musl pins cannot replace them without invalidating that baseline. Its allocator and libc RNG dependencies are exact pins for the same reason. Its compatibility docs and dated evidence records cite paths, scripts and make targets inside the upstream musl, mimalloc, LLVM and Rust trees they compare against. Its root Cargo configuration is digest-pinned by the native performance runner, so its builds keep the upstream registry. Adding a hash dependency to the allocator would change its pinned dependency set, so its trace and test code keep BTree collections. compat/perf/native generates its lockfile from the checked-in x86_64_Cargo.lock template."
 
 [overrides."laputa-systems/bbtree"]
 ignore = ["rust-toolchain"]
