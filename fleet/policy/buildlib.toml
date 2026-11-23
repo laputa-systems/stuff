@@ -309,3 +309,7 @@ reassess = "Reassess if the fork gains a multi-step artifact build."
 [exempt."joshuarli/view"]
 reason = "Cargo builds the app and a small shell script packages it; there is no multi-step build tooling for buildlib to own."
 reassess = "Reassess if packaging gains generated inputs or more release targets."
+
+[exempt."laputa-systems/kbvm"]
+reason = "Library fork built by Cargo; its test oracle setup lives in CI and has no release tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
