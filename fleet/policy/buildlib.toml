@@ -277,3 +277,7 @@ reassess = "Reassess only if repository access and CI change."
 [exempt."laputa-systems/zzz"]
 reason = "One Zig source file built directly by its Makefile; it has no build tooling for buildlib to own."
 reassess = "Reassess if zzz gains generated inputs or a multi-step release build."
+
+[exempt."joshuarli/iss"]
+reason = "One C source file built directly by its Makefile; it has no build tooling for buildlib to own."
+reassess = "Reassess if iss gains generated inputs or a multi-step release build."

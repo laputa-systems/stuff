@@ -379,6 +379,11 @@ xsh = { gap = "primary help does not print the owned-tool footer yet" }
 [producers."laputa-systems/zzz".commands]
 zzz = { help = { source = "zzz.zig", test = "Makefile" } }
 
+[producers."joshuarli/iss"]
+
+[producers."joshuarli/iss".commands]
+iss = { gap = "help is not migrated" }
+
 [not_applicable]
 "laputa-systems/asterinas" = "kernel fork consumed as Laputa's boot image; its cargo-osdk command is upstream's and not released by us"
 "joshuarli/discover" = "web application; its support link belongs in the app, not a command"
