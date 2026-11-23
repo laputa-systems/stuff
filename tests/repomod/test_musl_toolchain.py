@@ -190,7 +190,7 @@ def test_seed_lock_loads_and_round_trips() -> None:
     assert lock.upstream_version == "1.2.6"
     assert set(lock.channels) == {"stable"}
     assert lock.channels["stable"].packages["x86_64"]["musl"] == "1.2.6-r3"
-    assert lock.adapters["laputa-systems/zzz"].zig_version == "0.16.0"
+    assert lock.adapters["laputa-systems/zzz"].zig_version == "0.17.1"
     assert lock.image is not None
     assert lock.image.reference == "ghcr.io/joshuarli/musl-toolchain"
     assert lock.image.digest == "sha256:8a372c6a873b7613987fecc1102f68fb16f4fc4e607432adad924dc1506eae54"

@@ -8,7 +8,7 @@ or limits on language features such as `@ptrCast`. Each repository keeps its own
 
 | ID | Area | Requirement |
 | --- | --- | --- |
-| Z1 | Toolchain | `.zig-version` is exactly `0.17.1`, and `minimum_zig_version` in `build.zig.zon` matches it. |
+| Z1 | Toolchain | `.zig-version` is exactly `0.17.1`, and `minimum_zig_version` in `build.zig.zon` matches it. A single-file project without `build.zig` needs only `.zig-version`. |
 | Z1a | CI toolchain | Each `mlugg/setup-zig` step omits `version:` or sets it to the pinned version. Any other Zig install uses the pinned version and verifies a checksum. |
 | Z1b | CI caches | A Zig cache key contains the pinned version or `hashFiles('build.zig.zon')`. |
 | Z2 | Dependencies | Each remote dependency has an immutable URL and a `.hash`. `build.zig.zon` declares `.fingerprint` and explicit `.paths`. A build step fetches outside the Zig package manager only with a verified checksum. |
