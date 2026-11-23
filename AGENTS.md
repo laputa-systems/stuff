@@ -48,6 +48,7 @@ Build, test, lint, fleet, publishing, OCI and Worker commands are in
 | Owned-tool ownership lookup and help contract | [docs/fleet.md#owned-tools](docs/fleet.md#owned-tools); `fleet/policy/owned-tools.toml` |
 | Build repositories: make targets, pinned inputs, releases | [docs/build-repos.md](docs/build-repos.md) |
 | Shared build tooling, buildlib dispositions and Linux capsule adoption | [docs/build-repos.md#shared-build-tooling-across-the-fleet](docs/build-repos.md#shared-build-tooling-across-the-fleet); `fleet/policy/buildlib.toml` |
+| Shared standard for Zig repositories | [docs/zig-standard.md](docs/zig-standard.md) |
 | Dependency policy checks and the registry policy the fleet follows | [docs/audit.md](docs/audit.md); `fleet/registries.toml` |
 | Tracked dependency model and extraction | [docs/dependency-inventory.md](docs/dependency-inventory.md) |
 | Dependency dashboard, owners, mirror coverage, browser checks, benchmarks | [docs/dependency-dashboard.md](docs/dependency-dashboard.md) |
