@@ -270,6 +270,10 @@ reassess = "Reassess when the exclusion lifts."
 reason = "Deferred: owner exclusion during the rearchitecture; no release primitive overlap verified."
 reassess = "Reassess after the rearchitecture."
 
+[exempt."joshuarli/bleep"]
+reason = "Browser-based latency monitor deployed through the Cloudflare and Vercel CLIs; it acquires no release artifacts or toolchains that buildlib models."
+reassess = "Reassess if its deployment acquires a build or release artifact itself."
+
 [exempt."joshuarli/niceforge"]
 reason = "Deferred: private repository outside deslop scope; its native-input fetch and smolvm build scripts await an integrator decision."
 reassess = "Reassess after its privacy and CI access change."

@@ -394,6 +394,7 @@ github-actions-report = { help = { source = "src/cli.mts", test = "test/cli.test
 "joshuarli/crabc" = "libc, dynamic linker, and runtime libraries; it installs no owned command"
 "laputa-systems/asterinas" = "kernel fork consumed as Laputa's boot image; its cargo-osdk command is upstream's and not released by us"
 "joshuarli/discover" = "web application; its support link belongs in the app, not a command"
+"joshuarli/bleep" = "browser-based latency monitor deployed to Cloudflare and Vercel; it installs no command"
 "joshuarli/extensions" = "browser extensions without a command-line interface"
 "joshuarli/niceforge" = "self-hosted forge and CI services run from a checkout; no installed command"
 "laputa-systems/laputa" = "operating-system image; the commands it ships belong to their own producers"
