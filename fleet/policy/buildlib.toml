@@ -329,3 +329,7 @@ reassess = "Reassess after feature completeness, when its qualification inputs c
 [exempt."joshuarli/github-actions-report"]
 reason = "Node CLI run from source with no native build or release artifact."
 reassess = "Reassess if it gains a native build or release artifact."
+
+[exempt."joshuarli/vpn"]
+reason = "Cargo builds and tests the tunnel; the oracle harness and benchmark drivers have no release artifact or multi-step packaging for buildlib to own."
+reassess = "Reassess if the oracle harness gains generated inputs or a published artifact."

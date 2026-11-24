@@ -389,6 +389,11 @@ iss = { help = { source = "iss.c", test = "Makefile" } }
 [producers."joshuarli/github-actions-report".commands]
 github-actions-report = { help = { source = "src/cli.mts", test = "test/cli.test.mts" } }
 
+[producers."joshuarli/vpn"]
+
+[producers."joshuarli/vpn".commands]
+twice = { exempt = "byte-compatible oracle CLI whose usage text cannot carry an owned-tool footer; usr installs no twice launcher" }
+
 [not_applicable]
 "joshuarli/tf" = "server application installed from its own Homebrew tap; usr installs no tf command"
 "joshuarli/crabc" = "libc, dynamic linker, and runtime libraries; it installs no owned command"

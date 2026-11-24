@@ -75,6 +75,7 @@ hypeman = []
 neko = []
 smolrunners = []
 tf = ["app", "zig"]
+vpn = ["tool", "rust", "linux", "macos"]
 [repos."laputa-systems"]
 bbtree = ["library", "rust", "fork"]
 chromium-build = ["build", "python"]
@@ -210,3 +211,7 @@ ignore_reason = "The owner excluded zzz from the tar.xz release-archive campaign
 [overrides."laputa-systems/xsh"]
 ignore = ["make-lint-target"]
 ignore_reason = "The owner keeps xsh's make lint as an explicit repair command. Use make check for lint verification."
+
+[overrides."joshuarli/vpn"]
+ignore = ["audit-registry", "registry-sources:git:graviola", "rust-collections", "rust-release-profiles"]
+ignore_reason = "twice is a byte-compatible port of the frozen C oracle: its Graviola fork is pinned by branch and its compatibility ledger records differences instead of changing them, so the git dependency cannot move to the registry. The oracle diff and corpus tooling use BTreeMap and BTreeSet for deterministic ordering; adding a hash dependency to that harness would change its pinned dependency set. The fat-LTO, single-codegen-unit, stripped release profile is the shipped tunnel binary that cargo xtask doctor and the oracle checks verify; the fleet thin-release/fat-dist split would change that binary."
