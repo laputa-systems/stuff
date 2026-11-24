@@ -305,6 +305,69 @@ only writer and every step is reversible.
    guest store, update `S3_ACCESS_KEY_ID` and `S3_SECRET_ACCESS_KEY` in the guest's
    `stuff.env`, restart `oo-app.stuff`, then delete the old account.
 
+### Execution record (2026-11-24)
+
+The handoff was executed. Live evidence, in runbook order:
+
+1. Lisa deployed `stuff:5020a6f70e24` from the clean worktree at that commit
+   (`oo deployment stuff` version 5). A HEAD for an absent
+   `oci-blobs` layer returned `404`, `cf-cache-status: BYPASS`,
+   `cache-control: no-store`; `POST /_publication/cargo/thaw` returned 200.
+2. The guest already ran the same image and served
+   `curl -H 'Host: crates.17166969.xyz' http://172.29.80.21:8080/current/registry/config.json`
+   with 200. Its app binds the private IP, not `127.0.0.1`.
+3. All six `data/stuff-*` and five `versions/stuff-*` trees were copied with
+   the FIFO relay. The shipped `/root/stdio-rsh` failed with
+   `cat: write error: Resource temporarily unavailable` under throughput; it
+   was replaced on the guest with a Python pump that clears `O_NONBLOCK` and
+   retries writes. Repeat rsync reported no changes after the final delta.
+4. All five Lisa coordinators froze with `liveLease: false` and produced
+   `GET .../export` 200 (`cargo` r12, `npm` r12, `pypi` r26, `oci` r6,
+   `mirror` r1).
+5. The final delta copied only the changed `current` pointers.
+6. Import initially returned `coordinator not empty`: the guest app's
+   readiness probe (`GET /`) seeds each coordinator from the bucket pointer,
+   so an import cannot be the first op after a normal app start. The guest
+   Engine depot was moved aside (backups `log.pre-import3-*` and
+   `objects.pre-import3-*`), `oo provision` recreated namespace `stuff`, the
+   readiness probe was temporarily removed from the guest's `oo-app.stuff`
+   unit, and import ran before any read. All five returned
+   `{"imported":true}`; each guest export is byte-identical to Lisa's, and
+   each guest bucket `current` matches the imported generation. The unit was
+   restored and `oo wait app stuff 90` passes.
+7. `oo-stuff-primary-tunnel` was installed on Lisa with its existing
+   `~/.local/share/stuff-primary` key, `stuff.recovery.env` received the
+   guest gateway secret, and `recovery-routes.json` gained
+   `{"stuff":{"mode":"primary","upstream":"127.0.0.1:18491"}}`. Lisa's
+   installed `oo`/`oolib.py` predated primary-route support and were refreshed
+   from this repository; `oo validate` and `render --stdout` then showed both
+   the public and tailnet 18491 routes. `oo reload-ingress` succeeded. Public
+   probes of stuff/crates/npm/pypi/oci answer with no `x-stuff-served-by`.
+   `oo-replica-sync` was stopped and removed from the default runlevel, then
+   all five guest coordinators were thawed (200 `{"frozen":false}`).
+
+8. Not performed: no replica is fed, so there is no read-only fallback. The
+   R2 Worker and its routes remain deployed but stale; see
+   [registry failover](registry-failover.md).
+9. The guest store's exposed account was replaced in place in
+   `/var/lib/openorange/store/iam/users.json` and `stuff.env` (old access key
+   `OOAPP10D…` is gone, new key `OOAPP834…` is present), and `oo-app.stuff`
+   was restarted. Public reads stayed 200.
+10. Canary: `stuff publish oci --layout` produced generation
+    `6acfbe3ff87b3cc5f81c10ac`, revision 7, 16 new objects. The new layer
+    returned `404`/`BYPASS`/`no-store` before the push and `200` with
+    `public, max-age=31536000, immutable` after it (STUF-104's live check).
+    The public tag returned 200 with no `x-stuff-served-by` header.
+11. Lisa's `oo-app.stuff` was stopped and removed from the default runlevel.
+    `oo deployment stuff` still reports
+    `recoveryWriter: 127.0.0.1:18491`; public stuff/crates/canary reads stayed
+    200 after the decommission.
+
+Lisa's Engine remains frozen as the rollback fence; its store, ingress and
+other apps remain because Discover, nanoshop, agentctl and Wine have no
+cutover procedure. Removing those and the edge is out of scope for this
+cutover and still needs a separate fenced plan.
+
 ### Decisions
 
 Keep Lisa as the only writer until the guest is thawed. Preserve the fencing and rollback order below.

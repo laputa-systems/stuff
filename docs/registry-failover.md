@@ -6,6 +6,13 @@ publishing, OCI pushes and every mutation stay on the origin and are
 unavailable during a failover. Registry access and the replica's purpose are
 described in [PUBLISHING.md](PUBLISHING.md#registry-access).
 
+**Current state (2026-11-24):** the origin is the Stuff primary VM on
+Threadripper and `oo-replica-sync` is stopped on Lisa and not installed on the
+guest ([cutover record](roadmap.md#campaign-stuff-primary-on-threadripper)). No
+new replica objects are written, so the Worker's fallback would serve stale
+data. The Worker and its routes remain deployed; remove them with the
+[remove steps](#remove) before relying on that fallback again.
+
 ## Shape
 
 | Piece | Location |
