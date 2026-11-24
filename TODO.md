@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 116
+Next: 117
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -84,6 +84,15 @@ Landed 2026-11-21: blob-host misses (an absent object or a malformed `/sha256/` 
 Edge, same day: the `/sha256/*` Cache Rule (zone ruleset `stuff cache rules`, version 3) now keeps the year-long edge lifetime for 200 and 206 only, sets 300 to 599 to no-store, and respects the origin's browser lifetime. Before, it overrode every status to a year. The 153 poisoned `crabc/image-inputs` blob URLs were purged. Afterwards all 154 of that manifest's blobs answer 200 with `public, max-age=31536000, immutable`, a second read is a `HIT`, and the registry's `/v2/crabc/image-inputs/blobs/` 307s to a working URL. Three HEADs and a GET for a random absent digest each answered 404 with `cf-cache-status: BYPASS`. The Lisa Worker still sends `public, max-age=60` on that miss until step 1.
 
 The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an absent path returned `404` with `public, max-age=31536000`, and the second was a `HIT`. It got the same status-code TTLs (ruleset version 4); absent paths now answer `BYPASS`, and `stuff doctor --registry cargo --sample-artifacts` still matches a sampled crate's hash.
+
+### STUF-116 · P2 · Owned-tool lookup cannot verify usr's gluon install
+
+- **Area:** Owned tools
+- **Where:** fleet/policy/owned-tools.toml:285-287 (record = "gluon"); repomod/which.py; usr tools/sync/installer.py install_gluon
+- **Problem:** meson, ninja and gluon-build resolve to usr's gluon release under ~/.local/share/gluon/current, but which.py reports unverified with 'no install record at /Users/josh/gluon': the record path is home-relative and usr writes no record file there, and no installer-manifest evidence matches. Agents are told to trust only owned, so they conclude meson is upstream and may reach for another install.
+- **Recommendation:** Point the gluon commands at evidence usr actually produces (the dl-owned installer manifest entry or a release record under ~/.local/share/gluon), add a which.py regression for a gluon-style current/releases layout, and confirm `which.py meson --json` reports owned on a synced host.
+- **Fix with:** none
+- **Effort:** S
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
 
