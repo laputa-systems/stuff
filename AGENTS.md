@@ -45,6 +45,7 @@ Build, test, lint, fleet, publishing, OCI and Worker commands are in
 | repomod architecture, sync, repair, and state ownership | [docs/fleet-design.md](docs/fleet-design.md) |
 | Catalog tags and visibility | [docs/tagging.md](docs/tagging.md) |
 | Rules, fixers, and musl publication | [docs/policy-development.md](docs/policy-development.md) |
+| Repomod mutation testing | [docs/repomod-mutation.md](docs/repomod-mutation.md) |
 | Owned-tool ownership lookup and help contract | [docs/fleet.md#owned-tools](docs/fleet.md#owned-tools); `fleet/policy/owned-tools.toml` |
 | Build repositories: make targets, pinned inputs, releases | [docs/build-repos.md](docs/build-repos.md) |
 | Shared build tooling, buildlib dispositions and Linux capsule adoption | [docs/build-repos.md#shared-build-tooling-across-the-fleet](docs/build-repos.md#shared-build-tooling-across-the-fleet); `fleet/policy/buildlib.toml` |
