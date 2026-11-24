@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 117
+Next: 118
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -93,6 +93,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Recommendation:** Point the gluon commands at evidence usr actually produces (the dl-owned installer manifest entry or a release record under ~/.local/share/gluon), add a which.py regression for a gluon-style current/releases layout, and confirm `which.py meson --json` reports owned on a synced host.
 - **Fix with:** none
 - **Effort:** S
+
+### STUF-117 · P2 · Musl-dynamic owned builds cannot run on glibc CI runners
+
+- **Area:** Owned tools
+- **Where:** laputa-systems/ffmpeg-build ffmpeg-runtime-*-linux-musl; laputa-systems/python-build cpython-*-linux-musl; laputa-systems/buildlib setup/action.yml; docs/roadmap.md OT5
+- **Problem:** On ubuntu-26.04-arm the buildlib setup action installed the locked ffmpeg-runtime and `ffmpeg -version` failed with 'cannot execute: required file not found': the binary needs /lib/ld-musl-aarch64.so.1, which Ubuntu runners lack (and the runtime also needs libva). python-build's musl builds have the same limit, which is why buildlib-run falls back to uv's upstream CPython on glibc. Static owned tools (gluon, rg) ran fine. Until fixed, consumers on GitHub-hosted Linux runners cannot use these producers and need exemptions.
+- **Recommendation:** Pick one fleet-wide fix: either the setup action provisions a pinned musl loader (and the runtime's shared libraries) on glibc hosts from an owned producer such as llvm-prebuilt-musl's sysroot, or ffmpeg-build and python-build publish a fully static or glibc-loadable variant. Prove it with the buildlib setup workflow running `ffmpeg -version` and `python3 -c 'import ssl'` on ubuntu-26.04 and ubuntu-26.04-arm.
+- **Fix with:** architect
+- **Effort:** M
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
 
