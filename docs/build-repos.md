@@ -6,6 +6,10 @@ repomod checks it with the `build-release-standard`, `build-make-targets`, and `
 
 ## Shared build tooling across the fleet
 
+Owner policy, 2026-11-24: every catalog repository adopts `laputa-buildlib`, at least to acquire
+owned tools (see [owned tools first](fleet.md#owned-tools-first)); the `assess` and `exempt`
+dispositions below are migration states, not end states.
+
 Owner policy, 2026-11-20: use `laputa-buildlib` for material first-party build tooling that
 duplicates its verified acquisition, lock readers, release manifests, reproducible archives,
 checksums, supported target mapping or binary inspection. This applies beyond `build`-tagged
