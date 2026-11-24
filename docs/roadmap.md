@@ -1,0 +1,329 @@
+# Roadmap
+
+This is the single plan for this repository: all current and future work, and the handoff for resuming it. Campaigns are sections below, and their items interleave in **Sequence**. "Resume the roadmap" means continue from **Status**.
+
+## Status
+
+- State: active. Fleet verification, dependency friction, owned-tool maintenance and release archives have unfinished work; no single slice is recorded as in progress.
+- Last accepted Stuff revision before this consolidation: `d78e5c85f33340fc6908d9a7f4cb8da72bd06bd3`. Integration green is not established by the campaign records at that revision.
+- Owned-tool maintenance: tm is parked on laputa-systems/tm#28; retry after that blocker clears. STUF-89 tracks remaining help coverage.
+- Dependency friction F2: clean-clone capsule rerun waits for a kache release containing kache#104; retry when that release is available.
+- Release archives: ctrs has unpushed work, fastermod has uncommitted work, and xsh needs broader release changes; recheck their checkouts and prerequisites before resuming.
+- Stuff primary cutover awaits the end and recording of Lisa’s Engine soak; verify current state before execution.
+- Next slice: qualify a small Rust repository against the fleet verification procedure, then continue across the remaining catalog.
+
+## Charter
+
+Read [fleet operations](fleet.md) and [fleet design](fleet-design.md) before fleet work. Sync first and preserve canonical checkouts and user data. Use each repository's current instructions, existing checks and tiered setup. Record local and hosted evidence separately. Do not treat unavailable runners or declarations as passing runtime proof. [TODO.md](../TODO.md) owns deferred tickets.
+
+## Sequence
+
+| ID | Campaign | Owned files | Prerequisites | Acceptance command or evidence |
+| --- | --- | --- | --- | --- |
+| V1 | Fleet verification | Selected repository's tests, benchmarks, typing and cleanup | Inspect current source and applicable evidence; use its supported runner | Repository's Change test, named benchmark, configured type checker and cleanup probe below |
+| F4 | Dependency friction | `repomod/`, `fleet/`, producer and consumer release inputs | Inventory each release hand-off; preserve registry holds | One documented release command reaches consumer lockfiles; `uv run repomod lint --include-private --rule audit-upgrades` |
+| STUF-89 | Owned-tool maintenance | `fleet/policy/owned-tools.toml`, affected owned tools and [TODO.md](../TODO.md) | Recheck pending PRs and each source checkout | `uv run repomod tools coverage` has no ordinary gaps; built help tests pass |
+| A1 | Release archives | Producer release definitions and consumer installer pins | Consumers accept tar.xz before producers switch; verify held checkouts and current release state | `uv run repomod lint --rule release-archive-format --rule binary-release-standard`; verify downloaded archive and checksums per release |
+| STUF-104 | Stuff primary | `deploy/openorange/`, `crates/stuff-worker/` and host runtime | Lisa Engine soak ends and is recorded; verify current state | Complete the cutover checks and canary in the procedure below |
+| F5 | Dependency friction | usr sync, affected macOS fixtures | Identify supported pinned tools and fixture dependencies | macOS component slices record coverage and mutation; PLAY-55 closes |
+| F6 | Dependency friction | Affected repository workflows | Inspect each job's actual runner needs and hosted access | Verify runner choice per workflow and compare standard-job queue times |
+
+## Campaign: Fleet verification
+
+### Goal and state
+
+Qualify the catalog's test, benchmark, typing and cleanup boundaries. The baseline audit covered 72 managed repositories at `407249c6c`, including private repositories and excluding `zzz`. The catalog may have changed since. Declarations and strict-profile checks do not establish execution or a full type audit. [Audit](evidence/fleet-audit.md) and [recorded results](evidence/fleet-verification-results.md) identify per-repository gaps and revisions.
+
+### Decisions
+
+Use native tools and the [fleet quality standard](fleet.md#quality-standard). Start with small Rust tools, then other toolchains and services. Reuse evidence only when source, configuration, fixtures and runner match. Preserve fork-owned release and platform workflows and required check names. Inspect each workflow against its upstream merge base before changing it.
+
+### Baseline
+
+All 72 audited defaults declared `make test` and `make clean`; 39 had a root benchmark target. The recorded workflow check identified 16 first-party test workflow gaps. Each repo still needs proof that its targets exercise the intended work. The audit and results record the specific outstanding benchmark, typing, browser, VM, service and hosted-runner gaps.
+
+### Acceptance
+
+1. Inspect the current checkout, guidance and applicable evidence; record the exact revision.
+2. Run native Change tests, with Full manual. Prove empty selection, required skip and timeout cannot be mistaken for completion. Keep coverage until a stronger test catches the same defect.
+3. Check representative benchmark selection, preflight and completion of one named Change workload. Record host and service prerequisites. Qualify timing comparisons separately under the performance rules.
+4. Run the configured type checker on audited boundaries. Record a bad program it rejects or an unchecked assertion removed. Retain the existing typing profile.
+5. In a disposable checkout, create an owned output, a nested fixture of the same basename, a `.work` sentinel and an external target specified through the build environment. Run `make clean` twice: only the owned output disappears. Replace the output path with a symlink to the external target and verify refusal.
+6. Follow default-branch rules before pushing. Record local and hosted checks independently, and continue local work when hosted evidence is blocked.
+
+The baseline policy check is `uv run repomod lint --include-private --rule make-clean-target --rule gha-test-workflow --rule strict-typing-profile`.
+
+### Needs environment
+
+Use each repository's documented runner, fixtures and services. Private hosted jobs can be blocked by billing. VM, browser, Linux and hardware-dependent results require their named environments.
+
+### Execution boundary and non-goals
+
+Do not claim a benchmark from preflight or a dry run, or typing coverage from a declaration. Keep Full workloads manual and avoid changing unrelated repository policy.
+
+### Reference
+
+[Fleet audit](evidence/fleet-audit.md), [verification results](evidence/fleet-verification-results.md), [fleet quality standard](fleet.md#quality-standard).
+
+## Campaign: Fleet dependency friction
+
+### Goal and state
+
+Remove recurring cross-fleet dependency friction. F1 registry failover and F3 buildlib adoption were completed on 2026-11-21. F2 waits on kache#104's release. F4 has one ptytest-to-tm hand-off completed; F5 and F6 were not started in the last campaign record.
+
+### Decisions
+
+- F2: keep kache and clang defaults where installed, but support cargo without them and a verified CPython on glibc. usr#49 merged. Accept when fresh `ubuntu:24.04` with rustup builds under usr's linked config with and without kache, and `sh sync` provides working `python3`.
+- F4: automate producer-to-consumer hand-offs in repomod release and mirror flows. Ptytest 0.5.0 reached tm via `uv run repomod sync`, `uv run repomod fix --repo laputa-systems/tm --rule audit-upgrades --no-mirror`, then `uv run repomod merge --repo laputa-systems/tm`; tm#47 merged. The fixer also upgraded unrelated outdated direct dependencies and tm required a separate merge.
+- F5: install measurement tools through usr sync and pin or decouple brew-dependent checks. PLAY-55 tracks the fixture hash drift.
+- F6: move jobs without larger-runner needs to standard labels; private repository billing belongs to the owner.
+
+### Baseline
+
+F4 still needs a release trigger, own-registry cache invalidation, support for exact and git pins, updates to `sources.lock.json`, vendored copies and derived assets, missing producer bump or tag tooling, and a decision for private consumers. Remaining ptytest consumers include fz, xsh, e and defuddle-rs on 0.4, soulseek-rs on 0.3 and lz's git pin. Recheck current versions first.
+
+### Acceptance
+
+A dependency release reaches consumer lockfiles through one documented command. F5 requires Mac coverage and mutation results and closure of PLAY-55. F6 requires justified runner choices and lower standard-job queue time. F2 requires the clean-clone checks above.
+
+### Needs environment
+
+F2 needs a kache release containing kache#104 and a fresh Ubuntu capsule. F5 needs a suitable macOS host. F6 depends on hosted runner and billing availability.
+
+### Execution boundary and non-goals
+
+Respect Cargo publish holds and do not run live fleet fix while changing repomod. The Engine retry storm is STUF-102, outside this campaign.
+
+### Reference
+
+[Registry failover](registry-failover.md), [buildlib policy](build-repos.md#shared-build-tooling-across-the-fleet), [backlog](../TODO.md).
+
+## Campaign: Owned-tool maintenance
+
+### Goal and state
+
+Make owned agent-facing tools discoverable and repairable. The owned-tool rule, `repomod tools which|coverage`, policy inventory and usr standing instructions landed. Help footers landed in several tools; remaining producers and controlled agent and release exercises remain open. STUF-89 tracks the help rollout. `uv run repomod tools coverage` is the current inventory; tm is parked on tm#28.
+
+### Decisions
+
+Resolve maintained ownership from catalog, installer and actual executable provenance, not a basename or banner alone. Record nonblocking problems in the owning repository and continue; a genuine blocker permits a focused repair under the standing usr instructions. Release only if a supported local build or existing distribution cannot deliver the verified fix.
+
+Original tools expose a complete top-level reference from existing parser declarations, examples for every command, help on bare invocation when a command is required, and the owned-tool footer. Preserve bare invocations that perform work. Forks and build distributions add the footer through maintained source or patches without changing upstream schemas. Keep protocol versions, JSON, completion and ordinary output compatible. Land source and tests before marking policy coverage; do not release merely for help. Skip checkout-less and parked repositories until their blockers clear.
+
+### Baseline
+
+`fleet/policy/owned-tools.toml` tracks gaps. The STUF-89 backlog records pending repository PRs and the exact remaining rollout. Existing lookup only reports owned with install evidence, and `repomod/which.py` uses the standard library.
+
+### Acceptance
+
+Run `uv run repomod tools coverage` until no ordinary gap remains, and run the affected tools' built-help and behavior checks. Verify aliases, relocation, duplicate basenames, wrong origins, PATH shadowing and missing provenance. A controlled nonblocker exercise files or updates one producer ticket and continues; a blocker exercise tests a fix and retries the original operation. A mocked release exercise verifies revision, artifact, installation and retry, and confirms no release when a supported local path suffices. Check both usr instruction profiles and applicable harness adapters. Use focused `tests/repomod/` cases and `make repomod-lint` for Stuff changes.
+
+### Needs environment
+
+Built help and platform-specific checks require each tool's supported environment. Recheck open PRs and tm#28 before taking action.
+
+### Execution boundary and non-goals
+
+Preserve canonical checkouts, verify ownership and follow each repository's rules. No parser migration, mass release, new shared runtime dependency or general recovery orchestration system. Distinguish metadata coverage from observed built help and source changes from installed releases.
+
+### Reference
+
+[STUF-89](../TODO.md), [owned tools](fleet.md#owned-tools), `fleet/policy/owned-tools.toml`, usr's `dotfiles/base/.agents/instructions/owned-tools.md`.
+
+## Campaign: Release archives
+
+### Goal and state
+
+Publish owned release archives and mirror artifacts as `.tar.xz`. The repomod rule and packaging fixer are live, consumers have gained tar.xz support, and most in-scope producers switched. The last handoff left ctrs, fastermod and xsh held and the consumer zip-removal phase unfinished. Recheck merged PRs and current releases before acting.
+
+### Decisions
+
+Consumers accept tar.xz before a producer switches. Archives use sorted entries, fixed mtimes and uid/gid 0; extractors reject symlinks and paths escaping the root. Exempt required external formats: python-build's uv install-only tar.gz, npm-pack tgz and wheels. Registry package formats, raw binaries, DMGs, manifests and checksums are not release archives. `zzz`, ignored mold and ghostty, and third-party archives only consumed are outside scope.
+
+### Baseline
+
+The mirror serves tar.xz and usr supports it for the ish family, img, lz, kache, gluon and Player. Previously held: ctrs had unpushed commits, fastermod had uncommitted work, and xsh's core archive needed its tag, preflight and target rewrites. Stuff#26 and play#13 were in flight in the last handoff; verify their present state before using the old sequence.
+
+### Acceptance
+
+After prerequisites land, sync and use `uv run repomod fix --rule binary-release-standard --rule gha-ubuntu --no-mirror --repo R` for eligible template producers. Review each diff before merge and release. Download a release archive and `SHA256SUMS` and verify them. Update ssh-build's ish pin and extractor, img's kache pins and other affected consumers. Drop zip fallback only after each producer's tar.xz release exists; retain it for excluded or held producers. Run the relevant repomod archive policy checks and consumer tests.
+
+### Needs environment
+
+Release publication and downloads require each repository's current release workflow and access. Preserve dirty or unpushed work and recheck current checkouts before proceeding.
+
+### Execution boundary and non-goals
+
+Do not publish a producer before its consumers can read tar.xz or alter externally required archive formats. Review existing branch state before repomod fix reuses a local fix branch.
+
+### Reference
+
+[Build repository contracts](build-repos.md), [fleet policy](fleet.md), [backlog](../TODO.md).
+
+## Campaign: Stuff primary on Threadripper
+
+### Goal and state
+
+Stuff's write primary moves from Lisa's shared Engine to its own VM on
+Threadripper. Lisa keeps the edge: Cloudflare, `cloudflared` and Caddy. Its
+ingress sends Stuff's public and tailnet hostnames to the VM over a supervised
+SSH forward. The move takes no downtime. Reads never stop, and publishers retry
+while the coordinators are frozen. Lisa's Engine is never restarted, so
+Discover, nanoshop and agentctl are not touched.
+
+### Baseline
+
+The following is the recorded target configuration; verify current live state before cutover.
+
+#### What runs where
+
+| Piece | Where |
+| --- | --- |
+| VM | Threadripper `/var/lib/stuff-primary/` (`os.qcow2`, a 160 GiB preallocated `data.qcow2`, `seed.iso`), OpenRC `stuff-primary-vm` and `stuff-primary-vm-watchdog` from `deploy/openorange/standby/` |
+| Reservation | `cpu.weight 10000`, `memory.min 9G`, `memory.swap.max 0`, `io.latency` 10 ms on the image's disk |
+| Guest | Alpine 3.24, 8 vCPU, 8 GiB. `/opt/openorange` from this repository; the overlay `/etc/openorange/overlay.toml` disables Rivet, the platform bridge, the tunnel and DNS and caps the Engine at 4 CPUs and 3 GiB. Only `oo-store`, `oo-engine` and `oo-app.stuff` run |
+| Engine | The seven-patch candidate `sha256:7df2c2be40ce9d4fa40ddccc4ae20383088b9a5b38754ea94d7430c7c5e74918` on a fresh depot |
+| Access | `~/.config/stuff/primary/ssh_config` (`stuff-primary`, through Threadripper). The host's `shutdown` key may only power the guest off |
+| Forward | Lisa `oo-stuff-primary-tunnel` (`deploy/openorange/standby/oo-stuff-primary-tunnel.openrc`): `127.0.0.1:18491` is the guest app, `127.0.0.1:18492` the guest store. The guest key may open only those two destinations |
+
+The guest has its own Engine, so its coordinator state is moved with the
+coordinator handoff ops (`docs/openorange-runtime.md`), not by copying a depot.
+The Stuff buckets are copied with their extended attributes, so object ETags
+and version IDs stay identical.
+
+#### Load drill
+
+On 2026-11-21 from 16:48 to 17:19 UTC, Threadripper ran 64 unconfined busy
+loops and repeated 8 GB direct writes beside the VM's image while the guest
+served reads. Host load ranged from 10 to 132. All 30 one-minute samples showed
+no Engine warning (`command_capacity`, `could not register`,
+`request_deadline_exceeded`, `fenced`, `overloaded`) and no failed probe round.
+The guest's probe made 845 reads of five registry paths, every one a 200:
+p50 116 ms, p99 433 ms, max 4.3 s, against a p99 of 338 ms beforehand.
+Production Stats health on the same host stayed 200 throughout. The
+reservation holds; disk contention adds tail latency but no errors.
+
+### Acceptance and cutover
+
+Run after Lisa's Engine soak has ended and been recorded. Each step lists its
+check and its rollback. Until the guest is thawed in step 7, Lisa remains the
+only writer and every step is reversible.
+
+1. **Deploy the handoff build to Lisa.** `crates/stuff-worker/orange/deploy.sh lisa`
+   from `main`. Reads fail over to R2 while `oo-app.stuff` restarts.
+   `main` includes the STUF-104 blob-miss fix.
+   Check: `oo deployment stuff` names the new image, a HEAD for a random
+   absent `https://oci-blobs.17166969.xyz/sha256/<hex>` carries
+   `cache-control: no-store`, and
+   `POST /_publication/cargo/thaw` with the coordinator token answers 200; the
+   previous build answers 404 for that op.
+   Rollback: the script restores the previous image.
+2. **Refresh the guest's Stuff environment.** Copy Lisa's
+   `/etc/openorange/apps/stuff.env` and `stuff.extra.env` into the guest. Run
+   `oo secrets` there so the Engine-derived values point at the guest Engine,
+   then build the guest's image from the commit deployed to Lisa in step 1
+   (`crates/stuff-worker/orange/build-image.sh stuff-primary`, then
+   `oo set-image stuff stuff:<sha12>`) and restart `oo-app.stuff`. Since
+   2026-11-21 the guest runs `stuff:5020a6f70e24`, which already has the
+   STUF-104 fix; rebuild only if step 1 deploys a later commit.
+   Check: `curl -H 'Host: crates.17166969.xyz' http://172.29.80.21:8080/current/registry/config.json`
+   in the guest answers 200.
+3. **Pre-copy the buckets.** Lisa's root has no route to the guest, and the
+   guest's sshd allows no remote forwards, so the operator's machine relays one
+   rsync session. Lisa runs the sender, the guest runs the client, and two pipes
+   carry the protocol between them:
+
+   ```sh
+   mkfifo f
+   ssh lisa 'doas rsync --server --sender -lHogDtpAXre.iLsfxCIvu --numeric-ids . SRC/' < f |
+     ssh -F ~/.config/stuff/primary/ssh_config stuff-primary \
+       'rsync -aHAX --numeric-ids --delete -e /root/stdio-rsh x:SRC/ SRC/ 3<&0 4>&1 1>&2' > f
+   ```
+
+   `/root/stdio-rsh` copies its stdin to fd 4 and fd 3 to its stdout, and exits
+   when fd 3 closes:
+
+   ```sh
+   #!/bin/sh
+   exec 5<&0
+   cat <&5 >&4 &
+   out=$!
+   cat <&3
+   kill $out 2>/dev/null
+   ```
+
+   Run it for each `store/data/stuff-*` and `store/versions/stuff-*` under
+   `/var/lib/openorange`. The sender's flags are what the guest's rsync 3.5.2
+   asks for with `-aHAX --numeric-ids --delete`; print them again with
+   `-e` pointing at a script that echoes its arguments if either rsync changes.
+   Check: a repeat run reports `Number of regular files transferred: 0`, and a
+   sampled object's `user.etag` is equal on both sides. On 2026-11-21 the
+   relay carried `stuff-oci` with every `user.*` attribute intact.
+4. **Freeze Lisa's coordinators.** For `cargo npm pypi oci mirror`:
+   `POST https://stuff-publish.17166969.xyz/_publication/REGISTRY/freeze`.
+   New publishes now receive 503 with `Retry-After: 30` and retry. In-flight
+   publishes finish.
+   Check: `GET .../export` answers 200 for all five, which means no lease is
+   live. Rollback: `POST .../thaw` on each.
+5. **Final delta and export.** Run the step 3 rsync again; it must report no
+   changes when repeated. Save each registry's export.
+   Check: each export's `current.generation` equals the bucket's `current`
+   object in the guest.
+6. **Import into the guest.** Post each export to the guest coordinator's
+   `import` op through the guest app with the coordinator token and the
+   gateway secret. Import must be the first op each guest coordinator sees:
+   any other op, `export` included, seeds an empty coordinator from the
+   bucket's `current` object, and import then answers `409`.
+   Check: each guest export equals Lisa's export. Rollback: stop the guest app,
+   discard its Engine depot, thaw Lisa.
+7. **Switch the route and thaw the guest. Point of no return.**
+   Install and start `oo-stuff-primary-tunnel` on Lisa. Write
+   `/etc/openorange/apps/stuff.recovery.env` with the guest's
+   `GATEWAY_SECRET`. Add `"stuff": {"mode": "primary", "upstream":
+   "127.0.0.1:18491"}` to `/etc/openorange/recovery-routes.json`, keeping the
+   other entries. Run `oo render --stdout`, then `oo reload-ingress`. Stop and
+   disable Lisa's `oo-replica-sync`, because Lisa's frozen pointers would
+   otherwise rewrite R2's `current` objects backwards. Then
+   `POST .../thaw` on the guest for all five registries.
+   Check: public reads carry no `x-stuff-served-by`; a canary `stuff publish`
+   succeeds and reads back. Make the canary an OCI push, and HEAD one of its
+   new layer URLs on `oci-blobs` before the push (404, `BYPASS`) and after it
+   (200, `public, max-age=31536000, immutable`); this is STUF-104's live
+   acceptance. Lisa stays frozen as the fence.
+   Rollback before the canary publish: restore `recovery-routes.json` and
+   reload, freeze the guest, thaw Lisa, restart Lisa's replica sync. After the
+   first write lands on the guest, roll back only by repeating this handoff in
+   the other direction.
+8. **Feed the replicas.** In the guest, install and start `oo-replica-sync`
+   with Lisa's `replica-sync.env` (the guest store has the same endpoint
+   address and credentials). On Lisa, a second sync instance copies from
+   `http://127.0.0.1:18492` into Lisa's store.
+   Check: after a canary publish, R2 and Lisa name the new generation within
+   ten minutes.
+9. **Rotate the store credential.** The guest store's Stuff account key was
+   exposed in an operator transcript on 2026-11-21. Create a new account in the
+   guest store, update `S3_ACCESS_KEY_ID` and `S3_SECRET_ACCESS_KEY` in the guest's
+   `stuff.env`, restart `oo-app.stuff`, then delete the old account.
+
+### Decisions
+
+Keep Lisa as the only writer until the guest is thawed. Preserve the fencing and rollback order below.
+
+### Needs environment
+
+Wait for Lisa’s Engine soak to end and be recorded. This procedure needs access to Lisa and Threadripper, the guest, coordinator credentials and publication tools.
+
+### Execution boundary and non-goals
+
+Do not restart Lisa’s Engine or disturb other applications. After the first guest write, reverse the handoff rather than thawing Lisa directly.
+
+### Reference
+
+[OpenOrange runtime](openorange-runtime.md), [rollouts](openorange-rollouts.md), [STUF-104](../TODO.md).
+
+## Later
+
+- STUF-91: finish the stable Solid 2.0 consumer upgrade when its registry and VM prerequisites are met; Discover remains excluded during rearchitecture.
+- STUF-95: qualify repomod performance comparisons and attribution.
+- STUF-102, STUF-103 and STUF-104: Engine recovery, rollout and OCI edge follow-ups are in [TODO.md](../TODO.md).
+- STUF-105 through STUF-113: component findings and reproduction details are in [TODO.md](../TODO.md) and [reconciliation evidence](evidence/retired-p3-reconciliation-20261121.md).

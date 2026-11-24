@@ -75,7 +75,7 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Problem:** A GET or HEAD for a blob that is not yet uploaded returns `404 not found` with `cache-control: public, max-age=31536000`, and Cloudflare caches it (`cf-cache-status: HIT`). Reproduction 2026-11-21: a crabc build fetched 153 locked inputs from `https://oci-blobs.17166969.xyz/sha256/<hex>` minutes before `stuff publish oci --layout ... --repository crabc/image-inputs --tag x86_64` (generation 4b124444500568dec2362721) uploaded them. Afterwards every exact URL still answers 404 from cache (`age: 464`) while `?nocache=1` returns 200 with the right bytes, and the registry's own `/v2/crabc/image-inputs/blobs/sha256:<hex>` 307s to the poisoned URL. Any read that races a publish, or probes a digest before it exists, makes that content-addressed URL unusable at that edge for a year.
 - **Fix with:** root-cause
 - **Effort:** S
-- **Recommendation:** Remaining, in the Stuff primary cutover (`docs/stuff-primary.md` steps 1, 2 and 7):
+- **Recommendation:** Remaining, in the Stuff primary cutover (`docs/roadmap.md#campaign-stuff-primary-on-threadripper` steps 1, 2 and 7):
   1. Deploy a Worker image that contains the origin fix below to Lisa. The Threadripper guest has it (`stuff:5020a6f70e24`; a miss answers `no-store`).
   2. Accept live with a HEAD for an absent digest, its upload, and a second HEAD that must return 200, while existing 200 responses keep `public, max-age=31536000, immutable`.
 
@@ -88,7 +88,7 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
 
 - **Area:** Owned-tool help
-- **Where:** `fleet/policy/owned-tools.toml` (every `gap` entry outside joshuarli/usr), `docs/campaigns/owned-tool-maintenance.md` (Human help and provenance contract, Remaining tools), usr `dotfiles/base/.agents/skills/design-cli/SKILL.md`
+- **Where:** `fleet/policy/owned-tools.toml` (every `gap` entry outside joshuarli/usr), `docs/roadmap.md` (owned-tool maintenance), usr `dotfiles/base/.agents/skills/design-cli/SKILL.md`
 - **Problem:** Agents learn an owned tool from its -h, but most fleet tools print no examples, many omit subcommand details from top-level help, some error on bare invocation, and about 40 commands still lack the owned-tool footer (`uv run repomod tools coverage` lists them). Sampled: fastermod, loc, xsh, vault print no or one example and no footer.
 - **Recommendation:** Remaining: land the five pending PR checks (ctrs, img, toolbox, mdevd-rs, xsh) and the chromium-build draft, flip each policy entry from `gap` to `help` with its test, then reach `repomod tools coverage` with no ordinary gap. The campaign method is settled: one campaign over all repos at once, one worker per repository in parallel batches, one integrator for policy and backlog. Original tools get the full design-cli contract (complete top-level reference, an Examples: section, bare invocation printing help, footer); forks and build distributions get only the footer through their maintained patch path, never an upstream schema rewrite. Land source only through each repo's workflow and do not release just for help. No parser migrations. Skip checkout-less and parked repos.
 - **Fix with:** design-cli, orchestrate
@@ -170,7 +170,7 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 
 - **Area:** mymirror · archive
 - **Where:** crates/mymirror/src/archive.rs `extract` (TarGzip arm) and `tar_members`
-- **Problem:** Reproduced on `d51b2786`. `TarXz` and `Zip` bound decompression with `.take(MAX_DECOMPRESSED + 1)`, but `TarGzip` hands an unbounded `GzDecoder` to `tar_members`, whose `entry.read_to_end` buffers a whole member before `enforce_cap` runs. A 7.3 MB `.tar.gz` holding a single 1.5 GiB member took 10.3 s and peaked at 1.09 GB RSS (debug build, macOS) before it was rejected. macOS compresses zero pages, so that RSS figure understates the buffer. The artifact must first match its manifest SHA-256 pin, so exposure requires a pinned hostile or faulty archive. Reproduction is in docs/campaigns/retired-p3-reconciliation-20261121.md.
+- **Problem:** Reproduced on `d51b2786`. `TarXz` and `Zip` bound decompression with `.take(MAX_DECOMPRESSED + 1)`, but `TarGzip` hands an unbounded `GzDecoder` to `tar_members`, whose `entry.read_to_end` buffers a whole member before `enforce_cap` runs. A 7.3 MB `.tar.gz` holding a single 1.5 GiB member took 10.3 s and peaked at 1.09 GB RSS (debug build, macOS) before it was rejected. macOS compresses zero pages, so that RSS figure understates the buffer. The artifact must first match its manifest SHA-256 pin, so exposure requires a pinned hostile or faulty archive. Reproduction is in docs/evidence/retired-p3-reconciliation-20261121.md.
 - **Recommendation:** Bound each member read by the remaining cap plus one (or wrap the gzip decoder in `.take(MAX_DECOMPRESSED + 1)`, as for xz). Add a regression that a gzip member larger than a lowered test cap fails without reading past it.
 - **Fix with:** os-boundaries
 - **Effort:** S

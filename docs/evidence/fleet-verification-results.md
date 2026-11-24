@@ -1,6 +1,6 @@
-# Fleet verification rollout
+# Fleet verification results
 
-## Status
+## Recorded results
 
 The rollout covers all 72 managed repositories in `fleet/catalog.toml` at `407249c6c`, including private repositories. The catalog excludes `zzz`. The [default-branch source audit](fleet-audit.md) records all 72 repositories and their remaining verification gaps.
 
@@ -126,14 +126,3 @@ Crabtables `6307958` runs a bounded local suite. The Python harness check and
 dropped. Two socket fault cases need netlink privileges. The hosted
 `make test-ci` ran the original full suite and constants validation, and the
 latest default-branch CI and lint both passed.
-
-## Qualify a repository
-
-1. Inspect its current checkout, repository guidance, and [existing deslop evidence](deslop-scorecard.md). Reuse evidence when the relevant sources, configuration, fixtures, and runners still match. Record the exact revision.
-2. Use the repository's native tools. Keep `make test` bounded to Change and keep Full manual. Prove that the gates exercise real required work and surface an empty selection, required skip, or timeout as incomplete. Keep coverage when a stronger test has yet to catch the same defect.
-3. Verify representative benchmark selection, preflight, and completed work on one named Change workload. Record unavailable host or service requirements. Keep timing comparisons separate from workload completion and qualify them under the existing performance rules.
-4. Run the configured type checker on audited boundaries. Record an actual bad program the checker rejects or an unchecked assertion the change removes. Retain the existing typing profile.
-5. Verify cleanup in a disposable checkout. Create an owned output, a nested fixture with the same basename, a `.work` sentinel, and an external target set through the build environment. Run `make clean` twice. The owned output disappears and all sentinels survive. Repeat with the output path replaced by a symlink to the external target and verify the recipe refuses it.
-6. Follow the default branch's rules before pushing. Record local and hosted checks independently. Continue local work when GitHub or a named runner blocks hosted evidence.
-
-Start with small Rust tools and then apply the same evidence to other toolchains and services. Use the repo's existing tiered setup wherever it meets the [fleet quality standard](../fleet.md#quality-standard). Repomod's initial check is reproducible with `uv run repomod lint --include-private --rule make-clean-target --rule gha-test-workflow --rule strict-typing-profile`.
