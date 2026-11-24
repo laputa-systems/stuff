@@ -138,7 +138,8 @@ substitutions. A consumer keeps the upstream tool only for a stated reason: the 
 no release for the consumer's platform, the consumer is an effectively upstream fork whose
 inherited build must stay unchanged, or the substitution is deferred until a named producer gap
 is fixed. Record that reason next to the install and file the producer gap in the producer's
-`TODO.md`. Build repositories acquire owned tools the same way they acquire other inputs; see
+`TODO.md`. A producer's own repository may install the upstream tool it reproduces, for example
+as a parity oracle or build reference; the rule does not report that. Build repositories acquire owned tools the same way they acquire other inputs; see
 [build repositories](build-repos.md#owned-toolchain-inputs).
 
 The read-only `owned-tool-substitution` repomod rule enforces this table. It reads

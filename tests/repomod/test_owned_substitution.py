@@ -495,3 +495,11 @@ def test_rule_is_registered_read_only() -> None:
     assert rule.fix is None
     assert rule.commit_message is None
     assert rule.allowed_paths == ()
+
+
+def test_producer_may_install_the_upstream_it_reproduces(project: tuple[Path, Repository, Path]) -> None:
+    root, _, _ = project
+    producer = Repository(RepoId.parse("acme/gluon"), ("build",))
+    _write(root, "Dockerfile", "FROM alpine\nRUN apk add --no-cache meson ninja cmake\n")
+    findings = owned_substitution._check(root, producer)
+    assert [finding.message.split(" duplicates")[0] for finding in findings] == ["package 'cmake' installed by apk"]

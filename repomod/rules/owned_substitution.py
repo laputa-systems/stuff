@@ -519,6 +519,8 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
             continue
         for hit in _file_hits(kind, payload, policy.producers):
             key = hit.producer.casefold()
+            if key == str(repository.id).casefold():
+                continue
             canonical = next(
                 (name for name in policy.producers if name.casefold() == key),
                 hit.producer,
