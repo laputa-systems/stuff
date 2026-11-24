@@ -48,6 +48,15 @@ The shim provisions only Python and the wheel. Each repository keeps a small ide
 and a development doc listing each package's consumer. Keep native-only commands usable without
 an interpreter download.
 
+### Owned toolchain inputs
+
+Build tools are inputs like sources. When an owned producer supplies one (gluon for Meson and
+Ninja, cmake-build, llvm-prebuilt-musl, python-build, node-build), a build repository pins that
+producer's release and digest in its locks instead of installing the distribution package, and
+reports a producer gap in the producer's backlog rather than switching back. See
+[owned tools first](fleet.md#owned-tools-first) for the substitutions and the allowed reasons to
+keep an upstream tool.
+
 ### Migration proof
 
 A migration replaces a local implementation; it does not add a dependency beside one.

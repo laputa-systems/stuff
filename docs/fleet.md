@@ -113,6 +113,34 @@ whose `origin` matches the catalogued repository. It is only read.
 uv run repomod lint --repo acme/tool --checkout .work/wt/fix
 ```
 
+## Owned tools first
+
+The fleet is one system. When a repository needs a tool that an owned producer supplies, it uses
+the producer's release, not the upstream package, distribution package or setup action. A
+consumer that meets a missing feature or a bug files or fixes it in the producer (see the usr
+owned-tool procedure linked from `fleet/policy/owned-tools.toml`); it does not fall back to the
+upstream build. Each consumer is then also a test of the producer, and a fix lands once for every
+repository.
+
+| Upstream tool | Owned producer |
+| --- | --- |
+| Meson, Ninja | `laputa-systems/gluon` (`meson`, `ninja`, `gluon-build`) |
+| FFmpeg runtime and libraries | `laputa-systems/ffmpeg-build` |
+| CMake | `laputa-systems/cmake-build` |
+| Clang and LLVM toolchains | `laputa-systems/llvm-prebuilt-musl` |
+| CPython | `laputa-systems/python-build` (through buildlib's bootstrap) |
+| Node.js | `laputa-systems/node-build` |
+| Git, OpenSSH | `laputa-systems/git-build`, `laputa-systems/ssh-build` |
+| ripgrep, fd, jaq, mold | the owned forks in `fleet/policy/owned-tools.toml` |
+
+The producer list in `fleet/policy/owned-tools.toml` is authoritative; this table names the common
+substitutions. A consumer keeps the upstream tool only for a stated reason: the producer publishes
+no release for the consumer's platform, the consumer is an effectively upstream fork whose
+inherited build must stay unchanged, or the substitution is deferred until a named producer gap
+is fixed. Record that reason next to the install and file the producer gap in the producer's
+`TODO.md`. Build repositories acquire owned tools the same way they acquire other inputs; see
+[build repositories](build-repos.md#owned-toolchain-inputs).
+
 ## Owned tools
 
 `repomod tools which COMMAND` resolves an installed command to its maintained repository without

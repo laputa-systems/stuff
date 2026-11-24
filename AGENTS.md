@@ -70,6 +70,7 @@ and future work; its Status is the resume point.
 - The registries must build when their own package registries are unavailable: Cargo, npm and PyPI deps of registry crates resolve upstream, except `@laputa-systems/ui-dashboard`, which is installed from stuff at a pinned version with its stylesheets committed.
 - repomod reads the catalogs the registries publish (`<origin>/current/catalog.json`); change the catalog schema and its reader together. Run fleet commands from the canonical checkout's main worktree and keep it clean; `fix` publishes only from an unchanged checkout.
 - Stuff files use Apache-2.0; imported crates retain their license fields.
+- The fleet uses its own tools. Where an owned producer in `fleet/policy/owned-tools.toml` supplies a tool, consumers take that producer's release instead of the upstream package, and a gap in it is fixed in its repository rather than worked around with the upstream build. See [owned tools first](docs/fleet.md#owned-tools-first).
 
 ## Fleet constraints
 
