@@ -363,10 +363,12 @@ The handoff was executed. Live evidence, in runbook order:
     `recoveryWriter: 127.0.0.1:18491`; public stuff/crates/canary reads stayed
     200 after the decommission.
 
-Lisa's Engine remains frozen as the rollback fence; its store, ingress and
-other apps remain because Discover, nanoshop, agentctl and Wine have no
-cutover procedure. Removing those and the edge is out of scope for this
-cutover and still needs a separate fenced plan.
+Lisa's Engine remains frozen as the rollback fence. The owner explicitly
+parked Discover, discover-preview, nanoshop, agentctl and discover-wine on
+Lisa on 2026-11-24, so their Engine/store and the edge units stay in place;
+no cutover for them is planned. This closes the Stats/Stuff cutover: Lisa no
+longer hosts a canonical Stats or Stuff deployment, and no read replica is
+fed.
 
 ### Decisions
 
