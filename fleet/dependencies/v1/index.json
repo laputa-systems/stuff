@@ -137,8 +137,8 @@
    "state": "partial"
   },
   "joshuarli/vpn": {
-   "commit": "4e58c56726ac4bf540101f943db8b22fab147c48",
-   "inputs_fingerprint": "ea9ed1ff36dd4db86e2eeec83a71c7437e5e1ace16f42d84d46442148995acab",
+   "commit": "def9da72b91050125b10d218291052f0aa1c1f55",
+   "inputs_fingerprint": "80632d3b3976059af069ec48d0532e00d86e1b8aea3b225dafa2803ac00f4643",
    "state": "partial"
   },
   "laputa-systems/buildlib": {

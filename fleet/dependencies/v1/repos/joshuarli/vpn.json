@@ -109,6 +109,12 @@
    "purl": "pkg:docker/debian?digest=sha256%3Aa72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2"
   },
   {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  },
+  {
    "display_name": "jedisct1/twice",
    "ecosystem": "github",
    "name": "jedisct1/twice",
@@ -183,6 +189,42 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/libc@0.2.191#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -847,6 +889,14 @@
  ],
  "inputs": [
   {
+   "blob": "5978ef97cbf75edc4c2a254404e145c9d4bd48b7",
+   "path": ".github/workflows/ci.yml"
+  },
+  {
+   "blob": "f1d5cc73cd1f3749594d76cc0f1cd017419dded3",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
    "blob": "2a30db62a6bceb1e7772e6c50e191e68971a9bc9",
    "path": ".gitmodules"
   },
@@ -857,6 +907,10 @@
   {
    "blob": "586768f383c4d4fc961c5188c3b6cf05bf29c446",
    "path": "Cargo.toml"
+  },
+  {
+   "blob": "3e589a1c3e2de3d7819806a0edcc2392babc564f",
+   "path": "Makefile"
   },
   {
    "blob": "a65bbc0fbc67bbaa4900a8b9a240f89b57daa111",
@@ -887,7 +941,7 @@
    "path": "xtask/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "ea9ed1ff36dd4db86e2eeec83a71c7437e5e1ace16f42d84d46442148995acab",
+ "inputs_fingerprint": "80632d3b3976059af069ec48d0532e00d86e1b8aea3b225dafa2803ac00f4643",
  "instances": [
   {
    "commit": null,
@@ -1150,6 +1204,19 @@
    "version": null
   },
   {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
    "commit": "391c461697c871e542c7beb44631e77e4c5646dd",
    "component": "pkg:github/jedisct1/twice",
    "context": "",
@@ -1216,6 +1283,12 @@
   }
  ],
  "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  },
   {
    "kind": "missing_lock",
    "locator": null,
