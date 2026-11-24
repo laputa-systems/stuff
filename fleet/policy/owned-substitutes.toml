@@ -1,0 +1,122 @@
+version = 1
+
+[producers."laputa-systems/gluon"]
+urls = ["github.com/ninja-build"]
+
+[producers."laputa-systems/gluon".packages]
+apk = ["meson", "ninja", "ninja-build", "samurai"]
+apt = ["meson", "ninja-build", "samurai"]
+brew = ["meson", "ninja", "samurai"]
+dnf = ["meson", "ninja-build", "samurai"]
+pacman = ["meson", "ninja", "samurai"]
+
+[producers."laputa-systems/ffmpeg-build"]
+urls = ["ffmpeg.org", "johnvansickle.com"]
+
+[producers."laputa-systems/ffmpeg-build".packages]
+apk = ["ffmpeg", "ffmpeg-dev"]
+apt = ["ffmpeg"]
+brew = ["ffmpeg"]
+dnf = ["ffmpeg"]
+pacman = ["ffmpeg"]
+
+[producers."laputa-systems/cmake-build"]
+urls = ["cmake.org", "github.com/kitware/cmake"]
+
+[producers."laputa-systems/cmake-build".packages]
+apk = ["cmake"]
+apt = ["cmake"]
+brew = ["cmake"]
+dnf = ["cmake"]
+pacman = ["cmake"]
+
+[producers."laputa-systems/llvm-prebuilt-musl"]
+urls = ["apt.llvm.org"]
+
+[producers."laputa-systems/llvm-prebuilt-musl".packages]
+apk = ["clang", "lld", "llvm", "^clang-?\\d+$", "^lld-?\\d+$", "^llvm-?\\d+$"]
+apt = ["clang", "lld", "llvm", "^clang-\\d+$", "^lld-\\d+$", "^llvm-\\d+$"]
+brew = ["llvm", "^llvm@\\d+(\\.\\d+)*$"]
+dnf = ["clang", "clang-devel", "clang-tools-extra", "lld", "llvm"]
+pacman = ["clang", "clang-tools-extra", "lld", "llvm", "llvm-libs"]
+
+[producers."laputa-systems/node-build"]
+actions = ["actions/setup-node"]
+urls = ["nodejs.org"]
+
+[producers."laputa-systems/node-build".packages]
+apk = ["nodejs", "npm"]
+apt = ["nodejs", "npm"]
+brew = ["node", "npm", "^node@\\d+(\\.\\d+)*$"]
+dnf = ["nodejs", "npm"]
+pacman = ["nodejs", "npm"]
+
+[producers."laputa-systems/python-build"]
+actions = ["actions/setup-python", "astral-sh/setup-uv"]
+urls = ["python.org/ftp", "www.python.org/ftp", "github.com/astral-sh/python-build-standalone"]
+
+[producers."laputa-systems/python-build".packages]
+apk = ["^python3([.-].*)?$"]
+apt = ["^python3([.-].*)?$"]
+brew = ["python3", "^python@\\d+(\\.\\d+)*$"]
+dnf = ["^python3([.-].*)?$"]
+pacman = ["python", "^python3([.-].*)?$"]
+
+[producers."laputa-systems/git-build".packages]
+apk = ["git"]
+apt = ["git"]
+brew = ["git"]
+dnf = ["git"]
+pacman = ["git"]
+
+[producers."laputa-systems/git-build"]
+urls = ["github.com/git/git"]
+
+[producers."laputa-systems/ssh-build".packages]
+apk = ["openssh", "^openssh-.*$"]
+apt = ["^openssh-.*$"]
+dnf = ["openssh", "^openssh-.*$"]
+pacman = ["openssh"]
+
+[producers."laputa-systems/ssh-build"]
+urls = ["cdn.openbsd.org/pub/openbsd/openssh", "ftp.openbsd.org/pub/openbsd/openssh"]
+
+[producers."laputa-systems/rg".packages]
+apk = ["ripgrep"]
+apt = ["ripgrep"]
+brew = ["ripgrep"]
+dnf = ["ripgrep"]
+pacman = ["ripgrep"]
+
+[producers."laputa-systems/rg"]
+urls = ["github.com/burntsushi/ripgrep"]
+
+[producers."laputa-systems/fd".packages]
+apk = ["fd"]
+apt = ["fd-find"]
+brew = ["fd"]
+dnf = ["fd-find"]
+pacman = ["fd"]
+
+[producers."laputa-systems/fd"]
+urls = ["github.com/sharkdp/fd"]
+
+[producers."laputa-systems/jaq".packages]
+apk = ["jq"]
+apt = ["jq"]
+brew = ["jq"]
+dnf = ["jq"]
+pacman = ["jq"]
+
+[producers."laputa-systems/jaq"]
+urls = ["github.com/jqlang/jq", "github.com/01mf02/jaq"]
+
+[producers."joshuarli/mold".packages]
+apk = ["mold"]
+apt = ["mold"]
+brew = ["mold"]
+dnf = ["mold"]
+pacman = ["mold"]
+
+[producers."joshuarli/mold"]
+urls = ["github.com/rui314/mold"]

@@ -19,6 +19,7 @@ from repomod.rules.lint import lint_rules
 from repomod.rules.mdtool import mdtool_rules
 from repomod.rules.mirrored_docs import mirrored_docs_rules
 from repomod.rules.musl_toolchain import musl_toolchain_rules
+from repomod.rules.owned_substitution import owned_substitution_rules
 from repomod.rules.owned_tools import owned_tool_rules
 from repomod.rules.python_standard import python_standard_rules
 from repomod.rules.registry_sources import registry_sources_rules
@@ -66,6 +67,7 @@ def rules() -> tuple[Rule, ...]:
         *mirrored_docs_rules(),
         *musl_toolchain_rules(),
         *owned_tool_rules(),
+        *owned_substitution_rules(),
         *python_standard_rules(),
         *template_rules(),
         *typescript_standard_rules(),

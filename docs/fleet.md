@@ -141,6 +141,17 @@ is fixed. Record that reason next to the install and file the producer gap in th
 `TODO.md`. Build repositories acquire owned tools the same way they acquire other inputs; see
 [build repositories](build-repos.md#owned-toolchain-inputs).
 
+The read-only `owned-tool-substitution` repomod rule enforces this table. It reads
+`fleet/policy/owned-substitutes.toml`, which maps each producer to the distribution packages
+(`apk`, `apt`, `brew`, `dnf`, `pacman`), setup actions (`actions/setup-node`,
+`actions/setup-python`, and `astral-sh/setup-uv` when it provides Python) and download URLs it
+replaces, and scans `.github/workflows`, Dockerfiles, Makefiles, `scripts/`, `docker/` and
+`flake.nix`. An unexempted upstream install is a blocking finding that names the producer to use
+instead and points at buildlib's setup action and `buildlib.tools`. To exempt a repository,
+add `[exempt."owner/repo".producers."producer/id"]` entries with a `reason` drawn from the
+grounds above and a `reassess` condition; an exemption that matches no finding is itself a
+finding. The shipped policy carries no exemptions.
+
 ## Owned tools
 
 `repomod tools which COMMAND` resolves an installed command to its maintained repository without

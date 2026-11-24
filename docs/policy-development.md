@@ -380,6 +380,29 @@ reason, plus install evidence (`install_manifest`, `record`, `launcher_dir`, `in
 manifests and installers. The lookup contract, evidence table, and status meanings live in
 [owned tools](fleet.md#owned-tools).
 
+`fleet/policy/owned-substitutes.toml` backs the read-only `owned-tool-substitution` rule, which
+implements [owned tools first](fleet.md#owned-tools-first). Per producer it lists the upstream
+package names per package manager (`apk`, `apt`, `brew`, `dnf`, `pacman`; a leading `^` marks a
+regular expression matched against the whole package name, so `clang-19` and `clang22` match
+clang while `clang-format` does not), the setup actions it replaces, and the download URL
+prefixes it replaces. The rule scans `.github/workflows/*.yml|yaml`, `Dockerfile*`/`*.Dockerfile`/
+`Containerfile*`, files under `docker/`, `Makefile`/`*.mk`, files under `scripts/`, and
+`flake.nix`, joining `\` continuations and expanding simple `NAME=value` variables in install
+arguments. It flags `apk add`, `apt`/`apt-get`/`aptitude install`, `brew install`,
+`dnf`/`yum install`, and `pacman -S`-family commands, `uses:` references to the mapped actions,
+matching download URLs, and `uv python install` (which always maps to the producer that owns
+`astral-sh/setup-uv`). `astral-sh/setup-uv` itself is flagged only when its `with:` block sets
+`python-version` or a later step runs `uv python install`, because uv is not an owned tool and
+only those uses provide Python. Package names match whole tokens after stripping `=version`,
+`<`/`>`/`!`/`~`/`^` specifiers and `:arch` suffixes, so `git` is flagged only as a package
+argument, never as a command. `[exempt."owner/repo".producers."producer/id"]` entries carry
+`reason` (one of the grounds in [owned tools first](fleet.md#owned-tools-first)) and `reassess`;
+they suppress that producer's findings in that repository, and an exemption matching no finding
+is stale and reported. Exemptions for producers or repositories the substitutes or catalog
+policies do not know are findings. Findings are violations naming the file, line, upstream
+package or action, and the owned producer to use through `buildlib.tools` or the
+`laputa-systems/buildlib/setup` action.
+
 ## Other policy rules
 
 `gha-test-workflow` requires a workflow triggered by `pull_request` to run `make test` or
