@@ -11,7 +11,7 @@ This is the single plan for this repository: all current and future work, and th
 - Release archives: ctrs has unpushed work, fastermod has uncommitted work, and xsh needs broader release changes; recheck their checkouts and prerequisites before resuming.
 - Stuff primary cutover awaits the end and recording of Lisa’s Engine soak; verify current state before execution.
 - Next slice: qualify a small Rust repository against the fleet verification procedure, then continue across the remaining catalog.
-- Owned tools first: OT1 (buildlib `buildlib.tools` and the setup action) and OT2 (substitution policy and blocking rule) start in parallel; OT3 to OT6 follow OT1's release.
+- Owned tools first: OT1 (buildlib `buildlib.tools` and the setup action) and OT2 (substitution policy and blocking rule) are in progress in parallel; OT3 to OT11 follow.
 
 ## Charter
 
@@ -33,6 +33,11 @@ Read [fleet operations](fleet.md) and [fleet design](fleet-design.md) before fle
 | OT4 | Owned tools first | One consumer repository per slice | OT2, OT3 | That repository passes `owned-tool-substitution` and its own CI, or carries a reasoned exemption with a producer ticket |
 | OT5 | Owned tools first | Producer release targets (cmake-build, llvm-prebuilt-musl, node-build, python-build) | Gaps named by OT4 | Producer publishes the missing target; the dependent exemption is removed |
 | OT6 | Owned tools first | `fleet/policy/buildlib.toml`, `docs/build-repos.md` | OT3 | Every catalog repository is `enrolled`; `assess` and `exempt` dispositions are gone except where a reasoned stuff registry constraint applies |
+| OT7 | Owned tools first | Consumer C/C++ builds, `.cargo/config.toml` linkers, `docker/musl/Dockerfile`, `fleet/policy/musl-toolchain.toml` | OT1, OT2 | Linux builds use llvm-prebuilt-musl clang and mold through `buildlib.tools`; `owned-tool-substitution` flags `gcc`, `build-essential`, `build-base`, `CC`/`CXX`/linker set to gcc or cc; the musl image fetches through buildlib with the current `release-<sha>` pin |
+| OT8 | Owned tools first | Consumer Dockerfiles; fleet musl image publication | OT7 | Each Dockerfile starts from the fleet image served by the stuff OCI registry, or carries a reasoned exemption; the rule flags upstream `FROM` images |
+| OT9 | Owned tools first | `fleet/policy/owned-substitutes.toml`, rule manifest scanning, consumer manifests | OT2 | The rule also reads `Cargo.toml`, `pyproject.toml`, `package.json` and CI steps for owned substitutes: shuck for ShellCheck, kache for sccache and ccache, pytest-parallel for pytest-xdist, rustybench for criterion and divan |
+| OT10 | Owned tools first | repomod fixer for `tools.lock.json` | OT1, OT2 | A producer release opens lock-bump pull requests in every consumer through the fix flow; a fixture producer release updates fixture consumers |
+| OT11 | Owned tools first | usr installer; `repomod tools which` | OT3 | No usr-installed owned command reports `upstream-install`; usr acquisition converges on `buildlib.tools` where its verification is equivalent |
 | F6 | Dependency friction | Affected repository workflows | Inspect each job's actual runner needs and hosted access | Verify runner choice per workflow and compare standard-job queue times |
 
 ## Campaign: Fleet verification
@@ -148,11 +153,14 @@ Every repository uses the fleet's own tools wherever an owned producer ships one
 - **One acquisition path.** `buildlib.tools` resolves a pinned owned-tool release for the current target, downloads the asset named by the build-repo release contract (`<name>-<version>-<triple>.tar.xz` with its manifest and `SHA256SUMS`), verifies size and SHA-256, and unpacks it into a content-addressed cache (`<cache>/<tool>/<sha256>/`). It reads a consumer `tools.lock.json` (tool, producer repository, tag, and per-target asset name, size and digest) and can write entries from a release's `SHA256SUMS`. mold's differing asset layout is handled in the tool table, not by consumers.
 - **One action.** `laputa-systems/buildlib/setup@<sha>` is a composite action taking `tools` and `lock` inputs. It runs buildlib from the action checkout, so CI never needs the stuff PyPI registry, keys `actions/cache` on the locked digests, and adds each tool's `bin` to `PATH`. Dockerfiles and scripts call the same module through `bootstrap/buildlib-run`.
 - **One rule.** `owned-tool-substitution` reads `fleet/policy/owned-substitutes.toml`: per producer, the upstream package names, setup actions and download URLs it replaces; per repository, exemptions with `producer`, `reason` and `reassess`. It scans workflows, Dockerfiles, Makefiles and scripts and fails on an unexempted upstream install. Exemption reasons are limited to the allowed ones in [owned tools first](fleet.md#owned-tools-first).
+- **Toolchains and images.** Linux C and C++ builds use llvm-prebuilt-musl's clang and Rust musl targets link with clang and mold; macOS keeps Apple clang as a recorded exemption (SDK and signing) until a darwin producer exists. Dockerfiles start from the fleet musl image served by the stuff OCI registry.
+- **Beyond commands.** Owned substitutes also cover development tools and libraries (shuck, kache, pytest-parallel, rustybench), and the dependency registry audit (`fleet/registries.toml`) stays the owner of package-registry routing rather than being duplicated.
+- **Staying current.** A fixer bumps consumer `tools.lock.json` entries when a producer releases, so consumers exercise the newest build.
 - **Registry independence.** stuff keeps building while its registries are down: its CI uses the action from source, and the bootstrap's wheel has a GitHub release mirror in addition to the stuff PyPI copy.
 
 ### Baseline
 
-Hand-rolled gluon fetchers exist in play (`scripts/fetch-gluon.sh`, pinned), view (`scripts/install-gluon.sh`, latest via `gh`) and kache (`Dockerfile`, pinned). A 2026-11-24 scan found upstream installs of owned tools in about 30 repositories: Meson and Ninja (ffmpeg-build, chromium-build, kbvm, ghostty), CMake (img, tinyland, ghostty), FFmpeg (toolbox), clang (crabc, kache, stuff, ghostty), setup-node in 10 workflows, setup-uv or setup-python in about 20, Git and OpenSSH in Dockerfiles, ripgrep, fd and mold in CI. Producer target gaps: cmake-build and llvm-prebuilt-musl publish Linux musl only; node-build has no aarch64 Linux; python-build's musl builds need a musl loader that Ubuntu runners lack.
+Hand-rolled gluon fetchers exist in play (`scripts/fetch-gluon.sh`, pinned), view (`scripts/install-gluon.sh`, latest via `gh`) and kache (`Dockerfile`, pinned). A 2026-11-24 scan found upstream installs of owned tools in about 30 repositories: Meson and Ninja (ffmpeg-build, chromium-build, kbvm, ghostty), CMake (img, tinyland, ghostty), FFmpeg (toolbox), clang (crabc, kache, stuff, ghostty), setup-node in 10 workflows, setup-uv or setup-python in about 20, Git and OpenSSH in Dockerfiles, ripgrep, fd and mold in CI. System compilers (`gcc`, `build-essential`, `build-base` or `CC=gcc`) in bctl, ctrs, img, kache, laputa, node-build, rust-fontconfig, tinyland, xsh and niceforge; ctrs sets a gcc Cargo linker. `docker/musl/Dockerfile` hand-fetches llvm-prebuilt-musl and mold with an old tag scheme, and `fleet/policy/musl-toolchain.toml` also pins Alpine clang22 and llvm22. About 40 repositories build from upstream base images. ShellCheck in 8 repositories, sccache or ccache in 5, criterion in the rustix and rustls forks; 7 repositories reference upstream package registries directly. Producer target gaps: cmake-build and llvm-prebuilt-musl publish Linux musl only; node-build has no aarch64 Linux; python-build's musl builds need a musl loader that Ubuntu runners lack.
 
 ### Acceptance
 
@@ -160,7 +168,7 @@ Per the Sequence rows. The campaign closes when `uv run repomod lint --rule owne
 
 ### Execution boundary and non-goals
 
-No change to upstream source in forks beyond build and CI wiring. No new package registry or mirror service. usr's home installer keeps its own verified installs; converging it on `buildlib.tools` is a later decision.
+No change to upstream source in forks beyond build and CI wiring. No new package registry or mirror service. No owned Rust toolchain: rustup stays upstream. CI keeps GitHub-hosted runners.
 
 ## Campaign: Release archives
 
