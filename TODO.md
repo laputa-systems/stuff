@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 119
+Next: 120
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -109,6 +109,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Where:** deploy/openorange/bin/oo (cmd_secrets, provision_store)
 - **Problem:** On 2026-11-24 at 18:17 the stuff primary's S3_ACCESS_KEY_ID was changed by hand and the old store user deleted, without running `oo provision stuff`. The ORANGE_R2_* bindings kept the deleted key and every stuff bucket stayed owned by the deleted user, so all bucket requests answered 403 AccessDenied: publication failed at `list stuff-mypypi`, the coordinator Durable Objects could not load, and the app stopped passing readiness after its next restart. `oo provision stuff` repaired it on 2026-11-25 by rewriting the bindings and changing each bucket's owner.
 - **Recommendation:** Give key rotation one command (for example `oo rotate-store-key APP`) that creates the new user, runs change-bucket-owner for every app bucket, rewrites the derived bindings and only then deletes the old user; make `oo health` fail when an app's bucket owner or ORANGE_R2_* key differs from its S3_ACCESS_KEY_ID.
+- **Fix with:** none
+- **Effort:** M
+
+### STUF-119 · P2 · Alpine retiring pinned APK revisions breaks fleet builds
+
+- **Area:** fleet · build inputs
+- **Where:** consumer bootstrap.lock.json, sources.lock.json and Dockerfile apk pins (cmake-build, play, others); deploy/mirror (stuff publish mirror)
+- **Problem:** Alpine v3.24 main keeps only the newest revision of a package. On 2026-11-24 it replaced openssl, libssl3 and libcrypto3 3.5.9-r0 with r1 and python3 3.14.10-r1 with r2, and the old files were deleted. cmake-build's controller job (exact-byte pins from dl-cdn) and play's Linux and lint jobs (versioned `apk add`) failed until they were repinned by hand (laputa-systems/cmake-build#136, joshuarli/play#22). Every repository that pins Alpine APKs by URL or version is exposed the same way.
+- **Recommendation:** Serve pinned APKs from the stuff artifact mirror (`stuff publish mirror`) and list it before dl-cdn in each lock's URL list, so retired revisions stay fetchable at their pinned bytes; add a repomod rule that reports Alpine APK pins without a mirror URL, and a scheduled check that reports pins whose upstream revision was retired so they are bumped deliberately.
 - **Fix with:** none
 - **Effort:** M
 
