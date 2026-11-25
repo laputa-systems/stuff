@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import Counter, defaultdict
-from collections.abc import Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from typing import Any, cast
 from urllib.parse import parse_qsl, unquote, urlsplit
 
@@ -149,16 +149,32 @@ def _instance_class(
         return "owned"
     if _mirrored(instance):
         return "mirrored"
-    if _producer(component.name, producers) is not None:
+    if _producer(component.ecosystem, component.name, producers) is not None:
         return "substitutable"
     return "upstream"
 
 
-def _producer(name: str, cache: dict[str, str | None]) -> str | None:
-    if name not in cache:
-        matches = substitutes.lookup(name)
-        cache[name] = matches[0].producer if matches else None
-    return cache[name]
+_MATCH_KINDS: Mapping[Ecosystem, Callable[[str], bool]] = {
+    Ecosystem.APK: lambda kind: kind == "package:apk",
+    Ecosystem.CARGO: lambda kind: kind == "manifest:cargo",
+    Ecosystem.PYPI: lambda kind: kind == "manifest:pypi",
+    Ecosystem.NPM: lambda kind: kind == "manifest:npm",
+    Ecosystem.GITHUB: lambda kind: kind == "action",
+    Ecosystem.ARTIFACT: lambda kind: kind == "url",
+    Ecosystem.DOCKER: lambda kind: kind == "label" or kind.startswith("package:"),
+    Ecosystem.TOOLCHAIN: lambda kind: kind == "label" or kind.startswith("package:"),
+}
+
+
+def _producer(ecosystem: Ecosystem, name: str, cache: dict[str, str | None]) -> str | None:
+    accepts = _MATCH_KINDS.get(ecosystem)
+    if accepts is None:
+        return None
+    key = f"{ecosystem.value}\0{name}"
+    if key not in cache:
+        matches = substitutes.lookup(name, accepts)
+        cache[key] = matches[0].producer if matches else None
+    return cache[key]
 
 
 def _mirrored(instance: Instance) -> bool:
@@ -240,7 +256,7 @@ def _substitutable_rows(
             {
                 "ecosystem": key[0].value,
                 "name": key[1],
-                "producer": producers.get(key[1]),
+                "producer": producers.get(f"{key[0].value}\0{key[1]}"),
                 "repositories": sorted(component_repositories[key], key=str.casefold),
             }
         )

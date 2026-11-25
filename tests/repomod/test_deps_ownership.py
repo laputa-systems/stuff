@@ -98,6 +98,11 @@ def _dict(value: object) -> dict[str, object]:
     return cast(dict[str, object], value)
 
 
+def _rows(value: object) -> list[dict[str, object]]:
+    assert isinstance(value, list)
+    return cast(list[dict[str, object]], value)
+
+
 def _counts(value: object) -> dict[str, int]:
     return {str(key): cast(int, item) for key, item in _dict(value).items()}
 
@@ -178,7 +183,7 @@ def test_substitutable_and_upstream_rows(tmp_path: Path) -> None:
 def test_substitute_lookup_supplies_the_producer(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    def fake_lookup(name: str) -> list[substitutes.SubstituteMatch]:
+    def fake_lookup(name: str, kinds: object = None) -> list[substitutes.SubstituteMatch]:
         if name == "sub-me":
             return [
                 substitutes.SubstituteMatch("acme/producer", "manifest:cargo", "sub-me")
@@ -204,10 +209,33 @@ def test_substitute_lookup_supplies_the_producer(
     ]
 
 
+def test_substitutes_match_only_their_own_ecosystem(tmp_path: Path) -> None:
+    graph = _graph(
+        tmp_path,
+        [
+            repository(
+                "acme/one",
+                (
+                    instance(Ecosystem.CARGO, "cmake", "0.1.54"),
+                    instance(Ecosystem.APK, "cmake", "4.1.2-r0"),
+                    instance(Ecosystem.NPM, "js", "1.0.0"),
+                ),
+            )
+        ],
+    )
+
+    value = ownership.ownership(graph)
+
+    rows = {(row["ecosystem"], row["name"]): row["producer"] for row in _rows(value["substitutable"])}
+    assert rows == {("apk", "cmake"): "laputa-systems/cmake-build"}
+    assert _counts(_dict(value["ecosystems"])["cargo"])["upstream"] == 1
+    assert _counts(_dict(value["ecosystems"])["npm"])["upstream"] == 1
+
+
 def test_owned_precedence_over_mirrored_and_substitutable(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    def fake_lookup(name: str) -> list[substitutes.SubstituteMatch]:
+    def fake_lookup(name: str, kinds: object = None) -> list[substitutes.SubstituteMatch]:
         return [substitutes.SubstituteMatch("acme/producer", "package:apk", name)]
 
     monkeypatch.setattr(substitutes, "lookup", fake_lookup)

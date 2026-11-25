@@ -4,7 +4,7 @@ import argparse
 import re
 import sys
 import tomllib
-from collections.abc import Sequence
+from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import cast
@@ -240,36 +240,42 @@ def manifest_producer(
     return None
 
 
-def _producer_match(name: str, producer: str, sub: ProducerSub) -> SubstituteMatch | None:
+def _producer_matches(name: str, producer: str, sub: ProducerSub) -> Iterator[SubstituteMatch]:
     wanted = name.strip().casefold()
     for manager, entries in sub.packages.items():
         for entry in entries:
             matched = _package_match(entry, wanted)
             if matched is not None:
-                return SubstituteMatch(producer, f"package:{manager}", matched)
+                yield SubstituteMatch(producer, f"package:{manager}", matched)
+                break
     action = _action_name(name)
     for declared in sorted(sub.actions, key=str.casefold):
         if declared.casefold() == action:
-            return SubstituteMatch(producer, "action", declared)
+            yield SubstituteMatch(producer, "action", declared)
+            break
     forms = _url_forms(name)
     for prefix in sub.urls:
         wanted_prefix = prefix.casefold().rstrip("/")
         if any(form == wanted_prefix or form.startswith(f"{wanted_prefix}/") for form in forms):
-            return SubstituteMatch(producer, "url", prefix)
+            yield SubstituteMatch(producer, "url", prefix)
+            break
     for ecosystem in sorted(sub.manifests):
         matched = manifest_match(name, ecosystem, sub)
         if matched is not None:
-            return SubstituteMatch(producer, f"manifest:{ecosystem}", matched)
+            yield SubstituteMatch(producer, f"manifest:{ecosystem}", matched)
     if _label_match(sub.label, wanted):
-        return SubstituteMatch(producer, "label", sub.label)
-    return None
+        yield SubstituteMatch(producer, "label", sub.label)
 
 
-def lookup(name: str) -> list[SubstituteMatch]:
+def lookup(name: str, kinds: Callable[[str], bool] | None = None) -> list[SubstituteMatch]:
+    """One match per producer: its first match kind, or its first kind that `kinds` accepts."""
     policy = load_policy()
     matches = []
     for producer, sub in policy.producers.items():
-        match = _producer_match(name, producer, sub)
+        match = next(
+            (found for found in _producer_matches(name, producer, sub) if kinds is None or kinds(found.kind)),
+            None,
+        )
         if match is not None:
             matches.append(match)
     return matches
