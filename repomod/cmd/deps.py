@@ -96,6 +96,24 @@ def _deps(args: argparse.Namespace) -> int:
         return _mirror(catalog, common.with_visibility(repositories), dry_run=args.dry_run, workers=args.workers)
     loaded = graph.load_inventory(inventory)
     built = graph.build_graph(loaded, catalog)
+    if args.operation == "ownership":
+        from repomod.dependencies import ownership as ownership_module
+
+        reported = common.reporting_repositories(
+            catalog,
+            getattr(args, "repo", []),
+            getattr(args, "tag", []),
+            include_private=args.include_private,
+        )
+        value = ownership_module.ownership(
+            built, [str(repository.id) for repository in reported]
+        )
+        if args.json:
+            common.print_json(value)
+        else:
+            for line in ownership_module.ownership_text(value):
+                print(line)
+        return 0
     if args.operation == "enrich":
         from repomod.dependencies import enrich as enrich_module
 

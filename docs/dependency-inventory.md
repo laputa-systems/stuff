@@ -78,6 +78,37 @@ uv run repomod deps report
 uv run repomod deps report --json
 ```
 
+### `deps ownership`
+
+Classify every inventory component into exactly one ownership class and report the counts per
+ecosystem and per repository. It reads only `fleet/dependencies/v1/` plus the policy files
+(`fleet/registries.toml` is not consulted; the stuff registries are recognized by their
+`17166969.xyz` hosts) — no network access and no checkout reads. `local` and `service`
+ecosystems are excluded from the classes and reported separately as excluded counts. Totals and
+ecosystem counts deduplicate components per ecosystem and name; repository counts count
+instances, each under the class its own source resolves to. A component's class is the highest
+precedence class found among its instances. JSON output sorts all keys and is byte-identical
+across runs.
+
+```sh
+uv run repomod deps ownership
+uv run repomod deps ownership --include-private --json
+```
+
+The classes, in precedence order:
+
+- `owned` — first-party per the inventory (`is_first_party`: the `first_party` flag, a
+  catalogued `vcs_url`, the native crates registry, or a workspace/path name in a
+  crates-io/pypi-tagged repository), or a source/purl qualifier (`vcs_url`, `repository_url`,
+  `registry_url`, or any purl qualifier such as `download_url`) that names a `joshuarli` or
+  `laputa-systems` repository or GitHub release. Action owners (`owner/repo` names), image
+  namespaces (`ghcr.io/owner/...`), and npm scopes (`@owner/...`) count as naming the owner.
+- `mirrored` — an upstream package whose `registry_url` host is under `17166969.xyz`
+  (`crates.`, `npm.`, `pypi.`, `stuff.`): our distribution of upstream code.
+- `substitutable` — `repomod.substitutes.lookup(name)` names an owned producer in
+  `fleet/policy/owned-substitutes.toml`; the producer is recorded per package.
+- `upstream` — everything else.
+
 ### `deps diff`
 
 Compare `fleet/dependencies/v1` at two Git revisions. `--from` defaults to `HEAD`; `--to`

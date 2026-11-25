@@ -30,6 +30,7 @@ def instance(
     first_party: bool = False,
     vcs_url: str | None = None,
     repository_url: str | None = None,
+    registry_url: str | None = None,
 ) -> Instance:
     component = purl(ecosystem, name)
     value = purl(ecosystem, name, version)
@@ -40,6 +41,7 @@ def instance(
         version,
         source_kind,
         context=context,
+        registry_url=registry_url,
         vcs_url=vcs_url,
         repository_url=repository_url,
         first_party=first_party,

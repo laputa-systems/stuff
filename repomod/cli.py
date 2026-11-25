@@ -279,6 +279,18 @@ def _parser() -> argparse.ArgumentParser:
     _filters(report)
     _private_option(report)
     report.add_argument("--json", action="store_true", help="write structured JSON to stdout")
+    ownership = deps_commands.add_parser(
+        "ownership",
+        epilog="Examples:\n  repomod deps ownership --json",
+        help="classify inventory components as owned, mirrored, substitutable, or upstream",
+        description=(
+            "read the inventory and policy files and classify every component as "
+            "owned, mirrored, substitutable, or upstream, per ecosystem and per repository"
+        ),
+    )
+    _filters(ownership)
+    _private_option(ownership)
+    ownership.add_argument("--json", action="store_true", help="write structured JSON to stdout")
     diff = deps_commands.add_parser(
         "diff", epilog="Examples:\n  repomod deps diff --from HEAD~1 --to HEAD --json",
         help="compare the inventory across Git revisions",
