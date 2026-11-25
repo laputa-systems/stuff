@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 124
+Next: 125
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -119,15 +119,6 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Problem:** Alpine v3.24 main keeps only the newest revision of a package. On 2026-11-24 it replaced openssl, libssl3 and libcrypto3 3.5.9-r0 with r1 and python3 3.14.10-r1 with r2, and the old files were deleted. cmake-build's controller job (exact-byte pins from dl-cdn) and play's Linux and lint jobs (versioned `apk add`) failed until they were repinned by hand (laputa-systems/cmake-build#136, joshuarli/play#22). Every repository that pins Alpine APKs by URL or version is exposed the same way.
 - **Recommendation:** Serve pinned APKs from the stuff artifact mirror (`stuff publish mirror`) and list it before dl-cdn in each lock's URL list, so retired revisions stay fetchable at their pinned bytes; add a repomod rule that reports Alpine APK pins without a mirror URL, and a scheduled check that reports pins whose upstream revision was retired so they are bumped deliberately.
 - **Fix with:** none
-- **Effort:** M
-
-### STUF-121 · P2 · current/wheels URLs answer 404 for minutes after a PyPI generation activates
-
-- **Area:** registries · pypi serving
-- **Where:** crates/stuff-worker (current alias and generation-scoped wheels/ resolution); deploy/shared-store-paths.txt
-- **Problem:** Repeatedly on 2026-11-25, CI downloads of wheels the live index lists returned 404 from https://pypi.17166969.xyz/current/wheels/… (ty, uv and ruff musllinux wheels published in generations 96d210c3 and fdb64f39), failing laputa-systems/buildlib#35, #36 and #37 jobs, while 30 sequential requests from the SJC edge at the same time all returned 200. One case had no publish nearby, so activation alone does not explain it. Probable cause: the route-attached failover Worker (crates/stuff-worker/cloudflare.ts) serves the R2 replica when the origin 5xxs, errors or sends no headers within ORIGIN_HEADER_TIMEOUT_MS = 8000, and returns the replica's 404 unchanged. The replica is stale because oo-replica-sync is stopped since the Threadripper cutover (docs/registry-failover.md), so every object published after that 404s on failover. Not yet proven with a captured `x-stuff-served-by: replica` response.
-- **Recommendation:** Owner decision: either remove the failover Worker routes as docs/registry-failover.md already advises while the replica is stale, or deploy branch fix/replica-miss-503 (999dfb29c7: replica 404 becomes 503 with Retry-After and no-store, origin 404 stays authoritative) after the OCI blob replica gap below is fixed, and resume replica sync. Separately log which edge requests fail over and why the origin misses the 8 s header deadline under CI load.
-- **Fix with:** root-cause
 - **Effort:** M
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
@@ -309,6 +300,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Recommendation:** Decide whether python-build publishes the older supported minors (3.11 to 3.14) as separate products in the same release; when it does, move tf to them through buildlib.tools and drop the exemption. python-build has no backlog yet, so this lives here.
 - **Fix with:** none
 - **Effort:** M
+
+### STUF-124 · P3 · Deploy the replica-miss 503 hardening to the failover Worker
+
+- **Area:** registries · failover
+- **Where:** branch fix/replica-miss-503 (999dfb29c7); deploy/failover-deploy.sh
+- **Problem:** With replica sync stopped after the Threadripper cutover, the failover Worker answered 404 for objects the stale replica lacked, which package managers treat as final (STUF-121, fixed on 2026-11-25 by pointing Lisa's oo-replica-sync at the primary's store). A replica can still lag the origin by up to one five-minute sync, so a failover in that window returns the same final 404.
+- **Recommendation:** After STUF-122 tightens the registry-path tests, rebase fix/replica-miss-503 (replica 404 becomes a 503 with Retry-After and no-store; origin 404 stays authoritative) and deploy it with deploy/failover-deploy.sh, which needs a Cloudflare `cf` login that no fleet host currently has.
+- **Fix with:** none
+- **Effort:** S
 
 ### STUF-111 · P4 · stuff-server matches route prefixes against the raw request target
 
