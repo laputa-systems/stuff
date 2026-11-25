@@ -41,7 +41,7 @@ jobs:
         run: cargo clippy --locked --all-targets -- -D warnings
       - name: read the uv pin
         run: echo "UV_VERSION=$(cat deploy/uv-version)" >> "$GITHUB_ENV"
-      - uses: laputa-systems/buildlib/setup@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161 # v0.3.1
+      - uses: laputa-systems/buildlib/setup@4ed2e0a1e0a5d23911ffccdd97349d30a7885f01 # v0.3.2
         with:
           tools: cpython
           lock: .github/tools.lock.json
@@ -81,7 +81,7 @@ jobs:
           run_install: false
       - name: read the uv pin
         run: echo "UV_VERSION=$(cat deploy/uv-version)" >> "$GITHUB_ENV"
-      - uses: laputa-systems/buildlib/setup@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161 # v0.3.1
+      - uses: laputa-systems/buildlib/setup@4ed2e0a1e0a5d23911ffccdd97349d30a7885f01 # v0.3.2
         with:
           tools: cpython
           lock: .github/tools.lock.json
@@ -131,7 +131,7 @@ jobs:
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
       - name: read the uv pin
         run: echo "UV_VERSION=$(cat deploy/uv-version)" >> "$GITHUB_ENV"
-      - uses: laputa-systems/buildlib/setup@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161 # v0.3.1
+      - uses: laputa-systems/buildlib/setup@4ed2e0a1e0a5d23911ffccdd97349d30a7885f01 # v0.3.2
         with:
           tools: cpython
           lock: .github/tools.lock.json
