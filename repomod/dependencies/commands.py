@@ -4,6 +4,7 @@ import bisect
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import tomllib
@@ -15,6 +16,7 @@ from typing import cast
 
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
+from ruamel.yaml.scalarstring import FoldedScalarString, LiteralScalarString
 
 from repomod import owned_tools, paths
 from repomod.dependencies.git_tree import TreeEntry
@@ -163,6 +165,22 @@ class RawMatch:
 class Assembly:
     data: bytes
     spans: tuple[tuple[str, str, int, int], ...]
+    marks: tuple[tuple[int, int], ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class _LocatedFragment:
+    text: str
+    line: int
+
+
+@dataclass(frozen=True, slots=True)
+class CallSite:
+    path: str
+    kind: str
+    line: int
+    name: str
+    arguments: tuple[str, ...]
 
 
 def policy() -> CommandPolicy:
@@ -284,32 +302,43 @@ def repository_files(
 
 
 def fragments(kind: str, path: str, text: str) -> tuple[str, ...]:
+    return tuple(item.text for item in _located_fragments(kind, path, text))
+
+
+def _located_fragments(kind: str, path: str, text: str) -> tuple[_LocatedFragment, ...]:
     if kind == KIND_SHELL:
-        return (text,) if text.strip() else ()
+        return (_LocatedFragment(text, 1),) if text.strip() else ()
     if kind == KIND_WORKFLOW:
-        return _workflow_runs(text)
+        return _workflow_fragments(text)
     if kind == KIND_MAKEFILE:
-        return _recipe_lines(text)
+        return _recipe_fragments(text)
     if kind == KIND_DOCKERFILE:
-        return _dockerfile_runs(text)
+        return _dockerfile_fragments(text)
     return ()
 
 
 def assemble(files: Sequence[SurfaceFile]) -> Assembly:
     spans: list[tuple[str, str, int, int]] = []
+    marks: list[tuple[int, int]] = []
     parts: list[bytes] = []
     offset = 0
     for item in sorted(files, key=lambda file: file.path):
-        body = "\n".join(fragments(item.kind, item.path, item.text)).encode("utf-8")
+        located = _located_fragments(item.kind, item.path, item.text)
+        encoded = [fragment.text.encode("utf-8") for fragment in located]
+        body = b"\n".join(encoded)
         if not body.strip():
             continue
         if not body.endswith(b"\n"):
             body += b"\n"
         body += b"\n"
+        cursor = offset
+        for fragment, chunk in zip(located, encoded, strict=True):
+            marks.append((cursor, fragment.line))
+            cursor += len(chunk) + 1
         spans.append((item.path, item.kind, offset, offset + len(body)))
         parts.append(body)
         offset += len(body)
-    return Assembly(b"".join(parts), tuple(spans))
+    return Assembly(b"".join(parts), tuple(spans), tuple(marks))
 
 
 def matches_from_json(data: bytes | str) -> tuple[RawMatch, ...]:
@@ -367,21 +396,31 @@ def scan(data: bytes, binary: Path | None = None) -> tuple[RawMatch, ...]:
     return matches_from_json(result.stdout)
 
 
+def _span_at(
+    assembly: Assembly, offset: int
+) -> tuple[str, str, int, int] | None:
+    starts = [span[2] for span in assembly.spans]
+    index = bisect.bisect_right(starts, offset) - 1
+    if index < 0:
+        return None
+    path, kind, start, end = assembly.spans[index]
+    if not start <= offset < end:
+        return None
+    return path, kind, start, end
+
+
 def file_commands(
     assembly: Assembly, matches: Sequence[RawMatch]
 ) -> dict[str, tuple[str, Counter[str], dict[str, set[str]]]]:
     functions = {
         span[0]: _defined_functions(assembly, span) for span in assembly.spans
     }
-    starts = [span[2] for span in assembly.spans]
     found: dict[str, tuple[str, Counter[str], dict[str, set[str]]]] = {}
     for match in matches:
-        index = bisect.bisect_right(starts, match.offset) - 1
-        if index < 0:
+        located = _span_at(assembly, match.offset)
+        if located is None:
             continue
-        path, kind, start, end = assembly.spans[index]
-        if not start <= match.offset < end:
-            continue
+        path, kind, _start, _end = located
         name = _normalize(match.text)
         if name is None or name in _BUILTINS or name in functions[path]:
             continue
@@ -395,6 +434,65 @@ def file_commands(
         if arguments:
             entry[2].setdefault(name, set()).add(arguments)
     return found
+
+
+def sites(assembly: Assembly, matches: Sequence[RawMatch]) -> tuple[CallSite, ...]:
+    functions = {
+        span[0]: _defined_functions(assembly, span) for span in assembly.spans
+    }
+    mark_offsets = [mark[0] for mark in assembly.marks]
+    found: list[CallSite] = []
+    for match in matches:
+        located = _span_at(assembly, match.offset)
+        if located is None:
+            continue
+        path, kind, _start, _end = located
+        name = _normalize(match.text)
+        if name is None or name in _BUILTINS or name in functions[path]:
+            continue
+        found.append(
+            CallSite(
+                path,
+                kind,
+                _source_line(assembly, mark_offsets, match.offset),
+                name,
+                _argument_words(_arguments(match)),
+            )
+        )
+    return tuple(found)
+
+
+def call_sites(files: Sequence[SurfaceFile]) -> tuple[CallSite, ...]:
+    assembly = assemble(files)
+    if not assembly.data.strip():
+        return ()
+    return sites(assembly, scan(assembly.data))
+
+
+def _source_line(
+    assembly: Assembly, mark_offsets: Sequence[int], offset: int
+) -> int:
+    index = bisect.bisect_right(mark_offsets, offset) - 1
+    if index < 0:
+        return 1
+    mark_offset, first_line = assembly.marks[index]
+    return first_line + assembly.data[mark_offset:offset].count(b"\n")
+
+
+_CONTROL_OPERATORS = frozenset({"&&", "||", ";", "|", "&"})
+
+
+def _argument_words(text: str) -> tuple[str, ...]:
+    if not text:
+        return ()
+    try:
+        words = shlex.split(text, posix=True)
+    except ValueError:
+        words = text.split()
+    for index, word in enumerate(words):
+        if word in _CONTROL_OPERATORS:
+            return tuple(words[:index])
+    return tuple(words)
 
 
 def _arguments(match: RawMatch) -> str:
@@ -466,6 +564,21 @@ def inventory(
     )
 
 
+def candidate_path(path: str) -> bool:
+    return _candidate_path(path)
+
+
+def surface_file(path: str, text: str) -> SurfaceFile | None:
+    if not _candidate_path(path):
+        return None
+    kind = _surface_kind(path)
+    if kind is None:
+        if not _extensionless(path) or not _has_shell_shebang(text):
+            return None
+        kind = KIND_SHELL
+    return SurfaceFile(path, kind, text)
+
+
 def _candidate_path(path: str) -> bool:
     parts = path.split("/")[:-1]
     if any(part in _SKIP_DIRECTORIES for part in parts):
@@ -508,20 +621,40 @@ def _has_shell_shebang(text: str) -> bool:
     return _SHEBANG.match(first) is not None
 
 
-def _workflow_runs(text: str) -> tuple[str, ...]:
+def _workflow_line(node: object, key: object, value: object) -> int:
+    data = getattr(getattr(node, "lc", None), "data", None)
+    entry = data.get(key) if isinstance(data, dict) else None
+    if not (
+        isinstance(entry, list)
+        and len(entry) >= 4
+        and all(type(item) is int for item in entry[:4])
+    ):
+        return 1
+    key_line = int(entry[0])
+    _key_column = entry[1]
+    value_line = int(entry[2])
+    _value_column = entry[3]
+    if isinstance(value, (LiteralScalarString, FoldedScalarString)):
+        return key_line + 2
+    if value_line > key_line:
+        return value_line + 1
+    return key_line + 1
+
+
+def _workflow_fragments(text: str) -> tuple[_LocatedFragment, ...]:
     if not text.strip():
         return ()
     try:
         document = YAML(typ="rt").load(text)
     except (YAMLError, AttributeError, ValueError, RecursionError):
         return ()
-    runs: list[str] = []
+    runs: list[_LocatedFragment] = []
 
     def walk(node: object) -> None:
         if isinstance(node, Mapping):
             for key, value in node.items():
                 if key == "run" and isinstance(value, str):
-                    runs.append(value)
+                    runs.append(_LocatedFragment(value, _workflow_line(node, key, value)))
                 else:
                     walk(value)
         elif isinstance(node, list):
@@ -532,8 +665,8 @@ def _workflow_runs(text: str) -> tuple[str, ...]:
     return tuple(runs)
 
 
-def _recipe_lines(text: str) -> tuple[str, ...]:
-    recipes: list[str] = []
+def _recipe_fragments(text: str) -> tuple[_LocatedFragment, ...]:
+    recipes: list[_LocatedFragment] = []
     lines = text.splitlines()
     index = 0
     while index < len(lines):
@@ -541,6 +674,7 @@ def _recipe_lines(text: str) -> tuple[str, ...]:
         index += 1
         if not line.startswith("\t"):
             continue
+        start = index
         command = line[1:]
         while command.rstrip().endswith("\\") and index < len(lines):
             command = command.rstrip()[:-1] + " " + lines[index].strip()
@@ -549,14 +683,13 @@ def _recipe_lines(text: str) -> tuple[str, ...]:
         command = _MAKE_VARIABLE.sub("make", command)
         command = _MAKE_EXPANSION.sub("$MAKEVAR", command)
         if command:
-            recipes.append(command)
+            recipes.append(_LocatedFragment(command, start))
     return tuple(recipes)
 
 
-def _dockerfile_runs(text: str) -> tuple[str, ...]:
-    runs: list[str] = []
-    logical = _logical_lines(text)
-    for line in logical:
+def _dockerfile_fragments(text: str) -> tuple[_LocatedFragment, ...]:
+    runs: list[_LocatedFragment] = []
+    for line, start in _logical_lines(text):
         match = re.match(r"^\s*RUN(?:\s|$)", line, re.IGNORECASE)
         if match is None:
             continue
@@ -569,22 +702,26 @@ def _dockerfile_runs(text: str) -> tuple[str, ...]:
                 break
             rest = rest[flag.end() :].lstrip()
         if rest:
-            runs.append(rest)
+            runs.append(_LocatedFragment(rest, start))
     return tuple(runs)
 
 
-def _logical_lines(text: str) -> list[str]:
-    lines: list[str] = []
+def _logical_lines(text: str) -> list[tuple[str, int]]:
+    lines: list[tuple[str, int]] = []
     pending = ""
-    for raw in text.splitlines():
+    pending_line = 0
+    for number, raw in enumerate(text.splitlines(), start=1):
         line = raw.rstrip("\n")
         if line.endswith("\\"):
+            if not pending:
+                pending_line = number
             pending += line[:-1] + " "
             continue
-        lines.append(pending + line)
+        lines.append((pending + line, pending_line or number))
         pending = ""
+        pending_line = 0
     if pending:
-        lines.append(pending)
+        lines.append((pending, pending_line))
     return lines
 
 

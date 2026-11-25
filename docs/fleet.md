@@ -113,6 +113,13 @@ whose `origin` matches the catalogued repository. It is only read.
 uv run repomod lint --repo acme/tool --checkout .work/wt/fix
 ```
 
+Shared shell must run unchanged on macOS, glibc Linux, and Alpine. The `shell-portability`
+lint rule enforces the owner's portability standard mechanically: it rejects the standard's
+nonportable commands and options (and the GNU regex escapes in `sed`/`grep`) in workflow
+`run:` steps, Makefile recipes, shell scripts, and Dockerfile `RUN` lines, honors its
+platform-named path exemptions, and names the portable replacement in each finding. See
+[policy development](policy-development.md#shell-portability).
+
 ## Owned tools first
 
 The fleet is one system. When a repository needs a tool that an owned producer supplies, it uses

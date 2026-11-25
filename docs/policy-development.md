@@ -416,6 +416,40 @@ those entries to the approval and writes the file as `buildlib tools lock` does:
 indent, sorted keys and a trailing newline. See
 [acquiring owned tools](fleet.md#acquiring-owned-tools).
 
+## Shell portability
+
+`fleet/policy/shell-portability.toml` backs the `shell-portability` rule
+(`rules/shell_portability.py`), the command-audit lint the
+[portability standard](https://github.com/joshuarli/usr) asks fleet adoption to add. The rule
+reuses the DO4 ast-grep `command_name` parse in `repomod/dependencies/commands.py` — workflow
+`run:` steps, Makefile recipes, shell scripts, and Dockerfile `RUN` lines — through
+`commands.call_sites`, which exposes each call site's file, line, command name, and argument
+words without changing the stored dependency inventory. It runs the pinned ast-grep like the
+inventory does and reports a missing or wrong binary as an operational finding.
+
+Each `[[rule]]` entry names the command words it applies to plus the portable replacement
+reported in the finding. `options` lists forbidden spellings (`--long` also matches
+`--long=value`; `-x` matches that short option alone, inside a single-dash cluster, or with an
+attached value; a longer `-word` matches the exact argument word; an entry containing a space
+matches that word sequence), `arguments` requires leading argument words, and `patterns` are
+regular expressions searched in each argument word. All option and pattern matching stops at a
+`--` operand separator, and `letters` can restrict cluster matching to a command's real option
+letters. The shipped policy encodes the standard's table: `shasum`, `md5`, `md5sum`, `nproc`,
+`flock`, `getopt`, `tac`, and `which` are forbidden outright; `stat -c`/`-f`, `sed -i`,
+`grep -P`, `date -d`/`-j`/`-v` and `%N` formats, `find -printf`/`-regextype`, `sort -V`,
+`du -b`, `readlink -e`/`-m`, `cp --reflink`/`-T`, `mv -T`, `ln -r`, `install -D`, `tail -r`,
+`echo -e`/`-n`, `openssl dgst`, and `sysctl -n hw.ncpu` are forbidden forms, as are the GNU
+regex escapes `\s`, `\w`, `\+`, `\?`, and `\|` in `sed` and `grep` script arguments.
+
+The standard's exemptions are honored: paths under a `darwin`, `macos`, `linux`, or `alpine`
+directory, files named `*_linux.*`, `*_darwin.*`, `*_macos.*`, `*-linux`, or `*-macos`,
+Dockerfiles and Containerfiles, and workflow `run:` steps in jobs whose `runs-on` resolves to a
+single operating-system family (a fixed label such as `ubuntu-latest` or `macos-15`, or a list
+sharing one family; matrix expressions and OS-spanning lists stay checked). A per-repository
+`[exempt."owner/repo"]` table entry with `reason` and `reassess` suppresses the whole
+repository, and an exemption matching no finding is itself a stale finding, like
+`owned-tool-substitution`. The rule is read-only and has no fixer.
+
 ## Other policy rules
 
 `gha-test-workflow` requires a workflow triggered by `pull_request` to run `make test` or
