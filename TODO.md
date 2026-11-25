@@ -292,15 +292,6 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Fix with:** none
 - **Effort:** M
 
-### STUF-124 · P3 · Deploy the replica-miss 503 hardening to the failover Worker
-
-- **Area:** registries · failover
-- **Where:** branch fix/replica-miss-503 (999dfb29c7); deploy/failover-deploy.sh
-- **Problem:** With replica sync stopped after the Threadripper cutover, the failover Worker answered 404 for objects the stale replica lacked, which package managers treat as final (STUF-121, fixed on 2026-11-25 by pointing Lisa's oo-replica-sync at the primary's store). A replica can still lag the origin by up to one five-minute sync, so a failover in that window returns the same final 404.
-- **Recommendation:** After STUF-122 tightens the registry-path tests, rebase fix/replica-miss-503 (replica 404 becomes a 503 with Retry-After and no-store; origin 404 stays authoritative) and deploy it with deploy/failover-deploy.sh, which needs a Cloudflare `cf` login that no fleet host currently has.
-- **Fix with:** none
-- **Effort:** S
-
 ### STUF-111 · P4 · stuff-server matches route prefixes against the raw request target
 
 - **Area:** stuff-server · routing

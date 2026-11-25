@@ -43,7 +43,10 @@ to the origin and settles at response headers:
   unchanged, body streaming, with no `x-stuff-served-by` header;
 - an origin 5xx, a thrown network error, or no response headers within
   `ORIGIN_HEADER_TIMEOUT_MS` (8 s, `src/failover.ts`) serves the replica through
-  `entry.ts` and adds `x-stuff-served-by: replica`.
+  `entry.ts` and adds `x-stuff-served-by: replica`. A replica 404 is not proof
+  of absence, because the replica lags the origin, so it becomes a 503 with
+  `Retry-After: 5` and `Cache-Control: no-store`; clients retry a 5xx but treat
+  a 404 as final.
 
 A non-`GET`/`HEAD` request is forwarded unchanged and never replayed against the
 replica, so a rejected write cannot be applied twice.
@@ -87,7 +90,7 @@ Best-effort, because they depend on what the last sync copied:
   trails the origin by up to that cadence plus the copy time. A generation
   published inside the window is not on the replica yet: the current pointer's
   previous target still answers, while a
-  brand-new generation URL returns 404 until the next sync. Live publication
+  brand-new generation URL answers a retryable 503 until the next sync. Live publication
   therefore keeps working only while the origin does.
 - **The unified page** renders only when every one of the five registry buckets
   has a `current` pointer naming a generation whose `catalog.json` the replica
