@@ -96,6 +96,7 @@ def _char_literal_end(source: str, start: int) -> int | None:
 
 
 _NON_NEWLINE = re.compile(r"[^\n]")
+_TRIGGER = re.compile(r"//|/\*|\"|'|b|r")
 
 
 def _mask_noncode(source: str) -> str:
@@ -103,24 +104,29 @@ def _mask_noncode(source: str) -> str:
     cursor = 0
     index = 0
     length = len(source)
-    while index < length:
+    while True:
+        match = _TRIGGER.search(source, index)
+        if match is None:
+            break
+        start = match.start()
         end: int | None = None
-        if source.startswith("//", index):
-            newline = source.find("\n", index)
+        if source.startswith("//", start):
+            newline = source.find("\n", start)
             end = length if newline == -1 else newline
-        elif source.startswith("/*", index):
-            end = _block_comment_end(source, index)
-        elif source[index] == '"':
-            end = _string_end(source, index)
-        elif source[index] in {"b", "r"}:
-            end = _raw_string_end(source, index)
-        elif source[index] == "'":
-            end = _char_literal_end(source, index)
+        elif source.startswith("/*", start):
+            end = _block_comment_end(source, start)
+        elif source[start] == '"':
+            end = _string_end(source, start)
+        elif source[start] in {"b", "r"}:
+            end = _raw_string_end(source, start)
+        elif source[start] == "'":
+            end = _char_literal_end(source, start)
         if end is None:
-            index += 1
+            index = start + 1
             continue
-        pieces.append(source[cursor:index])
-        pieces.append(_NON_NEWLINE.sub(" ", source[index:end]))
+        region = source[start:end]
+        pieces.append(source[cursor:start])
+        pieces.append(_NON_NEWLINE.sub(" ", region) if "\n" in region else " " * len(region))
         index = end
         cursor = end
     pieces.append(source[cursor:])
