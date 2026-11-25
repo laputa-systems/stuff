@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 118
+Next: 119
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -101,6 +101,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Problem:** On ubuntu-26.04-arm the buildlib setup action installed the locked ffmpeg-runtime and `ffmpeg -version` failed with 'cannot execute: required file not found': the binary needs /lib/ld-musl-aarch64.so.1, which Ubuntu runners lack (and the runtime also needs libva). python-build's musl builds have the same limit, which is why buildlib-run falls back to uv's upstream CPython on glibc. Static owned tools (gluon, rg) ran fine. Until fixed, consumers on GitHub-hosted Linux runners cannot use these producers and need exemptions.
 - **Recommendation:** Pick one fleet-wide fix: either the setup action provisions a pinned musl loader (and the runtime's shared libraries) on glibc hosts from an owned producer such as llvm-prebuilt-musl's sysroot, or ffmpeg-build and python-build publish a fully static or glibc-loadable variant. Prove it with the buildlib setup workflow running `ffmpeg -version` and `python3 -c 'import ssl'` on ubuntu-26.04 and ubuntu-26.04-arm.
 - **Fix with:** architect
+- **Effort:** M
+
+### STUF-118 · P2 · Rotating an app's store key leaves its buckets owned by the deleted user
+
+- **Area:** openorange · store
+- **Where:** deploy/openorange/bin/oo (cmd_secrets, provision_store)
+- **Problem:** On 2026-11-24 at 18:17 the stuff primary's S3_ACCESS_KEY_ID was changed by hand and the old store user deleted, without running `oo provision stuff`. The ORANGE_R2_* bindings kept the deleted key and every stuff bucket stayed owned by the deleted user, so all bucket requests answered 403 AccessDenied: publication failed at `list stuff-mypypi`, the coordinator Durable Objects could not load, and the app stopped passing readiness after its next restart. `oo provision stuff` repaired it on 2026-11-25 by rewriting the bindings and changing each bucket's owner.
+- **Recommendation:** Give key rotation one command (for example `oo rotate-store-key APP`) that creates the new user, runs change-bucket-owner for every app bucket, rewrites the derived bindings and only then deletes the old user; make `oo health` fail when an app's bucket owner or ORANGE_R2_* key differs from its S3_ACCESS_KEY_ID.
+- **Fix with:** none
 - **Effort:** M
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
