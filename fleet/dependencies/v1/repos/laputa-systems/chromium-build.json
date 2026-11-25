@@ -415,6 +415,12 @@
    "purl": "pkg:github/astral-sh/setup-uv"
   },
   {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
+  },
+  {
    "display_name": "chromium-build",
    "ecosystem": "local",
    "name": "chromium-build",
@@ -827,7 +833,7 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[1].uses",
+     "locator": "jobs.lint.steps[2].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -845,7 +851,7 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.macos-tests.steps[1].uses",
+     "locator": "jobs.macos-tests.steps[2].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -875,11 +881,47 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.macos-tests.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
   }
  ],
  "inputs": [
   {
-   "blob": "c33d71ef38a590a1e7349339c2bb92db39763b7e",
+   "blob": "10a8b9940b6d5a82772e1bc9d7803ed5489695d2",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -931,11 +973,11 @@
    "path": "tests/results/chb11-arm64-smoke/cache-smoke.sh"
   },
   {
-   "blob": "052e3becb5c6e3416d5700dc04dfc3ae4650f09e",
+   "blob": "10a8f97411fe98c5ecba38fd58b41424efd3f5a4",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "459dc61ad24b71d37af0ed1aff82a0a7e3433a744114dbcfcedad9a02a60ed39",
+ "inputs_fingerprint": "cc5bf446a55a1ddfb8d4b17a0b64cc21f2f85e39ed8922f0065355ae47f7c251",
  "instances": [
   {
    "commit": null,
@@ -2366,6 +2408,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/astral-sh/setup-uv",
    "version": "68559e99cc807c1eb7e9238fd43a15bba460eec2"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": null,

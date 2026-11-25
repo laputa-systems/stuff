@@ -745,12 +745,6 @@
    "purl": "pkg:command/uname"
   },
   {
-   "display_name": "uv",
-   "ecosystem": "command",
-   "name": "uv",
-   "purl": "pkg:command/uv"
-  },
-  {
    "display_name": "uvx",
    "ecosystem": "command",
    "name": "uvx",
@@ -809,6 +803,12 @@
    "ecosystem": "github",
    "name": "docker/setup-buildx-action",
    "purl": "pkg:github/docker/setup-buildx-action"
+  },
+  {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
   },
   {
    "display_name": "swatinem/rust-cache",
@@ -1605,7 +1605,7 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[2].uses",
+     "locator": "jobs.lint.steps[3].uses",
      "path": ".github/workflows/lint.yml"
     }
    ],
@@ -1689,6 +1689,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[2].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
   },
   {
    "condition": null,
@@ -4001,7 +4019,7 @@
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "05febcbe22d441a47e1b3d3aebdf677800d55eb2",
+   "blob": "9067e56ae86ba6e6103fd734dcf546dd494359da",
    "path": ".github/workflows/lint.yml"
   },
   {
@@ -4045,7 +4063,7 @@
    "path": "scripts/corpus.sh"
   }
  ],
- "inputs_fingerprint": "b60910a1b48c4bdbbb38504a2780d8f63108e0198fd7891909268306d9b38596",
+ "inputs_fingerprint": "a5ac542dd9443d48241f6bdc68c1cdf0e95a5c36a21b77f2185439881f3ffa79",
  "instances": [
   {
    "commit": null,
@@ -5960,19 +5978,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:command/uv",
-   "context": "workflow",
-   "first_party": false,
-   "id": "pkg:command/uv#workflow",
-   "purl": "pkg:command/uv",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "path",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
    "component": "pkg:command/uvx",
    "context": "makefile",
    "first_party": false,
@@ -6100,6 +6105,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/docker/setup-buildx-action",
    "version": "f87e5991a6d7451dcb8d9637bfbc97413f497069"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": "d1527c8f67ef9af357290475d4af4b0fab8f12e0",

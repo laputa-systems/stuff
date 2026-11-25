@@ -103,6 +103,12 @@
    "purl": "pkg:github/astral-sh/setup-uv"
   },
   {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
+  },
+  {
    "display_name": "joshuarli-pytest-parallel",
    "ecosystem": "local",
    "name": "joshuarli-pytest-parallel",
@@ -441,7 +447,7 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[1].uses",
+     "locator": "jobs.lint.steps[2].uses",
      "path": ".github/workflows/lint.yml"
     }
    ],
@@ -471,6 +477,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
   },
   {
    "condition": null,
@@ -551,7 +575,7 @@
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "2eb80dff35e15a6115c609d19f68a75f72401a1b",
+   "blob": "4b654fbb71d0211a6592763fd607e24e8990062f",
    "path": ".github/workflows/lint.yml"
   },
   {
@@ -571,11 +595,11 @@
    "path": "pyproject.toml"
   },
   {
-   "blob": "d797b4dc2527a4a81ef4aadc5acf3d0f28511142",
+   "blob": "f32ae1fbeea625465db81165dd485487c50de40c",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "af64419d9e4eab3752478493d6a6ce5d4e1301b68e848876ada71b15970b7517",
+ "inputs_fingerprint": "8ad409879483336eca1185de6adee765af4e30dfc8a4ba7ec384a4a2625bc92e",
  "instances": [
   {
    "commit": null,
@@ -836,6 +860,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/astral-sh/setup-uv",
    "version": "68559e99cc807c1eb7e9238fd43a15bba460eec2"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": null,

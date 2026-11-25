@@ -223,6 +223,12 @@
    "purl": "pkg:github/astral-sh/setup-uv"
   },
   {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
+  },
+  {
    "display_name": "node-build",
    "ecosystem": "local",
    "name": "node-build",
@@ -681,7 +687,7 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.test.steps[1].uses",
+     "locator": "jobs.test.steps[2].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -699,7 +705,7 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[1].uses",
+     "locator": "jobs.lint.steps[2].uses",
      "path": ".github/workflows/lint.yml"
     }
    ],
@@ -711,15 +717,51 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
   }
  ],
  "inputs": [
   {
-   "blob": "15d505c13757bbc54d7f0bc4aa1591e2b6b6ba1d",
+   "blob": "d5b84ac2d93739291689225e0c6e1151669944dc",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "d5bb9a53d68589348c6b4d9b7eb7edfe49a8bda4",
+   "blob": "3aade5e54fef13369d7171725a8f5844b9afb127",
    "path": ".github/workflows/lint.yml"
   },
   {
@@ -743,11 +785,11 @@
    "path": "scripts/setup-dev"
   },
   {
-   "blob": "fabee3ed27b1fbdaba3ad8c0ca60aa4580ea7526",
+   "blob": "3943ff1efe5af98110c0c82038f7bc91e4982737",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "ab0d993113741b90f9b705eae1bece002a307e466ac7371d23218189734aff6e",
+ "inputs_fingerprint": "c0142dea56bcb1a3f366152af9060e9454acfb1afa058e2fc31a446ea6bab652",
  "instances": [
   {
    "commit": null,
@@ -1232,19 +1274,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:command/uv",
-   "context": "workflow",
-   "first_party": false,
-   "id": "pkg:command/uv#workflow",
-   "purl": "pkg:command/uv",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "path",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
    "component": "pkg:command/wc",
    "context": "shell",
    "first_party": false,
@@ -1346,6 +1375,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/astral-sh/setup-uv",
    "version": "68559e99cc807c1eb7e9238fd43a15bba460eec2"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": null,

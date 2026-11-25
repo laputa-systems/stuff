@@ -577,6 +577,12 @@
    "purl": "pkg:github/dtolnay/rust-toolchain"
   },
   {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
+  },
+  {
    "display_name": "deser-debug",
    "ecosystem": "local",
    "name": "deser-debug",
@@ -949,7 +955,7 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[1].uses",
+     "locator": "jobs.lint.steps[2].uses",
      "path": ".github/workflows/lint.yml"
     }
    ],
@@ -1033,6 +1039,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
   },
   {
    "condition": null,
@@ -7953,7 +7977,7 @@
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "2eb80dff35e15a6115c609d19f68a75f72401a1b",
+   "blob": "4b654fbb71d0211a6592763fd607e24e8990062f",
    "path": ".github/workflows/lint.yml"
   },
   {
@@ -8337,7 +8361,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "729a3cdb8200ad551ac15610368456ff76096750a9ab906875f54f1892bb298a",
+ "inputs_fingerprint": "dd93ec02c4889a897705951741f37216fe16d2c5baddf65f7b8df915b2ff4b58",
  "instances": [
   {
    "commit": null,
@@ -9576,19 +9600,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:command/uv",
-   "context": "workflow",
-   "first_party": false,
-   "id": "pkg:command/uv#workflow",
-   "purl": "pkg:command/uv",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "path",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
    "component": "pkg:command/wc",
    "context": "shell",
    "first_party": false,
@@ -9651,6 +9662,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/dtolnay/rust-toolchain",
    "version": "683b588c487a69d01f6c6ddf40f036ff682cc2c8"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": null,
