@@ -176,6 +176,10 @@ cargo = ["criterion", "divan"]
 reason = "The producer publishes no release for the Python versions tf needs: 3.14 for the pinned unicodedata 16.0.0 its table generator requires, 3.12 for the ComfyUI runtime checks, and a 3.11/3.12 support matrix; python-build ships only 3.15."
 reassess = "When python-build publishes the older minors (stuff TODO STUF-123)."
 
+[exempt."joshuarli/tf".producers."laputa-systems/node-build"]
+reason = "tf's Electron app, mobile and runtime-feed jobs run Node 22 with npm lockfiles and a pinned npm; node-build ships Node 26 without npm or Corepack by product decision, so moving them is a runtime and package-manager migration of the app, not a tool swap."
+reassess = "When tf moves its app and mobile builds to Node 26 with pnpm or another package manager node-build supports."
+
 [exempt."laputa-systems/graviola".producers."laputa-systems/rustybench"]
 reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
 reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
