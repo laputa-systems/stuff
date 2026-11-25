@@ -207,7 +207,8 @@ compiler) and linking `cc` to `/opt/laputa/bin/clang`: the owned llvm links with
 objects, compiler-rt builtins and `ld.lld`, so it needs only `musl-dev`'s headers. Rust host
 proc-macros still link `-lgcc_s`, so a Rust stage keeps Alpine's `libgcc` runtime and adds the
 `/usr/lib/libgcc_s.so -> libgcc_s.so.1` symlink that gcc's package used to provide
-(joshuarli/loc#39).
+(joshuarli/loc#39). C++ needs no `g++`: the owned `clang++` defaults to its own libc++ and
+libunwind, including exceptions, threads and `-static`.
 
 Owned node replaces `actions/setup-node` only where the job needs no npm and loads no native
 addon in-process. node-build ships no npm or Corepack, so pnpm comes from `pnpm/action-setup`
