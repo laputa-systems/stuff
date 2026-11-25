@@ -188,7 +188,7 @@ A consumer pins the owned tools it needs in a `tools.lock.json` and installs the
 target's asset name, size and SHA-256. In GitHub Actions, add one step:
 
 ```yaml
-- uses: laputa-systems/buildlib/setup@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161 # v0.3.1
+- uses: laputa-systems/buildlib/setup@4ed2e0a1e0a5d23911ffccdd97349d30a7885f01 # v0.3.2
   with:
     tools: gluon cmake
 ```
