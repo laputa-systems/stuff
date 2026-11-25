@@ -72,6 +72,65 @@ def test_image_policy_records_repository_tools_and_digest() -> None:
     assert policy["tools"] == owned_tools_image.image_tools()
 
 
+def test_shipped_package_map_covers_only_image_tools() -> None:
+    packages = owned_tools_image.package_map()
+    assert set(packages) == {"apk"}
+    tools = set(owned_tools_image.image_tools())
+    apk = packages["apk"]
+    assert apk
+    assert set(apk.values()) <= tools
+    for package in apk:
+        assert "python" not in package.casefold()
+        assert not package.removeprefix("^").endswith(("-dev", "-doc"))
+    for expected in ("git", "cmake", "ripgrep", "fd", "jaq", "meson",
+                     "ninja-build", "samurai", "clang", "lld", "llvm",
+                     "mold", "ffmpeg"):
+        assert expected in apk
+    assert apk["ffmpeg"] == "ffmpeg-runtime"
+    assert apk["ripgrep"] == "rg"
+    assert apk["meson"] == apk["ninja"] == apk["ninja-build"] == apk["samurai"] == "gluon"
+    assert apk["clang"] == apk["lld"] == apk["llvm"] == "llvm"
+
+
+def _policy_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, packages: str) -> None:
+    policy = tmp_path / "policy"
+    policy.mkdir()
+    (policy / "tools-lock.toml").write_text("version = 1\n\n[tools]\n", encoding="utf-8")
+    (policy / "owned-tools-image.toml").write_text(
+        'version = 1\nreference = "oci.example/owned-tools"\n'
+        'digest = "sha256:' + "0" * 64 + '"\ntools = []\n\n' + packages,
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(paths, "POLICY", policy)
+
+
+def test_package_map_rejects_unknown_tool(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _policy_dir(tmp_path, monkeypatch, '[packages.apk]\ngit = "not-a-tool"\n')
+    with pytest.raises(ValueError, match="not an owned-tools image tool"):
+        owned_tools_image.package_map()
+
+
+def test_package_map_rejects_bad_pattern(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _policy_dir(tmp_path, monkeypatch, '[packages.apk]\n"^clang[(" = "llvm"\n')
+    with pytest.raises(ValueError, match="not a valid package pattern"):
+        owned_tools_image.package_map()
+
+
+def test_package_map_rejects_unknown_manager(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _policy_dir(tmp_path, monkeypatch, '[packages.pkg]\ngit = "git"\n')
+    with pytest.raises(ValueError, match="unknown manager"):
+        owned_tools_image.package_map()
+
+
+def test_package_map_rejects_duplicate_manager(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _policy_dir(
+        tmp_path, monkeypatch,
+        '[packages."apt-get"]\n\n[packages.apt]\n',
+    )
+    with pytest.raises(ValueError, match="more than once"):
+        owned_tools_image.package_map()
+
+
 def test_dockerfile_base_matches_musl_policy() -> None:
     toolchain = tomllib.loads(MUSL_TOOLCHAIN_PATH.read_text(encoding="utf-8"))
     stable = toolchain["channels"]["stable"]

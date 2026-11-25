@@ -3,3 +3,25 @@ reference = "oci.17166969.xyz/owned-tools"
 digest = "sha256:1a5d1306bb105f21b60c67bbf04677a92048c02a808ae9b29dfdac1a90f2f073"
 
 tools = ["cmake", "cpython", "fd", "ffmpeg-runtime", "git", "gluon", "jaq", "llvm", "mold", "rg"]
+
+# python3/py3-*, build-base, gcc, g++ and musl-dev are deliberately unmapped:
+# the image's cpython ships no venv or pip, and the compiler packages carry
+# headers and libc dev files the image does not publish. No -dev/-doc suffixes.
+[packages.apk]
+git = "git"
+cmake = "cmake"
+ripgrep = "rg"
+fd = "fd"
+jaq = "jaq"
+meson = "gluon"
+ninja = "gluon"
+ninja-build = "gluon"
+samurai = "gluon"
+clang = "llvm"
+lld = "llvm"
+llvm = "llvm"
+"^clang-?\\d+$" = "llvm"
+"^lld-?\\d+$" = "llvm"
+"^llvm-?\\d+$" = "llvm"
+mold = "mold"
+ffmpeg = "ffmpeg-runtime"

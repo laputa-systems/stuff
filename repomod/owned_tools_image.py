@@ -11,12 +11,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import tomllib
 from pathlib import Path
 from typing import Any
 
-from repomod import buildlib_pins, paths
+from repomod import buildlib_pins, paths, substitutes
 from repomod.rules import tools_lock
 
 IMAGE_DIR = paths.ROOT / "docker" / "owned-tools"
@@ -80,7 +81,7 @@ def drift() -> list[str]:
 
 def image_policy() -> dict[str, Any]:
     """The parsed `fleet/policy/owned-tools-image.toml`."""
-    path = IMAGE_POLICY_PATH
+    path = paths.POLICY / "owned-tools-image.toml"
     if path.is_symlink() or not path.is_file():
         raise ValueError(f"owned-tools image policy is missing or not a regular file: {path}")
     try:
@@ -88,6 +89,47 @@ def image_policy() -> dict[str, Any]:
     except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
         raise ValueError(f"cannot load owned-tools image policy: {error}") from error
     return data
+
+
+_PACKAGE_MANAGERS = frozenset({"apk", "apt", "brew", "dnf", "pacman"})
+
+
+def package_map() -> dict[str, dict[str, str]]:
+    """Upstream package to image tool, per package manager, from `owned-tools-image.toml`.
+
+    A key starting with `^` is a regular expression matched against the whole
+    package name; every other key is a literal package name. Every value must
+    name a tool the image ships.
+    """
+    raw = image_policy().get("packages", {})
+    if not isinstance(raw, dict):
+        raise ValueError("owned-tools image policy packages must be a table")
+    tools = frozenset(image_tools())
+    result: dict[str, dict[str, str]] = {}
+    for manager, entries in raw.items():
+        normalized = substitutes.MANAGER_ALIASES.get(str(manager), str(manager))
+        if normalized not in _PACKAGE_MANAGERS:
+            raise ValueError(f"owned-tools image policy packages names an unknown manager {manager!r}")
+        if normalized in result:
+            raise ValueError(f"owned-tools image policy packages lists manager {normalized} more than once")
+        if not isinstance(entries, dict):
+            raise ValueError(f"owned-tools image policy packages.{manager} must be a table")
+        mapped: dict[str, str] = {}
+        for package, tool in entries.items():
+            label = f"packages.{manager}.{package}"
+            if not isinstance(package, str) or not package.strip():
+                raise ValueError(f"{label} must be a non-empty package name")
+            package = package.strip()
+            if package.startswith("^"):
+                try:
+                    re.compile(package)
+                except re.error as error:
+                    raise ValueError(f"{label} is not a valid package pattern: {error}") from error
+            if not isinstance(tool, str) or tool not in tools:
+                raise ValueError(f"{label} names {tool!r}, which is not an owned-tools image tool")
+            mapped[package] = tool
+        result[normalized] = mapped
+    return result
 
 
 def dockerfile_text() -> str:
