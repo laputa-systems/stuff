@@ -4,12 +4,16 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
+
+from repomod import paths
 from repomod.fix import _write_plan
 from repomod.rules import owned_substitution, tools_lock
 from repomod.rules.lint import _lint_workflow_fix
 from repomod.types import RepoId, Repository
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures" / "owned_python"
+FROZEN_POLICY = Path(__file__).resolve().parent / "fixtures" / "tools_lock" / "policy"
 REPOSITORY = Repository(RepoId.parse("acme/consumer"), ())
 REWRITTEN = {
     "consumer": {".github/workflows/lint.yml", ".github/workflows/ci.yml"},
@@ -21,6 +25,14 @@ UNTOUCHED = {
     ".github/workflows/python-version.yml",
     ".github/workflows/separated.yml",
 }
+
+
+@pytest.fixture(autouse=True)
+def _frozen_tools_lock(tmp_path_factory: pytest.TempPathFactory, monkeypatch: pytest.MonkeyPatch) -> None:
+    policy = tmp_path_factory.mktemp("policy") / "policy"
+    shutil.copytree(paths.POLICY, policy)
+    shutil.copyfile(FROZEN_POLICY / "tools-lock.toml", policy / "tools-lock.toml")
+    monkeypatch.setattr(paths, "POLICY", policy)
 
 
 def _tree(root: Path) -> dict[str, bytes]:
