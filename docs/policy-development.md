@@ -411,7 +411,7 @@ layout. It also rewrites Dockerfiles: `fleet/policy/owned-tools-image.toml`'s `[
 table maps each upstream apk package the owned-tools image replaces to its image tool, and on
 Alpine stages the fixer strips those packages from `apk add` lines, drops emptied RUN
 instructions or `&&`/`;`-chained apk commands, and inserts (or digest-updates) the
-`COPY --from=<reference>@<digest>` plus `ENV PATH=/opt/laputa/bin:$PATH` pair once per touched
+`COPY --from=<reference>@<digest>` plus `ENV PATH=$PATH:/opt/laputa/bin` pair once per touched
 stage. apt stages and RUN shapes it cannot rewrite safely stay manual findings.
 
 `fleet/policy/tools-lock.toml` backs the `tools-lock` rule (`rules/tools_lock.py`). It reads
