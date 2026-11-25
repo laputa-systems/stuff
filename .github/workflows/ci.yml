@@ -161,15 +161,16 @@ jobs:
           echo "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489  $RUNNER_TEMP/binaryen.tar.gz" | sha256sum -c -
           tar -xzf "$RUNNER_TEMP/binaryen.tar.gz" -C "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/binaryen-version_133/bin" >> "$GITHUB_PATH"
+      - uses: laputa-systems/buildlib/setup@4ed2e0a1e0a5d23911ffccdd97349d30a7885f01 # v0.3.2
+        with:
+          tools: node
+          lock: .github/tools.lock.json
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
         with:
           version: 12.20.0
           run_install: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 26.13.0
-          cache: pnpm
-          cache-dependency-path: crates/stuff-worker/pnpm-lock.yaml
+          cache: true
+          cache_dependency_path: crates/stuff-worker/pnpm-lock.yaml
       - name: install worker dependencies
         run: pnpm install --frozen-lockfile
         working-directory: crates/stuff-worker
