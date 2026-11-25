@@ -380,7 +380,7 @@ reason, plus install evidence (`install_manifest`, `record`, `launcher_dir`, `in
 manifests and installers. The lookup contract, evidence table, and status meanings live in
 [owned tools](fleet.md#owned-tools).
 
-`fleet/policy/owned-substitutes.toml` backs the read-only `owned-tool-substitution` rule, which
+`fleet/policy/owned-substitutes.toml` backs the `owned-tool-substitution` rule, which
 implements [owned tools first](fleet.md#owned-tools-first). Per producer it lists the upstream
 package names per package manager (`apk`, `apt`, `brew`, `dnf`, `pacman`; a leading `^` marks a
 regular expression matched against the whole package name, so `clang-19` and `clang22` match
@@ -401,7 +401,13 @@ they suppress that producer's findings in that repository, and an exemption matc
 is stale and reported. Exemptions for producers or repositories the substitutes or catalog
 policies do not know are findings. Findings are violations naming the file, line, upstream
 package or action, and the owned producer to use through `buildlib.tools` or the
-`laputa-systems/buildlib/setup` action.
+`laputa-systems/buildlib/setup` action. Its fixer rewrites only the uniform
+`astral-sh/setup-uv` + `uv python install` workflow shape in `.github/workflows/*.yml|yaml` when
+the requested version matches the approved cpython major.minor: it inserts the pinned
+`laputa-systems/buildlib/setup` step, merges `UV_PYTHON_DOWNLOADS: never` and
+`UV_PYTHON_PREFERENCE: only-system` into the workflow-level `env:`, removes the install step, and
+writes `.github/tools.lock.json` with the approved cpython entry in the `buildlib tools lock`
+layout. Other upstream installs stay manual findings.
 
 `fleet/policy/tools-lock.toml` backs the `tools-lock` rule (`rules/tools_lock.py`). It reads
 `tools.lock.json` and `.github/tools.lock.json`, requires schema 1 and tool names from buildlib's

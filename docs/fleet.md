@@ -156,7 +156,7 @@ is fixed. Record that reason next to the install and file the producer gap in th
 as a parity oracle or build reference; the rule does not report that. Build repositories acquire owned tools the same way they acquire other inputs; see
 [build repositories](build-repos.md#owned-toolchain-inputs).
 
-The read-only `owned-tool-substitution` repomod rule enforces this table. It reads
+The `owned-tool-substitution` repomod rule enforces this table. It reads
 `fleet/policy/owned-substitutes.toml`, which maps each producer to the distribution packages
 (`apk`, `apt`, `brew`, `dnf`, `pacman`), setup actions (`actions/setup-node`,
 `actions/setup-python`, and `astral-sh/setup-uv` when it provides Python), download URLs and
@@ -190,6 +190,14 @@ Python. Both paths verify size and SHA-256 before extraction and need no other t
 names, layouts and cache format are in buildlib's
 [tools reference](https://github.com/laputa-systems/buildlib/blob/main/docs/tools.md); the action
 pin lives in `fleet/policy/actions.toml`.
+
+A uv-based workflow acquires the owned interpreter by setting `UV_PYTHON_DOWNLOADS: never` and
+`UV_PYTHON_PREFERENCE: only-system` at workflow level and adding the
+`laputa-systems/buildlib/setup` step with `tools: cpython` before `astral-sh/setup-uv`, dropping
+`uv python install`. `never` blocks uv's managed downloads outright, and `only-system` stops uv
+preferring an existing managed interpreter, so uv resolves the interpreter buildlib installed.
+The `owned-tool-substitution` fixer performs this rewrite for the uniform `setup-uv` +
+`uv python install` shape and writes `.github/tools.lock.json`.
 
 `fleet/policy/tools-lock.toml` approves one release per tool, in the same shape as a
 `tools.lock.json` entry. The `tools-lock` rule reports a consumer's `tools.lock.json` or

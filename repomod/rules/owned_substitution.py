@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 from typing import cast
 from urllib.parse import urlsplit
 
-from repomod import paths, substitutes
+from repomod import owned_python, paths, substitutes
 from repomod.catalog import load_catalog
 from repomod.owned_tools import load_owned_tools
 from repomod.substitutes import Exemption, Policy, ProducerSub
@@ -638,6 +638,73 @@ def _semantic_policy_findings(
     return findings
 
 
+def _fix_context(root: Path) -> tuple[str, object] | None:
+    try:
+        entry = owned_python.approved_cpython()
+        minor = owned_python.cpython_minor(entry)
+        pin = owned_python.buildlib_setup_pin()
+    except ValueError:
+        return None
+    if owned_python.render_lock(root) is None:
+        return None
+    return minor, pin
+
+
+def _uv_producer(policy: Policy) -> str:
+    for name, sub in policy.producers.items():
+        if "astral-sh/setup-uv" in sub.actions:
+            return name
+    return "laputa-systems/python-build"
+
+
+def _workflow_files(root: Path) -> list[Path]:
+    directory = root / ".github" / "workflows"
+    if directory.is_symlink() or not directory.is_dir():
+        return []
+    files: list[Path] = []
+    for path in sorted(directory.iterdir()):
+        if path.is_symlink() or not path.is_file():
+            continue
+        if path.suffix.casefold() in {".yml", ".yaml"}:
+            files.append(path)
+    return files
+
+
+def _fix(root: Path, repository: Repository) -> dict[str, str]:
+    try:
+        policy = _load_policy()
+    except ValueError:
+        return {}
+    producer = _uv_producer(policy)
+    folded = producer.casefold()
+    if folded == str(repository.id).casefold() or folded in _exemptions_for(policy, repository):
+        return {}
+    context = _fix_context(root)
+    if context is None:
+        return {}
+    minor, pin = context
+    rendered = owned_python.render_lock(root)
+    if rendered is None:
+        return {}
+    existing, content = rendered
+    rewrites: dict[str, str] = {}
+    for path in _workflow_files(root):
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            continue
+        rewrite = owned_python.rewrite_workflow(text, minor, pin)
+        if rewrite is None or rewrite.text == text:
+            continue
+        rewrites[path.relative_to(root).as_posix()] = rewrite.text
+    if not rewrites:
+        return {}
+    plan: dict[str, str] = dict(rewrites)
+    if content != existing:
+        plan[owned_python.LOCK_PATH] = content
+    return plan
+
+
 def _check(root: Path, repository: Repository) -> list[Finding]:
     try:
         policy = _load_policy()
@@ -652,6 +719,7 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
     exemptions = _exemptions_for(policy, repository)
     suppressed: set[str] = set()
     reported: list[Finding] = []
+    context = _fix_context(root)
     for relative, kind, payload in _surface_files(root):
         if kind == "error":
             findings.append(operational(repository, RULE, relative, payload))
@@ -662,6 +730,9 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
             hits = _cargo_config_hits(payload, policy.producers)
         else:
             hits = _file_hits(kind, payload, policy.producers)
+        rewrite = None
+        if kind == "workflow" and context is not None:
+            rewrite = owned_python.rewrite_workflow(payload, context[0], context[1])
         for hit in hits:
             key = hit.producer.casefold()
             if key == str(repository.id).casefold():
@@ -678,10 +749,14 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
                 if kind.startswith("manifest:")
                 else f"acquire it through {_BUILDLIB_HINT} instead of the upstream install"
             )
+            fixable = rewrite is not None and hit.line in (
+                rewrite.install_lines | rewrite.setup_lines
+            )
             reported.append(violation(
                 repository, RULE, relative,
                 f"{hit.label} duplicates owned producer {canonical}; {remedy}",
                 line=hit.line,
+                fixable=fixable,
             ))
     for key, item in exemptions.items():
         if key not in suppressed:
@@ -701,8 +776,12 @@ def owned_substitution_rules() -> tuple[Rule, ...]:
             "Block upstream installs of tools an owned producer ships",
             TagPredicate(),
             _check,
-            None,
-            None,
-            (),
+            _fix,
+            "fix(owned-tools): acquire python through the buildlib setup action",
+            (
+                ".github/workflows/*.yml",
+                ".github/workflows/*.yaml",
+                ".github/tools.lock.json",
+            ),
         ),
     )

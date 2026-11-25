@@ -5,6 +5,7 @@ from functools import partial
 from pathlib import Path
 
 from repomod.git import GitError
+from repomod.owned_python import environment_lines, lock_plan, render_lock, setup_step_lines
 from repomod.rules.actions import _validate_workflows, load_pins
 from repomod.rules.consistency import _declared_make_targets
 from repomod.rules.languages import _language_sources
@@ -86,7 +87,7 @@ def _gha_lint_workflow_findings(root: Path, repository: Repository) -> list[Find
     return []
 
 
-def _setup_steps(languages: set[str]) -> list[str]:
+def _setup_steps(languages: set[str], *, owned_python: bool = False) -> list[str]:
     try:
         pins = load_pins()
     except ValueError as error:
@@ -100,14 +101,22 @@ def _setup_steps(languages: set[str]) -> list[str]:
             uv = load_approved_python_tool_versions()["uv"]
         except ValueError as error:
             raise GitError(f"cannot template the lint workflow: {error}") from error
+        if owned_python:
+            owned = pins.get("laputa-systems/buildlib")
+            if owned is None:
+                raise GitError(
+                    "cannot template the lint workflow: actions.toml has no laputa-systems/buildlib pin"
+                )
+            steps.extend(setup_step_lines("      ", owned))
         steps.extend(
             [
                 f"      - uses: astral-sh/setup-uv@{setup.sha} # {setup.version}",
                 "        with:",
                 f"          version: {uv}",
-                "      - run: uv python install 3.15",
             ]
         )
+        if not owned_python:
+            steps.append("      - run: uv python install 3.15")
     if {"typescript", "javascript"} & languages:
         setup = pins.get("pnpm/setup")
         if setup is None:
@@ -136,7 +145,15 @@ def _install_steps(root: Path, languages: set[str]) -> list[str]:
     return []
 
 
-def workflow_source(root: Path, languages: set[str], *, name: str, step: str, target: str) -> str:
+def workflow_source(
+    root: Path,
+    languages: set[str],
+    *,
+    name: str,
+    step: str,
+    target: str,
+    owned_python: bool = False,
+) -> str:
     try:
         pins = load_pins()
     except ValueError as error:
@@ -158,6 +175,7 @@ def workflow_source(root: Path, languages: set[str], *, name: str, step: str, ta
         '  group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"',
         "  cancel-in-progress: true",
         "",
+        *([*environment_lines(), ""] if owned_python and "python" in languages else []),
         "defaults:",
         "  run:",
         "    shell: bash -euo pipefail {0}",
@@ -172,7 +190,7 @@ def workflow_source(root: Path, languages: set[str], *, name: str, step: str, ta
         f"      - uses: actions/checkout@{checkout.sha} # {checkout.version}",
         "        with:",
         "          persist-credentials: false",
-        *_setup_steps(languages),
+        *_setup_steps(languages, owned_python=owned_python),
         *_install_steps(root, languages),
         f"      - name: {step}",
         f"        run: make {target}",
@@ -183,11 +201,22 @@ def workflow_source(root: Path, languages: set[str], *, name: str, step: str, ta
 def _lint_workflow_fix(root: Path, repository: Repository) -> dict[str, str]:
     if _lint_workflow_path(root) is not None:
         return {}
-    return {
+    languages = _language_sources(root)
+    if "python" in languages and render_lock(root) is None:
+        return {}
+    plan = {
         ".github/workflows/lint.yml": workflow_source(
-            root, _language_sources(root), name="lint", step="lint", target="lint"
+            root,
+            languages,
+            name="lint",
+            step="lint",
+            target="lint",
+            owned_python=True,
         )
     }
+    if "python" in languages:
+        plan.update(lock_plan(root))
+    return plan
 
 
 def _root_makefile(root: Path) -> Path | None:
@@ -398,7 +427,7 @@ def lint_rules() -> tuple[Rule, ...]:
             _gha_lint_workflow_findings,
             _lint_workflow_fix,
             "chore(repomod): add lint workflow",
-            (".github/workflows/lint.yml",),
+            (".github/workflows/lint.yml", ".github/tools.lock.json"),
             _validate_workflows,
         ),
         Rule(

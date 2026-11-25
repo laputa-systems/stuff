@@ -112,6 +112,20 @@ def test_unparseable_lock_is_reported_but_not_fixed(tmp_path: Path) -> None:
     assert fix(root, REPOSITORY) == {}
 
 
+def test_policy_approves_the_cpython_release() -> None:
+    approved = tools_lock._load_policy()
+    entry = approved["cpython"]
+    assert entry["repository"] == "laputa-systems/python-build"
+    assert entry["product"] == "cpython"
+    assert entry["version"] == "3.15.1"
+    assert entry["tag"] == "release-6f7c0d46e2eda7f66c705022f1950034045f74d0"
+    assert set(entry["assets"]) == {
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-musl",
+        "x86_64-unknown-linux-musl",
+    }
+
+
 def test_conforming_lock_is_clean(tmp_path: Path) -> None:
     root = tmp_path / 'repo'
     root.mkdir()

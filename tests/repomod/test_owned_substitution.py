@@ -540,11 +540,13 @@ def test_shipped_policy_is_valid_and_uses_owned_producers() -> None:
     assert not policy.exempt
 
 
-def test_rule_is_registered_read_only() -> None:
+def test_rule_is_registered_with_the_python_fix() -> None:
     rule = next(rule for rule in registered_rules() if rule.id == "owned-tool-substitution")
-    assert rule.fix is None
-    assert rule.commit_message is None
-    assert rule.allowed_paths == ()
+    assert rule.fix is not None
+    assert rule.commit_message is not None
+    assert ".github/workflows/*.yml" in rule.allowed_paths
+    assert ".github/workflows/*.yaml" in rule.allowed_paths
+    assert ".github/tools.lock.json" in rule.allowed_paths
 
 
 def test_producer_may_install_the_upstream_it_reproduces(project: tuple[Path, Repository, Path]) -> None:
