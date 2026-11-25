@@ -2,7 +2,8 @@
 FROM alpine:3.20 AS build
 COPY --from=oci.fixture/owned-tools@sha256:1111111111111111111111111111111111111111111111111111111111111111 /opt/laputa /opt/laputa
 ENV PATH=/opt/laputa/bin:$PATH
-RUN apk add --no-cache curl
+RUN apk add --no-cache \
+    curl
 RUN make deps
 
 FROM alpine:3.20 AS runtime

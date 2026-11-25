@@ -24,7 +24,8 @@ def test_removes_pinned_packages_and_inserts_image_lines() -> None:
         "FROM alpine:3.20 AS build\n"
         f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
         "ENV PATH=/opt/laputa/bin:$PATH\n"
-        "RUN apk add --no-cache curl\n"
+        "RUN apk add --no-cache \\\n"
+        "    curl\n"
     )
     assert out.removed == frozenset({(2, "cmake"), (2, "git")})
 
@@ -143,3 +144,38 @@ def test_multi_stage_gets_one_copy_per_touched_stage() -> None:
     )
     assert out.text.count("COPY --from=") == 2
     assert out.text.count("ENV PATH=") == 2
+
+
+def test_keeps_continuation_layout_and_drops_emptied_lines() -> None:
+    out = rewrite(
+        "FROM alpine:3.20\n"
+        "RUN apk add --no-cache \\\n"
+        "        bash build-base git mold \\\n"
+        "        cmake=3.28.3-r0 \\\n"
+        "    && git config --global x y \\\n"
+        "    && make\n"
+    )
+    assert out.text == (
+        "FROM alpine:3.20\n"
+        f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
+        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "RUN apk add --no-cache \\\n"
+        "        bash build-base \\\n"
+        "    && git config --global x y \\\n"
+        "    && make\n"
+    )
+    assert out.removed == frozenset({(2, "git"), (2, "mold"), (2, "cmake")})
+
+
+def test_emptied_last_line_closes_the_continuation() -> None:
+    out = rewrite(
+        "FROM alpine:3.20\n"
+        "RUN apk add --no-cache curl \\\n"
+        "    git\n"
+    )
+    assert out.text == (
+        "FROM alpine:3.20\n"
+        f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
+        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "RUN apk add --no-cache curl\n"
+    )

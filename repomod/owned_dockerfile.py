@@ -196,11 +196,61 @@ def _separator_op(separator: str) -> str:
     return match.group(0) if match else ";"
 
 
+def _strip_in_place(lines: list[str], names: list[str]) -> list[str] | None:
+    wanted = {name.casefold() for name in names}
+    output: list[str] = []
+    saw_apk = in_add = skip_value = False
+    for raw in lines:
+        eol = _eol(raw)
+        body = raw[: len(raw) - len(eol)]
+        stripped = body.rstrip(" \t")
+        continued = stripped.endswith("\\")
+        content = stripped[:-1] if continued else body
+        spans: list[tuple[int, int]] = []
+        for match in re.finditer(r"\S+", content):
+            token = match.group(0)
+            if token in ("&&", "||", ";"):
+                saw_apk = in_add = skip_value = False
+            elif _SEPARATOR_OP.search(token):
+                return None
+            elif skip_value:
+                skip_value = False
+            elif token == "apk" and not in_add:
+                saw_apk = True
+            elif saw_apk and not in_add and token == "add":
+                in_add = True
+            elif in_add and token in _APK_VALUE_FLAGS:
+                skip_value = True
+            elif in_add and not token.startswith("-") and package_name(token).casefold() in wanted:
+                before = content[: match.start()]
+                if before.strip():
+                    spans.append((len(before.rstrip(" \t")), match.end()))
+                else:
+                    after = len(content) - len(content[match.end():].lstrip(" \t"))
+                    spans.append((match.start(), after))
+        for start, end in reversed(spans):
+            content = content[:start] + content[end:]
+        if spans and not content.strip():
+            if not continued:
+                if not output:
+                    return None
+                previous = output[-1]
+                previous_eol = _eol(previous)
+                kept = previous[: len(previous) - len(previous_eol)].rstrip(" \t")
+                output[-1] = kept[:-1].rstrip(" \t") + eol
+            continue
+        if continued:
+            output.append(content.rstrip(" \t") + (" \\" if content.strip() else "\\") + eol if spans else raw)
+        else:
+            output.append(content + eol if spans else raw)
+    return output
+
+
 def _rewrite_run(
     lines: list[str],
     packages: tuple[str, ...],
     keep: Callable[[str], bool],
-) -> tuple[str | None, list[str]] | None:
+) -> tuple[list[str], list[str]] | None:
     logical = _logical(lines)
     words = logical.split()
     if len(words) < 2 or words[0].upper() != "RUN":
@@ -242,9 +292,13 @@ def _rewrite_run(
             right is not None and _separator_op(right) == "||"
         ):
             return None
+    if not dropped:
+        in_place = _strip_in_place(lines, removed)
+        if in_place is not None:
+            return (in_place, removed)
     kept = [(position, text) for position, text in enumerate(rebuilt) if text is not None]
     if not kept:
-        return (None, removed)
+        return ([], removed)
     pieces = [kept[0][1]]
     for position, text in kept[1:]:
         separator = separators[position - 1] if position > 0 else ";"
@@ -254,7 +308,7 @@ def _rewrite_run(
     indent = indent_match.group(0) if indent_match is not None else ""
     eol = _eol(lines[0])
     flag_text = f" {' '.join(flags)}" if flags else ""
-    return (f"{indent}{words[0]}{flag_text} {command_text}{eol}", removed)
+    return ([f"{indent}{words[0]}{flag_text} {command_text}{eol}"], removed)
 
 
 def _copy_from_value(lines: list[str], block: _Block) -> str | None:
@@ -326,8 +380,8 @@ def rewrite(
             result = _rewrite_run(lines[block.start : block.end], packages, keep)
             if result is None:
                 continue
-            new_line, names = result
-            edits.append((block.start, block.end, [] if new_line is None else [new_line]))
+            new_lines, names = result
+            edits.append((block.start, block.end, new_lines))
             stage_removed.extend(names)
             removed.update((block.start + 1, name.casefold()) for name in names)
         if not stage_removed:
