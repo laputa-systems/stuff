@@ -3,8 +3,14 @@ from __future__ import annotations
 import tomllib
 from pathlib import Path, PurePosixPath
 
+from repomod.run_cache import cached
+
 
 def workspace_excluded(root: Path) -> frozenset[PurePosixPath]:
+    return cached(("workspace_excluded", root), lambda: _workspace_excluded(root))
+
+
+def _workspace_excluded(root: Path) -> frozenset[PurePosixPath]:
     try:
         manifest = tomllib.loads((root / "Cargo.toml").read_text(encoding="utf-8"))
     except (OSError, tomllib.TOMLDecodeError):

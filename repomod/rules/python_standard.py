@@ -16,6 +16,7 @@ from repomod import paths
 from repomod.catalog import atomic_write
 from repomod.io import read_toml
 from repomod.rules.workflows import read_workflow_sources, workflow_files
+from repomod.run_cache import cached
 from repomod.types import Finding, Repository, Rule, TagPredicate
 from repomod.types import operational as _operational
 from repomod.types import violation as _violation
@@ -305,6 +306,10 @@ def _parse_approved_versions(source: str) -> dict[str, str]:
 
 def load_approved_python_tool_versions(path: Path | None = None) -> dict[str, str]:
     target = python_tools_file() if path is None else path
+    return cached(("python-tool-versions", target), lambda: _read_approved_python_tool_versions(target))
+
+
+def _read_approved_python_tool_versions(target: Path) -> dict[str, str]:
     if target.is_symlink():
         raise ValueError(f"approved Python tool versions are a symlink: {target}")
     try:

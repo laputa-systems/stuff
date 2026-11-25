@@ -9,12 +9,13 @@ from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
 
 from repomod import paths
-from repomod.catalog import load_catalog
+from repomod.catalog import load_catalog_cached
 from repomod.dependencies.adapters.cargo import _excluded
 from repomod.rules.ci_workflow import _step_problem, _trigger_problem
 from repomod.rules.consistency import _declared_make_targets
 from repomod.rules.languages import _rust_manifests
 from repomod.rules.workflows import read_workflow_sources
+from repomod.run_cache import cached
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 
 _POLICY = 'fleet/policy/retention.toml'
@@ -31,11 +32,15 @@ _SETTINGS = {
 
 def _policy() -> dict[str, Any]:
     path = paths.POLICY / 'retention.toml'
+    return cached(("retention-policy", path), lambda: _read_policy(path))
+
+
+def _read_policy(path: Path) -> dict[str, Any]:
     if path.is_symlink():
         raise ValueError('retention policy is a symlink')
     try:
         data = tomllib.loads(path.read_text(encoding='utf-8'))
-        catalog = load_catalog(paths.CATALOG)
+        catalog = load_catalog_cached(paths.CATALOG)
     except (OSError, ValueError) as error:
         raise ValueError(f'cannot load retention policy or catalog: {error}') from error
     if set(data) != {'version', 'mutation-lane', 'coverage-target', 'strict-profile'} or data['version'] != 1:

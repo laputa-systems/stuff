@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, cast
 
 from repomod import buildlib_pins, paths
+from repomod.run_cache import cached
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 
 _RULE = 'tools-lock'
@@ -81,6 +82,10 @@ def _approved_entry(raw: object, where: str) -> dict[str, Any]:
 
 def _load_policy() -> dict[str, dict[str, Any]]:
     path = _policy_path()
+    return cached(('tools-lock-policy', path), lambda: _read_policy(path))
+
+
+def _read_policy(path: Path) -> dict[str, dict[str, Any]]:
     if path.is_symlink():
         raise ValueError('tools-lock policy is a symlink')
     try:

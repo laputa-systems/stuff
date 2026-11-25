@@ -16,6 +16,7 @@ from repomod.owned_tools import (
     needs_coverage,
     tracked_commands,
 )
+from repomod.run_cache import cached
 from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, operational, violation
 
 _POLICY_PATH = "fleet/policy/owned-tools.toml"
@@ -190,7 +191,7 @@ def _consumer_findings(root: Path, repository: Repository, policy: OwnedTools, p
 
 def _owned_tool_findings(root: Path, repository: Repository) -> list[Finding]:
     try:
-        policy = load_owned_tools()
+        policy = cached(("owned-tools-policy",), load_owned_tools)
     except ValueError as error:
         return [operational(repository, RULE_ID, _POLICY_PATH, str(error))]
     producer = policy.producer(repository.id)
