@@ -1,0 +1,220 @@
+{
+  "schema": 1,
+  "tools": {
+    "cmake": {
+      "assets": {
+        "aarch64-unknown-linux-musl": {
+          "name": "cmake-4.4.5-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "d430f9ac50cbecee5dae9cfa5c0528967fcbf66ea0e9debaf2852bcecb458c59",
+          "size": 19012896
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "cmake-4.4.5-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "b18ab8bf83dcdf926f30b7d80ada95dd24b2b24d16aa43e2ba1172cb6a88df48",
+          "size": 20740948
+        }
+      },
+      "product": "cmake",
+      "repository": "laputa-systems/cmake-build",
+      "tag": "release-281e9cd89fab7a6e566a6c13e9a20bd786b2b212",
+      "version": "4.4.5"
+    },
+    "cpython": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "cpython-3.15.1-aarch64-apple-darwin.tar.xz",
+          "sha256": "81b336d7f1813fac0803316c150b67de295880c4eebb22755fb1e186f5bd5ef2",
+          "size": 7382296
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "cpython-3.15.1-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "3baf1fbd660807b5b4c08c6c6ee5a7221ac82b2416f88239a4b61107f73fcfa5",
+          "size": 8425748
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "cpython-3.15.1-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "9cb15d2b4f1d984063a0102e69e84cec29ee00007e801a4c04e57d144e9e03a2",
+          "size": 9313868
+        }
+      },
+      "product": "cpython",
+      "repository": "laputa-systems/python-build",
+      "tag": "release-6f7c0d46e2eda7f66c705022f1950034045f74d0",
+      "version": "3.15.1"
+    },
+    "fd": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "fd-aarch64-apple-darwin.tar.xz",
+          "sha256": "19893278a6b02cac66400bce05f7d2084ce641c4bb8f1f9886f2521224f59d87",
+          "size": 646396
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "fd-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "e789f19212caeb28db17b094d8fc4134d61ce36bc85c3431d644a17c22b5fdca",
+          "size": 677316
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "fd-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "db969196b08b22d7250e82f7e474e5cba36bda274b7d5efc70f45d31f7a6901c",
+          "size": 787764
+        }
+      },
+      "product": "fd",
+      "repository": "laputa-systems/fd",
+      "tag": "release-66d59cbcd3e07984e7c1e3ec301cbffcd74bdf2b",
+      "version": ""
+    },
+    "ffmpeg-runtime": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "ffmpeg-runtime-9.0.2-aarch64-apple-darwin.tar.xz",
+          "sha256": "380471e07416eb636836d8428e8b2c6bf8052b8df030cff85e4008ccab70369d",
+          "size": 3122496
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "ffmpeg-runtime-9.0.2-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "db6364f646b763a7fe2560d38b29e985232c3925ab48347d3a4fa39a94b86549",
+          "size": 3930040
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "ffmpeg-runtime-9.0.2-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "9b917fe0939b31430a338b12033d80bac3d32b62777f26ffe44d4a71fc850e65",
+          "size": 4735840
+        }
+      },
+      "product": "ffmpeg-runtime",
+      "repository": "laputa-systems/ffmpeg-build",
+      "tag": "release-ac29c7720327f7dee4ed4677ce8421673fcc3563",
+      "version": "9.0.2"
+    },
+    "git": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "git-2.56.0-aarch64-apple-darwin.tar.xz",
+          "sha256": "5fa1d383a5e9f31caed67bd05ed534527baa5586a091e74a715038dc5653caa8",
+          "size": 1860620
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "git-2.56.0-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "c087065de6dfea245871142912731768c09e3448ecb67f80e354a90e4d3d82b5",
+          "size": 2219520
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "git-2.56.0-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "edbf56085c660dc57ff2d19ca733f71b248d6b68fe7c19d9d2e98ced565117d3",
+          "size": 2569924
+        }
+      },
+      "product": "git",
+      "repository": "laputa-systems/git-build",
+      "tag": "release-ddbfc32f5dba3256f31381d658ebaa791286673b",
+      "version": "2.56.0"
+    },
+    "gluon": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "gluon-aarch64-apple-darwin.tar.xz",
+          "sha256": "4c103442555d8e76a5d57bd4d9b4e90fa86e715ffe1a8e23bcbb3a6247618c6e",
+          "size": 860740
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "gluon-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "6b352c03399cf41f45ee5d9ff601ea17cf4768f74aff31a164e145e6e2326e56",
+          "size": 831344
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "gluon-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "3aacbd8756a4dcfeff9cd139ebcd5a3b4cb2cc433c599b7e21f446c716987ce8",
+          "size": 945204
+        }
+      },
+      "product": "gluon",
+      "repository": "laputa-systems/gluon",
+      "tag": "release-fa8b6aace38683a17ee3f398d8b568341c7192fe",
+      "version": ""
+    },
+    "jaq": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "jaq-aarch64-apple-darwin.tar.xz",
+          "sha256": "714b7f4bc1d032041971a3ff31e493767d6e0ab36ae49deeffe95bff64619728",
+          "size": 997792
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "jaq-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "b17a8d41058d15fad21eee822a8952dc40bf6f465f6ebf246f3ae67bb7d461a0",
+          "size": 818484
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "jaq-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "3a24a3dc32dd19cb4e72ef70fcd9f1253b2804ff92222ca91491e32653a5faa2",
+          "size": 957652
+        }
+      },
+      "product": "jaq",
+      "repository": "laputa-systems/jaq",
+      "tag": "release-545e3f7ba20beed0f77031dcc9aa74eb0ef0ba14",
+      "version": ""
+    },
+    "llvm": {
+      "assets": {
+        "aarch64-unknown-linux-musl": {
+          "name": "llvm-23.1.5-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "4d8b637d65ed0299c8b7852c1e7e1d41f7141346ce31e707f0975ff67460121e",
+          "size": 94369760
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "llvm-23.1.5-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "de3f6d0ad089391482147c61648c511c500b25289132fe7f2c446a0905406d2a",
+          "size": 101344736
+        }
+      },
+      "product": "llvm",
+      "repository": "laputa-systems/llvm-prebuilt-musl",
+      "tag": "release-b29e4d07a2b9a5e72319b37429cf375149212755",
+      "version": "23.1.5"
+    },
+    "mold": {
+      "assets": {
+        "aarch64-unknown-linux-musl": {
+          "name": "mold-3.0.0-aarch64-linux-musl.tar.gz",
+          "sha256": "2d904b170d804008ada80157f8f18d9920d3ccc1e49e27d80123d01e386668f3",
+          "size": 7648955
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "mold-3.0.0-x86_64-linux-musl.tar.gz",
+          "sha256": "d6e47d61b74961a60868ad308acad4dfdc199e7ec97d61d65728e6ef1d6c2565",
+          "size": 7963647
+        }
+      },
+      "product": "mold",
+      "repository": "joshuarli/mold",
+      "tag": "mold-musl-3.0.0-cfb4aab",
+      "version": "3.0.0"
+    },
+    "rg": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "rg-aarch64-apple-darwin.tar.xz",
+          "sha256": "3ade1c9b11ccd437722cc26218db05309d8e391123a20a51928322b73920bfe1",
+          "size": 952212
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "rg-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "d525d2ea985e861484a4346266c07a9149903ec09193727f2630956014ee0133",
+          "size": 1184636
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "rg-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "be034c84f4991b3295f50e26a3fc82cacedc05b86cecbe9f505eb9d5c804041a",
+          "size": 1476128
+        }
+      },
+      "product": "rg",
+      "repository": "laputa-systems/rg",
+      "tag": "release-ce347a1b5fe381a17d5bee20d594713263073450",
+      "version": ""
+    }
+  }
+}

@@ -214,6 +214,34 @@ the policy does not list are not compared. After a producer release, approve it 
 is approved in `fleet/policy/buildlib.toml` and moved by
 [`buildlib-usage`'s fixer](build-repos.md#enforcement).
 
+#### The owned-tools image
+
+`docker/owned-tools/` builds a tools-only image that any fleet Dockerfile can copy from instead
+of `apk add`/`apt install`ing upstream git, Python, CMake, Meson/Ninja, LLVM, mold, ripgrep or
+jaq. Its fetch stage runs on the pinned musl Alpine base and installs every tool
+`fleet/policy/tools-lock.toml` approves that publishes a Linux musl asset, through the vendored
+`buildlib-run` shim and `docker/owned-tools/tools.lock.json`; the published stage is `scratch`
+plus `/opt/laputa` only. `uv run python -m repomod.owned_tools_image --write` regenerates the
+lock and the `bootstrap/` copies from fleet policy, and its check mode fails when either drifts.
+mold's musl release links `libgcc_s.so.1` dynamically, which no fleet base ships; the image
+installs the policy-pinned Alpine `libgcc` in the fetch stage, ships the library at
+`/opt/laputa/g`, and repoints mold's `NEEDED` entry there (`patch-mold.py`).
+
+A consumer Dockerfile copies the tree and puts its bin directory on `PATH`:
+
+```dockerfile
+COPY --from=oci.17166969.xyz/owned-tools@<digest> /opt/laputa /opt/laputa
+ENV PATH=/opt/laputa/bin:$PATH
+```
+
+`/opt/laputa/bin` holds one symlink per program into `/opt/laputa/<tool>/`. The musl-dynamic
+cpython needs the image's musl loader: Alpine bases already ship it, and glibc bases get it from
+the distribution `musl` package. To rebuild and publish, run a multi-arch buildx into an OCI
+layout (`docker buildx build --platform linux/amd64,linux/arm64 -o
+type=oci,dest=<dir>`), then `stuff publish oci --layout <dir> --repository owned-tools --tag
+<tag>`; `fleet/policy/owned-tools-image.toml` records the repository and the pinned digest once
+publication lands.
+
 ## Owned tools
 
 `repomod tools which COMMAND` resolves an installed command to its maintained repository without

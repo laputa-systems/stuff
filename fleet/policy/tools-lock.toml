@@ -178,3 +178,24 @@ name = "mold-3.0.0-x86_64-linux-musl.tar.gz"
 size = 7963647
 sha256 = "d6e47d61b74961a60868ad308acad4dfdc199e7ec97d61d65728e6ef1d6c2565"
 
+
+[tools.git]
+repository = "laputa-systems/git-build"
+tag = "release-ddbfc32f5dba3256f31381d658ebaa791286673b"
+product = "git"
+version = "2.56.0"
+
+[tools.git.assets.aarch64-apple-darwin]
+name = "git-2.56.0-aarch64-apple-darwin.tar.xz"
+size = 1860620
+sha256 = "5fa1d383a5e9f31caed67bd05ed534527baa5586a091e74a715038dc5653caa8"
+
+[tools.git.assets.aarch64-unknown-linux-musl]
+name = "git-2.56.0-aarch64-unknown-linux-musl.tar.xz"
+size = 2219520
+sha256 = "c087065de6dfea245871142912731768c09e3448ecb67f80e354a90e4d3d82b5"
+
+[tools.git.assets.x86_64-unknown-linux-musl]
+name = "git-2.56.0-x86_64-unknown-linux-musl.tar.xz"
+size = 2569924
+sha256 = "edbf56085c660dc57ff2d19ca733f71b248d6b68fe7c19d9d2e98ced565117d3"
