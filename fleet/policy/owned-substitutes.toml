@@ -171,3 +171,7 @@ label = "criterion, divan"
 
 [producers."laputa-systems/rustybench".manifests]
 cargo = ["criterion", "divan"]
+
+[exempt."joshuarli/tf".producers."laputa-systems/python-build"]
+reason = "The producer publishes no release for the Python versions tf needs: 3.14 for the pinned unicodedata 16.0.0 its table generator requires, 3.12 for the ComfyUI runtime checks, and a 3.11/3.12 support matrix; python-build ships only 3.15."
+reassess = "When python-build publishes the older minors (stuff TODO STUF-123)."

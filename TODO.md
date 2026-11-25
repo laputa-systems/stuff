@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 123
+Next: 124
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -300,6 +300,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Recommendation:** Decide whether the replica must serve OCI blobs (prod redirects blob GETs to the bucket domain via STUFF_OCI_BLOB_ORIGIN); either seed and serve them so the case answers 200, or drop the case with that reason, and require status 200 for every remaining case.
 - **Fix with:** none
 - **Effort:** S
+
+### STUF-123 · P3 · python-build publishes only CPython 3.15, so repositories that test or pin older minors keep setup-python
+
+- **Area:** producers · python-build
+- **Where:** laputa-systems/python-build release matrix; consumers joshuarli/tf (.github/workflows/no-gpu.yml, web.yml, runtime-feed*.yml, pack-compare.yml)
+- **Problem:** python-build's releases ship only 3.15.x. joshuarli/tf needs 3.14 (its Engram table generator requires unicodedata 16.0.0, which 3.14 carries), 3.12 (ComfyUI runtime feed checks) and a 3.11/3.12 support matrix, so it keeps actions/setup-python under a recorded owned-tool-substitution exemption.
+- **Recommendation:** Decide whether python-build publishes the older supported minors (3.11 to 3.14) as separate products in the same release; when it does, move tf to them through buildlib.tools and drop the exemption. python-build has no backlog yet, so this lives here.
+- **Fix with:** none
+- **Effort:** M
 
 ### STUF-111 · P4 · stuff-server matches route prefixes against the raw request target
 
