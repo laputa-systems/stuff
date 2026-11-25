@@ -302,7 +302,7 @@ def test_expired_exemption_is_a_violation(project: tuple[Path, Repository, Path]
 
 def test_duplicate_classification_is_a_violation(project: tuple[Path, Repository, Path]) -> None:
     root, repository, policy = project
-    _write_policy(policy, _policy_text(enrolled=_enrolled_text(), exempt=_exempt_text()))
+    _write_policy(policy, _policy_text(assess=(str(repository.id),), exempt=_exempt_text()))
     findings = buildlib._check(root, repository)
     matched = [finding for finding in findings if 'classified more than once' in finding.message]
     assert len(matched) == 1
@@ -319,6 +319,8 @@ def test_rule_registers_a_pin_fixer_limited_to_pin_files() -> None:
         'sources.lock.json',
         'bootstrap/buildlib-run',
         'bootstrap/python.lock',
+        '.github/workflows/*.yml',
+        '.github/workflows/*.yaml',
     )
 
 
@@ -648,3 +650,157 @@ def test_shim_only_consumer_tampered_buildlib_run_is_a_violation(
     matched = [finding for finding in findings if 'buildlib-run sha256' in finding.message]
     assert len(matched) == 1
     assert matched[0].kind == 'violation'
+
+
+PIN_SHA = '0123456789abcdef0123456789abcdef01234567'
+PIN_VERSION = 'v0.3.1'
+
+
+def _write_actions(policy: Path) -> None:
+    (policy / 'actions.toml').write_text(
+        '[actions."laputa-systems/buildlib"]\n'
+        'channel = "v0"\n'
+        f'version = "{PIN_VERSION}"\n'
+        f'sha = "{PIN_SHA}"\n',
+        encoding='utf-8',
+    )
+
+
+def _setup_workflow(ref: str = f'{PIN_SHA} # {PIN_VERSION}') -> str:
+    return (
+        'name: lint\n'
+        'on: [push]\n'
+        'jobs:\n'
+        '  lint:\n'
+        '    runs-on: ubuntu-latest\n'
+        '    steps:\n'
+        f'      - uses: laputa-systems/buildlib/setup@{ref}\n'
+        '        with:\n'
+        '          tools: cpython\n'
+        '          lock: .github/tools.lock.json\n'
+    )
+
+
+def _adopt_tools(root: Path, ref: str = f'{PIN_SHA} # {PIN_VERSION}') -> Path:
+    workflows = root / '.github' / 'workflows'
+    workflows.mkdir(parents=True, exist_ok=True)
+    (root / '.github' / 'tools.lock.json').write_text('{}\n', encoding='utf-8')
+    path = workflows / 'lint.yml'
+    path.write_text(_setup_workflow(ref), encoding='utf-8')
+    return path
+
+
+def test_tools_adoption_without_policy_entry_is_clean(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text())
+    _write_actions(policy)
+    _adopt_tools(root)
+    assert buildlib._check(root, repository) == []
+
+
+def test_tools_adoption_needs_the_lock_file(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text())
+    _write_actions(policy)
+    workflows = root / '.github' / 'workflows'
+    workflows.mkdir(parents=True)
+    (workflows / 'lint.yml').write_text(_setup_workflow(), encoding='utf-8')
+    findings = buildlib._check(root, repository)
+    assert [finding.message for finding in findings] == [
+        'unclassified buildlib disposition; add this repository to '
+        'fleet/policy/buildlib.toml as enrolled, assess, or exempt'
+    ]
+    assert findings[0].severity == 'info'
+
+
+def test_tools_adoption_needs_a_setup_step(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text())
+    _write_actions(policy)
+    (root / '.github').mkdir()
+    (root / '.github' / 'tools.lock.json').write_text('{}\n', encoding='utf-8')
+    findings = buildlib._check(root, repository)
+    assert [finding.severity for finding in findings] == ['info']
+    assert 'unclassified buildlib disposition' in findings[0].message
+
+
+def test_tools_adoption_wrong_pin_is_a_fixable_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text())
+    _write_actions(policy)
+    workflow = _adopt_tools(root, ref='v0.3.1')
+    findings = buildlib._check(root, repository)
+    matched = [
+        finding for finding in findings
+        if 'must use the approved pin' in finding.message
+    ]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+    assert matched[0].fixable
+    assert matched[0].file == '.github/workflows/lint.yml'
+    assert matched[0].line == 7
+    assert f'@{PIN_SHA} # {PIN_VERSION}' in matched[0].message
+    assert workflow.is_file()
+
+
+def test_tools_adoption_unapproved_sha_is_a_fixable_violation(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text())
+    _write_actions(policy)
+    _adopt_tools(root, ref='f' * 40)
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'must use the approved pin' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].fixable
+
+
+def test_tools_fix_rewrites_the_pin_line(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text())
+    _write_actions(policy)
+    workflow = _adopt_tools(root, ref='v0.3.1')
+    plan = buildlib._fix(root, repository)
+    expected = _setup_workflow()
+    assert plan == {'.github/workflows/lint.yml': expected}
+    workflow.write_text(plan['.github/workflows/lint.yml'], encoding='utf-8')
+    assert not any(finding.fixable for finding in buildlib._check(root, repository))
+
+
+def test_stale_exempt_for_tools_adopted_repository(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text(exempt=_exempt_text()))
+    _write_actions(policy)
+    _adopt_tools(root)
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'stale exempt' in finding.message]
+    assert len(matched) == 1
+    assert matched[0].kind == 'violation'
+    assert f'delete [exempt."{repository.id}"]' in matched[0].message
+    assert not any('unclassified' in finding.message for finding in findings)
+
+
+def test_stale_exempt_for_enrolled_repository(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, policy = project
+    _write_policy(policy, _policy_text(enrolled=_enrolled_text(), exempt=_exempt_text()))
+    findings = buildlib._check(root, repository)
+    matched = [finding for finding in findings if 'stale exempt' in finding.message]
+    assert len(matched) == 1
+    assert 'enrolled' in matched[0].message
+    assert f'delete [exempt."{repository.id}"]' in matched[0].message
+    assert not any('classified more than once' in finding.message for finding in findings)

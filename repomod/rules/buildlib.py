@@ -9,14 +9,20 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from repomod import buildlib_pins, paths
+from repomod import buildlib_pins, owned_python, paths
 from repomod.catalog import load_catalog
 from repomod.io import read_json_object, safe_relative
+from repomod.rules.workflows import workflow_files
 from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, operational, violation
 
 _RULE = 'buildlib-usage'
 _POLICY = 'fleet/policy/buildlib.toml'
+_ACTIONS_POLICY = 'fleet/policy/actions.toml'
+_TOOLS_LOCK = '.github/tools.lock.json'
 _BOOTSTRAP = ('buildlib-run', 'python.lock')
+_SETUP_USES = re.compile(
+    r'^[ \t]*(?:-[ \t]+)?uses:[ \t]+laputa-systems/buildlib/setup@(?P<tail>[^\r\n]*)'
+)
 _SHA256 = re.compile(r'[0-9a-f]{64}')
 _DATE = re.compile(r'\d{4}-\d{2}-\d{2}')
 _PACKAGE = re.compile(r'laputa-buildlib(\[[^\]]*\])?(?:[=<>!~@;\s]|$)', re.IGNORECASE)
@@ -522,6 +528,100 @@ def _unknown_repositories(anchor: Repository, policy: Policy, known: frozenset[s
     return findings
 
 
+def _approved_setup_pin() -> str:
+    pin = owned_python.buildlib_setup_pin()
+    return f'{pin.sha} # {pin.version}'
+
+
+def _setup_steps(
+    root: Path, repository: Repository
+) -> list[tuple[str, int, str]]:
+    if not (root / _TOOLS_LOCK).is_file():
+        return []
+    files, _problems = workflow_files(root, repository)
+    steps: list[tuple[str, int, str]] = []
+    for path in files:
+        try:
+            text = path.read_text(encoding='utf-8')
+        except (OSError, UnicodeError):
+            continue
+        relative = path.relative_to(root).as_posix()
+        for number, line in enumerate(text.splitlines(), 1):
+            if _SETUP_USES.match(line):
+                steps.append((relative, number, line))
+    return steps
+
+
+def _setup_pin_findings(
+    repository: Repository, steps: list[tuple[str, int, str]]
+) -> list[Finding]:
+    try:
+        approved = _approved_setup_pin()
+    except ValueError as error:
+        return [operational(repository, _RULE, _ACTIONS_POLICY, str(error))]
+    findings: list[Finding] = []
+    for relative, number, line in steps:
+        match = _SETUP_USES.match(line)
+        tail = match.group('tail').strip() if match is not None else ''
+        if tail == approved:
+            continue
+        found = tail.split('#', 1)[0].strip() or tail
+        findings.append(violation(
+            repository, _RULE, relative,
+            'buildlib setup action must use the approved pin '
+            f'laputa-systems/buildlib/setup@{approved}; found {found}',
+            line=number,
+            fixable=True,
+        ))
+    return findings
+
+
+def _rewrite_setup_line(line: str, approved: str) -> str | None:
+    match = _SETUP_USES.match(line)
+    if match is None:
+        return None
+    body = line.rstrip('\r\n')
+    ending = line[len(body):]
+    return f'{line[:match.start("tail")]}{approved}{ending}'
+
+
+def _tools_fix(root: Path, repository: Repository) -> dict[str, str]:
+    steps = _setup_steps(root, repository)
+    if not steps:
+        return {}
+    try:
+        approved = _approved_setup_pin()
+    except ValueError:
+        return {}
+    files, _problems = workflow_files(root, repository)
+    wanted = {relative for relative, _number, _line in steps}
+    plan: dict[str, str] = {}
+    for path in files:
+        relative = path.relative_to(root).as_posix()
+        if relative not in wanted:
+            continue
+        try:
+            text = path.read_text(encoding='utf-8')
+        except (OSError, UnicodeError):
+            continue
+        output: list[str] = []
+        changed = False
+        for line in text.splitlines(keepends=True):
+            match = _SETUP_USES.match(line.rstrip('\r\n'))
+            if match is not None and match.group('tail').strip() == approved:
+                output.append(line)
+                continue
+            rewritten = _rewrite_setup_line(line, approved)
+            if rewritten is not None and rewritten != line:
+                changed = True
+                output.append(rewritten)
+            else:
+                output.append(line)
+        if changed:
+            plan[relative] = ''.join(output)
+    return plan
+
+
 def _classifications(policy: Policy, name: str) -> list[str]:
     values = []
     if name in policy.enrolled:
@@ -544,6 +644,20 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
     if known and name == min(known, key=str.casefold):
         findings.extend(_unknown_repositories(repository, policy, known))
     classifications = _classifications(policy, name)
+    steps = _setup_steps(root, repository)
+    adopted = bool(steps)
+    if 'exempt' in classifications and ('enrolled' in classifications or adopted):
+        basis = (
+            'enrolled'
+            if 'enrolled' in classifications
+            else 'adopted through buildlib owned tools'
+        )
+        findings.append(violation(
+            repository, _RULE, _POLICY,
+            f'stale exempt.{name} entry: the repository is {basis}; '
+            f'delete [exempt."{name}"] from {_POLICY}',
+        ))
+        classifications = [kind for kind in classifications if kind != 'exempt']
     if len(classifications) > 1:
         findings.append(violation(repository, _RULE, _POLICY,
                                   f'{name} is classified more than once in the buildlib policy: '
@@ -551,6 +665,8 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
         return findings
     if 'enrolled' in classifications:
         findings.extend(_enrolled(root, repository, policy.enrolled[name], policy))
+    elif adopted:
+        findings.extend(_setup_pin_findings(repository, steps))
     elif 'exempt' in classifications:
         findings.extend(_exempt(repository, policy.exempt[name]))
     elif 'assess' in classifications:
@@ -792,7 +908,7 @@ def _fix(root: Path, repository: Repository) -> dict[str, str]:
         return {}
     entry = policy.enrolled.get(str(repository.id))
     if not isinstance(entry, dict):
-        return {}
+        return _tools_fix(root, repository)
     plan: dict[str, str] = {}
     bootstrap = entry.get('bootstrap')
     if bootstrap is not True or (root / 'pyproject.toml').exists():
@@ -853,6 +969,8 @@ def buildlib_rules() -> tuple[Rule, ...]:
                 'sources.lock.json',
                 'bootstrap/buildlib-run',
                 'bootstrap/python.lock',
+                '.github/workflows/*.yml',
+                '.github/workflows/*.yaml',
             ),
         ),
     )

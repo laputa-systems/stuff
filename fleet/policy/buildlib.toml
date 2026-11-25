@@ -79,10 +79,6 @@ reassess = "Reassess when the exclusion lifts and the pin audit lands."
 reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
 reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
 
-[exempt."laputa-systems/stuff"]
-reason = "Own-registry independence invariant: stuff must build while its own package registries are unavailable."
-reassess = "Reassess after an offline vendored artifact or independent pinned source is proven."
-
 [exempt."joshuarli/defuddle-rs"]
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
@@ -95,14 +91,6 @@ reassess = "Reassess if verified acquisition, release, or archive tooling appear
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
 
-[exempt."joshuarli/ish"]
-reason = "Native tooling sufficient."
-reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
-
-[exempt."joshuarli/loc"]
-reason = "Native tooling sufficient."
-reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
-
 [exempt."joshuarli/lz"]
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
@@ -112,10 +100,6 @@ reason = "Zig and Xcode own the fork's build; buildlib has no target for either 
 reassess = "Reassess if the fork's release packaging gains shared Python build tooling."
 
 [exempt."joshuarli/mactop"]
-reason = "Native tooling sufficient."
-reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
-
-[exempt."joshuarli/pytest-parallel"]
 reason = "Native tooling sufficient."
 reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
 
@@ -223,10 +207,6 @@ reassess = "Reassess if verified acquisition, release, or archive tooling appear
 reason = "The provider of the wheel and bootstrap, which it builds and tests from source."
 reassess = "Not applicable while buildlib is the provider."
 
-[exempt."laputa-systems/deser"]
-reason = "Deferred: no material custom tooling; its scripts only fetch test corpora."
-reassess = "Reassess if it gains release or acquisition tooling."
-
 [exempt."laputa-systems/lexopt"]
 reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
 reassess = "Reassess if the fork gains its own release or acquisition tooling."
@@ -278,10 +258,6 @@ reassess = "Reassess if its deployment acquires a build or release artifact itse
 [exempt."joshuarli/niceforge"]
 reason = "Deferred: private repository outside deslop scope; its native-input fetch and smolvm build scripts await an integrator decision."
 reassess = "Reassess after its privacy and CI access change."
-
-[exempt."joshuarli/toolbox"]
-reason = "Deferred: private repository owned by another session; its media tools implement no build or release primitives."
-reassess = "Reassess only if repository access and CI change."
 
 [exempt."laputa-systems/zzz"]
 reason = "One Zig source file built directly by its Makefile; it has no build tooling for buildlib to own."

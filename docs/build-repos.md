@@ -18,21 +18,29 @@ compilers, package managers, product policy and existing user entrypoints keep t
 
 ### Dispositions
 
-Every active catalog entry has exactly one entry in `fleet/policy/buildlib.toml`:
+Every active catalog entry has exactly one disposition. `fleet/policy/buildlib.toml` records
+the policy dispositions; a repository that acquires owned tools through buildlib needs no
+policy entry:
 
 - `enrolled`: the repository uses shared helpers. The entry names the entrypoints that call them
   and whether it vendors the bootstrap shim.
+- tools adoption: the repository has `.github/tools.lock.json` and a workflow step
+  `uses: laputa-systems/buildlib/setup@<sha> # <version>` pinned to the SHA
+  `fleet/policy/actions.toml` approves for `laputa-systems/buildlib`. `buildlib-usage` checks
+  the pin; the `tools-lock` rule owns the lock file's contents.
 - `assess`: the repository is eligible but not yet migrated. Lint reports it as pending and
   blocks nothing.
 - `exempt`: native tooling is sufficient, the repository is an effectively-upstream fork, or the
-  work is deferred. Each exemption has a `reason` and a `reassess` condition.
+  work is deferred. Each exemption has a `reason` and a `reassess` condition. An exemption for
+  a repository that is enrolled or adopted through tools is stale and must be deleted.
 
 Simple native commands and established smaller implementations justify an exemption; an unused
 import never satisfies enrollment. Keep pristine upstream and vendor code outside migration. Add
-an upstream buildlib abstraction only when two consumers demonstrate it. stuff stays exempt: its
-registries must build while its own package registries are unavailable, so it cannot fetch the
-stuff-hosted wheel. Add a new catalog entry to the policy when it is admitted, or lint reports it
-as unclassified.
+an upstream buildlib abstraction only when two consumers demonstrate it. stuff cannot enroll —
+its registries must build while its own package registries are unavailable, so it cannot fetch
+the stuff-hosted wheel — but it still adopts buildlib to acquire owned tools. Add a new catalog
+entry to the policy when it is admitted, unless it already adopts buildlib through owned tools,
+or lint reports it as unclassified.
 
 ### Pins and the bootstrap
 
@@ -85,7 +93,10 @@ A migration replaces a local implementation; it does not add a dependency beside
 
 `buildlib-usage` (`repomod/rules/buildlib.py`) reads the policy. For enrolled repositories it
 checks the exact pin and its agreement across `pyproject.toml`, `uv.lock` and the shim's
-`python.lock`, the vendored shim's digests, and the declared entrypoints. A repository whose
+`python.lock`, the vendored shim's digests, and the declared entrypoints. For tools-adopted
+repositories it checks that every `laputa-systems/buildlib/setup` step uses the SHA
+`fleet/policy/actions.toml` approves; its fixer rewrites the pin line to
+`@<sha> # <version>`. A repository whose
 only consumer is the shim, with no `pyproject.toml`, is pinned by `bootstrap/python.lock`. The
 rule never runs consumer scripts, fetches artifacts or starts containers. File presence cannot
 prove reuse; the consumer's behavior tests do. Adoption does not extend the build-repository
