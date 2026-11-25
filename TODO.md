@@ -283,15 +283,6 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Fix with:** none
 - **Effort:** S
 
-### STUF-122 · P3 · Failover replica answers 404 for OCI blob URLs and its test cannot tell
-
-- **Area:** registries · failover
-- **Where:** crates/stuff-worker/cloudflare.ts replica handler; crates/stuff-worker/test/failover.test.mjs REGISTRY_CASES oci-blobs entry
-- **Problem:** In the failover harness, every registry path the replica serves answers 200 except `https://oci-blobs.test/sha256/<layer>`, which answers 404 with a non-empty body. The case passes because assertReplicaServed only requires a status below 500 and a non-empty body, so OCI blob failover may not work at all.
-- **Recommendation:** Decide whether the replica must serve OCI blobs (prod redirects blob GETs to the bucket domain via STUFF_OCI_BLOB_ORIGIN); either seed and serve them so the case answers 200, or drop the case with that reason, and require status 200 for every remaining case.
-- **Fix with:** none
-- **Effort:** S
-
 ### STUF-123 · P3 · python-build publishes only CPython 3.15, so repositories that test or pin older minors keep setup-python
 
 - **Area:** producers · python-build

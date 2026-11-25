@@ -76,7 +76,7 @@ async function assertReplicaServed(server) {
     const response = await server.getWorker().fetch(entry.url);
     assert.equal(response.headers.get("x-stuff-served-by"), "replica", `${entry.url} is served by the replica`);
     assert.equal(await originAttempts(server), 1, `${entry.url} was forwarded to the origin exactly once`);
-    assert.ok(response.status < 500, `${entry.url} answered ${response.status}`);
+    assert.equal(response.status, 200, `${entry.url} answered ${response.status}`);
     if (entry.body !== undefined) {
       assert.equal(await response.text(), entry.body, entry.url);
     } else if (entry.matches !== undefined) {

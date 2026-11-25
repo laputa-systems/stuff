@@ -18,7 +18,6 @@ export const ROUTES = JSON.stringify([
   { host: "npm.test", bucket_binding: "MYNPM", key_prefix: "" },
   { host: "pypi.test", bucket_binding: "PYPI", key_prefix: "" },
   { host: "oci.test", bucket_binding: "OCI", key_prefix: "" },
-  { host: "oci-blobs.test", bucket_binding: "OCI_BLOBS", key_prefix: "" },
   { host: "mirror.test", bucket_binding: "MIRROR", key_prefix: "" },
 ]);
 
@@ -100,6 +99,7 @@ export async function harness(t, originSource, options = {}) {
       STUFF_ROUTES: ROUTES,
       STUFF_UNIFIED_HOST: "stuff.test",
       STUFF_OCI_HOST: "oci.test",
+      STUFF_OCI_BLOB_HOST: "oci-blobs.test",
     },
   };
   if (r2) {
