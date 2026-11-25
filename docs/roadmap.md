@@ -32,8 +32,11 @@ Read [fleet operations](fleet.md) and [fleet design](fleet-design.md) before fle
 | OT6 | Owned tools first | `fleet/policy/buildlib.toml`, `docs/build-repos.md` | none | Every catalog repository is `enrolled`; `assess` and `exempt` dispositions are gone except where a reasoned stuff registry constraint applies |
 | OT7 | Owned tools first | Consumer C/C++ builds, `.cargo/config.toml` linkers, `docker/musl/Dockerfile`, `fleet/policy/musl-toolchain.toml` | none | Linux builds use llvm-prebuilt-musl clang and mold through `buildlib.tools`; `owned-tool-substitution` flags `gcc`, `build-essential`, `build-base`, `CC`/`CXX`/linker set to gcc or cc; the musl image fetches through buildlib with the current `release-<sha>` pin |
 | OT8 | Owned tools first | Consumer Dockerfiles; fleet musl image publication | OT7 | Each Dockerfile starts from the fleet image served by the stuff OCI registry, or carries a reasoned exemption; the rule flags upstream `FROM` images |
-| OT9 | Owned tools first | `fleet/policy/owned-substitutes.toml`, rule manifest scanning, consumer manifests | none | The rule also reads `Cargo.toml`, `pyproject.toml`, `package.json` and CI steps for owned substitutes: shuck for ShellCheck, kache for sccache and ccache, pytest-parallel for pytest-xdist, rustybench for criterion and divan |
 | OT11 | Owned tools first | usr `tools/sync/bootstrap.sh`, `tools/sync/installer.py` and its tests; `repomod tools which` | none | usr installs every owned tool through `buildlib.tools`: `bootstrap.sh` provisions python-build as today plus the pinned buildlib wheel (size and SHA-256 checked), the installer's per-tool download, checksum and extraction code for owned producers is deleted in favour of `buildlib.tools` calls, and its sync tests pass; no usr-installed owned command reports `upstream-install` |
+| DO1 | Dependency ownership | `repomod/dependencies/`, `repomod/cmd/deps.py`, tests, `docs/dependency-inventory.md` | none | `uv run repomod deps ownership --json` classifies every inventory component as owned, mirrored, substitutable or upstream, per ecosystem and per repository, from tracked data only; two runs give identical bytes; a fixture inventory pins each class |
+| DO2 | Dependency ownership | inventory adapter for system packages and setup actions; `repomod/rules/owned_substitution.py` parser reuse | DO1 | apt, brew, dnf and pacman installs and `setup-*` actions become inventory components through the parser `owned-tool-substitution` already uses (one parser, two consumers); `deps ownership` reports them |
+| DO3 | Dependency ownership | new `laputa-systems/ast-grep` fork and its release; `fleet/policy/owned-tools.toml`; `fleet/policy/tools-lock.toml`; buildlib tool table | none | The fork builds musl-static Linux and macOS `ast-grep` from a pinned upstream tag through the build-repo release contract, `buildlib tools install ast-grep` works, and the owned-tools coverage rule passes for it |
+| DO4 | Dependency ownership | command inventory adapter; `fleet/policy/command-baseline.toml`; `deps ownership` command section | DO1, DO3 | Shell in workflow `run:` steps, Makefile recipes, shell scripts and Dockerfile `RUN` lines is parsed with the pinned ast-grep (tree-sitter-bash `command_name`), never by line tokenizing; each command name is classified as baseline, owned, substitutable or external with per-repository counts; a fixture set covers heredocs, functions, quoted programs and `case` |
 | F6 | Dependency friction | Affected repository workflows | Inspect each job's actual runner needs and hosted access | Verify runner choice per workflow and compare standard-job queue times |
 
 ## Campaign: Fleet verification
@@ -166,6 +169,29 @@ Per the Sequence rows. The campaign closes when `uv run repomod lint --rule owne
 ### Execution boundary and non-goals
 
 No change to upstream source in forks beyond build and CI wiring. No new package registry or mirror service. No owned Rust toolchain: rustup stays upstream. CI keeps GitHub-hosted runners.
+
+## Campaign: Dependency ownership
+
+### Goal and state
+
+Report deterministically, from tracked data and without manual review, how much of the fleet's dependency surface is owned, mirrored through stuff, replaceable by an owned producer, or upstream with no owned alternative, and which externally invoked commands the fleet relies on beyond the base userland. Not started; the owner approved the four slices and an owned ast-grep fork on 2026-11-25.
+
+### Design
+
+- `deps ownership` extends the existing inventory (`fleet/dependencies/v1/`) instead of scanning again. A component is owned when it is first-party or its source is a `joshuarli` or `laputa-systems` repository or fork; mirrored when an upstream package is served from the stuff registries; substitutable when `fleet/policy/owned-substitutes.toml` maps it to an owned producer; upstream otherwise.
+- Command use is an inventory adapter, so `deps diff` and the dashboard show its trend. It parses shell with a real Bash grammar through the owned ast-grep build; the baseline userland (POSIX utilities, coreutils, base archivers) is policy data. A command class says only that an owned producer exists; which binary actually runs is install provenance, which `owned-tool-substitution` checks.
+
+### Baseline
+
+A 2026-11-25 prototype (line tokenizer over workflow `run:` steps, Makefile recipes, shell scripts and Dockerfile `RUN` lines of every catalogued checkout) found about 560 command names used in two or more repositories: 84 baseline, 25 with an owned producer (git 52 repositories, python3 51, gh 44, jaq 25, clang 20, node 18, rg 16), 7 upstream with an owned substitute (jq 16, npm 16, python 9, ccache 3) and about 450 external, roughly half of them tokenizer noise from quoted programs. Recurring external commands: make, cargo, curl, rustup, docker, readelf, apt-get, codesign, wget, pnpm, uv, rsync, brew, openssl, qemu-system-x86_64, gcc, pkg-config, otool, unshare, go and xcrun. The inventory then held 3,547 package names (cargo 1,235, npm 1,154, golang 180, apk 148, pypi 122, GitHub Actions 43, Docker images 34), 355 of them first-party.
+
+### Acceptance
+
+The DO1–DO4 rows in Sequence. The finished report runs in under a minute fleet-wide from the tracked inventory and exits 0 with JSON on stdout.
+
+### Execution boundary and non-goals
+
+No execution of managed-repository code, as for the rest of the inventory. Tracking every invocation inside interpreted programs (Python `subprocess`, Rust `Command`) is out of scope until the shell surfaces are complete.
 
 ## Campaign: Release archives
 
