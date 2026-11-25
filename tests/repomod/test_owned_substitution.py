@@ -43,6 +43,7 @@ def _substitutes_text(
     return f"""version = 1
 
 [producers."acme/gluon"]
+label = "Meson, Ninja"
 urls = ["github.com/ninja-build"]
 
 [producers."acme/gluon".packages]
@@ -53,6 +54,7 @@ dnf = ["meson", "ninja-build"]
 pacman = ["meson", "ninja", "samurai"]
 
 [producers."acme/cmake-build"]
+label = "CMake"
 urls = ["cmake.org"]
 
 [producers."acme/cmake-build".packages]
@@ -63,6 +65,7 @@ dnf = ["cmake"]
 pacman = ["cmake"]
 
 [producers."acme/llvm-prebuilt-musl"]
+label = "Clang and LLVM toolchains"
 urls = ["apt.llvm.org"]
 
 [producers."acme/llvm-prebuilt-musl".packages]
@@ -73,6 +76,7 @@ dnf = ["clang", "lld", "llvm"]
 pacman = ["clang", "lld", "llvm"]
 
 [producers."acme/node-build"]
+label = "Node.js"
 actions = ["actions/setup-node"]
 urls = ["nodejs.org"]
 
@@ -84,6 +88,7 @@ dnf = ["nodejs", "npm"]
 pacman = ["nodejs", "npm"]
 
 [producers."acme/python-build"]
+label = "CPython"
 actions = ["actions/setup-python", "astral-sh/setup-uv"]
 urls = ["python.org/ftp"]
 
@@ -102,9 +107,11 @@ dnf = ["git"]
 pacman = ["git"]
 
 [producers."acme/git-build"]
+label = "Git"
 urls = ["github.com/git/git"]
 
 [producers."acme/mold"]
+label = "mold"
 urls = ["github.com/rui314/mold"]
 
 [producers."acme/mold".packages]

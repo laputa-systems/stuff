@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import sys
 
+from repomod import substitutes
 from repomod.owned_tools import coverage, coverage_json, load_owned_tools, usr_installed
 from repomod.which import run as run_which
 
@@ -29,5 +31,20 @@ def _coverage(args: argparse.Namespace) -> int:
     return 0 if error is None and all(entry.state in _COVERED for entry in entries) else 1
 
 
+def _substitute(args: argparse.Namespace) -> int:
+    matches = substitutes.lookup(args.name)
+    if args.json:
+        common.print_json(
+            [{"producer": match.producer, "kind": match.kind, "matched": match.matched} for match in matches]
+        )
+    else:
+        for match in matches:
+            print(f"{match.producer}\t{match.kind}\t{match.matched}")
+    if matches:
+        return 0
+    print(f"repomod: no owned substitute for {args.name!r}", file=sys.stderr)
+    return 1
+
+
 def _tools(args: argparse.Namespace) -> int:
-    return {"which": _which, "coverage": _coverage}[args.operation](args)
+    return {"which": _which, "coverage": _coverage, "substitute": _substitute}[args.operation](args)

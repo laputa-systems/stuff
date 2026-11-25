@@ -2,22 +2,20 @@ from __future__ import annotations
 
 import os
 import re
-import tomllib
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from urllib.parse import urlsplit
 
-from repomod import paths
+from repomod import paths, substitutes
 from repomod.catalog import load_catalog
 from repomod.owned_tools import load_owned_tools
+from repomod.substitutes import Exemption, Policy, ProducerSub
 from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, operational, violation
 
 RULE = "owned-tool-substitution"
 _POLICY = "fleet/policy/owned-substitutes.toml"
 _OWNED_POLICY = "fleet/policy/owned-tools.toml"
 _BUILDLIB_HINT = "buildlib.tools or the laputa-systems/buildlib/setup action"
-_MANAGERS = frozenset({"apk", "apt", "apt-get", "brew", "dnf", "yum", "pacman"})
-_MANAGER_ALIASES = {"apt-get": "apt", "yum": "dnf"}
 _ACTION_USES = re.compile(r"^\s*-?\s*uses:\s*([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@")
 _UV_PYTHON = re.compile(r"\buv\s+python\s+install\b")
 _PYTHON_VERSION = re.compile(r"^\s*python-version\s*:")
@@ -48,121 +46,14 @@ _SEPARATORS = frozenset({"&&", "||", ";", "|"})
 
 
 @dataclass(frozen=True, slots=True)
-class ProducerSub:
-    packages: dict[str, tuple[str, ...]]
-    actions: frozenset[str]
-    urls: tuple[str, ...]
-
-
-@dataclass(frozen=True, slots=True)
-class Exemption:
-    producer: str
-    reason: str
-    reassess: str
-
-
-@dataclass(frozen=True, slots=True)
-class Policy:
-    producers: dict[str, ProducerSub]
-    exempt: dict[str, tuple[Exemption, ...]]
-
-
-@dataclass(frozen=True, slots=True)
 class Hit:
     line: int
     label: str
     producer: str
 
 
-def _policy_path() -> Path:
-    return paths.POLICY / "owned-substitutes.toml"
-
-
-def _string_list(value: object, label: str) -> tuple[str, ...]:
-    if not isinstance(value, list) or any(not isinstance(item, str) or not item.strip() for item in value):
-        raise ValueError(f"{label} must be a list of non-empty strings")
-    return tuple(item.strip() for item in value if isinstance(item, str))
-
-
-def _load_producer(name: str, raw: object) -> ProducerSub:
-    label = f"producers.{name}"
-    if not isinstance(raw, dict):
-        raise ValueError(f"{label} must be a table")
-    unknown = set(raw) - {"packages", "actions", "urls"}
-    if unknown:
-        raise ValueError(f"{label} has unknown keys: {', '.join(sorted(str(k) for k in unknown))}")
-    raw_packages = raw.get("packages", {})
-    if not isinstance(raw_packages, dict):
-        raise ValueError(f"{label}.packages must be a table of manager package lists")
-    packages: dict[str, tuple[str, ...]] = {}
-    for manager, items in raw_packages.items():
-        if not isinstance(manager, str) or manager not in _MANAGERS:
-            raise ValueError(f"{label}.packages names an unknown manager {manager!r}")
-        normalized = _MANAGER_ALIASES.get(manager, manager)
-        if normalized in packages:
-            raise ValueError(f"{label}.packages lists manager {normalized} more than once")
-        packages[normalized] = _string_list(items, f"{label}.packages.{manager}")
-    actions = frozenset(_string_list(raw.get("actions", []), f"{label}.actions"))
-    for action in actions:
-        try:
-            RepoId.parse(action)
-        except ValueError as error:
-            raise ValueError(f"{label}.actions entry {action!r} is not OWNER/REPO") from error
-    urls = _string_list(raw.get("urls", []), f"{label}.urls")
-    for url in urls:
-        host = url.split("/", 1)[0]
-        if "://" in url or not host or "." not in host:
-            raise ValueError(f"{label}.urls entry {url!r} must name a host or host/path prefix")
-    if not packages and not actions and not urls:
-        raise ValueError(f"{label} must declare packages, actions, or urls")
-    return ProducerSub(packages, actions, urls)
-
-
-def _load_exemption(repo: str, producer: str, raw: object) -> Exemption:
-    label = f"exempt.{repo}.producers.{producer}"
-    if not isinstance(raw, dict):
-        raise ValueError(f"{label} must be a table")
-    unknown = set(raw) - {"reason", "reassess"}
-    if unknown:
-        raise ValueError(f"{label} has unknown keys: {', '.join(sorted(str(k) for k in unknown))}")
-    reason = raw.get("reason")
-    if not isinstance(reason, str) or not reason.strip():
-        raise ValueError(f"{label} needs a non-empty reason")
-    reassess = raw.get("reassess")
-    if not isinstance(reassess, str) or not reassess.strip():
-        raise ValueError(f"{label} needs a non-empty reassessment condition")
-    return Exemption(producer, reason.strip(), reassess.strip())
-
-
 def _load_policy() -> Policy:
-    path = _policy_path()
-    if path.is_symlink():
-        raise ValueError("owned-substitutes policy is a symlink")
-    try:
-        data = tomllib.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
-        raise ValueError(f"cannot load owned-substitutes policy: {error}") from error
-    if set(data) - {"version", "producers", "exempt"} or data.get("version") != 1:
-        raise ValueError("unknown or missing owned-substitutes policy, or invalid version")
-    raw_producers = data.get("producers", {})
-    if not isinstance(raw_producers, dict):
-        raise ValueError("[producers] must be a table")
-    producers = {str(name): _load_producer(str(name), entry) for name, entry in raw_producers.items()}
-    raw_exempt = data.get("exempt", {})
-    if not isinstance(raw_exempt, dict):
-        raise ValueError("[exempt] must be a table")
-    exempt: dict[str, tuple[Exemption, ...]] = {}
-    for repo, entry in raw_exempt.items():
-        if not isinstance(entry, dict) or set(entry) - {"producers"}:
-            raise ValueError(f"exempt.{repo} must be a table containing only [exempt.{repo}.producers]")
-        raw_map = entry.get("producers", {})
-        if not isinstance(raw_map, dict):
-            raise ValueError(f"exempt.{repo}.producers must be a table")
-        exempt[str(repo)] = tuple(
-            _load_exemption(str(repo), str(producer), value)
-            for producer, value in raw_map.items()
-        )
-    return Policy(producers, exempt)
+    return substitutes.load_policy()
 
 
 def _owned_producers() -> frozenset[str]:
@@ -296,7 +187,7 @@ def _package_hits(name: str, manager: str, producers: dict[str, ProducerSub]) ->
 def _install_hits(line: str, env: dict[str, str], producers: dict[str, ProducerSub]) -> list[Hit]:
     hits: list[Hit] = []
     for manager, verb in _INSTALL_VERBS.items():
-        normalized = _MANAGER_ALIASES.get(manager, manager)
+        normalized = substitutes.MANAGER_ALIASES.get(manager, manager)
         for match in verb.finditer(line):
             packages: list[str] = []
             for token in line[match.end():].split():

@@ -373,6 +373,19 @@ def _parser() -> argparse.ArgumentParser:
         help="account for every owned repository's help and support coverage",
     )
     tool_coverage.add_argument("--json", action="store_true", help="write structured JSON to stdout")
+    tool_substitute = tool_commands.add_parser(
+        "substitute",
+        epilog="Examples:\n  repomod tools substitute ninja-build --json",
+        help="find the owned producer that replaces an upstream package, action, URL, or label",
+        description=(
+            "Read fleet/policy/owned-substitutes.toml and print the owned producer "
+            "that replaces NAME as tab-separated PRODUCER, KIND, and MATCHED fields."
+        ),
+    )
+    tool_substitute.add_argument(
+        "name", metavar="NAME", help="upstream package, action, URL, or label to look up (required)"
+    )
+    tool_substitute.add_argument("--json", action="store_true", help="write structured JSON to stdout")
 
     topics = commands.add_parser(
         "topics",

@@ -122,19 +122,29 @@ owned-tool procedure linked from `fleet/policy/owned-tools.toml`); it does not f
 upstream build. Each consumer is then also a test of the producer, and a fix lands once for every
 repository.
 
+<!-- generated: owned-substitutes -->
+
 | Upstream tool | Owned producer |
 | --- | --- |
-| Meson, Ninja | `laputa-systems/gluon` (`meson`, `ninja`, `gluon-build`) |
+| Meson, Ninja | `laputa-systems/gluon` |
 | FFmpeg runtime and libraries | `laputa-systems/ffmpeg-build` |
 | CMake | `laputa-systems/cmake-build` |
 | Clang and LLVM toolchains | `laputa-systems/llvm-prebuilt-musl` |
-| CPython | `laputa-systems/python-build` (through buildlib's bootstrap) |
 | Node.js | `laputa-systems/node-build` |
-| Git, OpenSSH | `laputa-systems/git-build`, `laputa-systems/ssh-build` |
-| ripgrep, fd, jaq, mold | the owned forks in `fleet/policy/owned-tools.toml` |
+| CPython | `laputa-systems/python-build` |
+| Git | `laputa-systems/git-build` |
+| OpenSSH | `laputa-systems/ssh-build` |
+| ripgrep | `laputa-systems/rg` |
+| fd | `laputa-systems/fd` |
+| jaq | `laputa-systems/jaq` |
+| mold | `joshuarli/mold` |
 
-The producer list in `fleet/policy/owned-tools.toml` is authoritative; this table names the common
-substitutions. A consumer keeps the upstream tool only for a stated reason: the producer publishes
+<!-- end generated -->
+
+The producer list in `fleet/policy/owned-tools.toml` is authoritative; the table above is generated
+from `fleet/policy/owned-substitutes.toml` by `uv run python -m repomod.substitutes --write-docs`.
+`repomod tools substitute NAME` prints the owned producer for an upstream package, action, URL, or
+label. A consumer keeps the upstream tool only for a stated reason: the producer publishes
 no release for the consumer's platform, the consumer is an effectively upstream fork whose
 inherited build must stay unchanged, or the substitution is deferred until a named producer gap
 is fixed. Record that reason next to the install and file the producer gap in the producer's

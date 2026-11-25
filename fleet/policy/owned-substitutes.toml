@@ -1,6 +1,7 @@
 version = 1
 
 [producers."laputa-systems/gluon"]
+label = "Meson, Ninja"
 urls = ["github.com/ninja-build"]
 
 [producers."laputa-systems/gluon".packages]
@@ -11,6 +12,7 @@ dnf = ["meson", "ninja-build", "samurai"]
 pacman = ["meson", "ninja", "samurai"]
 
 [producers."laputa-systems/ffmpeg-build"]
+label = "FFmpeg runtime and libraries"
 urls = ["ffmpeg.org", "johnvansickle.com"]
 
 [producers."laputa-systems/ffmpeg-build".packages]
@@ -21,6 +23,7 @@ dnf = ["ffmpeg"]
 pacman = ["ffmpeg"]
 
 [producers."laputa-systems/cmake-build"]
+label = "CMake"
 urls = ["cmake.org", "github.com/kitware/cmake"]
 
 [producers."laputa-systems/cmake-build".packages]
@@ -31,6 +34,7 @@ dnf = ["cmake"]
 pacman = ["cmake"]
 
 [producers."laputa-systems/llvm-prebuilt-musl"]
+label = "Clang and LLVM toolchains"
 urls = ["apt.llvm.org"]
 
 [producers."laputa-systems/llvm-prebuilt-musl".packages]
@@ -41,6 +45,7 @@ dnf = ["clang", "clang-devel", "clang-tools-extra", "lld", "llvm"]
 pacman = ["clang", "clang-tools-extra", "lld", "llvm", "llvm-libs"]
 
 [producers."laputa-systems/node-build"]
+label = "Node.js"
 actions = ["actions/setup-node"]
 urls = ["nodejs.org"]
 
@@ -52,6 +57,7 @@ dnf = ["nodejs", "npm"]
 pacman = ["nodejs", "npm"]
 
 [producers."laputa-systems/python-build"]
+label = "CPython"
 actions = ["actions/setup-python", "astral-sh/setup-uv"]
 urls = ["python.org/ftp", "www.python.org/ftp", "github.com/astral-sh/python-build-standalone"]
 
@@ -70,6 +76,7 @@ dnf = ["git"]
 pacman = ["git"]
 
 [producers."laputa-systems/git-build"]
+label = "Git"
 urls = ["github.com/git/git"]
 
 [producers."laputa-systems/ssh-build".packages]
@@ -79,6 +86,7 @@ dnf = ["openssh", "^openssh-.*$"]
 pacman = ["openssh"]
 
 [producers."laputa-systems/ssh-build"]
+label = "OpenSSH"
 urls = ["cdn.openbsd.org/pub/openbsd/openssh", "ftp.openbsd.org/pub/openbsd/openssh"]
 
 [producers."laputa-systems/rg".packages]
@@ -89,6 +97,7 @@ dnf = ["ripgrep"]
 pacman = ["ripgrep"]
 
 [producers."laputa-systems/rg"]
+label = "ripgrep"
 urls = ["github.com/burntsushi/ripgrep"]
 
 [producers."laputa-systems/fd".packages]
@@ -99,6 +108,7 @@ dnf = ["fd-find"]
 pacman = ["fd"]
 
 [producers."laputa-systems/fd"]
+label = "fd"
 urls = ["github.com/sharkdp/fd"]
 
 [producers."laputa-systems/jaq".packages]
@@ -109,6 +119,7 @@ dnf = ["jq"]
 pacman = ["jq"]
 
 [producers."laputa-systems/jaq"]
+label = "jaq"
 urls = ["github.com/jqlang/jq", "github.com/01mf02/jaq"]
 
 [producers."joshuarli/mold".packages]
@@ -119,4 +130,5 @@ dnf = ["mold"]
 pacman = ["mold"]
 
 [producers."joshuarli/mold"]
+label = "mold"
 urls = ["github.com/rui314/mold"]
