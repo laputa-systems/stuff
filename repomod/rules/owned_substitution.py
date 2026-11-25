@@ -673,10 +673,14 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
             if key in exemptions:
                 suppressed.add(key)
                 continue
+            remedy = (
+                f"depend on {canonical}'s package instead of the upstream one"
+                if kind.startswith("manifest:")
+                else f"acquire it through {_BUILDLIB_HINT} instead of the upstream install"
+            )
             reported.append(violation(
                 repository, RULE, relative,
-                f"{hit.label} duplicates owned producer {canonical}; "
-                f"acquire it through {_BUILDLIB_HINT} instead of the upstream install",
+                f"{hit.label} duplicates owned producer {canonical}; {remedy}",
                 line=hit.line,
             ))
     for key, item in exemptions.items():

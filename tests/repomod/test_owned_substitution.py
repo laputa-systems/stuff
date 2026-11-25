@@ -592,6 +592,10 @@ def test_cargo_manifest_dependencies(project: tuple[Path, Repository, Path]) -> 
     }
     assert by_label["dependency 'criterion' (cargo)"] == 6
     assert by_label["dependency 'divan' (cargo)"] == 9
+    assert all(
+        finding.message.endswith("; depend on acme/rustybench's package instead of the upstream one")
+        for finding in findings
+    )
 
 
 def test_cargo_manifest_lookalikes_are_not_flagged(
@@ -654,6 +658,7 @@ def test_pip_uv_and_cargo_install_commands(project: tuple[Path, Repository, Path
     assert sum("package 'pytest-xdist' installed by uv pip install" in label for label in labels) == 1
     assert sum("package 'sccache' installed by cargo install" in label for label in labels) == 1
     assert all((finding.line or 0) >= 4 for finding in findings)
+    assert all("instead of the upstream install" in finding.message for finding in findings)
 
 
 def test_uv_pip_install_is_not_double_counted_as_pip(
