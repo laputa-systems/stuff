@@ -69,7 +69,7 @@ label = "Clang and LLVM toolchains"
 urls = ["apt.llvm.org"]
 
 [producers."acme/llvm-prebuilt-musl".packages]
-apk = ["clang", "lld", "llvm", "^clang-?\\\\d+$"]
+apk = ["clang", "gcc", "lld", "llvm", "^clang-?\\\\d+$"]
 apt = ["clang", "lld", "llvm", "^clang-\\\\d+$", "^lld-\\\\d+$", "^llvm-\\\\d+$"]
 brew = ["llvm"]
 dnf = ["clang", "lld", "llvm"]
@@ -856,4 +856,43 @@ def test_malformed_manifests_are_skipped(project: tuple[Path, Repository, Path])
     _write(root, "pyproject.toml", "[project\ndependencies = [\"pytest-xdist\"\n")
     _write(root, "package.json", "{ not json")
     _write(root, ".cargo/config.toml", "[build\nrustc-wrapper = \"sccache\"\n")
+    assert owned_substitution._check(root, repository) == []
+
+
+
+def test_explicit_gcc_compiler_settings_are_flagged(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(root, "Makefile", "CC ?= gcc\nCXX := x86_64-linux-musl-g++-14\nLD = ld\n")
+    _write(root, "Dockerfile", "FROM alpine\nENV CC=gcc\nRUN cmake -DCMAKE_C_COMPILER=gcc .\n")
+    _write(root, ".github/workflows/ci.yml", "jobs:\n  b:\n    env:\n      CXX: g++\n")
+    _write(
+        root,
+        ".cargo/config.toml",
+        '[target.aarch64-unknown-linux-musl]\nlinker = "aarch64-linux-musl-gcc"\n'
+        '[target.x86_64-unknown-linux-musl]\nlinker = "clang"\n',
+    )
+    found = sorted(
+        (finding.file, finding.line, finding.message.split(" duplicates")[0])
+        for finding in owned_substitution._check(root, repository)
+    )
+    assert found == [
+        (".cargo/config.toml", 2, "Cargo linker 'aarch64-linux-musl-gcc'"),
+        (".github/workflows/ci.yml", 4, "compiler setting 'CXX=g++'"),
+        ("Dockerfile", 2, "compiler setting 'CC=gcc'"),
+        ("Dockerfile", 3, "compiler setting 'CMAKE_C_COMPILER=gcc'"),
+        ("Makefile", 1, "compiler setting 'CC=gcc'"),
+        ("Makefile", 2, "compiler setting 'CXX=x86_64-linux-musl-g++-14'"),
+    ]
+
+
+def test_generic_and_owned_compiler_settings_are_not_flagged(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    _write(
+        root,
+        "Makefile",
+        'CC ?= cc\nCXX = c++\nCC = clang\nHOSTCC = "zig cc"\nMYCC = gcc\nCCACHE=gcc-wrapper\n',
+    )
+    _write(root, ".cargo/config.toml", '[target.x86_64-unknown-linux-gnu]\nlinker = "cc"\n')
     assert owned_substitution._check(root, repository) == []

@@ -171,7 +171,11 @@ dependency-manifest names it replaces, and scans `.github/workflows`, Dockerfile
 `scripts/`, `docker/` and `flake.nix` plus `Cargo.toml`, `pyproject.toml`, `package.json`,
 `requirements*.txt` and `.cargo/config.toml`. Manifest ecosystems are `cargo`, `pypi` and `npm`;
 the rule also flags `pip install`, `uv add`, `uv pip install` and `cargo install` commands and
-`RUSTC_WRAPPER`/`rustc-wrapper` assignments. An unexempted upstream install is a blocking finding that names the producer to use
+`RUSTC_WRAPPER`/`rustc-wrapper` assignments. It also flags compiler settings that name gcc
+(`CC`, `CXX`, `HOSTCC`, `HOSTCXX` or `CMAKE_C[XX]_COMPILER` set to `gcc`, `g++` or a
+triple-prefixed or versioned form) and `.cargo/config.toml` `linker` entries that name gcc,
+attributing them to the producer whose packages list `gcc`; the generic `cc` and `c++` names are
+not flagged, because they resolve to whatever compiler the environment provides. An unexempted upstream install is a blocking finding that names the producer to use
 instead and points at buildlib's setup action and `buildlib.tools`. To exempt a repository,
 add `[exempt."owner/repo".producers."producer/id"]` entries with a `reason` drawn from the
 grounds above and a `reassess` condition; an exemption that matches no finding is itself a

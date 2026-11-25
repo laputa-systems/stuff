@@ -207,3 +207,11 @@ reassess = "When the fork builds its own release artifacts with that image."
 [exempt."laputa-systems/asterinas".producers."laputa-systems/llvm-prebuilt-musl"]
 reason = "Effectively upstream fork whose inherited build must stay unchanged: the OSDK development image's toolchain is upstream's, and moving it to the owned clang would widen the fork's diff without a fleet consumer."
 reassess = "When the fork builds its own release artifacts with that image."
+
+[exempt."laputa-systems/ast-grep".producers."laputa-systems/llvm-prebuilt-musl"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the GNU cross linkers in .cargo/config.toml are upstream's release configuration, and moving them to the owned clang would widen the fork's diff without a fleet consumer."
+reassess = "When the fork builds its own cross-target release artifacts."
+
+[exempt."laputa-systems/rust-fontconfig".producers."laputa-systems/llvm-prebuilt-musl"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: its gcc Makefile setting is upstream's, and moving it to the owned clang would widen the fork's diff without a fleet consumer."
+reassess = "When the fork builds its own release artifacts."

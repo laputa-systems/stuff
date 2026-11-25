@@ -26,6 +26,14 @@ _UV_ADD = re.compile(r"\buv\s+add\b")
 _UV_PIP_INSTALL = re.compile(r"\buv\s+pip\s+install\b")
 _CARGO_INSTALL = re.compile(r"\bcargo\s+install\b")
 _WRAPPER_ASSIGN = re.compile(r"\b(?:RUSTC_WRAPPER|rustc-wrapper)\s*[:=]\s*[\"']?([^\s\"']+)")
+_COMPILER_SETTING = re.compile(
+    r"(?:(?<![\w-])|(?<=-D))"
+    r"(CC|CXX|HOSTCC|HOSTCXX|CMAKE_C_COMPILER|CMAKE_CXX_COMPILER)"
+    r"[ \t]*(?:[:?+]?=|:[ \t])[ \t]*[\"']?"
+    r"((?:[\w.]+-)*(?:gcc|g\+\+)(?:-\d+)?)"
+    r"(?=[\"'\s;)]|$)"
+)
+_COMPILER_PROBE = "gcc"
 _DEP_SECTIONS = ("dependencies", "dev-dependencies", "build-dependencies")
 _IGNORED_DIRS = install_parse._IGNORED_DIRS
 _WORKFLOW_SUFFIXES = install_parse._WORKFLOW_SUFFIXES
@@ -385,24 +393,59 @@ def _manifest_hits(
     return sorted(deduped.values(), key=lambda hit: (hit.line, hit.label))
 
 
+def _compiler_producer(producers: dict[str, ProducerSub]) -> str | None:
+    for manager in ("apk", "apt", "dnf", "pacman"):
+        producer_id = _package_hits(_COMPILER_PROBE, manager, producers)
+        if producer_id is not None:
+            return producer_id
+    return None
+
+
+def _compiler_hits(line: str, producers: dict[str, ProducerSub]) -> list[Hit]:
+    producer_id = _compiler_producer(producers)
+    if producer_id is None:
+        return []
+    return [
+        Hit(0, f"compiler setting '{match.group(1)}={match.group(2)}'", producer_id)
+        for match in _COMPILER_SETTING.finditer(line)
+    ]
+
+
+def _cargo_linker_hits(data: dict[str, object], text: str, producers: dict[str, ProducerSub]) -> list[Hit]:
+    producer_id = _compiler_producer(producers)
+    targets = data.get("target")
+    if producer_id is None or not isinstance(targets, dict):
+        return []
+    hits: list[Hit] = []
+    for table in targets.values():
+        linker = table.get("linker") if isinstance(table, dict) else None
+        if not isinstance(linker, str):
+            continue
+        name = PurePosixPath(linker.strip()).name
+        if re.fullmatch(r"(?:[\w.]+-)*gcc(?:-\d+)?", name):
+            hits.append(Hit(_dep_line(text, linker), f"Cargo linker '{name}'", producer_id))
+    return hits
+
+
 def _cargo_config_hits(text: str, producers: dict[str, ProducerSub]) -> list[Hit]:
     try:
         data = tomllib.loads(text)
     except ValueError:
         return []
+    linker_hits = _cargo_linker_hits(data, text, producers)
     build = data.get("build")
     wrapper = build.get("rustc-wrapper") if isinstance(build, dict) else None
     if not isinstance(wrapper, str) or not wrapper.strip():
-        return []
+        return linker_hits
     raw = wrapper.strip().strip("'\"")
     name = PurePosixPath(raw).name.removesuffix(".exe")
     if not name:
-        return []
+        return linker_hits
     found = substitutes.manifest_producer(name, "cargo", producers)
     if found is None:
-        return []
+        return linker_hits
     producer_id, _ = found
-    return [Hit(_dep_line(text, name, raw), f"rustc-wrapper '{name}'", producer_id)]
+    return [Hit(_dep_line(text, name, raw), f"rustc-wrapper '{name}'", producer_id), *linker_hits]
 
 
 def _file_hits(kind: str, text: str, producers: dict[str, ProducerSub]) -> list[Hit]:
@@ -430,6 +473,10 @@ def _file_hits(kind: str, text: str, producers: dict[str, ProducerSub]) -> list[
         hits.extend(
             Hit(number, hit.label, hit.producer)
             for hit in _wrapper_hits(line, producers)
+        )
+        hits.extend(
+            Hit(number, hit.label, hit.producer)
+            for hit in _compiler_hits(line, producers)
         )
         hits.extend(
             Hit(number, f"URL '{url}'", producer_id)
