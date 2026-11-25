@@ -19,6 +19,11 @@ _REPOSITORIES = {
 }
 
 
+@pytest.fixture(autouse=True)
+def _frozen_policy(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(buildlib.paths, 'POLICY', FIXTURES / 'policy')
+
+
 def _tree(root: Path) -> dict[str, bytes]:
     return {
         path.relative_to(root).as_posix(): path.read_bytes()
@@ -92,7 +97,7 @@ def test_missing_required_shim_is_recreated_from_the_vendored_bytes(tmp_path: Pa
     assert missing
     assert all(finding.fixable for finding in missing)
     plan = rule.fix(root, repository)
-    assert plan['bootstrap/python.lock'] == buildlib.buildlib_pins.VENDORED_SHIMS['python.lock']
+    assert plan['bootstrap/python.lock'] == buildlib.buildlib_pins.vendored_shims()['python.lock']
     _write_plan(root, plan, rule.allowed_paths)
     assert not any(f.fixable for f in rule.check(root, repository))
 

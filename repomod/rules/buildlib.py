@@ -757,12 +757,12 @@ def _repair_sources_lock(
             entry['sha256'] = policy.wheel_sha256
             changed = True
         size = entry.get('size')
-        if 'size' in entry and size != buildlib_pins.WHEEL_SIZE:
-            entry['size'] = buildlib_pins.WHEEL_SIZE
+        if 'size' in entry and size != buildlib_pins.wheel_size():
+            entry['size'] = buildlib_pins.wheel_size()
             changed = True
         if (entry.get('filename') is None and entry.get('url') is None
                 and not isinstance(entry.get('urls'), list)):
-            entry['url'] = buildlib_pins.WHEEL_URL
+            entry['url'] = buildlib_pins.wheel_url()
             changed = True
     if not changed:
         return text

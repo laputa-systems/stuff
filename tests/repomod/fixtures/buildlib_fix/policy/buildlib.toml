@@ -1,0 +1,336 @@
+version = 1
+
+[artifact]
+wheel_version = "0.3.0"
+wheel_filename = "laputa_buildlib-0.3.0-py3-none-any.whl"
+wheel_sha256 = "86bc1f8ce6be7c345f3cc5ac7046a4c84694319284a52b3479bb2e29a37dc849"
+wheel_size = 33330
+bootstrap_revision = "55d348a8eefc81982fde789cd73c7032d39e7f69"
+
+[artifact.bootstrap_sha256]
+"buildlib-run" = ["e7f957ca6af0b151d25a9ff5bedb5deca0bfc86ba05ff3225a5405d56fa95957", "d595bbe198d93547c4c0bf98118167bba0ad046f0e07f8b505053cfedd2009df"]
+"python.lock" = "98d595416fe3e361a2aa480144de87cd8024aed060541c0f9fba52eedfc2461f"
+
+[enrolled."joshuarli/pi-build"]
+entrypoints = ["tools/release.py", "tools/toolchain.sh"]
+bootstrap = false
+
+[enrolled."joshuarli/shck"]
+entrypoints = ["scripts/build-python-release.py"]
+bootstrap = true
+
+[enrolled."laputa-systems/chromium-build"]
+entrypoints = ["scripts/release_assets.py", "scripts/sources_lock.py"]
+bootstrap = false
+
+[enrolled."joshuarli/play"]
+entrypoints = ["scripts/fetch-ffmpeg-runtime.sh", "scripts/fetch_ffmpeg_runtime.py"]
+bootstrap = true
+
+[enrolled."laputa-systems/ffmpeg-build"]
+entrypoints = ["build.py", "bootstrap.py", ".github/scripts/assemble_release.py", "scripts/setup-dev"]
+bootstrap = true
+
+[enrolled."laputa-systems/node-build"]
+entrypoints = ["build.py", "buildsys/__init__.py", "scripts/setup-dev"]
+bootstrap = true
+
+[enrolled."joshuarli/img"]
+entrypoints = ["scripts/package-release.py"]
+bootstrap = true
+
+[enrolled."laputa-systems/cmake-build"]
+entrypoints = ["build.py", "buildsys/buildlib_wheel.py", "scripts/setup-dev"]
+bootstrap = true
+
+[exempt."joshuarli/ctrs"]
+reason = "The BLD-2 ctrs acquisition slice is owned by another session; this policy pass changes no pin or vendored bootstrap."
+reassess = "Reassess after the ctrs kernel/patch identity slice lands and its vendored bootstrap is audited."
+
+[exempt."joshuarli/kache"]
+reason = "The repository is under active work in another session."
+reassess = "Reassess when that session completes or verified build and release tooling appears."
+
+[exempt."joshuarli/usr"]
+reason = "Deferred: usr owns the vendored buildlib bootstrap, the linux-capsule skill, and the install surface, which need integrator review before adoption."
+reassess = "Reassess when the integrator reconciles shared bootstrap and skill ownership."
+
+[exempt."laputa-systems/git-build"]
+reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
+reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
+
+[exempt."laputa-systems/asterinas"]
+reason = "Upstream kernel fork built with upstream's cargo-osdk toolchain inside the published dev image; buildlib models no kernel image target."
+reassess = "Reassess if Laputa stops consuming upstream's dev image for the kernel build."
+
+[exempt."laputa-systems/laputa"]
+reason = "Intentional XSH-native package/seed bootstrap; buildlib models no XSH target."
+reassess = "Reassess only if the XSH-native exclusion lifts and a supported target is named."
+
+[exempt."laputa-systems/llvm-prebuilt-musl"]
+reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
+reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
+
+[exempt."laputa-systems/python-build"]
+reason = "Owner exclusion 2026-11-14: heavy development in another session; the existing consumer is audited separately."
+reassess = "Reassess when the exclusion lifts and the pin audit lands."
+
+[exempt."laputa-systems/ssh-build"]
+reason = "Established native shell/jaq implementation accepted by the previous build campaign; native tooling sufficient."
+reassess = "Reassess on a named maintenance or correctness benefit from buildlib."
+
+[exempt."laputa-systems/stuff"]
+reason = "Own-registry independence invariant: stuff must build while its own package registries are unavailable."
+reassess = "Reassess after an offline vendored artifact or independent pinned source is proven."
+
+[exempt."joshuarli/defuddle-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/extensions"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/gh"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/ish"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/loc"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/lz"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/ghostty"]
+reason = "Zig and Xcode own the fork's build; buildlib has no target for either toolchain."
+reassess = "Reassess if the fork's release packaging gains shared Python build tooling."
+
+[exempt."joshuarli/mactop"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/pytest-parallel"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/soulseek-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/syncthing"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."joshuarli/tansu"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/crabtables"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/diff-pretty"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/doas-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/e"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/fastermod"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/fd"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/fz"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/gluon"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/hi-lite"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/jaq"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/laputa-ui-dashboard"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/mdevd-rs"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/oxish"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/ptytest"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rage"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rust-fontconfig"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rustix"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/rustybench"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/smolith"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/srv"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/tinyland"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/tm"]
+reason = "Native tooling sufficient."
+reassess = "Reassess if verified acquisition, release, or archive tooling appears that buildlib replaces."
+
+[exempt."laputa-systems/buildlib"]
+reason = "The provider of the wheel and bootstrap, which it builds and tests from source."
+reassess = "Not applicable while buildlib is the provider."
+
+[exempt."laputa-systems/deser"]
+reason = "Deferred: no material custom tooling; its scripts only fetch test corpora."
+reassess = "Reassess if it gains release or acquisition tooling."
+
+[exempt."laputa-systems/lexopt"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/rawzip"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/rg"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/rustls"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/vault"]
+reason = "Owner exclusion; cargo and make cover its build with no material custom tooling."
+reassess = "Reassess if the owner lifts the exclusion or release tooling appears."
+
+[exempt."laputa-systems/webpki"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."laputa-systems/xsh"]
+reason = "Deferred: its locks serve benchmarks and upstream checks, not build or release acquisition."
+reassess = "Reassess if build or release acquisition moves into custom tooling."
+
+[exempt."laputa-systems/zlib-rs"]
+reason = "Effectively-upstream fork; its build is the upstream crate's cargo and make with no material custom tooling."
+reassess = "Reassess if the fork gains its own release or acquisition tooling."
+
+[exempt."joshuarli/stats"]
+reason = "The repository is under active work in another session (the Engine and OpenOrange soaks); its build-static.sh acquisition is a BLD-3 candidate."
+reassess = "Reassess when that session completes, starting with agent/scripts/build-static.sh."
+
+[exempt."joshuarli/bctl"]
+reason = "Deferred: owner exclusion 2026-11-14 for heavy development; its candidate work is kernel/dev toolchain acquisition only."
+reassess = "Reassess when the exclusion lifts."
+
+[exempt."joshuarli/discover"]
+reason = "Deferred: owner exclusion during the rearchitecture; no release primitive overlap verified."
+reassess = "Reassess after the rearchitecture."
+
+[exempt."joshuarli/bleep"]
+reason = "Browser-based latency monitor deployed through the Cloudflare and Vercel CLIs; it acquires no release artifacts or toolchains that buildlib models."
+reassess = "Reassess if its deployment acquires a build or release artifact itself."
+
+[exempt."joshuarli/niceforge"]
+reason = "Deferred: private repository outside deslop scope; its native-input fetch and smolvm build scripts await an integrator decision."
+reassess = "Reassess after its privacy and CI access change."
+
+[exempt."joshuarli/toolbox"]
+reason = "Deferred: private repository owned by another session; its media tools implement no build or release primitives."
+reassess = "Reassess only if repository access and CI change."
+
+[exempt."laputa-systems/zzz"]
+reason = "One Zig source file built directly by its Makefile; it has no build tooling for buildlib to own."
+reassess = "Reassess if zzz gains generated inputs or a multi-step release build."
+
+[exempt."joshuarli/iss"]
+reason = "One C source file built directly by its Makefile; it has no build tooling for buildlib to own."
+reassess = "Reassess if iss gains generated inputs or a multi-step release build."
+
+[exempt."joshuarli/swift-bylaws"]
+reason = "SwiftPM owns the fork's build, and its release is one direct swift build; buildlib has no Swift target."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/miniserde"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/rust-brotli"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/bbtree"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/harfrust"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."laputa-systems/graviola"]
+reason = "Library fork built only by Cargo; it has no release or build tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."joshuarli/view"]
+reason = "Cargo builds the app and a small shell script packages it; there is no multi-step build tooling for buildlib to own."
+reassess = "Reassess if packaging gains generated inputs or more release targets."
+
+[exempt."laputa-systems/kbvm"]
+reason = "Library fork built by Cargo; its test oracle setup lives in CI and has no release tooling for buildlib to own."
+reassess = "Reassess if the fork gains a multi-step artifact build."
+
+[exempt."joshuarli/crabc"]
+reason = "Its sysroot and qualification builds are bound to pinned images and evidence ledgers that buildlib does not model."
+reassess = "Reassess after feature completeness, when its qualification inputs can be refreshed deliberately."
+
+[exempt."joshuarli/github-actions-report"]
+reason = "Node CLI run from source with no native build or release artifact."
+reassess = "Reassess if it gains a native build or release artifact."
+
+[exempt."joshuarli/vpn"]
+reason = "Cargo builds and tests the tunnel; the oracle harness and benchmark drivers have no release artifact or multi-step packaging for buildlib to own."
+reassess = "Reassess if the oracle harness gains generated inputs or a published artifact."
