@@ -46,7 +46,7 @@ def test_dockerfile_findings_fix_and_match_fixture(tmp_path: Path) -> None:
     assert fixable
     assert all(finding.rule == "owned-tool-substitution" for finding in fixable)
     assert {finding.file for finding in fixable} == {DOCKERFILE}
-    assert {finding.line for finding in fixable} == {3, 5, 6, 10, 11}
+    assert {finding.line for finding in fixable} == {3, 5, 6, 9, 10, 11}
     unfixed = [finding for finding in findings if not finding.fixable]
     assert unfixed
     assert all(finding.file == DOCKERFILE for finding in unfixed)
@@ -82,3 +82,27 @@ def test_unfixable_dockerfile_findings_have_no_plan(tmp_path: Path) -> None:
     assert not any(finding.fixable for finding in findings)
     assert rule.fix is not None
     assert rule.fix(root, REPOSITORY) == {}
+
+
+def test_stale_image_digest_is_a_fixable_finding(tmp_path: Path) -> None:
+    import tomllib
+
+    image_policy = tomllib.loads((FIXTURES / "image-policy.toml").read_text(encoding="utf-8"))
+    image = f"{image_policy['reference']}@{image_policy['digest']}"
+    stale = f"{image_policy['reference']}@sha256:{'b' * 64}"
+    root = tmp_path / "consumer"
+    root.mkdir()
+    (root / "Dockerfile").write_text(
+        f"FROM alpine\nCOPY --from={stale} /opt/laputa /opt/laputa\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\nRUN apk add --no-cache curl\n",
+        encoding="utf-8",
+    )
+    rule = owned_substitution.owned_substitution_rules()[0]
+    findings = rule.check(root, REPOSITORY)
+    assert [(finding.line, finding.fixable) for finding in findings] == [(2, True)]
+    assert "owned-tools" in findings[0].message
+    assert rule.fix is not None
+    assert rule.fix(root, REPOSITORY) == {
+        DOCKERFILE: f"FROM alpine\nCOPY --from={image} /opt/laputa /opt/laputa\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\nRUN apk add --no-cache curl\n"
+    }

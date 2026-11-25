@@ -780,6 +780,16 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
                 )
                 for line in sorted(docker_rewrite.prepended)
             )
+            reported.extend(
+                violation(
+                    repository, RULE, relative,
+                    "COPY takes the owned-tools image at a digest fleet policy no longer approves; "
+                    "repin it to the digest in fleet/policy/owned-tools-image.toml",
+                    line=line,
+                    fixable=True,
+                )
+                for line in sorted(docker_rewrite.stale)
+            )
     for key, item in exemptions.items():
         if key not in suppressed:
             reported.append(violation(

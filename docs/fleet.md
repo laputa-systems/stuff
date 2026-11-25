@@ -221,8 +221,9 @@ git would break a stage that clones or fetches over HTTPS (lz and tinyland fetch
 dependencies that way and carry exemptions). On an Alpine-based stage the fixer removes the mapped packages from `apk add` lines (keeping the
 other arguments and version pins), drops a RUN instruction or `&&`/`;`-chained apk command
 that becomes empty, and inserts the image `COPY --from=<reference>@<digest>` and
-`ENV PATH=$PATH:/opt/laputa/bin` lines once per touched stage, updating an existing COPY's
-digest. The image directory goes after the base image's PATH: removed packages leave no system
+`ENV PATH=$PATH:/opt/laputa/bin` lines once per touched stage. A COPY from the image at any
+digest other than the approved one is a fixable finding in every stage, so publishing a new image
+and repinning `fleet/policy/owned-tools-image.toml` moves every consumer. The image directory goes after the base image's PATH: removed packages leave no system
 copy, so their commands resolve to the image, while packages the stage keeps (such as python3)
 are not shadowed by the image's builds. The rule reports an `ENV PATH=/opt/laputa/bin:$PATH`
 line as a fixable finding and the fixer rewrites it to the appended form. apt-based stages, non-Alpine bases, and RUN shapes the parser cannot rewrite safely

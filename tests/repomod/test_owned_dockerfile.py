@@ -196,3 +196,25 @@ def test_prepended_path_is_rewritten_to_append() -> None:
     )
     assert out.removed == frozenset()
     assert out.prepended == frozenset({3})
+
+
+def test_stale_image_digest_is_repinned_without_package_changes() -> None:
+    stale = "oci.example/owned-tools@sha256:" + "b" * 64
+    out = rewrite(
+        "FROM alpine:3.20\n"
+        f"COPY --from={stale} /opt/laputa /opt/laputa\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
+        "RUN apk add --no-cache python3\n"
+        "FROM scratch\n"
+        f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
+    )
+    assert out.text == (
+        "FROM alpine:3.20\n"
+        f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
+        "RUN apk add --no-cache python3\n"
+        "FROM scratch\n"
+        f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
+    )
+    assert out.removed == frozenset()
+    assert out.stale == frozenset({2})

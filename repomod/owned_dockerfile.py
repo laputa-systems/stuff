@@ -46,6 +46,7 @@ class Rewrite:
     text: str
     removed: frozenset[tuple[int, str]]
     prepended: frozenset[int] = frozenset()
+    stale: frozenset[int] = frozenset()
 
 
 @dataclass(frozen=True, slots=True)
@@ -331,10 +332,10 @@ def _stage_has_image_copy(lines: list[str], blocks: list[_Block], start: int, en
     return False
 
 
-def _update_image_copy(lines: list[str], blocks: list[_Block], start: int, end: int, image: str) -> bool:
-    changed = False
+def _update_image_copies(lines: list[str], blocks: list[_Block], image: str) -> set[int]:
+    updated_lines: set[int] = set()
     for block in blocks:
-        if block.keyword != "COPY" or block.start < start or block.start >= end:
+        if block.keyword != "COPY":
             continue
         value = _copy_from_value(lines, block)
         reference = image.split("@", 1)[0]
@@ -347,8 +348,8 @@ def _update_image_copy(lines: list[str], blocks: list[_Block], start: int, end: 
         if updated == lines[block.start]:
             continue
         lines[block.start] = updated
-        changed = True
-    return changed
+        updated_lines.add(block.start + 1)
+    return updated_lines
 
 
 def _stage_has_env_path(lines: list[str], blocks: list[_Block], start: int, end: int) -> bool:
@@ -371,6 +372,7 @@ def rewrite(
     froms = [block for block in blocks if block.keyword == "FROM"]
     edits: list[tuple[int, int, list[str]]] = []
     removed: set[tuple[int, str]] = set()
+    stale = _update_image_copies(lines, blocks, image)
     for stage, from_block in enumerate(froms):
         stage_end = froms[stage + 1].start if stage + 1 < len(froms) else len(lines)
         if not _is_alpine(_from_image(lines, from_block)):
@@ -390,7 +392,6 @@ def rewrite(
             continue
         reference = image.split("@", 1)[0]
         copy_present = _stage_has_image_copy(lines, blocks, from_block.end, stage_end, reference)
-        _update_image_copy(lines, blocks, from_block.end, stage_end, image)
         env_present = _stage_has_env_path(lines, blocks, from_block.end, stage_end)
         insert_at = from_block.end
         eol = _eol(lines[from_block.end - 1]) if from_block.end else "\n"
@@ -412,7 +413,7 @@ def rewrite(
             continue
         edits.append((block.start, block.end, [f"{match.group(1)}$PATH:/opt/laputa/bin{match.group(2)}{eol}"]))
         prepended.add(block.start + 1)
-    if not edits:
+    if not edits and not stale:
         return Rewrite(text, frozenset())
     output: list[str] = []
     cursor = 0
@@ -421,4 +422,4 @@ def rewrite(
         output.extend(replacement)
         cursor = end
     output.extend(lines[cursor:])
-    return Rewrite("".join(output), frozenset(removed), frozenset(prepended))
+    return Rewrite("".join(output), frozenset(removed), frozenset(prepended), frozenset(stale))
