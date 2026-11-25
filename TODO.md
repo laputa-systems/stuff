@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 121
+Next: 122
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -119,6 +119,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Problem:** Alpine v3.24 main keeps only the newest revision of a package. On 2026-11-24 it replaced openssl, libssl3 and libcrypto3 3.5.9-r0 with r1 and python3 3.14.10-r1 with r2, and the old files were deleted. cmake-build's controller job (exact-byte pins from dl-cdn) and play's Linux and lint jobs (versioned `apk add`) failed until they were repinned by hand (laputa-systems/cmake-build#136, joshuarli/play#22). Every repository that pins Alpine APKs by URL or version is exposed the same way.
 - **Recommendation:** Serve pinned APKs from the stuff artifact mirror (`stuff publish mirror`) and list it before dl-cdn in each lock's URL list, so retired revisions stay fetchable at their pinned bytes; add a repomod rule that reports Alpine APK pins without a mirror URL, and a scheduled check that reports pins whose upstream revision was retired so they are bumped deliberately.
 - **Fix with:** none
+- **Effort:** M
+
+### STUF-121 · P2 · current/wheels URLs answer 404 for minutes after a PyPI generation activates
+
+- **Area:** registries · pypi serving
+- **Where:** crates/stuff-worker (current alias and generation-scoped wheels/ resolution); deploy/shared-store-paths.txt
+- **Problem:** Twice on 2026-11-25, CI downloads of wheels that the live index listed returned 404 from https://pypi.17166969.xyz/current/wheels/… for several minutes after a publish activated a new generation, then 200 with no further change: ty/uv musllinux wheels right after generation 96d210c3 activated, and ruff-0.17.4-py3-none-musllinux_1_2_aarch64.whl (published in 96d210c3) right after generation fdb64f39 (buildlib 0.3.1) activated. Every consumer that resolves during that window fails (laputa-systems/buildlib#35 and #36 lint, test and mutation jobs).
+- **Recommendation:** Reproduce by publishing to a staging registry and polling an existing wheel URL across activation; check whether the Worker resolves `current` and the wheels alias from different generations or whether a negative response is cached, and make activation atomic for readers (resolve the alias from the same pointer read, never cache 404 for wheels/).
+- **Fix with:** root-cause
 - **Effort:** M
 
 ### STUF-89 · P3 · Owned tools lack the design-cli help reference, examples, and footer
