@@ -144,3 +144,19 @@ def test_conforming_lock_is_clean(tmp_path: Path) -> None:
     fix = tools_lock_rules()[0].fix
     assert fix is not None
     assert fix(root, REPOSITORY) == {}
+
+
+def test_dev_host_sync_lock_is_checked_and_fixed(tmp_path: Path) -> None:
+    root = tmp_path / 'usr'
+    (root / 'tools/sync').mkdir(parents=True)
+    shutil.copyfile(FIXTURES / 'before/consumer/tools.lock.json', root / 'tools/sync/tools.lock.json')
+    rule = tools_lock_rules()[0]
+    findings = rule.check(root, REPOSITORY)
+    assert findings
+    assert {finding.file for finding in findings} == {'tools/sync/tools.lock.json'}
+    assert rule.fix is not None
+    plan = rule.fix(root, REPOSITORY)
+    _write_plan(root, plan, rule.allowed_paths)
+    assert rule.check(root, REPOSITORY) == []
+    expected = (FIXTURES / 'after/consumer/tools.lock.json').read_bytes()
+    assert (root / 'tools/sync/tools.lock.json').read_bytes() == expected

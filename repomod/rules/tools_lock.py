@@ -11,7 +11,7 @@ from repomod.types import Finding, Repository, Rule, TagPredicate, operational, 
 
 _RULE = 'tools-lock'
 _POLICY = 'fleet/policy/tools-lock.toml'
-_LOCK_PATHS = ('tools.lock.json', '.github/tools.lock.json')
+_LOCK_PATHS = ('tools.lock.json', '.github/tools.lock.json', 'tools/sync/tools.lock.json')
 _ENTRY_KEYS = frozenset({'repository', 'tag', 'product', 'version', 'assets'})
 _ASSET_KEYS = frozenset({'name', 'size', 'sha256'})
 _SHA256_LENGTH = 64

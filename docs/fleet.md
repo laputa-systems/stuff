@@ -211,8 +211,8 @@ The `owned-tool-substitution` fixer performs this rewrite for the uniform `setup
 `uv python install` shape and writes `.github/tools.lock.json`.
 
 `fleet/policy/tools-lock.toml` approves one release per tool, in the same shape as a
-`tools.lock.json` entry. The `tools-lock` rule reports a consumer's `tools.lock.json` or
-`.github/tools.lock.json` entry that differs from its approval, and an unknown tool name; tools
+`tools.lock.json` entry. The `tools-lock` rule reports a consumer's `tools.lock.json`,
+`.github/tools.lock.json` or `tools/sync/tools.lock.json` (usr's dev-host installer lock) entry that differs from its approval, and an unknown tool name; tools
 the policy does not list are not compared. After a producer release, approve it there and run
 `uv run repomod fix --rule tools-lock` to open the bump pull requests. The buildlib wheel itself
 is approved in `fleet/policy/buildlib.toml` and moved by
