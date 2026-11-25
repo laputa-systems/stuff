@@ -208,7 +208,20 @@ A uv-based workflow acquires the owned interpreter by setting `UV_PYTHON_DOWNLOA
 `uv python install`. `never` blocks uv's managed downloads outright, and `only-system` stops uv
 preferring an existing managed interpreter, so uv resolves the interpreter buildlib installed.
 The `owned-tool-substitution` fixer performs this rewrite for the uniform `setup-uv` +
-`uv python install` shape and writes `.github/tools.lock.json`.
+`uv python install` shape and writes `.github/tools.lock.json`. For Dockerfiles it rewrites
+Alpine stages instead: `fleet/policy/owned-tools-image.toml` carries a `[packages.apk]`
+map from each upstream apk package the image replaces to the image tool that provides it
+(`git`→`git`, `ripgrep`→`rg`, `meson`/`ninja`/`ninja-build`/`samurai`→`gluon`,
+`clang`/`lld`/`llvm` and versioned `clangNN`/`lldNN`/`llvmNN`→`llvm`, `ffmpeg`→`ffmpeg-runtime`,
+and so on). python3/py3-*, `build-base`, `gcc`, `g++`, `musl-dev` and anything with a `-dev`
+or `-doc` suffix are deliberately unmapped, because the image's cpython ships no venv or pip
+and the compiler packages carry headers and libc dev files the image does not publish. On an
+Alpine-based stage the fixer removes the mapped packages from `apk add` lines (keeping the
+other arguments and version pins), drops a RUN instruction or `&&`/`;`-chained apk command
+that becomes empty, and inserts the image `COPY --from=<reference>@<digest>` and
+`ENV PATH=/opt/laputa/bin:$PATH` lines once per touched stage, updating an existing COPY's
+digest. apt-based stages, non-Alpine bases, and RUN shapes the parser cannot rewrite safely
+stay manual findings.
 
 `fleet/policy/tools-lock.toml` approves one release per tool, in the same shape as a
 `tools.lock.json` entry. The `tools-lock` rule reports a consumer's `tools.lock.json`,
@@ -229,7 +242,10 @@ stage is `scratch` plus `/opt/laputa` only. `uv run python -m repomod.owned_tool
 regenerates the lock and the `bootstrap/` copies from fleet policy, and its check mode fails when
 either drifts. A listed tool's musl asset must need nothing beyond musl libc and the libraries it bundles.
 
-A consumer Dockerfile copies the tree and puts its bin directory on `PATH`:
+A consumer Dockerfile copies the tree and puts its bin directory on `PATH`. The
+`[packages.apk]` table in `fleet/policy/owned-tools-image.toml` names which upstream apk
+package each image tool replaces; the `owned-tool-substitution` fixer uses it to move those
+installs onto the image automatically:
 
 ```dockerfile
 COPY --from=oci.17166969.xyz/owned-tools@<digest> /opt/laputa /opt/laputa

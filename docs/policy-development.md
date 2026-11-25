@@ -407,7 +407,12 @@ the requested version matches the approved cpython major.minor: it inserts the p
 `laputa-systems/buildlib/setup` step, merges `UV_PYTHON_DOWNLOADS: never` and
 `UV_PYTHON_PREFERENCE: only-system` into the workflow-level `env:`, removes the install step, and
 writes `.github/tools.lock.json` with the approved cpython entry in the `buildlib tools lock`
-layout. Other upstream installs stay manual findings.
+layout. It also rewrites Dockerfiles: `fleet/policy/owned-tools-image.toml`'s `[packages.apk]`
+table maps each upstream apk package the owned-tools image replaces to its image tool, and on
+Alpine stages the fixer strips those packages from `apk add` lines, drops emptied RUN
+instructions or `&&`/`;`-chained apk commands, and inserts (or digest-updates) the
+`COPY --from=<reference>@<digest>` plus `ENV PATH=/opt/laputa/bin:$PATH` pair once per touched
+stage. apt stages and RUN shapes it cannot rewrite safely stay manual findings.
 
 `fleet/policy/tools-lock.toml` backs the `tools-lock` rule (`rules/tools_lock.py`). It reads
 `tools.lock.json` and `.github/tools.lock.json`, requires schema 1 and tool names from buildlib's

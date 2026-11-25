@@ -184,6 +184,12 @@ def project(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Repo
     policy.mkdir()
     (policy / "owned-tools.toml").write_text(_owned_tools(PRODUCERS), encoding="utf-8")
     (policy / "owned-substitutes.toml").write_text(_substitutes_text(), encoding="utf-8")
+    (policy / "owned-tools-image.toml").write_text(
+        'version = 1\nreference = "oci.example/owned-tools"\n'
+        'digest = "sha256:' + "0" * 64 + '"\ntools = []\n',
+        encoding="utf-8",
+    )
+    (policy / "tools-lock.toml").write_text("version = 1\n\n[tools]\n", encoding="utf-8")
     monkeypatch.setattr(owned_substitution.paths, "POLICY", policy)
     monkeypatch.setattr(
         owned_substitution, "_known_repositories", lambda: frozenset({REPO, OTHER})
@@ -552,6 +558,8 @@ def test_rule_is_registered_with_the_python_fix() -> None:
     assert ".github/workflows/*.yml" in rule.allowed_paths
     assert ".github/workflows/*.yaml" in rule.allowed_paths
     assert ".github/tools.lock.json" in rule.allowed_paths
+    assert "*Dockerfile*" in rule.allowed_paths
+    assert "*containerfile*" in rule.allowed_paths
 
 
 def test_producer_may_install_the_upstream_it_reproduces(project: tuple[Path, Repository, Path]) -> None:

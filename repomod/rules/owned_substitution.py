@@ -3,11 +3,20 @@ from __future__ import annotations
 import json
 import re
 import tomllib
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import cast
 
-from repomod import fs_index, install_parse, owned_python, paths, substitutes
+from repomod import (
+    fs_index,
+    install_parse,
+    owned_dockerfile,
+    owned_python,
+    owned_tools_image,
+    paths,
+    substitutes,
+)
 from repomod.catalog import load_catalog_cached
 from repomod.owned_tools import load_owned_tools
 from repomod.run_cache import cached
@@ -17,6 +26,7 @@ from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, opera
 RULE = "owned-tool-substitution"
 _POLICY = "fleet/policy/owned-substitutes.toml"
 _OWNED_POLICY = "fleet/policy/owned-tools.toml"
+_IMAGE_POLICY = "fleet/policy/owned-tools-image.toml"
 _BUILDLIB_HINT = "buildlib.tools or the laputa-systems/buildlib/setup action"
 _PYTHON_VERSION = re.compile(r"^\s*python-version\s*:")
 _WITH = re.compile(r"^\s*with\s*:")
@@ -46,6 +56,8 @@ class Hit:
     line: int
     label: str
     producer: str
+    manager: str | None = None
+    package: str | None = None
 
 
 def _load_policy() -> Policy:
@@ -131,7 +143,10 @@ def _install_hits(line: str, env: dict[str, str], producers: dict[str, ProducerS
         normalized = substitutes.MANAGER_ALIASES.get(manager, manager)
         producer_id = _package_hits(name, normalized, producers)
         if producer_id is not None:
-            hits.append(Hit(0, f"package '{name}' installed by {manager}", producer_id))
+            hits.append(
+                Hit(0, f"package '{name}' installed by {manager}", producer_id,
+                    manager=normalized, package=name)
+            )
     return hits
 
 
@@ -463,7 +478,7 @@ def _file_hits(kind: str, text: str, producers: dict[str, ProducerSub]) -> list[
     )
     for number, line in _logical_lines(text):
         hits.extend(
-            Hit(number, hit.label, hit.producer)
+            Hit(number, hit.label, hit.producer, hit.manager, hit.package)
             for hit in _install_hits(line, env, producers)
         )
         hits.extend(
@@ -560,6 +575,54 @@ def _uv_producer(policy: Policy) -> str:
     return "laputa-systems/python-build"
 
 
+def _is_dockerfile(relative: PurePosixPath) -> bool:
+    lowered = relative.name.casefold()
+    return (
+        lowered.startswith(("dockerfile", "containerfile"))
+        or lowered.endswith(".dockerfile")
+    )
+
+
+def _image_context(
+    repository: Repository, policy: Policy
+) -> tuple[tuple[str, ...], str, Callable[[str], bool]] | None:
+    data = cached(("owned-tools-image",), owned_tools_image.image_policy)
+    packages = cached(("owned-tools-image-packages",), owned_tools_image.package_map)
+    reference = data.get("reference")
+    digest = data.get("digest")
+    apk = packages.get("apk") or {}
+    if (
+        not isinstance(reference, str)
+        or not reference.strip()
+        or not isinstance(digest, str)
+        or not digest.strip()
+        or not apk
+    ):
+        return None
+    exemptions = _exemptions_for(policy, repository)
+
+    def keep(name: str) -> bool:
+        producer = _package_hits(name, "apk", policy.producers)
+        if producer is None:
+            return True
+        folded = producer.casefold()
+        return (
+            folded == str(repository.id).casefold() or folded in exemptions
+        )
+
+    return tuple(apk), f"{reference.strip()}@{digest.strip()}", keep
+
+
+def _dockerfile_rewrite(
+    text: str, repository: Repository, policy: Policy
+) -> owned_dockerfile.Rewrite | None:
+    context = _image_context(repository, policy)
+    if context is None:
+        return None
+    entries, image, keep = context
+    return owned_dockerfile.rewrite(text, entries, image, keep)
+
+
 def _workflow_files(root: Path) -> list[Path]:
     directory = root / ".github" / "workflows"
     if directory.is_symlink() or not directory.is_dir():
@@ -573,7 +636,7 @@ def _workflow_files(root: Path) -> list[Path]:
     return files
 
 
-def _fix(root: Path, repository: Repository) -> dict[str, str]:
+def _workflow_fix(root: Path, repository: Repository) -> dict[str, str]:
     try:
         policy = _load_policy()
     except ValueError:
@@ -608,6 +671,30 @@ def _fix(root: Path, repository: Repository) -> dict[str, str]:
     return plan
 
 
+def _dockerfile_fix(root: Path, repository: Repository) -> dict[str, str]:
+    try:
+        policy = _load_policy()
+    except ValueError:
+        return {}
+    plan: dict[str, str] = {}
+    for relative, kind, payload in _surface_files(root):
+        if kind != "text" or not _is_dockerfile(PurePosixPath(relative)):
+            continue
+        try:
+            rewrite = _dockerfile_rewrite(payload, repository, policy)
+        except ValueError:
+            continue
+        if rewrite is not None and rewrite.text != payload:
+            plan[relative] = rewrite.text
+    return plan
+
+
+def _fix(root: Path, repository: Repository) -> dict[str, str]:
+    plan = _workflow_fix(root, repository)
+    plan.update(_dockerfile_fix(root, repository))
+    return plan
+
+
 def _check(root: Path, repository: Repository) -> list[Finding]:
     try:
         policy = _load_policy()
@@ -623,6 +710,7 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
     suppressed: set[str] = set()
     reported: list[Finding] = []
     context = _fix_context(root)
+    image_error = False
     for relative, kind, payload in _surface_files(root):
         if kind == "error":
             findings.append(operational(repository, RULE, relative, payload))
@@ -634,8 +722,18 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
         else:
             hits = _file_hits(kind, payload, policy.producers)
         rewrite = None
+        docker_rewrite = None
         if kind == "workflow" and context is not None:
             rewrite = owned_python.rewrite_workflow(payload, context[0], context[1])
+        elif kind == "text" and _is_dockerfile(PurePosixPath(relative)):
+            try:
+                docker_rewrite = _dockerfile_rewrite(payload, repository, policy)
+            except ValueError as error:
+                if not image_error:
+                    findings.append(
+                        operational(repository, RULE, _IMAGE_POLICY, str(error))
+                    )
+                    image_error = True
         for hit in hits:
             key = hit.producer.casefold()
             if key == str(repository.id).casefold():
@@ -652,9 +750,18 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
                 if kind.startswith("manifest:")
                 else f"acquire it through {_BUILDLIB_HINT} instead of the upstream install"
             )
-            fixable = rewrite is not None and hit.line in (
-                rewrite.install_lines | rewrite.setup_lines
-            )
+            if rewrite is not None:
+                fixable = hit.line in (
+                    rewrite.install_lines | rewrite.setup_lines
+                )
+            elif docker_rewrite is not None:
+                fixable = (
+                    hit.manager == "apk"
+                    and hit.package is not None
+                    and (hit.line, hit.package.casefold()) in docker_rewrite.removed
+                )
+            else:
+                fixable = False
             reported.append(violation(
                 repository, RULE, relative,
                 f"{hit.label} duplicates owned producer {canonical}; {remedy}",
@@ -685,6 +792,12 @@ def owned_substitution_rules() -> tuple[Rule, ...]:
                 ".github/workflows/*.yml",
                 ".github/workflows/*.yaml",
                 ".github/tools.lock.json",
+                "*Dockerfile*",
+                "*dockerfile*",
+                "*DOCKERFILE*",
+                "*Containerfile*",
+                "*containerfile*",
+                "*CONTAINERFILE*",
             ),
         ),
     )
