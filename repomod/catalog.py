@@ -5,6 +5,7 @@ import os
 import re
 import sys
 import tempfile
+import threading
 import tomllib
 from collections.abc import Callable, Mapping
 from functools import wraps
@@ -352,6 +353,55 @@ def _relative_parts(repo: Repository, personal_owner: str) -> tuple[str, ...]:
     return (repo.id.owner, repo.id.name)
 
 
+_DIRECTORY_NAME_MAPS: dict[tuple[str, int], dict[str, list[str]]] = {}
+_DIRECTORY_NAME_MAPS_LOCK = threading.Lock()
+_CATALOGS: dict[tuple[str, int, int, str | None, str | None], Catalog] = {}
+_CATALOGS_LOCK = threading.Lock()
+
+
+def load_catalog_cached(path: Path, environ: dict[str, str] | None = None) -> Catalog:
+    environment = os.environ if environ is None else environ
+    try:
+        stamp = path.stat()
+    except OSError:
+        return load_catalog(path, environ)
+    key = (
+        str(path),
+        stamp.st_mtime_ns,
+        stamp.st_size,
+        environment.get("REPOMOD_ROOT"),
+        environment.get("HOME"),
+    )
+    with _CATALOGS_LOCK:
+        hit = _CATALOGS.get(key)
+    if hit is not None:
+        return hit
+    catalog = load_catalog(path, environ)
+    with _CATALOGS_LOCK:
+        _CATALOGS[key] = catalog
+    return catalog
+
+
+def _directory_name_map(directory: Path) -> dict[str, list[str]]:
+    try:
+        stamp = directory.stat()
+    except OSError:
+        stamp = None
+    key = None if stamp is None else (str(directory), stamp.st_mtime_ns)
+    if key is not None:
+        with _DIRECTORY_NAME_MAPS_LOCK:
+            hit = _DIRECTORY_NAME_MAPS.get(key)
+        if hit is not None:
+            return hit
+    mapping: dict[str, list[str]] = {}
+    for entry in directory.iterdir():
+        mapping.setdefault(entry.name.casefold(), []).append(entry.name)
+    if key is not None:
+        with _DIRECTORY_NAME_MAPS_LOCK:
+            _DIRECTORY_NAME_MAPS[key] = mapping
+    return mapping
+
+
 def _validate_checkout_collisions(
     root: Path, personal_owner: str, repositories: list[Repository]
 ) -> None:
@@ -375,7 +425,7 @@ def _validate_checkout_collisions(
             for part in parts:
                 if not current.is_dir():
                     break
-                matches = [entry.name for entry in current.iterdir() if entry.name.casefold() == part.casefold()]
+                matches = _directory_name_map(current).get(part.casefold(), [])
                 if matches and part not in matches:
                     raise CatalogError(
                         f"checkout path collides ignoring case with existing {current / matches[0]}"

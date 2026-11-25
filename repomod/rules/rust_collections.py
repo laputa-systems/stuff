@@ -95,10 +95,14 @@ def _char_literal_end(source: str, start: int) -> int | None:
     return None
 
 
+_NON_NEWLINE = re.compile(r"[^\n]")
+
+
 def _mask_noncode(source: str) -> str:
-    masked = list(source)
-    length = len(source)
+    pieces: list[str] = []
+    cursor = 0
     index = 0
+    length = len(source)
     while index < length:
         end: int | None = None
         if source.startswith("//", index):
@@ -115,11 +119,12 @@ def _mask_noncode(source: str) -> str:
         if end is None:
             index += 1
             continue
-        for position in range(index, end):
-            if masked[position] != "\n":
-                masked[position] = " "
+        pieces.append(source[cursor:index])
+        pieces.append(_NON_NEWLINE.sub(" ", source[index:end]))
         index = end
-    return "".join(masked)
+        cursor = end
+    pieces.append(source[cursor:])
+    return "".join(pieces)
 
 
 def _position(source: str, offset: int) -> tuple[int, int]:
