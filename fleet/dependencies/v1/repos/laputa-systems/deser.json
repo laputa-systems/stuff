@@ -223,22 +223,346 @@
    "purl": "pkg:cargo/zmij"
   },
   {
+   "display_name": "awk",
+   "ecosystem": "command",
+   "name": "awk",
+   "purl": "pkg:command/awk"
+  },
+  {
+   "display_name": "basename",
+   "ecosystem": "command",
+   "name": "basename",
+   "purl": "pkg:command/basename"
+  },
+  {
+   "display_name": "bc",
+   "ecosystem": "command",
+   "name": "bc",
+   "purl": "pkg:command/bc"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cat",
+   "ecosystem": "command",
+   "name": "cat",
+   "purl": "pkg:command/cat"
+  },
+  {
+   "display_name": "cc",
+   "ecosystem": "command",
+   "name": "cc",
+   "purl": "pkg:command/cc"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "dirname",
+   "ecosystem": "command",
+   "name": "dirname",
+   "purl": "pkg:command/dirname"
+  },
+  {
+   "display_name": "docker",
+   "ecosystem": "command",
+   "name": "docker",
+   "purl": "pkg:command/docker"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "env",
+   "ecosystem": "command",
+   "name": "env",
+   "purl": "pkg:command/env"
+  },
+  {
+   "display_name": "find",
+   "ecosystem": "command",
+   "name": "find",
+   "purl": "pkg:command/find"
+  },
+  {
+   "display_name": "firstword",
+   "ecosystem": "command",
+   "name": "firstword",
+   "purl": "pkg:command/firstword"
+  },
+  {
+   "display_name": "foreach",
+   "ecosystem": "command",
+   "name": "foreach",
+   "purl": "pkg:command/foreach"
+  },
+  {
+   "display_name": "go",
+   "ecosystem": "command",
+   "name": "go",
+   "purl": "pkg:command/go"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "head",
+   "ecosystem": "command",
+   "name": "head",
+   "purl": "pkg:command/head"
+  },
+  {
+   "display_name": "jq",
+   "ecosystem": "command",
+   "name": "jq",
+   "purl": "pkg:command/jq"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "node",
+   "ecosystem": "command",
+   "name": "node",
+   "purl": "pkg:command/node"
+  },
+  {
+   "display_name": "notdir",
+   "ecosystem": "command",
+   "name": "notdir",
+   "purl": "pkg:command/notdir"
+  },
+  {
+   "display_name": "perl",
+   "ecosystem": "command",
+   "name": "perl",
+   "purl": "pkg:command/perl"
+  },
+  {
+   "display_name": "plutil",
+   "ecosystem": "command",
+   "name": "plutil",
+   "purl": "pkg:command/plutil"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rustup",
+   "ecosystem": "command",
+   "name": "rustup",
+   "purl": "pkg:command/rustup"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "sort",
+   "ecosystem": "command",
+   "name": "sort",
+   "purl": "pkg:command/sort"
+  },
+  {
+   "display_name": "stuff",
+   "ecosystem": "command",
+   "name": "stuff",
+   "purl": "pkg:command/stuff"
+  },
+  {
+   "display_name": "subst",
+   "ecosystem": "command",
+   "name": "subst",
+   "purl": "pkg:command/subst"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "tr",
+   "ecosystem": "command",
+   "name": "tr",
+   "purl": "pkg:command/tr"
+  },
+  {
+   "display_name": "true",
+   "ecosystem": "command",
+   "name": "true",
+   "purl": "pkg:command/true"
+  },
+  {
+   "display_name": "unittest_alloc",
+   "ecosystem": "command",
+   "name": "unittest_alloc",
+   "purl": "pkg:command/unittest_alloc"
+  },
+  {
+   "display_name": "unittest_allow_no_value",
+   "ecosystem": "command",
+   "name": "unittest_allow_no_value",
+   "purl": "pkg:command/unittest_allow_no_value"
+  },
+  {
+   "display_name": "unittest_call_handler_on_new_section",
+   "ecosystem": "command",
+   "name": "unittest_call_handler_on_new_section",
+   "purl": "pkg:command/unittest_call_handler_on_new_section"
+  },
+  {
+   "display_name": "unittest_disallow_inline_comments",
+   "ecosystem": "command",
+   "name": "unittest_disallow_inline_comments",
+   "purl": "pkg:command/unittest_disallow_inline_comments"
+  },
+  {
+   "display_name": "unittest_handler_lineno",
+   "ecosystem": "command",
+   "name": "unittest_handler_lineno",
+   "purl": "pkg:command/unittest_handler_lineno"
+  },
+  {
+   "display_name": "unittest_heap",
+   "ecosystem": "command",
+   "name": "unittest_heap",
+   "purl": "pkg:command/unittest_heap"
+  },
+  {
+   "display_name": "unittest_heap_max_line",
+   "ecosystem": "command",
+   "name": "unittest_heap_max_line",
+   "purl": "pkg:command/unittest_heap_max_line"
+  },
+  {
+   "display_name": "unittest_heap_realloc",
+   "ecosystem": "command",
+   "name": "unittest_heap_realloc",
+   "purl": "pkg:command/unittest_heap_realloc"
+  },
+  {
+   "display_name": "unittest_heap_realloc_max_line",
+   "ecosystem": "command",
+   "name": "unittest_heap_realloc_max_line",
+   "purl": "pkg:command/unittest_heap_realloc_max_line"
+  },
+  {
+   "display_name": "unittest_heap_string",
+   "ecosystem": "command",
+   "name": "unittest_heap_string",
+   "purl": "pkg:command/unittest_heap_string"
+  },
+  {
+   "display_name": "unittest_multi",
+   "ecosystem": "command",
+   "name": "unittest_multi",
+   "purl": "pkg:command/unittest_multi"
+  },
+  {
+   "display_name": "unittest_multi_max_line",
+   "ecosystem": "command",
+   "name": "unittest_multi_max_line",
+   "purl": "pkg:command/unittest_multi_max_line"
+  },
+  {
+   "display_name": "unittest_single",
+   "ecosystem": "command",
+   "name": "unittest_single",
+   "purl": "pkg:command/unittest_single"
+  },
+  {
+   "display_name": "unittest_stop_on_first_error",
+   "ecosystem": "command",
+   "name": "unittest_stop_on_first_error",
+   "purl": "pkg:command/unittest_stop_on_first_error"
+  },
+  {
+   "display_name": "unittest_string",
+   "ecosystem": "command",
+   "name": "unittest_string",
+   "purl": "pkg:command/unittest_string"
+  },
+  {
+   "display_name": "uv",
+   "ecosystem": "command",
+   "name": "uv",
+   "purl": "pkg:command/uv"
+  },
+  {
+   "display_name": "wc",
+   "ecosystem": "command",
+   "name": "wc",
+   "purl": "pkg:command/wc"
+  },
+  {
+   "display_name": "word",
+   "ecosystem": "command",
+   "name": "word",
+   "purl": "pkg:command/word"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
    "purl": "pkg:github/actions/checkout"
-  },
-  {
-   "display_name": "actions/deploy-pages",
-   "ecosystem": "github",
-   "name": "actions/deploy-pages",
-   "purl": "pkg:github/actions/deploy-pages"
-  },
-  {
-   "display_name": "actions/upload-pages-artifact",
-   "ecosystem": "github",
-   "name": "actions/upload-pages-artifact",
-   "purl": "pkg:github/actions/upload-pages-artifact"
   },
   {
    "display_name": "astral-sh/setup-uv",
@@ -253,52 +577,10 @@
    "purl": "pkg:github/dtolnay/rust-toolchain"
   },
   {
-   "display_name": "rust-lang/crates-io-auth-action",
-   "ecosystem": "github",
-   "name": "rust-lang/crates-io-auth-action",
-   "purl": "pkg:github/rust-lang/crates-io-auth-action"
-  },
-  {
-   "display_name": "deser",
-   "ecosystem": "local",
-   "name": "deser",
-   "purl": "pkg:local/deser"
-  },
-  {
-   "display_name": "deser-cbor",
-   "ecosystem": "local",
-   "name": "deser-cbor",
-   "purl": "pkg:local/deser-cbor"
-  },
-  {
-   "display_name": "deser-core",
-   "ecosystem": "local",
-   "name": "deser-core",
-   "purl": "pkg:local/deser-core"
-  },
-  {
-   "display_name": "deser-csv",
-   "ecosystem": "local",
-   "name": "deser-csv",
-   "purl": "pkg:local/deser-csv"
-  },
-  {
    "display_name": "deser-debug",
    "ecosystem": "local",
    "name": "deser-debug",
    "purl": "pkg:local/deser-debug"
-  },
-  {
-   "display_name": "deser-derive",
-   "ecosystem": "local",
-   "name": "deser-derive",
-   "purl": "pkg:local/deser-derive"
-  },
-  {
-   "display_name": "deser-encoding",
-   "ecosystem": "local",
-   "name": "deser-encoding",
-   "purl": "pkg:local/deser-encoding"
   },
   {
    "display_name": "deser-env",
@@ -313,18 +595,6 @@
    "purl": "pkg:local/deser-hj"
   },
   {
-   "display_name": "deser-ini",
-   "ecosystem": "local",
-   "name": "deser-ini",
-   "purl": "pkg:local/deser-ini"
-  },
-  {
-   "display_name": "deser-json",
-   "ecosystem": "local",
-   "name": "deser-json",
-   "purl": "pkg:local/deser-json"
-  },
-  {
    "display_name": "deser-json5",
    "ecosystem": "local",
    "name": "deser-json5",
@@ -337,22 +607,10 @@
    "purl": "pkg:local/deser-jsonc"
   },
   {
-   "display_name": "deser-location",
-   "ecosystem": "local",
-   "name": "deser-location",
-   "purl": "pkg:local/deser-location"
-  },
-  {
    "display_name": "deser-msgpack",
    "ecosystem": "local",
    "name": "deser-msgpack",
    "purl": "pkg:local/deser-msgpack"
-  },
-  {
-   "display_name": "deser-path",
-   "ecosystem": "local",
-   "name": "deser-path",
-   "purl": "pkg:local/deser-path"
   },
   {
    "display_name": "deser-php",
@@ -385,12 +643,6 @@
    "purl": "pkg:local/deser-tokio"
   },
   {
-   "display_name": "deser-toml",
-   "ecosystem": "local",
-   "name": "deser-toml",
-   "purl": "pkg:local/deser-toml"
-  },
-  {
    "display_name": "deser-tools",
    "ecosystem": "local",
    "name": "deser-tools",
@@ -415,22 +667,88 @@
    "purl": "pkg:local/deser-validate"
   },
   {
-   "display_name": "deser-value",
-   "ecosystem": "local",
-   "name": "deser-value",
-   "purl": "pkg:local/deser-value"
-  },
-  {
    "display_name": "deser-xml",
    "ecosystem": "local",
    "name": "deser-xml",
    "purl": "pkg:local/deser-xml"
   },
   {
-   "display_name": "deser-yaml",
+   "display_name": "laputa-deser",
    "ecosystem": "local",
-   "name": "deser-yaml",
-   "purl": "pkg:local/deser-yaml"
+   "name": "laputa-deser",
+   "purl": "pkg:local/laputa-deser"
+  },
+  {
+   "display_name": "laputa-deser-cbor",
+   "ecosystem": "local",
+   "name": "laputa-deser-cbor",
+   "purl": "pkg:local/laputa-deser-cbor"
+  },
+  {
+   "display_name": "laputa-deser-core",
+   "ecosystem": "local",
+   "name": "laputa-deser-core",
+   "purl": "pkg:local/laputa-deser-core"
+  },
+  {
+   "display_name": "laputa-deser-csv",
+   "ecosystem": "local",
+   "name": "laputa-deser-csv",
+   "purl": "pkg:local/laputa-deser-csv"
+  },
+  {
+   "display_name": "laputa-deser-derive",
+   "ecosystem": "local",
+   "name": "laputa-deser-derive",
+   "purl": "pkg:local/laputa-deser-derive"
+  },
+  {
+   "display_name": "laputa-deser-encoding",
+   "ecosystem": "local",
+   "name": "laputa-deser-encoding",
+   "purl": "pkg:local/laputa-deser-encoding"
+  },
+  {
+   "display_name": "laputa-deser-ini",
+   "ecosystem": "local",
+   "name": "laputa-deser-ini",
+   "purl": "pkg:local/laputa-deser-ini"
+  },
+  {
+   "display_name": "laputa-deser-json",
+   "ecosystem": "local",
+   "name": "laputa-deser-json",
+   "purl": "pkg:local/laputa-deser-json"
+  },
+  {
+   "display_name": "laputa-deser-location",
+   "ecosystem": "local",
+   "name": "laputa-deser-location",
+   "purl": "pkg:local/laputa-deser-location"
+  },
+  {
+   "display_name": "laputa-deser-path",
+   "ecosystem": "local",
+   "name": "laputa-deser-path",
+   "purl": "pkg:local/laputa-deser-path"
+  },
+  {
+   "display_name": "laputa-deser-toml",
+   "ecosystem": "local",
+   "name": "laputa-deser-toml",
+   "purl": "pkg:local/laputa-deser-toml"
+  },
+  {
+   "display_name": "laputa-deser-value",
+   "ecosystem": "local",
+   "name": "laputa-deser-value",
+   "purl": "pkg:local/laputa-deser-value"
+  },
+  {
+   "display_name": "laputa-deser-yaml",
+   "ecosystem": "local",
+   "name": "laputa-deser-yaml",
+   "purl": "pkg:local/laputa-deser-yaml"
   },
   {
    "display_name": "pipeline",
@@ -628,115 +946,7 @@
   },
   {
    "condition": null,
-   "constraint": "v3",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[0].uses",
-     "path": ".github/workflows/clippy.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v3",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v3#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[0].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.publish.steps[0].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.deploy.steps[0].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/deploy-pages@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v3",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[6].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v3",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-pages-artifact@v3#"
-  },
-  {
-   "condition": null,
-   "constraint": "v10.3.2",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[2].uses",
-     "path": ".github/workflows/clippy.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "07a047e608db84b3d8c06cd9a7c7dcc9c355c18e",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e#"
-  },
-  {
-   "condition": null,
-   "constraint": "v10.3.2",
+   "constraint": "v10.3.3",
    "evidence": [
     {
      "locator": "jobs.lint.steps[1].uses",
@@ -747,10 +957,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "07a047e608db84b3d8c06cd9a7c7dcc9c355c18e",
+   "resolved_version": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e#"
+   "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
   },
   {
    "condition": null,
@@ -823,78 +1033,6 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[1].uses",
-     "path": ".github/workflows/clippy.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@master#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[1].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@master#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.publish.steps[1].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/dtolnay/rust-toolchain@master#"
-  },
-  {
-   "condition": null,
-   "constraint": "v1",
-   "evidence": [
-    {
-     "locator": "jobs.publish.steps[3].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/rust-lang/crates-io-auth-action@v1#"
   },
   {
    "condition": null,
@@ -1063,6 +1201,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "dependencies.deser-msgpack",
+     "path": "benchmark/Cargo.toml"
+    }
+   ],
+   "from": "benchmark:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/deser-msgpack@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "dependencies.deser-cbor",
      "path": "benchmark/Cargo.toml"
     }
@@ -1071,10 +1227,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
@@ -1089,10 +1245,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-csv@0.10.1#"
+   "to": "pkg:local/laputa-deser-csv@0.10.3#"
   },
   {
    "condition": null,
@@ -1107,10 +1263,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
   },
   {
    "condition": null,
@@ -1125,28 +1281,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-msgpack",
-     "path": "benchmark/Cargo.toml"
-    }
-   ],
-   "from": "benchmark:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-msgpack@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -1161,10 +1299,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -1179,10 +1317,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
@@ -1197,10 +1335,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -1215,10 +1353,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -1233,10 +1371,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -1251,10 +1389,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -1330,7 +1468,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -1341,10 +1479,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -1359,10 +1497,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
   },
   {
    "condition": null,
@@ -1377,14 +1515,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -1395,10 +1533,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": "feature:arrayvec",
@@ -1665,10 +1803,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -1683,10 +1821,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -1726,7 +1864,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -1737,14 +1875,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -1755,14 +1893,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-location",
@@ -1773,14 +1911,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-path",
@@ -1791,14 +1929,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-value",
@@ -1809,14 +1947,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -1827,14 +1965,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -1845,14 +1983,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -1863,10 +2001,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -1953,14 +2091,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -1971,10 +2109,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -1989,14 +2127,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2007,10 +2145,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -2032,7 +2170,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2043,14 +2181,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-path",
@@ -2061,14 +2199,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2079,10 +2217,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -2140,7 +2278,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2151,14 +2289,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -2169,14 +2307,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-value",
@@ -2187,14 +2325,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2205,10 +2343,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -2230,7 +2368,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2241,14 +2379,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -2259,14 +2397,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-path",
@@ -2277,14 +2415,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-value",
@@ -2295,14 +2433,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2313,10 +2451,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -2392,7 +2530,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2403,14 +2541,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -2421,14 +2559,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-value",
@@ -2439,14 +2577,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2457,10 +2595,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -2518,7 +2656,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2529,14 +2667,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2547,10 +2685,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -2608,7 +2746,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2619,14 +2757,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2637,14 +2775,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2655,10 +2793,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -2673,14 +2811,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2691,10 +2829,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": "feature:speedups",
@@ -2716,7 +2854,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2727,10 +2865,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -2745,10 +2883,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
   },
   {
    "condition": null,
@@ -2763,14 +2901,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2781,14 +2919,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2799,10 +2937,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -2817,14 +2955,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2835,14 +2973,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2853,10 +2991,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -2871,10 +3009,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -2889,14 +3027,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2907,14 +3045,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -2925,10 +3063,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -2943,10 +3081,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -2961,14 +3099,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -2979,10 +3117,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -3004,7 +3142,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -3015,14 +3153,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-location",
@@ -3033,14 +3171,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -3051,10 +3189,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -3112,7 +3250,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -3123,10 +3261,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -3141,14 +3279,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -3159,10 +3297,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -3241,42 +3379,6 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "dependencies.deser-core",
-     "path": "deser-template-json/Cargo.toml"
-    }
-   ],
-   "from": "deser-template-json:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-encoding",
-     "path": "deser-template-json/Cargo.toml"
-    }
-   ],
-   "from": "deser-template-json:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
      "locator": "dev-dependencies.deser-hj",
      "path": "deser-template-json/Cargo.toml"
     }
@@ -3285,10 +3387,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-hj@0.10.1#"
+   "to": "pkg:local/deser-hj@0.10.3#"
   },
   {
    "condition": null,
@@ -3303,28 +3405,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json5@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-json",
-     "path": "deser-template-json/Cargo.toml"
-    }
-   ],
-   "from": "deser-template-json:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/deser-json5@0.10.3#"
   },
   {
    "condition": null,
@@ -3339,10 +3423,64 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-jsonc@0.10.1#"
+   "to": "pkg:local/deser-jsonc@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-core",
+     "path": "deser-template-json/Cargo.toml"
+    }
+   ],
+   "from": "deser-template-json:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-encoding",
+     "path": "deser-template-json/Cargo.toml"
+    }
+   ],
+   "from": "deser-template-json:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-json",
+     "path": "deser-template-json/Cargo.toml"
+    }
+   ],
+   "from": "deser-template-json:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -3357,10 +3495,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
@@ -3375,10 +3513,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": "feature:codec",
@@ -3508,7 +3646,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-cbor",
@@ -3519,14 +3657,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -3537,14 +3675,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -3555,14 +3693,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -3573,10 +3711,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -3652,7 +3790,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -3663,10 +3801,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -3681,14 +3819,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -3699,14 +3837,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-location",
@@ -3717,14 +3855,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -3735,82 +3873,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-cbor",
-     "path": "deser-transcode/Cargo.toml"
-    }
-   ],
-   "from": "deser-transcode:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.10.1",
-   "evidence": [
-    {
-     "locator": "dependencies.deser-core",
-     "path": "deser-transcode/Cargo.toml"
-    }
-   ],
-   "from": "deser-transcode:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-csv",
-     "path": "deser-transcode/Cargo.toml"
-    }
-   ],
-   "from": "deser-transcode:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-csv@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-json",
-     "path": "deser-transcode/Cargo.toml"
-    }
-   ],
-   "from": "deser-transcode:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -3825,46 +3891,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-msgpack@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-path",
-     "path": "deser-transcode/Cargo.toml"
-    }
-   ],
-   "from": "deser-transcode:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-toml",
-     "path": "deser-transcode/Cargo.toml"
-    }
-   ],
-   "from": "deser-transcode:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/deser-msgpack@0.10.3#"
   },
   {
    "condition": null,
@@ -3879,28 +3909,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-urlencoded@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dev-dependencies.deser-value",
-     "path": "deser-transcode/Cargo.toml"
-    }
-   ],
-   "from": "deser-transcode:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "dev",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/deser-urlencoded@0.10.3#"
   },
   {
    "condition": null,
@@ -3915,10 +3927,136 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-xml@0.10.1#"
+   "to": "pkg:local/deser-xml@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-cbor",
+     "path": "deser-transcode/Cargo.toml"
+    }
+   ],
+   "from": "deser-transcode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.10.3",
+   "evidence": [
+    {
+     "locator": "dependencies.deser-core",
+     "path": "deser-transcode/Cargo.toml"
+    }
+   ],
+   "from": "deser-transcode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-csv",
+     "path": "deser-transcode/Cargo.toml"
+    }
+   ],
+   "from": "deser-transcode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-csv@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-json",
+     "path": "deser-transcode/Cargo.toml"
+    }
+   ],
+   "from": "deser-transcode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-path",
+     "path": "deser-transcode/Cargo.toml"
+    }
+   ],
+   "from": "deser-transcode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-toml",
+     "path": "deser-transcode/Cargo.toml"
+    }
+   ],
+   "from": "deser-transcode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dev-dependencies.deser-value",
+     "path": "deser-transcode/Cargo.toml"
+    }
+   ],
+   "from": "deser-transcode:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "dev",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
@@ -3933,14 +4071,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -3951,10 +4089,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -3976,7 +4114,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -3987,14 +4125,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-path",
@@ -4005,14 +4143,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-value",
@@ -4023,14 +4161,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -4041,14 +4179,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -4059,10 +4197,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -4077,14 +4215,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-location",
@@ -4095,14 +4233,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-path",
@@ -4113,14 +4251,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -4131,10 +4269,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -4156,7 +4294,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-cbor",
@@ -4167,14 +4305,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -4185,14 +4323,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -4203,14 +4341,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-location",
@@ -4221,14 +4359,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-path",
@@ -4239,14 +4377,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-toml",
@@ -4257,14 +4395,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-yaml",
@@ -4275,14 +4413,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -4293,10 +4431,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -4336,7 +4474,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -4347,10 +4485,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -4365,14 +4503,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-json",
@@ -4383,14 +4521,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-path",
@@ -4401,14 +4539,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-value",
@@ -4419,14 +4557,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -4437,10 +4575,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -4498,7 +4636,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -4509,10 +4647,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": null,
@@ -4527,14 +4665,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser-location",
@@ -4545,14 +4683,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dev-dependencies.deser",
@@ -4563,10 +4701,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -4804,7 +4942,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-core",
@@ -4815,14 +4953,14 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-core@0.10.1#"
+   "to": "pkg:local/laputa-deser-core@0.10.3#"
   },
   {
    "condition": "feature:derive",
-   "constraint": "0.10.1",
+   "constraint": "0.10.3",
    "evidence": [
     {
      "locator": "dependencies.deser-derive",
@@ -4833,10 +4971,10 @@
    "optional": true,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-derive@0.10.1#"
+   "to": "pkg:local/laputa-deser-derive@0.10.3#"
   },
   {
    "condition": null,
@@ -4851,10 +4989,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "dev",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -4869,10 +5007,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -4887,10 +5025,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -4905,10 +5043,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
@@ -4923,10 +5061,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -4941,64 +5079,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-cbor",
-     "path": "examples/bytes/Cargo.toml"
-    }
-   ],
-   "from": "examples/bytes:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-encoding",
-     "path": "examples/bytes/Cargo.toml"
-    }
-   ],
-   "from": "examples/bytes:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-json",
-     "path": "examples/bytes/Cargo.toml"
-    }
-   ],
-   "from": "examples/bytes:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5013,10 +5097,64 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-msgpack@0.10.1#"
+   "to": "pkg:local/deser-msgpack@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-cbor",
+     "path": "examples/bytes/Cargo.toml"
+    }
+   ],
+   "from": "examples/bytes:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-encoding",
+     "path": "examples/bytes/Cargo.toml"
+    }
+   ],
+   "from": "examples/bytes:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-json",
+     "path": "examples/bytes/Cargo.toml"
+    }
+   ],
+   "from": "examples/bytes:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5031,10 +5169,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -5049,10 +5187,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5067,10 +5205,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -5085,10 +5223,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -5103,10 +5241,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -5121,10 +5259,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5139,46 +5277,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-env@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-path",
-     "path": "examples/config/Cargo.toml"
-    }
-   ],
-   "from": "examples/config:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-toml",
-     "path": "examples/config/Cargo.toml"
-    }
-   ],
-   "from": "examples/config:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/deser-env@0.10.3#"
   },
   {
    "condition": null,
@@ -5193,10 +5295,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-urlencoded@0.10.1#"
+   "to": "pkg:local/deser-urlencoded@0.10.3#"
   },
   {
    "condition": null,
@@ -5211,10 +5313,46 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-validate@0.10.1#"
+   "to": "pkg:local/deser-validate@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-path",
+     "path": "examples/config/Cargo.toml"
+    }
+   ],
+   "from": "examples/config:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-toml",
+     "path": "examples/config/Cargo.toml"
+    }
+   ],
+   "from": "examples/config:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -5229,10 +5367,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5247,10 +5385,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5265,10 +5403,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5283,10 +5421,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-csv@0.10.1#"
+   "to": "pkg:local/laputa-deser-csv@0.10.3#"
   },
   {
    "condition": null,
@@ -5301,10 +5439,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -5319,10 +5457,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5337,10 +5475,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-debug@0.10.1#"
+   "to": "pkg:local/deser-debug@0.10.3#"
   },
   {
    "condition": null,
@@ -5355,10 +5493,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5373,10 +5511,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5391,10 +5529,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
@@ -5409,10 +5547,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5427,10 +5565,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5445,10 +5583,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5463,10 +5601,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -5481,10 +5619,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -5499,10 +5637,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
@@ -5517,10 +5655,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -5535,10 +5673,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5553,10 +5691,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5571,10 +5709,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5589,10 +5727,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-env@0.10.1#"
+   "to": "pkg:local/deser-env@0.10.3#"
   },
   {
    "condition": null,
@@ -5607,10 +5745,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -5625,10 +5763,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5671,6 +5809,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "dependencies.deser-msgpack",
+     "path": "examples/formats/Cargo.toml"
+    }
+   ],
+   "from": "examples/formats:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/deser-msgpack@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "dependencies.deser-cbor",
      "path": "examples/formats/Cargo.toml"
     }
@@ -5679,10 +5835,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
@@ -5697,28 +5853,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-msgpack",
-     "path": "examples/formats/Cargo.toml"
-    }
-   ],
-   "from": "examples/formats:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-msgpack@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5733,10 +5871,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -5751,10 +5889,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -5769,10 +5907,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5787,10 +5925,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-debug@0.10.1#"
+   "to": "pkg:local/deser-debug@0.10.3#"
   },
   {
    "condition": null,
@@ -5805,10 +5943,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5823,10 +5961,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5841,10 +5979,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-ini@0.10.1#"
+   "to": "pkg:local/laputa-deser-ini@0.10.3#"
   },
   {
    "condition": null,
@@ -5859,10 +5997,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -5877,46 +6015,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-json",
-     "path": "examples/input-contracts/Cargo.toml"
-    }
-   ],
-   "from": "examples/input-contracts:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-path",
-     "path": "examples/input-contracts/Cargo.toml"
-    }
-   ],
-   "from": "examples/input-contracts:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5931,10 +6033,46 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-validate@0.10.1#"
+   "to": "pkg:local/deser-validate@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-json",
+     "path": "examples/input-contracts/Cargo.toml"
+    }
+   ],
+   "from": "examples/input-contracts:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-path",
+     "path": "examples/input-contracts/Cargo.toml"
+    }
+   ],
+   "from": "examples/input-contracts:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -5949,10 +6087,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -5967,10 +6105,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -5985,10 +6123,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6021,10 +6159,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6039,10 +6177,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6057,10 +6195,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-debug@0.10.1#"
+   "to": "pkg:local/deser-debug@0.10.3#"
   },
   {
    "condition": null,
@@ -6075,10 +6213,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6093,10 +6231,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6111,10 +6249,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6129,10 +6267,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -6147,10 +6285,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6165,10 +6303,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6183,10 +6321,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-location@0.10.1#"
+   "to": "pkg:local/laputa-deser-location@0.10.3#"
   },
   {
    "condition": null,
@@ -6201,10 +6339,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -6219,10 +6357,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6237,10 +6375,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-debug@0.10.1#"
+   "to": "pkg:local/deser-debug@0.10.3#"
   },
   {
    "condition": null,
@@ -6255,10 +6393,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6273,10 +6411,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
@@ -6291,10 +6429,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6309,10 +6447,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6327,10 +6465,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6363,10 +6501,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6381,10 +6519,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6399,10 +6537,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6453,10 +6591,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6471,10 +6609,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6489,10 +6627,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-php@0.10.1#"
+   "to": "pkg:local/deser-php@0.10.3#"
   },
   {
    "condition": null,
@@ -6507,28 +6645,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-json",
-     "path": "examples/pickle/Cargo.toml"
-    }
-   ],
-   "from": "examples/pickle:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6543,10 +6663,28 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-pickle@0.10.1#"
+   "to": "pkg:local/deser-pickle@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-json",
+     "path": "examples/pickle/Cargo.toml"
+    }
+   ],
+   "from": "examples/pickle:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6561,10 +6699,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
@@ -6579,10 +6717,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6597,10 +6735,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-plist@0.10.1#"
+   "to": "pkg:local/deser-plist@0.10.3#"
   },
   {
    "condition": null,
@@ -6615,46 +6753,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-cbor",
-     "path": "examples/protocol/Cargo.toml"
-    }
-   ],
-   "from": "examples/protocol:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-json",
-     "path": "examples/protocol/Cargo.toml"
-    }
-   ],
-   "from": "examples/protocol:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6669,10 +6771,46 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-msgpack@0.10.1#"
+   "to": "pkg:local/deser-msgpack@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-cbor",
+     "path": "examples/protocol/Cargo.toml"
+    }
+   ],
+   "from": "examples/protocol:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-json",
+     "path": "examples/protocol/Cargo.toml"
+    }
+   ],
+   "from": "examples/protocol:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6687,28 +6825,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-path",
-     "path": "examples/query-strings/Cargo.toml"
-    }
-   ],
-   "from": "examples/query-strings:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6723,10 +6843,28 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-urlencoded@0.10.1#"
+   "to": "pkg:local/deser-urlencoded@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-path",
+     "path": "examples/query-strings/Cargo.toml"
+    }
+   ],
+   "from": "examples/query-strings:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -6741,10 +6879,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6759,10 +6897,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
@@ -6777,10 +6915,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6795,10 +6933,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -6813,10 +6951,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6831,10 +6969,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -6849,10 +6987,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -6913,6 +7051,24 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "dependencies.deser-serde",
+     "path": "examples/serde-types/Cargo.toml"
+    }
+   ],
+   "from": "examples/serde-types:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/deser-serde@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "dependencies.deser-json",
      "path": "examples/serde-types/Cargo.toml"
     }
@@ -6921,10 +7077,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -6939,28 +7095,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-serde",
-     "path": "examples/serde-types/Cargo.toml"
-    }
-   ],
-   "from": "examples/serde-types:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-serde@0.10.1#"
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
   },
   {
    "condition": null,
@@ -6975,10 +7113,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -6993,10 +7131,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -7011,10 +7149,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -7029,10 +7167,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
   },
   {
    "condition": null,
@@ -7047,10 +7185,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -7065,10 +7203,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
   },
   {
    "condition": null,
@@ -7083,10 +7221,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -7101,10 +7239,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -7165,24 +7303,6 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "dependencies.deser-json",
-     "path": "examples/tokio-server/Cargo.toml"
-    }
-   ],
-   "from": "examples/tokio-server:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
      "locator": "dependencies.deser-tokio",
      "path": "examples/tokio-server/Cargo.toml"
     }
@@ -7191,10 +7311,28 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-tokio@0.10.1#"
+   "to": "pkg:local/deser-tokio@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-json",
+     "path": "examples/tokio-server/Cargo.toml"
+    }
+   ],
+   "from": "examples/tokio-server:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -7209,28 +7347,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-json",
-     "path": "examples/validation/Cargo.toml"
-    }
-   ],
-   "from": "examples/validation:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -7245,10 +7365,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-urlencoded@0.10.1#"
+   "to": "pkg:local/deser-urlencoded@0.10.3#"
   },
   {
    "condition": null,
@@ -7263,10 +7383,28 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-validate@0.10.1#"
+   "to": "pkg:local/deser-validate@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-json",
+     "path": "examples/validation/Cargo.toml"
+    }
+   ],
+   "from": "examples/validation:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
   },
   {
    "condition": null,
@@ -7281,10 +7419,28 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-xml",
+     "path": "examples/xml-namespaces/Cargo.toml"
+    }
+   ],
+   "from": "examples/xml-namespaces:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/deser-xml@0.10.3#"
   },
   {
    "condition": null,
@@ -7299,28 +7455,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-xml",
-     "path": "examples/xml-namespaces/Cargo.toml"
-    }
-   ],
-   "from": "examples/xml-namespaces:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-xml@0.10.1#"
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
@@ -7335,10 +7473,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -7353,10 +7491,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-xml@0.10.1#"
+   "to": "pkg:local/deser-xml@0.10.3#"
   },
   {
    "condition": null,
@@ -7371,10 +7509,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   },
   {
    "condition": null,
@@ -7417,42 +7555,6 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "dependencies.deser-cbor",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-cbor@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-csv",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-csv@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
      "locator": "dependencies.deser-debug",
      "path": "fuzz/Cargo.toml"
     }
@@ -7461,28 +7563,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-debug@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-encoding",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-encoding@0.10.1#"
+   "to": "pkg:local/deser-debug@0.10.3#"
   },
   {
    "condition": null,
@@ -7497,10 +7581,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-env@0.10.1#"
+   "to": "pkg:local/deser-env@0.10.3#"
   },
   {
    "condition": null,
@@ -7515,28 +7599,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-hj@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-ini",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-ini@0.10.1#"
+   "to": "pkg:local/deser-hj@0.10.3#"
   },
   {
    "condition": null,
@@ -7551,28 +7617,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-json5@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-json",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-json@0.10.1#"
+   "to": "pkg:local/deser-json5@0.10.3#"
   },
   {
    "condition": null,
@@ -7587,10 +7635,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-jsonc@0.10.1#"
+   "to": "pkg:local/deser-jsonc@0.10.3#"
   },
   {
    "condition": null,
@@ -7605,28 +7653,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-msgpack@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-path",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-path@0.10.1#"
+   "to": "pkg:local/deser-msgpack@0.10.3#"
   },
   {
    "condition": null,
@@ -7641,10 +7671,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-php@0.10.1#"
+   "to": "pkg:local/deser-php@0.10.3#"
   },
   {
    "condition": null,
@@ -7659,10 +7689,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-pickle@0.10.1#"
+   "to": "pkg:local/deser-pickle@0.10.3#"
   },
   {
    "condition": null,
@@ -7677,28 +7707,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-plist@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-toml",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-toml@0.10.1#"
+   "to": "pkg:local/deser-plist@0.10.3#"
   },
   {
    "condition": null,
@@ -7713,10 +7725,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-transcode@0.10.1#"
+   "to": "pkg:local/deser-transcode@0.10.3#"
   },
   {
    "condition": null,
@@ -7731,28 +7743,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-urlencoded@0.10.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.deser-value",
-     "path": "fuzz/Cargo.toml"
-    }
-   ],
-   "from": "fuzz:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.10.1",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/deser-value@0.10.1#"
+   "to": "pkg:local/deser-urlencoded@0.10.3#"
   },
   {
    "condition": null,
@@ -7767,10 +7761,154 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-xml@0.10.1#"
+   "to": "pkg:local/deser-xml@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-cbor",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-cbor@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-csv",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-csv@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-encoding",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-encoding@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-ini",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-ini@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-json",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-json@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-path",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-path@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-toml",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-toml@0.10.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.deser-value",
+     "path": "fuzz/Cargo.toml"
+    }
+   ],
+   "from": "fuzz:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.10.3",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-deser-value@0.10.3#"
   },
   {
    "condition": null,
@@ -7785,10 +7923,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser-yaml@0.10.1#"
+   "to": "pkg:local/laputa-deser-yaml@0.10.3#"
   },
   {
    "condition": null,
@@ -7803,47 +7941,39 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.10.1",
+   "resolved_version": "0.10.3",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/deser@0.10.1#"
+   "to": "pkg:local/laputa-deser@0.10.3#"
   }
  ],
  "inputs": [
   {
-   "blob": "ee28ab71e3f9d6aad6436afaad9d56029a007648",
+   "blob": "42599e6393c0219bf2266fcfae452cf67f8bcac6",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "1f46fcfae93ed1c789e775e1aeae7cb9ea5dac5b",
-   "path": ".github/workflows/clippy.yml"
-  },
-  {
-   "blob": "a87d36f6cfc7e24220d26d942f19366009ff266a",
-   "path": ".github/workflows/docs.yml"
-  },
-  {
-   "blob": "3406c357366e04fa4af5d434a89eccf664e65dbd",
+   "blob": "2eb80dff35e15a6115c609d19f68a75f72401a1b",
    "path": ".github/workflows/lint.yml"
-  },
-  {
-   "blob": "cd21c6bda95014ade4b44c66e846fce20af98d86",
-   "path": ".github/workflows/release.yml"
   },
   {
    "blob": "d412c64118f19cf096b83ae95da76096869e35da",
    "path": "Cargo.toml"
   },
   {
-   "blob": "f94909cc86f2231eefefeacd4b28607e750c1da3",
+   "blob": "c7c1070e5f9599d94efb8cce75fd959384561769",
    "path": "Makefile"
   },
   {
-   "blob": "7e28af324937ad960e51c1d3154baa5402ff4257",
+   "blob": "a324cef38cde34a51418bbd8f327487e02de40d5",
    "path": "benchmark/Cargo.toml"
   },
   {
-   "blob": "643b73ae54a97092a65cd7ce0adf3ee21c8276d3",
+   "blob": "adfc44600ef0847bfb2ae134c696bda616b34dec",
+   "path": "compile-times/bench.sh"
+  },
+  {
+   "blob": "0374aacb9b4aa0fe57566fd26be0184a5cab77b3",
    "path": "compile-times/deser-version/Cargo.toml"
   },
   {
@@ -7855,39 +7985,39 @@
    "path": "compile-times/serde-version/Cargo.toml"
   },
   {
-   "blob": "e0db3d682592fd65ebce822f96e3cd0f2b47e925",
+   "blob": "e6076ed243bbd2cb72b58f737b7128dbaf809e82",
    "path": "deser-cbor/Cargo.toml"
   },
   {
-   "blob": "f03932e3f3c252c1e97db208939af7725d67e772",
+   "blob": "4fd5c6a27102e7127a8749d65a845cb20f9915c9",
    "path": "deser-core/Cargo.toml"
   },
   {
-   "blob": "0db38c74354d351211ffc316f9ed68c120fe507c",
+   "blob": "68c48d892b874bb31df4c6fd93990816c6863e3f",
    "path": "deser-csv/Cargo.toml"
   },
   {
-   "blob": "fdefc9265b6364179a7a6bdf96b883d2e56dd7fa",
+   "blob": "05002913dad878a45036aa03158c799976e17358",
    "path": "deser-debug/Cargo.toml"
   },
   {
-   "blob": "6fb98b7f9ffbcdde8addff5a899cea60cf698d31",
+   "blob": "fe1e81936d531e54182796fa8ddb3984d6e85722",
    "path": "deser-derive/Cargo.toml"
   },
   {
-   "blob": "1be657b6265c99c6e159e2757cd1377bbba05394",
+   "blob": "0496a2cf76bd7ad70df2f9a77c334c9fdae49361",
    "path": "deser-encoding/Cargo.toml"
   },
   {
-   "blob": "09b3388cc23c27387d38a4d1c1eae2316a2df23b",
+   "blob": "12129d5a405e897ddc4a0b8add97d370a78d3aa8",
    "path": "deser-env/Cargo.toml"
   },
   {
-   "blob": "bcb18bcf62b08791e0ce13fd214c87220d53df37",
+   "blob": "555404dd76e1f2afc6ea3e0eb7e8ff4b9e31b94d",
    "path": "deser-hj/Cargo.toml"
   },
   {
-   "blob": "a0e6409356d58e897ba19bbf3ca3e282dd181d5b",
+   "blob": "c5c8f6b82672d4166552fd2a3f2f57d30f35c493",
    "path": "deser-ini/Cargo.toml"
   },
   {
@@ -7895,247 +8025,251 @@
    "path": "deser-ini/tests/data/suites/editorconfig/parser/CMakeLists.txt"
   },
   {
-   "blob": "8160d6383fe20c8aab84c6e0b5e5ead6996f804d",
+   "blob": "2c6f58758d8babed4896756afc4d65a24ac6f251",
+   "path": "deser-ini/tests/data/suites/inih/tests/unittest.sh"
+  },
+  {
+   "blob": "2d87347f640a59818a3017f4cee67b4395952604",
    "path": "deser-json/Cargo.toml"
   },
   {
-   "blob": "c62d95806aa9ae30f2f18ca0202dfb342258673a",
+   "blob": "5cb221a92d842cdc6083760eebb00551a175f2c5",
    "path": "deser-json5/Cargo.toml"
   },
   {
-   "blob": "46bf4ab533df2ee4d054ed272a578e9b9fa39ea9",
+   "blob": "6d632476efdb3b15735aa3642274e973b883df4e",
    "path": "deser-jsonc/Cargo.toml"
   },
   {
-   "blob": "80fdcef35e556e9efd0c5ead5fdbd94c0616dce9",
+   "blob": "75178e56b726d7055e912fbadec262fb058206c9",
    "path": "deser-location/Cargo.toml"
   },
   {
-   "blob": "b89db1a4fbfc1ed1579b65fa84b2e513bdf8e14d",
+   "blob": "b600a7bff41de8686203ad0cdacce66f687fb177",
    "path": "deser-msgpack/Cargo.toml"
   },
   {
-   "blob": "b5f995ed3aed5ce44b34f56eed1b7e0a8915c5b0",
+   "blob": "2a18d7f6064424df5e845d1bb447370a7c3352b4",
    "path": "deser-path/Cargo.toml"
   },
   {
-   "blob": "06c364604737a96506acfd0d7b09e3735e6a6d05",
+   "blob": "7616c1752569406e7803dcd4a91c396957905c5a",
    "path": "deser-php/Cargo.toml"
   },
   {
-   "blob": "8472783c495e61cc1233b5841e5d338b786f2d85",
+   "blob": "ee0dcd2c61cfa7c7e87f85d8085c6d1a090167b6",
    "path": "deser-pickle/Cargo.toml"
   },
   {
-   "blob": "63057f35603b17f1da19629fa2470990966feae8",
+   "blob": "1090695a9a7f66dd24e716ec0d99ce9fe15c3d9f",
    "path": "deser-plist/Cargo.toml"
   },
   {
-   "blob": "7b804c34487c9c58df9b110a779be4d6083bcad4",
+   "blob": "9e413fead2ad938a23c1c4e959050d8df49e8b70",
    "path": "deser-serde/Cargo.toml"
   },
   {
-   "blob": "0d113b94e34d7dac9b8e7604065e0e6d0a83a53b",
+   "blob": "22d6277f8ea79568588ea24200cbc5b08005d546",
    "path": "deser-template-json/Cargo.toml"
   },
   {
-   "blob": "6eea3b174359fb9bf3dc1c0ce0614595b6d19f75",
+   "blob": "fb49de54360989c4ce2c806f8fb8f68b525c94fc",
    "path": "deser-tokio/Cargo.toml"
   },
   {
-   "blob": "2142e7d860ff93479eef699db35e8737b7d4aca3",
+   "blob": "8a4fb02064acac65c0b4f74001bc44b85f535508",
    "path": "deser-toml/Cargo.toml"
   },
   {
-   "blob": "bfc56f208c112f592eabae8bed5bb9a20fa1ccfd",
+   "blob": "057a6d9ac9a39335a04e8dbef3f19a66e7557d8f",
    "path": "deser-transcode/Cargo.toml"
   },
   {
-   "blob": "1f9f465555be5fbbf39d29665e9dc84049e8a30e",
+   "blob": "9781a32f8a8b9ce9d718099b02b2cc4b68e93b58",
    "path": "deser-urlencoded/Cargo.toml"
   },
   {
-   "blob": "bf857d249e5d9d39ce00d81ff1308d7ac619056a",
+   "blob": "46ac47a9cf947b8c28685aced6be25f9894308db",
    "path": "deser-validate/Cargo.toml"
   },
   {
-   "blob": "adfd542d521d9fd571ac6d67f82e6f353712b998",
+   "blob": "e643f4bd47db4922400362b26c34b80a42a69b87",
    "path": "deser-value/Cargo.toml"
   },
   {
-   "blob": "7f45303ef2eabf4780da0b0af5450213fa1d79ad",
+   "blob": "515e88e7fc27d0710f961edcb710fb920ced6c6d",
    "path": "deser-xml/Cargo.toml"
   },
   {
-   "blob": "fe965d11e33abb1cfea6260ece77ecd4b3fbd3a5",
+   "blob": "a99e2f84b28bd6478491120d7b24826c900facb5",
    "path": "deser-yaml/Cargo.toml"
   },
   {
-   "blob": "0de35ca5963d4a2ee950edeb028b87eeb8eda5af",
+   "blob": "1264c1acbe00cfd0dbe3eaef0bcc3bd29a228218",
    "path": "deser/Cargo.toml"
   },
   {
-   "blob": "8978e9645fa36367ec2573ff3caef380fc6bd0c9",
+   "blob": "68d9674ccfdf6810784aa9d9c2e705e2fc052ef0",
    "path": "examples/adapters/Cargo.toml"
   },
   {
-   "blob": "4d42e3ecd428fb6d56e9cdb1237112266de82fa1",
+   "blob": "78a632dcf64fd129ea12074ba8d85aad82447a21",
    "path": "examples/borrowing/Cargo.toml"
   },
   {
-   "blob": "69a3329348bf29ccc6470cb3e2f17f290cd4a44b",
+   "blob": "acbfab658c27dfb569f81dbff54cb86460f87bb0",
    "path": "examples/bytes/Cargo.toml"
   },
   {
-   "blob": "0c6c23187e4287919cc4425358e067b29b9f65ce",
+   "blob": "2952c3e34abe299adec52ab58ef0d2824fa3a452",
    "path": "examples/config-errors/Cargo.toml"
   },
   {
-   "blob": "702b804f1d82542aa1c3f486dabb16f838c80af9",
+   "blob": "e067ae0fb34affdc04350a5da38c9162a0deb603",
    "path": "examples/config/Cargo.toml"
   },
   {
-   "blob": "99df038f53e4330410209674d8fb21ba1b474a3e",
+   "blob": "c5bc2e18ae276415789ccf4b582a5c9f2e7ec359",
    "path": "examples/crate-path/Cargo.toml"
   },
   {
-   "blob": "c7abd2a36cbffb8b6857f4c4d524cbbbb1d03a63",
+   "blob": "3db6d14940f0a0afde5db451edc2e4fada52f13b",
    "path": "examples/csv/Cargo.toml"
   },
   {
-   "blob": "8093dac10fc0b072caa5f213a388cbf8bd2a1078",
+   "blob": "abb9849de10ca240d3941c0b86ef5446f344dca0",
    "path": "examples/debug/Cargo.toml"
   },
   {
-   "blob": "d8f58719a26f2e1dd47e3f6d48a1b68abc1bdc67",
+   "blob": "a43b453069b63a9162ab5c50a6ed302ef155dbee",
    "path": "examples/deep-nesting/Cargo.toml"
   },
   {
-   "blob": "e314345f39e58e333ffb10980a21afc59c423f93",
+   "blob": "0d271644ec4ecd8021b888df8d253591b266b8e3",
    "path": "examples/dynamic-values/Cargo.toml"
   },
   {
-   "blob": "a04a63306e2964ec9343f6fa4722fb647cb90020",
+   "blob": "57cc36f74404b03ee494175ebb7312b3a4b28853",
    "path": "examples/enums/Cargo.toml"
   },
   {
-   "blob": "d88dcb8362163c39ff1231d92bc11bf0b88f5cdb",
+   "blob": "1624fe86830189841a2d19a7501b259b06a28316",
    "path": "examples/env/Cargo.toml"
   },
   {
-   "blob": "62f5c227376f06d902252fb199ba42a03fcd1412",
+   "blob": "ad80d5a2a800d0b775d4f1aacc361701710fc4cb",
    "path": "examples/formats/Cargo.toml"
   },
   {
-   "blob": "e80e2aa90f135dd04efd631318df980f2bda3e5a",
+   "blob": "4384d9a2f701d35a5387588fbf8b1c12208be7e7",
    "path": "examples/generic-types/Cargo.toml"
   },
   {
-   "blob": "06f5cfcd610bfb7d0de4b5b2492e7c919b12d960",
+   "blob": "39c380ea51f52761f689927fce7da4f70a1a739c",
    "path": "examples/ini/Cargo.toml"
   },
   {
-   "blob": "820c174d99881b77f3342551a3f8c414db25b2a1",
+   "blob": "f9175eb1998531aca257efd4cc40fa23f49cf359",
    "path": "examples/input-contracts/Cargo.toml"
   },
   {
-   "blob": "21b3729311037d574c04a961a5c3c1ceb6e6c98f",
+   "blob": "026a6064dc77fbe7c03971ae45086461f38bef66",
    "path": "examples/json-lines/Cargo.toml"
   },
   {
-   "blob": "ac7be918f94f70c8b55e97c8567b3c47b4647686",
+   "blob": "e02dc2d145ac9827aa498304dbdc10292a320f7d",
    "path": "examples/json-numbers/Cargo.toml"
   },
   {
-   "blob": "f6458ebeb47b68bae84e4d3162a5c81656942f66",
+   "blob": "f9f1ed985f813b49cc6ee97e8ebb67c2237cda5a",
    "path": "examples/json/Cargo.toml"
   },
   {
-   "blob": "42292ce5dfa47c52eda2878e6d8f6396cb157280",
+   "blob": "16e5e4c3cb1388673c27e85cd4880972ee6839ac",
    "path": "examples/layers/Cargo.toml"
   },
   {
-   "blob": "5160e27b04ab55fe40179bafbec47d6b05c90897",
+   "blob": "956ae4ce1f7c38237969a84f261506137ab0d92c",
    "path": "examples/located/Cargo.toml"
   },
   {
-   "blob": "7bf6bea35d2ce79b69c1adc9bf364749a075f237",
+   "blob": "fb1bc7e86d7d06ce2fb7cb341e95506d5f687b61",
    "path": "examples/manual-struct/Cargo.toml"
   },
   {
-   "blob": "4fbc0c02b0ca90ad387ae5f391e0c201efe256e9",
+   "blob": "991f2479c55b4c724f97aef3166e30e2cb391c6b",
    "path": "examples/no-std/Cargo.toml"
   },
   {
-   "blob": "c92abd56bf723935c1370ea0182f8f2506e1c639",
+   "blob": "80618218d48147706203ec2922121e92e2ede0f3",
    "path": "examples/open-enums/Cargo.toml"
   },
   {
-   "blob": "4a12637f291f77cd0ab6e28f8d41e1b91edc15b4",
+   "blob": "dc513b3e6eb081148748fb6741fcebdd800e8d22",
    "path": "examples/open-enums/pipeline-extras/Cargo.toml"
   },
   {
-   "blob": "283dfaed2e3454526c014fe6f56364a42359adc6",
+   "blob": "f655195b11583e740c0c6fbea50477d00f8a405c",
    "path": "examples/open-enums/pipeline/Cargo.toml"
   },
   {
-   "blob": "7199bfbb05764cd4f7fd43bf230ab53283e2a6e1",
+   "blob": "4d2151de91eedc4747dca9361b301ee80d7eb4ab",
    "path": "examples/optionals/Cargo.toml"
   },
   {
-   "blob": "cdf511ed35fd47632813029c85d443dc38b55d22",
+   "blob": "50dbae3d3e2d74e1e5fdaee4002a0d90fc5e1678",
    "path": "examples/php/Cargo.toml"
   },
   {
-   "blob": "cbc525521fef616c4ac91b5e49873389e2c7df83",
+   "blob": "ba278f221b512466bcf64d1146ff90e3b3653b1b",
    "path": "examples/pickle/Cargo.toml"
   },
   {
-   "blob": "aff67bc8d727f65b6eb4bf11f260bd3777108200",
+   "blob": "9cf62a91db5d516db9753ba269aaf24e01c8fdce",
    "path": "examples/plist/Cargo.toml"
   },
   {
-   "blob": "567c5dbd995816400025643d295df876a31c695b",
+   "blob": "305ab327204fcd784917fc7bbe3b48c8ec15d246",
    "path": "examples/protocol/Cargo.toml"
   },
   {
-   "blob": "ec06f7b5bd27eabf4833531766ca99a92b38ad63",
+   "blob": "f5d5a74a2eb3fe88904ea19e378ab2ed4342d77e",
    "path": "examples/query-strings/Cargo.toml"
   },
   {
-   "blob": "61f943bf658f38e9302a805c2310a09b4c54be54",
+   "blob": "b8c584c4a12f2b0a7824e45452f3ba9912127065",
    "path": "examples/raw-values/Cargo.toml"
   },
   {
-   "blob": "7da122c892109b3054bf4fee837b09f6e23cefd4",
+   "blob": "174faf478c3d6254a0ea1d317259ef1cc71f6957",
    "path": "examples/renames/Cargo.toml"
   },
   {
-   "blob": "62a0f6ea340e65933f01bd4073994882d71b6015",
+   "blob": "acb4997f27f4cc8e9ee8225f01f0b759bba0d324",
    "path": "examples/serde-types/Cargo.toml"
   },
   {
-   "blob": "63d66701470fe26a8cf86d36ee833a2c23436d4a",
+   "blob": "36584a777f15b6f4b30d581ca6e8961a373aa0e9",
    "path": "examples/streams/Cargo.toml"
   },
   {
-   "blob": "9442d913768803da53a4ca68ec653d8ad5a594f1",
+   "blob": "b920d235b03b9bb046b8354d189dc03d1d75771a",
    "path": "examples/tokio-server/Cargo.toml"
   },
   {
-   "blob": "9728d38a6bb0b049c93f45c9046eb194b5243004",
+   "blob": "6681595a4eeb886c8611abafc7f1b15ed636850e",
    "path": "examples/validation/Cargo.toml"
   },
   {
-   "blob": "172c87cee9567162c368511f7c71a29f6caed31e",
+   "blob": "c5c4c58247c503e852f7e2238717c5f86a98c0a9",
    "path": "examples/xml-namespaces/Cargo.toml"
   },
   {
-   "blob": "5eeeb62186a1284e1105115a5bbb1ce7191e7014",
+   "blob": "03d64f1261beed6d3a8e4b1820a48cc8474a3f83",
    "path": "examples/xml-pretty/Cargo.toml"
   },
   {
-   "blob": "498209b137b1b4c97f6da3f08ff0b218668c4ded",
+   "blob": "49bb9029c0f64f73c3960cd7c4c141e900f6e52c",
    "path": "fuzz/Cargo.toml"
   },
   {
@@ -8147,11 +8281,63 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "37e4ce815cd9b519f356c48c97b3644c491816a7",
+   "path": "scripts/bump-version.sh"
+  },
+  {
+   "blob": "3e7127c11d9a3be8a71044d849ce1bf96e824b7d",
+   "path": "scripts/publish.sh"
+  },
+  {
+   "blob": "b8a2a2f61a0b941bfd594a832b4d5dee923a6fa2",
+   "path": "scripts/update-benchmark-data.sh"
+  },
+  {
+   "blob": "44edbfda13853ba98de581f259f901c639a9eee4",
+   "path": "scripts/update-csv-test-data.sh"
+  },
+  {
+   "blob": "5a2bff6ee9ba184df5f5319d6da142e7701adbb1",
+   "path": "scripts/update-hjson-test-data.sh"
+  },
+  {
+   "blob": "544619103079624ff7b25fdd9db606d4a79221c8",
+   "path": "scripts/update-ini-test-data.sh"
+  },
+  {
+   "blob": "59b57af29534877dd136413b0315a30576e3efb7",
+   "path": "scripts/update-json5-test-data.sh"
+  },
+  {
+   "blob": "e66da35b416fb93b9f99407fc1f42643b30d095e",
+   "path": "scripts/update-msgpack-test-data.sh"
+  },
+  {
+   "blob": "ed296f918b63144c549246972a15d797d53c465e",
+   "path": "scripts/update-php-test-data.sh"
+  },
+  {
+   "blob": "c762c0fa967f130be25bc68cc4a7d8ce704cb469",
+   "path": "scripts/update-pickle-test-data.sh"
+  },
+  {
+   "blob": "c42e0559fc1d3a1c3d619b21dea36280f7967c4b",
+   "path": "scripts/update-plist-test-data.sh"
+  },
+  {
+   "blob": "412c1a3f00c5ff8a1f7b3e6970c84eafde645cfa",
+   "path": "scripts/update-toml-test-data.sh"
+  },
+  {
+   "blob": "4cfdc3190735e285c6c4339a7ef282eb7b18e67e",
+   "path": "scripts/update-yaml-test-data.sh"
+  },
+  {
    "blob": "713b49973d336d0ea5836681318129ac7771b668",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "583182c8e971995234a60b58e9ed2cde157cc247a6a8d80436e5228b6e55696c",
+ "inputs_fingerprint": "729a3cdb8200ad551ac15610368456ff76096750a9ab906875f54f1892bb298a",
  "instances": [
   {
    "commit": null,
@@ -8635,6 +8821,799 @@
    "version": null
   },
   {
+   "commit": null,
+   "component": "pkg:command/awk",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/awk#shell",
+   "purl": "pkg:command/awk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/basename#shell",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/bc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/bc#shell",
+   "purl": "pkg:command/bc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cargo#shell",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cat#shell",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cc#shell",
+   "purl": "pkg:command/cc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dirname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dirname#shell",
+   "purl": "pkg:command/dirname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/docker",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/docker#shell",
+   "purl": "pkg:command/docker",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/env",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/env#shell",
+   "purl": "pkg:command/env",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/find#shell",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/firstword",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/firstword#makefile",
+   "purl": "pkg:command/firstword",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/foreach",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/foreach#makefile",
+   "purl": "pkg:command/foreach",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/go",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/go#shell",
+   "purl": "pkg:command/go",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/grep#shell",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/head",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/head#shell",
+   "purl": "pkg:command/head",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/jq",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/jq#shell",
+   "purl": "pkg:command/jq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/make#makefile",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/node",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/node#shell",
+   "purl": "pkg:command/node",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/notdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/notdir#makefile",
+   "purl": "pkg:command/notdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/perl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/perl#shell",
+   "purl": "pkg:command/perl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/plutil",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/plutil#shell",
+   "purl": "pkg:command/plutil",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/python3#makefile",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/python3#shell",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rm#shell",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustup",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rustup#makefile",
+   "purl": "pkg:command/rustup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sed#shell",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sort#shell",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/stuff",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/stuff#makefile",
+   "purl": "pkg:command/stuff",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/subst",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/subst#makefile",
+   "purl": "pkg:command/subst",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tar#shell",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tr",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tr#shell",
+   "purl": "pkg:command/tr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/true#makefile",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_alloc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_alloc#shell",
+   "purl": "pkg:command/unittest_alloc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_allow_no_value",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_allow_no_value#shell",
+   "purl": "pkg:command/unittest_allow_no_value",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_call_handler_on_new_section",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_call_handler_on_new_section#shell",
+   "purl": "pkg:command/unittest_call_handler_on_new_section",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_disallow_inline_comments",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_disallow_inline_comments#shell",
+   "purl": "pkg:command/unittest_disallow_inline_comments",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_handler_lineno",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_handler_lineno#shell",
+   "purl": "pkg:command/unittest_handler_lineno",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_heap",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_heap#shell",
+   "purl": "pkg:command/unittest_heap",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_heap_max_line",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_heap_max_line#shell",
+   "purl": "pkg:command/unittest_heap_max_line",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_heap_realloc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_heap_realloc#shell",
+   "purl": "pkg:command/unittest_heap_realloc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_heap_realloc_max_line",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_heap_realloc_max_line#shell",
+   "purl": "pkg:command/unittest_heap_realloc_max_line",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_heap_string",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_heap_string#shell",
+   "purl": "pkg:command/unittest_heap_string",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_multi",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_multi#shell",
+   "purl": "pkg:command/unittest_multi",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_multi_max_line",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_multi_max_line#shell",
+   "purl": "pkg:command/unittest_multi_max_line",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_single",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_single#shell",
+   "purl": "pkg:command/unittest_single",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_stop_on_first_error",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_stop_on_first_error#shell",
+   "purl": "pkg:command/unittest_stop_on_first_error",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unittest_string",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/unittest_string#shell",
+   "purl": "pkg:command/unittest_string",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/uv#shell",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/uv#workflow",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/wc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/wc#shell",
+   "purl": "pkg:command/wc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/word",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/word#makefile",
+   "purl": "pkg:command/word",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -8648,69 +9627,17 @@
    "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   {
-   "commit": null,
-   "component": "pkg:github/actions/checkout",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/checkout@v3#",
-   "purl": "pkg:github/actions/checkout@v3",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "v3"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/checkout",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/checkout@v4#",
-   "purl": "pkg:github/actions/checkout@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "v4"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/deploy-pages",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/deploy-pages@v4#",
-   "purl": "pkg:github/actions/deploy-pages@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/deploy-pages",
-   "version": "v4"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/upload-pages-artifact",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/upload-pages-artifact@v3#",
-   "purl": "pkg:github/actions/upload-pages-artifact@v3",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/upload-pages-artifact",
-   "version": "v3"
-  },
-  {
-   "commit": "07a047e608db84b3d8c06cd9a7c7dcc9c355c18e",
+   "commit": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
    "component": "pkg:github/astral-sh/setup-uv",
    "context": "",
    "first_party": false,
-   "id": "pkg:github/astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e#",
-   "purl": "pkg:github/astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e",
+   "id": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#",
+   "purl": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "git",
    "vcs_url": "https://github.com/astral-sh/setup-uv",
-   "version": "07a047e608db84b3d8c06cd9a7c7dcc9c355c18e"
+   "version": "68559e99cc807c1eb7e9238fd43a15bba460eec2"
   },
   {
    "commit": "683b588c487a69d01f6c6ddf40f036ff682cc2c8",
@@ -8727,302 +9654,146 @@
   },
   {
    "commit": null,
-   "component": "pkg:github/dtolnay/rust-toolchain",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/dtolnay/rust-toolchain@master#",
-   "purl": "pkg:github/dtolnay/rust-toolchain@master",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/dtolnay/rust-toolchain",
-   "version": "master"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/rust-lang/crates-io-auth-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/rust-lang/crates-io-auth-action@v1#",
-   "purl": "pkg:github/rust-lang/crates-io-auth-action@v1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/rust-lang/crates-io-auth-action",
-   "version": "v1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-cbor",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-cbor@0.10.1#",
-   "purl": "pkg:local/deser-cbor@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-core",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-core@0.10.1#",
-   "purl": "pkg:local/deser-core@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-csv",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-csv@0.10.1#",
-   "purl": "pkg:local/deser-csv@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
    "component": "pkg:local/deser-debug",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-debug@0.10.1#",
-   "purl": "pkg:local/deser-debug@0.10.1",
+   "id": "pkg:local/deser-debug@0.10.3#",
+   "purl": "pkg:local/deser-debug@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-derive",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-derive@0.10.1#",
-   "purl": "pkg:local/deser-derive@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-encoding",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-encoding@0.10.1#",
-   "purl": "pkg:local/deser-encoding@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-env",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-env@0.10.1#",
-   "purl": "pkg:local/deser-env@0.10.1",
+   "id": "pkg:local/deser-env@0.10.3#",
+   "purl": "pkg:local/deser-env@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-hj",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-hj@0.10.1#",
-   "purl": "pkg:local/deser-hj@0.10.1",
+   "id": "pkg:local/deser-hj@0.10.3#",
+   "purl": "pkg:local/deser-hj@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-ini",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-ini@0.10.1#",
-   "purl": "pkg:local/deser-ini@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-json5",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-json5@0.10.1#",
-   "purl": "pkg:local/deser-json5@0.10.1",
+   "id": "pkg:local/deser-json5@0.10.3#",
+   "purl": "pkg:local/deser-json5@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-json",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-json@0.10.1#",
-   "purl": "pkg:local/deser-json@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-jsonc",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-jsonc@0.10.1#",
-   "purl": "pkg:local/deser-jsonc@0.10.1",
+   "id": "pkg:local/deser-jsonc@0.10.3#",
+   "purl": "pkg:local/deser-jsonc@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-location",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-location@0.10.1#",
-   "purl": "pkg:local/deser-location@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-msgpack",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-msgpack@0.10.1#",
-   "purl": "pkg:local/deser-msgpack@0.10.1",
+   "id": "pkg:local/deser-msgpack@0.10.3#",
+   "purl": "pkg:local/deser-msgpack@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-path",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-path@0.10.1#",
-   "purl": "pkg:local/deser-path@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-php",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-php@0.10.1#",
-   "purl": "pkg:local/deser-php@0.10.1",
+   "id": "pkg:local/deser-php@0.10.3#",
+   "purl": "pkg:local/deser-php@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-pickle",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-pickle@0.10.1#",
-   "purl": "pkg:local/deser-pickle@0.10.1",
+   "id": "pkg:local/deser-pickle@0.10.3#",
+   "purl": "pkg:local/deser-pickle@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-plist",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-plist@0.10.1#",
-   "purl": "pkg:local/deser-plist@0.10.1",
+   "id": "pkg:local/deser-plist@0.10.3#",
+   "purl": "pkg:local/deser-plist@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-serde",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-serde@0.10.1#",
-   "purl": "pkg:local/deser-serde@0.10.1",
+   "id": "pkg:local/deser-serde@0.10.3#",
+   "purl": "pkg:local/deser-serde@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-tokio",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-tokio@0.10.1#",
-   "purl": "pkg:local/deser-tokio@0.10.1",
+   "id": "pkg:local/deser-tokio@0.10.3#",
+   "purl": "pkg:local/deser-tokio@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-toml",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-toml@0.10.1#",
-   "purl": "pkg:local/deser-toml@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
@@ -9042,91 +9813,221 @@
    "component": "pkg:local/deser-transcode",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-transcode@0.10.1#",
-   "purl": "pkg:local/deser-transcode@0.10.1",
+   "id": "pkg:local/deser-transcode@0.10.3#",
+   "purl": "pkg:local/deser-transcode@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-urlencoded",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-urlencoded@0.10.1#",
-   "purl": "pkg:local/deser-urlencoded@0.10.1",
+   "id": "pkg:local/deser-urlencoded@0.10.3#",
+   "purl": "pkg:local/deser-urlencoded@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-validate",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-validate@0.10.1#",
-   "purl": "pkg:local/deser-validate@0.10.1",
+   "id": "pkg:local/deser-validate@0.10.3#",
+   "purl": "pkg:local/deser-validate@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/deser-value",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/deser-value@0.10.1#",
-   "purl": "pkg:local/deser-value@0.10.1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
    "component": "pkg:local/deser-xml",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-xml@0.10.1#",
-   "purl": "pkg:local/deser-xml@0.10.1",
+   "id": "pkg:local/deser-xml@0.10.3#",
+   "purl": "pkg:local/deser-xml@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
-   "component": "pkg:local/deser-yaml",
+   "component": "pkg:local/laputa-deser-cbor",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser-yaml@0.10.1#",
-   "purl": "pkg:local/deser-yaml@0.10.1",
+   "id": "pkg:local/laputa-deser-cbor@0.10.3#",
+   "purl": "pkg:local/laputa-deser-cbor@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
   },
   {
    "commit": null,
-   "component": "pkg:local/deser",
+   "component": "pkg:local/laputa-deser-core",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/deser@0.10.1#",
-   "purl": "pkg:local/deser@0.10.1",
+   "id": "pkg:local/laputa-deser-core@0.10.3#",
+   "purl": "pkg:local/laputa-deser-core@0.10.3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
    "vcs_url": null,
-   "version": "0.10.1"
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-csv",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-csv@0.10.3#",
+   "purl": "pkg:local/laputa-deser-csv@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-derive",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-derive@0.10.3#",
+   "purl": "pkg:local/laputa-deser-derive@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-encoding",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-encoding@0.10.3#",
+   "purl": "pkg:local/laputa-deser-encoding@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-ini",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-ini@0.10.3#",
+   "purl": "pkg:local/laputa-deser-ini@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-json",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-json@0.10.3#",
+   "purl": "pkg:local/laputa-deser-json@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-location",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-location@0.10.3#",
+   "purl": "pkg:local/laputa-deser-location@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-path",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-path@0.10.3#",
+   "purl": "pkg:local/laputa-deser-path@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-toml",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-toml@0.10.3#",
+   "purl": "pkg:local/laputa-deser-toml@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-value",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-value@0.10.3#",
+   "purl": "pkg:local/laputa-deser-value@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser-yaml",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser-yaml@0.10.3#",
+   "purl": "pkg:local/laputa-deser-yaml@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-deser",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-deser@0.10.3#",
+   "purl": "pkg:local/laputa-deser@0.10.3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.10.3"
   },
   {
    "commit": null,

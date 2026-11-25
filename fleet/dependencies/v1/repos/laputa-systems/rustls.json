@@ -1639,106 +1639,130 @@
    "purl": "pkg:cargo/zmij"
   },
   {
-   "display_name": "actions/cache",
-   "ecosystem": "github",
-   "name": "actions/cache",
-   "purl": "pkg:github/actions/cache"
+   "display_name": "all-features-except",
+   "ecosystem": "command",
+   "name": "all-features-except",
+   "purl": "pkg:command/all-features-except"
+  },
+  {
+   "display_name": "all-workspace-members",
+   "ecosystem": "command",
+   "name": "all-workspace-members",
+   "purl": "pkg:command/all-workspace-members"
+  },
+  {
+   "display_name": "awk",
+   "ecosystem": "command",
+   "name": "awk",
+   "purl": "pkg:command/awk"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cat",
+   "ecosystem": "command",
+   "name": "cat",
+   "purl": "pkg:command/cat"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "cpp",
+   "ecosystem": "command",
+   "name": "cpp",
+   "purl": "pkg:command/cpp"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "go",
+   "ecosystem": "command",
+   "name": "go",
+   "purl": "pkg:command/go"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "openssl",
+   "ecosystem": "command",
+   "name": "openssl",
+   "purl": "pkg:command/openssl"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "runner.test",
+   "ecosystem": "command",
+   "name": "runner.test",
+   "purl": "pkg:command/runner.test"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "true",
+   "ecosystem": "command",
+   "name": "true",
+   "purl": "pkg:command/true"
   },
   {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
    "purl": "pkg:github/actions/checkout"
-  },
-  {
-   "display_name": "actions/deploy-pages",
-   "ecosystem": "github",
-   "name": "actions/deploy-pages",
-   "purl": "pkg:github/actions/deploy-pages"
-  },
-  {
-   "display_name": "actions/setup-go",
-   "ecosystem": "github",
-   "name": "actions/setup-go",
-   "purl": "pkg:github/actions/setup-go"
-  },
-  {
-   "display_name": "actions/upload-artifact",
-   "ecosystem": "github",
-   "name": "actions/upload-artifact",
-   "purl": "pkg:github/actions/upload-artifact"
-  },
-  {
-   "display_name": "actions/upload-pages-artifact",
-   "ecosystem": "github",
-   "name": "actions/upload-pages-artifact",
-   "purl": "pkg:github/actions/upload-pages-artifact"
-  },
-  {
-   "display_name": "codecov/codecov-action",
-   "ecosystem": "github",
-   "name": "codecov/codecov-action",
-   "purl": "pkg:github/codecov/codecov-action"
-  },
-  {
-   "display_name": "crate-ci/typos",
-   "ecosystem": "github",
-   "name": "crate-ci/typos",
-   "purl": "pkg:github/crate-ci/typos"
-  },
-  {
-   "display_name": "embarkstudios/cargo-deny-action",
-   "ecosystem": "github",
-   "name": "embarkstudios/cargo-deny-action",
-   "purl": "pkg:github/embarkstudios/cargo-deny-action"
-  },
-  {
-   "display_name": "google/oss-fuzz",
-   "ecosystem": "github",
-   "name": "google/oss-fuzz",
-   "purl": "pkg:github/google/oss-fuzz#infra/cifuzz/actions/build_fuzzers"
-  },
-  {
-   "display_name": "google/oss-fuzz",
-   "ecosystem": "github",
-   "name": "google/oss-fuzz",
-   "purl": "pkg:github/google/oss-fuzz#infra/cifuzz/actions/run_fuzzers"
-  },
-  {
-   "display_name": "ilammy/setup-nasm",
-   "ecosystem": "github",
-   "name": "ilammy/setup-nasm",
-   "purl": "pkg:github/ilammy/setup-nasm"
-  },
-  {
-   "display_name": "lycheeverse/lychee-action",
-   "ecosystem": "github",
-   "name": "lycheeverse/lychee-action",
-   "purl": "pkg:github/lycheeverse/lychee-action"
-  },
-  {
-   "display_name": "obi1kenobi/cargo-semver-checks-action",
-   "ecosystem": "github",
-   "name": "obi1kenobi/cargo-semver-checks-action",
-   "purl": "pkg:github/obi1kenobi/cargo-semver-checks-action"
-  },
-  {
-   "display_name": "seanmiddleditch/gha-setup-ninja",
-   "ecosystem": "github",
-   "name": "seanmiddleditch/gha-setup-ninja",
-   "purl": "pkg:github/seanmiddleditch/gha-setup-ninja"
-  },
-  {
-   "display_name": "taiki-e/cache-cargo-install-action",
-   "ecosystem": "github",
-   "name": "taiki-e/cache-cargo-install-action",
-   "purl": "pkg:github/taiki-e/cache-cargo-install-action"
-  },
-  {
-   "display_name": "taiki-e/install-action",
-   "ecosystem": "github",
-   "name": "taiki-e/install-action",
-   "purl": "pkg:github/taiki-e/install-action"
   },
   {
    "display_name": "bogo",
@@ -1840,39 +1864,21 @@
  "edges": [
   {
    "condition": null,
-   "constraint": "v6",
+   "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.openssl-tests.steps[1].uses",
+     "locator": "jobs.ci.steps[0].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v6",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/cache@v6#"
-  },
-  {
-   "condition": null,
-   "constraint": "v6",
-   "evidence": [
-    {
-     "locator": "jobs.generate.steps[5].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v6",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/cache@v6#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -1891,762 +1897,6 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.minver.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.features.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.bogo.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.benchmarks.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.docs.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.coverage.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.openssl-tests.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.semver.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.clippy.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.audit.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.cross.steps[0].uses",
-     "path": ".github/workflows/cross.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.connect-tests.steps[0].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.example-tests.steps[0].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.feature-powerset.steps[0].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.generate.steps[0].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v5",
-   "evidence": [
-    {
-     "locator": "jobs.deploy.steps[0].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v5",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/deploy-pages@v5#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[3].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-go@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.bogo.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-go@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.Fuzzing.steps[2].uses",
-     "path": ".github/workflows/cifuzz.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v5",
-   "evidence": [
-    {
-     "locator": "jobs.generate.steps[8].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v5",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-pages-artifact@v5#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.coverage.steps[4].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/codecov/codecov-action@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v1",
-   "evidence": [
-    {
-     "locator": "jobs.docs.steps[3].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/crate-ci/typos@v1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.audit.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/embarkstudios/cargo-deny-action@v2#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.Fuzzing.steps[0].uses",
-     "path": ".github/workflows/cifuzz.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/google/oss-fuzz@master#infra/cifuzz/actions/build_fuzzers#"
-  },
-  {
-   "condition": null,
-   "constraint": "master",
-   "evidence": [
-    {
-     "locator": "jobs.Fuzzing.steps[1].uses",
-     "path": ".github/workflows/cifuzz.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "master",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/google/oss-fuzz@master#infra/cifuzz/actions/run_fuzzers#"
-  },
-  {
-   "condition": null,
-   "constraint": "v1",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/ilammy/setup-nasm@v1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v1",
-   "evidence": [
-    {
-     "locator": "jobs.connect-tests.steps[1].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/ilammy/setup-nasm@v1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v1",
-   "evidence": [
-    {
-     "locator": "jobs.example-tests.steps[1].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/ilammy/setup-nasm@v1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.generate.steps[6].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/lycheeverse/lychee-action@v2#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.semver.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/obi1kenobi/cargo-semver-checks-action@v2#"
-  },
-  {
-   "condition": null,
-   "constraint": "v6",
-   "evidence": [
-    {
-     "locator": "jobs.build.steps[2].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v6",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/seanmiddleditch/gha-setup-ninja@v6#"
-  },
-  {
-   "condition": null,
-   "constraint": "v6",
-   "evidence": [
-    {
-     "locator": "jobs.connect-tests.steps[2].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v6",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/seanmiddleditch/gha-setup-ninja@v6#"
-  },
-  {
-   "condition": null,
-   "constraint": "v6",
-   "evidence": [
-    {
-     "locator": "jobs.example-tests.steps[2].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v6",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/seanmiddleditch/gha-setup-ninja@v6#"
-  },
-  {
-   "condition": null,
-   "constraint": "v3",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v3",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/cache-cargo-install-action@v3#"
-  },
-  {
-   "condition": null,
-   "constraint": "v3",
-   "evidence": [
-    {
-     "locator": "jobs.coverage.steps[2].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v3",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/cache-cargo-install-action@v3#"
-  },
-  {
-   "condition": null,
-   "constraint": "v3",
-   "evidence": [
-    {
-     "locator": "jobs.cross.steps[1].uses",
-     "path": ".github/workflows/cross.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v3",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/cache-cargo-install-action@v3#"
-  },
-  {
-   "condition": null,
-   "constraint": "cargo-hack",
-   "evidence": [
-    {
-     "locator": "jobs.minver.steps[2].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "cargo-hack",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/install-action@cargo-hack#"
-  },
-  {
-   "condition": null,
-   "constraint": "cargo-hack",
-   "evidence": [
-    {
-     "locator": "jobs.feature-powerset.steps[1].uses",
-     "path": ".github/workflows/daily-tests.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "cargo-hack",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/install-action@cargo-hack#"
-  },
-  {
-   "condition": null,
-   "constraint": "cargo-minimal-versions requires cargo-hack",
-   "evidence": [
-    {
-     "locator": "jobs.minver.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "cargo-minimal-versions",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/install-action@cargo-minimal-versions#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.generate.steps[1].uses",
-     "path": ".github/workflows/docs.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/install-action@v2#"
   },
   {
    "condition": null,
@@ -15875,24 +15125,8 @@
  ],
  "inputs": [
   {
-   "blob": "538d5b686b84374b9c1b51f801fcd79e48f32071",
+   "blob": "10a488e70417962d9670aff939aeb8239f5840df",
    "path": ".github/workflows/ci.yml"
-  },
-  {
-   "blob": "ee28a733f380c45a632a914bf96ee656a05736df",
-   "path": ".github/workflows/cifuzz.yml"
-  },
-  {
-   "blob": "44681b3e2c7ebbe506b25750195a2ab8876ef254",
-   "path": ".github/workflows/cross.yml"
-  },
-  {
-   "blob": "26bf78b7887c8c08eac0e2b02034f0e360f536da",
-   "path": ".github/workflows/daily-tests.yml"
-  },
-  {
-   "blob": "493cb424f16a22f959310dd8f7c33992da84c1ca",
-   "path": ".github/workflows/docs.yml"
   },
   {
    "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
@@ -15907,12 +15141,36 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "9a48ac1757281cf3cbdb77568f943e8dfcff5432",
+   "blob": "0aa95474cf306483744e124580f3b811765fe56b",
    "path": "Makefile"
+  },
+  {
+   "blob": "d982db3d0602989d52ab8dc95a87ee7789a5d32f",
+   "path": "admin/bench-measure.mk"
+  },
+  {
+   "blob": "1a02146a5ce13ab0d1ee6eeb76365c8047bfa2f6",
+   "path": "admin/clippy"
+  },
+  {
+   "blob": "83d9d9e2b4922a5934c115bf39d0233537fd6b4c",
+   "path": "admin/coverage"
+  },
+  {
+   "blob": "1da8f2bafcaecacf3582cfeb532802415e55fd2d",
+   "path": "admin/pull-readme"
   },
   {
    "blob": "ed6312a217f63fa66c5f53647c789aca9a309ad1",
    "path": "bogo/Cargo.toml"
+  },
+  {
+   "blob": "a74eaa2deec2185b2bf932842d9b1bdc038c74b2",
+   "path": "bogo/regen-certs"
+  },
+  {
+   "blob": "8afbb2aaace986693142d8a9381d0637bb0e588a",
+   "path": "bogo/runme"
   },
   {
    "blob": "e9dd3f98ff27189ba9e9053461f54c82f6b2a3b2",
@@ -15979,7 +15237,7 @@
    "path": "rustls/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "ace3592fed4d1cd5b5716ac57049fc853e06835fa8459cbcf693078301ebe6c8",
+ "inputs_fingerprint": "83276eacaa8b7141b1f2d3370a567a0c23d5966eddc807cf0c6746b89574d17f",
  "instances": [
   {
    "commit": null,
@@ -19740,16 +18998,276 @@
   },
   {
    "commit": null,
-   "component": "pkg:github/actions/cache",
-   "context": "",
+   "component": "pkg:command/all-features-except",
+   "context": "shell",
    "first_party": false,
-   "id": "pkg:github/actions/cache@v6#",
-   "purl": "pkg:github/actions/cache@v6",
+   "id": "pkg:command/all-features-except#shell",
+   "purl": "pkg:command/all-features-except",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/cache",
-   "version": "v6"
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/all-workspace-members",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/all-workspace-members#shell",
+   "purl": "pkg:command/all-workspace-members",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/awk",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/awk#shell",
+   "purl": "pkg:command/awk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cargo#shell",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cat#shell",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cpp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cpp#shell",
+   "purl": "pkg:command/cpp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/git#shell",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/go",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/go#shell",
+   "purl": "pkg:command/go",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/grep#shell",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/openssl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/openssl#shell",
+   "purl": "pkg:command/openssl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/runner.test",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/runner.test#shell",
+   "purl": "pkg:command/runner.test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sed#shell",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/true#shell",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
@@ -19763,240 +19281,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
    "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/checkout",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/checkout@v7#",
-   "purl": "pkg:github/actions/checkout@v7",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "v7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/deploy-pages",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/deploy-pages@v5#",
-   "purl": "pkg:github/actions/deploy-pages@v5",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/deploy-pages",
-   "version": "v5"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/setup-go",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/setup-go@v7#",
-   "purl": "pkg:github/actions/setup-go@v7",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/setup-go",
-   "version": "v7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/upload-artifact",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/upload-artifact@v7#",
-   "purl": "pkg:github/actions/upload-artifact@v7",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/upload-artifact",
-   "version": "v7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/upload-pages-artifact",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/upload-pages-artifact@v5#",
-   "purl": "pkg:github/actions/upload-pages-artifact@v5",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/upload-pages-artifact",
-   "version": "v5"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/codecov/codecov-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/codecov/codecov-action@v7#",
-   "purl": "pkg:github/codecov/codecov-action@v7",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/codecov/codecov-action",
-   "version": "v7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/crate-ci/typos",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/crate-ci/typos@v1#",
-   "purl": "pkg:github/crate-ci/typos@v1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/crate-ci/typos",
-   "version": "v1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/embarkstudios/cargo-deny-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/embarkstudios/cargo-deny-action@v2#",
-   "purl": "pkg:github/embarkstudios/cargo-deny-action@v2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/embarkstudios/cargo-deny-action",
-   "version": "v2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/google/oss-fuzz#infra/cifuzz/actions/build_fuzzers",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/google/oss-fuzz@master#infra/cifuzz/actions/build_fuzzers#",
-   "purl": "pkg:github/google/oss-fuzz@master#infra/cifuzz/actions/build_fuzzers",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/google/oss-fuzz",
-   "version": "master"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/google/oss-fuzz#infra/cifuzz/actions/run_fuzzers",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/google/oss-fuzz@master#infra/cifuzz/actions/run_fuzzers#",
-   "purl": "pkg:github/google/oss-fuzz@master#infra/cifuzz/actions/run_fuzzers",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/google/oss-fuzz",
-   "version": "master"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/ilammy/setup-nasm",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/ilammy/setup-nasm@v1#",
-   "purl": "pkg:github/ilammy/setup-nasm@v1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/ilammy/setup-nasm",
-   "version": "v1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/lycheeverse/lychee-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/lycheeverse/lychee-action@v2#",
-   "purl": "pkg:github/lycheeverse/lychee-action@v2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/lycheeverse/lychee-action",
-   "version": "v2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/obi1kenobi/cargo-semver-checks-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/obi1kenobi/cargo-semver-checks-action@v2#",
-   "purl": "pkg:github/obi1kenobi/cargo-semver-checks-action@v2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/obi1kenobi/cargo-semver-checks-action",
-   "version": "v2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/seanmiddleditch/gha-setup-ninja",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/seanmiddleditch/gha-setup-ninja@v6#",
-   "purl": "pkg:github/seanmiddleditch/gha-setup-ninja@v6",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/seanmiddleditch/gha-setup-ninja",
-   "version": "v6"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/cache-cargo-install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/cache-cargo-install-action@v3#",
-   "purl": "pkg:github/taiki-e/cache-cargo-install-action@v3",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/cache-cargo-install-action",
-   "version": "v3"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/install-action@cargo-hack#",
-   "purl": "pkg:github/taiki-e/install-action@cargo-hack",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/install-action",
-   "version": "cargo-hack"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/install-action@cargo-minimal-versions#",
-   "purl": "pkg:github/taiki-e/install-action@cargo-minimal-versions",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/install-action",
-   "version": "cargo-minimal-versions"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/install-action@v2#",
-   "purl": "pkg:github/taiki-e/install-action@v2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/install-action",
-   "version": "v2"
   },
   {
    "commit": null,
@@ -20208,12 +19492,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "dynamic_value",
-   "locator": "jobs.openssl-tests.steps[2].run",
-   "message": "artifact URL 'https://github.com/openssl/openssl/releases/download/$VERSION/$VERSION.tar.gz' is not literal",
-   "path": ".github/workflows/ci.yml"
-  },
   {
    "kind": "unsupported_format",
    "locator": null,

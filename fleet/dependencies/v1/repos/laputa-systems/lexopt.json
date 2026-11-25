@@ -7,6 +7,72 @@
    "purl": "pkg:cargo/libfuzzer-sys"
   },
   {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cat",
+   "ecosystem": "command",
+   "name": "cat",
+   "purl": "pkg:command/cat"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mv",
+   "ecosystem": "command",
+   "name": "mv",
+   "purl": "pkg:command/mv"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
@@ -28,10 +94,10 @@
  "edges": [
   {
    "condition": null,
-   "constraint": "v2",
+   "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.test.steps[0].uses",
+     "locator": "jobs.ci.steps[0].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -39,64 +105,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.test_wasi.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.lint.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0717577d45739eb3c851188b29f50ed6c0b2194e",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -173,7 +185,11 @@
  ],
  "inputs": [
   {
-   "blob": "4191f582158f0c34e700bc507a2aafa93525ac81",
+   "blob": "63e947fe6e46b54468da3e95c9ff010122492c3a",
+   "path": ".github/setup_wasmtime.sh"
+  },
+  {
+   "blob": "10a488e70417962d9670aff939aeb8239f5840df",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -185,7 +201,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "57614ec0d91852b8c831d607f438d380377d084c",
+   "blob": "9a82c89473a9e03a506cf3ca0200278783e31c11",
    "path": "Makefile"
   },
   {
@@ -197,7 +213,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "f58e1e286e2d74e21cb09ea16df2bb5197f6c843a8ae3bbebe4f8fd2bdbb47d6",
+ "inputs_fingerprint": "8d58e3d3b906c83c7320967d51e64386a843384c1b28ed7c38c62415dd014472",
  "instances": [
   {
    "commit": null,
@@ -213,17 +229,160 @@
    "version": null
   },
   {
-   "commit": "0717577d45739eb3c851188b29f50ed6c0b2194e",
-   "component": "pkg:github/actions/checkout",
-   "context": "",
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
    "first_party": false,
-   "id": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e#",
-   "purl": "pkg:github/actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e",
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "0717577d45739eb3c851188b29f50ed6c0b2194e"
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cat#shell",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mv",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mv#shell",
+   "purl": "pkg:command/mv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tar#shell",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/test#shell",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",

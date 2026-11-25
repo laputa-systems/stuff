@@ -1,0 +1,7057 @@
+{
+ "components": [
+  {
+   "display_name": "aro",
+   "ecosystem": "artifact",
+   "name": "aro",
+   "purl": "pkg:artifact/aro?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Faro-d0c8c4d9c55daa7ef6e40cf0f630a5b5e900989b.tar.gz"
+  },
+  {
+   "display_name": "bindings",
+   "ecosystem": "artifact",
+   "name": "bindings",
+   "purl": "pkg:artifact/bindings?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FDearBindings_v0.17_ImGui_v1.92.5-docking.tar.gz"
+  },
+  {
+   "display_name": "breakpad",
+   "ecosystem": "artifact",
+   "name": "breakpad",
+   "purl": "pkg:artifact/breakpad?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fbreakpad-b99f444ba5f6b98cac261cbb391d8766b34a5918.tar.gz"
+  },
+  {
+   "display_name": "esctest2",
+   "ecosystem": "artifact",
+   "name": "esctest2",
+   "purl": "pkg:artifact/esctest2?download_url=https%3A%2F%2Fgithub.com%2FThomasDickey%2Fesctest2%2Farchive%2F2798f12149a19c3295e9b4853ab2da4b2eff1b2b.tar.gz"
+  },
+  {
+   "display_name": "fontconfig",
+   "ecosystem": "artifact",
+   "name": "fontconfig",
+   "purl": "pkg:artifact/fontconfig?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAOgqbADacob-q2_DMQlmgaG4xKHRuW-6PJ4oJzMZ.tar.xz"
+  },
+  {
+   "display_name": "freetype",
+   "ecosystem": "artifact",
+   "name": "freetype",
+   "purl": "pkg:artifact/freetype?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ffreetype-1220b81f6ecfb3fd222f76cf9106fecfa6554ab07ec7fdc4124b9bb063ae2adf969d.tar.gz"
+  },
+  {
+   "display_name": "gettext",
+   "ecosystem": "artifact",
+   "name": "gettext",
+   "purl": "pkg:artifact/gettext?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgettext-0.24.tar.gz"
+  },
+  {
+   "display_name": "glslang",
+   "ecosystem": "artifact",
+   "name": "glslang",
+   "purl": "pkg:artifact/glslang?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fglslang-12201278a1a05c0ce0b6eb6026c65cd3e9247aa041b1c260324bf29cee559dd23ba1.tar.gz"
+  },
+  {
+   "display_name": "gobject",
+   "ecosystem": "artifact",
+   "name": "gobject",
+   "purl": "pkg:artifact/gobject?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgobject-2026-10-02-38-1.tar.zst"
+  },
+  {
+   "display_name": "gtk4_layer_shell",
+   "ecosystem": "artifact",
+   "name": "gtk4_layer_shell",
+   "purl": "pkg:artifact/gtk4_layer_shell?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgtk4-layer-shell-1.1.0.tar.gz"
+  },
+  {
+   "display_name": "harfbuzz",
+   "ecosystem": "artifact",
+   "name": "harfbuzz",
+   "purl": "pkg:artifact/harfbuzz?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fharfbuzz-11.0.0.tar.xz"
+  },
+  {
+   "display_name": "highway",
+   "ecosystem": "artifact",
+   "name": "highway",
+   "purl": "pkg:artifact/highway?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fhighway-66486a10623fa0d72fe91260f96c892e41aceb06.tar.gz"
+  },
+  {
+   "display_name": "imgui",
+   "ecosystem": "artifact",
+   "name": "imgui",
+   "purl": "pkg:artifact/imgui?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAEbOfQBnvcFcCX2W5z7tDaN8vaNZGamEQtNOe0UI.tar.gz"
+  },
+  {
+   "display_name": "iterm2_themes",
+   "ecosystem": "artifact",
+   "name": "iterm2_themes",
+   "purl": "pkg:artifact/iterm2_themes?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fghostty-themes-release-20261116-150709-494b809.tgz"
+  },
+  {
+   "display_name": "jetbrains_mono",
+   "ecosystem": "artifact",
+   "name": "jetbrains_mono",
+   "purl": "pkg:artifact/jetbrains_mono?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FJetBrainsMono-2.304.tar.gz"
+  },
+  {
+   "display_name": "libpng",
+   "ecosystem": "artifact",
+   "name": "libpng",
+   "purl": "pkg:artifact/libpng?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibpng-1220aa013f0c83da3fb64ea6d327f9173fa008d10e28bc9349eac3463457723b1c66.tar.gz"
+  },
+  {
+   "display_name": "libxev",
+   "ecosystem": "artifact",
+   "name": "libxev",
+   "purl": "pkg:artifact/libxev?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxev-819ffa180ca20e31c7eded74e2e1aceb1eab557f.tar.gz"
+  },
+  {
+   "display_name": "libxml2",
+   "ecosystem": "artifact",
+   "name": "libxml2",
+   "purl": "pkg:artifact/libxml2?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxml2-2.11.5.tar.gz"
+  },
+  {
+   "display_name": "nerd_fonts_symbols_only",
+   "ecosystem": "artifact",
+   "name": "nerd_fonts_symbols_only",
+   "purl": "pkg:artifact/nerd_fonts_symbols_only?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FNerdFontsSymbolsOnly-3.4.0.tar.gz"
+  },
+  {
+   "display_name": "oniguruma",
+   "ecosystem": "artifact",
+   "name": "oniguruma",
+   "purl": "pkg:artifact/oniguruma?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Foniguruma-1220c15e72eadd0d9085a8af134904d9a0f5dfcbed5f606ad60edc60ebeccd9706bb.tar.gz"
+  },
+  {
+   "display_name": "pixels",
+   "ecosystem": "artifact",
+   "name": "pixels",
+   "purl": "pkg:artifact/pixels?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fpixels-12207ff340169c7d40c570b4b6a97db614fe47e0d83b5801a932dcd44917424c8806.tar.gz"
+  },
+  {
+   "display_name": "plasma_wayland_protocols",
+   "ecosystem": "artifact",
+   "name": "plasma_wayland_protocols",
+   "purl": "pkg:artifact/plasma_wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fplasma_wayland_protocols-12207e0851c12acdeee0991e893e0132fc87bb763969a585dc16ecca33e88334c566.tar.gz"
+  },
+  {
+   "display_name": "sentry",
+   "ecosystem": "artifact",
+   "name": "sentry",
+   "purl": "pkg:artifact/sentry?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fsentry-1220446be831adcca918167647c06c7b825849fa3fba5f22da394667974537a9c77e.tar.gz"
+  },
+  {
+   "display_name": "spirv_cross",
+   "ecosystem": "artifact",
+   "name": "spirv_cross",
+   "purl": "pkg:artifact/spirv_cross?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fspirv_cross-1220fb3b5586e8be67bc3feb34cbe749cf42a60d628d2953632c2f8141302748c8da.tar.gz"
+  },
+  {
+   "display_name": "translate_c",
+   "ecosystem": "artifact",
+   "name": "translate_c",
+   "purl": "pkg:artifact/translate_c?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ftranslate_c-02ff0c523fb92a38939b04d0145c4a9602a74d56.tar.gz"
+  },
+  {
+   "display_name": "uucode",
+   "ecosystem": "artifact",
+   "name": "uucode",
+   "purl": "pkg:artifact/uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-1fb73433bba5d93366c57f23ff2e9d7939746500.tar.gz"
+  },
+  {
+   "display_name": "vaxis",
+   "ecosystem": "artifact",
+   "name": "vaxis",
+   "purl": "pkg:artifact/vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-0620b34e091deaa6f64608922be3814147128dfb.tar.gz"
+  },
+  {
+   "display_name": "wayland",
+   "ecosystem": "artifact",
+   "name": "wayland",
+   "purl": "pkg:artifact/wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-9cb3d7aa9dc995ffafdbdef7ab86a949d0fb0e7d.tar.gz"
+  },
+  {
+   "display_name": "wayland_protocols",
+   "ecosystem": "artifact",
+   "name": "wayland_protocols",
+   "purl": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAFdWDwA0ktbNUi9pFBHCRN4weXIgIfCrVjfGxqgA.tar.gz"
+  },
+  {
+   "display_name": "wayland_protocols",
+   "ecosystem": "artifact",
+   "name": "wayland_protocols",
+   "purl": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-protocols-258d8f88f2c8c25a830c6316f87d23ce1a0f12d9.tar.gz"
+  },
+  {
+   "display_name": "wuffs",
+   "ecosystem": "artifact",
+   "name": "wuffs",
+   "purl": "pkg:artifact/wuffs?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwuffs-7411f488fe2e2c205c3d3b3d28638b7356522930.tar.gz"
+  },
+  {
+   "display_name": "z2d",
+   "ecosystem": "artifact",
+   "name": "z2d",
+   "purl": "pkg:artifact/z2d?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fz2d-8787d71bac42d9aab00428ccb37a4fd453418761.tar.gz"
+  },
+  {
+   "display_name": "zf",
+   "ecosystem": "artifact",
+   "name": "zf",
+   "purl": "pkg:artifact/zf?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzf-87153bb86b75d21fbac897b738f316d449f5d0c9.tar.gz"
+  },
+  {
+   "display_name": "zf_vaxis",
+   "ecosystem": "artifact",
+   "name": "zf_vaxis",
+   "purl": "pkg:artifact/zf_vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-6fd944a27fb3d6f596e981076381a3131f2448b4.tar.gz"
+  },
+  {
+   "display_name": "zf_vaxis_uucode",
+   "ecosystem": "artifact",
+   "name": "zf_vaxis_uucode",
+   "purl": "pkg:artifact/zf_vaxis_uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-ea62149739404a73c202b48a33bf6dd2af4bd9b0.tar.gz"
+  },
+  {
+   "display_name": "zf_vaxis_zigimg",
+   "ecosystem": "artifact",
+   "name": "zf_vaxis_zigimg",
+   "purl": "pkg:artifact/zf_vaxis_zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-c701c9f99779d7ddf594dcc6da8f858fd277d61f.tar.gz"
+  },
+  {
+   "display_name": "zig-aarch64-linux-0.17.1.tar.xz",
+   "ecosystem": "artifact",
+   "name": "zig-aarch64-linux-0.17.1.tar.xz",
+   "purl": "pkg:artifact/zig-aarch64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-linux-0.17.1.tar.xz"
+  },
+  {
+   "display_name": "zig-aarch64-macos-0.17.1.tar.xz",
+   "ecosystem": "artifact",
+   "name": "zig-aarch64-macos-0.17.1.tar.xz",
+   "purl": "pkg:artifact/zig-aarch64-macos-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-macos-0.17.1.tar.xz"
+  },
+  {
+   "display_name": "zig_js",
+   "ecosystem": "artifact",
+   "name": "zig_js",
+   "purl": "pkg:artifact/zig_js?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_js-3c23860e47fdcdc5af805efb7fd0bdac5fd3e9bc.tar.gz"
+  },
+  {
+   "display_name": "zig_objc",
+   "ecosystem": "artifact",
+   "name": "zig_objc",
+   "purl": "pkg:artifact/zig_objc?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_objc-3352c12a868f8787ab71bf2ca6eab9fcfb635c52.tar.gz"
+  },
+  {
+   "display_name": "zig_wayland",
+   "ecosystem": "artifact",
+   "name": "zig_wayland",
+   "purl": "pkg:artifact/zig_wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_wayland-27dda01712ddf3cb46ebd93380d88b01a7c828f8.tar.gz"
+  },
+  {
+   "display_name": "zigimg",
+   "ecosystem": "artifact",
+   "name": "zigimg",
+   "purl": "pkg:artifact/zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-734fa919fb15b7917d4eb124f53600348f4ffa30.tar.gz"
+  },
+  {
+   "display_name": "zlib",
+   "ecosystem": "artifact",
+   "name": "zlib",
+   "purl": "pkg:artifact/zlib?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzlib-1220fed0c74e1019b3ee29edae2051788b080cd96e90d56836eea857b0b966742efb.tar.gz"
+  },
+  {
+   "display_name": "Latest",
+   "ecosystem": "command",
+   "name": "Latest",
+   "purl": "pkg:command/Latest"
+  },
+  {
+   "display_name": "abidiff",
+   "ecosystem": "command",
+   "name": "abidiff",
+   "purl": "pkg:command/abidiff"
+  },
+  {
+   "display_name": "abidw",
+   "ecosystem": "command",
+   "name": "abidw",
+   "purl": "pkg:command/abidw"
+  },
+  {
+   "display_name": "apk",
+   "ecosystem": "command",
+   "name": "apk",
+   "purl": "pkg:command/apk"
+  },
+  {
+   "display_name": "apt-get",
+   "ecosystem": "command",
+   "name": "apt-get",
+   "purl": "pkg:command/apt-get"
+  },
+  {
+   "display_name": "awk",
+   "ecosystem": "command",
+   "name": "awk",
+   "purl": "pkg:command/awk"
+  },
+  {
+   "display_name": "basename",
+   "ecosystem": "command",
+   "name": "basename",
+   "purl": "pkg:command/basename"
+  },
+  {
+   "display_name": "build-rust-fontconfig.sh",
+   "ecosystem": "command",
+   "name": "build-rust-fontconfig.sh",
+   "purl": "pkg:command/build-rust-fontconfig.sh"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cat",
+   "ecosystem": "command",
+   "name": "cat",
+   "purl": "pkg:command/cat"
+  },
+  {
+   "display_name": "cc",
+   "ecosystem": "command",
+   "name": "cc",
+   "purl": "pkg:command/cc"
+  },
+  {
+   "display_name": "chmod",
+   "ecosystem": "command",
+   "name": "chmod",
+   "purl": "pkg:command/chmod"
+  },
+  {
+   "display_name": "cmp",
+   "ecosystem": "command",
+   "name": "cmp",
+   "purl": "pkg:command/cmp"
+  },
+  {
+   "display_name": "codesign",
+   "ecosystem": "command",
+   "name": "codesign",
+   "purl": "pkg:command/codesign"
+  },
+  {
+   "display_name": "comm",
+   "ecosystem": "command",
+   "name": "comm",
+   "purl": "pkg:command/comm"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "cut",
+   "ecosystem": "command",
+   "name": "cut",
+   "purl": "pkg:command/cut"
+  },
+  {
+   "display_name": "date",
+   "ecosystem": "command",
+   "name": "date",
+   "purl": "pkg:command/date"
+  },
+  {
+   "display_name": "diff",
+   "ecosystem": "command",
+   "name": "diff",
+   "purl": "pkg:command/diff"
+  },
+  {
+   "display_name": "dirname",
+   "ecosystem": "command",
+   "name": "dirname",
+   "purl": "pkg:command/dirname"
+  },
+  {
+   "display_name": "ditto",
+   "ecosystem": "command",
+   "name": "ditto",
+   "purl": "pkg:command/ditto"
+  },
+  {
+   "display_name": "docker",
+   "ecosystem": "command",
+   "name": "docker",
+   "purl": "pkg:command/docker"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "file",
+   "ecosystem": "command",
+   "name": "file",
+   "purl": "pkg:command/file"
+  },
+  {
+   "display_name": "find",
+   "ecosystem": "command",
+   "name": "find",
+   "purl": "pkg:command/find"
+  },
+  {
+   "display_name": "gh",
+   "ecosystem": "command",
+   "name": "gh",
+   "purl": "pkg:command/gh"
+  },
+  {
+   "display_name": "ghostty",
+   "ecosystem": "command",
+   "name": "ghostty",
+   "purl": "pkg:command/ghostty"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "hdiutil",
+   "ecosystem": "command",
+   "name": "hdiutil",
+   "purl": "pkg:command/hdiutil"
+  },
+  {
+   "display_name": "head",
+   "ecosystem": "command",
+   "name": "head",
+   "purl": "pkg:command/head"
+  },
+  {
+   "display_name": "image_arch-BASIC-CLOUDINIT-ufs.qcow2",
+   "ecosystem": "command",
+   "name": "image_arch-BASIC-CLOUDINIT-ufs.qcow2",
+   "purl": "pkg:command/image_arch-BASIC-CLOUDINIT-ufs.qcow2"
+  },
+  {
+   "display_name": "install",
+   "ecosystem": "command",
+   "name": "install",
+   "purl": "pkg:command/install"
+  },
+  {
+   "display_name": "jaq",
+   "ecosystem": "command",
+   "name": "jaq",
+   "purl": "pkg:command/jaq"
+  },
+  {
+   "display_name": "jq",
+   "ecosystem": "command",
+   "name": "jq",
+   "purl": "pkg:command/jq"
+  },
+  {
+   "display_name": "kill",
+   "ecosystem": "command",
+   "name": "kill",
+   "purl": "pkg:command/kill"
+  },
+  {
+   "display_name": "lipo",
+   "ecosystem": "command",
+   "name": "lipo",
+   "purl": "pkg:command/lipo"
+  },
+  {
+   "display_name": "ln",
+   "ecosystem": "command",
+   "name": "ln",
+   "purl": "pkg:command/ln"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "make-dmg.sh",
+   "ecosystem": "command",
+   "name": "make-dmg.sh",
+   "purl": "pkg:command/make-dmg.sh"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mkfifo",
+   "ecosystem": "command",
+   "name": "mkfifo",
+   "purl": "pkg:command/mkfifo"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "msgcmp",
+   "ecosystem": "command",
+   "name": "msgcmp",
+   "purl": "pkg:command/msgcmp"
+  },
+  {
+   "display_name": "mv",
+   "ecosystem": "command",
+   "name": "mv",
+   "purl": "pkg:command/mv"
+  },
+  {
+   "display_name": "nc",
+   "ecosystem": "command",
+   "name": "nc",
+   "purl": "pkg:command/nc"
+  },
+  {
+   "display_name": "nix",
+   "ecosystem": "command",
+   "name": "nix",
+   "purl": "pkg:command/nix"
+  },
+  {
+   "display_name": "nm",
+   "ecosystem": "command",
+   "name": "nm",
+   "purl": "pkg:command/nm"
+  },
+  {
+   "display_name": "paste",
+   "ecosystem": "command",
+   "name": "paste",
+   "purl": "pkg:command/paste"
+  },
+  {
+   "display_name": "pkg-config",
+   "ecosystem": "command",
+   "name": "pkg-config",
+   "purl": "pkg:command/pkg-config"
+  },
+  {
+   "display_name": "plutil",
+   "ecosystem": "command",
+   "name": "plutil",
+   "purl": "pkg:command/plutil"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "qemu-img",
+   "ecosystem": "command",
+   "name": "qemu-img",
+   "purl": "pkg:command/qemu-img"
+  },
+  {
+   "display_name": "readelf",
+   "ecosystem": "command",
+   "name": "readelf",
+   "purl": "pkg:command/readelf"
+  },
+  {
+   "display_name": "realpath",
+   "ecosystem": "command",
+   "name": "realpath",
+   "purl": "pkg:command/realpath"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rsync",
+   "ecosystem": "command",
+   "name": "rsync",
+   "purl": "pkg:command/rsync"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "seq",
+   "ecosystem": "command",
+   "name": "seq",
+   "purl": "pkg:command/seq"
+  },
+  {
+   "display_name": "sha256sum",
+   "ecosystem": "command",
+   "name": "sha256sum",
+   "purl": "pkg:command/sha256sum"
+  },
+  {
+   "display_name": "sha512sum",
+   "ecosystem": "command",
+   "name": "sha512sum",
+   "purl": "pkg:command/sha512sum"
+  },
+  {
+   "display_name": "shasum",
+   "ecosystem": "command",
+   "name": "shasum",
+   "purl": "pkg:command/shasum"
+  },
+  {
+   "display_name": "sleep",
+   "ecosystem": "command",
+   "name": "sleep",
+   "purl": "pkg:command/sleep"
+  },
+  {
+   "display_name": "sort",
+   "ecosystem": "command",
+   "name": "sort",
+   "purl": "pkg:command/sort"
+  },
+  {
+   "display_name": "ssh",
+   "ecosystem": "command",
+   "name": "ssh",
+   "purl": "pkg:command/ssh"
+  },
+  {
+   "display_name": "ssh-keygen",
+   "ecosystem": "command",
+   "name": "ssh-keygen",
+   "purl": "pkg:command/ssh-keygen"
+  },
+  {
+   "display_name": "stat",
+   "ecosystem": "command",
+   "name": "stat",
+   "purl": "pkg:command/stat"
+  },
+  {
+   "display_name": "sysctl",
+   "ecosystem": "command",
+   "name": "sysctl",
+   "purl": "pkg:command/sysctl"
+  },
+  {
+   "display_name": "tail",
+   "ecosystem": "command",
+   "name": "tail",
+   "purl": "pkg:command/tail"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "tee",
+   "ecosystem": "command",
+   "name": "tee",
+   "purl": "pkg:command/tee"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "timeout",
+   "ecosystem": "command",
+   "name": "timeout",
+   "purl": "pkg:command/timeout"
+  },
+  {
+   "display_name": "tr",
+   "ecosystem": "command",
+   "name": "tr",
+   "purl": "pkg:command/tr"
+  },
+  {
+   "display_name": "true",
+   "ecosystem": "command",
+   "name": "true",
+   "purl": "pkg:command/true"
+  },
+  {
+   "display_name": "truncate",
+   "ecosystem": "command",
+   "name": "truncate",
+   "purl": "pkg:command/truncate"
+  },
+  {
+   "display_name": "ucs-detect",
+   "ecosystem": "command",
+   "name": "ucs-detect",
+   "purl": "pkg:command/ucs-detect"
+  },
+  {
+   "display_name": "uname",
+   "ecosystem": "command",
+   "name": "uname",
+   "purl": "pkg:command/uname"
+  },
+  {
+   "display_name": "unzip",
+   "ecosystem": "command",
+   "name": "unzip",
+   "purl": "pkg:command/unzip"
+  },
+  {
+   "display_name": "wayland-scanner",
+   "ecosystem": "command",
+   "name": "wayland-scanner",
+   "purl": "pkg:command/wayland-scanner"
+  },
+  {
+   "display_name": "wc",
+   "ecosystem": "command",
+   "name": "wc",
+   "purl": "pkg:command/wc"
+  },
+  {
+   "display_name": "xcodebuild",
+   "ecosystem": "command",
+   "name": "xcodebuild",
+   "purl": "pkg:command/xcodebuild"
+  },
+  {
+   "display_name": "xcrun",
+   "ecosystem": "command",
+   "name": "xcrun",
+   "purl": "pkg:command/xcrun"
+  },
+  {
+   "display_name": "xz",
+   "ecosystem": "command",
+   "name": "xz",
+   "purl": "pkg:command/xz"
+  },
+  {
+   "display_name": "zig",
+   "ecosystem": "command",
+   "name": "zig",
+   "purl": "pkg:command/zig"
+  },
+  {
+   "display_name": "zon2nix",
+   "ecosystem": "command",
+   "name": "zon2nix",
+   "purl": "pkg:command/zon2nix"
+  },
+  {
+   "display_name": "alpine",
+   "ecosystem": "docker",
+   "name": "alpine",
+   "purl": "pkg:docker/alpine"
+  },
+  {
+   "display_name": "library/debian",
+   "ecosystem": "docker",
+   "name": "library/debian",
+   "purl": "pkg:docker/library/debian"
+  },
+  {
+   "display_name": "ghostty",
+   "ecosystem": "git",
+   "name": "ghostty",
+   "purl": "pkg:git/ghostty?vcs_url=https%3A%2F%2Fgithub.com%2Fghostty-org%2Fghostty.git"
+  },
+  {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  },
+  {
+   "display_name": "actions/download-artifact",
+   "ecosystem": "github",
+   "name": "actions/download-artifact",
+   "purl": "pkg:github/actions/download-artifact"
+  },
+  {
+   "display_name": "actions/upload-artifact",
+   "ecosystem": "github",
+   "name": "actions/upload-artifact",
+   "purl": "pkg:github/actions/upload-artifact"
+  },
+  {
+   "display_name": "mlugg/setup-zig",
+   "ecosystem": "github",
+   "name": "mlugg/setup-zig",
+   "purl": "pkg:github/mlugg/setup-zig"
+  },
+  {
+   "display_name": "afl",
+   "ecosystem": "local",
+   "name": "afl",
+   "purl": "pkg:local/afl"
+  },
+  {
+   "display_name": "android_ndk",
+   "ecosystem": "local",
+   "name": "android_ndk",
+   "purl": "pkg:local/android_ndk"
+  },
+  {
+   "display_name": "apple_sdk",
+   "ecosystem": "local",
+   "name": "apple_sdk",
+   "purl": "pkg:local/apple_sdk"
+  },
+  {
+   "display_name": "breakpad",
+   "ecosystem": "local",
+   "name": "breakpad",
+   "purl": "pkg:local/breakpad"
+  },
+  {
+   "display_name": "dcimgui",
+   "ecosystem": "local",
+   "name": "dcimgui",
+   "purl": "pkg:local/dcimgui"
+  },
+  {
+   "display_name": "fontconfig",
+   "ecosystem": "local",
+   "name": "fontconfig",
+   "purl": "pkg:local/fontconfig"
+  },
+  {
+   "display_name": "freetype",
+   "ecosystem": "local",
+   "name": "freetype",
+   "purl": "pkg:local/freetype"
+  },
+  {
+   "display_name": "ghostty",
+   "ecosystem": "local",
+   "name": "ghostty",
+   "purl": "pkg:local/ghostty"
+  },
+  {
+   "display_name": "glslang",
+   "ecosystem": "local",
+   "name": "glslang",
+   "purl": "pkg:local/glslang"
+  },
+  {
+   "display_name": "gtk4_layer_shell",
+   "ecosystem": "local",
+   "name": "gtk4_layer_shell",
+   "purl": "pkg:local/gtk4_layer_shell"
+  },
+  {
+   "display_name": "harfbuzz",
+   "ecosystem": "local",
+   "name": "harfbuzz",
+   "purl": "pkg:local/harfbuzz"
+  },
+  {
+   "display_name": "highway",
+   "ecosystem": "local",
+   "name": "highway",
+   "purl": "pkg:local/highway"
+  },
+  {
+   "display_name": "libintl",
+   "ecosystem": "local",
+   "name": "libintl",
+   "purl": "pkg:local/libintl"
+  },
+  {
+   "display_name": "libpng",
+   "ecosystem": "local",
+   "name": "libpng",
+   "purl": "pkg:local/libpng"
+  },
+  {
+   "display_name": "libxml2",
+   "ecosystem": "local",
+   "name": "libxml2",
+   "purl": "pkg:local/libxml2"
+  },
+  {
+   "display_name": "macos",
+   "ecosystem": "local",
+   "name": "macos",
+   "purl": "pkg:local/macos"
+  },
+  {
+   "display_name": "oniguruma",
+   "ecosystem": "local",
+   "name": "oniguruma",
+   "purl": "pkg:local/oniguruma"
+  },
+  {
+   "display_name": "opengl",
+   "ecosystem": "local",
+   "name": "opengl",
+   "purl": "pkg:local/opengl"
+  },
+  {
+   "display_name": "sentry",
+   "ecosystem": "local",
+   "name": "sentry",
+   "purl": "pkg:local/sentry"
+  },
+  {
+   "display_name": "simdutf",
+   "ecosystem": "local",
+   "name": "simdutf",
+   "purl": "pkg:local/simdutf"
+  },
+  {
+   "display_name": "spirv_cross",
+   "ecosystem": "local",
+   "name": "spirv_cross",
+   "purl": "pkg:local/spirv_cross"
+  },
+  {
+   "display_name": "translate_c",
+   "ecosystem": "local",
+   "name": "translate_c",
+   "purl": "pkg:local/translate_c"
+  },
+  {
+   "display_name": "wuffs",
+   "ecosystem": "local",
+   "name": "wuffs",
+   "purl": "pkg:local/wuffs"
+  },
+  {
+   "display_name": "zlib",
+   "ecosystem": "local",
+   "name": "zlib",
+   "purl": "pkg:local/zlib"
+  },
+  {
+   "display_name": "sparkle",
+   "ecosystem": "swift",
+   "name": "sparkle",
+   "purl": "pkg:swift/sparkle?vcs_url=https%3A%2F%2Fgithub.com%2Fsparkle-project%2FSparkle"
+  }
+ ],
+ "edges": [
+  {
+   "condition": "lazy",
+   "constraint": "aro-0.0.0-JSD1QtuBNwCASyBtNF3pqTl_W3oAJQGEVyFAtrBSE_Pa",
+   "evidence": [
+    {
+     "locator": "L12",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/aro?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Faro-d0c8c4d9c55daa7ef6e40cf0f630a5b5e900989b.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "gobject-0.3.2-Skun7LuIogBbEh-6WrLeEzMaRCnOMB3eOf__RaPYSMCZ",
+   "evidence": [
+    {
+     "locator": "L124",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/gobject?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgobject-2026-10-02-38-1.tar.zst#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAOKfBgBcBqShv-jh_C8RXUqrDNKgVeJTe4ZiQROr",
+   "evidence": [
+    {
+     "locator": "L185",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/iterm2_themes?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fghostty-themes-release-20261116-150709-494b809.tgz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAIC5lwAVPJJzxnCAahSvZTIlG-HhtOvnM1uh-66x",
+   "evidence": [
+    {
+     "locator": "L171",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/jetbrains_mono?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FJetBrainsMono-2.304.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "libxev-0.0.0-86vtc8QQFACz0sVc7U-VDiDIgH-XfBuEY5JpABLjHNpn",
+   "evidence": [
+    {
+     "locator": "L26",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/libxev?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxev-819ffa180ca20e31c7eded74e2e1aceb1eab557f.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAMVLTABmYkLqhZPLXnMl-KyN38R8UVYqGrxqO26s",
+   "evidence": [
+    {
+     "locator": "L176",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/nerd_fonts_symbols_only?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FNerdFontsSymbolsOnly-3.4.0.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAKYZBAB-CFHBKs3u4JkeiT4BMvyHu3Y5aaWF3Bbs",
+   "evidence": [
+    {
+     "locator": "L164",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/plasma_wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fplasma_wayland_protocols-12207e0851c12acdeee0991e893e0132fc87bb763969a585dc16ecca33e88334c566.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "uucode-0.2.0-ZZjBPm6FVgBcY-79AHV8ckQj86z0JwOyVyj89VeZrEiv",
+   "evidence": [
+    {
+     "locator": "L67",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-1fb73433bba5d93366c57f23ff2e9d7939746500.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "vaxis-0.6.0-BWNV_LoTDQCQSGhvBbu_-fOf3I2P3TIiGaUzCDniO12E",
+   "evidence": [
+    {
+     "locator": "L32",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-0620b34e091deaa6f64608922be3814147128dfb.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAKrHGAAs2shYq8UkE6bGcR1QJtLTyOE_lcosMn6t",
+   "evidence": [
+    {
+     "locator": "L154",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-9cb3d7aa9dc995ffafdbdef7ab86a949d0fb0e7d.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAFdWDwA0ktbNUi9pFBHCRN4weXIgIfCrVjfGxqgA",
+   "evidence": [
+    {
+     "locator": "L159",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAFdWDwA0ktbNUi9pFBHCRN4weXIgIfCrVjfGxqgA.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "z2d-0.13.2-j5P_HkkVFAAtOSQPRTS7wbZLbYs7oETRn7nUKSUwDjM_",
+   "evidence": [
+    {
+     "locator": "L49",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/z2d?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fz2d-8787d71bac42d9aab00428ccb37a4fd453418761.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "zf-0.11.0-OIRy8XCRAAB6FiMwIrtD6FqlagnFwpI6YyOu7bXeYH5J",
+   "evidence": [
+    {
+     "locator": "L84",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zf?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzf-87153bb86b75d21fbac897b738f316d449f5d0c9.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "vaxis-0.6.0-BWNV_MafDAAEzkVUvrW9NFUqnnMUoeHqrs2mecnD6D7w",
+   "evidence": [
+    {
+     "locator": "L106",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zf_vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-6fd944a27fb3d6f596e981076381a3131f2448b4.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "uucode-0.2.0-ZZjBPoGFVgCiflJNFc6Io8xzC67B6PA5bUkk4LT0kCxg",
+   "evidence": [
+    {
+     "locator": "L118",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zf_vaxis_uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-ea62149739404a73c202b48a33bf6dd2af4bd9b0.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "zigimg-0.1.0-8_eo2ri_FwBqF5UYiggLz4IGjHJO_n9-B6gT9Ayqg8G4",
+   "evidence": [
+    {
+     "locator": "L112",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zf_vaxis_zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-c701c9f99779d7ddf594dcc6da8f858fd277d61f.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "jobs.linux-arm64.steps[1].run",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "ci",
+   "source_kind": "url",
+   "to": "pkg:artifact/zig-aarch64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-linux-0.17.1.tar.xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].run",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "ci",
+   "source_kind": "url",
+   "to": "pkg:artifact/zig-aarch64-macos-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-macos-0.17.1.tar.xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].run",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "ci",
+   "source_kind": "url",
+   "to": "pkg:artifact/zig-aarch64-macos-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-macos-0.17.1.tar.xz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "zig_js-0.0.0-rjCAV7-GAADvMTBL7lPMuvDk7xgS9PCMIZWiOUXLZSlj",
+   "evidence": [
+    {
+     "locator": "L61",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zig_js?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_js-3c23860e47fdcdc5af805efb7fd0bdac5fd3e9bc.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "zig_objc-0.0.0-Ir_Sp_4tAQDXtPi51nW_jD9LOEzBvU9lofwO9Pzi6IB4",
+   "evidence": [
+    {
+     "locator": "L55",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zig_objc?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_objc-3352c12a868f8787ab71bf2ca6eab9fcfb635c52.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "wayland-0.7.0-dev-lQa1klz9AQB87V0pMKMdm8JvyOx32XR9FxcWnw9wh6XZ",
+   "evidence": [
+    {
+     "locator": "L78",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zig_wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_wayland-27dda01712ddf3cb46ebd93380d88b01a7c828f8.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "zigimg-0.1.0-8_eo2sBLGACBebrhQZUwRliZNSUyDn6szp99eip_6-Rw",
+   "evidence": [
+    {
+     "locator": "L38",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-734fa919fb15b7917d4eb124f53600348f4ffa30.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "edge",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64.container",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": "edge",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/alpine@edge#"
+  },
+  {
+   "condition": null,
+   "constraint": "edge",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64-software.container",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": "edge",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/alpine@edge#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.build.steps[0].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64.steps[0].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64-software.steps[0].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.linux-arm64.steps[0].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v8.0.2",
+   "evidence": [
+    {
+     "locator": "jobs.release.steps[0].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "9000827ccba6bdab643e8b6fd33ac0654aef8333",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.2",
+   "evidence": [
+    {
+     "locator": "jobs.build.steps[6].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.2",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64.steps[8].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.2",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64-software.steps[7].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.2",
+   "evidence": [
+    {
+     "locator": "jobs.linux-arm64.steps[2].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v2.2.1",
+   "evidence": [
+    {
+     "locator": "jobs.build.steps[1].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "d1434d08867e3ee9daa34448df10607b98908d29",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29#"
+  },
+  {
+   "condition": null,
+   "constraint": "v2.2.1",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64.steps[3].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "d1434d08867e3ee9daa34448df10607b98908d29",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29#"
+  },
+  {
+   "condition": null,
+   "constraint": "v2.2.1",
+   "evidence": [
+    {
+     "locator": "jobs.linux-x64-software.steps[2].uses",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "d1434d08867e3ee9daa34448df10607b98908d29",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29#"
+  },
+  {
+   "condition": null,
+   "constraint": "./pkg/android-ndk",
+   "evidence": [
+    {
+     "locator": "L184",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/android_ndk#"
+  },
+  {
+   "condition": null,
+   "constraint": "./pkg/apple-sdk",
+   "evidence": [
+    {
+     "locator": "L183",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/dcimgui",
+   "evidence": [
+    {
+     "locator": "L133",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/dcimgui#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/fontconfig",
+   "evidence": [
+    {
+     "locator": "L134",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/fontconfig#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/freetype",
+   "evidence": [
+    {
+     "locator": "L135",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/freetype#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/glslang",
+   "evidence": [
+    {
+     "locator": "L150",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/glslang#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/gtk4-layer-shell",
+   "evidence": [
+    {
+     "locator": "L136",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/gtk4_layer_shell#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/harfbuzz",
+   "evidence": [
+    {
+     "locator": "L137",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/harfbuzz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/highway",
+   "evidence": [
+    {
+     "locator": "L138",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/highway#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/libintl",
+   "evidence": [
+    {
+     "locator": "L139",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/libintl#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/libpng",
+   "evidence": [
+    {
+     "locator": "L140",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/libpng#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/macos",
+   "evidence": [
+    {
+     "locator": "L141",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/macos#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/oniguruma",
+   "evidence": [
+    {
+     "locator": "L142",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/oniguruma#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/opengl",
+   "evidence": [
+    {
+     "locator": "L143",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/opengl#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/sentry",
+   "evidence": [
+    {
+     "locator": "L144",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/sentry#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/simdutf",
+   "evidence": [
+    {
+     "locator": "L145",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/simdutf#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/spirv-cross",
+   "evidence": [
+    {
+     "locator": "L151",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/spirv_cross#"
+  },
+  {
+   "condition": null,
+   "constraint": "./pkg/translate-c",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/wuffs",
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/wuffs#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "./pkg/zlib",
+   "evidence": [
+    {
+     "locator": "L147",
+     "path": "build.zig.zon"
+    }
+   ],
+   "from": ".:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/zlib#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-allocator/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-allocator:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-build-info/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-build-info:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "main",
+   "evidence": [
+    {
+     "locator": "L50",
+     "path": "example/c-vt-cmake-cross/CMakeLists.txt"
+    }
+   ],
+   "from": "example/c-vt-cmake-cross:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "build",
+   "source_kind": "git",
+   "to": "pkg:git/ghostty?vcs_url=https%3A%2F%2Fgithub.com%2Fghostty-org%2Fghostty.git#"
+  },
+  {
+   "condition": null,
+   "constraint": "main",
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "example/c-vt-cmake-static/CMakeLists.txt"
+    }
+   ],
+   "from": "example/c-vt-cmake-static:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "build",
+   "source_kind": "git",
+   "to": "pkg:git/ghostty?vcs_url=https%3A%2F%2Fgithub.com%2Fghostty-org%2Fghostty.git#"
+  },
+  {
+   "condition": null,
+   "constraint": "main",
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "example/c-vt-cmake/CMakeLists.txt"
+    }
+   ],
+   "from": "example/c-vt-cmake:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "build",
+   "source_kind": "git",
+   "to": "pkg:git/ghostty?vcs_url=https%3A%2F%2Fgithub.com%2Fghostty-org%2Fghostty.git#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-color-scheme/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-color-scheme:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-colors/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-colors:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "example/c-vt-compression/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-compression:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-effects/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-effects:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-encode-focus/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-encode-focus:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-encode-key/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-encode-key:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-encode-mouse/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-encode-mouse:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-formatter/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-formatter:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-grid-ref-tracked/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-grid-ref-tracked:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-grid-traverse/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-grid-traverse:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-hello/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-hello:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-kitty-graphics/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-kitty-graphics:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-modes/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-modes:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-osc/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-osc:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-paste/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-paste:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-render/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-render:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-search/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-search:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-selection-gesture/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-selection-gesture:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-selection/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-selection:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-sgr/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-sgr:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-size-report/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-size-report:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "example/c-vt-snapshot/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-snapshot:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-static/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-static:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/c-vt-stream/build.zig.zon"
+    }
+   ],
+   "from": "example/c-vt-stream:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/cpp-vt-stream/build.zig.zon"
+    }
+   ],
+   "from": "example/cpp-vt-stream:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "example/zig-formatter/build.zig.zon"
+    }
+   ],
+   "from": "example/zig-formatter:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "example/zig-vt-stream/build.zig.zon"
+    }
+   ],
+   "from": "example/zig-vt-stream:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "example/zig-vt/build.zig.zon"
+    }
+   ],
+   "from": "example/zig-vt:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "pins[0]",
+     "path": "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+    }
+   ],
+   "from": "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm:swift",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.9.6",
+   "scope": "runtime",
+   "source_kind": "git",
+   "to": "pkg:swift/sparkle@2.9.6?vcs_url=https%3A%2F%2Fgithub.com%2Fsparkle-project%2FSparkle#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AALw2uwF_03u4JRkZwRLc3Y9hakkYV7NKRR9-RIZJ",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "pkg/breakpad/build.zig.zon"
+    }
+   ],
+   "from": "pkg/breakpad:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/breakpad?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fbreakpad-b99f444ba5f6b98cac261cbb391d8766b34a5918.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "pkg/breakpad/build.zig.zon"
+    }
+   ],
+   "from": "pkg/breakpad:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AANT61wB--nJ95Gj_ctmzAtcjloZ__hRqNw5lC1Kr",
+   "evidence": [
+    {
+     "locator": "L9",
+     "path": "pkg/dcimgui/build.zig.zon"
+    }
+   ],
+   "from": "pkg/dcimgui:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/bindings?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FDearBindings_v0.17_ImGui_v1.92.5-docking.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAEbOfQBnvcFcCX2W5z7tDaN8vaNZGamEQtNOe0UI",
+   "evidence": [
+    {
+     "locator": "L16",
+     "path": "pkg/dcimgui/build.zig.zon"
+    }
+   ],
+   "from": "pkg/dcimgui:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/imgui?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAEbOfQBnvcFcCX2W5z7tDaN8vaNZGamEQtNOe0UI.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L23",
+     "path": "pkg/dcimgui/build.zig.zon"
+    }
+   ],
+   "from": "pkg/dcimgui:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../freetype",
+   "evidence": [
+    {
+     "locator": "L24",
+     "path": "pkg/dcimgui/build.zig.zon"
+    }
+   ],
+   "from": "pkg/dcimgui:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/freetype#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L25",
+     "path": "pkg/dcimgui/build.zig.zon"
+    }
+   ],
+   "from": "pkg/dcimgui:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAOgqbADacob-q2_DMQlmgaG4xKHRuW-6PJ4oJzMZ",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "pkg/fontconfig/build.zig.zon"
+    }
+   ],
+   "from": "pkg/fontconfig:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/fontconfig?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAOgqbADacob-q2_DMQlmgaG4xKHRuW-6PJ4oJzMZ.tar.xz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "../freetype",
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "pkg/fontconfig/build.zig.zon"
+    }
+   ],
+   "from": "pkg/fontconfig:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/freetype#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "../libxml2",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/fontconfig/build.zig.zon"
+    }
+   ],
+   "from": "pkg/fontconfig:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/libxml2#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/fontconfig/build.zig.zon"
+    }
+   ],
+   "from": "pkg/fontconfig:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAKLKpwC4H27Ps_0iL3bPkQb-z6ZVSrB-x_3EEkub",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/freetype/build.zig.zon"
+    }
+   ],
+   "from": "pkg/freetype:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/freetype?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ffreetype-1220b81f6ecfb3fd222f76cf9106fecfa6554ab07ec7fdc4124b9bb063ae2adf969d.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/freetype/build.zig.zon"
+    }
+   ],
+   "from": "pkg/freetype:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../libpng",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/freetype/build.zig.zon"
+    }
+   ],
+   "from": "pkg/freetype:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/libpng#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L16",
+     "path": "pkg/freetype/build.zig.zon"
+    }
+   ],
+   "from": "pkg/freetype:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": null,
+   "constraint": "../zlib",
+   "evidence": [
+    {
+     "locator": "L17",
+     "path": "pkg/freetype/build.zig.zon"
+    }
+   ],
+   "from": "pkg/freetype:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/zlib#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AABzkUgISeKGgXAzgtutgJsZc0-kkeqBBscJgMkvy",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/glslang/build.zig.zon"
+    }
+   ],
+   "from": "pkg/glslang:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/glslang?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fglslang-12201278a1a05c0ce0b6eb6026c65cd3e9247aa041b1c260324bf29cee559dd23ba1.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/glslang/build.zig.zon"
+    }
+   ],
+   "from": "pkg/glslang:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/glslang/build.zig.zon"
+    }
+   ],
+   "from": "pkg/glslang:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AALiNBAA-_0gprYr92CjrMj1I5bqNu0TSJOnjFNSr",
+   "evidence": [
+    {
+     "locator": "L9",
+     "path": "pkg/gtk4-layer-shell/build.zig.zon"
+    }
+   ],
+   "from": "pkg/gtk4-layer-shell:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/gtk4_layer_shell?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgtk4-layer-shell-1.1.0.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAKw-DAAaV8bOAAGqA0-oD7o-HNIlPFYKRXSPT03S",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/gtk4-layer-shell/build.zig.zon"
+    }
+   ],
+   "from": "pkg/gtk4-layer-shell:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-protocols-258d8f88f2c8c25a830c6316f87d23ce1a0f12d9.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "pkg/gtk4-layer-shell/build.zig.zon"
+    }
+   ],
+   "from": "pkg/gtk4-layer-shell:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAG02ugUcWec-Ndp-i7JTsJ0dgF8nnJRUInkGLG7G",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/harfbuzz/build.zig.zon"
+    }
+   ],
+   "from": "pkg/harfbuzz:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/harfbuzz?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fharfbuzz-11.0.0.tar.xz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L16",
+     "path": "pkg/harfbuzz/build.zig.zon"
+    }
+   ],
+   "from": "pkg/harfbuzz:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../freetype",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/harfbuzz/build.zig.zon"
+    }
+   ],
+   "from": "pkg/harfbuzz:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/freetype#"
+  },
+  {
+   "condition": null,
+   "constraint": "../macos",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/harfbuzz/build.zig.zon"
+    }
+   ],
+   "from": "pkg/harfbuzz:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/macos#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L17",
+     "path": "pkg/harfbuzz/build.zig.zon"
+    }
+   ],
+   "from": "pkg/harfbuzz:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAGmZhABbsPJLfbqrh6JTHsXhY6qCaLAQyx25e0XE",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/highway/build.zig.zon"
+    }
+   ],
+   "from": "pkg/highway:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/highway?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fhighway-66486a10623fa0d72fe91260f96c892e41aceb06.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../android-ndk",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/highway/build.zig.zon"
+    }
+   ],
+   "from": "pkg/highway:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/android_ndk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/highway/build.zig.zon"
+    }
+   ],
+   "from": "pkg/highway:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AADcZkgn4cMhTUpIz6mShCKyqqB-NBtf_S2bHaTC-",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "pkg/libintl/build.zig.zon"
+    }
+   ],
+   "from": "pkg/libintl:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/gettext?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgettext-0.24.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "pkg/libintl/build.zig.zon"
+    }
+   ],
+   "from": "pkg/libintl:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAJrvXQCqAT8Mg9o_tk6m0yf5Fz-gCNEOKLyTSerD",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/libpng/build.zig.zon"
+    }
+   ],
+   "from": "pkg/libpng:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/libpng?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibpng-1220aa013f0c83da3fb64ea6d327f9173fa008d10e28bc9349eac3463457723b1c66.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/libpng/build.zig.zon"
+    }
+   ],
+   "from": "pkg/libpng:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "../zlib",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/libpng/build.zig.zon"
+    }
+   ],
+   "from": "pkg/libpng:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/zlib#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAG3RoQEyRC2Vw7Qoro5SYBf62IHn3HjqtNVY6aWK",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "pkg/libxml2/build.zig.zon"
+    }
+   ],
+   "from": "pkg/libxml2:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/libxml2?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxml2-2.11.5.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "pkg/macos/build.zig.zon"
+    }
+   ],
+   "from": "pkg/macos:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/macos/build.zig.zon"
+    }
+   ],
+   "from": "pkg/macos:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAHjwMQDBXnLq3Q2QhaivE0kE2aD138vtX2Bq1g7c",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/oniguruma/build.zig.zon"
+    }
+   ],
+   "from": "pkg/oniguruma:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/oniguruma?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Foniguruma-1220c15e72eadd0d9085a8af134904d9a0f5dfcbed5f606ad60edc60ebeccd9706bb.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/oniguruma/build.zig.zon"
+    }
+   ],
+   "from": "pkg/oniguruma:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/oniguruma/build.zig.zon"
+    }
+   ],
+   "from": "pkg/oniguruma:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/opengl/build.zig.zon"
+    }
+   ],
+   "from": "pkg/opengl:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAPlZGwBEa-gxrcypGBZ2R8Bse4JYSfo_ul8i2jlG",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/sentry/build.zig.zon"
+    }
+   ],
+   "from": "pkg/sentry:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/sentry?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fsentry-1220446be831adcca918167647c06c7b825849fa3fba5f22da394667974537a9c77e.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/sentry/build.zig.zon"
+    }
+   ],
+   "from": "pkg/sentry:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "../breakpad",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/sentry/build.zig.zon"
+    }
+   ],
+   "from": "pkg/sentry:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/breakpad#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L16",
+     "path": "pkg/sentry/build.zig.zon"
+    }
+   ],
+   "from": "pkg/sentry:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": null,
+   "constraint": "../android-ndk",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/simdutf/build.zig.zon"
+    }
+   ],
+   "from": "pkg/simdutf:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/android_ndk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "pkg/simdutf/build.zig.zon"
+    }
+   ],
+   "from": "pkg/simdutf:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AANb6pwD7O1WG6L5nvD_rNMvnSc9Cpg1ijSlTYywv",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/spirv-cross/build.zig.zon"
+    }
+   ],
+   "from": "pkg/spirv-cross:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/spirv_cross?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fspirv_cross-1220fb3b5586e8be67bc3feb34cbe749cf42a60d628d2953632c2f8141302748c8da.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/spirv-cross/build.zig.zon"
+    }
+   ],
+   "from": "pkg/spirv-cross:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L15",
+     "path": "pkg/spirv-cross/build.zig.zon"
+    }
+   ],
+   "from": "pkg/spirv-cross:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": null,
+   "constraint": "translate_c-2.0.0-Q_BUWltOBwBYABF84EUL208pIFeUIwbBs29FmVBaafN5",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/translate-c/build.zig.zon"
+    }
+   ],
+   "from": "pkg/translate-c:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/translate_c?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ftranslate_c-02ff0c523fb92a38939b04d0145c4a9602a74d56.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "pkg/translate-c/build.zig.zon"
+    }
+   ],
+   "from": "pkg/translate-c:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AADYiAAB_80AWnH1AxXC0tql9thT-R-DYO1gBqTLc",
+   "evidence": [
+    {
+     "locator": "L16",
+     "path": "pkg/wuffs/build.zig.zon"
+    }
+   ],
+   "from": "pkg/wuffs:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/pixels?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fpixels-12207ff340169c7d40c570b4b6a97db614fe47e0d83b5801a932dcd44917424c8806.tar.gz#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAP5JWgCGP_AD0teWpa4krRvE9VPZzvviGdbmN4jI",
+   "evidence": [
+    {
+     "locator": "L9",
+     "path": "pkg/wuffs/build.zig.zon"
+    }
+   ],
+   "from": "pkg/wuffs:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/wuffs?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwuffs-7411f488fe2e2c205c3d3b3d28638b7356522930.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../translate-c",
+   "evidence": [
+    {
+     "locator": "L6",
+     "path": "pkg/wuffs/build.zig.zon"
+    }
+   ],
+   "from": "pkg/wuffs:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/translate_c#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAB0eQwD-0MdOEBmz7intriBReIsIDNlukNVoNu6o",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "pkg/zlib/build.zig.zon"
+    }
+   ],
+   "from": "pkg/zlib:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/zlib?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzlib-1220fed0c74e1019b3ee29edae2051788b080cd96e90d56836eea857b0b966742efb.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../apple-sdk",
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "pkg/zlib/build.zig.zon"
+    }
+   ],
+   "from": "pkg/zlib:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/apple_sdk#"
+  },
+  {
+   "condition": null,
+   "constraint": "13",
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "src/build/docker/debian/Dockerfile"
+    }
+   ],
+   "from": "src/build/docker/debian:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": "13",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/library/debian@13#"
+  },
+  {
+   "condition": "lazy",
+   "constraint": "N-V-__8AAI-LBgCUqCgRq57XEuFQjO0meZpSe-iw8YCZWMPx",
+   "evidence": [
+    {
+     "locator": "L9",
+     "path": "test/esctest/build.zig.zon"
+    }
+   ],
+   "from": "test/esctest:repo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:artifact/esctest2?download_url=https%3A%2F%2Fgithub.com%2FThomasDickey%2Fesctest2%2Farchive%2F2798f12149a19c3295e9b4853ab2da4b2eff1b2b.tar.gz#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "test/esctest/build.zig.zon"
+    }
+   ],
+   "from": "test/esctest:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../pkg/afl++",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "test/fuzz-libghostty/build.zig.zon"
+    }
+   ],
+   "from": "test/fuzz-libghostty:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/afl#"
+  },
+  {
+   "condition": null,
+   "constraint": "../../",
+   "evidence": [
+    {
+     "locator": "L7",
+     "path": "test/fuzz-libghostty/build.zig.zon"
+    }
+   ],
+   "from": "test/fuzz-libghostty:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/ghostty#"
+  }
+ ],
+ "inputs": [
+  {
+   "blob": "16bd75d307e1cff18488593aa71e631f7ea44a99",
+   "path": ".github/scripts/check-translations.sh"
+  },
+  {
+   "blob": "e3bd1b4e34f7811b45ec763cf3ba7b67b34501ce",
+   "path": ".github/scripts/freebsd-vm/test-freebsd.sh"
+  },
+  {
+   "blob": "f418a162e73aa16a93dc5e678b398b8bf571f448",
+   "path": ".github/scripts/freebsd-vm/vm.sh"
+  },
+  {
+   "blob": "11f23c2acd21947121edeb83c2d64aea48007c7d",
+   "path": ".github/scripts/lib-docs-site.sh"
+  },
+  {
+   "blob": "c2ca511bd2e760b283beb860da455f61e7555f35",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "54e8d07c9f17ef08ea004f8892fb8cb4a6d9d85e",
+   "path": ".github/workflows/release.yml"
+  },
+  {
+   "blob": "27f62745dbcaf8b36386bd3ac8ef48a5b6b85a04",
+   "path": ".github/workflows/test.yml"
+  },
+  {
+   "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+   "path": ".gitmodules"
+  },
+  {
+   "blob": "ca81a0fbc49c21ff5873f46871def3fbb26b541a",
+   "path": "CMakeLists.txt"
+  },
+  {
+   "blob": "c9aba9e2a7454674e5faf34161491a6511632259",
+   "path": "Makefile"
+  },
+  {
+   "blob": "e4078c221a4707290f8c47a07feb8ebed501853d",
+   "path": "build.zig.zon"
+  },
+  {
+   "blob": "fd99e7008106d621fe8e9ce12f98ef7493239dbd",
+   "path": "dist/linux/build-rust-fontconfig.sh"
+  },
+  {
+   "blob": "7b10a69e2d60c2eb2e77328d48e5e1af66546eb7",
+   "path": "dist/macos/make-dmg.sh"
+  },
+  {
+   "blob": "c77e0beb427f80cc39e2151b3383c0d29aef91fe",
+   "path": "example/c-vt-allocator/build.zig.zon"
+  },
+  {
+   "blob": "ab58efd3fa30396b8dff84516736f90ebad72fb3",
+   "path": "example/c-vt-build-info/build.zig.zon"
+  },
+  {
+   "blob": "f0cc368541438c75f6307358815c754a3896f2c3",
+   "path": "example/c-vt-cmake-cross/CMakeLists.txt"
+  },
+  {
+   "blob": "bb4b1ac35f11925c4ab20bd1c21fae2ecaa4b801",
+   "path": "example/c-vt-cmake-static/CMakeLists.txt"
+  },
+  {
+   "blob": "ff6e35bc1a57a239dad0af6793c04c64c18ce62c",
+   "path": "example/c-vt-cmake/CMakeLists.txt"
+  },
+  {
+   "blob": "bbb164640be5ca4e1eb1f2ee6064cad4a30895f6",
+   "path": "example/c-vt-color-scheme/build.zig.zon"
+  },
+  {
+   "blob": "a67766c579ade082bce95b16b687a8386e1f77b1",
+   "path": "example/c-vt-colors/build.zig.zon"
+  },
+  {
+   "blob": "edcb7c57be68f5ec545f551ce66259c797f54e14",
+   "path": "example/c-vt-compression/build.zig.zon"
+  },
+  {
+   "blob": "6550ca0bd6ab0fc4ae08b78b4b14edd2827cd94d",
+   "path": "example/c-vt-effects/build.zig.zon"
+  },
+  {
+   "blob": "1997a42432a60ab41f3fb1c163e1ec21cf1866a5",
+   "path": "example/c-vt-encode-focus/build.zig.zon"
+  },
+  {
+   "blob": "bf7d1dbf297fd9ee3e4a18495bab4f1fc650d643",
+   "path": "example/c-vt-encode-key/build.zig.zon"
+  },
+  {
+   "blob": "794ae070e05f90763d4b6be048a95cc0db782902",
+   "path": "example/c-vt-encode-mouse/build.zig.zon"
+  },
+  {
+   "blob": "38ab5875958ee8d17ef437c7d374b287f35dedb0",
+   "path": "example/c-vt-formatter/build.zig.zon"
+  },
+  {
+   "blob": "282648c055af94a19392d944531a959e324f6f4d",
+   "path": "example/c-vt-grid-ref-tracked/build.zig.zon"
+  },
+  {
+   "blob": "b0922e90a547aca31786b4e73e02a1f180938f51",
+   "path": "example/c-vt-grid-traverse/build.zig.zon"
+  },
+  {
+   "blob": "d6cba063d95081440847b4eef612fb31c21f152d",
+   "path": "example/c-vt-hello/build.zig.zon"
+  },
+  {
+   "blob": "a0d19dc64929a0d205ca658023a5f288d225cbea",
+   "path": "example/c-vt-kitty-graphics/build.zig.zon"
+  },
+  {
+   "blob": "5846e82a507c23a9a74af0a58f83bf9c8bf13d4e",
+   "path": "example/c-vt-modes/build.zig.zon"
+  },
+  {
+   "blob": "c642402285dac6ee68bb190de155c3c0946ea1dd",
+   "path": "example/c-vt-osc/build.zig.zon"
+  },
+  {
+   "blob": "8469550a659eef8a77bb94b11d70b0ec631212d7",
+   "path": "example/c-vt-paste/build.zig.zon"
+  },
+  {
+   "blob": "5297b45d7739b6f369e7c6e2c11679b67850014b",
+   "path": "example/c-vt-render/build.zig.zon"
+  },
+  {
+   "blob": "92a14d3833ae90eb054358368cf6ae0e1b566c09",
+   "path": "example/c-vt-search/build.zig.zon"
+  },
+  {
+   "blob": "4c966956e33aeffcfedb62fa6f7544cb06f558a2",
+   "path": "example/c-vt-selection-gesture/build.zig.zon"
+  },
+  {
+   "blob": "380679df7fca0e91e8a3fafeac4f207c58164cef",
+   "path": "example/c-vt-selection/build.zig.zon"
+  },
+  {
+   "blob": "513331f43b1be4e0c7de51ecc09552f0ee077ac6",
+   "path": "example/c-vt-sgr/build.zig.zon"
+  },
+  {
+   "blob": "a8e347a5f92ab720a13a2398e55e451009b22070",
+   "path": "example/c-vt-size-report/build.zig.zon"
+  },
+  {
+   "blob": "04b185c7c32f2ab9c83b2724e55e16578da6a769",
+   "path": "example/c-vt-snapshot/build.zig.zon"
+  },
+  {
+   "blob": "91255e18c420d7ffbfcc62e38f8f68716ed954c1",
+   "path": "example/c-vt-static/build.zig.zon"
+  },
+  {
+   "blob": "7698f92fe6b5a8cb58960649ced36f8b46197cfd",
+   "path": "example/c-vt-stream/build.zig.zon"
+  },
+  {
+   "blob": "8ea93b9c9c2d175441955851fb6c2e0ae5923357",
+   "path": "example/cpp-vt-stream/build.zig.zon"
+  },
+  {
+   "blob": "46c1ce21b7e398bd22f470a4ea9553712bff3e3f",
+   "path": "example/swift-vt-xcframework/Package.swift"
+  },
+  {
+   "blob": "87a63931c55854221b483852665d7afa47db537c",
+   "path": "example/zig-formatter/build.zig.zon"
+  },
+  {
+   "blob": "7ee89ed2a77331c286d4c3fc2af0dde9086cde1b",
+   "path": "example/zig-vt-stream/build.zig.zon"
+  },
+  {
+   "blob": "c4f2bdae1a7f88ee78954d08d071213e1d63b010",
+   "path": "example/zig-vt/build.zig.zon"
+  },
+  {
+   "blob": "10dcf6939fd4727b755ad76c92e711eed86d9fd5",
+   "path": "flake.nix"
+  },
+  {
+   "blob": "ac3fa03b5aec4618f148985db41a5a0d029d3b28",
+   "path": "host/wayland-fake/run.sh"
+  },
+  {
+   "blob": "ce2b633e8ba8dbabb5675e7bb15332f55fa530d4",
+   "path": "host/wayland-vm/vm.sh"
+  },
+  {
+   "blob": "5ed508c3671b791a758f3ba68ca52945c2bd5191",
+   "path": "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+  },
+  {
+   "blob": "8325981c0901cc5db5c2234394e41c5e631f026d",
+   "path": "nix/build-support/check-blueprints.sh"
+  },
+  {
+   "blob": "3c01fc69015bf85024f101c6b4952e57869f96e7",
+   "path": "nix/build-support/check-zig-cache.sh"
+  },
+  {
+   "blob": "d50542cdbcb0c884f1946002f0c1c5adf2e0536e",
+   "path": "nix/build-support/fetch-zig-cache.sh"
+  },
+  {
+   "blob": "293a3f711d6f2d5f5620eb023c2949da2da94ef2",
+   "path": "nix/build-support/gen-lib-vt-deps.sh"
+  },
+  {
+   "blob": "1fd3d5a4b688844926d78a7cda6667dcca03c71b",
+   "path": "pkg/afl++/build.zig.zon"
+  },
+  {
+   "blob": "eb0de68201ea736f947daadb47971df7a684266b",
+   "path": "pkg/android-ndk/build.zig.zon"
+  },
+  {
+   "blob": "4fa12c23491bc38f8c24a2504326a04dacd351c2",
+   "path": "pkg/apple-sdk/build.zig.zon"
+  },
+  {
+   "blob": "0d6c54c93cb3c7a9bc640f26ce3c85fdde3e0556",
+   "path": "pkg/breakpad/build.zig.zon"
+  },
+  {
+   "blob": "90eb0057dec1ff2c1cbebb8e88df9111a542816c",
+   "path": "pkg/dcimgui/build.zig.zon"
+  },
+  {
+   "blob": "670723498b3fb995fffe842f8a305750d1d7dd30",
+   "path": "pkg/fontconfig/build.zig.zon"
+  },
+  {
+   "blob": "b0244365ddde37401d80920671e8748cf31d23f9",
+   "path": "pkg/freetype/build.zig.zon"
+  },
+  {
+   "blob": "1582d10118221dd87c92af3f53f04de303dd2293",
+   "path": "pkg/glslang/build.zig.zon"
+  },
+  {
+   "blob": "104744091e34d8817d0d3d593667c675d02be276",
+   "path": "pkg/gtk4-layer-shell/build.zig.zon"
+  },
+  {
+   "blob": "1722321e81a0a5045b41f73e626ec402de7d495e",
+   "path": "pkg/harfbuzz/build.zig.zon"
+  },
+  {
+   "blob": "cc7a63a2db663720b74350e40923cde93f599baa",
+   "path": "pkg/highway/build.zig.zon"
+  },
+  {
+   "blob": "a32e200981b5df4d49b6174f9372f6d27c67921b",
+   "path": "pkg/libintl/build.zig.zon"
+  },
+  {
+   "blob": "b5153ff740a5413d670959888f3c0bf546c5764d",
+   "path": "pkg/libpng/build.zig.zon"
+  },
+  {
+   "blob": "f932835aabc0781c8c60716db7d99bbba6f809e8",
+   "path": "pkg/libxml2/build.zig.zon"
+  },
+  {
+   "blob": "b29f41bf57bb54f9e831867dd328f4a7d1dc0d70",
+   "path": "pkg/macos/build.zig.zon"
+  },
+  {
+   "blob": "f90caa5fa7414cdb2245656e64687d6170fd7dac",
+   "path": "pkg/oniguruma/build.zig.zon"
+  },
+  {
+   "blob": "ae67d943c088225332b92ff297db667f8897c726",
+   "path": "pkg/opengl/build.zig.zon"
+  },
+  {
+   "blob": "63035e8940cb7eac7c62dcfed6c8205b1b14b353",
+   "path": "pkg/sentry/build.zig.zon"
+  },
+  {
+   "blob": "a2810dac79cc77c5617bb670d7085f01fa6d162c",
+   "path": "pkg/simdutf/build.zig.zon"
+  },
+  {
+   "blob": "5320c78a0e1ce4f04d3a4bcaff0f0a119cd1f2e5",
+   "path": "pkg/spirv-cross/build.zig.zon"
+  },
+  {
+   "blob": "8d3e94933f2e9bb77c4eb5f143ae87ecd4a5234b",
+   "path": "pkg/translate-c/build.zig.zon"
+  },
+  {
+   "blob": "cafd419f7f10d914eb46f11543c160a197ef016b",
+   "path": "pkg/wuffs/build.zig.zon"
+  },
+  {
+   "blob": "d7ce6012e8c2c057f99dc69095db66ca2a7e676c",
+   "path": "pkg/zlib/build.zig.zon"
+  },
+  {
+   "blob": "594db83487face11b0ef11a462bdaaa5c4333a0f",
+   "path": "snap/local/launcher"
+  },
+  {
+   "blob": "ffeef3d6a375edcbb50b9b32ec30bebfa29ed14c",
+   "path": "src/build/docker/debian/Dockerfile"
+  },
+  {
+   "blob": "0ca8845421b36067191279bd62a6e81bed6b10a5",
+   "path": "src/build/libsystem_override.sh"
+  },
+  {
+   "blob": "ebf79d5603433f342a55f99554159cf21f8233cb",
+   "path": "src/shell-integration/bash/bash-preexec.sh"
+  },
+  {
+   "blob": "48d1602341a7a748cb52c37f85e97ec218475803",
+   "path": "src/shell-integration/bash/ghostty.bash"
+  },
+  {
+   "blob": "29d60d46cb07d28760880c0f8ee543883a212ae0",
+   "path": "test/abi/check.sh"
+  },
+  {
+   "blob": "822296a4882b8546163ba345242ef528ab6b8af0",
+   "path": "test/esctest/build.zig.zon"
+  },
+  {
+   "blob": "04199f995caa61ecf2e2285fe63e0d18f320d86d",
+   "path": "test/fuzz-libghostty/build.zig.zon"
+  },
+  {
+   "blob": "0033607971b663ebb40f574f23c505a33a2f0339",
+   "path": "test/fuzz-libghostty/corpus/sanitize-filenames.sh"
+  },
+  {
+   "blob": "20b0b08de010c1466bb8686938c89682967471cf",
+   "path": "test/sound-mute/run.sh"
+  },
+  {
+   "blob": "5cffd05205492218f00a66f76a9367100656301a",
+   "path": "test/ucs-detect.sh"
+  }
+ ],
+ "inputs_fingerprint": "ddbd8464e43c950703a44a246aa2dde8ab31330a48701c94b600288293134cac",
+ "instances": [
+  {
+   "commit": null,
+   "component": "pkg:artifact/aro?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Faro-d0c8c4d9c55daa7ef6e40cf0f630a5b5e900989b.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/aro?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Faro-d0c8c4d9c55daa7ef6e40cf0f630a5b5e900989b.tar.gz#",
+   "purl": "pkg:artifact/aro?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Faro-d0c8c4d9c55daa7ef6e40cf0f630a5b5e900989b.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/bindings?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FDearBindings_v0.17_ImGui_v1.92.5-docking.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/bindings?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FDearBindings_v0.17_ImGui_v1.92.5-docking.tar.gz#",
+   "purl": "pkg:artifact/bindings?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FDearBindings_v0.17_ImGui_v1.92.5-docking.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/breakpad?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fbreakpad-b99f444ba5f6b98cac261cbb391d8766b34a5918.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/breakpad?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fbreakpad-b99f444ba5f6b98cac261cbb391d8766b34a5918.tar.gz#",
+   "purl": "pkg:artifact/breakpad?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fbreakpad-b99f444ba5f6b98cac261cbb391d8766b34a5918.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/esctest2?download_url=https%3A%2F%2Fgithub.com%2FThomasDickey%2Fesctest2%2Farchive%2F2798f12149a19c3295e9b4853ab2da4b2eff1b2b.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/esctest2?download_url=https%3A%2F%2Fgithub.com%2FThomasDickey%2Fesctest2%2Farchive%2F2798f12149a19c3295e9b4853ab2da4b2eff1b2b.tar.gz#",
+   "purl": "pkg:artifact/esctest2?download_url=https%3A%2F%2Fgithub.com%2FThomasDickey%2Fesctest2%2Farchive%2F2798f12149a19c3295e9b4853ab2da4b2eff1b2b.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/fontconfig?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAOgqbADacob-q2_DMQlmgaG4xKHRuW-6PJ4oJzMZ.tar.xz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/fontconfig?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAOgqbADacob-q2_DMQlmgaG4xKHRuW-6PJ4oJzMZ.tar.xz#",
+   "purl": "pkg:artifact/fontconfig?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAOgqbADacob-q2_DMQlmgaG4xKHRuW-6PJ4oJzMZ.tar.xz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/freetype?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ffreetype-1220b81f6ecfb3fd222f76cf9106fecfa6554ab07ec7fdc4124b9bb063ae2adf969d.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/freetype?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ffreetype-1220b81f6ecfb3fd222f76cf9106fecfa6554ab07ec7fdc4124b9bb063ae2adf969d.tar.gz#",
+   "purl": "pkg:artifact/freetype?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ffreetype-1220b81f6ecfb3fd222f76cf9106fecfa6554ab07ec7fdc4124b9bb063ae2adf969d.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/gettext?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgettext-0.24.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/gettext?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgettext-0.24.tar.gz#",
+   "purl": "pkg:artifact/gettext?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgettext-0.24.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/glslang?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fglslang-12201278a1a05c0ce0b6eb6026c65cd3e9247aa041b1c260324bf29cee559dd23ba1.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/glslang?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fglslang-12201278a1a05c0ce0b6eb6026c65cd3e9247aa041b1c260324bf29cee559dd23ba1.tar.gz#",
+   "purl": "pkg:artifact/glslang?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fglslang-12201278a1a05c0ce0b6eb6026c65cd3e9247aa041b1c260324bf29cee559dd23ba1.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/gobject?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgobject-2026-10-02-38-1.tar.zst",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/gobject?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgobject-2026-10-02-38-1.tar.zst#",
+   "purl": "pkg:artifact/gobject?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgobject-2026-10-02-38-1.tar.zst",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/gtk4_layer_shell?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgtk4-layer-shell-1.1.0.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/gtk4_layer_shell?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgtk4-layer-shell-1.1.0.tar.gz#",
+   "purl": "pkg:artifact/gtk4_layer_shell?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fgtk4-layer-shell-1.1.0.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/harfbuzz?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fharfbuzz-11.0.0.tar.xz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/harfbuzz?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fharfbuzz-11.0.0.tar.xz#",
+   "purl": "pkg:artifact/harfbuzz?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fharfbuzz-11.0.0.tar.xz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/highway?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fhighway-66486a10623fa0d72fe91260f96c892e41aceb06.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/highway?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fhighway-66486a10623fa0d72fe91260f96c892e41aceb06.tar.gz#",
+   "purl": "pkg:artifact/highway?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fhighway-66486a10623fa0d72fe91260f96c892e41aceb06.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/imgui?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAEbOfQBnvcFcCX2W5z7tDaN8vaNZGamEQtNOe0UI.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/imgui?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAEbOfQBnvcFcCX2W5z7tDaN8vaNZGamEQtNOe0UI.tar.gz#",
+   "purl": "pkg:artifact/imgui?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAEbOfQBnvcFcCX2W5z7tDaN8vaNZGamEQtNOe0UI.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/iterm2_themes?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fghostty-themes-release-20261116-150709-494b809.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/iterm2_themes?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fghostty-themes-release-20261116-150709-494b809.tgz#",
+   "purl": "pkg:artifact/iterm2_themes?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fghostty-themes-release-20261116-150709-494b809.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/jetbrains_mono?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FJetBrainsMono-2.304.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/jetbrains_mono?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FJetBrainsMono-2.304.tar.gz#",
+   "purl": "pkg:artifact/jetbrains_mono?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FJetBrainsMono-2.304.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/libpng?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibpng-1220aa013f0c83da3fb64ea6d327f9173fa008d10e28bc9349eac3463457723b1c66.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/libpng?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibpng-1220aa013f0c83da3fb64ea6d327f9173fa008d10e28bc9349eac3463457723b1c66.tar.gz#",
+   "purl": "pkg:artifact/libpng?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibpng-1220aa013f0c83da3fb64ea6d327f9173fa008d10e28bc9349eac3463457723b1c66.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/libxev?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxev-819ffa180ca20e31c7eded74e2e1aceb1eab557f.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/libxev?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxev-819ffa180ca20e31c7eded74e2e1aceb1eab557f.tar.gz#",
+   "purl": "pkg:artifact/libxev?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxev-819ffa180ca20e31c7eded74e2e1aceb1eab557f.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/libxml2?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxml2-2.11.5.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/libxml2?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxml2-2.11.5.tar.gz#",
+   "purl": "pkg:artifact/libxml2?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Flibxml2-2.11.5.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/nerd_fonts_symbols_only?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FNerdFontsSymbolsOnly-3.4.0.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/nerd_fonts_symbols_only?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FNerdFontsSymbolsOnly-3.4.0.tar.gz#",
+   "purl": "pkg:artifact/nerd_fonts_symbols_only?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FNerdFontsSymbolsOnly-3.4.0.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/oniguruma?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Foniguruma-1220c15e72eadd0d9085a8af134904d9a0f5dfcbed5f606ad60edc60ebeccd9706bb.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/oniguruma?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Foniguruma-1220c15e72eadd0d9085a8af134904d9a0f5dfcbed5f606ad60edc60ebeccd9706bb.tar.gz#",
+   "purl": "pkg:artifact/oniguruma?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Foniguruma-1220c15e72eadd0d9085a8af134904d9a0f5dfcbed5f606ad60edc60ebeccd9706bb.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/pixels?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fpixels-12207ff340169c7d40c570b4b6a97db614fe47e0d83b5801a932dcd44917424c8806.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/pixels?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fpixels-12207ff340169c7d40c570b4b6a97db614fe47e0d83b5801a932dcd44917424c8806.tar.gz#",
+   "purl": "pkg:artifact/pixels?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fpixels-12207ff340169c7d40c570b4b6a97db614fe47e0d83b5801a932dcd44917424c8806.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/plasma_wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fplasma_wayland_protocols-12207e0851c12acdeee0991e893e0132fc87bb763969a585dc16ecca33e88334c566.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/plasma_wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fplasma_wayland_protocols-12207e0851c12acdeee0991e893e0132fc87bb763969a585dc16ecca33e88334c566.tar.gz#",
+   "purl": "pkg:artifact/plasma_wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fplasma_wayland_protocols-12207e0851c12acdeee0991e893e0132fc87bb763969a585dc16ecca33e88334c566.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/sentry?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fsentry-1220446be831adcca918167647c06c7b825849fa3fba5f22da394667974537a9c77e.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/sentry?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fsentry-1220446be831adcca918167647c06c7b825849fa3fba5f22da394667974537a9c77e.tar.gz#",
+   "purl": "pkg:artifact/sentry?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fsentry-1220446be831adcca918167647c06c7b825849fa3fba5f22da394667974537a9c77e.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/spirv_cross?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fspirv_cross-1220fb3b5586e8be67bc3feb34cbe749cf42a60d628d2953632c2f8141302748c8da.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/spirv_cross?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fspirv_cross-1220fb3b5586e8be67bc3feb34cbe749cf42a60d628d2953632c2f8141302748c8da.tar.gz#",
+   "purl": "pkg:artifact/spirv_cross?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fspirv_cross-1220fb3b5586e8be67bc3feb34cbe749cf42a60d628d2953632c2f8141302748c8da.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/translate_c?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ftranslate_c-02ff0c523fb92a38939b04d0145c4a9602a74d56.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/translate_c?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ftranslate_c-02ff0c523fb92a38939b04d0145c4a9602a74d56.tar.gz#",
+   "purl": "pkg:artifact/translate_c?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Ftranslate_c-02ff0c523fb92a38939b04d0145c4a9602a74d56.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-1fb73433bba5d93366c57f23ff2e9d7939746500.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-1fb73433bba5d93366c57f23ff2e9d7939746500.tar.gz#",
+   "purl": "pkg:artifact/uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-1fb73433bba5d93366c57f23ff2e9d7939746500.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-0620b34e091deaa6f64608922be3814147128dfb.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-0620b34e091deaa6f64608922be3814147128dfb.tar.gz#",
+   "purl": "pkg:artifact/vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-0620b34e091deaa6f64608922be3814147128dfb.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-9cb3d7aa9dc995ffafdbdef7ab86a949d0fb0e7d.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-9cb3d7aa9dc995ffafdbdef7ab86a949d0fb0e7d.tar.gz#",
+   "purl": "pkg:artifact/wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-9cb3d7aa9dc995ffafdbdef7ab86a949d0fb0e7d.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAFdWDwA0ktbNUi9pFBHCRN4weXIgIfCrVjfGxqgA.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAFdWDwA0ktbNUi9pFBHCRN4weXIgIfCrVjfGxqgA.tar.gz#",
+   "purl": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2FN-V-__8AAFdWDwA0ktbNUi9pFBHCRN4weXIgIfCrVjfGxqgA.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-protocols-258d8f88f2c8c25a830c6316f87d23ce1a0f12d9.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-protocols-258d8f88f2c8c25a830c6316f87d23ce1a0f12d9.tar.gz#",
+   "purl": "pkg:artifact/wayland_protocols?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwayland-protocols-258d8f88f2c8c25a830c6316f87d23ce1a0f12d9.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/wuffs?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwuffs-7411f488fe2e2c205c3d3b3d28638b7356522930.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/wuffs?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwuffs-7411f488fe2e2c205c3d3b3d28638b7356522930.tar.gz#",
+   "purl": "pkg:artifact/wuffs?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fwuffs-7411f488fe2e2c205c3d3b3d28638b7356522930.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/z2d?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fz2d-8787d71bac42d9aab00428ccb37a4fd453418761.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/z2d?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fz2d-8787d71bac42d9aab00428ccb37a4fd453418761.tar.gz#",
+   "purl": "pkg:artifact/z2d?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fz2d-8787d71bac42d9aab00428ccb37a4fd453418761.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zf?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzf-87153bb86b75d21fbac897b738f316d449f5d0c9.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zf?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzf-87153bb86b75d21fbac897b738f316d449f5d0c9.tar.gz#",
+   "purl": "pkg:artifact/zf?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzf-87153bb86b75d21fbac897b738f316d449f5d0c9.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zf_vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-6fd944a27fb3d6f596e981076381a3131f2448b4.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zf_vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-6fd944a27fb3d6f596e981076381a3131f2448b4.tar.gz#",
+   "purl": "pkg:artifact/zf_vaxis?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fvaxis-6fd944a27fb3d6f596e981076381a3131f2448b4.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zf_vaxis_uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-ea62149739404a73c202b48a33bf6dd2af4bd9b0.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zf_vaxis_uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-ea62149739404a73c202b48a33bf6dd2af4bd9b0.tar.gz#",
+   "purl": "pkg:artifact/zf_vaxis_uucode?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fuucode-ea62149739404a73c202b48a33bf6dd2af4bd9b0.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zf_vaxis_zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-c701c9f99779d7ddf594dcc6da8f858fd277d61f.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zf_vaxis_zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-c701c9f99779d7ddf594dcc6da8f858fd277d61f.tar.gz#",
+   "purl": "pkg:artifact/zf_vaxis_zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-c701c9f99779d7ddf594dcc6da8f858fd277d61f.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zig-aarch64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-linux-0.17.1.tar.xz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zig-aarch64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-linux-0.17.1.tar.xz#",
+   "purl": "pkg:artifact/zig-aarch64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-linux-0.17.1.tar.xz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zig-aarch64-macos-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-macos-0.17.1.tar.xz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zig-aarch64-macos-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-macos-0.17.1.tar.xz#",
+   "purl": "pkg:artifact/zig-aarch64-macos-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-aarch64-macos-0.17.1.tar.xz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zig_js?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_js-3c23860e47fdcdc5af805efb7fd0bdac5fd3e9bc.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zig_js?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_js-3c23860e47fdcdc5af805efb7fd0bdac5fd3e9bc.tar.gz#",
+   "purl": "pkg:artifact/zig_js?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_js-3c23860e47fdcdc5af805efb7fd0bdac5fd3e9bc.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zig_objc?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_objc-3352c12a868f8787ab71bf2ca6eab9fcfb635c52.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zig_objc?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_objc-3352c12a868f8787ab71bf2ca6eab9fcfb635c52.tar.gz#",
+   "purl": "pkg:artifact/zig_objc?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_objc-3352c12a868f8787ab71bf2ca6eab9fcfb635c52.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zig_wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_wayland-27dda01712ddf3cb46ebd93380d88b01a7c828f8.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zig_wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_wayland-27dda01712ddf3cb46ebd93380d88b01a7c828f8.tar.gz#",
+   "purl": "pkg:artifact/zig_wayland?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzig_wayland-27dda01712ddf3cb46ebd93380d88b01a7c828f8.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-734fa919fb15b7917d4eb124f53600348f4ffa30.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-734fa919fb15b7917d4eb124f53600348f4ffa30.tar.gz#",
+   "purl": "pkg:artifact/zigimg?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzigimg-734fa919fb15b7917d4eb124f53600348f4ffa30.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:artifact/zlib?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzlib-1220fed0c74e1019b3ee29edae2051788b080cd96e90d56836eea857b0b966742efb.tar.gz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:artifact/zlib?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzlib-1220fed0c74e1019b3ee29edae2051788b080cd96e90d56836eea857b0b966742efb.tar.gz#",
+   "purl": "pkg:artifact/zlib?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Fzlib-1220fed0c74e1019b3ee29edae2051788b080cd96e90d56836eea857b0b966742efb.tar.gz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/Latest",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/Latest#shell",
+   "purl": "pkg:command/Latest",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/abidiff",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/abidiff#shell",
+   "purl": "pkg:command/abidiff",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/abidw",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/abidw#shell",
+   "purl": "pkg:command/abidw",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/apk",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/apk#workflow",
+   "purl": "pkg:command/apk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/apt-get",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/apt-get#dockerfile",
+   "purl": "pkg:command/apt-get",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/awk",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/awk#shell",
+   "purl": "pkg:command/awk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/awk",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/awk#workflow",
+   "purl": "pkg:command/awk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/basename#shell",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/build-rust-fontconfig.sh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/build-rust-fontconfig.sh#workflow",
+   "purl": "pkg:command/build-rust-fontconfig.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cargo#shell",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cat#shell",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/cat#workflow",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cc#shell",
+   "purl": "pkg:command/cc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chmod",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/chmod#shell",
+   "purl": "pkg:command/chmod",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cmp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cmp#shell",
+   "purl": "pkg:command/cmp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/codesign",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/codesign#makefile",
+   "purl": "pkg:command/codesign",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/codesign",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/codesign#workflow",
+   "purl": "pkg:command/codesign",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/comm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/comm#shell",
+   "purl": "pkg:command/comm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/curl#dockerfile",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/curl#workflow",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cut",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cut#shell",
+   "purl": "pkg:command/cut",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/date",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/date#shell",
+   "purl": "pkg:command/date",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/diff",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/diff#shell",
+   "purl": "pkg:command/diff",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dirname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dirname#shell",
+   "purl": "pkg:command/dirname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ditto",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/ditto#makefile",
+   "purl": "pkg:command/ditto",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ditto",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ditto#shell",
+   "purl": "pkg:command/ditto",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ditto",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/ditto#workflow",
+   "purl": "pkg:command/ditto",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/docker",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/docker#workflow",
+   "purl": "pkg:command/docker",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/echo#makefile",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/echo#workflow",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/file",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/file#workflow",
+   "purl": "pkg:command/file",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/find#makefile",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/find#shell",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/gh#workflow",
+   "purl": "pkg:command/gh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ghostty",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/ghostty#dockerfile",
+   "purl": "pkg:command/ghostty",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ghostty",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/ghostty#workflow",
+   "purl": "pkg:command/ghostty",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/git#shell",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/grep#makefile",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/grep#shell",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/grep#workflow",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/hdiutil",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/hdiutil#shell",
+   "purl": "pkg:command/hdiutil",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/head",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/head#shell",
+   "purl": "pkg:command/head",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/image_arch-BASIC-CLOUDINIT-ufs.qcow2",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/image_arch-BASIC-CLOUDINIT-ufs.qcow2#shell",
+   "purl": "pkg:command/image_arch-BASIC-CLOUDINIT-ufs.qcow2",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/install",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/install#shell",
+   "purl": "pkg:command/install",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/jaq",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/jaq#shell",
+   "purl": "pkg:command/jaq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/jq",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/jq#shell",
+   "purl": "pkg:command/jq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/kill",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/kill#shell",
+   "purl": "pkg:command/kill",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/lipo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/lipo#workflow",
+   "purl": "pkg:command/lipo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ln",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/ln#dockerfile",
+   "purl": "pkg:command/ln",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ln",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ln#shell",
+   "purl": "pkg:command/ln",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make-dmg.sh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make-dmg.sh#workflow",
+   "purl": "pkg:command/make-dmg.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/mkdir#workflow",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkfifo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkfifo#shell",
+   "purl": "pkg:command/mkfifo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/msgcmp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/msgcmp#shell",
+   "purl": "pkg:command/msgcmp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mv",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mv#shell",
+   "purl": "pkg:command/mv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/nc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/nc#shell",
+   "purl": "pkg:command/nc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/nix",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/nix#shell",
+   "purl": "pkg:command/nix",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/nm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/nm#shell",
+   "purl": "pkg:command/nm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/paste",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/paste#shell",
+   "purl": "pkg:command/paste",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pkg-config",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/pkg-config#shell",
+   "purl": "pkg:command/pkg-config",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/plutil",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/plutil#workflow",
+   "purl": "pkg:command/plutil",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/printf#workflow",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/python3#shell",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/qemu-img",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/qemu-img#shell",
+   "purl": "pkg:command/qemu-img",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/readelf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/readelf#shell",
+   "purl": "pkg:command/readelf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/readelf",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/readelf#workflow",
+   "purl": "pkg:command/readelf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/realpath",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/realpath#shell",
+   "purl": "pkg:command/realpath",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/rm#dockerfile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rm#shell",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/rm#workflow",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rsync",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rsync#shell",
+   "purl": "pkg:command/rsync",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/sed#dockerfile",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sed#shell",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/seq",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/seq#shell",
+   "purl": "pkg:command/seq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#shell",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha512sum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sha512sum#shell",
+   "purl": "pkg:command/sha512sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/shasum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/shasum#shell",
+   "purl": "pkg:command/shasum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/shasum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/shasum#workflow",
+   "purl": "pkg:command/shasum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sleep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sleep#shell",
+   "purl": "pkg:command/sleep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sort#shell",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ssh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ssh#shell",
+   "purl": "pkg:command/ssh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ssh-keygen",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ssh-keygen#shell",
+   "purl": "pkg:command/ssh-keygen",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/stat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/stat#shell",
+   "purl": "pkg:command/stat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sysctl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sysctl#shell",
+   "purl": "pkg:command/sysctl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tail",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tail#shell",
+   "purl": "pkg:command/tail",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/tar#dockerfile",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tar#shell",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/tar#workflow",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tee",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/tee#workflow",
+   "purl": "pkg:command/tee",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/test#shell",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/test#workflow",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/timeout",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/timeout#shell",
+   "purl": "pkg:command/timeout",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tr",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tr#shell",
+   "purl": "pkg:command/tr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/true#shell",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/truncate",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/truncate#shell",
+   "purl": "pkg:command/truncate",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ucs-detect",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ucs-detect#shell",
+   "purl": "pkg:command/ucs-detect",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uname",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/uname#dockerfile",
+   "purl": "pkg:command/uname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/uname#shell",
+   "purl": "pkg:command/uname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unzip",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/unzip#makefile",
+   "purl": "pkg:command/unzip",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/wayland-scanner",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/wayland-scanner#shell",
+   "purl": "pkg:command/wayland-scanner",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/wc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/wc#shell",
+   "purl": "pkg:command/wc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xcodebuild",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/xcodebuild#makefile",
+   "purl": "pkg:command/xcodebuild",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xcodebuild",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/xcodebuild#workflow",
+   "purl": "pkg:command/xcodebuild",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xcrun",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/xcrun#shell",
+   "purl": "pkg:command/xcrun",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xz",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/xz#shell",
+   "purl": "pkg:command/xz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zig",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/zig#dockerfile",
+   "purl": "pkg:command/zig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zig",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/zig#makefile",
+   "purl": "pkg:command/zig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zig",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/zig#shell",
+   "purl": "pkg:command/zig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zig",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/zig#workflow",
+   "purl": "pkg:command/zig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zon2nix",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/zon2nix#shell",
+   "purl": "pkg:command/zon2nix",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:docker/alpine",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:docker/alpine@edge#",
+   "purl": "pkg:docker/alpine@edge",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "image",
+   "vcs_url": null,
+   "version": "edge"
+  },
+  {
+   "commit": null,
+   "component": "pkg:docker/library/debian",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:docker/library/debian@13#",
+   "purl": "pkg:docker/library/debian@13",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "image",
+   "vcs_url": null,
+   "version": "13"
+  },
+  {
+   "commit": null,
+   "component": "pkg:git/ghostty?vcs_url=https%3A%2F%2Fgithub.com%2Fghostty-org%2Fghostty.git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:git/ghostty?vcs_url=https%3A%2F%2Fgithub.com%2Fghostty-org%2Fghostty.git#",
+   "purl": "pkg:git/ghostty?vcs_url=https%3A%2F%2Fgithub.com%2Fghostty-org%2Fghostty.git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/ghostty-org/ghostty.git",
+   "version": null
+  },
+  {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
+   "commit": "9000827ccba6bdab643e8b6fd33ac0654aef8333",
+   "component": "pkg:github/actions/download-artifact",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333#",
+   "purl": "pkg:github/actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/download-artifact",
+   "version": "9000827ccba6bdab643e8b6fd33ac0654aef8333"
+  },
+  {
+   "commit": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "component": "pkg:github/actions/upload-artifact",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#",
+   "purl": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/upload-artifact",
+   "version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9"
+  },
+  {
+   "commit": "d1434d08867e3ee9daa34448df10607b98908d29",
+   "component": "pkg:github/mlugg/setup-zig",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29#",
+   "purl": "pkg:github/mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/mlugg/setup-zig",
+   "version": "d1434d08867e3ee9daa34448df10607b98908d29"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/afl",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/afl#",
+   "purl": "pkg:local/afl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/android_ndk",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/android_ndk#",
+   "purl": "pkg:local/android_ndk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/apple_sdk",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/apple_sdk#",
+   "purl": "pkg:local/apple_sdk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/breakpad",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/breakpad#",
+   "purl": "pkg:local/breakpad",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/dcimgui",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/dcimgui#",
+   "purl": "pkg:local/dcimgui",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/fontconfig",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/fontconfig#",
+   "purl": "pkg:local/fontconfig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/freetype",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/freetype#",
+   "purl": "pkg:local/freetype",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/ghostty",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/ghostty#",
+   "purl": "pkg:local/ghostty",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/glslang",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/glslang#",
+   "purl": "pkg:local/glslang",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/gtk4_layer_shell",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/gtk4_layer_shell#",
+   "purl": "pkg:local/gtk4_layer_shell",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/harfbuzz",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/harfbuzz#",
+   "purl": "pkg:local/harfbuzz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/highway",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/highway#",
+   "purl": "pkg:local/highway",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/libintl",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/libintl#",
+   "purl": "pkg:local/libintl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/libpng",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/libpng#",
+   "purl": "pkg:local/libpng",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/libxml2",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/libxml2#",
+   "purl": "pkg:local/libxml2",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/macos",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/macos#",
+   "purl": "pkg:local/macos",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/oniguruma",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/oniguruma#",
+   "purl": "pkg:local/oniguruma",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/opengl",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/opengl#",
+   "purl": "pkg:local/opengl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/sentry",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/sentry#",
+   "purl": "pkg:local/sentry",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/simdutf",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/simdutf#",
+   "purl": "pkg:local/simdutf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/spirv_cross",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/spirv_cross#",
+   "purl": "pkg:local/spirv_cross",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/translate_c",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/translate_c#",
+   "purl": "pkg:local/translate_c",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/wuffs",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/wuffs#",
+   "purl": "pkg:local/wuffs",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/zlib",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/zlib#",
+   "purl": "pkg:local/zlib",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": "ac2def288cbff5cfc7df3ffef6abdf45b72bcb0a",
+   "component": "pkg:swift/sparkle?vcs_url=https%3A%2F%2Fgithub.com%2Fsparkle-project%2FSparkle",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:swift/sparkle@2.9.6?vcs_url=https%3A%2F%2Fgithub.com%2Fsparkle-project%2FSparkle#",
+   "purl": "pkg:swift/sparkle@2.9.6?vcs_url=https%3A%2F%2Fgithub.com%2Fsparkle-project%2FSparkle",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/sparkle-project/Sparkle",
+   "version": "2.9.6"
+  }
+ ],
+ "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  },
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for flake.nix",
+   "path": "flake.nix"
+  },
+  {
+   "kind": "vendored_unknown",
+   "locator": null,
+   "message": "vendored tree has no recognized manifest",
+   "path": "pkg/breakpad/vendor"
+  },
+  {
+   "kind": "vendored_unknown",
+   "locator": null,
+   "message": "vendored tree has no recognized manifest",
+   "path": "pkg/breakpad/vendor/third_party"
+  },
+  {
+   "kind": "vendored_unknown",
+   "locator": null,
+   "message": "vendored tree has no recognized manifest",
+   "path": "pkg/simdutf/vendor"
+  },
+  {
+   "kind": "dynamic_value",
+   "locator": "L32",
+   "message": "artifact URL 'https://ziglang.org/download/$ZIG_VERSION/zig-$' is not literal",
+   "path": "src/build/docker/debian/Dockerfile"
+  },
+  {
+   "kind": "vendored_unknown",
+   "locator": null,
+   "message": "vendored tree has no recognized manifest",
+   "path": "src/shell-integration/nushell/vendor"
+  },
+  {
+   "kind": "vendored_unknown",
+   "locator": null,
+   "message": "vendored tree has no recognized manifest",
+   "path": "vendor"
+  }
+ ],
+ "projects": [
+  {
+   "directory": ".",
+   "ecosystem": "generic",
+   "id": ".:repo"
+  },
+  {
+   "directory": "example/c-vt-allocator",
+   "ecosystem": "generic",
+   "id": "example/c-vt-allocator:repo"
+  },
+  {
+   "directory": "example/c-vt-build-info",
+   "ecosystem": "generic",
+   "id": "example/c-vt-build-info:repo"
+  },
+  {
+   "directory": "example/c-vt-cmake-cross",
+   "ecosystem": "generic",
+   "id": "example/c-vt-cmake-cross:repo"
+  },
+  {
+   "directory": "example/c-vt-cmake-static",
+   "ecosystem": "generic",
+   "id": "example/c-vt-cmake-static:repo"
+  },
+  {
+   "directory": "example/c-vt-cmake",
+   "ecosystem": "generic",
+   "id": "example/c-vt-cmake:repo"
+  },
+  {
+   "directory": "example/c-vt-color-scheme",
+   "ecosystem": "generic",
+   "id": "example/c-vt-color-scheme:repo"
+  },
+  {
+   "directory": "example/c-vt-colors",
+   "ecosystem": "generic",
+   "id": "example/c-vt-colors:repo"
+  },
+  {
+   "directory": "example/c-vt-compression",
+   "ecosystem": "generic",
+   "id": "example/c-vt-compression:repo"
+  },
+  {
+   "directory": "example/c-vt-effects",
+   "ecosystem": "generic",
+   "id": "example/c-vt-effects:repo"
+  },
+  {
+   "directory": "example/c-vt-encode-focus",
+   "ecosystem": "generic",
+   "id": "example/c-vt-encode-focus:repo"
+  },
+  {
+   "directory": "example/c-vt-encode-key",
+   "ecosystem": "generic",
+   "id": "example/c-vt-encode-key:repo"
+  },
+  {
+   "directory": "example/c-vt-encode-mouse",
+   "ecosystem": "generic",
+   "id": "example/c-vt-encode-mouse:repo"
+  },
+  {
+   "directory": "example/c-vt-formatter",
+   "ecosystem": "generic",
+   "id": "example/c-vt-formatter:repo"
+  },
+  {
+   "directory": "example/c-vt-grid-ref-tracked",
+   "ecosystem": "generic",
+   "id": "example/c-vt-grid-ref-tracked:repo"
+  },
+  {
+   "directory": "example/c-vt-grid-traverse",
+   "ecosystem": "generic",
+   "id": "example/c-vt-grid-traverse:repo"
+  },
+  {
+   "directory": "example/c-vt-hello",
+   "ecosystem": "generic",
+   "id": "example/c-vt-hello:repo"
+  },
+  {
+   "directory": "example/c-vt-kitty-graphics",
+   "ecosystem": "generic",
+   "id": "example/c-vt-kitty-graphics:repo"
+  },
+  {
+   "directory": "example/c-vt-modes",
+   "ecosystem": "generic",
+   "id": "example/c-vt-modes:repo"
+  },
+  {
+   "directory": "example/c-vt-osc",
+   "ecosystem": "generic",
+   "id": "example/c-vt-osc:repo"
+  },
+  {
+   "directory": "example/c-vt-paste",
+   "ecosystem": "generic",
+   "id": "example/c-vt-paste:repo"
+  },
+  {
+   "directory": "example/c-vt-render",
+   "ecosystem": "generic",
+   "id": "example/c-vt-render:repo"
+  },
+  {
+   "directory": "example/c-vt-search",
+   "ecosystem": "generic",
+   "id": "example/c-vt-search:repo"
+  },
+  {
+   "directory": "example/c-vt-selection-gesture",
+   "ecosystem": "generic",
+   "id": "example/c-vt-selection-gesture:repo"
+  },
+  {
+   "directory": "example/c-vt-selection",
+   "ecosystem": "generic",
+   "id": "example/c-vt-selection:repo"
+  },
+  {
+   "directory": "example/c-vt-sgr",
+   "ecosystem": "generic",
+   "id": "example/c-vt-sgr:repo"
+  },
+  {
+   "directory": "example/c-vt-size-report",
+   "ecosystem": "generic",
+   "id": "example/c-vt-size-report:repo"
+  },
+  {
+   "directory": "example/c-vt-snapshot",
+   "ecosystem": "generic",
+   "id": "example/c-vt-snapshot:repo"
+  },
+  {
+   "directory": "example/c-vt-static",
+   "ecosystem": "generic",
+   "id": "example/c-vt-static:repo"
+  },
+  {
+   "directory": "example/c-vt-stream",
+   "ecosystem": "generic",
+   "id": "example/c-vt-stream:repo"
+  },
+  {
+   "directory": "example/cpp-vt-stream",
+   "ecosystem": "generic",
+   "id": "example/cpp-vt-stream:repo"
+  },
+  {
+   "directory": "example/swift-vt-xcframework",
+   "ecosystem": "swift",
+   "id": "example/swift-vt-xcframework:swift"
+  },
+  {
+   "directory": "example/zig-formatter",
+   "ecosystem": "generic",
+   "id": "example/zig-formatter:repo"
+  },
+  {
+   "directory": "example/zig-vt-stream",
+   "ecosystem": "generic",
+   "id": "example/zig-vt-stream:repo"
+  },
+  {
+   "directory": "example/zig-vt",
+   "ecosystem": "generic",
+   "id": "example/zig-vt:repo"
+  },
+  {
+   "directory": "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm",
+   "ecosystem": "swift",
+   "id": "macos/Ghostty.xcodeproj/project.xcworkspace/xcshareddata/swiftpm:swift"
+  },
+  {
+   "directory": "pkg/afl++",
+   "ecosystem": "generic",
+   "id": "pkg/afl++:repo"
+  },
+  {
+   "directory": "pkg/android-ndk",
+   "ecosystem": "generic",
+   "id": "pkg/android-ndk:repo"
+  },
+  {
+   "directory": "pkg/apple-sdk",
+   "ecosystem": "generic",
+   "id": "pkg/apple-sdk:repo"
+  },
+  {
+   "directory": "pkg/breakpad",
+   "ecosystem": "generic",
+   "id": "pkg/breakpad:repo"
+  },
+  {
+   "directory": "pkg/dcimgui",
+   "ecosystem": "generic",
+   "id": "pkg/dcimgui:repo"
+  },
+  {
+   "directory": "pkg/fontconfig",
+   "ecosystem": "generic",
+   "id": "pkg/fontconfig:repo"
+  },
+  {
+   "directory": "pkg/freetype",
+   "ecosystem": "generic",
+   "id": "pkg/freetype:repo"
+  },
+  {
+   "directory": "pkg/glslang",
+   "ecosystem": "generic",
+   "id": "pkg/glslang:repo"
+  },
+  {
+   "directory": "pkg/gtk4-layer-shell",
+   "ecosystem": "generic",
+   "id": "pkg/gtk4-layer-shell:repo"
+  },
+  {
+   "directory": "pkg/harfbuzz",
+   "ecosystem": "generic",
+   "id": "pkg/harfbuzz:repo"
+  },
+  {
+   "directory": "pkg/highway",
+   "ecosystem": "generic",
+   "id": "pkg/highway:repo"
+  },
+  {
+   "directory": "pkg/libintl",
+   "ecosystem": "generic",
+   "id": "pkg/libintl:repo"
+  },
+  {
+   "directory": "pkg/libpng",
+   "ecosystem": "generic",
+   "id": "pkg/libpng:repo"
+  },
+  {
+   "directory": "pkg/libxml2",
+   "ecosystem": "generic",
+   "id": "pkg/libxml2:repo"
+  },
+  {
+   "directory": "pkg/macos",
+   "ecosystem": "generic",
+   "id": "pkg/macos:repo"
+  },
+  {
+   "directory": "pkg/oniguruma",
+   "ecosystem": "generic",
+   "id": "pkg/oniguruma:repo"
+  },
+  {
+   "directory": "pkg/opengl",
+   "ecosystem": "generic",
+   "id": "pkg/opengl:repo"
+  },
+  {
+   "directory": "pkg/sentry",
+   "ecosystem": "generic",
+   "id": "pkg/sentry:repo"
+  },
+  {
+   "directory": "pkg/simdutf",
+   "ecosystem": "generic",
+   "id": "pkg/simdutf:repo"
+  },
+  {
+   "directory": "pkg/spirv-cross",
+   "ecosystem": "generic",
+   "id": "pkg/spirv-cross:repo"
+  },
+  {
+   "directory": "pkg/translate-c",
+   "ecosystem": "generic",
+   "id": "pkg/translate-c:repo"
+  },
+  {
+   "directory": "pkg/wuffs",
+   "ecosystem": "generic",
+   "id": "pkg/wuffs:repo"
+  },
+  {
+   "directory": "pkg/zlib",
+   "ecosystem": "generic",
+   "id": "pkg/zlib:repo"
+  },
+  {
+   "directory": "src/build/docker/debian",
+   "ecosystem": "generic",
+   "id": "src/build/docker/debian:repo"
+  },
+  {
+   "directory": "test/esctest",
+   "ecosystem": "generic",
+   "id": "test/esctest:repo"
+  },
+  {
+   "directory": "test/fuzz-libghostty",
+   "ecosystem": "generic",
+   "id": "test/fuzz-libghostty:repo"
+  }
+ ],
+ "repository": "joshuarli/ghostty",
+ "schema": 1,
+ "tags": [
+  "app",
+  "fork",
+  "zig"
+ ]
+}

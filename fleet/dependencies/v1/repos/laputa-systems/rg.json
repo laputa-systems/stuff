@@ -337,6 +337,168 @@
    "purl": "pkg:cargo/zmij"
   },
   {
+   "display_name": "866",
+   "ecosystem": "command",
+   "name": "866",
+   "purl": "pkg:command/866"
+  },
+  {
+   "display_name": "apt-get",
+   "ecosystem": "command",
+   "name": "apt-get",
+   "purl": "pkg:command/apt-get"
+  },
+  {
+   "display_name": "basename",
+   "ecosystem": "command",
+   "name": "basename",
+   "purl": "pkg:command/basename"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "chmod",
+   "ecosystem": "command",
+   "name": "chmod",
+   "purl": "pkg:command/chmod"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "die",
+   "ecosystem": "command",
+   "name": "die",
+   "purl": "pkg:command/die"
+  },
+  {
+   "display_name": "docker",
+   "ecosystem": "command",
+   "name": "docker",
+   "purl": "pkg:command/docker"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "find",
+   "ecosystem": "command",
+   "name": "find",
+   "purl": "pkg:command/find"
+  },
+  {
+   "display_name": "gh",
+   "ecosystem": "command",
+   "name": "gh",
+   "purl": "pkg:command/gh"
+  },
+  {
+   "display_name": "head",
+   "ecosystem": "command",
+   "name": "head",
+   "purl": "pkg:command/head"
+  },
+  {
+   "display_name": "logical",
+   "ecosystem": "command",
+   "name": "logical",
+   "purl": "pkg:command/logical"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rustup",
+   "ecosystem": "command",
+   "name": "rustup",
+   "purl": "pkg:command/rustup"
+  },
+  {
+   "display_name": "sha256sum",
+   "ecosystem": "command",
+   "name": "sha256sum",
+   "purl": "pkg:command/sha256sum"
+  },
+  {
+   "display_name": "sort",
+   "ecosystem": "command",
+   "name": "sort",
+   "purl": "pkg:command/sort"
+  },
+  {
+   "display_name": "stuff",
+   "ecosystem": "command",
+   "name": "stuff",
+   "purl": "pkg:command/stuff"
+  },
+  {
+   "display_name": "sudo",
+   "ecosystem": "command",
+   "name": "sudo",
+   "purl": "pkg:command/sudo"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "x-user-defined",
+   "ecosystem": "command",
+   "name": "x-user-defined",
+   "purl": "pkg:command/x-user-defined"
+  },
+  {
+   "display_name": "xargs",
+   "ecosystem": "command",
+   "name": "xargs",
+   "purl": "pkg:command/xargs"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
@@ -415,10 +577,16 @@
    "purl": "pkg:local/grep-searcher"
   },
   {
-   "display_name": "ignore",
+   "display_name": "laputa-globset",
    "ecosystem": "local",
-   "name": "ignore",
-   "purl": "pkg:local/ignore"
+   "name": "laputa-globset",
+   "purl": "pkg:local/laputa-globset"
+  },
+  {
+   "display_name": "laputa-ignore",
+   "ecosystem": "local",
+   "name": "laputa-ignore",
+   "purl": "pkg:local/laputa-ignore"
   },
   {
    "display_name": "ripgrep",
@@ -700,7 +868,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.4.29",
+   "constraint": "0.4.33",
    "evidence": [
     {
      "locator": "dependencies.ignore",
@@ -718,7 +886,7 @@
    "resolved_version": "0.4.33",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/ignore@0.4.33#"
+   "to": "pkg:local/laputa-ignore@0.4.33#"
   },
   {
    "condition": null,
@@ -954,7 +1122,7 @@
   },
   {
    "condition": null,
-   "constraint": "0.4.18",
+   "constraint": "0.4.20",
    "evidence": [
     {
      "locator": "dependencies.globset",
@@ -972,7 +1140,7 @@
    "resolved_version": "0.4.20",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/globset@0.4.20#"
+   "to": "pkg:local/laputa-globset@0.4.20#"
   },
   {
    "condition": null,
@@ -983,7 +1151,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[0]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[0]",
      "path": "Cargo.lock"
     }
    ],
@@ -1005,7 +1173,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[1]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[1]",
      "path": "Cargo.lock"
     }
    ],
@@ -1027,7 +1195,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[2]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[2]",
      "path": "Cargo.lock"
     }
    ],
@@ -1049,7 +1217,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[3]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[3]",
      "path": "Cargo.lock"
     }
    ],
@@ -1071,7 +1239,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[4]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[4]",
      "path": "Cargo.lock"
     }
    ],
@@ -1093,7 +1261,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[5]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[5]",
      "path": "Cargo.lock"
     }
    ],
@@ -1115,7 +1283,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[6]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[6]",
      "path": "Cargo.lock"
     }
    ],
@@ -1137,7 +1305,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[7]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[7]",
      "path": "Cargo.lock"
     }
    ],
@@ -1159,7 +1327,7 @@
      "path": "crates/globset/Cargo.toml"
     },
     {
-     "locator": "package[name=globset,version=0.4.20].dependencies[8]",
+     "locator": "package[name=laputa-globset,version=0.4.20].dependencies[8]",
      "path": "Cargo.lock"
     }
    ],
@@ -1357,7 +1525,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[0]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[0]",
      "path": "Cargo.lock"
     }
    ],
@@ -1379,7 +1547,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[1]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[1]",
      "path": "Cargo.lock"
     }
    ],
@@ -1401,7 +1569,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[2]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[2]",
      "path": "Cargo.lock"
     }
    ],
@@ -1423,7 +1591,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[4]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[4]",
      "path": "Cargo.lock"
     }
    ],
@@ -1445,7 +1613,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[5]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[5]",
      "path": "Cargo.lock"
     }
    ],
@@ -1467,7 +1635,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[6]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[6]",
      "path": "Cargo.lock"
     }
    ],
@@ -1489,7 +1657,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[7]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[7]",
      "path": "Cargo.lock"
     }
    ],
@@ -1511,7 +1679,7 @@
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[8]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[8]",
      "path": "Cargo.lock"
     }
    ],
@@ -1526,14 +1694,14 @@
   },
   {
    "condition": null,
-   "constraint": "0.4.18",
+   "constraint": "0.4.20",
    "evidence": [
     {
      "locator": "dependencies.globset",
      "path": "crates/ignore/Cargo.toml"
     },
     {
-     "locator": "package[name=ignore,version=0.4.33].dependencies[3]",
+     "locator": "package[name=laputa-ignore,version=0.4.33].dependencies[3]",
      "path": "Cargo.lock"
     }
    ],
@@ -1544,7 +1712,7 @@
    "resolved_version": "0.4.20",
    "scope": "runtime",
    "source_kind": "workspace",
-   "to": "pkg:local/globset@0.4.20#"
+   "to": "pkg:local/laputa-globset@0.4.20#"
   },
   {
    "condition": null,
@@ -2169,20 +2337,16 @@
     {
      "locator": "dependencies.globset",
      "path": "fuzz/Cargo.toml"
-    },
-    {
-     "locator": "package[name=fuzz,version=0.0.1].dependencies[0]",
-     "path": "fuzz/Cargo.lock"
     }
    ],
    "from": "fuzz:cargo",
    "optional": false,
    "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.4.16",
+   "resolution": "unknown",
+   "resolved_version": "0.4.20",
    "scope": "runtime",
-   "source_kind": "path",
-   "to": "pkg:local/globset@0.4.16#"
+   "source_kind": "workspace",
+   "to": "pkg:local/laputa-globset@0.4.20#"
   },
   {
    "condition": null,
@@ -3851,27 +4015,43 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "dcc3148649bf4d4d8d83a9e262942a99fb6e5aa0",
+   "blob": "4b45f5a6a1977a91ffc53aa34fee52be9130de69",
    "path": ".github/workflows/release.yml"
   },
   {
-   "blob": "2eb335bf04df02bc8e6dac3fe170ec2224984fac",
+   "blob": "fac4951c2f8b77d423a6f27cbc210f2d450ac7ac",
    "path": "Cargo.lock"
   },
   {
-   "blob": "baa27694521b23fcce0e67657fb9c2165ca50cf2",
+   "blob": "29c022ac4ddb272ebf3361a219f0082ff8a3086c",
    "path": "Cargo.toml"
   },
   {
-   "blob": "aeea0bb7d994217acd058e651afe1ccca3be0fa2",
+   "blob": "dc8e99865fc16f514b26137c30c119f9e5e661ee",
    "path": "Makefile"
   },
   {
-   "blob": "e6ecab3b119adda2242bcf569d33ce949fb1eab5",
+   "blob": "670c9766c61604d8dd2280139a57d06b632cc526",
+   "path": "ci/sha256-releases"
+  },
+  {
+   "blob": "1a1c52f3a7f9485bc8fffb63f07c03556b9767df",
+   "path": "ci/ubuntu-install-packages"
+  },
+  {
+   "blob": "f3dc96d28705eb4594b81788e536ca3b9ae240f5",
+   "path": "ci/utils.sh"
+  },
+  {
+   "blob": "6fbb0c90610c8f6e6fb10c92d297dbe2f53ad60a",
    "path": "crates/cli/Cargo.toml"
   },
   {
-   "blob": "806001a642a9914150ba5d940658da45267fe221",
+   "blob": "14fc4a85b1eb68cfbdb8cdc019ab08c22672634f",
+   "path": "crates/core/flags/complete/encodings.sh"
+  },
+  {
+   "blob": "aa63b7a9c23f76c4c787f67f29a640324f8c3bd2",
    "path": "crates/globset/Cargo.toml"
   },
   {
@@ -3879,7 +4059,7 @@
    "path": "crates/grep/Cargo.toml"
   },
   {
-   "blob": "05f37eaa052abdbf6b090be6715678b07b923c7c",
+   "blob": "d6783cc1237a2a329cf04930134a1e41570bc6a5",
    "path": "crates/ignore/Cargo.toml"
   },
   {
@@ -3907,7 +4087,7 @@
    "path": "fuzz/Cargo.lock"
   },
   {
-   "blob": "0756263f3ef1f1a8afec8d985929a71b26ea5e5f",
+   "blob": "3dca89100753f35fe674caebc99c8709a1ec3ca6",
    "path": "fuzz/Cargo.toml"
   },
   {
@@ -3915,7 +4095,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "d6deb8668a96366001caa09efea8d349a32749c7fa4f03a8cd68ce4a4b889a9a",
+ "inputs_fingerprint": "a5ba81b7c7546124aef13289f904a4209dcdb5b71c05bc2c1b63ce96b2031cee",
  "instances": [
   {
    "commit": null,
@@ -4867,6 +5047,422 @@
    "version": "1.0.23"
   },
   {
+   "commit": null,
+   "component": "pkg:command/866",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/866#shell",
+   "purl": "pkg:command/866",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/apt-get",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/apt-get#shell",
+   "purl": "pkg:command/apt-get",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/basename#shell",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/basename#workflow",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cargo#shell",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/cargo#workflow",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chmod",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/chmod#workflow",
+   "purl": "pkg:command/chmod",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/cp#workflow",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/die",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/die#shell",
+   "purl": "pkg:command/die",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/docker",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/docker#workflow",
+   "purl": "pkg:command/docker",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/find#shell",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/gh#workflow",
+   "purl": "pkg:command/gh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/head",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/head#shell",
+   "purl": "pkg:command/head",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/logical",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/logical#shell",
+   "purl": "pkg:command/logical",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/printf#workflow",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/python3#workflow",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustup",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/rustup#workflow",
+   "purl": "pkg:command/rustup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#shell",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#workflow",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sort#workflow",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/stuff",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/stuff#makefile",
+   "purl": "pkg:command/stuff",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sudo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sudo#shell",
+   "purl": "pkg:command/sudo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/tar#workflow",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/x-user-defined",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/x-user-defined#shell",
+   "purl": "pkg:command/x-user-defined",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xargs",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/xargs#shell",
+   "purl": "pkg:command/xargs",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -4956,19 +5552,6 @@
    "source_kind": "path",
    "vcs_url": null,
    "version": "0.4.16"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/globset",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/globset@0.4.20#",
-   "purl": "pkg:local/globset@0.4.20",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.4.20"
   },
   {
    "commit": null,
@@ -5063,11 +5646,24 @@
   },
   {
    "commit": null,
-   "component": "pkg:local/ignore",
+   "component": "pkg:local/laputa-globset",
    "context": "",
    "first_party": true,
-   "id": "pkg:local/ignore@0.4.33#",
-   "purl": "pkg:local/ignore@0.4.33",
+   "id": "pkg:local/laputa-globset@0.4.20#",
+   "purl": "pkg:local/laputa-globset@0.4.20",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.4.20"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/laputa-ignore",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/laputa-ignore@0.4.33#",
+   "purl": "pkg:local/laputa-ignore@0.4.33",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "workspace",
@@ -5107,6 +5703,12 @@
    "locator": null,
    "message": "no parser for Makefile",
    "path": "Makefile"
+  },
+  {
+   "kind": "lock_mismatch",
+   "locator": "dependencies.globset",
+   "message": "laputa-globset is not resolved in fuzz/Cargo.lock",
+   "path": "fuzz/Cargo.toml"
   }
  ],
  "projects": [

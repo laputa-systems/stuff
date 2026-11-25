@@ -1,0 +1,366 @@
+{
+ "components": [
+  {
+   "display_name": "brew",
+   "ecosystem": "command",
+   "name": "brew",
+   "purl": "pkg:command/brew"
+  },
+  {
+   "display_name": "codesign",
+   "ecosystem": "command",
+   "name": "codesign",
+   "purl": "pkg:command/codesign"
+  },
+  {
+   "display_name": "cppcheck",
+   "ecosystem": "command",
+   "name": "cppcheck",
+   "purl": "pkg:command/cppcheck"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "install",
+   "ecosystem": "command",
+   "name": "install",
+   "purl": "pkg:command/install"
+  },
+  {
+   "display_name": "iss-test",
+   "ecosystem": "command",
+   "name": "iss-test",
+   "purl": "pkg:command/iss-test"
+  },
+  {
+   "display_name": "launchctl",
+   "ecosystem": "command",
+   "name": "launchctl",
+   "purl": "pkg:command/launchctl"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "true",
+   "ecosystem": "command",
+   "name": "true",
+   "purl": "pkg:command/true"
+  },
+  {
+   "display_name": "xattr",
+   "ecosystem": "command",
+   "name": "xattr",
+   "purl": "pkg:command/xattr"
+  },
+  {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  }
+ ],
+ "edges": [
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  }
+ ],
+ "inputs": [
+  {
+   "blob": "942c09e540c36ca90ce60c3bcf7a36e54b9aa2bb",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "7fe495b6598e910b1032e232613febf7f9ebeabb",
+   "path": ".github/workflows/test.yml"
+  },
+  {
+   "blob": "ae68fd4718a117306f3cc70280cd391c251aaf49",
+   "path": "Makefile"
+  }
+ ],
+ "inputs_fingerprint": "eabcc270cc0d96d853956a77ae0b497cf108a0e554e14043d91aa55455659846",
+ "instances": [
+  {
+   "commit": null,
+   "component": "pkg:command/brew",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/brew#workflow",
+   "purl": "pkg:command/brew",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/codesign",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/codesign#makefile",
+   "purl": "pkg:command/codesign",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cppcheck",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cppcheck#makefile",
+   "purl": "pkg:command/cppcheck",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/grep#makefile",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/install",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/install#makefile",
+   "purl": "pkg:command/install",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/iss-test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/iss-test#makefile",
+   "purl": "pkg:command/iss-test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/launchctl",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/launchctl#makefile",
+   "purl": "pkg:command/launchctl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/true#makefile",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xattr",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/xattr#makefile",
+   "purl": "pkg:command/xattr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  }
+ ],
+ "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  }
+ ],
+ "projects": [
+  {
+   "directory": ".",
+   "ecosystem": "generic",
+   "id": ".:repo"
+  }
+ ],
+ "repository": "joshuarli/iss",
+ "schema": 1,
+ "tags": [
+  "c",
+  "macos",
+  "tool"
+ ]
+}

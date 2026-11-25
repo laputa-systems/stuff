@@ -1,6 +1,72 @@
 {
  "components": [
   {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "gh",
+   "ecosystem": "command",
+   "name": "gh",
+   "purl": "pkg:command/gh"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "pip",
+   "ecosystem": "command",
+   "name": "pip",
+   "purl": "pkg:command/pip"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "uv",
+   "ecosystem": "command",
+   "name": "uv",
+   "purl": "pkg:command/uv"
+  },
+  {
+   "display_name": "vault",
+   "ecosystem": "command",
+   "name": "vault",
+   "purl": "pkg:command/vault"
+  },
+  {
    "display_name": "python",
    "ecosystem": "docker",
    "name": "python",
@@ -41,6 +107,12 @@
    "ecosystem": "local",
    "name": "joshuarli-pytest-parallel",
    "purl": "pkg:local/joshuarli-pytest-parallel"
+  },
+  {
+   "display_name": "coverage",
+   "ecosystem": "pypi",
+   "name": "coverage",
+   "purl": "pkg:pypi/coverage"
   },
   {
    "display_name": "iniconfig",
@@ -93,6 +165,28 @@
  ],
  "edges": [
   {
+   "condition": "group == 'dev'",
+   "constraint": "==7.17.3",
+   "evidence": [
+    {
+     "locator": "dependency-groups.dev[0]",
+     "path": "pyproject.toml"
+    },
+    {
+     "locator": "package[name=joshuarli-pytest-parallel,version=0.4.0].dev-dependencies.dev[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": ".:pypi",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": "7.17.3",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:pypi/coverage@7.17.3#"
+  },
+  {
    "condition": null,
    "constraint": ">=9.0",
    "evidence": [
@@ -119,11 +213,11 @@
    "constraint": "==0.17.4",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[0]",
+     "locator": "dependency-groups.dev[1]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=joshuarli-pytest-parallel,version=0.4.0].dev-dependencies.dev[0]",
+     "locator": "package[name=joshuarli-pytest-parallel,version=0.4.0].dev-dependencies.dev[1]",
      "path": "uv.lock"
     }
    ],
@@ -141,11 +235,11 @@
    "constraint": "==0.0.101",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[1]",
+     "locator": "dependency-groups.dev[2]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=joshuarli-pytest-parallel,version=0.4.0].dev-dependencies.dev[1]",
+     "locator": "package[name=joshuarli-pytest-parallel,version=0.4.0].dev-dependencies.dev[2]",
      "path": "uv.lock"
     }
    ],
@@ -163,11 +257,11 @@
    "constraint": "==0.13.7",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[2]",
+     "locator": "dependency-groups.dev[3]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=joshuarli-pytest-parallel,version=0.4.0].dev-dependencies.dev[2]",
+     "locator": "package[name=joshuarli-pytest-parallel,version=0.4.0].dev-dependencies.dev[3]",
      "path": "uv.lock"
     }
    ],
@@ -469,20 +563,202 @@
    "path": "Dockerfile"
   },
   {
-   "blob": "0476990cd1437a694e24cdb97a327800a6f193a9",
+   "blob": "027e72b6bfd9e63c88928586b7b42443e5821707",
    "path": "Makefile"
   },
   {
-   "blob": "dc31e2bdc6ad2a0c3d91eac3f7514052835cbd85",
+   "blob": "9d4d6809afc2cfac14d2351fea0d26198db062f0",
    "path": "pyproject.toml"
   },
   {
-   "blob": "6a3138a6a32a6c59ba35b18e71446448720bbf3b",
+   "blob": "d797b4dc2527a4a81ef4aadc5acf3d0f28511142",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "c9d087bf7e9dd34ba511c2d214313ab1b620a0409490b8381f9d98783ae66f15",
+ "inputs_fingerprint": "af64419d9e4eab3752478493d6a6ce5d4e1301b68e848876ada71b15970b7517",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/echo#makefile",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/gh#workflow",
+   "purl": "pkg:command/gh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/grep#makefile",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/make#makefile",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pip",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/pip#dockerfile",
+   "purl": "pkg:command/pip",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/uv#dockerfile",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/uv#makefile",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/uv#workflow",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/vault",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/vault#makefile",
+   "purl": "pkg:command/vault",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": null,
    "component": "pkg:docker/python?digest=sha256%3Ae48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90",
@@ -573,6 +849,19 @@
    "source_kind": "path",
    "vcs_url": null,
    "version": "0.4.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/coverage",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/coverage@7.17.3#",
+   "purl": "pkg:pypi/coverage@7.17.3",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.17.3"
   },
   {
    "commit": null,

@@ -28,6 +28,7 @@ class Ecosystem(Enum):
     SERVICE = "service"
     ARTIFACT = "artifact"
     GIT = "git"
+    COMMAND = "command"
 
 
 class CoverageKind(Enum):

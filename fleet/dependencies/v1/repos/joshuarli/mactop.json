@@ -7,6 +7,168 @@
    "purl": "pkg:artifact/bylaws-aarch64-apple-darwin.zip?download_url=https%3A%2F%2Fgithub.com%2Fjoshuarli%2Fswift-bylaws%2Freleases%2Fdownload%2Frelease-a70d7a346b898f0e2ba376beb9d0a659c2984608%2Fbylaws-aarch64-apple-darwin.zip"
   },
   {
+   "display_name": "bylaws",
+   "ecosystem": "command",
+   "name": "bylaws",
+   "purl": "pkg:command/bylaws"
+  },
+  {
+   "display_name": "chmod",
+   "ecosystem": "command",
+   "name": "chmod",
+   "purl": "pkg:command/chmod"
+  },
+  {
+   "display_name": "codesign",
+   "ecosystem": "command",
+   "name": "codesign",
+   "purl": "pkg:command/codesign"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "ditto",
+   "ecosystem": "command",
+   "name": "ditto",
+   "purl": "pkg:command/ditto"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "gh",
+   "ecosystem": "command",
+   "name": "gh",
+   "purl": "pkg:command/gh"
+  },
+  {
+   "display_name": "iconutil",
+   "ecosystem": "command",
+   "name": "iconutil",
+   "purl": "pkg:command/iconutil"
+  },
+  {
+   "display_name": "install",
+   "ecosystem": "command",
+   "name": "install",
+   "purl": "pkg:command/install"
+  },
+  {
+   "display_name": "launchctl",
+   "ecosystem": "command",
+   "name": "launchctl",
+   "purl": "pkg:command/launchctl"
+  },
+  {
+   "display_name": "mactop",
+   "ecosystem": "command",
+   "name": "mactop",
+   "purl": "pkg:command/mactop"
+  },
+  {
+   "display_name": "mactopBench",
+   "ecosystem": "command",
+   "name": "mactopBench",
+   "purl": "pkg:command/mactopBench"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "sha256sum",
+   "ecosystem": "command",
+   "name": "sha256sum",
+   "purl": "pkg:command/sha256sum"
+  },
+  {
+   "display_name": "shasum",
+   "ecosystem": "command",
+   "name": "shasum",
+   "purl": "pkg:command/shasum"
+  },
+  {
+   "display_name": "sips",
+   "ecosystem": "command",
+   "name": "sips",
+   "purl": "pkg:command/sips"
+  },
+  {
+   "display_name": "sort",
+   "ecosystem": "command",
+   "name": "sort",
+   "purl": "pkg:command/sort"
+  },
+  {
+   "display_name": "swift",
+   "ecosystem": "command",
+   "name": "swift",
+   "purl": "pkg:command/swift"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "true",
+   "ecosystem": "command",
+   "name": "true",
+   "purl": "pkg:command/true"
+  },
+  {
+   "display_name": "unzip",
+   "ecosystem": "command",
+   "name": "unzip",
+   "purl": "pkg:command/unzip"
+  },
+  {
+   "display_name": "xattr",
+   "ecosystem": "command",
+   "name": "xattr",
+   "purl": "pkg:command/xattr"
+  },
+  {
    "display_name": "actions/cache",
    "ecosystem": "github",
    "name": "actions/cache",
@@ -169,11 +331,11 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "2de8c595324e16369c03f2b479163c0033414a76",
+   "blob": "dad6cd035c8a50346fb9e55aaeae45be9a498dfb",
    "path": ".github/workflows/release.yml"
   },
   {
-   "blob": "cff43c258d48d267ce3e63f1bfc3d1bdca347e99",
+   "blob": "7ea5569740422473282c9d663c7cb78eda2d6c5b",
    "path": "Makefile"
   },
   {
@@ -181,7 +343,7 @@
    "path": "Package.swift"
   }
  ],
- "inputs_fingerprint": "59465cce8f9f426e77c4d0d2ddf3c1fa2d398c1112f60328e8ba030003ea364f",
+ "inputs_fingerprint": "64a044265d2f85014f763bc9e0e10df8c835bca1f74899820f03ef224ca51ae0",
  "instances": [
   {
    "commit": null,
@@ -193,6 +355,396 @@
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/bylaws",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/bylaws#makefile",
+   "purl": "pkg:command/bylaws",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chmod",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/chmod#workflow",
+   "purl": "pkg:command/chmod",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/codesign",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/codesign#makefile",
+   "purl": "pkg:command/codesign",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/cp#workflow",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/curl#workflow",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ditto",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/ditto#makefile",
+   "purl": "pkg:command/ditto",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/echo#workflow",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/gh#workflow",
+   "purl": "pkg:command/gh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/iconutil",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/iconutil#makefile",
+   "purl": "pkg:command/iconutil",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/install",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/install#makefile",
+   "purl": "pkg:command/install",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/launchctl",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/launchctl#makefile",
+   "purl": "pkg:command/launchctl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mactop",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mactop#makefile",
+   "purl": "pkg:command/mactop",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mactopBench",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mactopBench#makefile",
+   "purl": "pkg:command/mactopBench",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/mkdir#workflow",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/printf#workflow",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#workflow",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/shasum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/shasum#workflow",
+   "purl": "pkg:command/shasum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sips",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/sips#makefile",
+   "purl": "pkg:command/sips",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sort#workflow",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/swift",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/swift#makefile",
+   "purl": "pkg:command/swift",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/swift",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/swift#workflow",
+   "purl": "pkg:command/swift",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/tar#workflow",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/true#makefile",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/unzip",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/unzip#workflow",
+   "purl": "pkg:command/unzip",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xattr",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/xattr#makefile",
+   "purl": "pkg:command/xattr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
    "vcs_url": null,
    "version": null
   },

@@ -1,6 +1,240 @@
 {
  "components": [
   {
+   "display_name": "addprefix",
+   "ecosystem": "command",
+   "name": "addprefix",
+   "purl": "pkg:command/addprefix"
+  },
+  {
+   "display_name": "awk",
+   "ecosystem": "command",
+   "name": "awk",
+   "purl": "pkg:command/awk"
+  },
+  {
+   "display_name": "browsers-hint.sh",
+   "ecosystem": "command",
+   "name": "browsers-hint.sh",
+   "purl": "pkg:command/browsers-hint.sh"
+  },
+  {
+   "display_name": "build-image.sh",
+   "ecosystem": "command",
+   "name": "build-image.sh",
+   "purl": "pkg:command/build-image.sh"
+  },
+  {
+   "display_name": "build-img.sh",
+   "ecosystem": "command",
+   "name": "build-img.sh",
+   "purl": "pkg:command/build-img.sh"
+  },
+  {
+   "display_name": "chmod",
+   "ecosystem": "command",
+   "name": "chmod",
+   "purl": "pkg:command/chmod"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "date",
+   "ecosystem": "command",
+   "name": "date",
+   "purl": "pkg:command/date"
+  },
+  {
+   "display_name": "deploy.sh",
+   "ecosystem": "command",
+   "name": "deploy.sh",
+   "purl": "pkg:command/deploy.sh"
+  },
+  {
+   "display_name": "dirname",
+   "ecosystem": "command",
+   "name": "dirname",
+   "purl": "pkg:command/dirname"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "gate.sh",
+   "ecosystem": "command",
+   "name": "gate.sh",
+   "purl": "pkg:command/gate.sh"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "install",
+   "ecosystem": "command",
+   "name": "install",
+   "purl": "pkg:command/install"
+  },
+  {
+   "display_name": "jaq",
+   "ecosystem": "command",
+   "name": "jaq",
+   "purl": "pkg:command/jaq"
+  },
+  {
+   "display_name": "ln",
+   "ecosystem": "command",
+   "name": "ln",
+   "purl": "pkg:command/ln"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "node",
+   "ecosystem": "command",
+   "name": "node",
+   "purl": "pkg:command/node"
+  },
+  {
+   "display_name": "npm",
+   "ecosystem": "command",
+   "name": "npm",
+   "purl": "pkg:command/npm"
+  },
+  {
+   "display_name": "or",
+   "ecosystem": "command",
+   "name": "or",
+   "purl": "pkg:command/or"
+  },
+  {
+   "display_name": "pnpm",
+   "ecosystem": "command",
+   "name": "pnpm",
+   "purl": "pkg:command/pnpm"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rg",
+   "ecosystem": "command",
+   "name": "rg",
+   "purl": "pkg:command/rg"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rsync",
+   "ecosystem": "command",
+   "name": "rsync",
+   "purl": "pkg:command/rsync"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "shasum",
+   "ecosystem": "command",
+   "name": "shasum",
+   "purl": "pkg:command/shasum"
+  },
+  {
+   "display_name": "sleep",
+   "ecosystem": "command",
+   "name": "sleep",
+   "purl": "pkg:command/sleep"
+  },
+  {
+   "display_name": "ssh",
+   "ecosystem": "command",
+   "name": "ssh",
+   "purl": "pkg:command/ssh"
+  },
+  {
+   "display_name": "step.sh",
+   "ecosystem": "command",
+   "name": "step.sh",
+   "purl": "pkg:command/step.sh"
+  },
+  {
+   "display_name": "tail",
+   "ecosystem": "command",
+   "name": "tail",
+   "purl": "pkg:command/tail"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "tr",
+   "ecosystem": "command",
+   "name": "tr",
+   "purl": "pkg:command/tr"
+  },
+  {
+   "display_name": "true",
+   "ecosystem": "command",
+   "name": "true",
+   "purl": "pkg:command/true"
+  },
+  {
+   "display_name": "uname",
+   "ecosystem": "command",
+   "name": "uname",
+   "purl": "pkg:command/uname"
+  },
+  {
+   "display_name": "vite",
+   "ecosystem": "command",
+   "name": "vite",
+   "purl": "pkg:command/vite"
+  },
+  {
    "display_name": "library/node",
    "ecosystem": "docker",
    "name": "library/node",
@@ -17,6 +251,18 @@
    "ecosystem": "github",
    "name": "pnpm/setup",
    "purl": "pkg:github/pnpm/setup"
+  },
+  {
+   "display_name": "@discover/research-core",
+   "ecosystem": "local",
+   "name": "@discover/research-core",
+   "purl": "pkg:local/%40discover/research-core"
+  },
+  {
+   "display_name": "@discover/site-kit",
+   "ecosystem": "local",
+   "name": "@discover/site-kit",
+   "purl": "pkg:local/%40discover/site-kit"
   },
   {
    "display_name": "@stats/producer",
@@ -1063,6 +1309,12 @@
    "purl": "pkg:npm/%40pinojs/redact"
   },
   {
+   "display_name": "@pnpm/exe",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe",
+   "purl": "pkg:npm/%40pnpm/exe"
+  },
+  {
    "display_name": "@pnpm/exe.android-arm64",
    "ecosystem": "npm",
    "name": "@pnpm/exe.android-arm64",
@@ -1702,7 +1954,7 @@
    "display_name": "@stats/producer",
    "ecosystem": "npm",
    "name": "@stats/producer",
-   "purl": "pkg:npm/%40stats/producer?download_url=file%3Acloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz"
+   "purl": "pkg:npm/%40stats/producer?download_url=file%3Aapps%2Fartists%2Fcloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz"
   },
   {
    "display_name": "@tsrs/darwin-arm64",
@@ -3808,10 +4060,10 @@
  "edges": [
   {
    "condition": null,
-   "constraint": "4.1.0",
+   "constraint": "12.20.0",
    "evidence": [
     {
-     "locator": "importers[.].dependencies.'@effect/platform-node'",
+     "locator": "importers[.].packageManagerDependencies.'@pnpm/exe'",
      "path": "pnpm-lock.yaml"
     }
    ],
@@ -3819,478 +4071,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "4.1.0",
-   "scope": "runtime",
+   "resolved_version": "12.20.0",
+   "scope": "toolchain",
    "source_kind": "registry",
-   "to": "pkg:npm/%40effect/platform-node@4.1.0#(effect@4.1.0)(redis@6.3.1)"
-  },
-  {
-   "condition": null,
-   "constraint": "5.3.1",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.'@fontsource-variable/source-serif-4'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.3.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40fontsource-variable/source-serif-4@5.3.1#"
-  },
-  {
-   "condition": null,
-   "constraint": "5.3.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.'@fontsource/ibm-plex-sans'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.3.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40fontsource/ibm-plex-sans@5.3.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.11.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@laputa-systems/ui-dashboard'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.11.0",
-   "scope": "dev",
-   "source_kind": "url",
-   "to": "pkg:npm/%40laputa-systems/ui-dashboard@0.11.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6f1179e1a7cdf4aee8cf9bee830067806575417c922cfa6e53eb1a1ca5e03096cbd18d736284023fe3ecf80599ce1b2c81d25a9b7beeb3155c86673bba0e7ca9.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)"
-  },
-  {
-   "condition": null,
-   "constraint": "2.4.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@modelcontextprotocol/client'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.4.0",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40modelcontextprotocol/client@2.4.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.4.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.'@modelcontextprotocol/server'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.4.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40modelcontextprotocol/server@2.4.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.6.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.'@mozilla/readability'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.6.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40mozilla/readability@0.6.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "3.0.0-next.57",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@solidjs/vite-plugin'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.0.0-next.57",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.57#(@babel/core@7.29.7(supports-color@10.2.2))(@solidjs/babel-plugin@2.0.0-rc.20(@babel/core@7.29.7(supports-color@10.2.2)))(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2))"
-  },
-  {
-   "condition": null,
-   "constraint": "2.0.0-rc.20",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.'@solidjs/web'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)"
-  },
-  {
-   "condition": null,
-   "constraint": "3.0.5",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@types/hast'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.0.5",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/hast@3.0.5#"
-  },
-  {
-   "condition": null,
-   "constraint": "4.0.4",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@types/mdast'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "4.0.4",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/mdast@4.0.4#"
-  },
-  {
-   "condition": null,
-   "constraint": "26.6.6",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@types/node'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "26.6.6",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/node@26.6.6#"
-  },
-  {
-   "condition": null,
-   "constraint": "5.1.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@vitest/browser-playwright'",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.1.0",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40vitest/browser-playwright@5.1.0#(playwright@1.65.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2))(vitest@5.1.0)"
-  },
-  {
-   "condition": null,
-   "constraint": "1.2.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.cheerio",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.2.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/cheerio@1.2.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "4.1.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.effect",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "4.1.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/effect@4.1.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "9.0.6",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.hast-util-to-html",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "9.0.6",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/hast-util-to-html@9.0.6#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.18.12",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.linkedom",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.18.12",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/linkedom@0.18.12#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.1.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.mdast-util-from-markdown",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.1.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/mdast-util-from-markdown@2.1.0#(supports-color@10.2.2)"
-  },
-  {
-   "condition": null,
-   "constraint": "2.0.1",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.mdast-util-frontmatter",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.0.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/mdast-util-frontmatter@2.0.1#(supports-color@10.2.2)"
-  },
-  {
-   "condition": null,
-   "constraint": "3.1.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.mdast-util-gfm",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.1.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/mdast-util-gfm@3.1.0#(supports-color@10.2.2)"
-  },
-  {
-   "condition": null,
-   "constraint": "13.2.1",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.mdast-util-to-hast",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "13.2.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/mdast-util-to-hast@13.2.1#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.0.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.micromark-extension-frontmatter",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.0.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/micromark-extension-frontmatter@2.0.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "3.0.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.micromark-extension-gfm",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.0.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/micromark-extension-gfm@3.0.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "4.0.3",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.micromark",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "4.0.3",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/micromark@4.0.3#(supports-color@10.2.2)"
-  },
-  {
-   "condition": null,
-   "constraint": "1.93.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.oxlint",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.93.0",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/oxlint@1.93.0#(oxlint-tsgolint@7.0.2005)"
-  },
-  {
-   "condition": null,
-   "constraint": "6.1.0",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.p-limit",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "6.1.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/p-limit@6.1.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.65.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.playwright",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.65.0",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/playwright@1.65.0#"
+   "to": "pkg:npm/%40pnpm/exe@12.20.0#"
   },
   {
    "condition": null,
@@ -4309,78 +4093,6 @@
    "scope": "toolchain",
    "source_kind": "registry",
    "to": "pkg:npm/pnpm@12.20.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.0.0-rc.20",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.solid-js",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.0.0-rc.20",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/solid-js@2.0.0-rc.20#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.25.0-ts7.1.0-beta",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.tsrs",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.25.0-ts7.1.0-beta",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta#"
-  },
-  {
-   "condition": null,
-   "constraint": "8.3.8",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.vite",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "8.3.8",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/vite@8.3.8#(@types/node@26.6.6)(esbuild@0.28.2)"
-  },
-  {
-   "condition": null,
-   "constraint": "5.1.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.vitest",
-     "path": "pnpm-lock.yaml"
-    }
-   ],
-   "from": ".:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.1.0",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/vitest@5.1.0#(@types/node@26.6.6)(@vitest/browser-playwright@5.1.0)(@vitest/ui@5.1.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2))"
   },
   {
    "condition": null,
@@ -4474,14 +4186,50 @@
   },
   {
    "condition": null,
-   "constraint": "file:vendor/stats-producer/producer-0.2.0.tgz",
+   "constraint": "workspace:*",
    "evidence": [
     {
-     "locator": "importers[cloudflare].dependencies.'@stats/producer'",
+     "locator": "importers['apps/artists/cloudflare'].dependencies.'@discover/research-core'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/%40discover/research-core#"
+  },
+  {
+   "condition": null,
+   "constraint": "workspace:*",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists/cloudflare'].dependencies.'@discover/site-kit'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists/cloudflare:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/%40discover/site-kit#"
+  },
+  {
+   "condition": null,
+   "constraint": "file:vendor/stats-producer/producer-0.2.0.tgz",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists/cloudflare'].dependencies.'@stats/producer'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4495,11 +4243,11 @@
    "constraint": "2.0.0-beta.v.8",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.'@cloudflare/vite-plugin'",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.'@cloudflare/vite-plugin'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4513,11 +4261,11 @@
    "constraint": "5.20261107.1",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.'@cloudflare/workers-types'",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.'@cloudflare/workers-types'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4531,11 +4279,11 @@
    "constraint": "5.3.1",
    "evidence": [
     {
-     "locator": "importers[cloudflare].dependencies.'@fontsource-variable/source-serif-4'",
+     "locator": "importers['apps/artists/cloudflare'].dependencies.'@fontsource-variable/source-serif-4'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4549,11 +4297,11 @@
    "constraint": "5.3.0",
    "evidence": [
     {
-     "locator": "importers[cloudflare].dependencies.'@fontsource/ibm-plex-sans'",
+     "locator": "importers['apps/artists/cloudflare'].dependencies.'@fontsource/ibm-plex-sans'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4567,11 +4315,11 @@
    "constraint": "0.11.0",
    "evidence": [
     {
-     "locator": "importers[cloudflare].dependencies.'@laputa-systems/ui-dashboard'",
+     "locator": "importers['apps/artists/cloudflare'].dependencies.'@laputa-systems/ui-dashboard'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4585,11 +4333,11 @@
    "constraint": "2.4.0",
    "evidence": [
     {
-     "locator": "importers[cloudflare].dependencies.'@modelcontextprotocol/server'",
+     "locator": "importers['apps/artists/cloudflare'].dependencies.'@modelcontextprotocol/server'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4603,11 +4351,11 @@
    "constraint": "26.6.6",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.'@types/node'",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.'@types/node'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4621,11 +4369,11 @@
    "constraint": "1.0.0-beta.26",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.cf",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.cf",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4639,11 +4387,11 @@
    "constraint": "5.20261023.3-beta",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.miniflare",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.miniflare",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4657,11 +4405,11 @@
    "constraint": "1.93.0",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.oxlint",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.oxlint",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4675,11 +4423,11 @@
    "constraint": "0.25.0-ts7.1.0-beta",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.tsrs",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.tsrs",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4693,11 +4441,821 @@
    "constraint": "8.3.8",
    "evidence": [
     {
-     "locator": "importers[cloudflare].devDependencies.vite",
+     "locator": "importers['apps/artists/cloudflare'].devDependencies.vite",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "cloudflare:npm",
+   "from": "apps/artists/cloudflare:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "8.3.8",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/vite@8.3.8#(@types/node@26.6.6)(esbuild@0.28.2)"
+  },
+  {
+   "condition": null,
+   "constraint": "workspace:*",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.'@discover/research-core'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/%40discover/research-core#"
+  },
+  {
+   "condition": null,
+   "constraint": "workspace:*",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.'@discover/site-kit'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/%40discover/site-kit#"
+  },
+  {
+   "condition": null,
+   "constraint": "4.1.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.'@effect/platform-node'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "4.1.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40effect/platform-node@4.1.0#(effect@4.1.0)(redis@6.3.1)"
+  },
+  {
+   "condition": null,
+   "constraint": "5.3.1",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.'@fontsource-variable/source-serif-4'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.3.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40fontsource-variable/source-serif-4@5.3.1#"
+  },
+  {
+   "condition": null,
+   "constraint": "5.3.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.'@fontsource/ibm-plex-sans'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40fontsource/ibm-plex-sans@5.3.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.11.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.'@laputa-systems/ui-dashboard'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.11.0",
+   "scope": "dev",
+   "source_kind": "url",
+   "to": "pkg:npm/%40laputa-systems/ui-dashboard@0.11.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6f1179e1a7cdf4aee8cf9bee830067806575417c922cfa6e53eb1a1ca5e03096cbd18d736284023fe3ecf80599ce1b2c81d25a9b7beeb3155c86673bba0e7ca9.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)"
+  },
+  {
+   "condition": null,
+   "constraint": "2.4.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.'@modelcontextprotocol/client'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.4.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40modelcontextprotocol/client@2.4.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.4.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.'@modelcontextprotocol/server'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.4.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40modelcontextprotocol/server@2.4.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "3.0.0-next.57",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.'@solidjs/vite-plugin'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.0.0-next.57",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40solidjs/vite-plugin@3.0.0-next.57#(@babel/core@7.29.7(supports-color@10.2.2))(@solidjs/babel-plugin@2.0.0-rc.20(@babel/core@7.29.7(supports-color@10.2.2)))(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2))"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0.0-rc.20",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.'@solidjs/web'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.0.0-rc.20",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)"
+  },
+  {
+   "condition": null,
+   "constraint": "3.0.5",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.'@types/hast'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.0.5",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40types/hast@3.0.5#"
+  },
+  {
+   "condition": null,
+   "constraint": "4.0.4",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.'@types/mdast'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "4.0.4",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40types/mdast@4.0.4#"
+  },
+  {
+   "condition": null,
+   "constraint": "26.6.6",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.'@types/node'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "26.6.6",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40types/node@26.6.6#"
+  },
+  {
+   "condition": null,
+   "constraint": "5.1.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.'@vitest/browser-playwright'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.1.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40vitest/browser-playwright@5.1.0#(playwright@1.65.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2))(vitest@5.1.0)"
+  },
+  {
+   "condition": null,
+   "constraint": "1.2.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.cheerio",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.2.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/cheerio@1.2.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "4.1.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.effect",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "4.1.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/effect@4.1.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "9.0.6",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.hast-util-to-html",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "9.0.6",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/hast-util-to-html@9.0.6#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.1.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.mdast-util-from-markdown",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.1.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/mdast-util-from-markdown@2.1.0#(supports-color@10.2.2)"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0.1",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.mdast-util-frontmatter",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.0.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/mdast-util-frontmatter@2.0.1#(supports-color@10.2.2)"
+  },
+  {
+   "condition": null,
+   "constraint": "3.1.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.mdast-util-gfm",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.1.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/mdast-util-gfm@3.1.0#(supports-color@10.2.2)"
+  },
+  {
+   "condition": null,
+   "constraint": "13.2.1",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.mdast-util-to-hast",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "13.2.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/mdast-util-to-hast@13.2.1#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.micromark-extension-frontmatter",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.0.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/micromark-extension-frontmatter@2.0.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "3.0.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.micromark-extension-gfm",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.0.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/micromark-extension-gfm@3.0.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "4.0.3",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.micromark",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "4.0.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/micromark@4.0.3#(supports-color@10.2.2)"
+  },
+  {
+   "condition": null,
+   "constraint": "1.93.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.oxlint",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/oxlint@1.93.0#(oxlint-tsgolint@7.0.2005)"
+  },
+  {
+   "condition": null,
+   "constraint": "1.65.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.playwright",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.65.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/playwright@1.65.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0.0-rc.20",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].dependencies.solid-js",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.0.0-rc.20",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/solid-js@2.0.0-rc.20#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.25.0-ts7.1.0-beta",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.tsrs",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta#"
+  },
+  {
+   "condition": null,
+   "constraint": "8.3.8",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.vite",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "8.3.8",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/vite@8.3.8#(@types/node@26.6.6)(esbuild@0.28.2)"
+  },
+  {
+   "condition": null,
+   "constraint": "5.1.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/artists'].devDependencies.vitest",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/artists:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.1.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/vitest@5.1.0#(@types/node@26.6.6)(@vitest/browser-playwright@5.1.0)(@vitest/ui@5.1.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2))"
+  },
+  {
+   "condition": null,
+   "constraint": "pnpm@12.20.0",
+   "evidence": [
+    {
+     "locator": "packageManager",
+     "path": "apps/artists/package.json"
+    }
+   ],
+   "from": "apps/artists:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "toolchain",
+   "source_kind": "url",
+   "to": "pkg:toolchain/pnpm@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "workspace:*",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].dependencies.'@discover/research-core'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/%40discover/research-core#"
+  },
+  {
+   "condition": null,
+   "constraint": "workspace:*",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].dependencies.'@discover/site-kit'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/%40discover/site-kit#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0.0-beta.v.8",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.'@cloudflare/vite-plugin'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.0.0-beta.v.8",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40cloudflare/vite-plugin@2.0.0-beta.v.8#(@types/node@26.6.6)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2))(workerd@1.20261023.1)"
+  },
+  {
+   "condition": null,
+   "constraint": "5.20261107.1",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.'@cloudflare/workers-types'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.20261107.1",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40cloudflare/workers-types@5.20261107.1#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.11.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.'@laputa-systems/ui-dashboard'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.11.0",
+   "scope": "dev",
+   "source_kind": "url",
+   "to": "pkg:npm/%40laputa-systems/ui-dashboard@0.11.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6f1179e1a7cdf4aee8cf9bee830067806575417c922cfa6e53eb1a1ca5e03096cbd18d736284023fe3ecf80599ce1b2c81d25a9b7beeb3155c86673bba0e7ca9.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)"
+  },
+  {
+   "condition": null,
+   "constraint": "2.4.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].dependencies.'@modelcontextprotocol/server'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.4.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40modelcontextprotocol/server@2.4.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "26.6.6",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.'@types/node'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "26.6.6",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40types/node@26.6.6#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0.0-beta.26",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.cf",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.0.0-beta.26",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/cf@1.0.0-beta.26#(@types/node@26.6.6)"
+  },
+  {
+   "condition": null,
+   "constraint": "4.1.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].dependencies.effect",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "4.1.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/effect@4.1.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "5.20261023.3-beta",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.miniflare",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.20261023.3-beta",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/miniflare@5.20261023.3-beta#(@types/node@26.6.6)"
+  },
+  {
+   "condition": null,
+   "constraint": "1.93.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.oxlint",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/oxlint@1.93.0#(oxlint-tsgolint@7.0.2005)"
+  },
+  {
+   "condition": null,
+   "constraint": "1.65.0",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.playwright",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.65.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/playwright@1.65.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.25.0-ts7.1.0-beta",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.tsrs",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta#"
+  },
+  {
+   "condition": null,
+   "constraint": "8.3.8",
+   "evidence": [
+    {
+     "locator": "importers['apps/wine'].devDependencies.vite",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "apps/wine:npm",
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
@@ -4813,6 +5371,294 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/pnpm@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.4.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].dependencies.'@modelcontextprotocol/client'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.4.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40modelcontextprotocol/client@2.4.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.4.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].dependencies.'@modelcontextprotocol/server'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.4.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40modelcontextprotocol/server@2.4.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.6.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].dependencies.'@mozilla/readability'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.6.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40mozilla/readability@0.6.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "26.6.6",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].devDependencies.'@types/node'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "26.6.6",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40types/node@26.6.6#"
+  },
+  {
+   "condition": null,
+   "constraint": "4.1.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].dependencies.effect",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "4.1.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/effect@4.1.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.18.12",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].dependencies.linkedom",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.18.12",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/linkedom@0.18.12#"
+  },
+  {
+   "condition": null,
+   "constraint": "5.20261023.3-beta",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].devDependencies.miniflare",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.20261023.3-beta",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/miniflare@5.20261023.3-beta#(@types/node@26.6.6)"
+  },
+  {
+   "condition": null,
+   "constraint": "1.93.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].devDependencies.oxlint",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/oxlint@1.93.0#(oxlint-tsgolint@7.0.2005)"
+  },
+  {
+   "condition": null,
+   "constraint": "6.1.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].dependencies.p-limit",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "6.1.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/p-limit@6.1.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.25.0-ts7.1.0-beta",
+   "evidence": [
+    {
+     "locator": "importers['packages/research-core'].devDependencies.tsrs",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/research-core:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.11.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/site-kit'].dependencies.'@laputa-systems/ui-dashboard'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/site-kit:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.11.0",
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:npm/%40laputa-systems/ui-dashboard@0.11.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6f1179e1a7cdf4aee8cf9bee830067806575417c922cfa6e53eb1a1ca5e03096cbd18d736284023fe3ecf80599ce1b2c81d25a9b7beeb3155c86673bba0e7ca9.tgz#(@solidjs/web@2.0.0-rc.20(solid-js@2.0.0-rc.20))(solid-js@2.0.0-rc.20)"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0.0-rc.20",
+   "evidence": [
+    {
+     "locator": "importers['packages/site-kit'].dependencies.'@solidjs/web'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/site-kit:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.0.0-rc.20",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40solidjs/web@2.0.0-rc.20#(solid-js@2.0.0-rc.20)"
+  },
+  {
+   "condition": null,
+   "constraint": "26.6.6",
+   "evidence": [
+    {
+     "locator": "importers['packages/site-kit'].devDependencies.'@types/node'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/site-kit:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "26.6.6",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40types/node@26.6.6#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.93.0",
+   "evidence": [
+    {
+     "locator": "importers['packages/site-kit'].devDependencies.oxlint",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/site-kit:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/oxlint@1.93.0#(oxlint-tsgolint@7.0.2005)"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0.0-rc.20",
+   "evidence": [
+    {
+     "locator": "importers['packages/site-kit'].dependencies.solid-js",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/site-kit:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "2.0.0-rc.20",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:npm/solid-js@2.0.0-rc.20#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.25.0-ts7.1.0-beta",
+   "evidence": [
+    {
+     "locator": "importers['packages/site-kit'].devDependencies.tsrs",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "packages/site-kit:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta#"
   },
   {
    "condition": null,
@@ -10663,6 +11509,276 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:npm/%40tybys/wasm-util@0.10.4#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.android-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.android-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.android-x64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.darwin-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.darwin-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.freebsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.linux-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.linux-ppc64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.linux-riscv64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.linux-s390x'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.linux-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.netbsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.win32-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@pnpm/exe@12.20.0'].optionalDependencies.'@pnpm/exe.win32-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.20.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0#"
   },
   {
    "condition": null,
@@ -27533,6 +28649,14 @@
  ],
  "inputs": [
   {
+   "blob": "8c20d514eaa0967973d137531bd61291237c49d0",
+   "path": ".githooks/browsers-hint.sh"
+  },
+  {
+   "blob": "be9109369453980a22ecef7416f028849b6338bc",
+   "path": ".githooks/pre-push"
+  },
+  {
    "blob": "0a083d4670b780dd551e20b4fdbfc3d0f59d3729",
    "path": ".github/workflows/lint.yml"
   },
@@ -27541,16 +28665,36 @@
    "path": ".tool-versions"
   },
   {
-   "blob": "28feebe3ad49ff415011b4a0140699341fe1902b",
+   "blob": "82097211d365b5881bf2b69e3cde42e076da2889",
    "path": "Makefile"
   },
   {
-   "blob": "045338195283dd9942537b0fa2f76cc0d19bb482",
-   "path": "cloudflare/package.json"
+   "blob": "41cc24a0b2c3ba36c26f70bf04783b3b398ac726",
+   "path": "apps/artists/cloudflare/package.json"
   },
   {
-   "blob": "44750f8d8d9596af139ef190a9c7b2e96a6934be",
+   "blob": "4c91ee7cc6f59e3d16076725f7ffcea948470528",
+   "path": "apps/artists/package.json"
+  },
+  {
+   "blob": "706646648813f029a2b6c3bbdc77bac980560dde",
+   "path": "apps/wine/package.json"
+  },
+  {
+   "blob": "2fa6359e78d9f5c41591c1cafb7a2e6404fbd1e6",
    "path": "deploy/orange/Dockerfile"
+  },
+  {
+   "blob": "fdb822035d802e807088d0409ab09a4fd6da16b7",
+   "path": "deploy/orange/build-image.sh"
+  },
+  {
+   "blob": "6bee728c85234e4f9f378963aaf2456f8ab60e38",
+   "path": "deploy/orange/build-img.sh"
+  },
+  {
+   "blob": "6a1ed5b426e9aacde1ec50c30c94fc0080ebbacd",
+   "path": "deploy/orange/deploy.sh"
   },
   {
    "blob": "c4e6a19cdcef5724a6379cb5948762e5ef91429f",
@@ -27561,16 +28705,695 @@
    "path": "deploy/orange/pnpm-lock.yaml"
   },
   {
-   "blob": "2a789b770ea4e46e41fc09b5d61844235a1801e2",
+   "blob": "3176838bb64c309f4ec03e43aa5382353537af48",
    "path": "package.json"
   },
   {
-   "blob": "8181683191df3a77ce39db73c3bfa36596f62175",
+   "blob": "11d6c9bb9d36d8129474a2c9abccffebf752e2ce",
+   "path": "packages/research-core/package.json"
+  },
+  {
+   "blob": "793f492d309d055fc4c530b1be040173a5a7dd74",
+   "path": "packages/site-kit/package.json"
+  },
+  {
+   "blob": "ebe63970f42f0a92c917d6b47177c697be544952",
    "path": "pnpm-lock.yaml"
+  },
+  {
+   "blob": "51a2ad00875b48a13ac4e8c57721452ea4996878",
+   "path": "scripts/gate.sh"
+  },
+  {
+   "blob": "6c6bc34c5aa761b8776bcac0c6fea281604ac778",
+   "path": "scripts/step.sh"
   }
  ],
- "inputs_fingerprint": "7e7348c4ad59017f13a56dbb995f481cf889135537c3b390bbcc3be242cf78c0",
+ "inputs_fingerprint": "f7cdcaec0f907d261760e51f1bdc615dcf2d8ae965fd15c539891abc854932fe",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:command/addprefix",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/addprefix#makefile",
+   "purl": "pkg:command/addprefix",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/awk",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/awk#shell",
+   "purl": "pkg:command/awk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/browsers-hint.sh",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/browsers-hint.sh#makefile",
+   "purl": "pkg:command/browsers-hint.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/build-image.sh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/build-image.sh#shell",
+   "purl": "pkg:command/build-image.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/build-img.sh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/build-img.sh#shell",
+   "purl": "pkg:command/build-img.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chmod",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/chmod#shell",
+   "purl": "pkg:command/chmod",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/date",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/date#shell",
+   "purl": "pkg:command/date",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/deploy.sh",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/deploy.sh#makefile",
+   "purl": "pkg:command/deploy.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dirname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dirname#shell",
+   "purl": "pkg:command/dirname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/echo#makefile",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gate.sh",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/gate.sh#makefile",
+   "purl": "pkg:command/gate.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/git#makefile",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/git#shell",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/install",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/install#dockerfile",
+   "purl": "pkg:command/install",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/jaq",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/jaq#shell",
+   "purl": "pkg:command/jaq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ln",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/ln#dockerfile",
+   "purl": "pkg:command/ln",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/make#makefile",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/make#shell",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/node",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/node#makefile",
+   "purl": "pkg:command/node",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/node",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/node#shell",
+   "purl": "pkg:command/node",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/npm",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/npm#dockerfile",
+   "purl": "pkg:command/npm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/or",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/or#makefile",
+   "purl": "pkg:command/or",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/pnpm#dockerfile",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/pnpm#makefile",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/pnpm#shell",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/pnpm#workflow",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rg",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rg#makefile",
+   "purl": "pkg:command/rg",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rg",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rg#shell",
+   "purl": "pkg:command/rg",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rsync",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rsync#shell",
+   "purl": "pkg:command/rsync",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sed#shell",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/shasum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/shasum#shell",
+   "purl": "pkg:command/shasum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sleep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sleep#shell",
+   "purl": "pkg:command/sleep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ssh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ssh#shell",
+   "purl": "pkg:command/ssh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/step.sh",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/step.sh#makefile",
+   "purl": "pkg:command/step.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tail",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tail#shell",
+   "purl": "pkg:command/tail",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/test#shell",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tr",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tr#shell",
+   "purl": "pkg:command/tr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/true#shell",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/uname#shell",
+   "purl": "pkg:command/uname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/vite",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/vite#makefile",
+   "purl": "pkg:command/vite",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": null,
    "component": "pkg:docker/library/node?digest=sha256%3A5df79989ed685e09f0a98019db4cebfb22fb9df1a53c0161664a011f7ff6b0f1",
@@ -27609,6 +29432,32 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/pnpm/setup",
    "version": "fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/%40discover/research-core",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/%40discover/research-core#",
+   "purl": "pkg:local/%40discover/research-core",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/%40discover/site-kit",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/%40discover/site-kit#",
+   "purl": "pkg:local/%40discover/site-kit",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": null,
@@ -31200,6 +33049,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:npm/%40pnpm/exe",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe@12.20.0#",
+   "purl": "pkg:npm/%40pnpm/exe@12.20.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.20.0"
+  },
+  {
+   "commit": null,
    "component": "pkg:npm/%40polka/url",
    "context": "",
    "first_party": false,
@@ -32500,16 +34362,16 @@
   },
   {
    "commit": null,
-   "component": "pkg:npm/%40stats/producer?download_url=file%3Acloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz",
+   "component": "pkg:npm/%40stats/producer?download_url=file%3Aapps%2Fartists%2Fcloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40stats/producer@file%3Acloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz?download_url=file%3Acloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz#",
-   "purl": "pkg:npm/%40stats/producer@file%3Acloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz?download_url=file%3Acloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz",
+   "id": "pkg:npm/%40stats/producer@file%3Aapps%2Fartists%2Fcloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz?download_url=file%3Aapps%2Fartists%2Fcloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz#",
+   "purl": "pkg:npm/%40stats/producer@file%3Aapps%2Fartists%2Fcloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz?download_url=file%3Aapps%2Fartists%2Fcloudflare%2Fvendor%2Fstats-producer%2Fproducer-0.2.0.tgz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
    "vcs_url": null,
-   "version": "file:cloudflare/vendor/stats-producer/producer-0.2.0.tgz"
+   "version": "file:apps/artists/cloudflare/vendor/stats-producer/producer-0.2.0.tgz"
   },
   {
    "commit": null,
@@ -37788,7 +39650,7 @@
    "kind": "vendored_unknown",
    "locator": null,
    "message": "vendored tree has no recognized manifest",
-   "path": "cloudflare/vendor"
+   "path": "apps/artists/cloudflare/vendor"
   }
  ],
  "projects": [
@@ -37803,9 +39665,24 @@
    "id": ".:repo"
   },
   {
-   "directory": "cloudflare",
+   "directory": "apps/artists/cloudflare",
    "ecosystem": "npm",
-   "id": "cloudflare:npm"
+   "id": "apps/artists/cloudflare:npm"
+  },
+  {
+   "directory": "apps/artists",
+   "ecosystem": "npm",
+   "id": "apps/artists:npm"
+  },
+  {
+   "directory": "apps/artists",
+   "ecosystem": "generic",
+   "id": "apps/artists:repo"
+  },
+  {
+   "directory": "apps/wine",
+   "ecosystem": "npm",
+   "id": "apps/wine:npm"
   },
   {
    "directory": "deploy/orange",
@@ -37816,6 +39693,16 @@
    "directory": "deploy/orange",
    "ecosystem": "generic",
    "id": "deploy/orange:repo"
+  },
+  {
+   "directory": "packages/research-core",
+   "ecosystem": "npm",
+   "id": "packages/research-core:npm"
+  },
+  {
+   "directory": "packages/site-kit",
+   "ecosystem": "npm",
+   "id": "packages/site-kit:npm"
   }
  ],
  "repository": "joshuarli/discover",

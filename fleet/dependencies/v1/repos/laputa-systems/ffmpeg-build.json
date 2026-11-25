@@ -133,6 +133,354 @@
    "purl": "pkg:apk/xz"
   },
   {
+   "display_name": "1.lock",
+   "ecosystem": "command",
+   "name": "1.lock",
+   "purl": "pkg:command/1.lock"
+  },
+  {
+   "display_name": "2",
+   "ecosystem": "command",
+   "name": "2",
+   "purl": "pkg:command/2"
+  },
+  {
+   "display_name": "apk",
+   "ecosystem": "command",
+   "name": "apk",
+   "purl": "pkg:command/apk"
+  },
+  {
+   "display_name": "awk",
+   "ecosystem": "command",
+   "name": "awk",
+   "purl": "pkg:command/awk"
+  },
+  {
+   "display_name": "basename",
+   "ecosystem": "command",
+   "name": "basename",
+   "purl": "pkg:command/basename"
+  },
+  {
+   "display_name": "brew",
+   "ecosystem": "command",
+   "name": "brew",
+   "purl": "pkg:command/brew"
+  },
+  {
+   "display_name": "call",
+   "ecosystem": "command",
+   "name": "call",
+   "purl": "pkg:command/call"
+  },
+  {
+   "display_name": "cat",
+   "ecosystem": "command",
+   "name": "cat",
+   "purl": "pkg:command/cat"
+  },
+  {
+   "display_name": "cc",
+   "ecosystem": "command",
+   "name": "cc",
+   "purl": "pkg:command/cc"
+  },
+  {
+   "display_name": "cmp",
+   "ecosystem": "command",
+   "name": "cmp",
+   "purl": "pkg:command/cmp"
+  },
+  {
+   "display_name": "container_image",
+   "ecosystem": "command",
+   "name": "container_image",
+   "purl": "pkg:command/container_image"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "cut",
+   "ecosystem": "command",
+   "name": "cut",
+   "purl": "pkg:command/cut"
+  },
+  {
+   "display_name": "dirname",
+   "ecosystem": "command",
+   "name": "dirname",
+   "purl": "pkg:command/dirname"
+  },
+  {
+   "display_name": "docker",
+   "ecosystem": "command",
+   "name": "docker",
+   "purl": "pkg:command/docker"
+  },
+  {
+   "display_name": "docker_platform_for",
+   "ecosystem": "command",
+   "name": "docker_platform_for",
+   "purl": "pkg:command/docker_platform_for"
+  },
+  {
+   "display_name": "dpkg",
+   "ecosystem": "command",
+   "name": "dpkg",
+   "purl": "pkg:command/dpkg"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "ensure_fixtures",
+   "ecosystem": "command",
+   "name": "ensure_fixtures",
+   "purl": "pkg:command/ensure_fixtures"
+  },
+  {
+   "display_name": "find",
+   "ecosystem": "command",
+   "name": "find",
+   "purl": "pkg:command/find"
+  },
+  {
+   "display_name": "gh",
+   "ecosystem": "command",
+   "name": "gh",
+   "purl": "pkg:command/gh"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "head",
+   "ecosystem": "command",
+   "name": "head",
+   "purl": "pkg:command/head"
+  },
+  {
+   "display_name": "id",
+   "ecosystem": "command",
+   "name": "id",
+   "purl": "pkg:command/id"
+  },
+  {
+   "display_name": "in_container",
+   "ecosystem": "command",
+   "name": "in_container",
+   "purl": "pkg:command/in_container"
+  },
+  {
+   "display_name": "install",
+   "ecosystem": "command",
+   "name": "install",
+   "purl": "pkg:command/install"
+  },
+  {
+   "display_name": "linux-fixtures.sh",
+   "ecosystem": "command",
+   "name": "linux-fixtures.sh",
+   "purl": "pkg:command/linux-fixtures.sh"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "mutants-diff.sh",
+   "ecosystem": "command",
+   "name": "mutants-diff.sh",
+   "purl": "pkg:command/mutants-diff.sh"
+  },
+  {
+   "display_name": "mv",
+   "ecosystem": "command",
+   "name": "mv",
+   "purl": "pkg:command/mv"
+  },
+  {
+   "display_name": "otool",
+   "ecosystem": "command",
+   "name": "otool",
+   "purl": "pkg:command/otool"
+  },
+  {
+   "display_name": "pkg-config",
+   "ecosystem": "command",
+   "name": "pkg-config",
+   "purl": "pkg:command/pkg-config"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "readelf",
+   "ecosystem": "command",
+   "name": "readelf",
+   "purl": "pkg:command/readelf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "run-mutation-scope.sh",
+   "ecosystem": "command",
+   "name": "run-mutation-scope.sh",
+   "purl": "pkg:command/run-mutation-scope.sh"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "sh",
+   "ecosystem": "command",
+   "name": "sh",
+   "purl": "pkg:command/sh"
+  },
+  {
+   "display_name": "sha256sum",
+   "ecosystem": "command",
+   "name": "sha256sum",
+   "purl": "pkg:command/sha256sum"
+  },
+  {
+   "display_name": "shasum",
+   "ecosystem": "command",
+   "name": "shasum",
+   "purl": "pkg:command/shasum"
+  },
+  {
+   "display_name": "sleep",
+   "ecosystem": "command",
+   "name": "sleep",
+   "purl": "pkg:command/sleep"
+  },
+  {
+   "display_name": "sort",
+   "ecosystem": "command",
+   "name": "sort",
+   "purl": "pkg:command/sort"
+  },
+  {
+   "display_name": "sudo",
+   "ecosystem": "command",
+   "name": "sudo",
+   "purl": "pkg:command/sudo"
+  },
+  {
+   "display_name": "tail",
+   "ecosystem": "command",
+   "name": "tail",
+   "purl": "pkg:command/tail"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "tools-workflows.sh",
+   "ecosystem": "command",
+   "name": "tools-workflows.sh",
+   "purl": "pkg:command/tools-workflows.sh"
+  },
+  {
+   "display_name": "tr",
+   "ecosystem": "command",
+   "name": "tr",
+   "purl": "pkg:command/tr"
+  },
+  {
+   "display_name": "uname",
+   "ecosystem": "command",
+   "name": "uname",
+   "purl": "pkg:command/uname"
+  },
+  {
+   "display_name": "uv",
+   "ecosystem": "command",
+   "name": "uv",
+   "purl": "pkg:command/uv"
+  },
+  {
+   "display_name": "wc",
+   "ecosystem": "command",
+   "name": "wc",
+   "purl": "pkg:command/wc"
+  },
+  {
+   "display_name": "xcode-select",
+   "ecosystem": "command",
+   "name": "xcode-select",
+   "purl": "pkg:command/xcode-select"
+  },
+  {
+   "display_name": "xcodebuild",
+   "ecosystem": "command",
+   "name": "xcodebuild",
+   "purl": "pkg:command/xcodebuild"
+  },
+  {
    "display_name": "alpine",
    "ecosystem": "docker",
    "name": "alpine",
@@ -181,10 +529,106 @@
    "purl": "pkg:local/ffmpeg-build"
   },
   {
+   "display_name": "click",
+   "ecosystem": "pypi",
+   "name": "click",
+   "purl": "pkg:pypi/click"
+  },
+  {
+   "display_name": "coverage",
+   "ecosystem": "pypi",
+   "name": "coverage",
+   "purl": "pkg:pypi/coverage"
+  },
+  {
+   "display_name": "iniconfig",
+   "ecosystem": "pypi",
+   "name": "iniconfig",
+   "purl": "pkg:pypi/iniconfig"
+  },
+  {
    "display_name": "laputa-buildlib",
    "ecosystem": "pypi",
    "name": "laputa-buildlib",
    "purl": "pkg:pypi/laputa-buildlib"
+  },
+  {
+   "display_name": "libcst",
+   "ecosystem": "pypi",
+   "name": "libcst",
+   "purl": "pkg:pypi/libcst"
+  },
+  {
+   "display_name": "linkify-it-py",
+   "ecosystem": "pypi",
+   "name": "linkify-it-py",
+   "purl": "pkg:pypi/linkify-it-py"
+  },
+  {
+   "display_name": "markdown-it-py",
+   "ecosystem": "pypi",
+   "name": "markdown-it-py",
+   "purl": "pkg:pypi/markdown-it-py"
+  },
+  {
+   "display_name": "mdit-py-plugins",
+   "ecosystem": "pypi",
+   "name": "mdit-py-plugins",
+   "purl": "pkg:pypi/mdit-py-plugins"
+  },
+  {
+   "display_name": "mdurl",
+   "ecosystem": "pypi",
+   "name": "mdurl",
+   "purl": "pkg:pypi/mdurl"
+  },
+  {
+   "display_name": "mutmut",
+   "ecosystem": "pypi",
+   "name": "mutmut",
+   "purl": "pkg:pypi/mutmut"
+  },
+  {
+   "display_name": "packaging",
+   "ecosystem": "pypi",
+   "name": "packaging",
+   "purl": "pkg:pypi/packaging"
+  },
+  {
+   "display_name": "platformdirs",
+   "ecosystem": "pypi",
+   "name": "platformdirs",
+   "purl": "pkg:pypi/platformdirs"
+  },
+  {
+   "display_name": "pluggy",
+   "ecosystem": "pypi",
+   "name": "pluggy",
+   "purl": "pkg:pypi/pluggy"
+  },
+  {
+   "display_name": "pygments",
+   "ecosystem": "pypi",
+   "name": "pygments",
+   "purl": "pkg:pypi/pygments"
+  },
+  {
+   "display_name": "pytest",
+   "ecosystem": "pypi",
+   "name": "pytest",
+   "purl": "pkg:pypi/pytest"
+  },
+  {
+   "display_name": "pyyaml",
+   "ecosystem": "pypi",
+   "name": "pyyaml",
+   "purl": "pkg:pypi/pyyaml"
+  },
+  {
+   "display_name": "rich",
+   "ecosystem": "pypi",
+   "name": "rich",
+   "purl": "pkg:pypi/rich"
   },
   {
    "display_name": "ruff",
@@ -193,10 +637,28 @@
    "purl": "pkg:pypi/ruff"
   },
   {
+   "display_name": "setproctitle",
+   "ecosystem": "pypi",
+   "name": "setproctitle",
+   "purl": "pkg:pypi/setproctitle"
+  },
+  {
+   "display_name": "textual",
+   "ecosystem": "pypi",
+   "name": "textual",
+   "purl": "pkg:pypi/textual"
+  },
+  {
    "display_name": "ty",
    "ecosystem": "pypi",
    "name": "ty",
    "purl": "pkg:pypi/ty"
+  },
+  {
+   "display_name": "typing-extensions",
+   "ecosystem": "pypi",
+   "name": "typing-extensions",
+   "purl": "pkg:pypi/typing-extensions"
   },
   {
    "display_name": "uv",
@@ -207,8 +669,30 @@
  ],
  "edges": [
   {
+   "condition": "group == 'dev'",
+   "constraint": "==7.17.3",
+   "evidence": [
+    {
+     "locator": "dependency-groups.dev[0]",
+     "path": "pyproject.toml"
+    },
+    {
+     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": ".:pypi",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": "7.17.3",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:pypi/coverage@7.17.3#"
+  },
+  {
    "condition": null,
-   "constraint": "==0.1.0",
+   "constraint": "==0.3.1",
    "evidence": [
     {
      "locator": "project.dependencies[0]",
@@ -223,21 +707,65 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.1.0",
+   "resolved_version": "0.3.1",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:pypi/laputa-buildlib@0.1.0#"
+   "to": "pkg:pypi/laputa-buildlib@0.3.1#"
+  },
+  {
+   "condition": "group == 'dev'",
+   "constraint": "==3.8.1",
+   "evidence": [
+    {
+     "locator": "dependency-groups.dev[1]",
+     "path": "pyproject.toml"
+    },
+    {
+     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[1]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": ".:pypi",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": "3.8.1",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:pypi/mutmut@3.8.1#"
+  },
+  {
+   "condition": "group == 'dev'",
+   "constraint": "==9.2.0",
+   "evidence": [
+    {
+     "locator": "dependency-groups.dev[2]",
+     "path": "pyproject.toml"
+    },
+    {
+     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[2]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": ".:pypi",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": "9.2.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:pypi/pytest@9.2.0#"
   },
   {
    "condition": "group == 'dev'",
    "constraint": "==0.17.4",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[0]",
+     "locator": "dependency-groups.dev[3]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[0]",
+     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[3]",
      "path": "uv.lock"
     }
    ],
@@ -255,11 +783,11 @@
    "constraint": "==0.0.101",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[1]",
+     "locator": "dependency-groups.dev[4]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[1]",
+     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[4]",
      "path": "uv.lock"
     }
    ],
@@ -277,11 +805,11 @@
    "constraint": "==0.13.7",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[2]",
+     "locator": "dependency-groups.dev[5]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[2]",
+     "locator": "package[name=ffmpeg-build,version=0.1.0].dev-dependencies.dev[5]",
      "path": "uv.lock"
     }
    ],
@@ -311,6 +839,96 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9#"
+  },
+  {
+   "condition": null,
+   "constraint": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "evidence": [
+    {
+     "locator": "jobs.plan.steps[0].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "evidence": [
+    {
+     "locator": "jobs.plan.steps[3].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "evidence": [
+    {
+     "locator": "jobs.prepare.steps[0].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "evidence": [
+    {
+     "locator": "jobs.native.steps[0].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "evidence": [
+    {
+     "locator": "jobs.native.steps[2].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -440,6 +1058,24 @@
   },
   {
    "condition": null,
+   "constraint": "9000827ccba6bdab643e8b6fd33ac0654aef8333",
+   "evidence": [
+    {
+     "locator": "jobs.native.steps[3].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "9000827ccba6bdab643e8b6fd33ac0654aef8333",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333#"
+  },
+  {
+   "condition": null,
    "constraint": "v8.0.2",
    "evidence": [
     {
@@ -530,6 +1166,24 @@
   },
   {
    "condition": null,
+   "constraint": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "evidence": [
+    {
+     "locator": "jobs.plan.steps[7].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
    "constraint": "v7.0.2",
    "evidence": [
     {
@@ -581,6 +1235,60 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "evidence": [
+    {
+     "locator": "jobs.plan.steps[1].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
+  },
+  {
+   "condition": null,
+   "constraint": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "evidence": [
+    {
+     "locator": "jobs.prepare.steps[1].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
+  },
+  {
+   "condition": null,
+   "constraint": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "evidence": [
+    {
+     "locator": "jobs.native.steps[1].uses",
+     "path": ".github/workflows/whole-change-mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2#"
   },
   {
    "condition": null,
@@ -1157,6 +1865,402 @@
    "scope": "image",
    "source_kind": "image",
    "to": "pkg:docker/alpine?digest=sha256%3A42d86a3173522de4786cfba0b5d631dbadb3d03a86d218dafb070dafd9809c7e#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=libcst,version=1.9.0].dependencies[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/libcst@1.9.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "6.0.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/pyyaml@6.0.3#"
+  },
+  {
+   "condition": "extra == 'linkify'",
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=markdown-it-py,version=4.3.0].optional-dependencies.linkify[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/markdown-it-py@4.3.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "conditional",
+   "resolved_version": "2.2.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:pypi/linkify-it-py@2.2.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=markdown-it-py,version=4.3.0].dependencies[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/markdown-it-py@4.3.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.1.2",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/mdurl@0.1.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mdit-py-plugins,version=0.7.0].dependencies[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/mdit-py-plugins@0.7.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "4.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/markdown-it-py@4.3.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mutmut,version=3.8.1].dependencies[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/mutmut@3.8.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "8.5.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/click@8.5.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mutmut,version=3.8.1].dependencies[1]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/mutmut@3.8.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.17.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/coverage@7.17.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mutmut,version=3.8.1].dependencies[2]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/mutmut@3.8.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.9.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/libcst@1.9.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mutmut,version=3.8.1].dependencies[3]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/mutmut@3.8.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "9.2.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/pytest@9.2.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mutmut,version=3.8.1].dependencies[4]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/mutmut@3.8.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.3.8",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/setproctitle@1.3.8#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=mutmut,version=3.8.1].dependencies[5]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/mutmut@3.8.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "8.2.8",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/textual@8.2.8#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=pytest,version=9.2.0].dependencies[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/pytest@9.2.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.3.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/iniconfig@2.3.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=pytest,version=9.2.0].dependencies[1]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/pytest@9.2.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "26.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/packaging@26.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=pytest,version=9.2.0].dependencies[2]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/pytest@9.2.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.7.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/pluggy@1.7.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=pytest,version=9.2.0].dependencies[3]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/pytest@9.2.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.21.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/pygments@2.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=rich,version=15.0.0].dependencies[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/rich@15.0.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "4.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/markdown-it-py@4.3.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=rich,version=15.0.0].dependencies[1]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/rich@15.0.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.21.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/pygments@2.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=textual,version=8.2.8].dependencies[0]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/textual@8.2.8#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "4.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/markdown-it-py@4.3.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=textual,version=8.2.8].dependencies[1]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/textual@8.2.8#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.7.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/mdit-py-plugins@0.7.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=textual,version=8.2.8].dependencies[2]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/textual@8.2.8#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "4.14.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/platformdirs@4.14.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=textual,version=8.2.8].dependencies[3]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/textual@8.2.8#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.21.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/pygments@2.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=textual,version=8.2.8].dependencies[4]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/textual@8.2.8#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "15.0.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/rich@15.0.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=textual,version=8.2.8].dependencies[5]",
+     "path": "uv.lock"
+    }
+   ],
+   "from": "pkg:pypi/textual@8.2.8#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "4.16.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:pypi/typing-extensions@4.16.0#"
   }
  ],
  "inputs": [
@@ -1173,23 +2277,87 @@
    "path": ".github/workflows/release.yml"
   },
   {
-   "blob": "d08d425032e9b094923b0b6587a73896ce92e124",
+   "blob": "96e81f55a63970d864a634140b61ec4bda0bdb8b",
+   "path": ".github/workflows/whole-change-mutation-trial.yml"
+  },
+  {
+   "blob": "fe8c9374f7b50f79098dcf4e16ee5d307daf633b",
    "path": "Makefile"
+  },
+  {
+   "blob": "e276a18ba935aad3f64afd72da40635e6355107f",
+   "path": "bootstrap/buildlib-run"
   },
   {
    "blob": "8eb3ce37148dbff5007a73925fcda76a1f8407f1",
    "path": "docker/Dockerfile"
   },
   {
-   "blob": "5da8c99dd15d1b5b1fbf9ca77ce4709bc2de220a",
+   "blob": "1d136a6d438d3d080236ec99fd2871204d1d67cc",
    "path": "pyproject.toml"
   },
   {
-   "blob": "9c565bf61c03a7cc404d53c466fba5bdfa91e3bb",
+   "blob": "931b94d776522cd88ad176c49d1f88950515a959",
+   "path": "scripts/linux-build.sh"
+  },
+  {
+   "blob": "d0079c216352ccdd5f41ebe4430eadefca45f05b",
+   "path": "scripts/linux-container.sh"
+  },
+  {
+   "blob": "10130a5b7219c0d72da5bfd48b1be3f6543cbf10",
+   "path": "scripts/linux-fixtures.sh"
+  },
+  {
+   "blob": "1e668f0077f07c396386100875a71cab2ab08c53",
+   "path": "scripts/linux-qualify.sh"
+  },
+  {
+   "blob": "b9b663c97bdefcb40bff567b9dab3e0fc54a162b",
+   "path": "scripts/mutants-diff.sh"
+  },
+  {
+   "blob": "66a47f3d5b2b7fd9b9b31c45c0d0a7159cb71850",
+   "path": "scripts/run-mutation-scope.sh"
+  },
+  {
+   "blob": "dfb6b38bfde5fd9b5ff19ff860fb3dc4bfa2e614",
+   "path": "scripts/setup-dev"
+  },
+  {
+   "blob": "e13f6b12d16a5c932c4488e6e0913386164723db",
+   "path": "tests/encode-command.sh"
+  },
+  {
+   "blob": "aa783b5da70c90d0daacb5f401a0d1184482b997",
+   "path": "tests/owned-help.sh"
+  },
+  {
+   "blob": "e0dfd03c3b3854f8e14085b11b70cc88b78029c7",
+   "path": "tests/qualify-fixtures.sh"
+  },
+  {
+   "blob": "3fe8a2be95468d5557b52ac3a2f5104bc9bed589",
+   "path": "tests/qualify-runtime.sh"
+  },
+  {
+   "blob": "4e09118811ad3c172b3a72ee83f518de95b5a863",
+   "path": "tests/qualify-sdk.sh"
+  },
+  {
+   "blob": "455cf1409ddd6e254efa1e963206f6050c8c3710",
+   "path": "tests/qualify-tools.sh"
+  },
+  {
+   "blob": "21d9f3fea9234c99669f5b695140295a72a927c7",
+   "path": "tests/tools-workflows.sh"
+  },
+  {
+   "blob": "cb0762130d5f4e0bc918cc389531e03f7a575902",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "5e40d6ae650fd405c8ecfb3f0393ed71c18073b055643ddc722e2cdaf524a60f",
+ "inputs_fingerprint": "ab47584b7a3d38d563d9a4829ccb02c78048d3e4df733043f7f46e49365be4c3",
  "instances": [
   {
    "commit": null,
@@ -1479,6 +2647,955 @@
   },
   {
    "commit": null,
+   "component": "pkg:command/1.lock",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/1.lock#shell",
+   "purl": "pkg:command/1.lock",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/2",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/2#shell",
+   "purl": "pkg:command/2",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/apk",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/apk#dockerfile",
+   "purl": "pkg:command/apk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/awk",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/awk#shell",
+   "purl": "pkg:command/awk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/basename#shell",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/brew",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/brew#workflow",
+   "purl": "pkg:command/brew",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/call",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/call#makefile",
+   "purl": "pkg:command/call",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cat#shell",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cc#shell",
+   "purl": "pkg:command/cc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cmp",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/cmp#workflow",
+   "purl": "pkg:command/cmp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/container_image",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/container_image#shell",
+   "purl": "pkg:command/container_image",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cut",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cut#shell",
+   "purl": "pkg:command/cut",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dirname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dirname#shell",
+   "purl": "pkg:command/dirname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/docker",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/docker#shell",
+   "purl": "pkg:command/docker",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/docker_platform_for",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/docker_platform_for#shell",
+   "purl": "pkg:command/docker_platform_for",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dpkg",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dpkg#shell",
+   "purl": "pkg:command/dpkg",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/echo#workflow",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ensure_fixtures",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ensure_fixtures#shell",
+   "purl": "pkg:command/ensure_fixtures",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/find#workflow",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/gh#workflow",
+   "purl": "pkg:command/gh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/git#shell",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/grep#shell",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/head",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/head#shell",
+   "purl": "pkg:command/head",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/id",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/id#shell",
+   "purl": "pkg:command/id",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/in_container",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/in_container#shell",
+   "purl": "pkg:command/in_container",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/install",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/install#shell",
+   "purl": "pkg:command/install",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/linux-fixtures.sh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/linux-fixtures.sh#workflow",
+   "purl": "pkg:command/linux-fixtures.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/mkdir#workflow",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mutants-diff.sh",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mutants-diff.sh#makefile",
+   "purl": "pkg:command/mutants-diff.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mv",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mv#shell",
+   "purl": "pkg:command/mv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/otool",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/otool#shell",
+   "purl": "pkg:command/otool",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pkg-config",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/pkg-config#shell",
+   "purl": "pkg:command/pkg-config",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/printf#workflow",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/python3#shell",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/python3#workflow",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/readelf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/readelf#shell",
+   "purl": "pkg:command/readelf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rm#shell",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/run-mutation-scope.sh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/run-mutation-scope.sh#shell",
+   "purl": "pkg:command/run-mutation-scope.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sed#shell",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sed#workflow",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sh",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/sh#makefile",
+   "purl": "pkg:command/sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sh#shell",
+   "purl": "pkg:command/sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#shell",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#workflow",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/shasum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/shasum#shell",
+   "purl": "pkg:command/shasum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/shasum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/shasum#workflow",
+   "purl": "pkg:command/shasum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sleep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sleep#shell",
+   "purl": "pkg:command/sleep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sort#workflow",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sudo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sudo#workflow",
+   "purl": "pkg:command/sudo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tail",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tail#shell",
+   "purl": "pkg:command/tail",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tar#shell",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/test#workflow",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tools-workflows.sh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/tools-workflows.sh#workflow",
+   "purl": "pkg:command/tools-workflows.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tr",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tr#shell",
+   "purl": "pkg:command/tr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/uname#shell",
+   "purl": "pkg:command/uname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/uv#makefile",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/uv#shell",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/uv#workflow",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/wc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/wc#shell",
+   "purl": "pkg:command/wc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/wc",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/wc#workflow",
+   "purl": "pkg:command/wc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xcode-select",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/xcode-select#shell",
+   "purl": "pkg:command/xcode-select",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xcodebuild",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/xcodebuild#workflow",
+   "purl": "pkg:command/xcodebuild",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:docker/alpine?digest=sha256%3A266f29255458134745f2bf588cb23ed1ed1768b96ff2580a05d70a8aba59e145",
    "context": "",
    "first_party": false,
@@ -1583,16 +3700,224 @@
   },
   {
    "commit": null,
-   "component": "pkg:pypi/laputa-buildlib",
+   "component": "pkg:pypi/click",
    "context": "",
    "first_party": false,
-   "id": "pkg:pypi/laputa-buildlib@0.1.0#",
-   "purl": "pkg:pypi/laputa-buildlib@0.1.0",
+   "id": "pkg:pypi/click@8.5.1#",
+   "purl": "pkg:pypi/click@8.5.1",
    "registry_url": "https://pypi.17166969.xyz/current/simple/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "0.1.0"
+   "version": "8.5.1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/coverage",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/coverage@7.17.3#",
+   "purl": "pkg:pypi/coverage@7.17.3",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.17.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/iniconfig",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/iniconfig@2.3.1#",
+   "purl": "pkg:pypi/iniconfig@2.3.1",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "2.3.1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/laputa-buildlib",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/laputa-buildlib@0.3.1#",
+   "purl": "pkg:pypi/laputa-buildlib@0.3.1",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.3.1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/libcst",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/libcst@1.9.0#",
+   "purl": "pkg:pypi/libcst@1.9.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.9.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/linkify-it-py",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/linkify-it-py@2.2.0#",
+   "purl": "pkg:pypi/linkify-it-py@2.2.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "2.2.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/markdown-it-py",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/markdown-it-py@4.3.0#",
+   "purl": "pkg:pypi/markdown-it-py@4.3.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "4.3.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/mdit-py-plugins",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/mdit-py-plugins@0.7.0#",
+   "purl": "pkg:pypi/mdit-py-plugins@0.7.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.7.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/mdurl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/mdurl@0.1.2#",
+   "purl": "pkg:pypi/mdurl@0.1.2",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.1.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/mutmut",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/mutmut@3.8.1#",
+   "purl": "pkg:pypi/mutmut@3.8.1",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "3.8.1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/packaging",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/packaging@26.3#",
+   "purl": "pkg:pypi/packaging@26.3",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "26.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/platformdirs",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/platformdirs@4.14.5#",
+   "purl": "pkg:pypi/platformdirs@4.14.5",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "4.14.5"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/pluggy",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/pluggy@1.7.0#",
+   "purl": "pkg:pypi/pluggy@1.7.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.7.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/pygments",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/pygments@2.21.0#",
+   "purl": "pkg:pypi/pygments@2.21.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "2.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/pytest",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/pytest@9.2.0#",
+   "purl": "pkg:pypi/pytest@9.2.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "9.2.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/pyyaml",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/pyyaml@6.0.3#",
+   "purl": "pkg:pypi/pyyaml@6.0.3",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "6.0.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/rich",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/rich@15.0.0#",
+   "purl": "pkg:pypi/rich@15.0.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "15.0.0"
   },
   {
    "commit": null,
@@ -1609,6 +3934,32 @@
   },
   {
    "commit": null,
+   "component": "pkg:pypi/setproctitle",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/setproctitle@1.3.8#",
+   "purl": "pkg:pypi/setproctitle@1.3.8",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.3.8"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/textual",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/textual@8.2.8#",
+   "purl": "pkg:pypi/textual@8.2.8",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "8.2.8"
+  },
+  {
+   "commit": null,
    "component": "pkg:pypi/ty",
    "context": "",
    "first_party": false,
@@ -1619,6 +3970,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.0.101"
+  },
+  {
+   "commit": null,
+   "component": "pkg:pypi/typing-extensions",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:pypi/typing-extensions@4.16.0#",
+   "purl": "pkg:pypi/typing-extensions@4.16.0",
+   "registry_url": "https://pypi.17166969.xyz/current/simple/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "4.16.0"
   },
   {
    "commit": null,

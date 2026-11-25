@@ -25,34 +25,10 @@
    "purl": "pkg:cargo/graviola?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola"
   },
   {
-   "display_name": "itoa",
-   "ecosystem": "cargo",
-   "name": "itoa",
-   "purl": "pkg:cargo/itoa"
-  },
-  {
    "display_name": "libc",
    "ecosystem": "cargo",
    "name": "libc",
    "purl": "pkg:cargo/libc"
-  },
-  {
-   "display_name": "memchr",
-   "ecosystem": "cargo",
-   "name": "memchr",
-   "purl": "pkg:cargo/memchr"
-  },
-  {
-   "display_name": "proc-macro2",
-   "ecosystem": "cargo",
-   "name": "proc-macro2",
-   "purl": "pkg:cargo/proc-macro2"
-  },
-  {
-   "display_name": "quote",
-   "ecosystem": "cargo",
-   "name": "quote",
-   "purl": "pkg:cargo/quote"
   },
   {
    "display_name": "r-efi",
@@ -61,46 +37,70 @@
    "purl": "pkg:cargo/r-efi"
   },
   {
-   "display_name": "serde",
-   "ecosystem": "cargo",
-   "name": "serde",
-   "purl": "pkg:cargo/serde"
+   "display_name": "apt-get",
+   "ecosystem": "command",
+   "name": "apt-get",
+   "purl": "pkg:command/apt-get"
   },
   {
-   "display_name": "serde_core",
-   "ecosystem": "cargo",
-   "name": "serde_core",
-   "purl": "pkg:cargo/serde_core"
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
   },
   {
-   "display_name": "serde_derive",
-   "ecosystem": "cargo",
-   "name": "serde_derive",
-   "purl": "pkg:cargo/serde_derive"
+   "display_name": "chmod",
+   "ecosystem": "command",
+   "name": "chmod",
+   "purl": "pkg:command/chmod"
   },
   {
-   "display_name": "serde_json",
-   "ecosystem": "cargo",
-   "name": "serde_json",
-   "purl": "pkg:cargo/serde_json"
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
   },
   {
-   "display_name": "syn",
-   "ecosystem": "cargo",
-   "name": "syn",
-   "purl": "pkg:cargo/syn"
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
   },
   {
-   "display_name": "unicode-ident",
-   "ecosystem": "cargo",
-   "name": "unicode-ident",
-   "purl": "pkg:cargo/unicode-ident"
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
   },
   {
-   "display_name": "zmij",
-   "ecosystem": "cargo",
-   "name": "zmij",
-   "purl": "pkg:cargo/zmij"
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rustup",
+   "ecosystem": "command",
+   "name": "rustup",
+   "purl": "pkg:command/rustup"
+  },
+  {
+   "display_name": "sh",
+   "ecosystem": "command",
+   "name": "sh",
+   "purl": "pkg:command/sh"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "update-alternatives",
+   "ecosystem": "command",
+   "name": "update-alternatives",
+   "purl": "pkg:command/update-alternatives"
   },
   {
    "display_name": "debian",
@@ -113,18 +113,6 @@
    "ecosystem": "github",
    "name": "actions/checkout",
    "purl": "pkg:github/actions/checkout"
-  },
-  {
-   "display_name": "jedisct1/twice",
-   "ecosystem": "github",
-   "name": "jedisct1/twice",
-   "purl": "pkg:github/jedisct1/twice"
-  },
-  {
-   "display_name": "crypto-diff",
-   "ecosystem": "local",
-   "name": "crypto-diff",
-   "purl": "pkg:local/crypto-diff"
   },
   {
    "display_name": "twice",
@@ -228,24 +216,6 @@
   },
   {
    "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "L1",
-     "path": ".gitmodules"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": null,
-   "scope": "build",
-   "source_kind": "git",
-   "to": "pkg:github/jedisct1/twice#"
-  },
-  {
-   "condition": null,
    "constraint": "nightly-2026-11-09",
    "evidence": [
     {
@@ -261,60 +231,6 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
-  },
-  {
-   "condition": null,
-   "constraint": "twice-hiae",
-   "evidence": [
-    {
-     "locator": "dependencies.graviola",
-     "path": "bench/rust-crypto/Cargo.toml"
-    }
-   ],
-   "from": "bench/rust-crypto:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": null,
-   "scope": "runtime",
-   "source_kind": "git",
-   "to": "pkg:cargo/graviola?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.2",
-   "evidence": [
-    {
-     "locator": "dependencies.libc",
-     "path": "bench/rust-packet/Cargo.toml"
-    }
-   ],
-   "from": "bench/rust-packet:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": null,
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/libc#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "dependencies.twice",
-     "path": "bench/rust-packet/Cargo.toml"
-    }
-   ],
-   "from": "bench/rust-packet:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.1.0",
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/twice@0.1.0#"
   },
   {
    "condition": null,
@@ -354,51 +270,11 @@
   },
   {
    "condition": null,
-   "constraint": "twice-hiae",
-   "evidence": [
-    {
-     "locator": "dependencies.graviola",
-     "path": "harness/crypto-diff/Cargo.toml"
-    },
-    {
-     "locator": "package[name=crypto-diff,version=0.0.0].dependencies[0]",
-     "path": "harness/crypto-diff/Cargo.lock"
-    }
-   ],
-   "from": "harness/crypto-diff:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.4.5",
-   "scope": "runtime",
-   "source_kind": "git",
-   "to": "pkg:cargo/graviola@0.4.5?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola#"
-  },
-  {
-   "condition": null,
    "constraint": null,
    "evidence": [
     {
      "locator": "package[name=getrandom,version=0.4.3].dependencies[0]",
      "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/getrandom@0.4.3#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.5",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/cfg-if@1.0.5#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=getrandom,version=0.4.3].dependencies[0]",
-     "path": "harness/crypto-diff/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/getrandom@0.4.3#",
@@ -433,44 +309,8 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "package[name=getrandom,version=0.4.3].dependencies[1]",
-     "path": "harness/crypto-diff/Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/getrandom@0.4.3#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "0.2.191",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/libc@0.2.191#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
      "locator": "package[name=getrandom,version=0.4.3].dependencies[2]",
      "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/getrandom@0.4.3#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "6.0.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/r-efi@6.0.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=getrandom,version=0.4.3].dependencies[2]",
-     "path": "harness/crypto-diff/Cargo.lock"
     }
    ],
    "from": "pkg:cargo/getrandom@0.4.3#",
@@ -505,24 +345,6 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "package[name=graviola,version=0.4.5].dependencies[0]",
-     "path": "harness/crypto-diff/Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/graviola@0.4.5?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.5",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/cfg-if@1.0.5#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
      "locator": "package[name=graviola,version=0.4.5].dependencies[1]",
      "path": "Cargo.lock"
     }
@@ -535,356 +357,6 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/getrandom@0.4.3#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=graviola,version=0.4.5].dependencies[1]",
-     "path": "harness/crypto-diff/Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/graviola@0.4.5?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "0.4.3",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/getrandom@0.4.3#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=proc-macro2,version=1.0.107].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/proc-macro2@1.0.107#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.27",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/unicode-ident@1.0.27#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=quote,version=1.0.47].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/quote@1.0.47#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.107",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/proc-macro2@1.0.107#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde,version=1.0.229].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde@1.0.229#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.229",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/serde_core@1.0.229#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde,version=1.0.229].dependencies[1]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde@1.0.229#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.229",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/serde_derive@1.0.229#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_core,version=1.0.229].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_core@1.0.229#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.229",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/serde_derive@1.0.229#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_derive,version=1.0.229].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_derive@1.0.229#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.107",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/proc-macro2@1.0.107#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_derive,version=1.0.229].dependencies[1]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_derive@1.0.229#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.47",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/quote@1.0.47#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_derive,version=1.0.229].dependencies[2]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_derive@1.0.229#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "3.0.10",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/syn@3.0.10#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_json,version=1.0.154].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_json@1.0.154#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.19",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/itoa@1.0.19#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_json,version=1.0.154].dependencies[1]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_json@1.0.154#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "2.8.3",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/memchr@2.8.3#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_json,version=1.0.154].dependencies[2]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_json@1.0.154#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.229",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/serde@1.0.229#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_json,version=1.0.154].dependencies[3]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_json@1.0.154#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.229",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/serde_core@1.0.229#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=serde_json,version=1.0.154].dependencies[4]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/serde_json@1.0.154#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.23",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/zmij@1.0.23#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=syn,version=3.0.10].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/syn@3.0.10#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.107",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/proc-macro2@1.0.107#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=syn,version=3.0.10].dependencies[1]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/syn@3.0.10#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.47",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/quote@1.0.47#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=syn,version=3.0.10].dependencies[2]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "pkg:cargo/syn@3.0.10#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.27",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/unicode-ident@1.0.27#"
-  },
-  {
-   "condition": null,
-   "constraint": "1",
-   "evidence": [
-    {
-     "locator": "dependencies.serde",
-     "path": "xtask/Cargo.toml"
-    },
-    {
-     "locator": "package[name=xtask,version=0.0.0].dependencies[0]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "xtask:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.0.229",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/serde@1.0.229#"
-  },
-  {
-   "condition": null,
-   "constraint": "1",
-   "evidence": [
-    {
-     "locator": "dependencies.serde_json",
-     "path": "xtask/Cargo.toml"
-    },
-    {
-     "locator": "package[name=xtask,version=0.0.0].dependencies[1]",
-     "path": "Cargo.lock"
-    }
-   ],
-   "from": "xtask:cargo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.0.154",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:cargo/serde_json@1.0.154#"
   }
  ],
  "inputs": [
@@ -897,11 +369,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "2a30db62a6bceb1e7772e6c50e191e68971a9bc9",
-   "path": ".gitmodules"
-  },
-  {
-   "blob": "c92aea9ec1667241a05e9fd2aa3cf56b84d1d6bd",
+   "blob": "0ece14cb2c638adf5b21bb72a706a26cd4791804",
    "path": "Cargo.lock"
   },
   {
@@ -913,35 +381,19 @@
    "path": "Makefile"
   },
   {
-   "blob": "a65bbc0fbc67bbaa4900a8b9a240f89b57daa111",
-   "path": "bench/rust-crypto/Cargo.toml"
-  },
-  {
-   "blob": "93f3823955e77bc926901f5b3b8ba7b6bd6cc44e",
-   "path": "bench/rust-packet/Cargo.toml"
-  },
-  {
    "blob": "d79df05d78bcef5c0fe03a2192650e238e55453c",
    "path": "docker/lab.Dockerfile"
-  },
-  {
-   "blob": "d190f54923442fb0a58218fe9218449bf3bf6a06",
-   "path": "harness/crypto-diff/Cargo.lock"
-  },
-  {
-   "blob": "1b92fece01193cbc7b8f10657d22ccd3e4da80a8",
-   "path": "harness/crypto-diff/Cargo.toml"
   },
   {
    "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
    "path": "rust-toolchain.toml"
   },
   {
-   "blob": "773b5f0460abf79c2884828b1dacfeb7aad2c142",
+   "blob": "9604fa789e227853d121f56fdc7eb68ca4d21c5d",
    "path": "xtask/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "80632d3b3976059af069ec48d0532e00d86e1b8aea3b225dafa2803ac00f4643",
+ "inputs_fingerprint": "be46a72a355488bff23968dca6b0cd9ce516d015f73c512bf1cbac5976befa55",
  "instances": [
   {
    "commit": null,
@@ -983,19 +435,6 @@
    "version": "0.4.3"
   },
   {
-   "commit": null,
-   "component": "pkg:cargo/graviola?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/graviola?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola#",
-   "purl": "pkg:cargo/graviola?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/laputa-systems/graviola",
-   "version": null
-  },
-  {
    "commit": "ad177b4a64f96274a4494e4a65d6d861c3369044",
    "component": "pkg:cargo/graviola?vcs_url=https%3A%2F%2Fgithub.com%2Flaputa-systems%2Fgraviola",
    "context": "",
@@ -1007,32 +446,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/laputa-systems/graviola",
    "version": "0.4.5"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/itoa",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/itoa@1.0.19#",
-   "purl": "pkg:cargo/itoa@1.0.19",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.0.19"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/libc",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/libc#",
-   "purl": "pkg:cargo/libc",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": null
   },
   {
    "commit": null,
@@ -1049,45 +462,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:cargo/memchr",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/memchr@2.8.3#",
-   "purl": "pkg:cargo/memchr@2.8.3",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.8.3"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/proc-macro2",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/proc-macro2@1.0.107#",
-   "purl": "pkg:cargo/proc-macro2@1.0.107",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.0.107"
-  },
-  {
-   "commit": null,
-   "component": "pkg:cargo/quote",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:cargo/quote@1.0.47#",
-   "purl": "pkg:cargo/quote@1.0.47",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.0.47"
-  },
-  {
-   "commit": null,
    "component": "pkg:cargo/r-efi",
    "context": "",
    "first_party": false,
@@ -1101,94 +475,172 @@
   },
   {
    "commit": null,
-   "component": "pkg:cargo/serde",
-   "context": "",
+   "component": "pkg:command/apt-get",
+   "context": "dockerfile",
    "first_party": false,
-   "id": "pkg:cargo/serde@1.0.229#",
-   "purl": "pkg:cargo/serde@1.0.229",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "id": "pkg:command/apt-get#dockerfile",
+   "purl": "pkg:command/apt-get",
+   "registry_url": null,
    "repository_url": null,
-   "source_kind": "registry",
+   "source_kind": "path",
    "vcs_url": null,
-   "version": "1.0.229"
+   "version": null
   },
   {
    "commit": null,
-   "component": "pkg:cargo/serde_core",
-   "context": "",
+   "component": "pkg:command/cargo",
+   "context": "makefile",
    "first_party": false,
-   "id": "pkg:cargo/serde_core@1.0.229#",
-   "purl": "pkg:cargo/serde_core@1.0.229",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
    "repository_url": null,
-   "source_kind": "registry",
+   "source_kind": "path",
    "vcs_url": null,
-   "version": "1.0.229"
+   "version": null
   },
   {
    "commit": null,
-   "component": "pkg:cargo/serde_derive",
-   "context": "",
+   "component": "pkg:command/chmod",
+   "context": "dockerfile",
    "first_party": false,
-   "id": "pkg:cargo/serde_derive@1.0.229#",
-   "purl": "pkg:cargo/serde_derive@1.0.229",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "id": "pkg:command/chmod#dockerfile",
+   "purl": "pkg:command/chmod",
+   "registry_url": null,
    "repository_url": null,
-   "source_kind": "registry",
+   "source_kind": "path",
    "vcs_url": null,
-   "version": "1.0.229"
+   "version": null
   },
   {
    "commit": null,
-   "component": "pkg:cargo/serde_json",
-   "context": "",
+   "component": "pkg:command/curl",
+   "context": "dockerfile",
    "first_party": false,
-   "id": "pkg:cargo/serde_json@1.0.154#",
-   "purl": "pkg:cargo/serde_json@1.0.154",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "id": "pkg:command/curl#dockerfile",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
    "repository_url": null,
-   "source_kind": "registry",
+   "source_kind": "path",
    "vcs_url": null,
-   "version": "1.0.154"
+   "version": null
   },
   {
    "commit": null,
-   "component": "pkg:cargo/syn",
-   "context": "",
+   "component": "pkg:command/make",
+   "context": "workflow",
    "first_party": false,
-   "id": "pkg:cargo/syn@3.0.10#",
-   "purl": "pkg:cargo/syn@3.0.10",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
    "repository_url": null,
-   "source_kind": "registry",
+   "source_kind": "path",
    "vcs_url": null,
-   "version": "3.0.10"
+   "version": null
   },
   {
    "commit": null,
-   "component": "pkg:cargo/unicode-ident",
-   "context": "",
+   "component": "pkg:command/printf",
+   "context": "makefile",
    "first_party": false,
-   "id": "pkg:cargo/unicode-ident@1.0.27#",
-   "purl": "pkg:cargo/unicode-ident@1.0.27",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
    "repository_url": null,
-   "source_kind": "registry",
+   "source_kind": "path",
    "vcs_url": null,
-   "version": "1.0.27"
+   "version": null
   },
   {
    "commit": null,
-   "component": "pkg:cargo/zmij",
-   "context": "",
+   "component": "pkg:command/rm",
+   "context": "dockerfile",
    "first_party": false,
-   "id": "pkg:cargo/zmij@1.0.23#",
-   "purl": "pkg:cargo/zmij@1.0.23",
-   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "id": "pkg:command/rm#dockerfile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
    "repository_url": null,
-   "source_kind": "registry",
+   "source_kind": "path",
    "vcs_url": null,
-   "version": "1.0.23"
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustup",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/rustup#dockerfile",
+   "purl": "pkg:command/rustup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustup",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/rustup#workflow",
+   "purl": "pkg:command/rustup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sh",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/sh#dockerfile",
+   "purl": "pkg:command/sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/update-alternatives",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/update-alternatives#dockerfile",
+   "purl": "pkg:command/update-alternatives",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": null,
@@ -1215,32 +667,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
    "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
-  },
-  {
-   "commit": "391c461697c871e542c7beb44631e77e4c5646dd",
-   "component": "pkg:github/jedisct1/twice",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/jedisct1/twice#",
-   "purl": "pkg:github/jedisct1/twice",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/jedisct1/twice",
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/crypto-diff",
-   "context": "",
-   "first_party": true,
-   "id": "pkg:local/crypto-diff@0.0.0#",
-   "purl": "pkg:local/crypto-diff@0.0.0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "workspace",
-   "vcs_url": null,
-   "version": "0.0.0"
   },
   {
    "commit": null,
@@ -1288,24 +714,6 @@
    "locator": null,
    "message": "no parser for Makefile",
    "path": "Makefile"
-  },
-  {
-   "kind": "missing_lock",
-   "locator": null,
-   "message": "no lockfile at bench/rust-crypto/Cargo.lock",
-   "path": "bench/rust-crypto/Cargo.lock"
-  },
-  {
-   "kind": "missing_lock",
-   "locator": null,
-   "message": "no lockfile at bench/rust-packet/Cargo.lock",
-   "path": "bench/rust-packet/Cargo.lock"
-  },
-  {
-   "kind": "submodule",
-   "locator": null,
-   "message": "gitlink content is not inspected",
-   "path": "oracle/upstream"
   }
  ],
  "projects": [
@@ -1320,24 +728,9 @@
    "id": ".:repo"
   },
   {
-   "directory": "bench/rust-crypto",
-   "ecosystem": "cargo",
-   "id": "bench/rust-crypto:cargo"
-  },
-  {
-   "directory": "bench/rust-packet",
-   "ecosystem": "cargo",
-   "id": "bench/rust-packet:cargo"
-  },
-  {
    "directory": "docker",
    "ecosystem": "generic",
    "id": "docker:repo"
-  },
-  {
-   "directory": "harness/crypto-diff",
-   "ecosystem": "cargo",
-   "id": "harness/crypto-diff:cargo"
   },
   {
    "directory": "xtask",

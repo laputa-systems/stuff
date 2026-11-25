@@ -1,6 +1,66 @@
 {
  "components": [
   {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "node",
+   "ecosystem": "command",
+   "name": "node",
+   "purl": "pkg:command/node"
+  },
+  {
+   "display_name": "pnpm",
+   "ecosystem": "command",
+   "name": "pnpm",
+   "purl": "pkg:command/pnpm"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rg",
+   "ecosystem": "command",
+   "name": "rg",
+   "purl": "pkg:command/rg"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
@@ -928,7 +988,7 @@
   },
   {
    "condition": null,
-   "constraint": "12.20.0",
+   "constraint": "12.21.0",
    "evidence": [
     {
      "locator": "importers[.].packageManagerDependencies.pnpm",
@@ -939,10 +999,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "toolchain",
    "source_kind": "registry",
-   "to": "pkg:npm/pnpm@12.20.0#"
+   "to": "pkg:npm/pnpm@12.21.0#"
   },
   {
    "condition": null,
@@ -2641,270 +2701,270 @@
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.android-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.android-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.android-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.linux-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.netbsd-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.netbsd-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0#"
   },
   {
    "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "snapshots[pnpm@12.20.0].optionalDependencies.'@pnpm/exe.win32-x64'",
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-x64'",
      "path": "pnpm-lock.yaml"
     }
    ],
-   "from": "pkg:npm/pnpm@12.20.0#",
+   "from": "pkg:npm/pnpm@12.21.0#",
    "optional": true,
    "relation": "transitive",
    "resolution": "resolved",
-   "resolved_version": "12.20.0",
+   "resolved_version": "12.21.0",
    "scope": "optional",
    "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0#"
+   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0#"
   },
   {
    "condition": null,
@@ -3881,7 +3941,7 @@
  ],
  "inputs": [
   {
-   "blob": "bc416ad43c4f4f85921e6420503df5a0f41a717c",
+   "blob": "dd17f3163eec92e800efbb9b23e48257bb75ead2",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -3889,20 +3949,163 @@
    "path": ".node-version"
   },
   {
-   "blob": "50596b04747b4d72ccc925f08b82c608ac7d5aa7",
+   "blob": "b3528b290e1be9f3f79c223bb8b56a5bdff279f5",
    "path": "Makefile"
   },
   {
-   "blob": "63dbce786c5c2b994cd1291bb4068bdd0052145f",
+   "blob": "ff73636aa96cf6893e8d4e8418e19575faae26d9",
    "path": "package.json"
   },
   {
-   "blob": "04d7a45383d9050c1efe1215f71b7a8af5968e15",
+   "blob": "5ee5b6766ce6ca33880bebdbb340eaab1aacce05",
    "path": "pnpm-lock.yaml"
   }
  ],
- "inputs_fingerprint": "ff841ab024b5c253db85b1ca8d1b13a0aca73065dc0b0b1a6ba13ad1bc826358",
+ "inputs_fingerprint": "ddd2654853b1f024472547655d55230c4b0e96dbf805885bc4d921db06fc215b",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/echo#makefile",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/git#makefile",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/node",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/node#makefile",
+   "purl": "pkg:command/node",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/pnpm#makefile",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/pnpm#workflow",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rg",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rg#makefile",
+   "purl": "pkg:command/rg",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
@@ -4415,195 +4618,195 @@
    "component": "pkg:npm/%40pnpm/exe.android-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.android-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.android-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.android-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.android-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.android-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.android-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.darwin-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.darwin-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.darwin-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.darwin-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.freebsd-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.freebsd-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-arm64-musl",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-ppc64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-ppc64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-riscv64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-riscv64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-s390x",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-s390x@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-x64-musl",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.linux-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.linux-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.netbsd-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.netbsd-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.win32-arm64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.win32-arm64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
    "component": "pkg:npm/%40pnpm/exe.win32-x64",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0#",
-   "purl": "pkg:npm/%40pnpm/exe.win32-x64@12.20.0",
+   "id": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,
@@ -5598,13 +5801,13 @@
    "component": "pkg:npm/pnpm",
    "context": "",
    "first_party": false,
-   "id": "pkg:npm/pnpm@12.20.0#",
-   "purl": "pkg:npm/pnpm@12.20.0",
+   "id": "pkg:npm/pnpm@12.21.0#",
+   "purl": "pkg:npm/pnpm@12.21.0",
    "registry_url": "https://npm.17166969.xyz/current/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "12.20.0"
+   "version": "12.21.0"
   },
   {
    "commit": null,

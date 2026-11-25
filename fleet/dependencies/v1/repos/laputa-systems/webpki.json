@@ -721,46 +721,52 @@
    "purl": "pkg:cargo/zmij"
   },
   {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "openssl",
+   "ecosystem": "command",
+   "name": "openssl",
+   "purl": "pkg:command/openssl"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
    "purl": "pkg:github/actions/checkout"
-  },
-  {
-   "display_name": "actions/setup-python",
-   "ecosystem": "github",
-   "name": "actions/setup-python",
-   "purl": "pkg:github/actions/setup-python"
-  },
-  {
-   "display_name": "codecov/codecov-action",
-   "ecosystem": "github",
-   "name": "codecov/codecov-action",
-   "purl": "pkg:github/codecov/codecov-action"
-  },
-  {
-   "display_name": "embarkstudios/cargo-deny-action",
-   "ecosystem": "github",
-   "name": "embarkstudios/cargo-deny-action",
-   "purl": "pkg:github/embarkstudios/cargo-deny-action"
-  },
-  {
-   "display_name": "obi1kenobi/cargo-semver-checks-action",
-   "ecosystem": "github",
-   "name": "obi1kenobi/cargo-semver-checks-action",
-   "purl": "pkg:github/obi1kenobi/cargo-semver-checks-action"
-  },
-  {
-   "display_name": "py-actions/flake8",
-   "ecosystem": "github",
-   "name": "py-actions/flake8",
-   "purl": "pkg:github/py-actions/flake8"
-  },
-  {
-   "display_name": "taiki-e/install-action",
-   "ecosystem": "github",
-   "name": "taiki-e/install-action",
-   "purl": "pkg:github/taiki-e/install-action"
   },
   {
    "display_name": "rustls-webpki",
@@ -1311,8 +1317,8 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[0].uses",
-     "path": ".github/workflows/lint.yml"
+     "locator": "jobs.ci.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1326,363 +1332,21 @@
   },
   {
    "condition": null,
-   "constraint": "v7",
+   "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.clippy.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.deny.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.rustdoc.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.package.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.cross.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.semver.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.coverage.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.nostd.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.feature-powerset.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.fuzz.steps[0].uses",
-     "path": ".github/workflows/cifuzz.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.testgen.steps[0].uses",
-     "path": ".github/workflows/testgen.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.testgen.steps[1].uses",
-     "path": ".github/workflows/testgen.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-python@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7",
-   "evidence": [
-    {
-     "locator": "jobs.coverage.steps[4].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v7",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/codecov/codecov-action@v7#"
-  },
-  {
-   "condition": null,
-   "constraint": "Verify that documentation builds.",
-   "evidence": [
-    {
-     "locator": "jobs.deny.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/embarkstudios/cargo-deny-action@v2#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.semver.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/obi1kenobi/cargo-semver-checks-action@v2#"
-  },
-  {
-   "condition": null,
-   "constraint": "v2",
-   "evidence": [
-    {
-     "locator": "jobs.testgen.steps[3].uses",
-     "path": ".github/workflows/testgen.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v2",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/py-actions/flake8@v2#"
-  },
-  {
-   "condition": null,
-   "constraint": "cargo-hack",
-   "evidence": [
-    {
-     "locator": "jobs.feature-powerset.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "cargo-hack",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/install-action@cargo-hack#"
-  },
-  {
-   "condition": null,
-   "constraint": "cargo-llvm-cov",
-   "evidence": [
-    {
-     "locator": "jobs.coverage.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "cargo-llvm-cov",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/install-action@cargo-llvm-cov#"
-  },
-  {
-   "condition": null,
-   "constraint": "cross",
-   "evidence": [
-    {
-     "locator": "jobs.cross.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "cross",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/taiki-e/install-action@cross#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -6253,20 +5917,12 @@
  ],
  "inputs": [
   {
-   "blob": "cdd080843c1789a0744114fe8ef4b39d30bbc22f",
+   "blob": "10a488e70417962d9670aff939aeb8239f5840df",
    "path": ".github/workflows/ci.yml"
-  },
-  {
-   "blob": "a6ab1dc34a43864d6384e1fd28795d209c734bde",
-   "path": ".github/workflows/cifuzz.yml"
   },
   {
    "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
    "path": ".github/workflows/lint.yml"
-  },
-  {
-   "blob": "4b4b8b3966a0f04c58a75e66f3740588f52063c6",
-   "path": ".github/workflows/testgen.yml"
   },
   {
    "blob": "b46cb4e3ac96d872f777433c8f62ed113c2e02db",
@@ -6277,7 +5933,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "7ea36471b295d11fabee364060731e836075e5d7",
+   "blob": "4616931c7daaaf2a4102b9368f5aed65d54895e2",
    "path": "Makefile"
   },
   {
@@ -6295,9 +5951,17 @@
   {
    "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
+  },
+  {
+   "blob": "06355df55530ed838121f6927811933a9b43c8db",
+   "path": "tests/amazon/download_ca_certs.sh"
+  },
+  {
+   "blob": "d48eda345a3d873bc04139c47bff968e17841fe2",
+   "path": "tests/amazon/download_demo_certs.sh"
   }
  ],
- "inputs_fingerprint": "8113feafa5d14f8b191af1fae779b35475b7daef3e3fc4d916373d43411ee4fd",
+ "inputs_fingerprint": "8e14203b530d9f656c59c1e86e85cef08922922c8f942137c3729f72f5a91b13",
  "instances": [
   {
    "commit": null,
@@ -7990,6 +7654,97 @@
    "version": "1.0.23"
   },
   {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/openssl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/openssl#shell",
+   "purl": "pkg:command/openssl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -8001,123 +7756,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
    "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/checkout",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/checkout@v7#",
-   "purl": "pkg:github/actions/checkout@v7",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "v7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/setup-python",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/setup-python@v7#",
-   "purl": "pkg:github/actions/setup-python@v7",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/setup-python",
-   "version": "v7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/codecov/codecov-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/codecov/codecov-action@v7#",
-   "purl": "pkg:github/codecov/codecov-action@v7",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/codecov/codecov-action",
-   "version": "v7"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/embarkstudios/cargo-deny-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/embarkstudios/cargo-deny-action@v2#",
-   "purl": "pkg:github/embarkstudios/cargo-deny-action@v2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/embarkstudios/cargo-deny-action",
-   "version": "v2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/obi1kenobi/cargo-semver-checks-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/obi1kenobi/cargo-semver-checks-action@v2#",
-   "purl": "pkg:github/obi1kenobi/cargo-semver-checks-action@v2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/obi1kenobi/cargo-semver-checks-action",
-   "version": "v2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/py-actions/flake8",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/py-actions/flake8@v2#",
-   "purl": "pkg:github/py-actions/flake8@v2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/py-actions/flake8",
-   "version": "v2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/install-action@cargo-hack#",
-   "purl": "pkg:github/taiki-e/install-action@cargo-hack",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/install-action",
-   "version": "cargo-hack"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/install-action@cargo-llvm-cov#",
-   "purl": "pkg:github/taiki-e/install-action@cargo-llvm-cov",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/install-action",
-   "version": "cargo-llvm-cov"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/taiki-e/install-action",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/taiki-e/install-action@cross#",
-   "purl": "pkg:github/taiki-e/install-action@cross",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/taiki-e/install-action",
-   "version": "cross"
   },
   {
    "commit": null,

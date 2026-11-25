@@ -421,6 +421,144 @@
    "purl": "pkg:cargo/zmij"
   },
   {
+   "display_name": "browser-generated-check",
+   "ecosystem": "command",
+   "name": "browser-generated-check",
+   "purl": "pkg:command/browser-generated-check"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cat",
+   "ecosystem": "command",
+   "name": "cat",
+   "purl": "pkg:command/cat"
+  },
+  {
+   "display_name": "chmod",
+   "ecosystem": "command",
+   "name": "chmod",
+   "purl": "pkg:command/chmod"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "cut",
+   "ecosystem": "command",
+   "name": "cut",
+   "purl": "pkg:command/cut"
+  },
+  {
+   "display_name": "date",
+   "ecosystem": "command",
+   "name": "date",
+   "purl": "pkg:command/date"
+  },
+  {
+   "display_name": "dirname",
+   "ecosystem": "command",
+   "name": "dirname",
+   "purl": "pkg:command/dirname"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "pnpm",
+   "ecosystem": "command",
+   "name": "pnpm",
+   "purl": "pkg:command/pnpm"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rustup",
+   "ecosystem": "command",
+   "name": "rustup",
+   "purl": "pkg:command/rustup"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "sh",
+   "ecosystem": "command",
+   "name": "sh",
+   "purl": "pkg:command/sh"
+  },
+  {
+   "display_name": "sleep",
+   "ecosystem": "command",
+   "name": "sleep",
+   "purl": "pkg:command/sleep"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "touch",
+   "ecosystem": "command",
+   "name": "touch",
+   "purl": "pkg:command/touch"
+  },
+  {
+   "display_name": "uv",
+   "ecosystem": "command",
+   "name": "uv",
+   "purl": "pkg:command/uv"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
@@ -1241,12 +1379,6 @@
    "ecosystem": "npm",
    "name": "vitest",
    "purl": "pkg:npm/vitest?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz"
-  },
-  {
-   "display_name": "wasm-vips",
-   "ecosystem": "npm",
-   "name": "wasm-vips",
-   "purl": "pkg:npm/wasm-vips"
   },
   {
    "display_name": "why-is-node-running",
@@ -2185,186 +2317,6 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/laputa-futures-lite@0.3.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "link:../ts",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.shadowdriver",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": null,
-   "scope": "runtime",
-   "source_kind": "workspace",
-   "to": "pkg:local/shadowdriver#"
-  },
-  {
-   "condition": null,
-   "constraint": "26.6.6",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.'@types/node'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "26.6.6",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/node@26.6.6#"
-  },
-  {
-   "condition": null,
-   "constraint": "4.1.2",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.effect",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "4.1.2",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/effect@4.1.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F77739a8755b22b114b161d7dc9685e4b92172156884f3c59ef5264135ae4528ceaffa11c2525399cf9396c5d90ad2ca0677490a2235007c4ecc45ae2c8c78c69.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": "7.0.2006",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.oxlint-tsgolint",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/oxlint-tsgolint@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.92.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.oxlint",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "dev",
-   "source_kind": "url",
-   "to": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)"
-  },
-  {
-   "condition": null,
-   "constraint": "12.18.0",
-   "evidence": [
-    {
-     "locator": "importers[.].packageManagerDependencies.pnpm",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "toolchain",
-   "source_kind": "registry",
-   "to": "pkg:npm/pnpm@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": "7.0.2",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.typescript",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:npm/typescript@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": "5.1.0",
-   "evidence": [
-    {
-     "locator": "importers[.].devDependencies.vitest",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.1.0",
-   "scope": "dev",
-   "source_kind": "url",
-   "to": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))"
-  },
-  {
-   "condition": null,
-   "constraint": "0.0.19",
-   "evidence": [
-    {
-     "locator": "importers[.].dependencies.wasm-vips",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "grab-ts:npm",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.0.19",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/wasm-vips@0.0.19#"
-  },
-  {
-   "condition": null,
-   "constraint": "pnpm@12.18.0",
-   "evidence": [
-    {
-     "locator": "packageManager",
-     "path": "grab-ts/package.json"
-    }
-   ],
-   "from": "grab-ts:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "toolchain",
-   "source_kind": "url",
-   "to": "pkg:toolchain/pnpm@12.18.0#"
   },
   {
    "condition": null,
@@ -5022,24 +4974,6 @@
    "evidence": [
     {
      "locator": "snapshots['@jridgewell/trace-mapping@0.3.31'].dependencies.'@jridgewell/resolve-uri'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40jridgewell/trace-mapping@0.3.31#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "3.1.2",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40jridgewell/resolve-uri@3.1.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@jridgewell/trace-mapping@0.3.31'].dependencies.'@jridgewell/resolve-uri'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5076,24 +5010,6 @@
    "evidence": [
     {
      "locator": "snapshots['@jridgewell/trace-mapping@0.3.31'].dependencies.'@jridgewell/sourcemap-codec'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40jridgewell/trace-mapping@0.3.31#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.6.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40jridgewell/sourcemap-codec@1.6.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@jridgewell/trace-mapping@0.3.31'].dependencies.'@jridgewell/sourcemap-codec'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5130,24 +5046,6 @@
    "evidence": [
     {
      "locator": "snapshots['@types/chai@5.2.3'].dependencies.'@types/deep-eql'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/chai@5.2.3#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "4.0.2",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/deep-eql@4.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/chai@5.2.3'].dependencies.'@types/deep-eql'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5184,24 +5082,6 @@
    "evidence": [
     {
      "locator": "snapshots['@types/chai@5.2.3'].dependencies.assertion-error",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/chai@5.2.3#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "2.0.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/assertion-error@2.0.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/chai@5.2.3'].dependencies.assertion-error",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5231,24 +5111,6 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:npm/assertion-error@2.0.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@types/node@26.6.6'].dependencies.undici-types",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40types/node@26.6.6#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "8.9.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/undici-types@8.9.0#"
   },
   {
    "condition": null,
@@ -5310,24 +5172,6 @@
    "evidence": [
     {
      "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@jridgewell/trace-mapping'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40vitest/mocker@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fe6e981f7f8e559ca954ba7ecac59afe46767a6eeb00148a8fe510ec009af07bbfe945a3f216d81f458400f4a75f460942d380cccb09d526b820c29c0cd6829a5.tgz#(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "0.3.31",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40jridgewell/trace-mapping@0.3.31#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@jridgewell/trace-mapping'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5364,24 +5208,6 @@
    "evidence": [
     {
      "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@vitest/spy'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40vitest/mocker@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fe6e981f7f8e559ca954ba7ecac59afe46767a6eeb00148a8fe510ec009af07bbfe945a3f216d81f458400f4a75f460942d380cccb09d526b820c29c0cd6829a5.tgz#(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "5.1.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40vitest/spy@5.1.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@vitest/spy'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5418,24 +5244,6 @@
    "evidence": [
     {
      "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.estree-walker",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40vitest/mocker@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fe6e981f7f8e559ca954ba7ecac59afe46767a6eeb00148a8fe510ec009af07bbfe945a3f216d81f458400f4a75f460942d380cccb09d526b820c29c0cd6829a5.tgz#(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "3.0.3",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/estree-walker@3.0.3#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.estree-walker",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5472,24 +5280,6 @@
    "evidence": [
     {
      "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.magic-string",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40vitest/mocker@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fe6e981f7f8e559ca954ba7ecac59afe46767a6eeb00148a8fe510ec009af07bbfe945a3f216d81f458400f4a75f460942d380cccb09d526b820c29c0cd6829a5.tgz#(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.4.5",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/magic-string@1.4.5#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].dependencies.magic-string",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5526,24 +5316,6 @@
    "evidence": [
     {
      "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].optionalDependencies.vite",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/%40vitest/mocker@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fe6e981f7f8e559ca954ba7ecac59afe46767a6eeb00148a8fe510ec009af07bbfe945a3f216d81f458400f4a75f460942d380cccb09d526b820c29c0cd6829a5.tgz#(vite@8.3.5(@types/node@26.6.6))",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "8.3.5",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['@vitest/mocker@5.1.0(vite@8.3.5(@types/node@26.6.6))'].optionalDependencies.vite",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5580,24 +5352,6 @@
    "evidence": [
     {
      "locator": "snapshots[estree-walker@3.0.3].dependencies.'@types/estree'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/estree-walker@3.0.3#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.10",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/estree@1.0.10#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[estree-walker@3.0.3].dependencies.'@types/estree'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5634,24 +5388,6 @@
    "evidence": [
     {
      "locator": "snapshots['fdir@6.5.0(picomatch@4.0.7)'].optionalDependencies.picomatch",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/fdir@6.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fb486d8b596ee70eb340511aa3c992c84951874bf920c7edd54cf208f2f84469dd60148cb105244fb4da46a7c87b708d63a7c2b298062c0098cd29e242c90275e.tgz#(picomatch@4.0.7)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "4.0.7",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/picomatch@4.0.7?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa9c26ef3c436216a89b030f9dbd24a31dc069bf76f2275b81ef427470887f49b62849bf318eb1c0ed1c4df1d6904a794393cac43c91598b9c9da426eef285c18.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['fdir@6.5.0(picomatch@4.0.7)'].optionalDependencies.picomatch",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5688,24 +5424,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].dependencies.detect-libc",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "2.1.2",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/detect-libc@2.1.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F06d8f604e38ef37a375b21f9f5ef0c817b3111055c6ab9143a9118aee6c1d2eaf09cdd74c90dfae2bb22072535d67665a966199b4e62fe87fb8a8e26ce2841b5.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].dependencies.detect-libc",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5742,24 +5460,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-android-arm64",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/lightningcss-android-arm64@1.33.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-android-arm64",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5796,24 +5496,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-darwin-arm64",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/lightningcss-darwin-arm64@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F49c89acfc79e9cd4ca9fd6f7b7bfb1af48a94e9f58c4a418e27a704379ab46e2f404054704bc99c687e168a04056dce6b5167fcd3ca8d3fb68e01d6e586fc38e.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-darwin-arm64",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5850,24 +5532,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-darwin-x64",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/lightningcss-darwin-x64@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F67950f031ceb8e558d3721b2ea2eb9709cf3be02790f74fac0cbecfa05a963d77ba9184036bc6a029e8b871220661584c35f117c94c6711c63b8b201afe9bc5d.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-darwin-x64",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5904,24 +5568,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-freebsd-x64",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/lightningcss-freebsd-x64@1.33.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-freebsd-x64",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -5958,24 +5604,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-arm-gnueabihf",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/lightningcss-linux-arm-gnueabihf@1.33.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-arm-gnueabihf",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6012,24 +5640,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-arm64-gnu",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/lightningcss-linux-arm64-gnu@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F8f6bff8ad9b2e0794dc6573abe829762006a362d0d8362d2860e33ec6b9fa4482cd393fedacb815728bd23a607ab9ba8545c7d1138a7dde08484b5725c64272a.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-arm64-gnu",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6066,24 +5676,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-arm64-musl",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/lightningcss-linux-arm64-musl@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fca23b944e32e6108176c2eb4ca3654e4261215918a5cbd071404d7b7d987267d7ecd6e79a02b4c23d35f7158582cc1432fb815ee804fa27fc498c3068363afb5.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-arm64-musl",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6120,24 +5712,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-x64-gnu",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/lightningcss-linux-x64-gnu@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6abf89bbb2e670dd09a381692f88691726f0346f7fdc0fc1af9296da7da3c8e0e0dcc1195da0d800375e9a8352f810cd7cc80abf29492e3e12e6dc9101cb6e02.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-x64-gnu",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6174,24 +5748,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-x64-musl",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/lightningcss-linux-x64-musl@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F4588986e4a24c34b6b7caaaacdf179e658229f010fac3dce2437d3b89cc5b3530aea21670de9dacf57ea2cbb57e084c6dce92d2505ce7936b0d5ac2b0409593f.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-linux-x64-musl",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6228,24 +5784,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-win32-arm64-msvc",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/lightningcss-win32-arm64-msvc@1.33.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-win32-arm64-msvc",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6282,24 +5820,6 @@
    "evidence": [
     {
      "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-win32-x64-msvc",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/lightningcss-win32-x64-msvc@1.33.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[lightningcss@1.33.0].optionalDependencies.lightningcss-win32-x64-msvc",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6336,24 +5856,6 @@
    "evidence": [
     {
      "locator": "snapshots[magic-string@1.4.5].dependencies.'@jridgewell/sourcemap-codec'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/magic-string@1.4.5#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.6.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40jridgewell/sourcemap-codec@1.6.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[magic-string@1.4.5].dependencies.'@jridgewell/sourcemap-codec'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6390,24 +5892,6 @@
    "evidence": [
     {
      "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/darwin-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint-tsgolint@7.0.2006#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint-tsgolint/darwin-arm64@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/darwin-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6444,24 +5928,6 @@
    "evidence": [
     {
      "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/darwin-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint-tsgolint@7.0.2006#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint-tsgolint/darwin-x64@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/darwin-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6498,24 +5964,6 @@
    "evidence": [
     {
      "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/linux-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint-tsgolint@7.0.2006#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint-tsgolint/linux-arm64@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/linux-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6552,24 +6000,6 @@
    "evidence": [
     {
      "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/linux-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint-tsgolint@7.0.2006#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint-tsgolint/linux-x64@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/linux-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6606,24 +6036,6 @@
    "evidence": [
     {
      "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/win32-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint-tsgolint@7.0.2006#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint-tsgolint/win32-arm64@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/win32-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6660,24 +6072,6 @@
    "evidence": [
     {
      "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/win32-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint-tsgolint@7.0.2006#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint-tsgolint/win32-x64@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[oxlint-tsgolint@7.0.2006].optionalDependencies.'@oxlint-tsgolint/win32-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6714,24 +6108,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-android-arm-eabi'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-android-arm-eabi@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-android-arm-eabi'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6768,24 +6144,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-android-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-android-arm64@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-android-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6822,24 +6180,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-darwin-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40oxlint/binding-darwin-arm64@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F59ee974bbb48ab1814a1a9f2eaec868e3ee636c87f9b07f81adf605338711bae4d2a8d8ec3db3ab437eb56e23415583c9f7626a56e4f071f34a85c622f001fb0.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-darwin-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6876,24 +6216,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-darwin-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40oxlint/binding-darwin-x64@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F8ca2568a39a2e80c4065c5d7580e91fcd2d5647c684536c832757cce7b07cde8957ee11e7d873247c48919f6c13e6906fa4bde2c545c046c347c1ae32eab4699.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-darwin-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6930,24 +6252,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-freebsd-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-freebsd-x64@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-freebsd-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -6984,24 +6288,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm-gnueabihf'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm-gnueabihf'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7038,24 +6324,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm-musleabihf'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm-musleabihf'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7092,24 +6360,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm64-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40oxlint/binding-linux-arm64-gnu@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ffc458e234c3063eef8506bc2f774e5769a0d3fc9a821c89d5543db512a17d7afd211d17b6a1db4f72c524226b8fbd25d091598037fb240ca1f5cc8162a4ff5e9.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm64-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7146,24 +6396,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm64-musl'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40oxlint/binding-linux-arm64-musl@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff527bb66e6b3af5d38c9cd8f6a5bab8895b6aeabed68de854a2f4c4a34206467986fa2cabc4709e7ceada637a4d25ee13503688abf0c203ece10d3c7ea3b8dd7.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-arm64-musl'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7200,24 +6432,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-ppc64-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-ppc64-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7254,24 +6468,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-riscv64-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-riscv64-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7308,24 +6504,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-riscv64-musl'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-linux-riscv64-musl@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-riscv64-musl'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7362,24 +6540,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-s390x-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-linux-s390x-gnu@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-s390x-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7416,24 +6576,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-x64-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40oxlint/binding-linux-x64-gnu@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F956da92c5d6816f34defcd18502b43ca8526f2817364624d70e15ef51b4b317e6fe7e15c59f010bc750c30f17c1fc9090741c08b77459960d62dae553ee63d9b.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-x64-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7470,24 +6612,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-x64-musl'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40oxlint/binding-linux-x64-musl@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd81240001fdea8f9fb883ee61557ecfb565552880060e3024da5208c0bdbb4d1a0da9a420c4ee072fffd5523ba1820f26dd154aa57327b28e7f61469975647a2.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-linux-x64-musl'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7524,24 +6648,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-openharmony-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-openharmony-arm64@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-openharmony-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7578,24 +6684,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-win32-arm64-msvc'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-win32-arm64-msvc@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-win32-arm64-msvc'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7632,24 +6720,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-win32-ia32-msvc'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-win32-ia32-msvc@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-win32-ia32-msvc'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7686,24 +6756,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-win32-x64-msvc'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.92.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40oxlint/binding-win32-x64-msvc@1.92.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.'@oxlint/binding-win32-x64-msvc'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7740,24 +6792,6 @@
    "evidence": [
     {
      "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.oxlint-tsgolint",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/oxlint@1.92.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcbd891891c158d516acca357649f5b4ff19845d7fe17d1b2f9ad588eed80ab7c6aa9ae052585c723c56bc65a73c4a0ef91846886f257e369bf787faa9103ce17.tgz#(oxlint-tsgolint@7.0.2006)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2006",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/oxlint-tsgolint@7.0.2006#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['oxlint@1.92.0(oxlint-tsgolint@7.0.2006)'].optionalDependencies.oxlint-tsgolint",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7794,24 +6828,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.android-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.android-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7848,24 +6864,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.android-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.android-x64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.android-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7902,24 +6900,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -7956,24 +6936,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8010,24 +6972,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8064,24 +7008,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8118,24 +7044,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8172,24 +7080,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8226,24 +7116,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8280,24 +7152,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8334,24 +7188,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8388,24 +7224,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.linux-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8442,24 +7260,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8496,24 +7296,6 @@
    "evidence": [
     {
      "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.win32-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/pnpm@12.18.0#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.18.0",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.18.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[pnpm@12.18.0].optionalDependencies.'@pnpm/exe.win32-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8550,24 +7332,6 @@
    "evidence": [
     {
      "locator": "snapshots[postcss@8.5.32].dependencies.nanoid",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/postcss@8.5.32?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2c994a08201414a3ae6718a951d630d4dcc821312c3dc832386f4b92f449bee2a3fdb4736ee458d00457bcbd29586a6c66f9fc8e4bbe2cc7a9d9e534b1e1e9f2.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "3.3.20",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/nanoid@3.3.20?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fb8a760d86dc63422909fd6f260ea716c6aab4f67c63b9291b7927ff1bde9a24f2b4faab119617a871332262118b407fe155c98b83f6145a0ea5f9b8f15827865.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[postcss@8.5.32].dependencies.nanoid",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8604,24 +7368,6 @@
    "evidence": [
     {
      "locator": "snapshots[postcss@8.5.32].dependencies.picocolors",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/postcss@8.5.32?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2c994a08201414a3ae6718a951d630d4dcc821312c3dc832386f4b92f449bee2a3fdb4736ee458d00457bcbd29586a6c66f9fc8e4bbe2cc7a9d9e534b1e1e9f2.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.1.1",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/picocolors@1.1.1?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fc5c787dac9e1b5be4cf658aa0ec984c39ea57b7efa993664117fe311bfd1c4d1727a036e97b78db250973fd1438ff2dcbb45fc284c8c71e3f69eda5a1eb0c454.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[postcss@8.5.32].dependencies.picocolors",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8658,24 +7404,6 @@
    "evidence": [
     {
      "locator": "snapshots[postcss@8.5.32].dependencies.source-map-js",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/postcss@8.5.32?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2c994a08201414a3ae6718a951d630d4dcc821312c3dc832386f4b92f449bee2a3fdb4736ee458d00457bcbd29586a6c66f9fc8e4bbe2cc7a9d9e534b1e1e9f2.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.2",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/source-map-js@1.2.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2868fff18e37c77e5a6550edb7e27898ad61a0b18750b3187d290e0c93508cd0c2de85b53ea3e8c4cc28d292d4b1633f5041b338dfcdc5e1f2c047cd5cd3f757.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[postcss@8.5.32].dependencies.source-map-js",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8712,24 +7440,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].dependencies.'@oxc-project/types'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "0.156.0",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/%40oxc-project/types@0.156.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd43bb2838f1374935dca1101f179f52f7e9b4fd3efe8652d94a8c7c4ecacf3191a17fad0ab75c913e6c0bab48afc0808cf998616c6fbedc9fd3dbdb4f9609273.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].dependencies.'@oxc-project/types'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8766,24 +7476,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-android-arm-eabi'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-android-arm-eabi@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-android-arm-eabi'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8820,24 +7512,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-android-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-android-arm64@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-android-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8874,24 +7548,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-darwin-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40rolldown/binding-darwin-arm64@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Faac959ad79ca254e1c5298e8026b40a3f29033d7b62113259a98a0e99a708fef0a5b15bcbfe9e401ff76d7a06c7a4f65382d63be0db20a3ca0085a367fcde6b1.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-darwin-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8928,24 +7584,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-darwin-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40rolldown/binding-darwin-x64@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F15d17ecb8f0d0f5dde0323369909fef3992f02a365bd15913b2dab860038eb75ffd06bf8bc6b5acd9b5f685d664412ec718bed3a58784272e3396885cd7ebd39.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-darwin-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -8982,24 +7620,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-freebsd-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-freebsd-x64@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-freebsd-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9036,24 +7656,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-arm-gnueabihf'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-linux-arm-gnueabihf@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-arm-gnueabihf'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9090,24 +7692,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-arm64-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40rolldown/binding-linux-arm64-gnu@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F14988b1806e53c132504475b3aac3a916e907170d601ffe826eee062cf59259c2683e2beff38c52f13d3218f62cc9533c73736e051ef9ac7b203422f252975ef.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-arm64-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9144,24 +7728,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-arm64-musl'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40rolldown/binding-linux-arm64-musl@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F86b2696e532cad0e7c53dbde5a96d7ce4855e734adba776ce8758ba6baaad6a6aebe006bd44e8ffb6e242e3ea548b23dbe3467fd16298e9ae190740f2865a936.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-arm64-musl'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9198,24 +7764,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-ppc64-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-linux-ppc64-gnu@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-ppc64-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9252,24 +7800,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-s390x-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-linux-s390x-gnu@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-s390x-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9306,24 +7836,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-x64-gnu'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40rolldown/binding-linux-x64-gnu@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F4cd2a1804dee253b13cdab5449262dd0a828f8e6b6b929528f3e2bd5a10879aec75fa50b0729b87c09585211b58baa6335fda78df09401f2b0afa0b713d5e0d7.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-x64-gnu'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9360,24 +7872,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-x64-musl'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/%40rolldown/binding-linux-x64-musl@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fedc8577698d767ca86d3e988c4408dddc4fd92f859dffa1984c5fa3e9f3be8fec20eb232f2726cc2f6ba32adf9ec947b7985dfbac93067131e5754b3a19747ac.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-linux-x64-musl'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9414,24 +7908,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-openharmony-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-openharmony-arm64@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-openharmony-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9468,24 +7944,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-win32-arm64-msvc'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-win32-arm64-msvc@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-win32-arm64-msvc'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9522,24 +7980,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-win32-x64-msvc'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40rolldown/binding-win32-x64-msvc@1.2.16#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].optionalDependencies.'@rolldown/binding-win32-x64-msvc'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9576,24 +8016,6 @@
    "evidence": [
     {
      "locator": "snapshots[rolldown@1.2.16].dependencies.'@rolldown/pluginutils'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.0.1",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/%40rolldown/pluginutils@1.0.1?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fda3f5b1ade4987c863faf3ed8333ed97bda3d324711c0cae9a8a3a4cd7c08ec2c1d3852da52bcf6cf703701331cfb9fef42601d1cd46c501716118368e29aa1b.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[rolldown@1.2.16].dependencies.'@rolldown/pluginutils'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9630,24 +8052,6 @@
    "evidence": [
     {
      "locator": "snapshots[tinyglobby@0.2.17].dependencies.fdir",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/tinyglobby@0.2.17?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fc1747f758a5ca8a99f5a911d66388a24ec023459dd0f40cc9eb5bf7188d51adb449017d581c2c51e836b963e3b9a339589cf72c8dbbae5a96c805e0d4324dada.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "6.5.0",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/fdir@6.5.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fb486d8b596ee70eb340511aa3c992c84951874bf920c7edd54cf208f2f84469dd60148cb105244fb4da46a7c87b708d63a7c2b298062c0098cd29e242c90275e.tgz#(picomatch@4.0.7)"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[tinyglobby@0.2.17].dependencies.fdir",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9684,24 +8088,6 @@
    "evidence": [
     {
      "locator": "snapshots[tinyglobby@0.2.17].dependencies.picomatch",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/tinyglobby@0.2.17?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fc1747f758a5ca8a99f5a911d66388a24ec023459dd0f40cc9eb5bf7188d51adb449017d581c2c51e836b963e3b9a339589cf72c8dbbae5a96c805e0d4324dada.tgz#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "4.0.7",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/picomatch@4.0.7?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa9c26ef3c436216a89b030f9dbd24a31dc069bf76f2275b81ef427470887f49b62849bf318eb1c0ed1c4df1d6904a794393cac43c91598b9c9da426eef285c18.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[tinyglobby@0.2.17].dependencies.picomatch",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9738,24 +8124,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-aix-ppc64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-aix-ppc64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9792,24 +8160,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-darwin-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-darwin-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9846,24 +8196,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-darwin-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-darwin-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9900,24 +8232,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-freebsd-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-freebsd-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -9954,24 +8268,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-freebsd-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-freebsd-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10008,24 +8304,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10062,24 +8340,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-arm'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-arm'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10116,24 +8376,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-loong64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-loong64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10170,24 +8412,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-mips64el'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-mips64el'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10224,24 +8448,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-ppc64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-ppc64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10278,24 +8484,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-riscv64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-riscv64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10332,24 +8520,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-s390x'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-s390x'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10386,24 +8556,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10440,24 +8592,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-netbsd-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-netbsd-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10494,24 +8628,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-netbsd-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-netbsd-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10548,24 +8664,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-openbsd-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-openbsd-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10602,24 +8700,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-openbsd-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-openbsd-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10656,24 +8736,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-sunos-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-sunos-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10710,24 +8772,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-win32-arm64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-win32-arm64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10764,24 +8808,6 @@
    "evidence": [
     {
      "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-win32-x64'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/typescript@7.0.2#",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "7.0.2",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-win32-x64'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10818,24 +8844,6 @@
    "evidence": [
     {
      "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].optionalDependencies.'@types/node'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "26.6.6",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/node@26.6.6#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].optionalDependencies.'@types/node'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10872,24 +8880,6 @@
    "evidence": [
     {
      "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].optionalDependencies.fsevents",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "2.3.3",
-   "scope": "optional",
-   "source_kind": "url",
-   "to": "pkg:npm/fsevents@2.3.3?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fe71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].optionalDependencies.fsevents",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10926,24 +8916,6 @@
    "evidence": [
     {
      "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.lightningcss",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.33.0",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/lightningcss@1.33.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.lightningcss",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -10980,24 +8952,6 @@
    "evidence": [
     {
      "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.picomatch",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "4.0.7",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/picomatch@4.0.7?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa9c26ef3c436216a89b030f9dbd24a31dc069bf76f2275b81ef427470887f49b62849bf318eb1c0ed1c4df1d6904a794393cac43c91598b9c9da426eef285c18.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.picomatch",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11034,24 +8988,6 @@
    "evidence": [
     {
      "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.postcss",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "8.5.32",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/postcss@8.5.32?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2c994a08201414a3ae6718a951d630d4dcc821312c3dc832386f4b92f449bee2a3fdb4736ee458d00457bcbd29586a6c66f9fc8e4bbe2cc7a9d9e534b1e1e9f2.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.postcss",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11088,24 +9024,6 @@
    "evidence": [
     {
      "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.rolldown",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.2.16",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/rolldown@1.2.16?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F6d6be532914a8937c329f9caec50b630f80f79609ffcaa70b2ae3d029756f8541a0596fa3ba759e0c00f6cf523a7b85842bc3f4686ea0b39fae0146b41e7061f.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.rolldown",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11142,24 +9060,6 @@
    "evidence": [
     {
      "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.tinyglobby",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "0.2.17",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/tinyglobby@0.2.17?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fc1747f758a5ca8a99f5a911d66388a24ec023459dd0f40cc9eb5bf7188d51adb449017d581c2c51e836b963e3b9a339589cf72c8dbbae5a96c805e0d4324dada.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vite@8.3.5(@types/node@26.6.6)'].dependencies.tinyglobby",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11196,24 +9096,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@types/chai'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "5.2.3",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/chai@5.2.3#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@types/chai'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11250,24 +9132,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].optionalDependencies.'@types/node'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": true,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "26.6.6",
-   "scope": "optional",
-   "source_kind": "registry",
-   "to": "pkg:npm/%40types/node@26.6.6#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].optionalDependencies.'@types/node'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11304,24 +9168,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@vitest/mocker'",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "5.1.0",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/%40vitest/mocker@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fe6e981f7f8e559ca954ba7ecac59afe46767a6eeb00148a8fe510ec009af07bbfe945a3f216d81f458400f4a75f460942d380cccb09d526b820c29c0cd6829a5.tgz#(vite@8.3.5(@types/node@26.6.6))"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.'@vitest/mocker'",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11358,24 +9204,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.chai",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "6.3.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/chai@6.3.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.chai",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11412,24 +9240,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.es-module-lexer",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "2.3.2",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/es-module-lexer@2.3.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.es-module-lexer",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11466,24 +9276,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.expect-type",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.4.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/expect-type@1.4.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.expect-type",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11520,24 +9312,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.magic-string",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.4.5",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/magic-string@1.4.5#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.magic-string",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11574,24 +9348,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.obug",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "3.0.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/obug@3.0.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.obug",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11628,24 +9384,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.picomatch",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "4.0.7",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/picomatch@4.0.7?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa9c26ef3c436216a89b030f9dbd24a31dc069bf76f2275b81ef427470887f49b62849bf318eb1c0ed1c4df1d6904a794393cac43c91598b9c9da426eef285c18.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.picomatch",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11682,24 +9420,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.std-env",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "4.3.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/std-env@4.3.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.std-env",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11736,24 +9456,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.tinybench",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "6.2.2",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/tinybench@6.2.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.tinybench",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11790,24 +9492,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.tinyexec",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "1.3.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/tinyexec@1.3.1#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.tinyexec",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11844,24 +9528,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.tinyglobby",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "0.2.17",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/tinyglobby@0.2.17?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fc1747f758a5ca8a99f5a911d66388a24ec023459dd0f40cc9eb5bf7188d51adb449017d581c2c51e836b963e3b9a339589cf72c8dbbae5a96c805e0d4324dada.tgz#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.tinyglobby",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11898,24 +9564,6 @@
    "evidence": [
     {
      "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.vite",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "8.3.5",
-   "scope": "runtime",
-   "source_kind": "url",
-   "to": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.vite",
      "path": "ig-ts/pnpm-lock.yaml"
     }
    ],
@@ -11945,24 +9593,6 @@
    "scope": "runtime",
    "source_kind": "url",
    "to": "pkg:npm/vite@8.3.5?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcf56298e2789f60d1e6d3990a4b06ffe8abd13717d10894e7beecb6a15bc4ab1372d3886dee7414545d03a56173fd6fe202daada9847795c63f711a5c37e0e11.tgz#(@types/node@26.6.6)"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "snapshots['vitest@5.1.0(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))'].dependencies.why-is-node-running",
-     "path": "grab-ts/pnpm-lock.yaml"
-    }
-   ],
-   "from": "pkg:npm/vitest@5.1.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F33398d167af06bcbfc945d5b2f1c37509e04444c153956fbe55a8966650346327a125b8aff1f6d87ba936da783938d56c44d46c56aa64d771db1fa1b7c7e6c38.tgz#(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6))",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "3.2.1",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:npm/why-is-node-running@3.2.1#"
   },
   {
    "condition": null,
@@ -12867,7 +10497,7 @@
  ],
  "inputs": [
   {
-   "blob": "ec94efc7e31027efd8032d62808ab93fc1471855",
+   "blob": "5bb1eb728688f5174d5df6b78137bfc000cc2913",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -12883,7 +10513,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "e77e1b60be7a5d6ccd4d56c56918d3eb7c08184b",
+   "blob": "0e97aaa4346062493692839e37f0eb48f556473a",
    "path": "Makefile"
   },
   {
@@ -12893,18 +10523,6 @@
   {
    "blob": "b1340be4af200c5ed41f64a71784480fb7ae0250",
    "path": "crates/shadowdriver-cdp-protocol/Cargo.toml"
-  },
-  {
-   "blob": "aa734f1ba3bb8a6ce39f6ef4d7d5967728664610",
-   "path": "grab-ts/Makefile"
-  },
-  {
-   "blob": "317b5b77dc0dfdfe761604abed17a9b964967174",
-   "path": "grab-ts/package.json"
-  },
-  {
-   "blob": "c6c160c238c1e999223bd4eb6ed2af46145e104d",
-   "path": "grab-ts/pnpm-lock.yaml"
   },
   {
    "blob": "a06727b8dbda14274022f74b968d3ebec40d4b00",
@@ -12963,6 +10581,14 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "87a8bab2373e3acfc863c5598ab4f71b9b40f9f4",
+   "path": "tools/test-parallel-test.sh"
+  },
+  {
+   "blob": "1674224ef7ca8b42a1e5d3e21319359c42eb0a54",
+   "path": "tools/test-parallel.sh"
+  },
+  {
    "blob": "7c8f2ac0259e0a1d46caeb8a30b5669614ef2af6",
    "path": "ts/package.json"
   },
@@ -12975,7 +10601,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "231a863853162da3353b2691b1838c19c67951c21ad6d5d9a11c7bca629e9616",
+ "inputs_fingerprint": "30a527d5087543d65af949a1451655f6b7a928abe417e8806638df83bd16ff11",
  "instances": [
   {
    "commit": null,
@@ -13901,6 +11527,422 @@
    "version": "1.0.23"
   },
   {
+   "commit": null,
+   "component": "pkg:command/browser-generated-check",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/browser-generated-check#makefile",
+   "purl": "pkg:command/browser-generated-check",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cat#shell",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chmod",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/chmod#makefile",
+   "purl": "pkg:command/chmod",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chmod",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/chmod#shell",
+   "purl": "pkg:command/chmod",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cut",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cut#shell",
+   "purl": "pkg:command/cut",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/date",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/date#shell",
+   "purl": "pkg:command/date",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dirname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dirname#shell",
+   "purl": "pkg:command/dirname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/echo#makefile",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/echo#workflow",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/git#makefile",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/make#makefile",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/pnpm#makefile",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rm#shell",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustup",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/rustup#workflow",
+   "purl": "pkg:command/rustup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sed#workflow",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sh",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/sh#makefile",
+   "purl": "pkg:command/sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sh#shell",
+   "purl": "pkg:command/sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sleep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sleep#shell",
+   "purl": "pkg:command/sleep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/test#workflow",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/touch",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/touch#makefile",
+   "purl": "pkg:command/touch",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/touch",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/touch#shell",
+   "purl": "pkg:command/touch",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/uv#makefile",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -13987,7 +12029,7 @@
    "purl": "pkg:local/shadowdriver",
    "registry_url": null,
    "repository_url": null,
-   "source_kind": "workspace",
+   "source_kind": "path",
    "vcs_url": null,
    "version": null
   },
@@ -15761,19 +13803,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:npm/wasm-vips",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:npm/wasm-vips@0.0.19#",
-   "purl": "pkg:npm/wasm-vips@0.0.19",
-   "registry_url": "https://npm.17166969.xyz/current/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "0.0.19"
-  },
-  {
-   "commit": null,
    "component": "pkg:npm/why-is-node-running",
    "context": "",
    "first_party": false,
@@ -16187,12 +14216,6 @@
    "kind": "unsupported_format",
    "locator": null,
    "message": "no parser for Makefile",
-   "path": "grab-ts/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
    "path": "grab/Makefile"
   },
   {
@@ -16239,16 +14262,6 @@
    "directory": "crates/shadowdriver-cdp-protocol",
    "ecosystem": "cargo",
    "id": "crates/shadowdriver-cdp-protocol:cargo"
-  },
-  {
-   "directory": "grab-ts",
-   "ecosystem": "npm",
-   "id": "grab-ts:npm"
-  },
-  {
-   "directory": "grab-ts",
-   "ecosystem": "generic",
-   "id": "grab-ts:repo"
   },
   {
    "directory": "grab",

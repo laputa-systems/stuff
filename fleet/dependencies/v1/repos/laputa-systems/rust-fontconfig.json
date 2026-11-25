@@ -43,28 +43,64 @@
    "purl": "pkg:cargo/xmlparser"
   },
   {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cl.exe",
+   "ecosystem": "command",
+   "name": "cl.exe",
+   "purl": "pkg:command/cl.exe"
+  },
+  {
+   "display_name": "copy",
+   "ecosystem": "command",
+   "name": "copy",
+   "purl": "pkg:command/copy"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
    "purl": "pkg:github/actions/checkout"
-  },
-  {
-   "display_name": "actions/download-artifact",
-   "ecosystem": "github",
-   "name": "actions/download-artifact",
-   "purl": "pkg:github/actions/download-artifact"
-  },
-  {
-   "display_name": "actions/upload-artifact",
-   "ecosystem": "github",
-   "name": "actions/upload-artifact",
-   "purl": "pkg:github/actions/upload-artifact"
-  },
-  {
-   "display_name": "ilammy/msvc-dev-cmd",
-   "ecosystem": "github",
-   "name": "ilammy/msvc-dev-cmd",
-   "purl": "pkg:github/ilammy/msvc-dev-cmd"
   },
   {
    "display_name": "rust",
@@ -205,8 +241,8 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[0].uses",
-     "path": ".github/workflows/lint.yml"
+     "locator": "jobs.ci.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -220,255 +256,21 @@
   },
   {
    "condition": null,
-   "constraint": "v4",
+   "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.feature-matrix.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "scope": "ci",
    "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.cross-check.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.check.steps[0].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-library.steps[0].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.release.steps[0].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.release.steps[1].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/download-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[18].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[19].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[20].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[21].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[22].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.c-library.steps[3].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/upload-artifact@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v1",
-   "evidence": [
-    {
-     "locator": "jobs.c-bindings.steps[9].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v1",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/ilammy/msvc-dev-cmd@v1#"
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -491,7 +293,7 @@
  ],
  "inputs": [
   {
-   "blob": "05335407fd5f642dfdcfd4489b2717965b17dc50",
+   "blob": "10a488e70417962d9670aff939aeb8239f5840df",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -499,15 +301,11 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "82f89b288e6b7516041edd67d2e46fe8a8f69a05",
-   "path": ".github/workflows/release.yml"
-  },
-  {
    "blob": "f4f60d95e0fe48e259275129fa3ddfc0207afdd6",
    "path": "Cargo.toml"
   },
   {
-   "blob": "0a2307f3cb2b03f18338499cf88640f92c677cb0",
+   "blob": "101e390ab0313a3b11ef5538d546a49054a44fda",
    "path": "Makefile"
   },
   {
@@ -515,7 +313,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "c70b0683cd49e5e63c56ea15e620946e1174edaeadcb38cabebede66fec03288",
+ "inputs_fingerprint": "e79dc71717ae16a27d1a99f000c4c9b40319e3f24a225eef1d954af689524709",
  "instances": [
   {
    "commit": null,
@@ -609,6 +407,123 @@
    "version": null
   },
   {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cl.exe",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cl.exe#makefile",
+   "purl": "pkg:command/cl.exe",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/copy",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/copy#makefile",
+   "purl": "pkg:command/copy",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cp#makefile",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
    "context": "",
@@ -620,58 +535,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
    "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/checkout",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/checkout@v4#",
-   "purl": "pkg:github/actions/checkout@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "v4"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/download-artifact",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/download-artifact@v4#",
-   "purl": "pkg:github/actions/download-artifact@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/download-artifact",
-   "version": "v4"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/upload-artifact",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/upload-artifact@v4#",
-   "purl": "pkg:github/actions/upload-artifact@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/upload-artifact",
-   "version": "v4"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/ilammy/msvc-dev-cmd",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/ilammy/msvc-dev-cmd@v1#",
-   "purl": "pkg:github/ilammy/msvc-dev-cmd@v1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/ilammy/msvc-dev-cmd",
-   "version": "v1"
   },
   {
    "commit": null,

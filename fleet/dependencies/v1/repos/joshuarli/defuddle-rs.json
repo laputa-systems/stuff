@@ -25,6 +25,12 @@
    "purl": "pkg:cargo/anstyle"
   },
   {
+   "display_name": "arrayvec",
+   "ecosystem": "cargo",
+   "name": "arrayvec",
+   "purl": "pkg:cargo/arrayvec"
+  },
+  {
    "display_name": "assert_cmd",
    "ecosystem": "cargo",
    "name": "assert_cmd",
@@ -233,6 +239,12 @@
    "ecosystem": "cargo",
    "name": "js-sys",
    "purl": "pkg:cargo/js-sys"
+  },
+  {
+   "display_name": "laputa-ptytest",
+   "ecosystem": "cargo",
+   "name": "laputa-ptytest",
+   "purl": "pkg:cargo/laputa-ptytest"
   },
   {
    "display_name": "lazy_static",
@@ -625,6 +637,24 @@
    "purl": "pkg:cargo/unicode-ident"
   },
   {
+   "display_name": "unicode-width",
+   "ecosystem": "cargo",
+   "name": "unicode-width",
+   "purl": "pkg:cargo/unicode-width"
+  },
+  {
+   "display_name": "vt100",
+   "ecosystem": "cargo",
+   "name": "vt100",
+   "purl": "pkg:cargo/vt100"
+  },
+  {
+   "display_name": "vte",
+   "ecosystem": "cargo",
+   "name": "vte",
+   "purl": "pkg:cargo/vte"
+  },
+  {
    "display_name": "wait-timeout",
    "ecosystem": "cargo",
    "name": "wait-timeout",
@@ -721,6 +751,84 @@
    "purl": "pkg:cargo/zmij"
   },
   {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "foreach",
+   "ecosystem": "command",
+   "name": "foreach",
+   "purl": "pkg:command/foreach"
+  },
+  {
+   "display_name": "google-chrome",
+   "ecosystem": "command",
+   "name": "google-chrome",
+   "purl": "pkg:command/google-chrome"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "node",
+   "ecosystem": "command",
+   "name": "node",
+   "purl": "pkg:command/node"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rustup",
+   "ecosystem": "command",
+   "name": "rustup",
+   "purl": "pkg:command/rustup"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "wasm-bindgen",
+   "ecosystem": "command",
+   "name": "wasm-bindgen",
+   "purl": "pkg:command/wasm-bindgen"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
@@ -770,6 +878,24 @@
    "evidence": [
     {
      "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.wasm.steps[0].uses",
      "path": ".github/workflows/ci.yml"
     }
    ],
@@ -947,6 +1073,28 @@
    "to": "pkg:cargo/flate2@1.1.11#"
   },
   {
+   "condition": "cfg(unix)",
+   "constraint": "0.4.0",
+   "evidence": [
+    {
+     "locator": "target.'cfg(unix)'.dev-dependencies.laputa-ptytest",
+     "path": "crates/defuddle-cli/Cargo.toml"
+    },
+    {
+     "locator": "package[name=defuddle-cli,version=0.0.0].dependencies[6]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "crates/defuddle-cli:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": "0.4.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/laputa-ptytest@0.4.0#"
+  },
+  {
    "condition": null,
    "constraint": "0.3.2",
    "evidence": [
@@ -955,7 +1103,7 @@
      "path": "crates/defuddle-cli/Cargo.toml"
     },
     {
-     "locator": "package[name=defuddle-cli,version=0.0.0].dependencies[6]",
+     "locator": "package[name=defuddle-cli,version=0.0.0].dependencies[7]",
      "path": "Cargo.lock"
     }
    ],
@@ -977,7 +1125,7 @@
      "path": "crates/defuddle-cli/Cargo.toml"
     },
     {
-     "locator": "package[name=defuddle-cli,version=0.0.0].dependencies[7]",
+     "locator": "package[name=defuddle-cli,version=0.0.0].dependencies[8]",
      "path": "Cargo.lock"
     }
    ],
@@ -999,7 +1147,7 @@
      "path": "crates/defuddle-cli/Cargo.toml"
     },
     {
-     "locator": "package[name=defuddle-cli,version=0.0.0].dependencies[8]",
+     "locator": "package[name=defuddle-cli,version=0.0.0].dependencies[9]",
      "path": "Cargo.lock"
     }
    ],
@@ -2647,6 +2795,60 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/wasm-bindgen@0.2.130#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=laputa-ptytest,version=0.4.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/laputa-ptytest@0.4.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.191",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/libc@0.2.191#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=laputa-ptytest,version=0.4.0].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/laputa-ptytest@0.4.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.1.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustc-hash@2.1.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=laputa-ptytest,version=0.4.0].dependencies[2]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/laputa-ptytest@0.4.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.18.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/vt100@0.18.1#"
   },
   {
    "condition": null,
@@ -4345,6 +4547,96 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "package[name=vt100,version=0.18.1].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/vt100@0.18.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.19",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/itoa@1.0.19#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=vt100,version=0.18.1].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/vt100@0.18.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/unicode-width@0.2.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=vt100,version=0.18.1].dependencies[2]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/vt100@0.18.1#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.15.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/vte@0.15.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=vte,version=0.15.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/vte@0.15.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.7.8",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/arrayvec@0.7.8#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=vte,version=0.15.0].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/vte@0.15.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "2.8.3",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/memchr@2.8.3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=wait-timeout,version=0.2.1].dependencies[0]",
      "path": "Cargo.lock"
     }
@@ -5099,7 +5391,7 @@
  ],
  "inputs": [
   {
-   "blob": "51c77ab4dbf92ac5d9ea8b2fbb8a6df8399100d6",
+   "blob": "1d4f6dd8a3b880a3cbedf3fe9dfd6d2cbd291989",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -5107,19 +5399,19 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "0c220d608dbcd341cd35c99e54ece8e98cf92302",
+   "blob": "b9aa36f7a676291f3e715ab13a843a887be8751c",
    "path": "Cargo.lock"
   },
   {
-   "blob": "a0aee0a2db5daf758a47cd6fec37564b3c05a58b",
+   "blob": "36b1992d7763546d1f28262d94901fa52177a235",
    "path": "Cargo.toml"
   },
   {
-   "blob": "9064d7f71b2ccb2bff9b7e9334ccbd43182e2046",
+   "blob": "f134073e7eb19dc5f7f6f8c5be7c7237f74d0370",
    "path": "Makefile"
   },
   {
-   "blob": "3faa9b5fa40e0d984b6347837dfe08a7963cb5c8",
+   "blob": "0b103001ff021e78615a4ac4de199a77ad8b5597",
    "path": "crates/defuddle-cli/Cargo.toml"
   },
   {
@@ -5139,7 +5431,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "12e8e2169f9d9286e62898dcecf450cff1f860cc4b19772481ffdfffde791d87",
+ "inputs_fingerprint": "4721b201511d518cead681d8c0b7d8468d0fd64dc73aa55a73ea1941298fea93",
  "instances": [
   {
    "commit": null,
@@ -5192,6 +5484,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.0.14"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/arrayvec",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/arrayvec@0.7.8#",
+   "purl": "pkg:cargo/arrayvec@0.7.8",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.7.8"
   },
   {
    "commit": null,
@@ -5647,6 +5952,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.3.107"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/laputa-ptytest",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/laputa-ptytest@0.4.0#",
+   "purl": "pkg:cargo/laputa-ptytest@0.4.0",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.4.0"
   },
   {
    "commit": null,
@@ -6521,6 +6839,45 @@
   },
   {
    "commit": null,
+   "component": "pkg:cargo/unicode-width",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/unicode-width@0.2.3#",
+   "purl": "pkg:cargo/unicode-width@0.2.3",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.2.3"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/vt100",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/vt100@0.18.1#",
+   "purl": "pkg:cargo/vt100@0.18.1",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.18.1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/vte",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/vte@0.15.0#",
+   "purl": "pkg:cargo/vte@0.15.0",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.15.0"
+  },
+  {
+   "commit": null,
    "component": "pkg:cargo/wait-timeout",
    "context": "",
    "first_party": false,
@@ -6726,6 +7083,188 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.0.23"
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/cargo#workflow",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cp#makefile",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/foreach",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/foreach#makefile",
+   "purl": "pkg:command/foreach",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/google-chrome",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/google-chrome#workflow",
+   "purl": "pkg:command/google-chrome",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/node",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/node#workflow",
+   "purl": "pkg:command/node",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/python3#makefile",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustup",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/rustup#workflow",
+   "purl": "pkg:command/rustup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/wasm-bindgen",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/wasm-bindgen#makefile",
+   "purl": "pkg:command/wasm-bindgen",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",

@@ -1951,6 +1951,72 @@
    "purl": "pkg:cargo/zmij"
   },
   {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "dirname",
+   "ecosystem": "command",
+   "name": "dirname",
+   "purl": "pkg:command/dirname"
+  },
+  {
+   "display_name": "filter",
+   "ecosystem": "command",
+   "name": "filter",
+   "purl": "pkg:command/filter"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "node",
+   "ecosystem": "command",
+   "name": "node",
+   "purl": "pkg:command/node"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rustc",
+   "ecosystem": "command",
+   "name": "rustc",
+   "purl": "pkg:command/rustc"
+  },
+  {
+   "display_name": "stty",
+   "ecosystem": "command",
+   "name": "stty",
+   "purl": "pkg:command/stty"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "words",
+   "ecosystem": "command",
+   "name": "words",
+   "purl": "pkg:command/words"
+  },
+  {
    "display_name": "stonks",
    "ecosystem": "local",
    "name": "stonks",
@@ -19063,7 +19129,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "89d579bdd54627d9824feb8f2131291f0dc8431b",
+   "blob": "69f8011351991805f23fc884416881728f238d10",
    "path": "Makefile"
   },
   {
@@ -19071,11 +19137,15 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "3b1d0bd76cbaaccc3290fb792bfd2e78be66cda5",
+   "path": "scripts/demo.sh"
+  },
+  {
    "blob": "1dda03ddb06ad1c7da5b913539290187eb7fc5aa",
    "path": "web/.node-version"
   },
   {
-   "blob": "d34772ca0d19e6b526e2940c38c6823b8e32b3c1",
+   "blob": "ed2a5bbf039922341bc83c01447c7cc578f3a992",
    "path": "web/package.json"
   },
   {
@@ -19083,7 +19153,7 @@
    "path": "web/pnpm-lock.yaml"
   }
  ],
- "inputs_fingerprint": "822d1f39779e1ae3190a210fdc4d049c2ff7fc6e6b999978f5774d7d9bb31545",
+ "inputs_fingerprint": "f492bce73ee41e37add73dc7a991b7f0a1e450c3148a4a182548389a1b34c94a",
  "instances": [
   {
    "commit": null,
@@ -23517,6 +23587,162 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "1.0.23"
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dirname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dirname#shell",
+   "purl": "pkg:command/dirname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/filter",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/filter#makefile",
+   "purl": "pkg:command/filter",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/node",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/node#makefile",
+   "purl": "pkg:command/node",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustc",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rustc#makefile",
+   "purl": "pkg:command/rustc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/stty",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/stty#shell",
+   "purl": "pkg:command/stty",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/words",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/words#makefile",
+   "purl": "pkg:command/words",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": null,

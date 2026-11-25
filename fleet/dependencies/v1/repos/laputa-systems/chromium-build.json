@@ -1,226 +1,370 @@
 {
  "components": [
   {
-   "display_name": "bash",
-   "ecosystem": "apk",
-   "name": "bash",
-   "purl": "pkg:apk/bash"
-  },
-  {
-   "display_name": "bison",
-   "ecosystem": "apk",
-   "name": "bison",
-   "purl": "pkg:apk/bison"
-  },
-  {
-   "display_name": "bsd-compat-headers",
-   "ecosystem": "apk",
-   "name": "bsd-compat-headers",
-   "purl": "pkg:apk/bsd-compat-headers"
-  },
-  {
-   "display_name": "ca-certificates",
-   "ecosystem": "apk",
-   "name": "ca-certificates",
-   "purl": "pkg:apk/ca-certificates"
-  },
-  {
-   "display_name": "cargo",
-   "ecosystem": "apk",
-   "name": "cargo",
-   "purl": "pkg:apk/cargo"
-  },
-  {
-   "display_name": "ccache",
-   "ecosystem": "apk",
-   "name": "ccache",
-   "purl": "pkg:apk/ccache"
-  },
-  {
-   "display_name": "clang22-libclang",
-   "ecosystem": "apk",
-   "name": "clang22-libclang",
-   "purl": "pkg:apk/clang22-libclang"
-  },
-  {
-   "display_name": "curl",
-   "ecosystem": "apk",
-   "name": "curl",
-   "purl": "pkg:apk/curl"
-  },
-  {
-   "display_name": "expat-dev",
-   "ecosystem": "apk",
-   "name": "expat-dev",
-   "purl": "pkg:apk/expat-dev"
-  },
-  {
-   "display_name": "ffmpeg-dev",
-   "ecosystem": "apk",
-   "name": "ffmpeg-dev",
-   "purl": "pkg:apk/ffmpeg-dev"
-  },
-  {
-   "display_name": "file",
-   "ecosystem": "apk",
-   "name": "file",
-   "purl": "pkg:apk/file"
-  },
-  {
-   "display_name": "findutils",
-   "ecosystem": "apk",
-   "name": "findutils",
-   "purl": "pkg:apk/findutils"
-  },
-  {
-   "display_name": "flex",
-   "ecosystem": "apk",
-   "name": "flex",
-   "purl": "pkg:apk/flex"
-  },
-  {
-   "display_name": "font-noto",
-   "ecosystem": "apk",
-   "name": "font-noto",
-   "purl": "pkg:apk/font-noto"
-  },
-  {
-   "display_name": "gn",
-   "ecosystem": "apk",
-   "name": "gn",
-   "purl": "pkg:apk/gn"
-  },
-  {
-   "display_name": "go",
-   "ecosystem": "apk",
-   "name": "go",
-   "purl": "pkg:apk/go"
-  },
-  {
-   "display_name": "gperf",
-   "ecosystem": "apk",
-   "name": "gperf",
-   "purl": "pkg:apk/gperf"
-  },
-  {
-   "display_name": "libdrm-dev",
-   "ecosystem": "apk",
-   "name": "libdrm-dev",
-   "purl": "pkg:apk/libdrm-dev"
-  },
-  {
-   "display_name": "linux-headers",
-   "ecosystem": "apk",
-   "name": "linux-headers",
-   "purl": "pkg:apk/linux-headers"
-  },
-  {
-   "display_name": "mesa-dev",
-   "ecosystem": "apk",
-   "name": "mesa-dev",
-   "purl": "pkg:apk/mesa-dev"
-  },
-  {
-   "display_name": "musl-dev",
-   "ecosystem": "apk",
-   "name": "musl-dev",
-   "purl": "pkg:apk/musl-dev"
-  },
-  {
-   "display_name": "ninja-build",
-   "ecosystem": "apk",
-   "name": "ninja-build",
-   "purl": "pkg:apk/ninja-build"
-  },
-  {
-   "display_name": "nodejs",
-   "ecosystem": "apk",
-   "name": "nodejs",
-   "purl": "pkg:apk/nodejs"
-  },
-  {
-   "display_name": "nspr-dev",
-   "ecosystem": "apk",
-   "name": "nspr-dev",
-   "purl": "pkg:apk/nspr-dev"
-  },
-  {
-   "display_name": "nss-dev",
-   "ecosystem": "apk",
-   "name": "nss-dev",
-   "purl": "pkg:apk/nss-dev"
-  },
-  {
-   "display_name": "patch",
-   "ecosystem": "apk",
-   "name": "patch",
-   "purl": "pkg:apk/patch"
-  },
-  {
-   "display_name": "perl",
-   "ecosystem": "apk",
-   "name": "perl",
-   "purl": "pkg:apk/perl"
-  },
-  {
-   "display_name": "pkgconf",
-   "ecosystem": "apk",
-   "name": "pkgconf",
-   "purl": "pkg:apk/pkgconf"
-  },
-  {
-   "display_name": "python3",
-   "ecosystem": "apk",
-   "name": "python3",
-   "purl": "pkg:apk/python3"
-  },
-  {
-   "display_name": "rust",
-   "ecosystem": "apk",
-   "name": "rust",
-   "purl": "pkg:apk/rust"
-  },
-  {
-   "display_name": "rust-bindgen",
-   "ecosystem": "apk",
-   "name": "rust-bindgen",
-   "purl": "pkg:apk/rust-bindgen"
-  },
-  {
-   "display_name": "rustfmt",
-   "ecosystem": "apk",
-   "name": "rustfmt",
-   "purl": "pkg:apk/rustfmt"
-  },
-  {
-   "display_name": "tar",
-   "ecosystem": "apk",
-   "name": "tar",
-   "purl": "pkg:apk/tar"
-  },
-  {
-   "display_name": "util-linux-dev",
-   "ecosystem": "apk",
-   "name": "util-linux-dev",
-   "purl": "pkg:apk/util-linux-dev"
-  },
-  {
-   "display_name": "xz",
-   "ecosystem": "apk",
-   "name": "xz",
-   "purl": "pkg:apk/xz"
-  },
-  {
-   "display_name": "zstd",
-   "ecosystem": "apk",
-   "name": "zstd",
-   "purl": "pkg:apk/zstd"
-  },
-  {
    "display_name": "clang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz",
    "ecosystem": "artifact",
    "name": "clang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz",
    "purl": "pkg:artifact/clang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz?download_url=https%3A%2F%2Fcommondatastorage.googleapis.com%2Fchromium-browser-clang%2FLinux_x64%2Fclang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz"
+  },
+  {
+   "display_name": "addgroup",
+   "ecosystem": "command",
+   "name": "addgroup",
+   "purl": "pkg:command/addgroup"
+  },
+  {
+   "display_name": "adduser",
+   "ecosystem": "command",
+   "name": "adduser",
+   "purl": "pkg:command/adduser"
+  },
+  {
+   "display_name": "apk",
+   "ecosystem": "command",
+   "name": "apk",
+   "purl": "pkg:command/apk"
+  },
+  {
+   "display_name": "basename",
+   "ecosystem": "command",
+   "name": "basename",
+   "purl": "pkg:command/basename"
+  },
+  {
+   "display_name": "build-pure-runtime.sh",
+   "ecosystem": "command",
+   "name": "build-pure-runtime.sh",
+   "purl": "pkg:command/build-pure-runtime.sh"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cat",
+   "ecosystem": "command",
+   "name": "cat",
+   "purl": "pkg:command/cat"
+  },
+  {
+   "display_name": "ccache",
+   "ecosystem": "command",
+   "name": "ccache",
+   "purl": "pkg:command/ccache"
+  },
+  {
+   "display_name": "chromium-build",
+   "ecosystem": "command",
+   "name": "chromium-build",
+   "purl": "pkg:command/chromium-build"
+  },
+  {
+   "display_name": "clang",
+   "ecosystem": "command",
+   "name": "clang",
+   "purl": "pkg:command/clang"
+  },
+  {
+   "display_name": "cmake",
+   "ecosystem": "command",
+   "name": "cmake",
+   "purl": "pkg:command/cmake"
+  },
+  {
+   "display_name": "configure",
+   "ecosystem": "command",
+   "name": "configure",
+   "purl": "pkg:command/configure"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "cut",
+   "ecosystem": "command",
+   "name": "cut",
+   "purl": "pkg:command/cut"
+  },
+  {
+   "display_name": "dirname",
+   "ecosystem": "command",
+   "name": "dirname",
+   "purl": "pkg:command/dirname"
+  },
+  {
+   "display_name": "docker",
+   "ecosystem": "command",
+   "name": "docker",
+   "purl": "pkg:command/docker"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "env",
+   "ecosystem": "command",
+   "name": "env",
+   "purl": "pkg:command/env"
+  },
+  {
+   "display_name": "filter",
+   "ecosystem": "command",
+   "name": "filter",
+   "purl": "pkg:command/filter"
+  },
+  {
+   "display_name": "find",
+   "ecosystem": "command",
+   "name": "find",
+   "purl": "pkg:command/find"
+  },
+  {
+   "display_name": "gh",
+   "ecosystem": "command",
+   "name": "gh",
+   "purl": "pkg:command/gh"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "head",
+   "ecosystem": "command",
+   "name": "head",
+   "purl": "pkg:command/head"
+  },
+  {
+   "display_name": "id",
+   "ecosystem": "command",
+   "name": "id",
+   "purl": "pkg:command/id"
+  },
+  {
+   "display_name": "jq",
+   "ecosystem": "command",
+   "name": "jq",
+   "purl": "pkg:command/jq"
+  },
+  {
+   "display_name": "kill",
+   "ecosystem": "command",
+   "name": "kill",
+   "purl": "pkg:command/kill"
+  },
+  {
+   "display_name": "ln",
+   "ecosystem": "command",
+   "name": "ln",
+   "purl": "pkg:command/ln"
+  },
+  {
+   "display_name": "ls",
+   "ecosystem": "command",
+   "name": "ls",
+   "purl": "pkg:command/ls"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "meson",
+   "ecosystem": "command",
+   "name": "meson",
+   "purl": "pkg:command/meson"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "mv",
+   "ecosystem": "command",
+   "name": "mv",
+   "purl": "pkg:command/mv"
+  },
+  {
+   "display_name": "ninja",
+   "ecosystem": "command",
+   "name": "ninja",
+   "purl": "pkg:command/ninja"
+  },
+  {
+   "display_name": "nproc",
+   "ecosystem": "command",
+   "name": "nproc",
+   "purl": "pkg:command/nproc"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "seq",
+   "ecosystem": "command",
+   "name": "seq",
+   "purl": "pkg:command/seq"
+  },
+  {
+   "display_name": "sh",
+   "ecosystem": "command",
+   "name": "sh",
+   "purl": "pkg:command/sh"
+  },
+  {
+   "display_name": "sha256sum",
+   "ecosystem": "command",
+   "name": "sha256sum",
+   "purl": "pkg:command/sha256sum"
+  },
+  {
+   "display_name": "sha512sum",
+   "ecosystem": "command",
+   "name": "sha512sum",
+   "purl": "pkg:command/sha512sum"
+  },
+  {
+   "display_name": "sleep",
+   "ecosystem": "command",
+   "name": "sleep",
+   "purl": "pkg:command/sleep"
+  },
+  {
+   "display_name": "smoke-c",
+   "ecosystem": "command",
+   "name": "smoke-c",
+   "purl": "pkg:command/smoke-c"
+  },
+  {
+   "display_name": "smoke-cpp",
+   "ecosystem": "command",
+   "name": "smoke-cpp",
+   "purl": "pkg:command/smoke-cpp"
+  },
+  {
+   "display_name": "sort",
+   "ecosystem": "command",
+   "name": "sort",
+   "purl": "pkg:command/sort"
+  },
+  {
+   "display_name": "stat",
+   "ecosystem": "command",
+   "name": "stat",
+   "purl": "pkg:command/stat"
+  },
+  {
+   "display_name": "sudo",
+   "ecosystem": "command",
+   "name": "sudo",
+   "purl": "pkg:command/sudo"
+  },
+  {
+   "display_name": "sysctl",
+   "ecosystem": "command",
+   "name": "sysctl",
+   "purl": "pkg:command/sysctl"
+  },
+  {
+   "display_name": "tail",
+   "ecosystem": "command",
+   "name": "tail",
+   "purl": "pkg:command/tail"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "tr",
+   "ecosystem": "command",
+   "name": "tr",
+   "purl": "pkg:command/tr"
+  },
+  {
+   "display_name": "true",
+   "ecosystem": "command",
+   "name": "true",
+   "purl": "pkg:command/true"
+  },
+  {
+   "display_name": "uname",
+   "ecosystem": "command",
+   "name": "uname",
+   "purl": "pkg:command/uname"
+  },
+  {
+   "display_name": "uv",
+   "ecosystem": "command",
+   "name": "uv",
+   "purl": "pkg:command/uv"
+  },
+  {
+   "display_name": "xz",
+   "ecosystem": "command",
+   "name": "xz",
+   "purl": "pkg:command/xz"
   },
   {
    "display_name": "alpine",
@@ -304,7 +448,7 @@
  "edges": [
   {
    "condition": null,
-   "constraint": "==0.1.0",
+   "constraint": "==0.3.1",
    "evidence": [
     {
      "locator": "project.dependencies[0]",
@@ -319,10 +463,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "0.1.0",
+   "resolved_version": "0.3.1",
    "scope": "runtime",
    "source_kind": "registry",
-   "to": "pkg:pypi/laputa-buildlib@0.1.0#"
+   "to": "pkg:pypi/laputa-buildlib@0.3.1#"
   },
   {
    "condition": "group == 'dev'",
@@ -392,658 +536,10 @@
   },
   {
    "condition": null,
-   "constraint": "5.3.9-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.3.9-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/bash@5.3.9-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "3.8.2-r3",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.8.2-r3",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/bison@3.8.2-r3#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.7.2-r6",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.7.2-r6",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/bsd-compat-headers@0.7.2-r6#"
-  },
-  {
-   "condition": null,
-   "constraint": "20261020-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "20261020-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/ca-certificates@20261020-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.96.1-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.96.1-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/cargo@1.96.1-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "4.13.6-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "4.13.6-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/ccache@4.13.6-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "22.1.3-r2",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "22.1.3-r2",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/clang22-libclang@22.1.3-r2#"
-  },
-  {
-   "condition": null,
-   "constraint": "8.23.0-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "8.23.0-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/curl@8.23.0-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.10.0-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.10.0-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/expat-dev@2.10.0-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "8.1.3-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "8.1.3-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/ffmpeg-dev@8.1.3-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "5.47-r2",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.47-r2",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/file@5.47-r2#"
-  },
-  {
-   "condition": null,
-   "constraint": "4.10.0-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "4.10.0-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/findutils@4.10.0-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.6.4-r8",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.6.4-r8",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/flex@2.6.4-r8#"
-  },
-  {
-   "condition": null,
-   "constraint": "2026.11.01-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2026.11.01-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/font-noto@2026.11.01-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "0_git20260924-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0_git20260924-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/gn@0_git20260924-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.26.10-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.26.10-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/go@1.26.10-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "3.3-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.3-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/gperf@3.3-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.4.134-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.4.134-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/libdrm-dev@2.4.134-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "7.0.0-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "7.0.0-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/linux-headers@7.0.0-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "26.1.6-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "26.1.6-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/mesa-dev@26.1.6-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.2.6-r3",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.2.6-r3",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/musl-dev@1.2.6-r3#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.13.2-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.13.2-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/ninja-build@1.13.2-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "24.22.1-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "24.22.1-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/nodejs@24.22.1-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "4.38.2-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "4.38.2-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/nspr-dev@4.38.2-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "3.124-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.124-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/nss-dev@3.124-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.8.1-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.8.1-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/patch@2.8.1-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "5.42.3-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.42.3-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/perl@5.42.3-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.5.1-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.5.1-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/pkgconf@2.5.1-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "3.14.10-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "3.14.10-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/python3@3.14.10-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "0.72.1-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "0.72.1-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/rust-bindgen@0.72.1-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.96.1-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.96.1-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/rust@1.96.1-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.96.1-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.96.1-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/rustfmt@1.96.1-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.35-r5",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.35-r5",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/tar@1.35-r5#"
-  },
-  {
-   "condition": null,
-   "constraint": "2.42.3-r1",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "2.42.3-r1",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/util-linux-dev@2.42.3-r1#"
-  },
-  {
-   "condition": null,
-   "constraint": "5.8.4-r0",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "5.8.4-r0",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/xz@5.8.4-r0#"
-  },
-  {
-   "condition": null,
-   "constraint": "1.5.7-r2",
-   "evidence": [
-    {
-     "locator": "L30",
-     "path": "Dockerfile"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "1.5.7-r2",
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:apk/zstd@1.5.7-r2#"
-  },
-  {
-   "condition": null,
    "constraint": null,
    "evidence": [
     {
-     "locator": "L76",
+     "locator": "L39",
      "path": "Dockerfile"
     }
    ],
@@ -1061,7 +557,7 @@
    "constraint": "sha256:d56c381f961d307a21b3ca004cf1e3910f106644aefb1f43e654c8a56c4fd395",
    "evidence": [
     {
-     "locator": "L10",
+     "locator": "L11",
      "path": "Dockerfile"
     }
    ],
@@ -1079,7 +575,7 @@
    "constraint": "sha256:d56c381f961d307a21b3ca004cf1e3910f106644aefb1f43e654c8a56c4fd395",
    "evidence": [
     {
-     "locator": "L13",
+     "locator": "L14",
      "path": "Dockerfile"
     }
    ],
@@ -1097,7 +593,7 @@
    "constraint": "sha256:3783cc01769c7b2b1b83a5c5ad96c815348e28ed7da68e2e3687004faa906251",
    "evidence": [
     {
-     "locator": "L6",
+     "locator": "L7",
      "path": "Dockerfile"
     }
    ],
@@ -1205,8 +701,26 @@
    "constraint": "v7.0.1",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[0].uses",
-     "path": ".github/workflows/lint.yml"
+     "locator": "jobs.macos-tests.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.linux-builder-tests.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1331,8 +845,8 @@
    "constraint": "v10.3.3",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[1].uses",
-     "path": ".github/workflows/lint.yml"
+     "locator": "jobs.macos-tests.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
@@ -1365,19 +879,15 @@
  ],
  "inputs": [
   {
-   "blob": "117e221e7e9b9a15f46361172c4920aaec4d507d",
+   "blob": "c33d71ef38a590a1e7349339c2bb92db39763b7e",
    "path": ".github/workflows/ci.yml"
-  },
-  {
-   "blob": "d5bb9a53d68589348c6b4d9b7eb7edfe49a8bda4",
-   "path": ".github/workflows/lint.yml"
   },
   {
    "blob": "10b97914701eaf8910e386094fe2ebc23503c670",
    "path": ".github/workflows/macos-26-smoke.yml"
   },
   {
-   "blob": "9e8a73bed56eb9a878405f07cf04a75efdc30992",
+   "blob": "3df63fb5091e25cbe284a71a3ba8edcce0247bf2",
    "path": ".github/workflows/release-linux.yml"
   },
   {
@@ -1385,492 +895,48 @@
    "path": ".github/workflows/release.yml"
   },
   {
-   "blob": "a01b2b2987f134992deb4f462d772bdb37a4b3f7",
+   "blob": "9df486b4ab08106d64a0f018442fa778ca73eaeb",
    "path": "Dockerfile"
   },
   {
-   "blob": "90d5af32577f00619ef99508b6a7309b0139a33e",
+   "blob": "4ae078934f4dd63cb3c3878e988e6b94fb8d4ca0",
    "path": "Makefile"
   },
   {
-   "blob": "738139bbe1a7e209b27b9977a3512f6856978613",
+   "blob": "92bfdfac1175df64bfd6f478e2bde5a08bbd0141",
+   "path": "chromium-build"
+  },
+  {
+   "blob": "bd13370e0320c022494794b8db55b148e3ec0940",
    "path": "pyproject.toml"
   },
   {
-   "blob": "1d8d986383eb13e7a11217a9f61751f1cf001ada",
+   "blob": "e4aad5d21e0c2a68bd811ab0938d2d5aa952c72f",
+   "path": "scripts/build-pure-runtime.sh"
+  },
+  {
+   "blob": "22ce47091ae3131a191d317fd7cb5174f087bd44",
+   "path": "scripts/build-rust-toolchain.sh"
+  },
+  {
+   "blob": "8d9a235ee7fcbc8f142c6cd3dc52a3ceaf618cf1",
+   "path": "scripts/helium-crt.sh"
+  },
+  {
+   "blob": "c0e891d9670b052673308158d80f858a0f1dcaf9",
+   "path": "scripts/rust-host-linker"
+  },
+  {
+   "blob": "a84a4da24da579985cbfa3ce1696141502c215d9",
+   "path": "tests/results/chb11-arm64-smoke/cache-smoke.sh"
+  },
+  {
+   "blob": "052e3becb5c6e3416d5700dc04dfc3ae4650f09e",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "49e6894ff79dddc010eb7aab616b247f85759fd53dd9608aa27a5f1505b02d16",
+ "inputs_fingerprint": "459dc61ad24b71d37af0ed1aff82a0a7e3433a744114dbcfcedad9a02a60ed39",
  "instances": [
-  {
-   "commit": null,
-   "component": "pkg:apk/bash",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/bash@5.3.9-r1#",
-   "purl": "pkg:apk/bash@5.3.9-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "5.3.9-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/bison",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/bison@3.8.2-r3#",
-   "purl": "pkg:apk/bison@3.8.2-r3",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "3.8.2-r3"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/bsd-compat-headers",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/bsd-compat-headers@0.7.2-r6#",
-   "purl": "pkg:apk/bsd-compat-headers@0.7.2-r6",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "0.7.2-r6"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/ca-certificates",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/ca-certificates@20261020-r0#",
-   "purl": "pkg:apk/ca-certificates@20261020-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "20261020-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/cargo",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/cargo@1.96.1-r0#",
-   "purl": "pkg:apk/cargo@1.96.1-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.96.1-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/ccache",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/ccache@4.13.6-r0#",
-   "purl": "pkg:apk/ccache@4.13.6-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "4.13.6-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/clang22-libclang",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/clang22-libclang@22.1.3-r2#",
-   "purl": "pkg:apk/clang22-libclang@22.1.3-r2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "22.1.3-r2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/curl",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/curl@8.23.0-r0#",
-   "purl": "pkg:apk/curl@8.23.0-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "8.23.0-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/expat-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/expat-dev@2.10.0-r0#",
-   "purl": "pkg:apk/expat-dev@2.10.0-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.10.0-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/ffmpeg-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/ffmpeg-dev@8.1.3-r0#",
-   "purl": "pkg:apk/ffmpeg-dev@8.1.3-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "8.1.3-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/file",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/file@5.47-r2#",
-   "purl": "pkg:apk/file@5.47-r2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "5.47-r2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/findutils",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/findutils@4.10.0-r1#",
-   "purl": "pkg:apk/findutils@4.10.0-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "4.10.0-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/flex",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/flex@2.6.4-r8#",
-   "purl": "pkg:apk/flex@2.6.4-r8",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.6.4-r8"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/font-noto",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/font-noto@2026.11.01-r0#",
-   "purl": "pkg:apk/font-noto@2026.11.01-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2026.11.01-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/gn",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/gn@0_git20260924-r0#",
-   "purl": "pkg:apk/gn@0_git20260924-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "0_git20260924-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/go",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/go@1.26.10-r0#",
-   "purl": "pkg:apk/go@1.26.10-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.26.10-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/gperf",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/gperf@3.3-r0#",
-   "purl": "pkg:apk/gperf@3.3-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "3.3-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/libdrm-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/libdrm-dev@2.4.134-r0#",
-   "purl": "pkg:apk/libdrm-dev@2.4.134-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.4.134-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/linux-headers",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/linux-headers@7.0.0-r1#",
-   "purl": "pkg:apk/linux-headers@7.0.0-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "7.0.0-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/mesa-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/mesa-dev@26.1.6-r0#",
-   "purl": "pkg:apk/mesa-dev@26.1.6-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "26.1.6-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/musl-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/musl-dev@1.2.6-r3#",
-   "purl": "pkg:apk/musl-dev@1.2.6-r3",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.2.6-r3"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/ninja-build",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/ninja-build@1.13.2-r1#",
-   "purl": "pkg:apk/ninja-build@1.13.2-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.13.2-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/nodejs",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/nodejs@24.22.1-r1#",
-   "purl": "pkg:apk/nodejs@24.22.1-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "24.22.1-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/nspr-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/nspr-dev@4.38.2-r0#",
-   "purl": "pkg:apk/nspr-dev@4.38.2-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "4.38.2-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/nss-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/nss-dev@3.124-r0#",
-   "purl": "pkg:apk/nss-dev@3.124-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "3.124-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/patch",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/patch@2.8.1-r0#",
-   "purl": "pkg:apk/patch@2.8.1-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.8.1-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/perl",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/perl@5.42.3-r0#",
-   "purl": "pkg:apk/perl@5.42.3-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "5.42.3-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/pkgconf",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/pkgconf@2.5.1-r0#",
-   "purl": "pkg:apk/pkgconf@2.5.1-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.5.1-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/python3",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/python3@3.14.10-r1#",
-   "purl": "pkg:apk/python3@3.14.10-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "3.14.10-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/rust-bindgen",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/rust-bindgen@0.72.1-r1#",
-   "purl": "pkg:apk/rust-bindgen@0.72.1-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "0.72.1-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/rust",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/rust@1.96.1-r0#",
-   "purl": "pkg:apk/rust@1.96.1-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.96.1-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/rustfmt",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/rustfmt@1.96.1-r0#",
-   "purl": "pkg:apk/rustfmt@1.96.1-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.96.1-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/tar",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/tar@1.35-r5#",
-   "purl": "pkg:apk/tar@1.35-r5",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.35-r5"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/util-linux-dev",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/util-linux-dev@2.42.3-r1#",
-   "purl": "pkg:apk/util-linux-dev@2.42.3-r1",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "2.42.3-r1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/xz",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/xz@5.8.4-r0#",
-   "purl": "pkg:apk/xz@5.8.4-r0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "5.8.4-r0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:apk/zstd",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:apk/zstd@1.5.7-r2#",
-   "purl": "pkg:apk/zstd@1.5.7-r2",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.5.7-r2"
-  },
   {
    "commit": null,
    "component": "pkg:artifact/clang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz?download_url=https%3A%2F%2Fcommondatastorage.googleapis.com%2Fchromium-browser-clang%2FLinux_x64%2Fclang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz",
@@ -1881,6 +947,1319 @@
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/addgroup",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/addgroup#dockerfile",
+   "purl": "pkg:command/addgroup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/adduser",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/adduser#dockerfile",
+   "purl": "pkg:command/adduser",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/apk",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/apk#dockerfile",
+   "purl": "pkg:command/apk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/apk",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/apk#shell",
+   "purl": "pkg:command/apk",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/basename#dockerfile",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/basename#shell",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/build-pure-runtime.sh",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/build-pure-runtime.sh#dockerfile",
+   "purl": "pkg:command/build-pure-runtime.sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cargo#shell",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/cat#dockerfile",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cat#shell",
+   "purl": "pkg:command/cat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ccache",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ccache#shell",
+   "purl": "pkg:command/ccache",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chromium-build",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/chromium-build#makefile",
+   "purl": "pkg:command/chromium-build",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/chromium-build",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/chromium-build#workflow",
+   "purl": "pkg:command/chromium-build",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/clang",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/clang#dockerfile",
+   "purl": "pkg:command/clang",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cmake",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cmake#shell",
+   "purl": "pkg:command/cmake",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/configure",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/configure#shell",
+   "purl": "pkg:command/configure",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/cp#dockerfile",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/curl#dockerfile",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cut",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/cut#workflow",
+   "purl": "pkg:command/cut",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/dirname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/dirname#shell",
+   "purl": "pkg:command/dirname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/docker",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/docker#shell",
+   "purl": "pkg:command/docker",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/docker",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/docker#workflow",
+   "purl": "pkg:command/docker",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/echo#dockerfile",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/echo#makefile",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/echo#shell",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/echo#workflow",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/env",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/env#shell",
+   "purl": "pkg:command/env",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/filter",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/filter#makefile",
+   "purl": "pkg:command/filter",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/find#shell",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/find#workflow",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/gh#workflow",
+   "purl": "pkg:command/gh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/git#shell",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/git#workflow",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/grep#dockerfile",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/grep#shell",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/head",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/head#shell",
+   "purl": "pkg:command/head",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/id",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/id#shell",
+   "purl": "pkg:command/id",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/id",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/id#workflow",
+   "purl": "pkg:command/id",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/jq",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/jq#workflow",
+   "purl": "pkg:command/jq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/kill",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/kill#shell",
+   "purl": "pkg:command/kill",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ln",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/ln#dockerfile",
+   "purl": "pkg:command/ln",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ln",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ln#shell",
+   "purl": "pkg:command/ln",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ls",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ls#shell",
+   "purl": "pkg:command/ls",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ls",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/ls#workflow",
+   "purl": "pkg:command/ls",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/make#makefile",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/make#shell",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/meson",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/meson#shell",
+   "purl": "pkg:command/meson",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#dockerfile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mkdir#shell",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/mkdir#workflow",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mv",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mv#shell",
+   "purl": "pkg:command/mv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ninja",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/ninja#dockerfile",
+   "purl": "pkg:command/ninja",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ninja",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ninja#shell",
+   "purl": "pkg:command/ninja",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/nproc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/nproc#shell",
+   "purl": "pkg:command/nproc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/nproc",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/nproc#workflow",
+   "purl": "pkg:command/nproc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/printf#dockerfile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/printf#workflow",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/python3#dockerfile",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/python3#shell",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/python3#workflow",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/rm#dockerfile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rm#shell",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/rm#workflow",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sed#shell",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/seq",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/seq#shell",
+   "purl": "pkg:command/seq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sh",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/sh#dockerfile",
+   "purl": "pkg:command/sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#dockerfile",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#shell",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#workflow",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha512sum",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sha512sum#shell",
+   "purl": "pkg:command/sha512sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sleep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sleep#shell",
+   "purl": "pkg:command/sleep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/smoke-c",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/smoke-c#shell",
+   "purl": "pkg:command/smoke-c",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/smoke-cpp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/smoke-cpp#shell",
+   "purl": "pkg:command/smoke-cpp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/sort#dockerfile",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sort#workflow",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/stat",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/stat#dockerfile",
+   "purl": "pkg:command/stat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/stat",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/stat#shell",
+   "purl": "pkg:command/stat",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sudo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sudo#workflow",
+   "purl": "pkg:command/sudo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sysctl",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sysctl#workflow",
+   "purl": "pkg:command/sysctl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tail",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tail#shell",
+   "purl": "pkg:command/tail",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/tar#dockerfile",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tar#shell",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "dockerfile",
+   "first_party": false,
+   "id": "pkg:command/test#dockerfile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/test#shell",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/test#workflow",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tr",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tr#shell",
+   "purl": "pkg:command/tr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/true#shell",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/true",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/true#workflow",
+   "purl": "pkg:command/true",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uname",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/uname#shell",
+   "purl": "pkg:command/uname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/uv#makefile",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/uv#workflow",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xz",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/xz#shell",
+   "purl": "pkg:command/xz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
    "vcs_url": null,
    "version": null
   },
@@ -2006,13 +2385,13 @@
    "component": "pkg:pypi/laputa-buildlib",
    "context": "",
    "first_party": false,
-   "id": "pkg:pypi/laputa-buildlib@0.1.0#",
-   "purl": "pkg:pypi/laputa-buildlib@0.1.0",
+   "id": "pkg:pypi/laputa-buildlib@0.3.1#",
+   "purl": "pkg:pypi/laputa-buildlib@0.3.1",
    "registry_url": "https://pypi.17166969.xyz/current/simple/",
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "0.1.0"
+   "version": "0.3.1"
   },
   {
    "commit": null,
@@ -2055,6 +2434,12 @@
   }
  ],
  "issues": [
+  {
+   "kind": "dynamic_value",
+   "locator": "L31",
+   "message": "apk package '$@' is not literal",
+   "path": "Dockerfile"
+  },
   {
    "kind": "unsupported_format",
    "locator": null,

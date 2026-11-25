@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import cast
 
 from repomod.catalog import Catalog, atomic_write, repository_path
+from repomod.dependencies import commands as commands_module
 from repomod.dependencies.adapters import ADAPTERS
 from repomod.dependencies.discover import discover, without_fixtures
 from repomod.dependencies.git_tree import default_commit, read_blobs, tree_entries
@@ -33,7 +34,7 @@ from repomod.dependencies.model import (
 from repomod.git import GitError, expected_origin, is_git_checkout, origin_url
 from repomod.types import Repository
 
-PARSER_VERSION = 7
+PARSER_VERSION = 8
 
 
 @dataclass(frozen=True, slots=True)
@@ -97,6 +98,7 @@ def inspect_repository(catalog: Catalog, repository: Repository) -> RepositoryIn
     discovery = discover(entries)
     discovered = {item.path: item for item in discovery.inputs}
     by_path = {entry.path: entry for entry in entries}
+    command_entries = commands_module.select(entries)
     issues: list[Issue] = [
         Issue(CoverageKind.SUBMODULE, "gitlink content is not inspected", path=entry.path)
         for entry in entries
@@ -121,19 +123,36 @@ def inspect_repository(catalog: Catalog, repository: Repository) -> RepositoryIn
                 Issue(CoverageKind.SYMLINK_SKIPPED, "dependency input is a symlink", path=candidate)
             )
 
+    input_paths = {item.path for item in inputs}
+    blob_ids = {
+        by_path[item.path].object_id
+        for item in inputs
+        if by_path[item.path].kind == "blob"
+    }
+    blob_ids.update(
+        entry.object_id for entry in command_entries if entry.path not in input_paths
+    )
     try:
-        blobs = read_blobs(
-            path,
-            [by_path[item.path].object_id for item in inputs if by_path[item.path].kind == "blob"],
-        )
+        blobs = read_blobs(path, sorted(blob_ids))
     except GitError as error:
         issues.append(Issue(CoverageKind.GIT_FAILURE, str(error)))
         return RepositoryInspection(_repository_data(repository, inputs, issues), commit)
+    command_files, command_input_paths, command_issues = (
+        commands_module.repository_files(command_entries, blobs)
+    )
+    issues.extend(issue for issue in command_issues if issue.path not in input_paths)
+    command_only = set(command_input_paths) - candidate_paths
+    for command_path in sorted(command_input_paths):
+        if command_path not in input_paths:
+            inputs.append(InputFile(command_path, by_path[command_path].object_id))
+            input_paths.add(command_path)
     contents: list[InputContent] = []
     gitlinks = tuple(
         sorted((entry.path, entry.object_id) for entry in entries if entry.kind == "gitlink")
     )
     for item in inputs:
+        if item.path in command_only:
+            continue
         entry = by_path[item.path]
         if entry.kind != "blob":
             continue
@@ -181,6 +200,12 @@ def inspect_repository(catalog: Catalog, repository: Repository) -> RepositoryIn
         instances.extend(result.instances)
         edges.extend(result.edges)
         issues.extend(result.issues)
+
+    command_components, command_instances, _command_arguments = (
+        commands_module.extract(command_files)
+    )
+    components.extend(command_components)
+    instances.extend(command_instances)
 
     return RepositoryInspection(
         _repository_data(repository, inputs, issues, projects, components, instances, edges),

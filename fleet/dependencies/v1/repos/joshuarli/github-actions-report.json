@@ -1,0 +1,2790 @@
+{
+ "components": [
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "pnpm",
+   "ecosystem": "command",
+   "name": "pnpm",
+   "purl": "pkg:command/pnpm"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  },
+  {
+   "display_name": "pnpm/setup",
+   "ecosystem": "github",
+   "name": "pnpm/setup",
+   "purl": "pkg:github/pnpm/setup"
+  },
+  {
+   "display_name": "@oxlint/binding-android-arm-eabi",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-android-arm-eabi",
+   "purl": "pkg:npm/%40oxlint/binding-android-arm-eabi"
+  },
+  {
+   "display_name": "@oxlint/binding-android-arm64",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-android-arm64",
+   "purl": "pkg:npm/%40oxlint/binding-android-arm64"
+  },
+  {
+   "display_name": "@oxlint/binding-darwin-arm64",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-darwin-arm64",
+   "purl": "pkg:npm/%40oxlint/binding-darwin-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F55dbd237d2517f812ce99ce801dbc47a1f2d80a770f0be07f365a603c30c3d57cf759182c04fe7236ed9d47ad11d84213f13a1e249a7c50122a12505acebc36b.tgz"
+  },
+  {
+   "display_name": "@oxlint/binding-darwin-x64",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-darwin-x64",
+   "purl": "pkg:npm/%40oxlint/binding-darwin-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F411d55f3dd0c974606446d05fe25742bd8a01bea4e85ef9559df9a667c58f38f6b44765fdc5da0128424b39f865477f5d395fd321ffa1dd4a14cfe63b9e906da.tgz"
+  },
+  {
+   "display_name": "@oxlint/binding-freebsd-x64",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-freebsd-x64",
+   "purl": "pkg:npm/%40oxlint/binding-freebsd-x64"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-arm-gnueabihf",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-arm-gnueabihf",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-arm-musleabihf",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-arm-musleabihf",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-arm64-gnu",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-arm64-gnu",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa517feee3b5bb767c7136dd25fba81c5182705989c520b2808ad4f5488e73a4fadddae94064a6dfc6aca23df56971b0a5317edcffe67bff91f2af49c998cb093.tgz"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-arm64-musl",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-arm64-musl",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcccf0577f2bcb2a1afb01709059de8559ddcb4659bb33034f08686b79805145e5172e9e9a4023f6670176e8b8006f9d6789fff4b8e0a2a57cf6670c36de8a986.tgz"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-ppc64-gnu",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-ppc64-gnu",
+   "purl": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-riscv64-gnu",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-riscv64-gnu",
+   "purl": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-riscv64-musl",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-riscv64-musl",
+   "purl": "pkg:npm/%40oxlint/binding-linux-riscv64-musl"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-s390x-gnu",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-s390x-gnu",
+   "purl": "pkg:npm/%40oxlint/binding-linux-s390x-gnu"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-x64-gnu",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-x64-gnu",
+   "purl": "pkg:npm/%40oxlint/binding-linux-x64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F1760868dbf4b024cc7f88613652cddd64950d6f939cfa52d8dac7ae1678b0720a46176d50dbb2e9fe3b2da12df5b630348a0af5be8f0cbff6577410f81d7aef8.tgz"
+  },
+  {
+   "display_name": "@oxlint/binding-linux-x64-musl",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-linux-x64-musl",
+   "purl": "pkg:npm/%40oxlint/binding-linux-x64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa657f90c4da86e3706f137fb99746e45af2d4fcaf30e4a63a9742d2a81ac2875a4a60b226a56ce375f9c0ada121144d56d05235efb809bcbd5f7edeb474c8207.tgz"
+  },
+  {
+   "display_name": "@oxlint/binding-openharmony-arm64",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-openharmony-arm64",
+   "purl": "pkg:npm/%40oxlint/binding-openharmony-arm64"
+  },
+  {
+   "display_name": "@oxlint/binding-win32-arm64-msvc",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-win32-arm64-msvc",
+   "purl": "pkg:npm/%40oxlint/binding-win32-arm64-msvc"
+  },
+  {
+   "display_name": "@oxlint/binding-win32-ia32-msvc",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-win32-ia32-msvc",
+   "purl": "pkg:npm/%40oxlint/binding-win32-ia32-msvc"
+  },
+  {
+   "display_name": "@oxlint/binding-win32-x64-msvc",
+   "ecosystem": "npm",
+   "name": "@oxlint/binding-win32-x64-msvc",
+   "purl": "pkg:npm/%40oxlint/binding-win32-x64-msvc"
+  },
+  {
+   "display_name": "@pnpm/exe.android-arm64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.android-arm64",
+   "purl": "pkg:npm/%40pnpm/exe.android-arm64"
+  },
+  {
+   "display_name": "@pnpm/exe.android-x64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.android-x64",
+   "purl": "pkg:npm/%40pnpm/exe.android-x64"
+  },
+  {
+   "display_name": "@pnpm/exe.darwin-arm64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.darwin-arm64",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-arm64"
+  },
+  {
+   "display_name": "@pnpm/exe.darwin-x64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.darwin-x64",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-x64"
+  },
+  {
+   "display_name": "@pnpm/exe.freebsd-x64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.freebsd-x64",
+   "purl": "pkg:npm/%40pnpm/exe.freebsd-x64"
+  },
+  {
+   "display_name": "@pnpm/exe.linux-arm64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.linux-arm64",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64"
+  },
+  {
+   "display_name": "@pnpm/exe.linux-arm64-musl",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.linux-arm64-musl",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64-musl"
+  },
+  {
+   "display_name": "@pnpm/exe.linux-ppc64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.linux-ppc64",
+   "purl": "pkg:npm/%40pnpm/exe.linux-ppc64"
+  },
+  {
+   "display_name": "@pnpm/exe.linux-riscv64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.linux-riscv64",
+   "purl": "pkg:npm/%40pnpm/exe.linux-riscv64"
+  },
+  {
+   "display_name": "@pnpm/exe.linux-s390x",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.linux-s390x",
+   "purl": "pkg:npm/%40pnpm/exe.linux-s390x"
+  },
+  {
+   "display_name": "@pnpm/exe.linux-x64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.linux-x64",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64"
+  },
+  {
+   "display_name": "@pnpm/exe.linux-x64-musl",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.linux-x64-musl",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64-musl"
+  },
+  {
+   "display_name": "@pnpm/exe.netbsd-x64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.netbsd-x64",
+   "purl": "pkg:npm/%40pnpm/exe.netbsd-x64"
+  },
+  {
+   "display_name": "@pnpm/exe.win32-arm64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.win32-arm64",
+   "purl": "pkg:npm/%40pnpm/exe.win32-arm64"
+  },
+  {
+   "display_name": "@pnpm/exe.win32-x64",
+   "ecosystem": "npm",
+   "name": "@pnpm/exe.win32-x64",
+   "purl": "pkg:npm/%40pnpm/exe.win32-x64"
+  },
+  {
+   "display_name": "@tsrs/darwin-arm64",
+   "ecosystem": "npm",
+   "name": "@tsrs/darwin-arm64",
+   "purl": "pkg:npm/%40tsrs/darwin-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ffa962843e02aa5d52894ee24241425426c3124ea1ce4836ebacc3fd806674787eb7e7c951b36be8049f46ebf19d0b3a4ee792542e20bb8c287f77054de1a47bc.tgz"
+  },
+  {
+   "display_name": "@tsrs/darwin-x64",
+   "ecosystem": "npm",
+   "name": "@tsrs/darwin-x64",
+   "purl": "pkg:npm/%40tsrs/darwin-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F3270f906fe3c4dd21c4e935abec83b3d5e9152ec002a1a33276f4264394aabaa19c068c6ba57102c8dd2a24e8cbef086ed4eafe25f5138d28ef0184d5c2cadbd.tgz"
+  },
+  {
+   "display_name": "@tsrs/linux-arm64-gnu",
+   "ecosystem": "npm",
+   "name": "@tsrs/linux-arm64-gnu",
+   "purl": "pkg:npm/%40tsrs/linux-arm64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F31cfd8b8541aec03c3b97dfd50cafc34c4072a408e984c7c49f5175677b0ede9632472a7524a4b1e9a1015003468a9f322a0c0c6736e757848581d038d9117d8.tgz"
+  },
+  {
+   "display_name": "@tsrs/linux-arm64-musl",
+   "ecosystem": "npm",
+   "name": "@tsrs/linux-arm64-musl",
+   "purl": "pkg:npm/%40tsrs/linux-arm64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F65367122ffd6e2a8aa0c109770396bf266bbe8908ed034076d4ba4ba1a52a4a1f3dc4da6e450b02dcadafcd4ea0159e2c8b53afd18c838221c0d1a5542faba71.tgz"
+  },
+  {
+   "display_name": "@tsrs/linux-x64-gnu",
+   "ecosystem": "npm",
+   "name": "@tsrs/linux-x64-gnu",
+   "purl": "pkg:npm/%40tsrs/linux-x64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F74646fb9bc5641734fddaa30f912e01406d6de9478a10f943dfc2b4a076080a08a28bf6c00fafc9c5198339d095808aa190612c11265e3c033202edb1ee43671.tgz"
+  },
+  {
+   "display_name": "@tsrs/linux-x64-musl",
+   "ecosystem": "npm",
+   "name": "@tsrs/linux-x64-musl",
+   "purl": "pkg:npm/%40tsrs/linux-x64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fce6f3d1d8a5702fdfa5ee5eb12c7f10049864de858e4ad0bdbbfad166273c57d82a8bc248b4017e05180efc172f7bc7c624f24391f0524edb14ef496f6f5c122.tgz"
+  },
+  {
+   "display_name": "@tsrs/win32-arm64",
+   "ecosystem": "npm",
+   "name": "@tsrs/win32-arm64",
+   "purl": "pkg:npm/%40tsrs/win32-arm64"
+  },
+  {
+   "display_name": "@tsrs/win32-x64",
+   "ecosystem": "npm",
+   "name": "@tsrs/win32-x64",
+   "purl": "pkg:npm/%40tsrs/win32-x64"
+  },
+  {
+   "display_name": "@types/node",
+   "ecosystem": "npm",
+   "name": "@types/node",
+   "purl": "pkg:npm/%40types/node?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F333423fbc2b1dd7238d0e994004e90a21e7c64c36cb4d34cc27da77dddea5ac7deee70cd4aa24dcdeb389e3873e801f0ad21ce7df48bc1753ac9be3be10e1aa2.tgz"
+  },
+  {
+   "display_name": "@typescript/typescript-aix-ppc64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-aix-ppc64",
+   "purl": "pkg:npm/%40typescript/typescript-aix-ppc64"
+  },
+  {
+   "display_name": "@typescript/typescript-darwin-arm64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-darwin-arm64",
+   "purl": "pkg:npm/%40typescript/typescript-darwin-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F828c336abf4cc12fda456a7a7f76b8294ab34630198ceb2618d08ce8b713817ba6f9d05f82c05530df8082f38209b82e5f289c93a2c986906ccf131e6c9f2cc8.tgz"
+  },
+  {
+   "display_name": "@typescript/typescript-darwin-x64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-darwin-x64",
+   "purl": "pkg:npm/%40typescript/typescript-darwin-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F499f716489ea02936534673db345b5552b24b5848e7bd705a8d388aa63751acf129a48ca65816dd35ec6e15c0fc404889ce0ee01d6d35bbb1788551ff3ddd180.tgz"
+  },
+  {
+   "display_name": "@typescript/typescript-freebsd-arm64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-freebsd-arm64",
+   "purl": "pkg:npm/%40typescript/typescript-freebsd-arm64"
+  },
+  {
+   "display_name": "@typescript/typescript-freebsd-x64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-freebsd-x64",
+   "purl": "pkg:npm/%40typescript/typescript-freebsd-x64"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-arm",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-arm",
+   "purl": "pkg:npm/%40typescript/typescript-linux-arm"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-arm64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-arm64",
+   "purl": "pkg:npm/%40typescript/typescript-linux-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F421e1e538ff2df20e39df8e3c8f62284c8f9fce0c8966b7e073bb5ece23e7e24910d6e7b4265394a237addec4f44d24f294cdc73520d6b535776b27e32a1e351.tgz"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-loong64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-loong64",
+   "purl": "pkg:npm/%40typescript/typescript-linux-loong64"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-mips64el",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-mips64el",
+   "purl": "pkg:npm/%40typescript/typescript-linux-mips64el"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-ppc64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-ppc64",
+   "purl": "pkg:npm/%40typescript/typescript-linux-ppc64"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-riscv64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-riscv64",
+   "purl": "pkg:npm/%40typescript/typescript-linux-riscv64"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-s390x",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-s390x",
+   "purl": "pkg:npm/%40typescript/typescript-linux-s390x"
+  },
+  {
+   "display_name": "@typescript/typescript-linux-x64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-linux-x64",
+   "purl": "pkg:npm/%40typescript/typescript-linux-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F11875fd9c360eeb8025899f109d27e177577f4ef2285bdfb78702ed4b2bca00162ce04d06cf38aef31c75db3edf2b5f6e023aa3835de237b087f47c25c6ec7fc.tgz"
+  },
+  {
+   "display_name": "@typescript/typescript-netbsd-arm64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-netbsd-arm64",
+   "purl": "pkg:npm/%40typescript/typescript-netbsd-arm64"
+  },
+  {
+   "display_name": "@typescript/typescript-netbsd-x64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-netbsd-x64",
+   "purl": "pkg:npm/%40typescript/typescript-netbsd-x64"
+  },
+  {
+   "display_name": "@typescript/typescript-openbsd-arm64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-openbsd-arm64",
+   "purl": "pkg:npm/%40typescript/typescript-openbsd-arm64"
+  },
+  {
+   "display_name": "@typescript/typescript-openbsd-x64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-openbsd-x64",
+   "purl": "pkg:npm/%40typescript/typescript-openbsd-x64"
+  },
+  {
+   "display_name": "@typescript/typescript-sunos-x64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-sunos-x64",
+   "purl": "pkg:npm/%40typescript/typescript-sunos-x64"
+  },
+  {
+   "display_name": "@typescript/typescript-win32-arm64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-win32-arm64",
+   "purl": "pkg:npm/%40typescript/typescript-win32-arm64"
+  },
+  {
+   "display_name": "@typescript/typescript-win32-x64",
+   "ecosystem": "npm",
+   "name": "@typescript/typescript-win32-x64",
+   "purl": "pkg:npm/%40typescript/typescript-win32-x64"
+  },
+  {
+   "display_name": "oxlint",
+   "ecosystem": "npm",
+   "name": "oxlint",
+   "purl": "pkg:npm/oxlint?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz"
+  },
+  {
+   "display_name": "pnpm",
+   "ecosystem": "npm",
+   "name": "pnpm",
+   "purl": "pkg:npm/pnpm"
+  },
+  {
+   "display_name": "tsrs",
+   "ecosystem": "npm",
+   "name": "tsrs",
+   "purl": "pkg:npm/tsrs?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz"
+  },
+  {
+   "display_name": "typescript",
+   "ecosystem": "npm",
+   "name": "typescript",
+   "purl": "pkg:npm/typescript?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz"
+  },
+  {
+   "display_name": "undici-types",
+   "ecosystem": "npm",
+   "name": "undici-types",
+   "purl": "pkg:npm/undici-types?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2930f2453617f2c5a629702290f1c74b273adc244f11331cb728ca16ea5c0ba3812d74f7c6c3747bd685ee6fa6217bad156a545ee79db68c06ee22cece9d2442.tgz"
+  },
+  {
+   "display_name": "pnpm",
+   "ecosystem": "toolchain",
+   "name": "pnpm",
+   "purl": "pkg:toolchain/pnpm"
+  }
+ ],
+ "edges": [
+  {
+   "condition": null,
+   "constraint": "26.6.6",
+   "evidence": [
+    {
+     "locator": "importers[.].devDependencies.'@types/node'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": ".:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "26.6.6",
+   "scope": "dev",
+   "source_kind": "url",
+   "to": "pkg:npm/%40types/node@26.6.6?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F333423fbc2b1dd7238d0e994004e90a21e7c64c36cb4d34cc27da77dddea5ac7deee70cd4aa24dcdeb389e3873e801f0ad21ce7df48bc1753ac9be3be10e1aa2.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.93.0",
+   "evidence": [
+    {
+     "locator": "importers[.].devDependencies.oxlint",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": ".:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "dev",
+   "source_kind": "url",
+   "to": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": "12.21.0",
+   "evidence": [
+    {
+     "locator": "importers[.].packageManagerDependencies.pnpm",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": ".:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "toolchain",
+   "source_kind": "registry",
+   "to": "pkg:npm/pnpm@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": "0.25.0-ts7.1.0-beta",
+   "evidence": [
+    {
+     "locator": "importers[.].devDependencies.tsrs",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": ".:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "dev",
+   "source_kind": "url",
+   "to": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": "7.0.2",
+   "evidence": [
+    {
+     "locator": "importers[.].devDependencies.typescript",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": ".:npm",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "dev",
+   "source_kind": "url",
+   "to": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v3.2.0",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v3.2.0",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#"
+  },
+  {
+   "condition": null,
+   "constraint": "pnpm@12.21.0",
+   "evidence": [
+    {
+     "locator": "packageManager",
+     "path": "package.json"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "toolchain",
+   "source_kind": "url",
+   "to": "pkg:toolchain/pnpm@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots['@types/node@26.6.6'].dependencies.undici-types",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/%40types/node@26.6.6?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F333423fbc2b1dd7238d0e994004e90a21e7c64c36cb4d34cc27da77dddea5ac7deee70cd4aa24dcdeb389e3873e801f0ad21ce7df48bc1753ac9be3be10e1aa2.tgz#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "8.9.0",
+   "scope": "runtime",
+   "source_kind": "url",
+   "to": "pkg:npm/undici-types@8.9.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2930f2453617f2c5a629702290f1c74b273adc244f11331cb728ca16ea5c0ba3812d74f7c6c3747bd685ee6fa6217bad156a545ee79db68c06ee22cece9d2442.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-android-arm-eabi'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-android-arm-eabi@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-android-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-android-arm64@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-darwin-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40oxlint/binding-darwin-arm64@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F55dbd237d2517f812ce99ce801dbc47a1f2d80a770f0be07f365a603c30c3d57cf759182c04fe7236ed9d47ad11d84213f13a1e249a7c50122a12505acebc36b.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-darwin-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40oxlint/binding-darwin-x64@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F411d55f3dd0c974606446d05fe25742bd8a01bea4e85ef9559df9a667c58f38f6b44765fdc5da0128424b39f865477f5d395fd321ffa1dd4a14cfe63b9e906da.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-freebsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-freebsd-x64@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-arm-gnueabihf'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-arm-musleabihf'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-arm64-gnu'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40oxlint/binding-linux-arm64-gnu@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa517feee3b5bb767c7136dd25fba81c5182705989c520b2808ad4f5488e73a4fadddae94064a6dfc6aca23df56971b0a5317edcffe67bff91f2af49c998cb093.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-arm64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40oxlint/binding-linux-arm64-musl@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcccf0577f2bcb2a1afb01709059de8559ddcb4659bb33034f08686b79805145e5172e9e9a4023f6670176e8b8006f9d6789fff4b8e0a2a57cf6670c36de8a986.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-ppc64-gnu'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-riscv64-gnu'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-riscv64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-linux-riscv64-musl@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-s390x-gnu'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-linux-s390x-gnu@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-x64-gnu'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40oxlint/binding-linux-x64-gnu@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F1760868dbf4b024cc7f88613652cddd64950d6f939cfa52d8dac7ae1678b0720a46176d50dbb2e9fe3b2da12df5b630348a0af5be8f0cbff6577410f81d7aef8.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-linux-x64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40oxlint/binding-linux-x64-musl@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa657f90c4da86e3706f137fb99746e45af2d4fcaf30e4a63a9742d2a81ac2875a4a60b226a56ce375f9c0ada121144d56d05235efb809bcbd5f7edeb474c8207.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-openharmony-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-openharmony-arm64@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-win32-arm64-msvc'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-win32-arm64-msvc@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-win32-ia32-msvc'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-win32-ia32-msvc@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[oxlint@1.93.0].optionalDependencies.'@oxlint/binding-win32-x64-msvc'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.93.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40oxlint/binding-win32-x64-msvc@1.93.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.android-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.android-x64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.darwin-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.freebsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-ppc64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-riscv64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-s390x'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.linux-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.netbsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[pnpm@12.21.0].optionalDependencies.'@pnpm/exe.win32-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/pnpm@12.21.0#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "12.21.0",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/darwin-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40tsrs/darwin-arm64@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ffa962843e02aa5d52894ee24241425426c3124ea1ce4836ebacc3fd806674787eb7e7c951b36be8049f46ebf19d0b3a4ee792542e20bb8c287f77054de1a47bc.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/darwin-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40tsrs/darwin-x64@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F3270f906fe3c4dd21c4e935abec83b3d5e9152ec002a1a33276f4264394aabaa19c068c6ba57102c8dd2a24e8cbef086ed4eafe25f5138d28ef0184d5c2cadbd.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/linux-arm64-gnu'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40tsrs/linux-arm64-gnu@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F31cfd8b8541aec03c3b97dfd50cafc34c4072a408e984c7c49f5175677b0ede9632472a7524a4b1e9a1015003468a9f322a0c0c6736e757848581d038d9117d8.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/linux-arm64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40tsrs/linux-arm64-musl@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F65367122ffd6e2a8aa0c109770396bf266bbe8908ed034076d4ba4ba1a52a4a1f3dc4da6e450b02dcadafcd4ea0159e2c8b53afd18c838221c0d1a5542faba71.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/linux-x64-gnu'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40tsrs/linux-x64-gnu@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F74646fb9bc5641734fddaa30f912e01406d6de9478a10f943dfc2b4a076080a08a28bf6c00fafc9c5198339d095808aa190612c11265e3c033202edb1ee43671.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/linux-x64-musl'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40tsrs/linux-x64-musl@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fce6f3d1d8a5702fdfa5ee5eb12c7f10049864de858e4ad0bdbbfad166273c57d82a8bc248b4017e05180efc172f7bc7c624f24391f0524edb14ef496f6f5c122.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/win32-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40tsrs/win32-arm64@0.25.0-ts7.1.0-beta#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[tsrs@0.25.0-ts7.1.0-beta].optionalDependencies.'@tsrs/win32-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.25.0-ts7.1.0-beta",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40tsrs/win32-x64@0.25.0-ts7.1.0-beta#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-aix-ppc64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-darwin-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F828c336abf4cc12fda456a7a7f76b8294ab34630198ceb2618d08ce8b713817ba6f9d05f82c05530df8082f38209b82e5f289c93a2c986906ccf131e6c9f2cc8.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-darwin-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F499f716489ea02936534673db345b5552b24b5848e7bd705a8d388aa63751acf129a48ca65816dd35ec6e15c0fc404889ce0ee01d6d35bbb1788551ff3ddd180.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-freebsd-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-freebsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F421e1e538ff2df20e39df8e3c8f62284c8f9fce0c8966b7e073bb5ece23e7e24910d6e7b4265394a237addec4f44d24f294cdc73520d6b535776b27e32a1e351.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-arm'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-loong64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-mips64el'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-ppc64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-riscv64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-s390x'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-linux-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "url",
+   "to": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F11875fd9c360eeb8025899f109d27e177577f4ef2285bdfb78702ed4b2bca00162ce04d06cf38aef31c75db3edf2b5f6e023aa3835de237b087f47c25c6ec7fc.tgz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-netbsd-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-netbsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-openbsd-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-openbsd-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-sunos-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-win32-arm64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "snapshots[typescript@7.0.2].optionalDependencies.'@typescript/typescript-win32-x64'",
+     "path": "pnpm-lock.yaml"
+    }
+   ],
+   "from": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "optional": true,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "7.0.2",
+   "scope": "optional",
+   "source_kind": "registry",
+   "to": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2#"
+  }
+ ],
+ "inputs": [
+  {
+   "blob": "e71735c5fc1c8a0ce8d20e92edc6ed19f027ebf6",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "4a7df427e9fa78db7941fcdb8430e4ebf8a821e4",
+   "path": ".github/workflows/test.yml"
+  },
+  {
+   "blob": "e0470096dbe19667ee3e6bb92683428b9f02ced4",
+   "path": "Makefile"
+  },
+  {
+   "blob": "c8c2262c7700c5acb395daeb7191bfd4c2c156f0",
+   "path": "package.json"
+  },
+  {
+   "blob": "8ef0a893b255db0b169065510e2f19d8d9cd5d96",
+   "path": "pnpm-lock.yaml"
+  }
+ ],
+ "inputs_fingerprint": "f53dc44a9e44a2ddc8ed0a1cd5e69fabff02096144b61b84a468bf2cc255386b",
+ "instances": [
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/pnpm#makefile",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/pnpm",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/pnpm#workflow",
+   "purl": "pkg:command/pnpm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
+   "commit": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
+   "component": "pkg:github/pnpm/setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1#",
+   "purl": "pkg:github/pnpm/setup@731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/pnpm/setup",
+   "version": "731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-android-arm-eabi",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-android-arm-eabi@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-android-arm-eabi@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-android-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-android-arm64@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-android-arm64@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-darwin-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F55dbd237d2517f812ce99ce801dbc47a1f2d80a770f0be07f365a603c30c3d57cf759182c04fe7236ed9d47ad11d84213f13a1e249a7c50122a12505acebc36b.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-darwin-arm64@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F55dbd237d2517f812ce99ce801dbc47a1f2d80a770f0be07f365a603c30c3d57cf759182c04fe7236ed9d47ad11d84213f13a1e249a7c50122a12505acebc36b.tgz#",
+   "purl": "pkg:npm/%40oxlint/binding-darwin-arm64@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F55dbd237d2517f812ce99ce801dbc47a1f2d80a770f0be07f365a603c30c3d57cf759182c04fe7236ed9d47ad11d84213f13a1e249a7c50122a12505acebc36b.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-darwin-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F411d55f3dd0c974606446d05fe25742bd8a01bea4e85ef9559df9a667c58f38f6b44765fdc5da0128424b39f865477f5d395fd321ffa1dd4a14cfe63b9e906da.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-darwin-x64@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F411d55f3dd0c974606446d05fe25742bd8a01bea4e85ef9559df9a667c58f38f6b44765fdc5da0128424b39f865477f5d395fd321ffa1dd4a14cfe63b9e906da.tgz#",
+   "purl": "pkg:npm/%40oxlint/binding-darwin-x64@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F411d55f3dd0c974606446d05fe25742bd8a01bea4e85ef9559df9a667c58f38f6b44765fdc5da0128424b39f865477f5d395fd321ffa1dd4a14cfe63b9e906da.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-freebsd-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-freebsd-x64@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-freebsd-x64@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-arm64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa517feee3b5bb767c7136dd25fba81c5182705989c520b2808ad4f5488e73a4fadddae94064a6dfc6aca23df56971b0a5317edcffe67bff91f2af49c998cb093.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-arm64-gnu@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa517feee3b5bb767c7136dd25fba81c5182705989c520b2808ad4f5488e73a4fadddae94064a6dfc6aca23df56971b0a5317edcffe67bff91f2af49c998cb093.tgz#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm64-gnu@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa517feee3b5bb767c7136dd25fba81c5182705989c520b2808ad4f5488e73a4fadddae94064a6dfc6aca23df56971b0a5317edcffe67bff91f2af49c998cb093.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-arm64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcccf0577f2bcb2a1afb01709059de8559ddcb4659bb33034f08686b79805145e5172e9e9a4023f6670176e8b8006f9d6789fff4b8e0a2a57cf6670c36de8a986.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-arm64-musl@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcccf0577f2bcb2a1afb01709059de8559ddcb4659bb33034f08686b79805145e5172e9e9a4023f6670176e8b8006f9d6789fff4b8e0a2a57cf6670c36de8a986.tgz#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-arm64-musl@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fcccf0577f2bcb2a1afb01709059de8559ddcb4659bb33034f08686b79805145e5172e9e9a4023f6670176e8b8006f9d6789fff4b8e0a2a57cf6670c36de8a986.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-riscv64-musl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-riscv64-musl@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-riscv64-musl@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-s390x-gnu",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-s390x-gnu@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-s390x-gnu@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-x64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F1760868dbf4b024cc7f88613652cddd64950d6f939cfa52d8dac7ae1678b0720a46176d50dbb2e9fe3b2da12df5b630348a0af5be8f0cbff6577410f81d7aef8.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-x64-gnu@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F1760868dbf4b024cc7f88613652cddd64950d6f939cfa52d8dac7ae1678b0720a46176d50dbb2e9fe3b2da12df5b630348a0af5be8f0cbff6577410f81d7aef8.tgz#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-x64-gnu@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F1760868dbf4b024cc7f88613652cddd64950d6f939cfa52d8dac7ae1678b0720a46176d50dbb2e9fe3b2da12df5b630348a0af5be8f0cbff6577410f81d7aef8.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-linux-x64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa657f90c4da86e3706f137fb99746e45af2d4fcaf30e4a63a9742d2a81ac2875a4a60b226a56ce375f9c0ada121144d56d05235efb809bcbd5f7edeb474c8207.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-linux-x64-musl@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa657f90c4da86e3706f137fb99746e45af2d4fcaf30e4a63a9742d2a81ac2875a4a60b226a56ce375f9c0ada121144d56d05235efb809bcbd5f7edeb474c8207.tgz#",
+   "purl": "pkg:npm/%40oxlint/binding-linux-x64-musl@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fa657f90c4da86e3706f137fb99746e45af2d4fcaf30e4a63a9742d2a81ac2875a4a60b226a56ce375f9c0ada121144d56d05235efb809bcbd5f7edeb474c8207.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-openharmony-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-openharmony-arm64@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-openharmony-arm64@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-win32-arm64-msvc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-win32-arm64-msvc@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-win32-arm64-msvc@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-win32-ia32-msvc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-win32-ia32-msvc@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-win32-ia32-msvc@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40oxlint/binding-win32-x64-msvc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40oxlint/binding-win32-x64-msvc@1.93.0#",
+   "purl": "pkg:npm/%40oxlint/binding-win32-x64-msvc@1.93.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.android-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.android-arm64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.android-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.android-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.android-x64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.darwin-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-arm64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.darwin-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.darwin-x64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.freebsd-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.freebsd-x64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.linux-arm64-musl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64-musl@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.linux-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-arm64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.linux-ppc64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-ppc64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.linux-riscv64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-riscv64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.linux-s390x",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-s390x@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.linux-x64-musl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64-musl@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.linux-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.linux-x64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.netbsd-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.netbsd-x64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.win32-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.win32-arm64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40pnpm/exe.win32-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0#",
+   "purl": "pkg:npm/%40pnpm/exe.win32-x64@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/darwin-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ffa962843e02aa5d52894ee24241425426c3124ea1ce4836ebacc3fd806674787eb7e7c951b36be8049f46ebf19d0b3a4ee792542e20bb8c287f77054de1a47bc.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/darwin-arm64@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ffa962843e02aa5d52894ee24241425426c3124ea1ce4836ebacc3fd806674787eb7e7c951b36be8049f46ebf19d0b3a4ee792542e20bb8c287f77054de1a47bc.tgz#",
+   "purl": "pkg:npm/%40tsrs/darwin-arm64@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ffa962843e02aa5d52894ee24241425426c3124ea1ce4836ebacc3fd806674787eb7e7c951b36be8049f46ebf19d0b3a4ee792542e20bb8c287f77054de1a47bc.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/darwin-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F3270f906fe3c4dd21c4e935abec83b3d5e9152ec002a1a33276f4264394aabaa19c068c6ba57102c8dd2a24e8cbef086ed4eafe25f5138d28ef0184d5c2cadbd.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/darwin-x64@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F3270f906fe3c4dd21c4e935abec83b3d5e9152ec002a1a33276f4264394aabaa19c068c6ba57102c8dd2a24e8cbef086ed4eafe25f5138d28ef0184d5c2cadbd.tgz#",
+   "purl": "pkg:npm/%40tsrs/darwin-x64@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F3270f906fe3c4dd21c4e935abec83b3d5e9152ec002a1a33276f4264394aabaa19c068c6ba57102c8dd2a24e8cbef086ed4eafe25f5138d28ef0184d5c2cadbd.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/linux-arm64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F31cfd8b8541aec03c3b97dfd50cafc34c4072a408e984c7c49f5175677b0ede9632472a7524a4b1e9a1015003468a9f322a0c0c6736e757848581d038d9117d8.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/linux-arm64-gnu@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F31cfd8b8541aec03c3b97dfd50cafc34c4072a408e984c7c49f5175677b0ede9632472a7524a4b1e9a1015003468a9f322a0c0c6736e757848581d038d9117d8.tgz#",
+   "purl": "pkg:npm/%40tsrs/linux-arm64-gnu@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F31cfd8b8541aec03c3b97dfd50cafc34c4072a408e984c7c49f5175677b0ede9632472a7524a4b1e9a1015003468a9f322a0c0c6736e757848581d038d9117d8.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/linux-arm64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F65367122ffd6e2a8aa0c109770396bf266bbe8908ed034076d4ba4ba1a52a4a1f3dc4da6e450b02dcadafcd4ea0159e2c8b53afd18c838221c0d1a5542faba71.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/linux-arm64-musl@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F65367122ffd6e2a8aa0c109770396bf266bbe8908ed034076d4ba4ba1a52a4a1f3dc4da6e450b02dcadafcd4ea0159e2c8b53afd18c838221c0d1a5542faba71.tgz#",
+   "purl": "pkg:npm/%40tsrs/linux-arm64-musl@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F65367122ffd6e2a8aa0c109770396bf266bbe8908ed034076d4ba4ba1a52a4a1f3dc4da6e450b02dcadafcd4ea0159e2c8b53afd18c838221c0d1a5542faba71.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/linux-x64-gnu?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F74646fb9bc5641734fddaa30f912e01406d6de9478a10f943dfc2b4a076080a08a28bf6c00fafc9c5198339d095808aa190612c11265e3c033202edb1ee43671.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/linux-x64-gnu@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F74646fb9bc5641734fddaa30f912e01406d6de9478a10f943dfc2b4a076080a08a28bf6c00fafc9c5198339d095808aa190612c11265e3c033202edb1ee43671.tgz#",
+   "purl": "pkg:npm/%40tsrs/linux-x64-gnu@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F74646fb9bc5641734fddaa30f912e01406d6de9478a10f943dfc2b4a076080a08a28bf6c00fafc9c5198339d095808aa190612c11265e3c033202edb1ee43671.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/linux-x64-musl?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fce6f3d1d8a5702fdfa5ee5eb12c7f10049864de858e4ad0bdbbfad166273c57d82a8bc248b4017e05180efc172f7bc7c624f24391f0524edb14ef496f6f5c122.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/linux-x64-musl@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fce6f3d1d8a5702fdfa5ee5eb12c7f10049864de858e4ad0bdbbfad166273c57d82a8bc248b4017e05180efc172f7bc7c624f24391f0524edb14ef496f6f5c122.tgz#",
+   "purl": "pkg:npm/%40tsrs/linux-x64-musl@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fce6f3d1d8a5702fdfa5ee5eb12c7f10049864de858e4ad0bdbbfad166273c57d82a8bc248b4017e05180efc172f7bc7c624f24391f0524edb14ef496f6f5c122.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/win32-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/win32-arm64@0.25.0-ts7.1.0-beta#",
+   "purl": "pkg:npm/%40tsrs/win32-arm64@0.25.0-ts7.1.0-beta",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40tsrs/win32-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40tsrs/win32-x64@0.25.0-ts7.1.0-beta#",
+   "purl": "pkg:npm/%40tsrs/win32-x64@0.25.0-ts7.1.0-beta",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40types/node?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F333423fbc2b1dd7238d0e994004e90a21e7c64c36cb4d34cc27da77dddea5ac7deee70cd4aa24dcdeb389e3873e801f0ad21ce7df48bc1753ac9be3be10e1aa2.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40types/node@26.6.6?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F333423fbc2b1dd7238d0e994004e90a21e7c64c36cb4d34cc27da77dddea5ac7deee70cd4aa24dcdeb389e3873e801f0ad21ce7df48bc1753ac9be3be10e1aa2.tgz#",
+   "purl": "pkg:npm/%40types/node@26.6.6?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F333423fbc2b1dd7238d0e994004e90a21e7c64c36cb4d34cc27da77dddea5ac7deee70cd4aa24dcdeb389e3873e801f0ad21ce7df48bc1753ac9be3be10e1aa2.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "26.6.6"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-aix-ppc64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-darwin-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F828c336abf4cc12fda456a7a7f76b8294ab34630198ceb2618d08ce8b713817ba6f9d05f82c05530df8082f38209b82e5f289c93a2c986906ccf131e6c9f2cc8.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F828c336abf4cc12fda456a7a7f76b8294ab34630198ceb2618d08ce8b713817ba6f9d05f82c05530df8082f38209b82e5f289c93a2c986906ccf131e6c9f2cc8.tgz#",
+   "purl": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F828c336abf4cc12fda456a7a7f76b8294ab34630198ceb2618d08ce8b713817ba6f9d05f82c05530df8082f38209b82e5f289c93a2c986906ccf131e6c9f2cc8.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-darwin-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F499f716489ea02936534673db345b5552b24b5848e7bd705a8d388aa63751acf129a48ca65816dd35ec6e15c0fc404889ce0ee01d6d35bbb1788551ff3ddd180.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F499f716489ea02936534673db345b5552b24b5848e7bd705a8d388aa63751acf129a48ca65816dd35ec6e15c0fc404889ce0ee01d6d35bbb1788551ff3ddd180.tgz#",
+   "purl": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F499f716489ea02936534673db345b5552b24b5848e7bd705a8d388aa63751acf129a48ca65816dd35ec6e15c0fc404889ce0ee01d6d35bbb1788551ff3ddd180.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-freebsd-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-freebsd-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-arm64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F421e1e538ff2df20e39df8e3c8f62284c8f9fce0c8966b7e073bb5ece23e7e24910d6e7b4265394a237addec4f44d24f294cdc73520d6b535776b27e32a1e351.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F421e1e538ff2df20e39df8e3c8f62284c8f9fce0c8966b7e073bb5ece23e7e24910d6e7b4265394a237addec4f44d24f294cdc73520d6b535776b27e32a1e351.tgz#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F421e1e538ff2df20e39df8e3c8f62284c8f9fce0c8966b7e073bb5ece23e7e24910d6e7b4265394a237addec4f44d24f294cdc73520d6b535776b27e32a1e351.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-arm",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-loong64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-mips64el",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-ppc64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-riscv64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-s390x",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-linux-x64?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F11875fd9c360eeb8025899f109d27e177577f4ef2285bdfb78702ed4b2bca00162ce04d06cf38aef31c75db3edf2b5f6e023aa3835de237b087f47c25c6ec7fc.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F11875fd9c360eeb8025899f109d27e177577f4ef2285bdfb78702ed4b2bca00162ce04d06cf38aef31c75db3edf2b5f6e023aa3835de237b087f47c25c6ec7fc.tgz#",
+   "purl": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F11875fd9c360eeb8025899f109d27e177577f4ef2285bdfb78702ed4b2bca00162ce04d06cf38aef31c75db3edf2b5f6e023aa3835de237b087f47c25c6ec7fc.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-netbsd-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-netbsd-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-openbsd-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-openbsd-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-sunos-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-win32-arm64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/%40typescript/typescript-win32-x64",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2#",
+   "purl": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/oxlint?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz#",
+   "purl": "pkg:npm/oxlint@1.93.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Fd7d24cb10157f98bc46dc513150c634f086fb3421b8340fa0859de48b829c2700259c63fe8b8e1a46a643e8761d13e5a213d698cc4cb95869e045cda560ba04c.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "1.93.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/pnpm",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/pnpm@12.21.0#",
+   "purl": "pkg:npm/pnpm@12.21.0",
+   "registry_url": "https://npm.17166969.xyz/current/",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "12.21.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/tsrs?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz#",
+   "purl": "pkg:npm/tsrs@0.25.0-ts7.1.0-beta?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F27b780924ae22301c4c57d93cf04d6e9f949fdf9a0dd4f850d0c264d492f6989a8d368af6baf583e6c456825c660896c103de5d406bada14ac10325ec01ac828.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "0.25.0-ts7.1.0-beta"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/typescript?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz#",
+   "purl": "pkg:npm/typescript@7.0.2?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2Ff0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "7.0.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:npm/undici-types?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2930f2453617f2c5a629702290f1c74b273adc244f11331cb728ca16ea5c0ba3812d74f7c6c3747bd685ee6fa6217bad156a545ee79db68c06ee22cece9d2442.tgz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:npm/undici-types@8.9.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2930f2453617f2c5a629702290f1c74b273adc244f11331cb728ca16ea5c0ba3812d74f7c6c3747bd685ee6fa6217bad156a545ee79db68c06ee22cece9d2442.tgz#",
+   "purl": "pkg:npm/undici-types@8.9.0?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F2930f2453617f2c5a629702290f1c74b273adc244f11331cb728ca16ea5c0ba3812d74f7c6c3747bd685ee6fa6217bad156a545ee79db68c06ee22cece9d2442.tgz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "8.9.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:toolchain/pnpm",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:toolchain/pnpm@12.21.0#",
+   "purl": "pkg:toolchain/pnpm@12.21.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "12.21.0"
+  }
+ ],
+ "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  }
+ ],
+ "projects": [
+  {
+   "directory": ".",
+   "ecosystem": "npm",
+   "id": ".:npm"
+  },
+  {
+   "directory": ".",
+   "ecosystem": "generic",
+   "id": ".:repo"
+  }
+ ],
+ "repository": "joshuarli/github-actions-report",
+ "schema": 1,
+ "tags": [
+  "tool",
+  "typescript"
+ ]
+}

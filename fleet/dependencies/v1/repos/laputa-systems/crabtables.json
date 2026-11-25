@@ -163,10 +163,52 @@
    "purl": "pkg:cargo/zmij"
   },
   {
+   "display_name": "apt-get",
+   "ecosystem": "command",
+   "name": "apt-get",
+   "purl": "pkg:command/apt-get"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "docker",
    "name": "rust",
-   "purl": "pkg:docker/rust"
+   "purl": "pkg:docker/rust?digest=sha256%3A223cc32ddca8f3ee90c436dbc94b6b5f052ea7f9653c5201e9612f08ad7d21b8"
   },
   {
    "display_name": "actions/checkout",
@@ -328,21 +370,39 @@
   },
   {
    "condition": null,
-   "constraint": "1-trixie",
+   "constraint": "sha256:223cc32ddca8f3ee90c436dbc94b6b5f052ea7f9653c5201e9612f08ad7d21b8",
    "evidence": [
     {
-     "locator": "jobs.integration.container",
+     "locator": "jobs.ci.container",
      "path": ".github/workflows/ci.yml"
     }
    ],
    "from": ".:repo",
    "optional": false,
    "relation": "direct",
-   "resolution": "declared_only",
+   "resolution": "resolved",
    "resolved_version": "1-trixie",
    "scope": "image",
    "source_kind": "image",
-   "to": "pkg:docker/rust@1-trixie#"
+   "to": "pkg:docker/rust@1-trixie?digest=sha256%3A223cc32ddca8f3ee90c436dbc94b6b5f052ea7f9653c5201e9612f08ad7d21b8#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.ci.steps[0].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
   },
   {
    "condition": null,
@@ -361,42 +421,6 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.lint.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
-  },
-  {
-   "condition": null,
-   "constraint": "v4",
-   "evidence": [
-    {
-     "locator": "jobs.integration.steps[0].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": "v4",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/checkout@v4#"
   },
   {
    "condition": null,
@@ -1147,7 +1171,7 @@
  ],
  "inputs": [
   {
-   "blob": "624c72bf2aabab0a134ed781d174f91769a76529",
+   "blob": "fc9725d3313b202cf4731d3ba2246fa4e61ff76f",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -1163,7 +1187,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "7ea36471b295d11fabee364060731e836075e5d7",
+   "blob": "1b76c31f8ca48bafc834c59f9927c58e333a9597",
    "path": "Makefile"
   },
   {
@@ -1175,7 +1199,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "69340b775ea362f663b4094444113bf997037864ff88ff1b6d0fe860b9743fbb",
+ "inputs_fingerprint": "300329339e0cced88c1c2bcee20226b9f7a08c6a0054b69691078849f4774e66",
  "instances": [
   {
    "commit": null,
@@ -1530,11 +1554,102 @@
   },
   {
    "commit": null,
-   "component": "pkg:docker/rust",
+   "component": "pkg:command/apt-get",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/apt-get#workflow",
+   "purl": "pkg:command/apt-get",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/python3#makefile",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:docker/rust?digest=sha256%3A223cc32ddca8f3ee90c436dbc94b6b5f052ea7f9653c5201e9612f08ad7d21b8",
    "context": "",
    "first_party": false,
-   "id": "pkg:docker/rust@1-trixie#",
-   "purl": "pkg:docker/rust@1-trixie",
+   "id": "pkg:docker/rust@1-trixie?digest=sha256%3A223cc32ddca8f3ee90c436dbc94b6b5f052ea7f9653c5201e9612f08ad7d21b8#",
+   "purl": "pkg:docker/rust@1-trixie?digest=sha256%3A223cc32ddca8f3ee90c436dbc94b6b5f052ea7f9653c5201e9612f08ad7d21b8",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "image",
@@ -1553,19 +1668,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
    "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
-  },
-  {
-   "commit": null,
-   "component": "pkg:github/actions/checkout",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/checkout@v4#",
-   "purl": "pkg:github/actions/checkout@v4",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/checkout",
-   "version": "v4"
   },
   {
    "commit": null,

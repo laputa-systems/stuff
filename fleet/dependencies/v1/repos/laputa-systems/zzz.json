@@ -1,10 +1,136 @@
 {
  "components": [
   {
-   "display_name": "zig-x86_64-linux-0.16.0.tar.xz",
+   "display_name": "zig-x86_64-linux-0.17.1.tar.xz",
    "ecosystem": "artifact",
-   "name": "zig-x86_64-linux-0.16.0.tar.xz",
-   "purl": "pkg:artifact/zig-x86_64-linux-0.16.0.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.16.0%2Fzig-x86_64-linux-0.16.0.tar.xz"
+   "name": "zig-x86_64-linux-0.17.1.tar.xz",
+   "purl": "pkg:artifact/zig-x86_64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-x86_64-linux-0.17.1.tar.xz"
+  },
+  {
+   "display_name": "ZZZ",
+   "ecosystem": "command",
+   "name": "ZZZ",
+   "purl": "pkg:command/ZZZ"
+  },
+  {
+   "display_name": "basename",
+   "ecosystem": "command",
+   "name": "basename",
+   "purl": "pkg:command/basename"
+  },
+  {
+   "display_name": "cmp",
+   "ecosystem": "command",
+   "name": "cmp",
+   "purl": "pkg:command/cmp"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "echo",
+   "ecosystem": "command",
+   "name": "echo",
+   "purl": "pkg:command/echo"
+  },
+  {
+   "display_name": "find",
+   "ecosystem": "command",
+   "name": "find",
+   "purl": "pkg:command/find"
+  },
+  {
+   "display_name": "gh",
+   "ecosystem": "command",
+   "name": "gh",
+   "purl": "pkg:command/gh"
+  },
+  {
+   "display_name": "install",
+   "ecosystem": "command",
+   "name": "install",
+   "purl": "pkg:command/install"
+  },
+  {
+   "display_name": "ln",
+   "ecosystem": "command",
+   "name": "ln",
+   "purl": "pkg:command/ln"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "command",
+   "name": "python3",
+   "purl": "pkg:command/python3"
+  },
+  {
+   "display_name": "sed",
+   "ecosystem": "command",
+   "name": "sed",
+   "purl": "pkg:command/sed"
+  },
+  {
+   "display_name": "sha256sum",
+   "ecosystem": "command",
+   "name": "sha256sum",
+   "purl": "pkg:command/sha256sum"
+  },
+  {
+   "display_name": "sort",
+   "ecosystem": "command",
+   "name": "sort",
+   "purl": "pkg:command/sort"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "zig",
+   "ecosystem": "command",
+   "name": "zig",
+   "purl": "pkg:command/zig"
+  },
+  {
+   "display_name": "zip",
+   "ecosystem": "command",
+   "name": "zip",
+   "purl": "pkg:command/zip"
+  },
+  {
+   "display_name": "zzz-help",
+   "ecosystem": "command",
+   "name": "zzz-help",
+   "purl": "pkg:command/zzz-help"
   },
   {
    "display_name": "actions/cache",
@@ -48,7 +174,25 @@
    "resolved_version": null,
    "scope": "ci",
    "source_kind": "url",
-   "to": "pkg:artifact/zig-x86_64-linux-0.16.0.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.16.0%2Fzig-x86_64-linux-0.16.0.tar.xz#"
+   "to": "pkg:artifact/zig-x86_64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-x86_64-linux-0.17.1.tar.xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].run",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "ci",
+   "source_kind": "url",
+   "to": "pkg:artifact/zig-x86_64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-x86_64-linux-0.17.1.tar.xz#"
   },
   {
    "condition": null,
@@ -66,7 +210,7 @@
    "resolved_version": null,
    "scope": "ci",
    "source_kind": "url",
-   "to": "pkg:artifact/zig-x86_64-linux-0.16.0.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.16.0%2Fzig-x86_64-linux-0.16.0.tar.xz#"
+   "to": "pkg:artifact/zig-x86_64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-x86_64-linux-0.17.1.tar.xz#"
   },
   {
    "condition": null,
@@ -179,34 +323,333 @@
  ],
  "inputs": [
   {
-   "blob": "4ff5248e971b9db28d018c760dbdb594723a0372",
+   "blob": "fc43720cc3dcf841bb344786a87dd5fdb8cb03de",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "994c12ec3b5c4b6ede47a0d11777ea38b03b3120",
+   "blob": "0f236de55e19740500c1628564d30f6eebac0e5c",
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "ea7b4bbbf5f1656956f6081566cbcbb1a71473fe",
+   "blob": "1211c6aa3a1cb31afa6bcf156174b9394e0231f8",
    "path": ".github/workflows/release.yml"
   },
   {
-   "blob": "16b8054f9b76555cb3d857a5851f4b53bf5d2439",
+   "blob": "9285dd5a6ee3bfe330451f7d2b3eb67ea1ea5270",
    "path": "Makefile"
   }
  ],
- "inputs_fingerprint": "8f79b9bb1ff857add36ad216ac3e37ea347a6bbcf848d27411057a622b9730da",
+ "inputs_fingerprint": "3900cae8c6878b0b68526966583b54bd66674212190e9360bf802ce6165a0eb4",
  "instances": [
   {
    "commit": null,
-   "component": "pkg:artifact/zig-x86_64-linux-0.16.0.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.16.0%2Fzig-x86_64-linux-0.16.0.tar.xz",
+   "component": "pkg:artifact/zig-x86_64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-x86_64-linux-0.17.1.tar.xz",
    "context": "",
    "first_party": false,
-   "id": "pkg:artifact/zig-x86_64-linux-0.16.0.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.16.0%2Fzig-x86_64-linux-0.16.0.tar.xz#",
-   "purl": "pkg:artifact/zig-x86_64-linux-0.16.0.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.16.0%2Fzig-x86_64-linux-0.16.0.tar.xz",
+   "id": "pkg:artifact/zig-x86_64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-x86_64-linux-0.17.1.tar.xz#",
+   "purl": "pkg:artifact/zig-x86_64-linux-0.17.1.tar.xz?download_url=https%3A%2F%2Fziglang.org%2Fdownload%2F0.17.1%2Fzig-x86_64-linux-0.17.1.tar.xz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "url",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ZZZ",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/ZZZ#makefile",
+   "purl": "pkg:command/ZZZ",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/basename",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/basename#workflow",
+   "purl": "pkg:command/basename",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cmp",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cmp#makefile",
+   "purl": "pkg:command/cmp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/curl#workflow",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/echo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/echo#workflow",
+   "purl": "pkg:command/echo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/find",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/find#workflow",
+   "purl": "pkg:command/find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gh",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/gh#workflow",
+   "purl": "pkg:command/gh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/install",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/install#makefile",
+   "purl": "pkg:command/install",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ln",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/ln#makefile",
+   "purl": "pkg:command/ln",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/mkdir#workflow",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/printf#workflow",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/python3#workflow",
+   "purl": "pkg:command/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sed",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sed#workflow",
+   "purl": "pkg:command/sed",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sha256sum",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sha256sum#workflow",
+   "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sort",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sort#workflow",
+   "purl": "pkg:command/sort",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/tar#workflow",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zig",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/zig#makefile",
+   "purl": "pkg:command/zig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zig",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/zig#workflow",
+   "purl": "pkg:command/zig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zip",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/zip#workflow",
+   "purl": "pkg:command/zip",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/zzz-help",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/zzz-help#makefile",
+   "purl": "pkg:command/zzz-help",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
    "vcs_url": null,
    "version": null
   },

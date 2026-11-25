@@ -83,8 +83,9 @@ uv run repomod deps report --json
 Classify every inventory component into exactly one ownership class and report the counts per
 ecosystem and per repository. It reads only `fleet/dependencies/v1/` plus the policy files
 (`fleet/registries.toml` is not consulted; the stuff registries are recognized by their
-`17166969.xyz` hosts) — no network access and no checkout reads. `local` and `service`
-ecosystems are excluded from the classes and reported separately as excluded counts. Totals and
+`17166969.xyz` hosts) — no network access and no checkout reads. `local`, `service`, and `command`
+ecosystems are excluded from the classes and reported separately: `local` and `service` as
+excluded counts, `command` as the `commands` section described below. Totals and
 ecosystem counts deduplicate components per ecosystem and name; repository counts count
 instances, each under the class its own source resolves to. A component's class is the highest
 precedence class found among its instances. JSON output sorts all keys and is byte-identical
@@ -108,6 +109,29 @@ The classes, in precedence order:
 - `substitutable` — `repomod.substitutes.lookup(name)` names an owned producer in
   `fleet/policy/owned-substitutes.toml`; the producer is recorded per package.
 - `upstream` — everything else.
+
+The `commands` section classifies every `pkg:command` component name into exactly one class, in
+precedence order: `owned` (declared in `fleet/policy/owned-tools.toml` producer `commands`),
+`substitutable` (`repomod.substitutes.lookup` restricted to `package:*` and `label` match kinds),
+`baseline` (listed in `fleet/policy/command-baseline.toml`), or `external`. It reports unique-name
+totals and instance totals per class, per-repository instance counts per class, a per-name table
+with each name's class, producer, repository count, and per-repository instance and surface-kind
+detail, and `external_top`, the 40 external names used by the most repositories. Command
+components never feed the package classes above.
+
+Command names come from `repomod/dependencies/commands.py`, which selects workflow
+`.github/workflows/*.yml|yaml` `run:` values (parsed as YAML, never line-tokenized), Makefile,
+GNUmakefile, and `*.mk` tab-prefixed recipe lines (leading `@`, `-`, and `+` stripped and
+`$(MAKE)` treated as `make`), `*.sh`/`*.bash` files and extensionless files whose shebang names
+`sh`, `bash`, `dash`, or `ash`, and Dockerfile/Containerfile `RUN` instructions in shell form with
+line continuations joined. The assembled shell text of each repository is parsed in one
+`ast-grep scan --stdin` invocation using the tree-sitter-bash `command_name` kind; the pinned
+binary comes from `REPOMOD_AST_GREP` or `PATH` and must report the `ast_grep_version` recorded in
+`fleet/policy/command-baseline.toml`, otherwise snapshot fails with an operational error rather
+than skipping. Matches are normalized to basenames and filtered: shell variables and expansions,
+shell builtins and keywords, and functions defined in the same file are dropped. `snapshot` and
+`check` read the blobs through Git plumbing exactly like every other input; the command files are
+recorded in the repository `inputs` list so the fingerprint covers them.
 
 ### `deps diff`
 
@@ -263,6 +287,10 @@ unregistered purl types that exist only inside this inventory:
   from `.nvmrc` or `pkg:toolchain/go@1.24.3` from a `go.mod` toolchain directive.
 - `artifact` — an arbitrary downloaded file, such as `pkg:artifact/musl-1.2.6.tar.xz?download_url=…`.
 - `git` — a git repository dependency that is not a tagged forge package, with `vcs_url` as identity.
+- `command` — an external command name invoked by shell surfaces in the repository: workflow
+  `run:` values, Makefile recipe lines, shell scripts, and Dockerfile `RUN` instructions. The
+  component is `pkg:command/<name>` and each instance is `pkg:command/<name>#<surface>`, where the
+  surface is `workflow`, `makefile`, `shell`, or `dockerfile`.
 - `system` — a system library from CMake `find_package` or pkg-config, such as `pkg:system/ZLIB`.
 - `service` — a service binding from Wrangler or Orange configuration, or an OpenOrange app namespace, bucket, or host from tracked `deploy/openorange/apps.toml`. Orange runtime package closures use the existing JavaScript lockfile extraction; generated descriptors are not tracked source evidence.
 - `generic` — the residual bucket for components with no better identity. Anything new that

@@ -1,6 +1,54 @@
 {
  "components": [
   {
+   "display_name": "brew",
+   "ecosystem": "command",
+   "name": "brew",
+   "purl": "pkg:command/brew"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mkdir",
+   "ecosystem": "command",
+   "name": "mkdir",
+   "purl": "pkg:command/mkdir"
+  },
+  {
+   "display_name": "printf",
+   "ecosystem": "command",
+   "name": "printf",
+   "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "sudo",
+   "ecosystem": "command",
+   "name": "sudo",
+   "purl": "pkg:command/sudo"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "uv",
+   "ecosystem": "command",
+   "name": "uv",
+   "purl": "pkg:command/uv"
+  },
+  {
    "display_name": "actions/checkout",
    "ecosystem": "github",
    "name": "actions/checkout",
@@ -17,12 +65,6 @@
    "ecosystem": "github",
    "name": "astral-sh/setup-uv",
    "purl": "pkg:github/astral-sh/setup-uv"
-  },
-  {
-   "display_name": "shadowdriver",
-   "ecosystem": "local",
-   "name": "shadowdriver",
-   "purl": "pkg:local/shadowdriver"
   },
   {
    "display_name": "tool",
@@ -61,12 +103,6 @@
    "purl": "pkg:pypi/joshuarli-pytest-parallel"
   },
   {
-   "display_name": "maturin",
-   "ecosystem": "pypi",
-   "name": "maturin",
-   "purl": "pkg:pypi/maturin"
-  },
-  {
    "display_name": "mutagen",
    "ecosystem": "pypi",
    "name": "mutagen",
@@ -91,28 +127,10 @@
    "purl": "pkg:pypi/pygments"
   },
   {
-   "display_name": "pyobjc-core",
-   "ecosystem": "pypi",
-   "name": "pyobjc-core",
-   "purl": "pkg:pypi/pyobjc-core"
-  },
-  {
-   "display_name": "pyobjc-framework-cocoa",
-   "ecosystem": "pypi",
-   "name": "pyobjc-framework-cocoa",
-   "purl": "pkg:pypi/pyobjc-framework-cocoa"
-  },
-  {
    "display_name": "pytest",
    "ecosystem": "pypi",
    "name": "pytest",
    "purl": "pkg:pypi/pytest"
-  },
-  {
-   "display_name": "pytest-asyncio",
-   "ecosystem": "pypi",
-   "name": "pytest-asyncio",
-   "purl": "pkg:pypi/pytest-asyncio"
   },
   {
    "display_name": "pytest-cov",
@@ -159,28 +177,6 @@
  ],
  "edges": [
   {
-   "condition": "extra == 'browser'",
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "project.optional-dependencies.browser[0]",
-     "path": "pyproject.toml"
-    },
-    {
-     "locator": "package[name=tool,version=0.1.0].optional-dependencies.browser[0]",
-     "path": "uv.lock"
-    }
-   ],
-   "from": ".:pypi",
-   "optional": true,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": null,
-   "scope": "optional",
-   "source_kind": "path",
-   "to": "pkg:local/shadowdriver#"
-  },
-  {
    "condition": null,
    "constraint": ">=1.20",
    "evidence": [
@@ -225,28 +221,6 @@
    "to": "pkg:pypi/joshuarli-pytest-parallel@0.4.0#"
   },
   {
-   "condition": "group == 'dev'",
-   "constraint": "<2,>=1.9",
-   "evidence": [
-    {
-     "locator": "dependency-groups.dev[1]",
-     "path": "pyproject.toml"
-    },
-    {
-     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[1]",
-     "path": "uv.lock"
-    }
-   ],
-   "from": ".:pypi",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "1.15.0",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:pypi/maturin@1.15.0#"
-  },
-  {
    "condition": null,
    "constraint": ">=1.48.1",
    "evidence": [
@@ -269,59 +243,15 @@
    "to": "pkg:pypi/mutagen@1.48.1#"
   },
   {
-   "condition": "sys_platform == \"darwin\"; sys_platform != \"linux\"",
-   "constraint": ">=11",
-   "evidence": [
-    {
-     "locator": "project.dependencies[2]",
-     "path": "pyproject.toml"
-    },
-    {
-     "locator": "package[name=tool,version=0.1.0].dependencies[2]",
-     "path": "uv.lock"
-    }
-   ],
-   "from": ".:pypi",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "12.2.2",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:pypi/pyobjc-framework-cocoa@12.2.2#"
-  },
-  {
-   "condition": "group == 'dev'",
-   "constraint": ">=1.3.0",
-   "evidence": [
-    {
-     "locator": "dependency-groups.dev[3]",
-     "path": "pyproject.toml"
-    },
-    {
-     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[3]",
-     "path": "uv.lock"
-    }
-   ],
-   "from": ".:pypi",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "conditional",
-   "resolved_version": "1.4.1",
-   "scope": "dev",
-   "source_kind": "registry",
-   "to": "pkg:pypi/pytest-asyncio@1.4.1#"
-  },
-  {
    "condition": "group == 'dev'",
    "constraint": ">=7.1.0",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[4]",
+     "locator": "dependency-groups.dev[2]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[4]",
+     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[2]",
      "path": "uv.lock"
     }
    ],
@@ -339,11 +269,11 @@
    "constraint": ">=9.1.1",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[2]",
+     "locator": "dependency-groups.dev[1]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[2]",
+     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[1]",
      "path": "uv.lock"
     }
    ],
@@ -361,11 +291,11 @@
    "constraint": "==0.17.4",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[5]",
+     "locator": "dependency-groups.dev[3]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[5]",
+     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[3]",
      "path": "uv.lock"
     }
    ],
@@ -383,11 +313,11 @@
    "constraint": "==0.0.99",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[6]",
+     "locator": "dependency-groups.dev[4]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[6]",
+     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[4]",
      "path": "uv.lock"
     }
    ],
@@ -405,11 +335,11 @@
    "constraint": "==0.13.7",
    "evidence": [
     {
-     "locator": "dependency-groups.dev[7]",
+     "locator": "dependency-groups.dev[5]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[7]",
+     "locator": "package[name=tool,version=0.1.0].dev-dependencies.dev[5]",
      "path": "uv.lock"
     }
    ],
@@ -427,11 +357,11 @@
    "constraint": ">=0.22.1",
    "evidence": [
     {
-     "locator": "project.dependencies[3]",
+     "locator": "project.dependencies[2]",
      "path": "pyproject.toml"
     },
     {
-     "locator": "package[name=tool,version=0.1.0].dependencies[3]",
+     "locator": "package[name=tool,version=0.1.0].dependencies[2]",
      "path": "uv.lock"
     }
    ],
@@ -500,6 +430,24 @@
   },
   {
    "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[1].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
    "constraint": "v7.1.0",
    "evidence": [
     {
@@ -539,7 +487,7 @@
    "constraint": "v10.3.2 [pin:v10.3.3]",
    "evidence": [
     {
-     "locator": "jobs.lint.steps[1].uses",
+     "locator": "jobs.lint.steps[2].uses",
      "path": ".github/workflows/lint.yml"
     }
    ],
@@ -616,42 +564,6 @@
     }
    ],
    "from": "pkg:pypi/joshuarli-pytest-parallel@0.4.0#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "9.2.0",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:pypi/pytest@9.2.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=pyobjc-framework-cocoa,version=12.2.2].dependencies[0]",
-     "path": "uv.lock"
-    }
-   ],
-   "from": "pkg:pypi/pyobjc-framework-cocoa@12.2.2#",
-   "optional": false,
-   "relation": "transitive",
-   "resolution": "resolved",
-   "resolved_version": "12.2.2",
-   "scope": "runtime",
-   "source_kind": "registry",
-   "to": "pkg:pypi/pyobjc-core@12.2.2#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "package[name=pytest-asyncio,version=1.4.1].dependencies[0]",
-     "path": "uv.lock"
-    }
-   ],
-   "from": "pkg:pypi/pytest-asyncio@1.4.1#",
    "optional": false,
    "relation": "transitive",
    "resolution": "resolved",
@@ -789,11 +701,11 @@
  ],
  "inputs": [
   {
-   "blob": "536467d0ccc7acba7ac019c5e888c7c8b3267592",
+   "blob": "04e48099323bc4e8703f5bff424d583e8937141e",
    "path": ".github/workflows/ci.yml"
   },
   {
-   "blob": "e5557eed337e30b23daa9ee715ee85e50ce5bd15",
+   "blob": "56b7245967fd467de9dc7f42de3bbbd511ef64c7",
    "path": ".github/workflows/lint.yml"
   },
   {
@@ -801,20 +713,137 @@
    "path": ".python-version"
   },
   {
-   "blob": "327ff0af7f09b3991fcd6f3cb13cedbfdbd3bc12",
+   "blob": "d15726e811f7ebfb208bfb59e647c4afb822e712",
    "path": "Makefile"
   },
   {
-   "blob": "d3c35995daa1fabb465aee1d339a9ce05e9ca88b",
+   "blob": "78a95c53fdd13476882d1b844390f8654f10d9e5",
    "path": "pyproject.toml"
   },
   {
-   "blob": "1aec33211d32cd90100677083c29367d442ac139",
+   "blob": "4deaa83f8edc774a630f5a34b3d226fca20d0fc5",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "e3b94a52a94044c08abfb00681611e2086c9c4943f27f7f99657ab6b7ce9550a",
+ "inputs_fingerprint": "407e9a8300775903e0696b5376a5db2aa12e7997104bf2cc0a68c8be2fd9fe6c",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:command/brew",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/brew#workflow",
+   "purl": "pkg:command/brew",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mkdir",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/mkdir#makefile",
+   "purl": "pkg:command/mkdir",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/printf#makefile",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sudo",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/sudo#workflow",
+   "purl": "pkg:command/sudo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/test#makefile",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/uv#makefile",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/uv",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/uv#workflow",
+   "purl": "pkg:command/uv",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
    "component": "pkg:github/actions/checkout",
@@ -853,19 +882,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/astral-sh/setup-uv",
    "version": "68559e99cc807c1eb7e9238fd43a15bba460eec2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:local/shadowdriver",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:local/shadowdriver#",
-   "purl": "pkg:local/shadowdriver",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "path",
-   "vcs_url": null,
-   "version": null
   },
   {
    "commit": null,
@@ -947,19 +963,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:pypi/maturin",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:pypi/maturin@1.15.0#",
-   "purl": "pkg:pypi/maturin@1.15.0",
-   "registry_url": "https://pypi.17166969.xyz/current/simple/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.15.0"
-  },
-  {
-   "commit": null,
    "component": "pkg:pypi/mutagen",
    "context": "",
    "first_party": false,
@@ -1009,45 +1012,6 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "2.21.0"
-  },
-  {
-   "commit": null,
-   "component": "pkg:pypi/pyobjc-core",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:pypi/pyobjc-core@12.2.2#",
-   "purl": "pkg:pypi/pyobjc-core@12.2.2",
-   "registry_url": "https://pypi.17166969.xyz/current/simple/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "12.2.2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:pypi/pyobjc-framework-cocoa",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:pypi/pyobjc-framework-cocoa@12.2.2#",
-   "purl": "pkg:pypi/pyobjc-framework-cocoa@12.2.2",
-   "registry_url": "https://pypi.17166969.xyz/current/simple/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "12.2.2"
-  },
-  {
-   "commit": null,
-   "component": "pkg:pypi/pytest-asyncio",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:pypi/pytest-asyncio@1.4.1#",
-   "purl": "pkg:pypi/pytest-asyncio@1.4.1",
-   "registry_url": "https://pypi.17166969.xyz/current/simple/",
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": "1.4.1"
   },
   {
    "commit": null,

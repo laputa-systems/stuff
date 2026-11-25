@@ -2,18 +2,25 @@ from __future__ import annotations
 
 import re
 from collections import Counter, defaultdict
-from collections.abc import Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from typing import Any, cast
 from urllib.parse import parse_qsl, unquote, urlsplit
 
 from repomod import substitutes
+from repomod.dependencies import commands as commands_module
 from repomod.dependencies.graph import Graph, is_first_party
 from repomod.dependencies.model import Component, Ecosystem, Instance
 
 CLASSES = ("owned", "mirrored", "substitutable", "upstream")
+COMMAND_CLASSES = ("owned", "substitutable", "baseline", "external")
 OWNED_OWNERS = frozenset({"joshuarli", "laputa-systems"})
-EXCLUDED_ECOSYSTEMS = frozenset({Ecosystem.LOCAL, Ecosystem.SERVICE})
+EXCLUDED_ECOSYSTEMS = frozenset({Ecosystem.LOCAL, Ecosystem.SERVICE, Ecosystem.COMMAND})
 _STUFF_REGISTRY_HOST = "17166969.xyz"
+_COMMAND_EXTERNAL_TOP = 40
+
+
+def _command_accepted_kinds(kind: str) -> bool:
+    return kind == "label" or kind.startswith("package:")
 _GITHUB_OWNER = re.compile(
     r"github\.com[:/]([A-Za-z0-9][A-Za-z0-9_.-]*)/", re.IGNORECASE
 )
@@ -82,6 +89,7 @@ def ownership(
         },
         "substitutable": _substitutable_rows(component_class, component_repositories, producers),
         "upstream_top": _upstream_rows(component_class, component_repositories),
+        "commands": _commands_section(graph, names),
     }
 
 
@@ -120,6 +128,27 @@ def ownership_text(value: Mapping[str, Any]) -> list[str]:
                 for ecosystem in sorted(excluded, key=str.casefold)
             )
         )
+    commands = _table(value.get("commands"))
+    if commands:
+        totals = _table(commands.get("totals"))
+        instances = _table(commands.get("instances"))
+        lines.append("")
+        lines.append("commands (unique command names / instances)")
+        lines.append(
+            f"{'class':<14} {'names':>7} {'instances':>10}"
+        )
+        lines.extend(
+            f"{command_class:<14} {_count(totals, command_class):>7} "
+            f"{_count(instances, command_class):>10}"
+            for command_class in COMMAND_CLASSES
+        )
+        external = _list(commands.get("external_top"))
+        if external:
+            lines.append("")
+            lines.append("top external commands (by repository count):")
+            for row in external[:15]:
+                record = _table(row)
+                lines.append(f"  {record['name']} ({record['repositories']} repositories)")
     rows = _list(value.get("substitutable"))
     lines.append("")
     lines.append(f"substitutable ({len(rows)}):")
@@ -277,6 +306,108 @@ def _upstream_rows(
         }
         for key in keys[:_UPSTREAM_TOP]
     ]
+
+
+def _commands_section(graph: Graph, names: Sequence[str]) -> dict[str, object]:
+    owned = commands_module.owned_commands()
+    baseline = commands_module.baseline_commands()
+    substitutes_cache: dict[str, tuple[str, str | None] | None] = {}
+    per_name: dict[str, dict[str, dict[str, object]]] = {}
+    for repository in names:
+        data = graph.repositories[repository]
+        for instance in data.instances:
+            component = graph.components.get(instance.component)
+            if component is None or component.ecosystem is not Ecosystem.COMMAND:
+                continue
+            name = component.name
+            repositories = per_name.setdefault(name, {})
+            record = repositories.setdefault(
+                repository, {"instances": 0, "kinds": set()}
+            )
+            record["instances"] = cast(int, record["instances"]) + 1
+            cast(set[str], record["kinds"]).add(instance.context)
+    name_rows: dict[str, dict[str, object]] = {}
+    totals: Counter[str] = Counter()
+    instance_totals: Counter[str] = Counter()
+    repository_totals: dict[str, Counter[str]] = defaultdict(Counter)
+    for name in sorted(per_name):
+        command_class, producer = _command_class(name, owned, baseline, substitutes_cache)
+        repositories = {
+            repository: {
+                "instances": cast(int, record["instances"]),
+                "kinds": sorted(cast(set[str], record["kinds"])),
+            }
+            for repository, record in sorted(
+                per_name[name].items(), key=lambda item: item[0].casefold()
+            )
+        }
+        instances = sum(
+            cast(int, record["instances"]) for record in per_name[name].values()
+        )
+        name_rows[name] = {
+            "class": command_class,
+            "producer": producer,
+            "repository_count": len(repositories),
+            "repositories": repositories,
+        }
+        totals[command_class] += 1
+        instance_totals[command_class] += instances
+        for repository, record in per_name[name].items():
+            repository_totals[repository][command_class] += cast(int, record["instances"])
+    external = [
+        name
+        for name in sorted(name_rows)
+        if name_rows[name]["class"] == "external"
+    ]
+    external.sort(
+        key=lambda name: (
+            -cast(int, name_rows[name]["repository_count"]),
+            name,
+        )
+    )
+    return {
+        "totals": {command_class: totals[command_class] for command_class in COMMAND_CLASSES},
+        "instances": {
+            command_class: instance_totals[command_class]
+            for command_class in COMMAND_CLASSES
+        },
+        "repositories": {
+            repository: {
+                command_class: repository_totals[repository][command_class]
+                for command_class in COMMAND_CLASSES
+            }
+            for repository in sorted(repository_totals, key=str.casefold)
+        },
+        "names": name_rows,
+        "external_top": [
+            {
+                "name": name,
+                "repositories": name_rows[name]["repository_count"],
+            }
+            for name in external[:_COMMAND_EXTERNAL_TOP]
+        ],
+    }
+
+
+def _command_class(
+    name: str,
+    owned: Mapping[str, str],
+    baseline: frozenset[str],
+    cache: dict[str, tuple[str, str | None] | None],
+) -> tuple[str, str | None]:
+    if name in owned:
+        return "owned", owned[name]
+    if name not in cache:
+        matches = substitutes.lookup(name, _command_accepted_kinds)
+        cache[name] = (
+            (matches[0].producer, matches[0].matched) if matches else None
+        )
+    found = cache[name]
+    if found is not None:
+        return "substitutable", found[0]
+    if name in baseline:
+        return "baseline", None
+    return "external", None
 
 
 def _table(value: object) -> Mapping[str, Any]:

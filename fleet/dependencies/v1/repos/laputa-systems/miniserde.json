@@ -1,0 +1,767 @@
+{
+ "components": [
+  {
+   "display_name": "automod",
+   "ecosystem": "cargo",
+   "name": "automod",
+   "purl": "pkg:cargo/automod"
+  },
+  {
+   "display_name": "indoc",
+   "ecosystem": "cargo",
+   "name": "indoc",
+   "purl": "pkg:cargo/indoc"
+  },
+  {
+   "display_name": "itoa",
+   "ecosystem": "cargo",
+   "name": "itoa",
+   "purl": "pkg:cargo/itoa"
+  },
+  {
+   "display_name": "proc-macro2",
+   "ecosystem": "cargo",
+   "name": "proc-macro2",
+   "purl": "pkg:cargo/proc-macro2"
+  },
+  {
+   "display_name": "quote",
+   "ecosystem": "cargo",
+   "name": "quote",
+   "purl": "pkg:cargo/quote"
+  },
+  {
+   "display_name": "rustversion",
+   "ecosystem": "cargo",
+   "name": "rustversion",
+   "purl": "pkg:cargo/rustversion"
+  },
+  {
+   "display_name": "rustybench",
+   "ecosystem": "cargo",
+   "name": "rustybench",
+   "purl": "pkg:cargo/rustybench"
+  },
+  {
+   "display_name": "serde",
+   "ecosystem": "cargo",
+   "name": "serde",
+   "purl": "pkg:cargo/serde"
+  },
+  {
+   "display_name": "serde_derive",
+   "ecosystem": "cargo",
+   "name": "serde_derive",
+   "purl": "pkg:cargo/serde_derive"
+  },
+  {
+   "display_name": "serde_json",
+   "ecosystem": "cargo",
+   "name": "serde_json",
+   "purl": "pkg:cargo/serde_json"
+  },
+  {
+   "display_name": "syn",
+   "ecosystem": "cargo",
+   "name": "syn",
+   "purl": "pkg:cargo/syn"
+  },
+  {
+   "display_name": "trybuild",
+   "ecosystem": "cargo",
+   "name": "trybuild",
+   "purl": "pkg:cargo/trybuild"
+  },
+  {
+   "display_name": "zmij",
+   "ecosystem": "cargo",
+   "name": "zmij",
+   "purl": "pkg:cargo/zmij"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  },
+  {
+   "display_name": "mini-internal",
+   "ecosystem": "local",
+   "name": "mini-internal",
+   "purl": "pkg:local/mini-internal"
+  },
+  {
+   "display_name": "miniserde",
+   "ecosystem": "local",
+   "name": "miniserde",
+   "purl": "pkg:local/miniserde"
+  },
+  {
+   "display_name": "rust",
+   "ecosystem": "toolchain",
+   "name": "rust",
+   "purl": "pkg:toolchain/rust"
+  }
+ ],
+ "edges": [
+  {
+   "condition": null,
+   "constraint": "1.0",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.automod",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/automod#"
+  },
+  {
+   "condition": null,
+   "constraint": "2.0",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.indoc",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/indoc#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0",
+   "evidence": [
+    {
+     "locator": "dependencies.itoa",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/itoa#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.rustversion",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustversion#"
+  },
+  {
+   "condition": "cfg(not(miri))",
+   "constraint": "0.1",
+   "evidence": [
+    {
+     "locator": "target.'cfg(not(miri))'.dev-dependencies.rustybench",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/rustybench#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.serde",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/serde#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.serde_derive",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/serde_derive#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.serde_json",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/serde_json#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0.108",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.trybuild",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/trybuild#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0",
+   "evidence": [
+    {
+     "locator": "dependencies.zmij",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/zmij#"
+  },
+  {
+   "condition": null,
+   "constraint": "=0.1.46",
+   "evidence": [
+    {
+     "locator": "dependencies.mini-internal",
+     "path": "Cargo.toml"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.46",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/mini-internal@0.1.46#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "nightly-2026-11-09",
+   "evidence": [
+    {
+     "locator": "L1",
+     "path": "rust-toolchain.toml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "nightly-2026-11-09",
+   "scope": "toolchain",
+   "source_kind": "url",
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0.74",
+   "evidence": [
+    {
+     "locator": "dependencies.proc-macro2",
+     "path": "derive/Cargo.toml"
+    }
+   ],
+   "from": "derive:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/proc-macro2#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.0.35",
+   "evidence": [
+    {
+     "locator": "dependencies.quote",
+     "path": "derive/Cargo.toml"
+    }
+   ],
+   "from": "derive:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/quote#"
+  },
+  {
+   "condition": null,
+   "constraint": "3",
+   "evidence": [
+    {
+     "locator": "dependencies.syn",
+     "path": "derive/Cargo.toml"
+    }
+   ],
+   "from": "derive:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/syn#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "dependencies.miniserde",
+     "path": "tests/crate/Cargo.toml"
+    }
+   ],
+   "from": "tests/crate:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "0.1.46",
+   "scope": "runtime",
+   "source_kind": "workspace",
+   "to": "pkg:local/miniserde@0.1.46#"
+  }
+ ],
+ "inputs": [
+  {
+   "blob": "7d99c06e210c9b5ac1a85013a1b982d0a9c49f77",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "3311ee0bdb07eca637b7847e97cc445bea043acc",
+   "path": ".github/workflows/test.yml"
+  },
+  {
+   "blob": "7a6e1d768750070ae001c3a71bafcd53aabf96aa",
+   "path": "Cargo.toml"
+  },
+  {
+   "blob": "edaef60d89618ba2c6c362a7140580a061c93d3b",
+   "path": "Makefile"
+  },
+  {
+   "blob": "8481c81f4d489d68dc602327b18765db4d304dff",
+   "path": "derive/Cargo.toml"
+  },
+  {
+   "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
+   "path": "rust-toolchain.toml"
+  },
+  {
+   "blob": "604b8a1322aa4253b07537e31d99b8ea3a9799b9",
+   "path": "tests/crate/Cargo.toml"
+  }
+ ],
+ "inputs_fingerprint": "795e617e1cd2688a18cc351cc0a8043b0a90932fd78e04fcaa2448d088d7c2f1",
+ "instances": [
+  {
+   "commit": null,
+   "component": "pkg:cargo/automod",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/automod#",
+   "purl": "pkg:cargo/automod",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/indoc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/indoc#",
+   "purl": "pkg:cargo/indoc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/itoa",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/itoa#",
+   "purl": "pkg:cargo/itoa",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/proc-macro2",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/proc-macro2#",
+   "purl": "pkg:cargo/proc-macro2",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/quote",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/quote#",
+   "purl": "pkg:cargo/quote",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/rustversion",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/rustversion#",
+   "purl": "pkg:cargo/rustversion",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/rustybench",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/rustybench#",
+   "purl": "pkg:cargo/rustybench",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/serde",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/serde#",
+   "purl": "pkg:cargo/serde",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/serde_derive",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/serde_derive#",
+   "purl": "pkg:cargo/serde_derive",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/serde_json",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/serde_json#",
+   "purl": "pkg:cargo/serde_json",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/syn",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/syn#",
+   "purl": "pkg:cargo/syn",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/trybuild",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/trybuild#",
+   "purl": "pkg:cargo/trybuild",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/zmij",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/zmij#",
+   "purl": "pkg:cargo/zmij",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/mini-internal",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/mini-internal@0.1.46#",
+   "purl": "pkg:local/mini-internal@0.1.46",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.1.46"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/miniserde",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/miniserde@0.1.46#",
+   "purl": "pkg:local/miniserde@0.1.46",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "workspace",
+   "vcs_url": null,
+   "version": "0.1.46"
+  },
+  {
+   "commit": null,
+   "component": "pkg:toolchain/rust",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "nightly-2026-11-09"
+  }
+ ],
+ "issues": [
+  {
+   "kind": "missing_lock",
+   "locator": null,
+   "message": "no lockfile at Cargo.lock",
+   "path": "Cargo.lock"
+  },
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  }
+ ],
+ "projects": [
+  {
+   "directory": ".",
+   "ecosystem": "cargo",
+   "id": ".:cargo"
+  },
+  {
+   "directory": ".",
+   "ecosystem": "generic",
+   "id": ".:repo"
+  },
+  {
+   "directory": "derive",
+   "ecosystem": "cargo",
+   "id": "derive:cargo"
+  },
+  {
+   "directory": "tests/crate",
+   "ecosystem": "cargo",
+   "id": "tests/crate:cargo"
+  }
+ ],
+ "repository": "laputa-systems/miniserde",
+ "schema": 1,
+ "tags": [
+  "fork",
+  "library",
+  "rust"
+ ]
+}

@@ -1,0 +1,1246 @@
+{
+ "components": [
+  {
+   "display_name": "alloc-no-stdlib",
+   "ecosystem": "cargo",
+   "name": "alloc-no-stdlib",
+   "purl": "pkg:cargo/alloc-no-stdlib"
+  },
+  {
+   "display_name": "alloc-stdlib",
+   "ecosystem": "cargo",
+   "name": "alloc-stdlib",
+   "purl": "pkg:cargo/alloc-stdlib"
+  },
+  {
+   "display_name": "block-buffer",
+   "ecosystem": "cargo",
+   "name": "block-buffer",
+   "purl": "pkg:cargo/block-buffer"
+  },
+  {
+   "display_name": "brotli",
+   "ecosystem": "cargo",
+   "name": "brotli",
+   "purl": "pkg:cargo/brotli"
+  },
+  {
+   "display_name": "brotli-decompressor",
+   "ecosystem": "cargo",
+   "name": "brotli-decompressor",
+   "purl": "pkg:cargo/brotli-decompressor"
+  },
+  {
+   "display_name": "cfg-if",
+   "ecosystem": "cargo",
+   "name": "cfg-if",
+   "purl": "pkg:cargo/cfg-if"
+  },
+  {
+   "display_name": "cpufeatures",
+   "ecosystem": "cargo",
+   "name": "cpufeatures",
+   "purl": "pkg:cargo/cpufeatures"
+  },
+  {
+   "display_name": "crypto-common",
+   "ecosystem": "cargo",
+   "name": "crypto-common",
+   "purl": "pkg:cargo/crypto-common"
+  },
+  {
+   "display_name": "digest",
+   "ecosystem": "cargo",
+   "name": "digest",
+   "purl": "pkg:cargo/digest"
+  },
+  {
+   "display_name": "generic-array",
+   "ecosystem": "cargo",
+   "name": "generic-array",
+   "purl": "pkg:cargo/generic-array"
+  },
+  {
+   "display_name": "libc",
+   "ecosystem": "cargo",
+   "name": "libc",
+   "purl": "pkg:cargo/libc"
+  },
+  {
+   "display_name": "sha2",
+   "ecosystem": "cargo",
+   "name": "sha2",
+   "purl": "pkg:cargo/sha2"
+  },
+  {
+   "display_name": "typenum",
+   "ecosystem": "cargo",
+   "name": "typenum",
+   "purl": "pkg:cargo/typenum"
+  },
+  {
+   "display_name": "version_check",
+   "ecosystem": "cargo",
+   "name": "version_check",
+   "purl": "pkg:cargo/version_check"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "command",
+   "name": "cargo",
+   "purl": "pkg:command/cargo"
+  },
+  {
+   "display_name": "cp",
+   "ecosystem": "command",
+   "name": "cp",
+   "purl": "pkg:command/cp"
+  },
+  {
+   "display_name": "cross",
+   "ecosystem": "command",
+   "name": "cross",
+   "purl": "pkg:command/cross"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "command",
+   "name": "curl",
+   "purl": "pkg:command/curl"
+  },
+  {
+   "display_name": "cut",
+   "ecosystem": "command",
+   "name": "cut",
+   "purl": "pkg:command/cut"
+  },
+  {
+   "display_name": "gcc",
+   "ecosystem": "command",
+   "name": "gcc",
+   "purl": "pkg:command/gcc"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "command",
+   "name": "git",
+   "purl": "pkg:command/git"
+  },
+  {
+   "display_name": "grep",
+   "ecosystem": "command",
+   "name": "grep",
+   "purl": "pkg:command/grep"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "command",
+   "name": "make",
+   "purl": "pkg:command/make"
+  },
+  {
+   "display_name": "mktemp",
+   "ecosystem": "command",
+   "name": "mktemp",
+   "purl": "pkg:command/mktemp"
+  },
+  {
+   "display_name": "rm",
+   "ecosystem": "command",
+   "name": "rm",
+   "purl": "pkg:command/rm"
+  },
+  {
+   "display_name": "rustup",
+   "ecosystem": "command",
+   "name": "rustup",
+   "purl": "pkg:command/rustup"
+  },
+  {
+   "display_name": "sh",
+   "ecosystem": "command",
+   "name": "sh",
+   "purl": "pkg:command/sh"
+  },
+  {
+   "display_name": "tail",
+   "ecosystem": "command",
+   "name": "tail",
+   "purl": "pkg:command/tail"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "command",
+   "name": "tar",
+   "purl": "pkg:command/tar"
+  },
+  {
+   "display_name": "test",
+   "ecosystem": "command",
+   "name": "test",
+   "purl": "pkg:command/test"
+  },
+  {
+   "display_name": "actions/checkout",
+   "ecosystem": "github",
+   "name": "actions/checkout",
+   "purl": "pkg:github/actions/checkout"
+  },
+  {
+   "display_name": "brotli",
+   "ecosystem": "local",
+   "name": "brotli",
+   "purl": "pkg:local/brotli"
+  },
+  {
+   "display_name": "github.com/dropbox/rust-brotli/c/go/brotli",
+   "ecosystem": "local",
+   "name": "github.com/dropbox/rust-brotli/c/go/brotli",
+   "purl": "pkg:local/github.com/dropbox/rust-brotli/c/go/brotli"
+  },
+  {
+   "display_name": "rust",
+   "ecosystem": "toolchain",
+   "name": "rust",
+   "purl": "pkg:toolchain/rust"
+  }
+ ],
+ "edges": [
+  {
+   "condition": null,
+   "constraint": ">=3.0.0, <4.0.0",
+   "evidence": [
+    {
+     "locator": "dev-dependencies.alloc-no-stdlib",
+     "path": "Cargo.toml"
+    },
+    {
+     "locator": "package[name=brotli,version=9.1.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.0.0",
+   "scope": "dev",
+   "source_kind": "registry",
+   "to": "pkg:cargo/alloc-no-stdlib@3.0.0#"
+  },
+  {
+   "condition": null,
+   "constraint": ">=3.0.0, <4.0.0",
+   "evidence": [
+    {
+     "locator": "dependencies.alloc-no-stdlib",
+     "path": "Cargo.toml"
+    },
+    {
+     "locator": "package[name=brotli,version=9.1.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.0.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/alloc-no-stdlib@3.0.0#"
+  },
+  {
+   "condition": "feature:alloc-stdlib",
+   "constraint": ">=0.3.0, <0.4",
+   "evidence": [
+    {
+     "locator": "dependencies.alloc-stdlib",
+     "path": "Cargo.toml"
+    },
+    {
+     "locator": "package[name=brotli,version=9.1.0].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": "0.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/alloc-stdlib@0.3.0#"
+  },
+  {
+   "condition": null,
+   "constraint": ">=6.2, <7",
+   "evidence": [
+    {
+     "locator": "dependencies.brotli-decompressor",
+     "path": "Cargo.toml"
+    },
+    {
+     "locator": "package[name=brotli,version=9.1.0].dependencies[2]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "6.3.2",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/brotli-decompressor@6.3.2#"
+  },
+  {
+   "condition": "feature:sha2",
+   "constraint": "~0.10",
+   "evidence": [
+    {
+     "locator": "dependencies.sha2",
+     "path": "Cargo.toml"
+    },
+    {
+     "locator": "package[name=brotli,version=9.1.0].dependencies[3]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": ".:cargo",
+   "optional": true,
+   "relation": "direct",
+   "resolution": "conditional",
+   "resolved_version": "0.10.9",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/sha2@0.10.9#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.lint.steps[0].uses",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "v7.0.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[0].uses",
+     "path": ".github/workflows/test.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": "nightly-2026-11-09",
+   "evidence": [
+    {
+     "locator": "L1",
+     "path": "rust-toolchain.toml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "nightly-2026-11-09",
+   "scope": "toolchain",
+   "source_kind": "url",
+   "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.0.0-20220217093550-f3a32293f213",
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "c/go/go.mod"
+    }
+   ],
+   "from": "c/go:golang",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "path",
+   "to": "pkg:local/github.com/dropbox/rust-brotli/c/go/brotli#"
+  },
+  {
+   "condition": null,
+   "constraint": "~9.1",
+   "evidence": [
+    {
+     "locator": "dependencies.brotli",
+     "path": "c/Cargo.toml"
+    }
+   ],
+   "from": "c:cargo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/brotli#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=alloc-stdlib,version=0.3.0].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/alloc-stdlib@0.3.0#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "3.0.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/alloc-no-stdlib@3.0.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=block-buffer,version=0.10.4].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/block-buffer@0.10.4#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.14.7",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/generic-array@0.14.7#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=brotli-decompressor,version=6.3.2].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/brotli-decompressor@6.3.2#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "3.0.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/alloc-no-stdlib@3.0.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=brotli-decompressor,version=6.3.2].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/brotli-decompressor@6.3.2#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.3.0",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/alloc-stdlib@0.3.0#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=cpufeatures,version=0.2.17].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/cpufeatures@0.2.17#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.191",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/libc@0.2.191#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=crypto-common,version=0.1.7].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/crypto-common@0.1.7#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.14.7",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/generic-array@0.14.7#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=crypto-common,version=0.1.7].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/crypto-common@0.1.7#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.20.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/typenum@1.20.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=digest,version=0.10.7].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/digest@0.10.7#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.10.4",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/block-buffer@0.10.4#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=digest,version=0.10.7].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/digest@0.10.7#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.1.7",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/crypto-common@0.1.7#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=generic-array,version=0.14.7].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/generic-array@0.14.7#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.20.1",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/typenum@1.20.1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=generic-array,version=0.14.7].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/generic-array@0.14.7#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.9.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/version_check@0.9.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=sha2,version=0.10.9].dependencies[0]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/sha2@0.10.9#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "1.0.5",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/cfg-if@1.0.5#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=sha2,version=0.10.9].dependencies[1]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/sha2@0.10.9#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.2.17",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/cpufeatures@0.2.17#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "package[name=sha2,version=0.10.9].dependencies[2]",
+     "path": "Cargo.lock"
+    }
+   ],
+   "from": "pkg:cargo/sha2@0.10.9#",
+   "optional": false,
+   "relation": "transitive",
+   "resolution": "resolved",
+   "resolved_version": "0.10.7",
+   "scope": "runtime",
+   "source_kind": "registry",
+   "to": "pkg:cargo/digest@0.10.7#"
+  }
+ ],
+ "inputs": [
+  {
+   "blob": "7d99c06e210c9b5ac1a85013a1b982d0a9c49f77",
+   "path": ".github/workflows/lint.yml"
+  },
+  {
+   "blob": "3311ee0bdb07eca637b7847e97cc445bea043acc",
+   "path": ".github/workflows/test.yml"
+  },
+  {
+   "blob": "62236b6d55856d2c89605cea0201755f44914132",
+   "path": "Cargo.lock"
+  },
+  {
+   "blob": "690b68eac4683bd0fc48c4b7bcccfee0a7135a8a",
+   "path": "Cargo.toml"
+  },
+  {
+   "blob": "9377b30552890e68cf185887c22dd1ebb0ac4fd1",
+   "path": "Makefile"
+  },
+  {
+   "blob": "d229ae76769cf88544d1912a145a833f7df9f350",
+   "path": "c/Cargo.toml"
+  },
+  {
+   "blob": "96d5e081605ec6d382cfdf8b4ce5b37c7b28f58c",
+   "path": "c/Makefile"
+  },
+  {
+   "blob": "57cda16d2f90171b8083c4cf0f73792d1c5f158b",
+   "path": "c/go/brotli/go.mod"
+  },
+  {
+   "blob": "d159bcdcb463f479ec81f4327558be73eb10b0c9",
+   "path": "c/go/go.mod"
+  },
+  {
+   "blob": "e3205a0fdeb71b812712d1d15f6608efd4e1e0d4",
+   "path": "c/go/go.sum"
+  },
+  {
+   "blob": "18159f6003e855606ac74de537ad96c6973f45c9",
+   "path": "ci/before_deploy.sh"
+  },
+  {
+   "blob": "80e18e472087954cfbc831324d7957cc993617fe",
+   "path": "ci/install.sh"
+  },
+  {
+   "blob": "984bd76bc5b18da956518443f386f79ce8d1f703",
+   "path": "ci/script.sh"
+  },
+  {
+   "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
+   "path": "rust-toolchain.toml"
+  }
+ ],
+ "inputs_fingerprint": "26c15c6f7559775dad816e97c5f1e7bac3eecac450f7fc857e7d44c3e21d72df",
+ "instances": [
+  {
+   "commit": null,
+   "component": "pkg:cargo/alloc-no-stdlib",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/alloc-no-stdlib@3.0.0#",
+   "purl": "pkg:cargo/alloc-no-stdlib@3.0.0",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "3.0.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/alloc-stdlib",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/alloc-stdlib@0.3.0#",
+   "purl": "pkg:cargo/alloc-stdlib@0.3.0",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.3.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/block-buffer",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/block-buffer@0.10.4#",
+   "purl": "pkg:cargo/block-buffer@0.10.4",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.10.4"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/brotli",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/brotli#",
+   "purl": "pkg:cargo/brotli",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/brotli-decompressor",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/brotli-decompressor@6.3.2#",
+   "purl": "pkg:cargo/brotli-decompressor@6.3.2",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "6.3.2"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/cfg-if",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/cfg-if@1.0.5#",
+   "purl": "pkg:cargo/cfg-if@1.0.5",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.0.5"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/cpufeatures",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/cpufeatures@0.2.17#",
+   "purl": "pkg:cargo/cpufeatures@0.2.17",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.2.17"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/crypto-common",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/crypto-common@0.1.7#",
+   "purl": "pkg:cargo/crypto-common@0.1.7",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.1.7"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/digest",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/digest@0.10.7#",
+   "purl": "pkg:cargo/digest@0.10.7",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.10.7"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/generic-array",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/generic-array@0.14.7#",
+   "purl": "pkg:cargo/generic-array@0.14.7",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.14.7"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/libc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/libc@0.2.191#",
+   "purl": "pkg:cargo/libc@0.2.191",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.2.191"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/sha2",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/sha2@0.10.9#",
+   "purl": "pkg:cargo/sha2@0.10.9",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.10.9"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/typenum",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/typenum@1.20.1#",
+   "purl": "pkg:cargo/typenum@1.20.1",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "1.20.1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:cargo/version_check",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:cargo/version_check@0.9.5#",
+   "purl": "pkg:cargo/version_check@0.9.5",
+   "registry_url": "https://github.com/rust-lang/crates.io-index",
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": "0.9.5"
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/cargo#makefile",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cargo",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cargo#shell",
+   "purl": "pkg:command/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cp#shell",
+   "purl": "pkg:command/cp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cross",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cross#shell",
+   "purl": "pkg:command/cross",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/curl",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/curl#shell",
+   "purl": "pkg:command/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/cut",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/cut#shell",
+   "purl": "pkg:command/cut",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/gcc",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/gcc#makefile",
+   "purl": "pkg:command/gcc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/git",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/git#shell",
+   "purl": "pkg:command/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/grep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/grep#shell",
+   "purl": "pkg:command/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/make",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/make#workflow",
+   "purl": "pkg:command/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/mktemp",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/mktemp#shell",
+   "purl": "pkg:command/mktemp",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "makefile",
+   "first_party": false,
+   "id": "pkg:command/rm#makefile",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rm",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rm#shell",
+   "purl": "pkg:command/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/rustup",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/rustup#shell",
+   "purl": "pkg:command/rustup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sh",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sh#shell",
+   "purl": "pkg:command/sh",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tail",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tail#shell",
+   "purl": "pkg:command/tail",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/tar",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tar#shell",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/test",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/test#shell",
+   "purl": "pkg:command/test",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "component": "pkg:github/actions/checkout",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#",
+   "purl": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/actions/checkout",
+   "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/brotli",
+   "context": "",
+   "first_party": true,
+   "id": "pkg:local/brotli@9.1.0#",
+   "purl": "pkg:local/brotli@9.1.0",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": "9.1.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:local/github.com/dropbox/rust-brotli/c/go/brotli",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:local/github.com/dropbox/rust-brotli/c/go/brotli#",
+   "purl": "pkg:local/github.com/dropbox/rust-brotli/c/go/brotli",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:toolchain/rust",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:toolchain/rust@nightly-2026-11-09#",
+   "purl": "pkg:toolchain/rust@nightly-2026-11-09",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "url",
+   "vcs_url": null,
+   "version": "nightly-2026-11-09"
+  }
+ ],
+ "issues": [
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "Makefile"
+  },
+  {
+   "kind": "missing_lock",
+   "locator": null,
+   "message": "no lockfile at c/Cargo.lock",
+   "path": "c/Cargo.lock"
+  },
+  {
+   "kind": "unsupported_format",
+   "locator": null,
+   "message": "no parser for Makefile",
+   "path": "c/Makefile"
+  }
+ ],
+ "projects": [
+  {
+   "directory": ".",
+   "ecosystem": "cargo",
+   "id": ".:cargo"
+  },
+  {
+   "directory": ".",
+   "ecosystem": "generic",
+   "id": ".:repo"
+  },
+  {
+   "directory": "c/go/brotli",
+   "ecosystem": "golang",
+   "id": "c/go/brotli:golang"
+  },
+  {
+   "directory": "c/go",
+   "ecosystem": "golang",
+   "id": "c/go:golang"
+  },
+  {
+   "directory": "c",
+   "ecosystem": "cargo",
+   "id": "c:cargo"
+  }
+ ],
+ "repository": "laputa-systems/rust-brotli",
+ "schema": 1,
+ "tags": [
+  "fork",
+  "fork-diverged",
+  "library",
+  "rust"
+ ]
+}
