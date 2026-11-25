@@ -202,6 +202,14 @@ names, layouts and cache format are in buildlib's
 [tools reference](https://github.com/laputa-systems/buildlib/blob/main/docs/tools.md); the action
 pin lives in `fleet/policy/actions.toml`.
 
+Owned node replaces `actions/setup-node` only where the job needs no npm and loads no native
+addon in-process. node-build ships no npm or Corepack, so pnpm comes from `pnpm/action-setup`
+(which also caches the store); list both libcs in `pnpm-workspace.yaml`
+(`supportedArchitectures: libc: [glibc, musl]`) so native packages that spawn an executable find
+theirs. On glibc runners the musl node cannot load napi-rs addons such as rolldown's and
+oxlint's, because their loaders read the host libc and pick GNU bindings (node-build NODE-6), so
+vite, vitest and oxlint jobs keep setup-node under an exemption.
+
 A uv-based workflow acquires the owned interpreter by setting `UV_PYTHON_DOWNLOADS: never` and
 `UV_PYTHON_PREFERENCE: only-system` at workflow level and adding the
 `laputa-systems/buildlib/setup` step with `tools: cpython` before `astral-sh/setup-uv`, dropping
