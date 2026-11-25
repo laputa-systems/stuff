@@ -28,10 +28,11 @@ UNTOUCHED = {
 
 
 @pytest.fixture(autouse=True)
-def _frozen_tools_lock(tmp_path_factory: pytest.TempPathFactory, monkeypatch: pytest.MonkeyPatch) -> None:
+def _frozen_policy(tmp_path_factory: pytest.TempPathFactory, monkeypatch: pytest.MonkeyPatch) -> None:
     policy = tmp_path_factory.mktemp("policy") / "policy"
     shutil.copytree(paths.POLICY, policy)
     shutil.copyfile(FROZEN_POLICY / "tools-lock.toml", policy / "tools-lock.toml")
+    shutil.copyfile(FIXTURES / "actions.toml", policy / "actions.toml")
     monkeypatch.setattr(paths, "POLICY", policy)
 
 
