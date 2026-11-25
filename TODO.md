@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 122
+Next: 123
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -125,8 +125,8 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 
 - **Area:** registries · pypi serving
 - **Where:** crates/stuff-worker (current alias and generation-scoped wheels/ resolution); deploy/shared-store-paths.txt
-- **Problem:** Twice on 2026-11-25, CI downloads of wheels that the live index listed returned 404 from https://pypi.17166969.xyz/current/wheels/… for several minutes after a publish activated a new generation, then 200 with no further change: ty/uv musllinux wheels right after generation 96d210c3 activated, and ruff-0.17.4-py3-none-musllinux_1_2_aarch64.whl (published in 96d210c3) right after generation fdb64f39 (buildlib 0.3.1) activated. Every consumer that resolves during that window fails (laputa-systems/buildlib#35 and #36 lint, test and mutation jobs).
-- **Recommendation:** Reproduce by publishing to a staging registry and polling an existing wheel URL across activation; check whether the Worker resolves `current` and the wheels alias from different generations or whether a negative response is cached, and make activation atomic for readers (resolve the alias from the same pointer read, never cache 404 for wheels/).
+- **Problem:** Repeatedly on 2026-11-25, CI downloads of wheels the live index lists returned 404 from https://pypi.17166969.xyz/current/wheels/… (ty, uv and ruff musllinux wheels published in generations 96d210c3 and fdb64f39), failing laputa-systems/buildlib#35, #36 and #37 jobs, while 30 sequential requests from the SJC edge at the same time all returned 200. One case had no publish nearby, so activation alone does not explain it. Probable cause: the route-attached failover Worker (crates/stuff-worker/cloudflare.ts) serves the R2 replica when the origin 5xxs, errors or sends no headers within ORIGIN_HEADER_TIMEOUT_MS = 8000, and returns the replica's 404 unchanged. The replica is stale because oo-replica-sync is stopped since the Threadripper cutover (docs/registry-failover.md), so every object published after that 404s on failover. Not yet proven with a captured `x-stuff-served-by: replica` response.
+- **Recommendation:** Owner decision: either remove the failover Worker routes as docs/registry-failover.md already advises while the replica is stale, or deploy branch fix/replica-miss-503 (999dfb29c7: replica 404 becomes 503 with Retry-After and no-store, origin 404 stays authoritative) after the OCI blob replica gap below is fixed, and resume replica sync. Separately log which edge requests fail over and why the origin misses the 8 s header deadline under CI load.
 - **Fix with:** root-cause
 - **Effort:** M
 
@@ -289,6 +289,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Where:** laputa-systems/python-build macOS deployment target; aarch64-apple-darwin release archive
 - **Problem:** Every Mach-O in python-build's aarch64-apple-darwin cpython (python3.15 and its 63 libraries) records LC_BUILD_VERSION minos 27.0. On GitHub's macos-15 runners buildlib's mutation jobs crashed with exit 139 (SIGSEGV) under it, with no message naming the OS requirement; moving to xcode-27 fixed them (laputa-systems/buildlib#35). python-build has no TODO.md yet (its roadmap is mid-consolidation by another session), so the ticket lives here until it does.
 - **Recommendation:** In python-build, lower the deployment target to the oldest macOS the fleet supports, or keep 27 and have buildlib-run and the release notes state it and refuse older macOS with a clear error; add a release check that records minos for every Mach-O. Move this ticket to python-build's backlog when it has one.
+- **Fix with:** none
+- **Effort:** S
+
+### STUF-122 · P3 · Failover replica answers 404 for OCI blob URLs and its test cannot tell
+
+- **Area:** registries · failover
+- **Where:** crates/stuff-worker/cloudflare.ts replica handler; crates/stuff-worker/test/failover.test.mjs REGISTRY_CASES oci-blobs entry
+- **Problem:** In the failover harness, every registry path the replica serves answers 200 except `https://oci-blobs.test/sha256/<layer>`, which answers 404 with a non-empty body. The case passes because assertReplicaServed only requires a status below 500 and a non-empty body, so OCI blob failover may not work at all.
+- **Recommendation:** Decide whether the replica must serve OCI blobs (prod redirects blob GETs to the bucket domain via STUFF_OCI_BLOB_ORIGIN); either seed and serve them so the case answers 200, or drop the case with that reason, and require status 200 for every remaining case.
 - **Fix with:** none
 - **Effort:** S
 
