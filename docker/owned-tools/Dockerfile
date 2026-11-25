@@ -40,6 +40,10 @@ RUN set -eu; \
 
 RUN set -eu; \
     /opt/laputa/bin/git --version; \
+    [ "$(/opt/laputa/bin/git --exec-path)" = /opt/laputa/git/libexec/git-core ]; \
+    /opt/laputa/bin/git init -q /tmp/git-smoke; \
+    [ -f /tmp/git-smoke/.git/hooks/pre-commit.sample ]; \
+    rm -rf /tmp/git-smoke; \
     /opt/laputa/bin/python3 -c 'import ssl'; \
     /opt/laputa/bin/cmake --version; \
     /opt/laputa/bin/meson --version; \
