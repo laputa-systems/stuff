@@ -11,10 +11,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
-from repomod import paths
+from repomod import fs_index, paths
 from repomod.catalog import write_if_changed
 from repomod.io import read_json_object, safe_relative
 from repomod.rules.languages import _manifest_paths as _language_manifest_paths
+from repomod.run_cache import cached
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 
 _IGNORED_DIRS = {
@@ -92,6 +93,10 @@ def _release_version(value: str) -> tuple[int, int, int] | None:
 
 def load_typescript_tool_pins(path: Path | None = None) -> TypeScriptToolPins:
     target = typescript_tools_file() if path is None else path
+    return cached(("typescript-tool-pins", target), lambda: _read_typescript_tool_pins(target))
+
+
+def _read_typescript_tool_pins(target: Path) -> TypeScriptToolPins:
     if target.is_symlink():
         raise ValueError(f"approved TypeScript tool pins are a symlink: {target}")
     try:
@@ -258,6 +263,13 @@ def _dependency_versions(package: dict[str, Any]) -> dict[str, str]:
 
 def load_frontend_tool_versions(repository: Repository) -> dict[str, str]:
     policy = paths.POLICY / "frontend-toolchain.toml"
+    repositories, versions = cached(
+        ("frontend-toolchain", policy), lambda: _read_frontend_tool_policy(policy)
+    )
+    return versions if str(repository.id) in repositories else {}
+
+
+def _read_frontend_tool_policy(policy: Path) -> tuple[tuple[str, ...], dict[str, str]]:
     try:
         if policy.is_symlink():
             raise ValueError("frontend toolchain policy must not be a symlink")
@@ -281,7 +293,8 @@ def load_frontend_tool_versions(repository: Repository) -> dict[str, str]:
             versions[name] = version
     except (OSError, ValueError) as error:
         raise ValueError(f"cannot read frontend toolchain policy: {error}") from error
-    return versions if str(repository.id) in repositories else {}
+    names = tuple(name for name in repositories if isinstance(name, str))
+    return names, versions
 
 
 def _frontend_toolchain_findings(
@@ -447,10 +460,9 @@ def _check_package_authority(
         for path in alternatives
     )
     nested_locks = []
-    for directory, child_names, filenames in os.walk(
+    for directory, child_names, filenames in fs_index.walk(
         package_root,
         onerror=_raise_walk_error,
-        followlinks=False,
     ):
         current = Path(directory)
         child_names[:] = sorted(

@@ -1,16 +1,16 @@
 from __future__ import annotations
 
 import json
-import os
 import re
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import cast
 
-from repomod import install_parse, owned_python, paths, substitutes
-from repomod.catalog import load_catalog
+from repomod import fs_index, install_parse, owned_python, paths, substitutes
+from repomod.catalog import load_catalog_cached
 from repomod.owned_tools import load_owned_tools
+from repomod.run_cache import cached
 from repomod.substitutes import Exemption, Policy, ProducerSub
 from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, operational, violation
 
@@ -41,22 +41,22 @@ class Hit:
 
 
 def _load_policy() -> Policy:
-    return substitutes.load_policy()
+    return cached(("owned-substitutes-policy",), substitutes.load_policy)
 
 
 def _owned_producers() -> frozenset[str]:
-    policy = load_owned_tools()
+    policy = cached(("owned-tools-policy",), load_owned_tools)
     owned = {str(producer.repo).casefold() for producer in policy.producers}
     owned.update(
         str(repository.id).casefold()
-        for repository in load_catalog(paths.CATALOG).repositories
+        for repository in load_catalog_cached(paths.CATALOG).repositories
         if policy.owned(repository.id)
     )
     return frozenset(owned)
 
 
 def _known_repositories() -> frozenset[str]:
-    return frozenset(str(repository.id) for repository in load_catalog(paths.CATALOG).repositories)
+    return frozenset(str(repository.id) for repository in load_catalog_cached(paths.CATALOG).repositories)
 
 
 def _surface_kind(relative: PurePosixPath) -> str | None:
@@ -65,7 +65,7 @@ def _surface_kind(relative: PurePosixPath) -> str | None:
 
 def _surface_files(root: Path) -> list[tuple[str, str, str]]:
     files: list[tuple[str, str, str]] = []
-    for dirpath, dirnames, filenames in os.walk(root):
+    for dirpath, dirnames, filenames in fs_index.walk(root):
         base = Path(dirpath)
         dirnames[:] = sorted(
             name for name in dirnames

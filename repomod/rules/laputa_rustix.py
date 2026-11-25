@@ -21,6 +21,7 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 
+from repomod import fs_index
 from repomod.rules.workspace import is_workspace_excluded, workspace_excluded
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 
@@ -60,7 +61,7 @@ class _Occurrence:
 def _walk(root: Path) -> list[Path]:
     excluded = workspace_excluded(root)
     found: list[Path] = []
-    for directory, names, files in os.walk(root):
+    for directory, names, files in fs_index.walk(root):
         names[:] = sorted(name for name in names if name not in _PRUNED_DIRECTORIES)
         base = Path(directory)
         relative = PurePosixPath(base.relative_to(root).as_posix())

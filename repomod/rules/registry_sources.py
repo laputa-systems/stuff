@@ -13,7 +13,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import unquote, urlsplit
 
-from repomod import paths
+from repomod import fs_index, paths
 from repomod.catalog import GIT_SOURCE_IGNORE_PREFIX, LOCAL_SOURCE_IGNORE_PREFIX
 from repomod.io import read_toml
 from repomod.rules.workspace import is_workspace_excluded, workspace_excluded
@@ -128,7 +128,7 @@ def _relative(root: Path, path: Path) -> str:
 def _walk(root: Path) -> dict[str, list[Path]]:
     excluded = workspace_excluded(root)
     found: dict[str, list[Path]] = {}
-    for directory, names, files in os.walk(root):
+    for directory, names, files in fs_index.walk(root):
         names[:] = sorted(name for name in names if name not in _UNSCANNED_DIRECTORIES)
         base = Path(directory)
         relative = PurePosixPath(base.relative_to(root).as_posix())

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import bisect
 import fnmatch
-import os
 import re
 import tomllib
 from collections.abc import Mapping, Sequence
@@ -13,10 +12,11 @@ from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
 from ruamel.yaml.scalarstring import FoldedScalarString, LiteralScalarString
 
-from repomod import paths
-from repomod.catalog import load_catalog
+from repomod import fs_index, paths
+from repomod.catalog import load_catalog_cached
 from repomod.dependencies import commands as commands_module
 from repomod.dependencies.commands import CallSite, SurfaceFile
+from repomod.run_cache import cached
 from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, operational, violation
 
 RULE = "shell-portability"
@@ -138,6 +138,10 @@ def _load_exemptions(raw: object) -> dict[str, Exemption]:
 
 def _load_policy() -> Policy:
     target = paths.POLICY / "shell-portability.toml"
+    return cached(("shell-portability-policy", target), lambda: _read_policy(target))
+
+
+def _read_policy(target: Path) -> Policy:
     try:
         data = tomllib.loads(target.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
@@ -155,13 +159,13 @@ def _load_policy() -> Policy:
 
 def _known_repositories() -> frozenset[str]:
     return frozenset(
-        str(repository.id) for repository in load_catalog(paths.CATALOG).repositories
+        str(repository.id) for repository in load_catalog_cached(paths.CATALOG).repositories
     )
 
 
 def _surface_files(root: Path) -> list[SurfaceFile]:
     files: list[SurfaceFile] = []
-    for dirpath, dirnames, filenames in os.walk(root):
+    for dirpath, dirnames, filenames in fs_index.walk(root):
         base = Path(dirpath)
         dirnames[:] = sorted(
             name

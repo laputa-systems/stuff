@@ -11,11 +11,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import unquote
 
-from repomod import paths
+from repomod import fs_index, paths
 from repomod.catalog import write_if_changed
 from repomod.git import GitError, run_git
 from repomod.github import action_tags_many, resolve_tags_many
 from repomod.rules.workflows import workflow_files
+from repomod.run_cache import cached
 from repomod.types import Finding, Repository, Rule, Severity, TagPredicate, operational, violation
 from repomod.workflow_policy import FORK_CI_WORKFLOW_NAMES
 
@@ -37,6 +38,10 @@ def actions_file() -> Path:
 
 def load_pins(path: Path | None = None) -> dict[str, Pin]:
     target = actions_file() if path is None else path
+    return cached(("actions-pins", target), lambda: _read_pins(target))
+
+
+def _read_pins(target: Path) -> dict[str, Pin]:
     try:
         parsed = tomllib.loads(target.read_text(encoding="utf-8"))
     except (OSError, tomllib.TOMLDecodeError) as error:
@@ -219,7 +224,7 @@ def _action_tool_files(
         "testdata",
         "vendor",
     }
-    for directory, names, filenames in os.walk(root, followlinks=False):
+    for directory, names, filenames in fs_index.walk(root):
         current = Path(directory)
         names[:] = [
             name

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import io
 import json
-import os
 import re
 import subprocess
 import tarfile
@@ -18,10 +17,11 @@ from typing import Any, cast
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
 
-from repomod import paths
+from repomod import fs_index, paths
 from repomod.io import read_json_object
 from repomod.rules.binary_release import _release_kind, has_binary_release_contract
 from repomod.rules.workflows import read_workflow_sources
+from repomod.run_cache import cached
 from repomod.types import Finding, Repository, Rule, TagPredicate, operational, violation
 from repomod.workflow_policy import job_container_images, workflow_jobs
 
@@ -343,6 +343,10 @@ def _parse_musl_toolchain(source: str) -> MuslToolchain:
 
 def load_musl_toolchain(path: Path | None = None) -> MuslToolchain:
     target = musl_toolchain_file() if path is None else path
+    return cached(("musl-toolchain", target), lambda: _read_musl_toolchain(target))
+
+
+def _read_musl_toolchain(target: Path) -> MuslToolchain:
     if target.is_symlink():
         raise ValueError(f"musl-toolchain.toml is a symlink: {target}")
     try:
@@ -1429,7 +1433,7 @@ def _workflow_edge_findings(repository: Repository, workflows: list[tuple[str, s
 
 def _candidate_dockerfiles(root: Path, references: set[Path]) -> list[Path]:
     candidates: set[Path] = set()
-    for directory, names, filenames in os.walk(root, followlinks=False):
+    for directory, names, filenames in fs_index.walk(root):
         current = Path(directory)
         relative = current.relative_to(root)
         names[:] = sorted(
