@@ -160,3 +160,8 @@ reassess = "When the fork's own changes add shell, or upstream adopts the portab
 [exempt."laputa-systems/fd"]
 reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
 reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
+
+[exempt."joshuarli/bctl"]
+reason = "tests/bench/results/ and tests/qualification/results/ are dated evidence records: each keeps the exact scripts that produced its recorded results, so rewriting them would change the record rather than shell the repository runs. kernel/nanos/ is the merged upstream Nanos kernel tree, whose release and formatting scripts stay as upstream ships them."
+reassess = "If a recorded script is promoted into a maintained harness, or bctl takes ownership of the Nanos release scripts."
+paths = ["tests/bench/results/*", "tests/qualification/results/*", "kernel/nanos/*"]
