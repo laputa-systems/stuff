@@ -300,6 +300,42 @@ def test_mirrored_requires_a_stuff_registry_host(tmp_path: Path) -> None:
     }
 
 
+def test_system_packages_classify_per_manager(tmp_path: Path) -> None:
+    graph = _graph(
+        tmp_path,
+        [
+            repository(
+                "acme/one",
+                (
+                    instance(Ecosystem.SYSTEM, "apt/git", None),
+                    instance(Ecosystem.SYSTEM, "pacman/mold", None),
+                    instance(Ecosystem.SYSTEM, "brew/node", None),
+                    instance(Ecosystem.SYSTEM, "apt/node", None),
+                    instance(Ecosystem.SYSTEM, "ZLIB", None),
+                ),
+            )
+        ],
+    )
+
+    value = ownership.ownership(graph)
+
+    rows = {
+        (str(row["ecosystem"]), str(row["name"])): row["producer"]
+        for row in _rows(value["substitutable"])
+    }
+    assert rows == {
+        ("system", "apt/git"): "laputa-systems/git-build",
+        ("system", "pacman/mold"): "joshuarli/mold",
+        ("system", "brew/node"): "laputa-systems/node-build",
+    }
+    assert _counts(_dict(value["ecosystems"])["system"]) == {
+        "owned": 0,
+        "mirrored": 0,
+        "substitutable": 3,
+        "upstream": 2,
+    }
+
+
 def test_repo_selection_limits_the_fleet(tmp_path: Path) -> None:
     graph = _fleet(tmp_path / "fleet")
     value = ownership.ownership(graph, ["acme/two"])

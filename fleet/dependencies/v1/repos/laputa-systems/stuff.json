@@ -5077,6 +5077,72 @@
    "purl": "pkg:service/orange-r2/stuff/stuff-oci-blobs"
   },
   {
+   "display_name": "apt/bubblewrap",
+   "ecosystem": "system",
+   "name": "apt/bubblewrap",
+   "purl": "pkg:system/apt/bubblewrap"
+  },
+  {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/make",
+   "ecosystem": "system",
+   "name": "apt/make",
+   "purl": "pkg:system/apt/make"
+  },
+  {
+   "display_name": "apt/pkg-config",
+   "ecosystem": "system",
+   "name": "apt/pkg-config",
+   "purl": "pkg:system/apt/pkg-config"
+  },
+  {
+   "display_name": "apt/procps",
+   "ecosystem": "system",
+   "name": "apt/procps",
+   "purl": "pkg:system/apt/procps"
+  },
+  {
+   "display_name": "apt/python3",
+   "ecosystem": "system",
+   "name": "apt/python3",
+   "purl": "pkg:system/apt/python3"
+  },
+  {
+   "display_name": "apt/xz-utils",
+   "ecosystem": "system",
+   "name": "apt/xz-utils",
+   "purl": "pkg:system/apt/xz-utils"
+  },
+  {
+   "display_name": "dnf/bubblewrap",
+   "ecosystem": "system",
+   "name": "dnf/bubblewrap",
+   "purl": "pkg:system/dnf/bubblewrap"
+  },
+  {
    "display_name": "pnpm",
    "ecosystem": "toolchain",
    "name": "pnpm",
@@ -5811,6 +5877,60 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L38",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/bubblewrap#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L96",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/bubblewrap#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L130",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/bubblewrap#"
   },
   {
    "condition": null,
@@ -9595,6 +9715,24 @@
    "scope": "service",
    "source_kind": "registry",
    "to": "pkg:service/orange-r2/stuff/stuff-oci-blobs#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "deploy/mypypi-linux.Dockerfile"
+    }
+   ],
+   "from": "deploy:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/dnf/bubblewrap#"
   },
   {
    "condition": null,
@@ -30352,6 +30490,186 @@
   },
   {
    "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/bubblewrap#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/pkg-config#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/procps#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/python3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L46",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/xz-utils#"
+  },
+  {
+   "condition": null,
    "constraint": "0.24.2",
    "evidence": [
     {
@@ -30557,6 +30875,22 @@
   {
    "blob": "bff5a187093892886aa09f7e6b7ae40b48211f02",
    "path": "crates/stuff-worker/scripts/build-wasm.sh"
+  },
+  {
+   "blob": "b8b63071fbb9bd51fbfff79b56527f75693428fd",
+   "path": "crates/stuff-worker/scripts/build.mjs"
+  },
+  {
+   "blob": "3a7c3f4498cae75a0a2577473b987886f8fbb405",
+   "path": "crates/stuff-worker/scripts/dev.mjs"
+  },
+  {
+   "blob": "d36f2fc304ea700bcc98da433bc50797de84be7c",
+   "path": "crates/stuff-worker/scripts/orange.mjs"
+  },
+  {
+   "blob": "3ea2660f07b19106e2a55942e8cadec32551be91",
+   "path": "crates/stuff-worker/scripts/stage-orange.mjs"
   },
   {
    "blob": "abee3a43d7461a08a8d7ad1050ba6bbe1b5da611",
@@ -30795,6 +31129,10 @@
    "path": "docker/musl/rust-toolchain.toml"
   },
   {
+   "blob": "566b581e0c197c038ed64405fcf8ce8747162cb1",
+   "path": "docker/musl/verify-static-elf"
+  },
+  {
    "blob": "5ad40ce8d806eb0a521cc4c2cfa54e83ffce13fb",
    "path": "fleet/policy/buildlib-bootstrap/buildlib-run"
   },
@@ -30835,7 +31173,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "cc7a5fce11e1b0c153045eacac4280187ad9c1cd0a5ca5b2396745734a54db61",
+ "inputs_fingerprint": "2c79af2368370dc9eb8fdacd27ec47bf67a890bf1e034d8506ab648e88358fde",
  "instances": [
   {
    "commit": null,
@@ -44060,6 +44398,149 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/bubblewrap",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/bubblewrap#",
+   "purl": "pkg:system/apt/bubblewrap",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/make#",
+   "purl": "pkg:system/apt/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/pkg-config",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/pkg-config#",
+   "purl": "pkg:system/apt/pkg-config",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/procps",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/procps#",
+   "purl": "pkg:system/apt/procps",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/python3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/python3#",
+   "purl": "pkg:system/apt/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/xz-utils",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/xz-utils#",
+   "purl": "pkg:system/apt/xz-utils",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/dnf/bubblewrap",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/dnf/bubblewrap#",
+   "purl": "pkg:system/dnf/bubblewrap",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/pnpm",
    "context": "",
    "first_party": false,
@@ -44099,12 +44580,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "vendored_unknown",
    "locator": null,
@@ -44170,6 +44645,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "crates/mymirror",
@@ -44300,6 +44780,11 @@
    "directory": "docker/musl",
    "ecosystem": "generic",
    "id": "docker/musl:repo"
+  },
+  {
+   "directory": "scripts",
+   "ecosystem": "generic",
+   "id": "scripts:repo"
   },
   {
    "directory": "tools/atlas-vendor",

@@ -15789,7 +15789,7 @@
    "path": "rustls-graviola/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "28f7a34526570294211ea106ca84c140936f348320ce8d321d6db3593dbadadd",
+ "inputs_fingerprint": "a15dc3d79dc8a918977c7b3100b8578b3805b5f6dd7c7bb1937b93d78b6f75b3",
  "instances": [
   {
    "commit": null,
@@ -20070,12 +20070,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "submodule",
    "locator": null,

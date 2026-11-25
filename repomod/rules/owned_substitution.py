@@ -7,9 +7,8 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import cast
-from urllib.parse import urlsplit
 
-from repomod import owned_python, paths, substitutes
+from repomod import install_parse, owned_python, paths, substitutes
 from repomod.catalog import load_catalog
 from repomod.owned_tools import load_owned_tools
 from repomod.substitutes import Exemption, Policy, ProducerSub
@@ -19,39 +18,19 @@ RULE = "owned-tool-substitution"
 _POLICY = "fleet/policy/owned-substitutes.toml"
 _OWNED_POLICY = "fleet/policy/owned-tools.toml"
 _BUILDLIB_HINT = "buildlib.tools or the laputa-systems/buildlib/setup action"
-_ACTION_USES = re.compile(r"^\s*-?\s*uses:\s*([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@")
-_UV_PYTHON = re.compile(r"\buv\s+python\s+install\b")
 _PYTHON_VERSION = re.compile(r"^\s*python-version\s*:")
 _WITH = re.compile(r"^\s*with\s*:")
-_ASSIGNMENT = re.compile(r"^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$")
-_VARIABLE = re.compile(r"^\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?$")
-_URL = re.compile(r"https?://[^\s'\"`<>()\[\]{}|\\^]+")
-_COMMENT = re.compile(r"(^|\s)#.*$")
-_INSTALL_VERBS = {
-    "apk": re.compile(r"\bapk\s+add\b"),
-    "apt": re.compile(r"\b(?:apt|apt-get|aptitude)\s+install\b"),
-    "brew": re.compile(r"\bbrew\s+install\b"),
-    "dnf": re.compile(r"\b(?:dnf|yum)\s+install\b"),
-}
-_PACMAN = re.compile(r"\bpacman(?![\w-])")
-_PACMAN_SYNC = re.compile(r"^-[a-zA-Z]*S[a-zA-Z]*$")
+_UV_PYTHON = re.compile(r"\buv\s+python\s+install\b")
 _PIP_INSTALL = re.compile(r"(?<![\w.])(?<!uv )(?:pip3?|python[\d.]*\s+-m\s+pip)\s+install\b")
 _UV_ADD = re.compile(r"\buv\s+add\b")
 _UV_PIP_INSTALL = re.compile(r"\buv\s+pip\s+install\b")
 _CARGO_INSTALL = re.compile(r"\bcargo\s+install\b")
 _WRAPPER_ASSIGN = re.compile(r"\b(?:RUSTC_WRAPPER|rustc-wrapper)\s*[:=]\s*[\"']?([^\s\"']+)")
 _DEP_SECTIONS = ("dependencies", "dev-dependencies", "build-dependencies")
-_IGNORED_DIRS = frozenset({
-    ".git", ".work", "work", "node_modules", "vendor", "dist", "build", "target",
-    ".venv", "venv", "__pycache__", ".zig-cache", "zig-cache", "zig-pkg", ".next",
-    ".nuxt", "third_party", "fixtures", "generated", "tests", "test", "testing",
-    "docs", "doc", "examples", "example", "samples", ".cache", "coverage", ".tox",
-    "eggs", ".direnv", "result", "Pods", "DerivedData", ".cargo-home", ".idea",
-    ".vscode",
-})
-_WORKFLOW_SUFFIXES = frozenset({".yml", ".yaml"})
-_MAKE_NAMES = frozenset({"makefile", "gnumakefile"})
-_SEPARATORS = frozenset({"&&", "||", ";", "|"})
+_IGNORED_DIRS = install_parse._IGNORED_DIRS
+_WORKFLOW_SUFFIXES = install_parse._WORKFLOW_SUFFIXES
+_MAKE_NAMES = install_parse._MAKE_NAMES
+_SEPARATORS = install_parse._SEPARATORS
 
 
 @dataclass(frozen=True, slots=True)
@@ -81,33 +60,7 @@ def _known_repositories() -> frozenset[str]:
 
 
 def _surface_kind(relative: PurePosixPath) -> str | None:
-    parts = relative.parts
-    name = relative.name
-    lowered = name.casefold()
-    if lowered == "cargo.toml":
-        return "manifest:cargo"
-    if lowered == "pyproject.toml":
-        return "manifest:pypi"
-    if lowered.startswith("requirements") and lowered.endswith(".txt"):
-        return "manifest:pypi"
-    if lowered == "package.json":
-        return "manifest:npm"
-    if len(parts) >= 2 and parts[-2] == ".cargo" and lowered in {"config", "config.toml"}:
-        return "cargo-config"
-    if (
-        len(parts) == 3
-        and parts[0] == ".github"
-        and parts[1] == "workflows"
-        and PurePosixPath(name).suffix.casefold() in _WORKFLOW_SUFFIXES
-    ):
-        return "workflow"
-    if lowered in _MAKE_NAMES or lowered.endswith(".mk") or lowered == "flake.nix":
-        return "text"
-    if lowered.startswith(("dockerfile", "containerfile")) or lowered.endswith(".dockerfile"):
-        return "text"
-    if "scripts" in parts[:-1] or "docker" in parts[:-1]:
-        return "text"
-    return None
+    return install_parse.surface_kind(relative)
 
 
 def _surface_files(root: Path) -> list[tuple[str, str, str]]:
@@ -137,66 +90,20 @@ def _surface_files(root: Path) -> list[tuple[str, str, str]]:
     return files
 
 
-def _strip_comment(line: str) -> str:
-    return _COMMENT.sub("", line)
-
-
 def _logical_lines(text: str) -> list[tuple[int, str]]:
-    lines: list[tuple[int, str]] = []
-    pending = ""
-    pending_start = 0
-    for number, raw in enumerate(text.splitlines(), start=1):
-        piece = pending + _strip_comment(raw)
-        start = pending_start if pending else number
-        if piece.rstrip().endswith("\\"):
-            pending = piece.rstrip()[:-1] + " "
-            pending_start = start
-            continue
-        pending = ""
-        lines.append((start, piece))
-    if pending:
-        lines.append((pending_start, pending))
-    return lines
+    return install_parse.logical_lines(text)
 
 
 def _assignments(text: str) -> dict[str, str]:
-    values: dict[str, str] = {}
-    for raw in text.splitlines():
-        match = _ASSIGNMENT.match(_strip_comment(raw))
-        if match is None:
-            continue
-        name, value = match.group(1), match.group(2).strip()
-        if len(value) >= 2 and value[0] == value[-1] and value[0] in "'\"":
-            value = value[1:-1]
-        values[name] = value
-    return values
+    return install_parse.assignments(text)
 
 
 def _expand(token: str, env: dict[str, str], depth: int = 0) -> list[str]:
-    if depth > 3:
-        return []
-    match = _VARIABLE.fullmatch(token)
-    if match is None:
-        return [token]
-    value = env.get(match.group(1))
-    if value is None:
-        return []
-    words: list[str] = []
-    for word in value.split():
-        words.extend(_expand(word, env, depth + 1))
-    return words
+    return install_parse.expand(token, env, depth)
 
 
 def _package_name(token: str) -> str:
-    token = token.strip().strip("'\"")
-    for marker in ("=", "<", ">", "!", "~", "^"):
-        index = token.find(marker)
-        if index > 0:
-            token = token[:index]
-            break
-    if ":" in token:
-        token = token.split(":", 1)[0]
-    return token
+    return install_parse.package_name(token)
 
 
 def _package_hits(name: str, manager: str, producers: dict[str, ProducerSub]) -> str | None:
@@ -212,66 +119,17 @@ def _package_hits(name: str, manager: str, producers: dict[str, ProducerSub]) ->
 
 def _install_hits(line: str, env: dict[str, str], producers: dict[str, ProducerSub]) -> list[Hit]:
     hits: list[Hit] = []
-    for manager, verb in _INSTALL_VERBS.items():
+    for manager, name in install_parse.system_package_installs(line, env):
         normalized = substitutes.MANAGER_ALIASES.get(manager, manager)
-        for match in verb.finditer(line):
-            packages: list[str] = []
-            for token in line[match.end():].split():
-                bare = token.strip("'\"")
-                if bare in _SEPARATORS:
-                    break
-                if bare.startswith("-"):
-                    continue
-                packages.extend(_expand(bare, env))
-            for raw_name in packages:
-                name = _package_name(raw_name)
-                if not name:
-                    continue
-                producer_id = _package_hits(name, normalized, producers)
-                if producer_id is not None:
-                    hits.append(Hit(0, f"package '{name}' installed by {manager}", producer_id))
-    pacman = _PACMAN.search(line)
-    if pacman is not None:
-        syncing = False
-        packages = []
-        for token in line[pacman.end():].split():
-            bare = token.strip("'\"")
-            if bare in _SEPARATORS:
-                break
-            if _PACMAN_SYNC.fullmatch(bare) or bare in {"--sync", "--sysupgrade"}:
-                syncing = True
-                continue
-            if bare.startswith(("-", "+")):
-                continue
-            if not syncing:
-                break
-            packages.extend(_expand(bare, env))
-        if syncing:
-            for raw_name in packages:
-                name = _package_name(raw_name)
-                if not name:
-                    continue
-                producer_id = _package_hits(name, "pacman", producers)
-                if producer_id is not None:
-                    hits.append(Hit(0, f"package '{name}' installed by pacman", producer_id))
+        producer_id = _package_hits(name, normalized, producers)
+        if producer_id is not None:
+            hits.append(Hit(0, f"package '{name}' installed by {manager}", producer_id))
     return hits
 
 
 def _url_hits(line: str, producers: dict[str, ProducerSub]) -> list[tuple[str, str]]:
     found: list[tuple[str, str]] = []
-    for match in _URL.finditer(line):
-        raw = match.group(0).rstrip(".,;:!?)\"'")
-        try:
-            parts = urlsplit(raw)
-        except ValueError:
-            continue
-        hostname = parts.hostname
-        if parts.scheme not in {"http", "https"} or hostname is None:
-            continue
-        host = hostname.casefold()
-        path = (parts.path or "").lstrip("/")
-        combined = f"{host}/{path}" if path else host
-        combined = combined.removesuffix(".git")
+    for raw, combined in install_parse.download_urls(line):
         for producer_id, sub in producers.items():
             for prefix in sub.urls:
                 wanted = prefix.casefold().rstrip("/")
@@ -315,11 +173,9 @@ def _action_hits(text: str, producers: dict[str, ProducerSub]) -> list[Hit]:
         for producer_id, sub in producers.items()
         for action in sub.actions
     }
-    for index, line in enumerate(lines):
-        match = _ACTION_USES.match(line)
-        if match is None:
-            continue
-        action = match.group(1).rstrip(".")
+    for lineno, raw_action in install_parse.action_references(text):
+        index = lineno - 1
+        action = raw_action.rstrip(".")
         producer_id = action_map.get(action.casefold())
         if producer_id is None:
             continue

@@ -8085,7 +8085,7 @@
    "path": "tinyland/rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "03adadeadc2c4efe3001c93effbb350d04408915f332e02eaaf22cbb6fc235ad",
+ "inputs_fingerprint": "7db6c0603884ed3f3ba15fb660420e11083a337ccf941fef6ef10d1567353f27",
  "instances": [
   {
    "commit": null,
@@ -10631,12 +10631,6 @@
    "path": "Dockerfile.test"
   },
   {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
    "kind": "dynamic_value",
    "locator": "dependencies.rustix",
    "message": "named registry 'mycrates' cannot be resolved statically",
@@ -10653,12 +10647,6 @@
    "locator": "dependencies.rustix",
    "message": "named registry 'mycrates' cannot be resolved statically",
    "path": "tinyland/Cargo.toml"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "tinyland/Makefile"
   },
   {
    "kind": "dynamic_value",

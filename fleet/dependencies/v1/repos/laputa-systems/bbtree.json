@@ -25969,7 +25969,7 @@
    "path": "flake.nix"
   }
  ],
- "inputs_fingerprint": "02fe933567ec66d0e269ee8e730ab450a86fc969223204ea14aa50964987f846",
+ "inputs_fingerprint": "5b244a9d8b4124af3a64a507c8336c8e36427d38e383d426edad200c2462486a",
  "instances": [
   {
    "commit": null,
@@ -31393,20 +31393,7 @@
    "version": "0.1.7"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for flake.nix",
-   "path": "flake.nix"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

@@ -1783,7 +1783,7 @@
    "path": "pnpm-lock.yaml"
   }
  ],
- "inputs_fingerprint": "f53dc44a9e44a2ddc8ed0a1cd5e69fabff02096144b61b84a468bf2cc255386b",
+ "inputs_fingerprint": "bd800dd821f083a6c8cffc956fde44bca7828ec1fa4c68e96b3f296f0de14f6d",
  "instances": [
   {
    "commit": null,
@@ -2761,14 +2761,7 @@
    "version": "12.21.0"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

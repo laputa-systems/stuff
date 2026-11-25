@@ -9647,7 +9647,7 @@
    "path": "vendor/oxish/oxish/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "aa030ad21b894ade81a73cd65fb7a69708b11a18e7c198c3e4e9625e8aa41a2f",
+ "inputs_fingerprint": "61a7e0a707c04f4dbc5e223efa0758c3925dcf511ca83b2a5dd41085dda00ba5",
  "instances": [
   {
    "commit": null,
@@ -13465,12 +13465,6 @@
    "locator": "L22",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "Dockerfile.oxish"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

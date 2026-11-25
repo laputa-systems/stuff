@@ -6961,6 +6961,18 @@
    "path": "compat/rust-std/dependent-fixture/Cargo.toml"
   },
   {
+   "blob": "ff4176dd88040d825ce7e01623a1eb9fbda6d540",
+   "path": "compat/scripts/generate-aarch64-loader-inventory.py"
+  },
+  {
+   "blob": "aa1450f0efc426ed7126726bcdb78c6694237a5d",
+   "path": "compat/scripts/generate-aarch64-musl-abi.py"
+  },
+  {
+   "blob": "f13399f75d78309ae76fa4fd199839c0521fe717",
+   "path": "compat/scripts/probe_aarch64_abi.py"
+  },
+  {
    "blob": "7383bf58d77b7d56a54f13082a147235fb32aefe",
    "path": "compat/x86_64/generated/c_abi_evidence_matrix/gethostid-noarg-scalar/run.sh"
   },
@@ -10701,6 +10713,26 @@
    "path": "docker/aarch64-musl-oracle-gcc"
   },
   {
+   "blob": "0ef18fac6afe436795341c1d8b94996aaf61929c",
+   "path": "docker/image/build.py"
+  },
+  {
+   "blob": "22bcf65a32f94680768279acc214955a2edba275",
+   "path": "docker/image/lock.py"
+  },
+  {
+   "blob": "22a67affb78c411b92647a4451e48753d7861488",
+   "path": "docker/image/mirror.py"
+  },
+  {
+   "blob": "22b81aae1be166eae695252fcc0375317f6605a3",
+   "path": "docker/image/sources.lock.json"
+  },
+  {
+   "blob": "b464c0605888a7cc6713eed6b3f26c0f43fe67db",
+   "path": "docker/install-native-build-tools.py"
+  },
+  {
    "blob": "5d5804c61de798d94b9eb7620afc1dfdd19d96ee",
    "path": "docker/musl-gcc"
   },
@@ -10729,8 +10761,44 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "354991bd198e45908f0a6ed4bc8c8b756cc49a9c",
+   "path": "scripts/build_owned_sysroot.py"
+  },
+  {
+   "blob": "52447e854611f8fadc56b37d72e32796b756cefd",
+   "path": "scripts/build_x86_64_owned_combined_sysroot.py"
+  },
+  {
+   "blob": "becc04da647a3ace6ccee76efe3a6ce2c4f82e6a",
+   "path": "scripts/build_x86_64_owned_dynamic_sysroot.py"
+  },
+  {
+   "blob": "af6868b92c99f9e0f55f537a2d6009af510e5c0b",
+   "path": "scripts/build_x86_64_owned_sysroot.py"
+  },
+  {
    "blob": "ba1c817c5df058416a4ce72e434a6700fc166237",
    "path": "scripts/check-symbols.sh"
+  },
+  {
+   "blob": "f8dbad89591feeb47cd1e3fd606ef13268dfdae7",
+   "path": "scripts/check_compat_ratchet.py"
+  },
+  {
+   "blob": "1f995ce508d2238fd9b588a2244da7c531d94218",
+   "path": "scripts/check_structure.py"
+  },
+  {
+   "blob": "2670758c51e6796ce89e1e71651349f229b63c02",
+   "path": "scripts/check_symbols.py"
+  },
+  {
+   "blob": "5c028939245d3324ef439fb323cb5c897698ce77",
+   "path": "scripts/collect_environment.py"
+  },
+  {
+   "blob": "1afb6d5316b5ae1ee5f9de417adb85f2e593366a",
+   "path": "scripts/crabc_sysroot.py"
   },
   {
    "blob": "dbaed29d3813eaa634a006af2a7d2898c863312c",
@@ -10739,6 +10807,10 @@
   {
    "blob": "3edd798c3ae140cd3974fb2e04faecfe96c215d4",
    "path": "scripts/dev.sh"
+  },
+  {
+   "blob": "876e2977c62710151ffc135a0a79fcfb9e0657ca",
+   "path": "scripts/generate_compatibility_dashboard.py"
   },
   {
    "blob": "42bd260d47ce72c88fdf893822aace28871da9a6",
@@ -10753,12 +10825,28 @@
    "path": "scripts/lanes/prepare-worktree.sh"
   },
   {
+   "blob": "c585ece4fcd062e32d0b3f440252bb24e497c701",
+   "path": "scripts/lanes/refresh-parity-digests.py"
+  },
+  {
    "blob": "8e5d720d51edc6ad4f9dcced07759e540635643d",
    "path": "scripts/lanes/remove-worktree.sh"
   },
   {
    "blob": "9d6495f7eab9cc45ead76e63bddd211c5d798dfe",
    "path": "scripts/lanes/rust-check.sh"
+  },
+  {
+   "blob": "845109254ab2b99bbd7ee4e5b3553d7985b80053",
+   "path": "scripts/native_build_tools.py"
+  },
+  {
+   "blob": "fb5ffdfeb94f2e37d2180d7a7c700a526aa45a15",
+   "path": "scripts/run_owned_test_suite.py"
+  },
+  {
+   "blob": "d1d3b3bdc1559178b536a4bb659152c7518c38a4",
+   "path": "scripts/rust_toolchain.py"
   },
   {
    "blob": "012220e7d1897f7e60f76556f1801622733ac517",
@@ -10769,6 +10857,14 @@
    "path": "scripts/setup-dev"
   },
   {
+   "blob": "5c9e61a1cf6d27d67e4794656a82aab6a86a6df5",
+   "path": "scripts/sysroot_dist.py"
+  },
+  {
+   "blob": "621abf6bc27d44d7c1f271b525d7a91ce8162fe8",
+   "path": "scripts/test_python.py"
+  },
+  {
    "blob": "654344309cfbe6401e1beb97658d0d8a9bafa4fd",
    "path": "unwinder/Cargo.lock"
   },
@@ -10777,7 +10873,7 @@
    "path": "unwinder/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "9b96aeef94ff3b2d0a29aa9d6d6398ce98bf2d111c259509ec7ced18c2e205c5",
+ "inputs_fingerprint": "285f4d825ab48c99000fd652268958d23f70281b60e6d730c9aad6e6eda7d560",
  "instances": [
   {
    "commit": null,
@@ -14590,12 +14686,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "missing_lock",
    "locator": null,

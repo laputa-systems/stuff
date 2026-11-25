@@ -1,6 +1,54 @@
 {
  "components": [
   {
+   "display_name": "build-base",
+   "ecosystem": "apk",
+   "name": "build-base",
+   "purl": "pkg:apk/build-base"
+  },
+  {
+   "display_name": "clang22",
+   "ecosystem": "apk",
+   "name": "clang22",
+   "purl": "pkg:apk/clang22"
+  },
+  {
+   "display_name": "g++",
+   "ecosystem": "apk",
+   "name": "g++",
+   "purl": "pkg:apk/g%2B%2B"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "apk",
+   "name": "git",
+   "purl": "pkg:apk/git"
+  },
+  {
+   "display_name": "linux-headers",
+   "ecosystem": "apk",
+   "name": "linux-headers",
+   "purl": "pkg:apk/linux-headers"
+  },
+  {
+   "display_name": "perl",
+   "ecosystem": "apk",
+   "name": "perl",
+   "purl": "pkg:apk/perl"
+  },
+  {
+   "display_name": "pkgconf",
+   "ecosystem": "apk",
+   "name": "pkgconf",
+   "purl": "pkg:apk/pkgconf"
+  },
+  {
+   "display_name": "python3",
+   "ecosystem": "apk",
+   "name": "python3",
+   "purl": "pkg:apk/python3"
+  },
+  {
    "display_name": "1.lock",
    "ecosystem": "command",
    "name": "1.lock",
@@ -753,6 +801,168 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/build-base#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/clang22#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L223",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/g%2B%2B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/linux-headers#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/perl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/pkgconf#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/python3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L223",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/python3#"
   }
  ],
  "inputs": [
@@ -789,8 +999,112 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "c0142dea56bcb1a3f366152af9060e9454acfb1afa058e2fc31a446ea6bab652",
+ "inputs_fingerprint": "bc19ebab469384569ced9992dab7d97af03315b056e85ee1bc8f38d64eda8b68",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:apk/build-base",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/build-base#",
+   "purl": "pkg:apk/build-base",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/clang22",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/clang22#",
+   "purl": "pkg:apk/clang22",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/g%2B%2B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/g%2B%2B#",
+   "purl": "pkg:apk/g%2B%2B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/git#",
+   "purl": "pkg:apk/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/linux-headers",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/linux-headers#",
+   "purl": "pkg:apk/linux-headers",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/perl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/perl#",
+   "purl": "pkg:apk/perl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/pkgconf",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/pkgconf#",
+   "purl": "pkg:apk/pkgconf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/python3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/python3#",
+   "purl": "pkg:apk/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": null,
    "component": "pkg:command/1.lock",
@@ -1468,14 +1782,7 @@
    "version": "0.13.7"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",
@@ -1486,6 +1793,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   }
  ],
  "repository": "laputa-systems/node-build",

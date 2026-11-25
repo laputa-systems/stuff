@@ -3813,11 +3813,15 @@
    "path": "scripts/create-deb.sh"
   },
   {
+   "blob": "269317d824123457f73041e1061fa7cf7608dddb",
+   "path": "scripts/update-help.awk"
+  },
+  {
    "blob": "dd2f5e3a039d9d9de4c437fb8cd13387f30c5f87",
    "path": "scripts/version-bump.sh"
   }
  ],
- "inputs_fingerprint": "2f4b74ac70dcb430c93c738f41c6101b00fe59e580f61956a2b97cd7c1ca0e0a",
+ "inputs_fingerprint": "9082990107ce3d5f3acf3f367c749672b1e25181e5f383b4e7cc27438a8313df",
  "instances": [
   {
    "commit": null,
@@ -5458,14 +5462,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

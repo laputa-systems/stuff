@@ -127,6 +127,126 @@
    "purl": "pkg:local/xtask"
   },
   {
+   "display_name": "apt/binutils",
+   "ecosystem": "system",
+   "name": "apt/binutils",
+   "purl": "pkg:system/apt/binutils"
+  },
+  {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/gcc",
+   "ecosystem": "system",
+   "name": "apt/gcc",
+   "purl": "pkg:system/apt/gcc"
+  },
+  {
+   "display_name": "apt/gcc-x86-64-linux-gnu",
+   "ecosystem": "system",
+   "name": "apt/gcc-x86-64-linux-gnu",
+   "purl": "pkg:system/apt/gcc-x86-64-linux-gnu"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/iperf3",
+   "ecosystem": "system",
+   "name": "apt/iperf3",
+   "purl": "pkg:system/apt/iperf3"
+  },
+  {
+   "display_name": "apt/iproute2",
+   "ecosystem": "system",
+   "name": "apt/iproute2",
+   "purl": "pkg:system/apt/iproute2"
+  },
+  {
+   "display_name": "apt/iptables",
+   "ecosystem": "system",
+   "name": "apt/iptables",
+   "purl": "pkg:system/apt/iptables"
+  },
+  {
+   "display_name": "apt/iputils-ping",
+   "ecosystem": "system",
+   "name": "apt/iputils-ping",
+   "purl": "pkg:system/apt/iputils-ping"
+  },
+  {
+   "display_name": "apt/libc6-dev",
+   "ecosystem": "system",
+   "name": "apt/libc6-dev",
+   "purl": "pkg:system/apt/libc6-dev"
+  },
+  {
+   "display_name": "apt/libc6-dev-amd64-cross",
+   "ecosystem": "system",
+   "name": "apt/libc6-dev-amd64-cross",
+   "purl": "pkg:system/apt/libc6-dev-amd64-cross"
+  },
+  {
+   "display_name": "apt/make",
+   "ecosystem": "system",
+   "name": "apt/make",
+   "purl": "pkg:system/apt/make"
+  },
+  {
+   "display_name": "apt/nftables",
+   "ecosystem": "system",
+   "name": "apt/nftables",
+   "purl": "pkg:system/apt/nftables"
+  },
+  {
+   "display_name": "apt/procps",
+   "ecosystem": "system",
+   "name": "apt/procps",
+   "purl": "pkg:system/apt/procps"
+  },
+  {
+   "display_name": "apt/python3",
+   "ecosystem": "system",
+   "name": "apt/python3",
+   "purl": "pkg:system/apt/python3"
+  },
+  {
+   "display_name": "apt/qemu-user",
+   "ecosystem": "system",
+   "name": "apt/qemu-user",
+   "purl": "pkg:system/apt/qemu-user"
+  },
+  {
+   "display_name": "apt/strace",
+   "ecosystem": "system",
+   "name": "apt/strace",
+   "purl": "pkg:system/apt/strace"
+  },
+  {
+   "display_name": "apt/time",
+   "ecosystem": "system",
+   "name": "apt/time",
+   "purl": "pkg:system/apt/time"
+  },
+  {
+   "display_name": "apt/valgrind",
+   "ecosystem": "system",
+   "name": "apt/valgrind",
+   "purl": "pkg:system/apt/valgrind"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -273,6 +393,366 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/binutils#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/gcc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/gcc-x86-64-linux-gnu#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/iperf3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/iproute2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/iptables#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/iputils-ping#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libc6-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libc6-dev-amd64-cross#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/nftables#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/procps#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/python3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/qemu-user#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/strace#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/time#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "docker/lab.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/valgrind#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "package[name=getrandom,version=0.4.3].dependencies[0]",
      "path": "Cargo.lock"
     }
@@ -393,7 +873,7 @@
    "path": "xtask/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "be46a72a355488bff23968dca6b0cd9ce516d015f73c512bf1cbac5976befa55",
+ "inputs_fingerprint": "09b17b7c3ffefab2f7198d1bf1b07c2a668c6f2a7c8b076733ce591ecbe91e9d",
  "instances": [
   {
    "commit": null,
@@ -696,6 +1176,266 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/binutils",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/binutils#",
+   "purl": "pkg:system/apt/binutils",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/gcc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/gcc#",
+   "purl": "pkg:system/apt/gcc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/gcc-x86-64-linux-gnu",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/gcc-x86-64-linux-gnu#",
+   "purl": "pkg:system/apt/gcc-x86-64-linux-gnu",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/iperf3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/iperf3#",
+   "purl": "pkg:system/apt/iperf3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/iproute2",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/iproute2#",
+   "purl": "pkg:system/apt/iproute2",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/iptables",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/iptables#",
+   "purl": "pkg:system/apt/iptables",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/iputils-ping",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/iputils-ping#",
+   "purl": "pkg:system/apt/iputils-ping",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libc6-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libc6-dev#",
+   "purl": "pkg:system/apt/libc6-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libc6-dev-amd64-cross",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libc6-dev-amd64-cross#",
+   "purl": "pkg:system/apt/libc6-dev-amd64-cross",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/make#",
+   "purl": "pkg:system/apt/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/nftables",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/nftables#",
+   "purl": "pkg:system/apt/nftables",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/procps",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/procps#",
+   "purl": "pkg:system/apt/procps",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/python3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/python3#",
+   "purl": "pkg:system/apt/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/qemu-user",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/qemu-user#",
+   "purl": "pkg:system/apt/qemu-user",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/strace",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/strace#",
+   "purl": "pkg:system/apt/strace",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/time",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/time#",
+   "purl": "pkg:system/apt/time",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/valgrind",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/valgrind#",
+   "purl": "pkg:system/apt/valgrind",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -708,14 +1448,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

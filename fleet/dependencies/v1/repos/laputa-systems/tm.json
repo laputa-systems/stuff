@@ -433,6 +433,66 @@
    "purl": "pkg:local/tm"
   },
   {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/less",
+   "ecosystem": "system",
+   "name": "apt/less",
+   "purl": "pkg:system/apt/less"
+  },
+  {
+   "display_name": "apt/libevent-dev",
+   "ecosystem": "system",
+   "name": "apt/libevent-dev",
+   "purl": "pkg:system/apt/libevent-dev"
+  },
+  {
+   "display_name": "apt/libncurses-dev",
+   "ecosystem": "system",
+   "name": "apt/libncurses-dev",
+   "purl": "pkg:system/apt/libncurses-dev"
+  },
+  {
+   "display_name": "apt/libutf8proc-dev",
+   "ecosystem": "system",
+   "name": "apt/libutf8proc-dev",
+   "purl": "pkg:system/apt/libutf8proc-dev"
+  },
+  {
+   "display_name": "apt/pkg-config",
+   "ecosystem": "system",
+   "name": "apt/pkg-config",
+   "purl": "pkg:system/apt/pkg-config"
+  },
+  {
+   "display_name": "apt/vim",
+   "ecosystem": "system",
+   "name": "apt/vim",
+   "purl": "pkg:system/apt/vim"
+  },
+  {
+   "display_name": "brew/libevent",
+   "ecosystem": "system",
+   "name": "brew/libevent",
+   "purl": "pkg:system/brew/libevent"
+  },
+  {
+   "display_name": "brew/pkg-config",
+   "ecosystem": "system",
+   "name": "brew/pkg-config",
+   "purl": "pkg:system/brew/pkg-config"
+  },
+  {
+   "display_name": "brew/utf8proc",
+   "ecosystem": "system",
+   "name": "brew/utf8proc",
+   "purl": "pkg:system/brew/utf8proc"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -899,6 +959,240 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/less#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libevent-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libncurses-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libutf8proc-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/pkg-config#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/vim#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L41",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/libevent#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L90",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/libevent#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L41",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/pkg-config#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L90",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/pkg-config#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L41",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/utf8proc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L90",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/utf8proc#"
   },
   {
    "condition": null,
@@ -1605,7 +1899,7 @@
    "path": "tests/support/install-tmux-ref.sh"
   }
  ],
- "inputs_fingerprint": "c94039e399cb023a28e6cd14a323e587abb91b28d3434f03728ca9e15327970a",
+ "inputs_fingerprint": "0261125bdd996d470d70db286d8c35ca6ecec986000bc655b1164bcfb57b579f",
  "instances": [
   {
    "commit": null,
@@ -2597,6 +2891,136 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/less",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/less#",
+   "purl": "pkg:system/apt/less",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libevent-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libevent-dev#",
+   "purl": "pkg:system/apt/libevent-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libncurses-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libncurses-dev#",
+   "purl": "pkg:system/apt/libncurses-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libutf8proc-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libutf8proc-dev#",
+   "purl": "pkg:system/apt/libutf8proc-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/pkg-config",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/pkg-config#",
+   "purl": "pkg:system/apt/pkg-config",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/vim",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/vim#",
+   "purl": "pkg:system/apt/vim",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/libevent",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/libevent#",
+   "purl": "pkg:system/brew/libevent",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/pkg-config",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/pkg-config#",
+   "purl": "pkg:system/brew/pkg-config",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/utf8proc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/utf8proc#",
+   "purl": "pkg:system/brew/utf8proc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -2615,12 +3039,6 @@
    "locator": "L64",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "Dockerfile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [
@@ -2633,6 +3051,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   }
  ],
  "repository": "laputa-systems/tm",

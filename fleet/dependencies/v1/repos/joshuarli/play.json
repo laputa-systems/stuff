@@ -1531,6 +1531,24 @@
    "purl": "pkg:local/symphonia-metadata"
   },
   {
+   "display_name": "brew/$1",
+   "ecosystem": "system",
+   "name": "brew/$1",
+   "purl": "pkg:system/brew/%241"
+  },
+  {
+   "display_name": "brew/pkgconf",
+   "ecosystem": "system",
+   "name": "brew/pkgconf",
+   "purl": "pkg:system/brew/pkgconf"
+  },
+  {
+   "display_name": "brew/ripgrep",
+   "ecosystem": "system",
+   "name": "brew/ripgrep",
+   "purl": "pkg:system/brew/ripgrep"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -1717,6 +1735,42 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L48",
+     "path": ".github/workflows/macos.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/pkgconf#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L48",
+     "path": ".github/workflows/macos.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/ripgrep#"
   },
   {
    "condition": null,
@@ -5993,6 +6047,24 @@
    "to": "pkg:cargo/zerofrom-derive@0.1.8#"
   },
   {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L18",
+     "path": "scripts/dev-deps.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/%241#"
+  },
+  {
    "condition": "feature:libm",
    "constraint": "0.2",
    "evidence": [
@@ -8037,6 +8109,10 @@
    "path": "docker/linux/musl-cc-wrap.sh"
   },
   {
+   "blob": "9cad715f7fbc50930d4d92ed417795cd201ad594",
+   "path": "docker/linux/rust-fontconfig.Cargo.lock"
+  },
+  {
    "blob": "95b5fd17401bb4637e65aeabc1f33d8fd45d416f",
    "path": "native/spirv-cross/meson.build"
   },
@@ -8051,6 +8127,10 @@
   {
    "blob": "cf241679a7491f50a7e1466c2b1fe7ddf24642a1",
    "path": "scripts/audit.sh"
+  },
+  {
+   "blob": "c3729095445b033dd2d3d955a5dd783147eafad4",
+   "path": "scripts/bench.py"
   },
   {
    "blob": "1cd8fcca03a2b040cadd6883214f7770326723bf",
@@ -8073,6 +8153,10 @@
    "path": "scripts/build.sh"
   },
   {
+   "blob": "ddb61dda27ab670b5ff60060f4d606fdaca4d83b",
+   "path": "scripts/bundle.py"
+  },
+  {
    "blob": "29b5cad24defe6e9073f1f168d5b444556142aaf",
    "path": "scripts/cargo-rustflags.sh"
   },
@@ -8087,6 +8171,10 @@
   {
    "blob": "963d6a65613ae87678eda2ec1d8e28b9f84960ce",
    "path": "scripts/fetch-gluon.sh"
+  },
+  {
+   "blob": "b90f2c116592055ba34bd54027570091229dcb21",
+   "path": "scripts/fetch_ffmpeg_runtime.py"
   },
   {
    "blob": "1bde6207581dfeee1b6f8cfd77c155bdbc1b5f74",
@@ -8117,6 +8205,10 @@
    "path": "scripts/measure.sh"
   },
   {
+   "blob": "922cc151e22ea762da9003617dd129e0ae29790e",
+   "path": "scripts/network-schemes.txt"
+  },
+  {
    "blob": "cb0b53656093a14090f62d7e935155629eafe8f2",
    "path": "scripts/package-linux.sh"
   },
@@ -8125,12 +8217,28 @@
    "path": "scripts/package-macos.sh"
   },
   {
+   "blob": "ad7fe9da52d9a1be6220ec706c8dbb94f8e772ac",
+   "path": "scripts/patches/libplacebo-metal.patch"
+  },
+  {
+   "blob": "ef44ef1f125b99a7bb04c540b233bb436dff4a81",
+   "path": "scripts/patches/libplacebo-python.patch"
+  },
+  {
+   "blob": "e9eba22a576790ced5f58374d9ec3fac4d6ca056",
+   "path": "scripts/perfstat.py"
+  },
+  {
    "blob": "476d67ed69e200e07ad4fb04e3c4136924b7c7b8",
    "path": "scripts/release-linux.sh"
   },
   {
    "blob": "9d62363c00f21a63d73e5ba21e7c5fc6540751bc",
    "path": "scripts/release.sh"
+  },
+  {
+   "blob": "9c1a4e9d448faeb33c2a755ea525c86cf6cd47ed",
+   "path": "scripts/test_perfstat.py"
   },
   {
    "blob": "e3c4fc271c2b49701a0bf05124daa943604d19b0",
@@ -8245,7 +8353,7 @@
    "path": "vendor/symphonia/symphonia/fuzz/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "fc5fe6cee01f558245656a79237d8f97c13dc1caf374348cf4eb72a116cf29b9",
+ "inputs_fingerprint": "304c19ac9f264255bc1a80c6df510079dd5158c82e710496ea3ce9d5c2fbb425",
  "instances": [
   {
    "commit": null,
@@ -12201,6 +12309,45 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/brew/%241",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/%241#",
+   "purl": "pkg:system/brew/%241",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/pkgconf",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/pkgconf#",
+   "purl": "pkg:system/brew/pkgconf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/ripgrep",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/ripgrep#",
+   "purl": "pkg:system/brew/ripgrep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -12227,12 +12374,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "dynamic_value",
    "locator": "L16",
@@ -12263,6 +12404,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "crates/player-app",
@@ -12333,6 +12479,11 @@
    "directory": "docker/linux",
    "ecosystem": "generic",
    "id": "docker/linux:repo"
+  },
+  {
+   "directory": "scripts",
+   "ecosystem": "generic",
+   "id": "scripts:repo"
   },
   {
    "directory": "vendor/ruopus",

@@ -7009,7 +7009,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "0655dd281be94eaee08207e66d02c9788d8d45b05c722e79cb6084315b7ae5d0",
+ "inputs_fingerprint": "ca22b6c679a6273942f50e920be6bd8816b4994cc17cffd9755f6af8d4d0f5ad",
  "instances": [
   {
    "commit": null,
@@ -8728,14 +8728,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

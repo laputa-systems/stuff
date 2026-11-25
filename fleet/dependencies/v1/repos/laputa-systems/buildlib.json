@@ -1079,6 +1079,14 @@
    "path": "pyproject.toml"
   },
   {
+   "blob": "d4feafd1748ae930ccd4e17ec622a0d9bb08d94a",
+   "path": "scripts/mutants_gate.py"
+  },
+  {
+   "blob": "3f5de1b849ad3ccb88ebe29ae51a0fb3121ce2ad",
+   "path": "scripts/test_mutants_gate.py"
+  },
+  {
    "blob": "ed1b6d012edf71e3ba4cffdd243be1bcacb140c0",
    "path": "setup/buildlib"
   },
@@ -1087,7 +1095,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "f608706305e491b879108348363697f8c68e3e28720b3b0246c642d49b17f396",
+ "inputs_fingerprint": "d7a0c891267a40fd81633d82ee32edd239960d4ed36bb9d7301f9886e327b353",
  "instances": [
   {
    "commit": null,
@@ -1792,14 +1800,7 @@
    "version": "0.13.7"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

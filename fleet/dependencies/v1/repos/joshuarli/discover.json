@@ -28673,12 +28673,88 @@
    "path": "apps/artists/cloudflare/package.json"
   },
   {
+   "blob": "2a037b8dd13e854bf1f74f62f984ac667a7a4044",
+   "path": "apps/artists/cloudflare/scripts/baseline.mjs"
+  },
+  {
+   "blob": "abd08dbb8c3e0593fde28c6d7aeaba2e0b9f9079",
+   "path": "apps/artists/cloudflare/scripts/check-bundle.mjs"
+  },
+  {
+   "blob": "1bbab19dc9d35330f33056d9d848f7201faf1f8c",
+   "path": "apps/artists/cloudflare/scripts/cost.mjs"
+  },
+  {
+   "blob": "ec3533505251cafe9df30e0ed8d760a1df50cbb4",
+   "path": "apps/artists/cloudflare/scripts/cost/catalog.ts"
+  },
+  {
+   "blob": "8c87bb08d6591a942522ad94740762a14897d70e",
+   "path": "apps/artists/cloudflare/scripts/cost/corpus.ts"
+  },
+  {
+   "blob": "db11477bb5b5a776ac16d3ca820c4670cdb24c2f",
+   "path": "apps/artists/cloudflare/scripts/cost/model.ts"
+  },
+  {
+   "blob": "981baa74329e0be56deeae90c88dc18733a103c2",
+   "path": "apps/artists/cloudflare/scripts/cost/pricing.ts"
+  },
+  {
+   "blob": "fee5bb4f302724e22a39414c7eda1a76059a7aa0",
+   "path": "apps/artists/cloudflare/scripts/preview-seed.ts"
+  },
+  {
+   "blob": "e10ec92bce76d0ddde389b2cdee9062bfa01a50f",
+   "path": "apps/artists/cloudflare/scripts/profile-workload.mjs"
+  },
+  {
+   "blob": "acfad4df246b4b8007fd46cae7c30c8c21885ecb",
+   "path": "apps/artists/cloudflare/scripts/publish-approved.mjs"
+  },
+  {
+   "blob": "9368bce0520d7eb17e9a0dbd19e1f0eaee7fb1e1",
+   "path": "apps/artists/cloudflare/scripts/replay.mjs"
+  },
+  {
+   "blob": "9825c66440e9a4b1a927ceb02629d25f25e5829c",
+   "path": "apps/artists/cloudflare/scripts/smoke.mjs"
+  },
+  {
    "blob": "4c91ee7cc6f59e3d16076725f7ffcea948470528",
    "path": "apps/artists/package.json"
   },
   {
    "blob": "706646648813f029a2b6c3bbdc77bac980560dde",
    "path": "apps/wine/package.json"
+  },
+  {
+   "blob": "ecab3f27df4513588c5d93b25d55aecc6718d233",
+   "path": "apps/wine/scripts/capture-source.ts"
+  },
+  {
+   "blob": "426585e49e8990340096018564431c4a10d69924",
+   "path": "apps/wine/scripts/check-package.ts"
+  },
+  {
+   "blob": "70c294ea7d2be8a1aa83364421e7faca87d83a8a",
+   "path": "apps/wine/scripts/pilot.ts"
+  },
+  {
+   "blob": "d31e4acad92c60a17f84757ce4ef0d25b1d6e2c8",
+   "path": "apps/wine/scripts/preview.ts"
+  },
+  {
+   "blob": "0b70d564c319bf82ad66acc1c37cd390cb9e653f",
+   "path": "apps/wine/scripts/research.ts"
+  },
+  {
+   "blob": "bdb1d73a3c7c0351af34ab7e98b66fffbc0dc560",
+   "path": "apps/wine/scripts/seed-check.ts"
+  },
+  {
+   "blob": "9cbcc05a47a206fea383e4a1985ba3a387cab7ce",
+   "path": "apps/wine/scripts/seed.ts"
   },
   {
    "blob": "2fa6359e78d9f5c41591c1cafb7a2e6404fbd1e6",
@@ -28729,7 +28805,7 @@
    "path": "scripts/step.sh"
   }
  ],
- "inputs_fingerprint": "f7cdcaec0f907d261760e51f1bdc615dcf2d8ae965fd15c539891abc854932fe",
+ "inputs_fingerprint": "00c4a1eb943e08046b184ccb86557025afadf236ed98c82987e0a421f5e6445b",
  "instances": [
   {
    "commit": null,
@@ -39640,12 +39716,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "vendored_unknown",
    "locator": null,

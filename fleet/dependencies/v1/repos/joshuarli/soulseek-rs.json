@@ -865,6 +865,24 @@
    "purl": "pkg:local/soulseek-rs-lib"
   },
   {
+   "display_name": "apt/dub",
+   "ecosystem": "system",
+   "name": "apt/dub",
+   "purl": "pkg:system/apt/dub"
+  },
+  {
+   "display_name": "apt/ldc",
+   "ecosystem": "system",
+   "name": "apt/ldc",
+   "purl": "pkg:system/apt/ldc"
+  },
+  {
+   "display_name": "apt/libsqlite3-dev",
+   "ecosystem": "system",
+   "name": "apt/libsqlite3-dev",
+   "purl": "pkg:system/apt/libsqlite3-dev"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -1087,6 +1105,60 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L50",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/dub#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L50",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ldc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L50",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libsqlite3-dev#"
   },
   {
    "condition": null,
@@ -5125,7 +5197,7 @@
    "path": "soulseek-rs/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "2e5c75a2d32531eee45af2f9d8d6f0d3932415fefdebe217a7aaba1516e4bed4",
+ "inputs_fingerprint": "abdc97a10d27776bc7a15bba24266bdbe4d240555a56c1158da9c5c1fd96e7b8",
  "instances": [
   {
    "commit": null,
@@ -7261,6 +7333,45 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/dub",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/dub#",
+   "purl": "pkg:system/apt/dub",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ldc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ldc#",
+   "purl": "pkg:system/apt/ldc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libsqlite3-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libsqlite3-dev#",
+   "purl": "pkg:system/apt/libsqlite3-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -7273,19 +7384,17 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "soulseek-rs-lib",

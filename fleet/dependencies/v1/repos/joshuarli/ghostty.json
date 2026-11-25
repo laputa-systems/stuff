@@ -1,6 +1,150 @@
 {
  "components": [
   {
+   "display_name": "bash",
+   "ecosystem": "apk",
+   "name": "bash",
+   "purl": "pkg:apk/bash"
+  },
+  {
+   "display_name": "binutils",
+   "ecosystem": "apk",
+   "name": "binutils",
+   "purl": "pkg:apk/binutils"
+  },
+  {
+   "display_name": "cargo",
+   "ecosystem": "apk",
+   "name": "cargo",
+   "purl": "pkg:apk/cargo"
+  },
+  {
+   "display_name": "clang",
+   "ecosystem": "apk",
+   "name": "clang",
+   "purl": "pkg:apk/clang"
+  },
+  {
+   "display_name": "cmake",
+   "ecosystem": "apk",
+   "name": "cmake",
+   "purl": "pkg:apk/cmake"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "apk",
+   "name": "curl",
+   "purl": "pkg:apk/curl"
+  },
+  {
+   "display_name": "file",
+   "ecosystem": "apk",
+   "name": "file",
+   "purl": "pkg:apk/file"
+  },
+  {
+   "display_name": "freetype-dev",
+   "ecosystem": "apk",
+   "name": "freetype-dev",
+   "purl": "pkg:apk/freetype-dev"
+  },
+  {
+   "display_name": "git",
+   "ecosystem": "apk",
+   "name": "git",
+   "purl": "pkg:apk/git"
+  },
+  {
+   "display_name": "harfbuzz-dev",
+   "ecosystem": "apk",
+   "name": "harfbuzz-dev",
+   "purl": "pkg:apk/harfbuzz-dev"
+  },
+  {
+   "display_name": "libffi-dev",
+   "ecosystem": "apk",
+   "name": "libffi-dev",
+   "purl": "pkg:apk/libffi-dev"
+  },
+  {
+   "display_name": "libseat-dev",
+   "ecosystem": "apk",
+   "name": "libseat-dev",
+   "purl": "pkg:apk/libseat-dev"
+  },
+  {
+   "display_name": "libxkbcommon-dev",
+   "ecosystem": "apk",
+   "name": "libxkbcommon-dev",
+   "purl": "pkg:apk/libxkbcommon-dev"
+  },
+  {
+   "display_name": "libxkbcommon-static",
+   "ecosystem": "apk",
+   "name": "libxkbcommon-static",
+   "purl": "pkg:apk/libxkbcommon-static"
+  },
+  {
+   "display_name": "make",
+   "ecosystem": "apk",
+   "name": "make",
+   "purl": "pkg:apk/make"
+  },
+  {
+   "display_name": "mesa-dev",
+   "ecosystem": "apk",
+   "name": "mesa-dev",
+   "purl": "pkg:apk/mesa-dev"
+  },
+  {
+   "display_name": "mesa-egl",
+   "ecosystem": "apk",
+   "name": "mesa-egl",
+   "purl": "pkg:apk/mesa-egl"
+  },
+  {
+   "display_name": "ncurses",
+   "ecosystem": "apk",
+   "name": "ncurses",
+   "purl": "pkg:apk/ncurses"
+  },
+  {
+   "display_name": "ninja",
+   "ecosystem": "apk",
+   "name": "ninja",
+   "purl": "pkg:apk/ninja"
+  },
+  {
+   "display_name": "pkgconfig",
+   "ecosystem": "apk",
+   "name": "pkgconfig",
+   "purl": "pkg:apk/pkgconfig"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "apk",
+   "name": "tar",
+   "purl": "pkg:apk/tar"
+  },
+  {
+   "display_name": "wayland-dev",
+   "ecosystem": "apk",
+   "name": "wayland-dev",
+   "purl": "pkg:apk/wayland-dev"
+  },
+  {
+   "display_name": "xz",
+   "ecosystem": "apk",
+   "name": "xz",
+   "purl": "pkg:apk/xz"
+  },
+  {
+   "display_name": "zstd",
+   "ecosystem": "apk",
+   "name": "zstd",
+   "purl": "pkg:apk/zstd"
+  },
+  {
    "display_name": "aro",
    "ecosystem": "artifact",
    "name": "aro",
@@ -2044,6 +2188,1104 @@
   },
   {
    "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/bash#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/bash#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/bash#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/binutils#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/binutils#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/binutils#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/cargo#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/cargo#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/clang#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/clang#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/clang#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/cmake#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/cmake#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/cmake#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/file#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/file#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/file#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/freetype-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/freetype-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/harfbuzz-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/harfbuzz-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libffi-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libseat-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libseat-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libxkbcommon-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libxkbcommon-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libxkbcommon-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libxkbcommon-static#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/mesa-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/mesa-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/mesa-egl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/mesa-egl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ncurses#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ncurses#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ncurses#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ninja#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ninja#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ninja#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/pkgconfig#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/pkgconfig#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/pkgconfig#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/tar#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/tar#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/tar#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/wayland-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/wayland-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/wayland-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L88",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/zstd#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L146",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/zstd#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L202",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/zstd#"
+  },
+  {
+   "condition": null,
    "constraint": "../../",
    "evidence": [
     {
@@ -3791,8 +5033,16 @@
  ],
  "inputs": [
   {
+   "blob": "922d034116b677dbcc847c2a53f59f07889924d0",
+   "path": ".github/scripts/check-apple-libghostty-vt.nu"
+  },
+  {
    "blob": "16bd75d307e1cff18488593aa71e631f7ea44a99",
    "path": ".github/scripts/check-translations.sh"
+  },
+  {
+   "blob": "c4b368d5985991349b580b88a55ab56190b5ede6",
+   "path": ".github/scripts/check-windows-libghostty-vt.ps1"
   },
   {
    "blob": "e3bd1b4e34f7811b45ec763cf3ba7b67b34501ce",
@@ -3801,6 +5051,10 @@
   {
    "blob": "f418a162e73aa16a93dc5e678b398b8bf571f448",
    "path": ".github/scripts/freebsd-vm/vm.sh"
+  },
+  {
+   "blob": "8b577bcacdd7b8257c08925a139a708024e6d46b",
+   "path": ".github/scripts/ghostty-tip"
   },
   {
    "blob": "11f23c2acd21947121edeb83c2d64aea48007c7d",
@@ -4147,8 +5401,320 @@
    "path": "test/ucs-detect.sh"
   }
  ],
- "inputs_fingerprint": "ddbd8464e43c950703a44a246aa2dde8ab31330a48701c94b600288293134cac",
+ "inputs_fingerprint": "181c36628eca53d9e7053414098a2b4ddd9482b18ad44da4b9390c8972c1c786",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:apk/bash",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/bash#",
+   "purl": "pkg:apk/bash",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/binutils",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/binutils#",
+   "purl": "pkg:apk/binutils",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/cargo",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/cargo#",
+   "purl": "pkg:apk/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/clang",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/clang#",
+   "purl": "pkg:apk/clang",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/cmake",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/cmake#",
+   "purl": "pkg:apk/cmake",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/curl#",
+   "purl": "pkg:apk/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/file",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/file#",
+   "purl": "pkg:apk/file",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/freetype-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/freetype-dev#",
+   "purl": "pkg:apk/freetype-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/git#",
+   "purl": "pkg:apk/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/harfbuzz-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/harfbuzz-dev#",
+   "purl": "pkg:apk/harfbuzz-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/libffi-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/libffi-dev#",
+   "purl": "pkg:apk/libffi-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/libseat-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/libseat-dev#",
+   "purl": "pkg:apk/libseat-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/libxkbcommon-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/libxkbcommon-dev#",
+   "purl": "pkg:apk/libxkbcommon-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/libxkbcommon-static",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/libxkbcommon-static#",
+   "purl": "pkg:apk/libxkbcommon-static",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/make#",
+   "purl": "pkg:apk/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/mesa-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/mesa-dev#",
+   "purl": "pkg:apk/mesa-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/mesa-egl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/mesa-egl#",
+   "purl": "pkg:apk/mesa-egl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/ncurses",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/ncurses#",
+   "purl": "pkg:apk/ncurses",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/ninja",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/ninja#",
+   "purl": "pkg:apk/ninja",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/pkgconfig",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/pkgconfig#",
+   "purl": "pkg:apk/pkgconfig",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/tar",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/tar#",
+   "purl": "pkg:apk/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/wayland-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/wayland-dev#",
+   "purl": "pkg:apk/wayland-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/xz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/xz#",
+   "purl": "pkg:apk/xz",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/zstd",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/zstd#",
+   "purl": "pkg:apk/zstd",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": null,
    "component": "pkg:artifact/aro?download_url=https%3A%2F%2Fdeps.files.ghostty.org%2Faro-d0c8c4d9c55daa7ef6e40cf0f630a5b5e900989b.tar.gz",
@@ -6687,18 +8253,6 @@
  ],
  "issues": [
   {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for flake.nix",
-   "path": "flake.nix"
-  },
-  {
    "kind": "vendored_unknown",
    "locator": null,
    "message": "vendored tree has no recognized manifest",
@@ -6740,6 +8294,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "example/c-vt-allocator",

@@ -649,7 +649,7 @@
    "path": "tests/package-archive.sh"
   }
  ],
- "inputs_fingerprint": "c0939d643a36a831627737fc247cf4324688a962d7ceba8c0f2e30aca5e911d0",
+ "inputs_fingerprint": "6180c68d71d160b1b1d14c2a2eba90a6b39a9cff4f4e15fa60c4b667cbab8113",
  "instances": [
   {
    "commit": null,
@@ -1900,14 +1900,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

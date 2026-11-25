@@ -13391,7 +13391,7 @@
    "path": "Tools/SwiftSyntaxArtifact/Package.swift"
   }
  ],
- "inputs_fingerprint": "81bc1812a9d1ff4779fbe23b4f11af6171072aba4d1bb8dc9db1cf736f3ff5b2",
+ "inputs_fingerprint": "e9d7544444ecd1c4a37a5b02c16aebab23c998eb54fa435999a40bcc186ccff6",
  "instances": [
   {
    "commit": null,
@@ -18595,12 +18595,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "dynamic_value",
    "locator": "L308",

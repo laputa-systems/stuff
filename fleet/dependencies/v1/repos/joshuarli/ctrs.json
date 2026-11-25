@@ -7,16 +7,40 @@
    "purl": "pkg:apk/%3E/dev/null"
   },
   {
+   "display_name": "bash",
+   "ecosystem": "apk",
+   "name": "bash",
+   "purl": "pkg:apk/bash"
+  },
+  {
    "display_name": "binutils",
    "ecosystem": "apk",
    "name": "binutils",
    "purl": "pkg:apk/binutils"
   },
   {
+   "display_name": "build-base",
+   "ecosystem": "apk",
+   "name": "build-base",
+   "purl": "pkg:apk/build-base"
+  },
+  {
    "display_name": "ca-certificates",
    "ecosystem": "apk",
    "name": "ca-certificates",
    "purl": "pkg:apk/ca-certificates"
+  },
+  {
+   "display_name": "curl",
+   "ecosystem": "apk",
+   "name": "curl",
+   "purl": "pkg:apk/curl"
+  },
+  {
+   "display_name": "docker",
+   "ecosystem": "apk",
+   "name": "docker",
+   "purl": "pkg:apk/docker"
   },
   {
    "display_name": "gcc",
@@ -31,10 +55,28 @@
    "purl": "pkg:apk/git"
   },
   {
+   "display_name": "make",
+   "ecosystem": "apk",
+   "name": "make",
+   "purl": "pkg:apk/make"
+  },
+  {
    "display_name": "musl-dev",
    "ecosystem": "apk",
    "name": "musl-dev",
    "purl": "pkg:apk/musl-dev"
+  },
+  {
+   "display_name": "tar",
+   "ecosystem": "apk",
+   "name": "tar",
+   "purl": "pkg:apk/tar"
+  },
+  {
+   "display_name": "xz",
+   "ecosystem": "apk",
+   "name": "xz",
+   "purl": "pkg:apk/xz"
   },
   {
    "display_name": "jaq-x86_64-unknown-linux-musl",
@@ -1847,6 +1889,66 @@
    "ecosystem": "local",
    "name": "xtask",
    "purl": "pkg:local/xtask"
+  },
+  {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/docker.io",
+   "ecosystem": "system",
+   "name": "apt/docker.io",
+   "purl": "pkg:system/apt/docker.io"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/make",
+   "ecosystem": "system",
+   "name": "apt/make",
+   "purl": "pkg:system/apt/make"
+  },
+  {
+   "display_name": "apt/musl",
+   "ecosystem": "system",
+   "name": "apt/musl",
+   "purl": "pkg:system/apt/musl"
+  },
+  {
+   "display_name": "apt/nodejs",
+   "ecosystem": "system",
+   "name": "apt/nodejs",
+   "purl": "pkg:system/apt/nodejs"
+  },
+  {
+   "display_name": "apt/tar",
+   "ecosystem": "system",
+   "name": "apt/tar",
+   "purl": "pkg:system/apt/tar"
+  },
+  {
+   "display_name": "apt/xz-utils",
+   "ecosystem": "system",
+   "name": "apt/xz-utils",
+   "purl": "pkg:system/apt/xz-utils"
   },
   {
    "display_name": "rust",
@@ -8871,6 +8973,348 @@
    "scope": "runtime",
    "source_kind": "registry",
    "to": "pkg:cargo/rustix@1.1.6#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/bash#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/build-base#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L34",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/docker#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/tar#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L33",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/xz#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L29",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/docker.io#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/musl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/nodejs#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/tar#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/xz-utils#"
   }
  ],
  "inputs": [
@@ -9047,8 +9491,16 @@
    "path": "scripts/ci/kernel-source.sh"
   },
   {
+   "blob": "97a71f6e93fed94214d74fa3b15685f1ac1748a2",
+   "path": "scripts/dev-tools.py"
+  },
+  {
    "blob": "046a6b582787a6ec12756b036520a37ebf172dc5",
    "path": "scripts/perf-run.sh"
+  },
+  {
+   "blob": "f95e9a826c84597ff5051dbdf5fbf8d91183dc4a",
+   "path": "scripts/perf.py"
   },
   {
    "blob": "938dac3b5c7c18f0f0260e331fe4332b7439a0ce",
@@ -9095,7 +9547,7 @@
    "path": "xtask/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "c1a4763b329bfbfac5fd4b91b5e03f804488ea7d3f521d00ced2f7f726e9ee99",
+ "inputs_fingerprint": "4d863c331777d5b59b7d6c7b54f664e0c15dc33559af6b21a0f2ffa55329e875",
  "instances": [
   {
    "commit": null,
@@ -9104,6 +9556,19 @@
    "first_party": false,
    "id": "pkg:apk/%3E/dev/null#",
    "purl": "pkg:apk/%3E/dev/null",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/bash",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/bash#",
+   "purl": "pkg:apk/bash",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
@@ -9125,11 +9590,50 @@
   },
   {
    "commit": null,
+   "component": "pkg:apk/build-base",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/build-base#",
+   "purl": "pkg:apk/build-base",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:apk/ca-certificates",
    "context": "",
    "first_party": false,
    "id": "pkg:apk/ca-certificates#",
    "purl": "pkg:apk/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/curl#",
+   "purl": "pkg:apk/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/docker",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/docker#",
+   "purl": "pkg:apk/docker",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
@@ -9164,11 +9668,50 @@
   },
   {
    "commit": null,
+   "component": "pkg:apk/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/make#",
+   "purl": "pkg:apk/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:apk/musl-dev",
    "context": "",
    "first_party": false,
    "id": "pkg:apk/musl-dev#",
    "purl": "pkg:apk/musl-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/tar",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/tar#",
+   "purl": "pkg:apk/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/xz",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/xz#",
+   "purl": "pkg:apk/xz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
@@ -13571,6 +14114,136 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/docker.io",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/docker.io#",
+   "purl": "pkg:system/apt/docker.io",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/make#",
+   "purl": "pkg:system/apt/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/musl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/musl#",
+   "purl": "pkg:system/apt/musl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/nodejs",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/nodejs#",
+   "purl": "pkg:system/apt/nodejs",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/tar",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/tar#",
+   "purl": "pkg:system/apt/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/xz-utils",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/xz-utils#",
+   "purl": "pkg:system/apt/xz-utils",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -13584,12 +14257,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "missing_lock",
    "locator": null,
@@ -13672,6 +14339,11 @@
    "directory": "examples/cross/rust-musl",
    "ecosystem": "generic",
    "id": "examples/cross/rust-musl:repo"
+  },
+  {
+   "directory": "scripts",
+   "ecosystem": "generic",
+   "id": "scripts:repo"
   },
   {
    "directory": "xtask",

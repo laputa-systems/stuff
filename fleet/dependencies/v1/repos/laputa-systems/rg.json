@@ -4093,9 +4093,13 @@
   {
    "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
    "path": "rust-toolchain.toml"
+  },
+  {
+   "blob": "e8eb2f2413989e3f59743d02a1ba0906bdf45b2a",
+   "path": "scripts/copy-examples"
   }
  ],
- "inputs_fingerprint": "a5ba81b7c7546124aef13289f904a4209dcdb5b71c05bc2c1b63ce96b2031cee",
+ "inputs_fingerprint": "37a42e366531bcadf275c2e1e339581579647a94e581ed12b054c45c80c70ff7",
  "instances": [
   {
    "commit": null,
@@ -5698,12 +5702,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "lock_mismatch",
    "locator": "dependencies.globset",

@@ -107,7 +107,9 @@ The classes, in precedence order:
 - `mirrored` — an upstream package whose `registry_url` host is under `17166969.xyz`
   (`crates.`, `npm.`, `pypi.`, `stuff.`): our distribution of upstream code.
 - `substitutable` — `repomod.substitutes.lookup(name)` names an owned producer in
-  `fleet/policy/owned-substitutes.toml`; the producer is recorded per package.
+  `fleet/policy/owned-substitutes.toml`; the producer is recorded per package. Manager-keyed
+  `system` components look up the package name restricted to that manager's `package:<manager>`
+  match kind, so `pkg:system/apt/git` matches only producers declaring an `apt` `git` package.
 - `upstream` — everything else.
 
 The `commands` section classifies every `pkg:command` component name into exactly one class, in
@@ -291,7 +293,16 @@ unregistered purl types that exist only inside this inventory:
   `run:` values, Makefile recipe lines, shell scripts, and Dockerfile `RUN` instructions. The
   component is `pkg:command/<name>` and each instance is `pkg:command/<name>#<surface>`, where the
   surface is `workflow`, `makefile`, `shell`, or `dockerfile`.
-- `system` — a system library from CMake `find_package` or pkg-config, such as `pkg:system/ZLIB`.
+- `system` — a system library from CMake `find_package` or pkg-config, such as `pkg:system/ZLIB`,
+  or an operating-system package install recorded by the installs adapter. Package-manager
+  installs key the name by manager: `pkg:system/apt/git`, `pkg:system/brew/cmake`,
+  `pkg:system/dnf/ninja-build`, and `pkg:system/pacman/mold` for `apt`/`apt-get`/`aptitude`,
+  `brew`, `dnf`/`yum`, and `pacman -S` commands in workflows, Dockerfiles, Makefiles, `*.mk`,
+  `flake.nix`, `scripts/`, and `docker/` files. `apk add` packages reuse the `apk` ecosystem
+  (`pkg:apk/git`) outside the Dockerfiles the containers adapter already reads, so Alpine
+  packages share one identity. The installs adapter and the `owned-tool-substitution` rule
+  share one parser, `repomod/install_parse.py`, over the same surfaces; workflow `uses:`
+  actions stay with the actions adapter and are not recorded twice.
 - `service` — a service binding from Wrangler or Orange configuration, or an OpenOrange app namespace, bucket, or host from tracked `deploy/openorange/apps.toml`. Orange runtime package closures use the existing JavaScript lockfile extraction; generated descriptors are not tracked source evidence.
 - `generic` — the residual bucket for components with no better identity. Anything new that
   adapters emit must land in one of these types or carry explicit qualifiers; `generic` carries
@@ -318,7 +329,9 @@ one transaction across the whole inventory.
 `repomod/dependencies/` owns the inventory. `git_tree.py` performs Git reads through
 `git.py`; `discover.py` classifies recognized inputs; adapters under
 `dependencies/adapters/` are frozen classes with `name`, `matches(path)`, and
-`extract(inputs)`, and perform no I/O. `snapshot.py` orchestrates extraction and serialization;
+`extract(inputs)`, and perform no I/O. A path may feed more than one adapter — a workflow
+reaches both the actions adapter and the installs adapter — and every matching adapter sees
+the same `InputContent`. `snapshot.py` orchestrates extraction and serialization;
 `graph.py`, `analysis.py`, `diff.py`, `enrich.py`, and `render.py` are read-only consumers,
 except that `enrich` writes its local cache and `render` writes its output directory.
 

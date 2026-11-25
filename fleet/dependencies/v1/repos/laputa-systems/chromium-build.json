@@ -1,6 +1,18 @@
 {
  "components": [
   {
+   "display_name": "make",
+   "ecosystem": "apk",
+   "name": "make",
+   "purl": "pkg:apk/make"
+  },
+  {
+   "display_name": "meson",
+   "ecosystem": "apk",
+   "name": "meson",
+   "purl": "pkg:apk/meson"
+  },
+  {
    "display_name": "clang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz",
    "ecosystem": "artifact",
    "name": "clang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz",
@@ -917,6 +929,42 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L26",
+     "path": "scripts/build-pure-runtime.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L26",
+     "path": "scripts/build-pure-runtime.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/meson#"
   }
  ],
  "inputs": [
@@ -953,6 +1001,22 @@
    "path": "pyproject.toml"
   },
   {
+   "blob": "32a33c0d16ccfa493b48483afd8864f3f5ae850d",
+   "path": "scripts/audit-chrome-graph-driver.py"
+  },
+  {
+   "blob": "19fcf90b7937508e27c59247c90a9baaaa3dfe24",
+   "path": "scripts/audit-chrome-graph.py"
+  },
+  {
+   "blob": "281919eace7f3dcfd586ab7525e571b473076704",
+   "path": "scripts/audit-chrome-oracle.py"
+  },
+  {
+   "blob": "5485859e8b4a3528322e365ecfc4ded79b339b87",
+   "path": "scripts/browser_test_support.py"
+  },
+  {
    "blob": "e4aad5d21e0c2a68bd811ab0938d2d5aa952c72f",
    "path": "scripts/build-pure-runtime.sh"
   },
@@ -961,12 +1025,184 @@
    "path": "scripts/build-rust-toolchain.sh"
   },
   {
+   "blob": "21bda31f0bf3577db7e9e022e3eaec4b13a4fff3",
+   "path": "scripts/build-target.py"
+  },
+  {
+   "blob": "1290f607f6cd21328218b384db32f7903fc0a0c4",
+   "path": "scripts/build-task-breakdown.py"
+  },
+  {
+   "blob": "134601955c11de241c54e316045452339efc381e",
+   "path": "scripts/build.py"
+  },
+  {
+   "blob": "6067821d4640b49724c81b80399c109e25320f22",
+   "path": "scripts/fetch-inputs.py"
+  },
+  {
+   "blob": "ee8c5ce7c09391a7880827148ea2fdd25bab5b96",
+   "path": "scripts/generate-gn-args.py"
+  },
+  {
+   "blob": "e9819299ba7bec56780574575b320174971ccae2",
+   "path": "scripts/generate-gn.py"
+  },
+  {
    "blob": "8d9a235ee7fcbc8f142c6cd3dc52a3ceaf618cf1",
    "path": "scripts/helium-crt.sh"
   },
   {
+   "blob": "686fd24934fefa3034a90cbf23938dbbd24773e6",
+   "path": "scripts/helium_test_audio.py"
+  },
+  {
+   "blob": "65feab4fa069c16f5d1b47cd68b06e496effaa86",
+   "path": "scripts/helium_test_fast.py"
+  },
+  {
+   "blob": "548b74e966f7a2d164fb17fc88bbf7b643a139be",
+   "path": "scripts/helium_wayland.py"
+  },
+  {
+   "blob": "fabda7caa63388d346ce6b0fd0a4df5a3fc84af8",
+   "path": "scripts/install-runtime.py"
+  },
+  {
+   "blob": "4f0381ced9aae34704bf17e5eaf44972202134d4",
+   "path": "scripts/linux_native_tools.py"
+  },
+  {
+   "blob": "5815e9c5f4ff26938a04cb29cacc56846d758909",
+   "path": "scripts/linux_product.py"
+  },
+  {
+   "blob": "c837f98e5ac3cf7499d1715eba3fb475b98c4e8c",
+   "path": "scripts/linux_runtime.py"
+  },
+  {
+   "blob": "5edc58e8a87539f5cef5c780f8cd994fa84b01b3",
+   "path": "scripts/lockcheck.py"
+  },
+  {
+   "blob": "5f6535730de82a6afdc3fdc1db70c17161cd4608",
+   "path": "scripts/macos_backend.py"
+  },
+  {
+   "blob": "bbccde6397f040d16ab9b620f2f7b7a34c9640a0",
+   "path": "scripts/macos_helium.py"
+  },
+  {
+   "blob": "ec8521cc0027e4f7ae5ec06f4420bccd0ded9d54",
+   "path": "scripts/media-runtime-audit.py"
+  },
+  {
+   "blob": "6e0c8e422c89ef3c0cc99ac25dc5a9ca31a499cf",
+   "path": "scripts/mirror-builder-apks.py"
+  },
+  {
+   "blob": "83a0ae597dde3a9d7b51270c6431a92eda1e4ea8",
+   "path": "scripts/package-runtime.py"
+  },
+  {
+   "blob": "b0232760ab8dde736678ca48d22b04f3d912d3f7",
+   "path": "scripts/preflight-system-libraries.py"
+  },
+  {
+   "blob": "b443209621a0b03253f49dd2be453ecb164d7815",
+   "path": "scripts/prepare-helium.py"
+  },
+  {
+   "blob": "41d903c477588a5de17c3ad24b5ff8ab0662d6d7",
+   "path": "scripts/prepare-source-driver.py"
+  },
+  {
+   "blob": "15a007cefca2c7a3ed1a385cdf3e1279d7017467",
+   "path": "scripts/prepare-source.py"
+  },
+  {
+   "blob": "d362e8d69178ff7c4c3994086ddd51e99508b1a1",
+   "path": "scripts/qualify-package.py"
+  },
+  {
+   "blob": "87a955e3c82543cac53a9efead53272877d040f0",
+   "path": "scripts/release_assets.py"
+  },
+  {
+   "blob": "c765496b912945e8cf8c7621e06e25b0f8dade9c",
+   "path": "scripts/resolve-output.py"
+  },
+  {
+   "blob": "88a3a8e3cfdc3b59f528a4571d8b3f2ac9856801",
+   "path": "scripts/run-gate-e.py"
+  },
+  {
+   "blob": "e62b8b2548101c3f3cf57a43a34ca9a002f198df",
+   "path": "scripts/run-probes.py"
+  },
+  {
+   "blob": "03695ee8c9448632110427726624eb7e45e347a4",
+   "path": "scripts/runtime_install.py"
+  },
+  {
    "blob": "c0e891d9670b052673308158d80f858a0f1dcaf9",
    "path": "scripts/rust-host-linker"
+  },
+  {
+   "blob": "1554ea1400b2e4b5a7ef7716e1c9bf78d0c125c8",
+   "path": "scripts/script_support.py"
+  },
+  {
+   "blob": "cfe435f67cafeaceae782381a6501223e9c2ea12",
+   "path": "scripts/setup-chromium-adblock.py"
+  },
+  {
+   "blob": "86c14abde169581a3969069b4df3293cdc262d26",
+   "path": "scripts/setup-helium-adblock.py"
+  },
+  {
+   "blob": "c80ec9b1544e96ce24be22514e4966e50ba81f88",
+   "path": "scripts/sources_lock.py"
+  },
+  {
+   "blob": "a13927d6060822ce525619e630ff857ead78aa87",
+   "path": "scripts/stage-runtime.py"
+  },
+  {
+   "blob": "799a77795e30849700a84df382d746dad6697b90",
+   "path": "scripts/test-fast-driver.py"
+  },
+  {
+   "blob": "1528fd5a476ca9dcda8a5132d911b4035ba26962",
+   "path": "scripts/test-fast.py"
+  },
+  {
+   "blob": "4004a2c9c668c65d383d87db3d7c46de271cefe1",
+   "path": "scripts/test-functional-driver.py"
+  },
+  {
+   "blob": "1cf4f3c7fad1cb25b87e029fb777f0a18f09480a",
+   "path": "scripts/test-functional.py"
+  },
+  {
+   "blob": "a6c47c96151005fbeb3fb815ecf79225055d7d56",
+   "path": "scripts/verify-environment.py"
+  },
+  {
+   "blob": "6a3db2c99c2a997551b51e4fe0ad32c5993a0ba9",
+   "path": "scripts/verify-gn-args.py"
+  },
+  {
+   "blob": "46a94943c2a20641948b2953a95eaaac933db323",
+   "path": "scripts/verify-source.py"
+  },
+  {
+   "blob": "07eb0db5aecb2775f9f9de75477a0d1ebf675a37",
+   "path": "scripts/verify_macos_ci.py"
+  },
+  {
+   "blob": "9ca415a95efe192db220e8c6d41d25dc21208dd5",
+   "path": "scripts/write-environment-metadata.py"
   },
   {
    "blob": "a84a4da24da579985cbfa3ce1696141502c215d9",
@@ -977,8 +1213,34 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "cc5bf446a55a1ddfb8d4b17a0b64cc21f2f85e39ed8922f0065355ae47f7c251",
+ "inputs_fingerprint": "404025d8513231d4776edfa4c633254f6d9d4caca15b46e7d74d7804b04a8dfb",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:apk/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/make#",
+   "purl": "pkg:apk/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/meson",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/meson#",
+   "purl": "pkg:apk/meson",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": null,
    "component": "pkg:artifact/clang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz?download_url=https%3A%2F%2Fcommondatastorage.googleapis.com%2Fchromium-browser-clang%2FLinux_x64%2Fclang-llvmorg-24-init-3796-g20e97c4b-2.tar.xz",
@@ -2494,12 +2756,6 @@
    "locator": "L31",
    "message": "apk package '$@' is not literal",
    "path": "Dockerfile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [
@@ -2512,6 +2768,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": "scripts",
+   "ecosystem": "generic",
+   "id": "scripts:repo"
   }
  ],
  "repository": "laputa-systems/chromium-build",

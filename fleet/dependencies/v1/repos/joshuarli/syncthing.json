@@ -971,6 +971,42 @@
    "ecosystem": "golang",
    "name": "sigs.k8s.io/yaml",
    "purl": "pkg:golang/sigs.k8s.io/yaml"
+  },
+  {
+   "display_name": "apt/apksigner",
+   "ecosystem": "system",
+   "name": "apt/apksigner",
+   "purl": "pkg:system/apt/apksigner"
+  },
+  {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/locales",
+   "ecosystem": "system",
+   "name": "apt/locales",
+   "purl": "pkg:system/apt/locales"
+  },
+  {
+   "display_name": "apt/ruby-dev",
+   "ecosystem": "system",
+   "name": "apt/ruby-dev",
+   "purl": "pkg:system/apt/ruby-dev"
+  },
+  {
+   "display_name": "apt/rubygems",
+   "ecosystem": "system",
+   "name": "apt/rubygems",
+   "purl": "pkg:system/apt/rubygems"
   }
  ],
  "edges": [
@@ -3313,6 +3349,114 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "Dockerfile.builder"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "Dockerfile.builder"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "Dockerfile.builder"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/locales#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "Dockerfile.builder"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ruby-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L13",
+     "path": "Dockerfile.builder"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/rubygems#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L107",
+     "path": ".github/workflows/android.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/apksigner#"
   }
  ],
  "inputs": [
@@ -3453,7 +3597,7 @@
    "path": "test/folders.sh"
   }
  ],
- "inputs_fingerprint": "b161fe30f019fdf31c2b1e3b6c066839e7d52b5ae6b547334dbbd730e28398c7",
+ "inputs_fingerprint": "4b12e134dc40dc609c09190ca6eb5399d1dd0119dbd2a08bb81364a319d6869d",
  "instances": [
   {
    "commit": null,
@@ -5677,6 +5821,84 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "v1.6.0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/apksigner",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/apksigner#",
+   "purl": "pkg:system/apt/apksigner",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/locales",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/locales#",
+   "purl": "pkg:system/apt/locales",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ruby-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ruby-dev#",
+   "purl": "pkg:system/apt/ruby-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/rubygems",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/rubygems#",
+   "purl": "pkg:system/apt/rubygems",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
   }
  ],
  "issues": [
@@ -5685,12 +5907,6 @@
    "locator": "jobs.build.steps[4].run",
    "message": "artifact URL 'https://dl.google.com/android/repository/commandlinetools-linux-${cmdline_tools}_latest.zip' is not literal",
    "path": ".github/workflows/android.yml"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   },
   {
    "kind": "unsupported_format",
@@ -5739,6 +5955,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   }
  ],
  "repository": "joshuarli/syncthing",

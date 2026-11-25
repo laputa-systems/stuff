@@ -16309,6 +16309,18 @@
    "path": "crates/napi/package.json"
   },
   {
+   "blob": "ad0bc3d56ed7f5f5de5ac00d16770b9dc26686a4",
+   "path": "crates/napi/scripts/constants.ts"
+  },
+  {
+   "blob": "2e8a60d4955b443db553af1b0e424360ed049b95",
+   "path": "crates/napi/scripts/generateTypes.ts"
+  },
+  {
+   "blob": "8b4ff64231e5f0ea3de27c7b8988f391da7c8b69",
+   "path": "crates/napi/scripts/tsconfig.json"
+  },
+  {
    "blob": "ac6747c131445c588f77bd9112645ad6395c8e7c",
    "path": "crates/napi/yarn.lock"
   },
@@ -16335,6 +16347,10 @@
   {
    "blob": "8d0deed9adfccd122ae6a588d2c72213e1d3db1d",
    "path": "crates/wasm/package.json"
+  },
+  {
+   "blob": "c76aa636d62f07b48d2e68f41e30cf788ee3309a",
+   "path": "crates/wasm/scripts/patch-pkg.mjs"
   },
   {
    "blob": "4c051513e7cfb160b126ca5035d4855e901c4931",
@@ -16393,7 +16409,7 @@
    "path": "xtask/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "ee1ace2a0f0c6429a904e3e266f223561d2ce2da8da9fdf1f2ed52d8bbd48d14",
+ "inputs_fingerprint": "1d0d8e5be5b752ad2f668fd27834169b7e9fceb17f64e3e9e330f2a35e1885c1",
  "instances": [
   {
    "commit": null,
@@ -20778,12 +20794,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "unsupported_format",
    "locator": null,

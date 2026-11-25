@@ -9235,6 +9235,24 @@
    "purl": "pkg:pypi/xxhash"
   },
   {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/openssl",
+   "ecosystem": "system",
+   "name": "apt/openssl",
+   "purl": "pkg:system/apt/openssl"
+  },
+  {
    "display_name": "npm",
    "ecosystem": "toolchain",
    "name": "npm",
@@ -10393,6 +10411,78 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "Dockerfile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L28",
+     "path": "Dockerfile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "Dockerfile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "Dockerfile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/openssl#"
   },
   {
    "condition": null,
@@ -93309,6 +93399,34 @@
    "path": "app/mobile/package.json"
   },
   {
+   "blob": "94821d107c21943369b1bd32e0dbeaffa893403e",
+   "path": "app/mobile/scripts/build-watch.mjs"
+  },
+  {
+   "blob": "76f640a45b274583cd3f2f233877e4be19e2f36d",
+   "path": "app/mobile/scripts/make-pinning-fixtures.py"
+  },
+  {
+   "blob": "dcd8102eb585015d729687ade738a8c1cd252ee4",
+   "path": "app/mobile/scripts/native-pinning-main.swift"
+  },
+  {
+   "blob": "2e18839b5212c02cce9f3de377a6c97df7049203",
+   "path": "app/mobile/scripts/sanitize-lock.mjs"
+  },
+  {
+   "blob": "8b5de86ac09cc5a1e1bb420db8a787e70f0dc925",
+   "path": "app/mobile/scripts/smoke-host.ts"
+  },
+  {
+   "blob": "98d9bd8b1e9b1d0c5fedc6a46c2738cc55ba7caf",
+   "path": "app/mobile/scripts/verify-android-native.mjs"
+  },
+  {
+   "blob": "4c05c3a3f7e208fb600d7a01c73eea10ffea4812",
+   "path": "app/mobile/scripts/verify-native-pinning.mjs"
+  },
+  {
    "blob": "4dc62e355c7a440289f2a3015c07d83f96bceff0",
    "path": "app/mobile/vendor/braces/package.json"
   },
@@ -93339,6 +93457,334 @@
   {
    "blob": "c44cae359cd9ef72ce3a8fabdccf1006d4e8feb2",
    "path": "app/package.json"
+  },
+  {
+   "blob": "bb824320704c7f7ab4e9000eced382d8a76e9485",
+   "path": "app/scripts/build-cluster-node.mjs"
+  },
+  {
+   "blob": "55f58313c9b2c5794a06e4ebe702313964a1ba30",
+   "path": "app/scripts/build-computer-helper.mjs"
+  },
+  {
+   "blob": "e04841d1892547403c5d09faa50efd6b6d138a54",
+   "path": "app/scripts/build-computer-helper.test.mjs"
+  },
+  {
+   "blob": "e442074220456508b61b8272fac2e47b576f1c2a",
+   "path": "app/scripts/build-language-pack-index.mjs"
+  },
+  {
+   "blob": "993cce34502fa17f34849751e514219496437394",
+   "path": "app/scripts/builder-download-compatibility.test.mjs"
+  },
+  {
+   "blob": "14f5c3e08584e157aeb7fa849b9715036381ceae",
+   "path": "app/scripts/check-package-manager.mjs"
+  },
+  {
+   "blob": "1e7a6a56a790b674c374000c8cb239ae00cc940a",
+   "path": "app/scripts/check-private-leaks.mjs"
+  },
+  {
+   "blob": "f5755b524e3b7a76ca47fa34018270ff85ad1eac",
+   "path": "app/scripts/check-test-agent-coverage.mjs"
+  },
+  {
+   "blob": "391e7d5f3bc93d274cc56eb02b8369caff8ec3eb",
+   "path": "app/scripts/clean-build-output.mjs"
+  },
+  {
+   "blob": "65b4852916820e33ed34b8f00e54a6f8323a0670",
+   "path": "app/scripts/clean-build-output.test.mjs"
+  },
+  {
+   "blob": "02b6e2ad5601d2f44fd8442c432df4c6777fac5c",
+   "path": "app/scripts/computer-request-parser.test.mjs"
+  },
+  {
+   "blob": "26e63c030377da2f1fce79fb3805e0b4a39946ff",
+   "path": "app/scripts/engine-cortheon-boundary.test.mjs"
+  },
+  {
+   "blob": "82e610ff099aaca624fc8867db7a662b9496d3c6",
+   "path": "app/scripts/experiments-boundary.test.mjs"
+  },
+  {
+   "blob": "117196a5f182048ea671859b2cc63b6deb6a35c3",
+   "path": "app/scripts/fetch-engine.mjs"
+  },
+  {
+   "blob": "f3ccc91622f4938df8417ff5d765b7a3c92a850e",
+   "path": "app/scripts/fetch-engine.test.mjs"
+  },
+  {
+   "blob": "f60b9fee94a66e870318adc9a423fce69d3fd0b0",
+   "path": "app/scripts/finalize-studio-release.mjs"
+  },
+  {
+   "blob": "ea54d44529fec6197e32046289ebffc2d12e3675",
+   "path": "app/scripts/finalize-studio-release.test.mjs"
+  },
+  {
+   "blob": "e9f87efa69b8edb114ae36a07edcdcd285236e18",
+   "path": "app/scripts/gen-security-audit.mjs"
+  },
+  {
+   "blob": "9ea1c29d05585d5cc48911e05c79ba5b9a4fb954",
+   "path": "app/scripts/gen-test-list.mjs"
+  },
+  {
+   "blob": "acf52f8c28dcbb0f3fd27bff0e3ddddcc394f7ab",
+   "path": "app/scripts/github_profile_research.py"
+  },
+  {
+   "blob": "722846b3c87b8acd181b5c722be8ace3053aed24",
+   "path": "app/scripts/language-hook-ownership.test.mjs"
+  },
+  {
+   "blob": "ad09be30004734cafff1b1b416bc95a26a3ebefc",
+   "path": "app/scripts/language-packs.test.mjs"
+  },
+  {
+   "blob": "a3788e0b85f18b2ed75d3360c80ef5a47c1127fb",
+   "path": "app/scripts/lean-runtime-contracts.test.mjs"
+  },
+  {
+   "blob": "8cdff1c716b852105e98c67779ffc4ec7f4fae6f",
+   "path": "app/scripts/linux-builder-config.cjs"
+  },
+  {
+   "blob": "07e6a8a92c8e9680fc828dcc2273c0cd3f584617",
+   "path": "app/scripts/linux-port-docs.test.mjs"
+  },
+  {
+   "blob": "7184f740b7f9d2cb313b9b7fbdbffe6707533ac2",
+   "path": "app/scripts/macos-runtime-minimum.mjs"
+  },
+  {
+   "blob": "ec682a28f5fe6595da9bd9c9af93f54488e64292",
+   "path": "app/scripts/mail-dependency-regression.test.mjs"
+  },
+  {
+   "blob": "3646c76800835acd82d7d031d109641d32fd88f0",
+   "path": "app/scripts/make-update-manifest.mjs"
+  },
+  {
+   "blob": "2a25fbf3dfc74bbb8ed92da9fd151506e5b15fc4",
+   "path": "app/scripts/make-update-manifest.test.mjs"
+  },
+  {
+   "blob": "cf2e4ca826995ba5c4c8de2b5bcf7487bad5b060",
+   "path": "app/scripts/mobile-dependency-compat.test.mjs"
+  },
+  {
+   "blob": "6a2f4c4c28ede1bb27775d219d2d6b7d8c31f56f",
+   "path": "app/scripts/mobile-pairing-offer.test.mjs"
+  },
+  {
+   "blob": "a9624bc10ee417df28e9808ee16977cd28a05b6b",
+   "path": "app/scripts/mobile-security-dependencies.test.mjs"
+  },
+  {
+   "blob": "470c9b8d6390118f2462cc59b254b90140cf2cdb",
+   "path": "app/scripts/mobile-session-background.test.mjs"
+  },
+  {
+   "blob": "d4f36605258a563568da4343be42a9ba413d0e39",
+   "path": "app/scripts/mobile-shared-runtime.test.mjs"
+  },
+  {
+   "blob": "1bdcfc0bfff16fe37c225a39345b8aa96475694d",
+   "path": "app/scripts/mobile-watch-bridge-provider.test.mjs"
+  },
+  {
+   "blob": "72e0cf6cd62a58d2c924f004c4a3908e4c1f1824",
+   "path": "app/scripts/model-selection-language.test.mjs"
+  },
+  {
+   "blob": "7a2bf8b1d8d50775053ae2df6f09aba916f2d289",
+   "path": "app/scripts/package-checks.mjs"
+  },
+  {
+   "blob": "760fd44ce73c1877ea465e2758cf84d1f9d2214a",
+   "path": "app/scripts/package-checks.test.mjs"
+  },
+  {
+   "blob": "76aece7c6d8cd7bb10a9ab30072eb326feef30fc",
+   "path": "app/scripts/package-config.test.mjs"
+  },
+  {
+   "blob": "d5adb3895a0bc44057e6276b19fa649f2d61aad9",
+   "path": "app/scripts/package-linux.mjs"
+  },
+  {
+   "blob": "40ec8e7d678543d99cd1b3966bc68d758485ed8c",
+   "path": "app/scripts/package-linux.test.mjs"
+  },
+  {
+   "blob": "60809b6f4529648d7d47b78cbcb20e92ae8d27be",
+   "path": "app/scripts/package-mac-xcode.mjs"
+  },
+  {
+   "blob": "8bcbfb028779ef3c91b65486d2219472c34c7fd8",
+   "path": "app/scripts/package-mac-xcode.test.mjs"
+  },
+  {
+   "blob": "d292d952c407dc29759c15c1f9478f2995826997",
+   "path": "app/scripts/package-mac.mjs"
+  },
+  {
+   "blob": "d4b7eea8d8357ab3c567096e01b73609d31f1c87",
+   "path": "app/scripts/package-mac.test.mjs"
+  },
+  {
+   "blob": "1879e41726300f0d5436adb10785c1f91c66f0a0",
+   "path": "app/scripts/package-manager.test.mjs"
+  },
+  {
+   "blob": "3dad9fbd6263ae991ed9c319c00811e48a8a19a8",
+   "path": "app/scripts/prepare-studio-release.mjs"
+  },
+  {
+   "blob": "4618fa4a3d567c32936c29f67b464501569ed6b8",
+   "path": "app/scripts/private-leak-mailto.test.mjs"
+  },
+  {
+   "blob": "695b785cd0374342a015f4be8eb8d11acc7f3d1c",
+   "path": "app/scripts/public-vendor-attributions.json"
+  },
+  {
+   "blob": "898f44bff893d4121de8a55320c5bf4c881ac0c6",
+   "path": "app/scripts/public_post_research.py"
+  },
+  {
+   "blob": "270d87f76a4a829d9b736ecd702737b2f0fe3ea6",
+   "path": "app/scripts/qualify-packaged-memory.mjs"
+  },
+  {
+   "blob": "43312a6eaa4b14387d8e757edca84f022466209b",
+   "path": "app/scripts/qualify-packaged-memory.test.mjs"
+  },
+  {
+   "blob": "f1977e9c4f48bfdc68fed138d78297e3d822d84c",
+   "path": "app/scripts/qualify-small-model.mjs"
+  },
+  {
+   "blob": "3e291b9a05b7c2d4143cd9df531b947ed487e250",
+   "path": "app/scripts/release-credentials.test.mjs"
+  },
+  {
+   "blob": "ea8d2a944c4f3c68d21d753b2b81df75627ca0c2",
+   "path": "app/scripts/renderer-lazy-demo.test.mjs"
+  },
+  {
+   "blob": "694b95041535611618e960b186b19e48a04539c8",
+   "path": "app/scripts/run-tests.mjs"
+  },
+  {
+   "blob": "fa274a7103740718e792724aa6262a4b088bfb46",
+   "path": "app/scripts/settings-main-transaction.test.mjs"
+  },
+  {
+   "blob": "fea9fd3ecd4f87cfad36db537e01af701770bc92",
+   "path": "app/scripts/setup-notarization.mjs"
+  },
+  {
+   "blob": "be97175dbab7482f3fd030dfc9c7fc88c676bcfc",
+   "path": "app/scripts/smoke-mobile-bridge.mjs"
+  },
+  {
+   "blob": "ed2f6194057a9a28b356047e6effd3589c3879ce",
+   "path": "app/scripts/smoke-packaged-linux.mjs"
+  },
+  {
+   "blob": "91d25487dc5c35df7058fa5001442f16ef033b58",
+   "path": "app/scripts/smoke-packaged-linux.test.mjs"
+  },
+  {
+   "blob": "18a93ae4938695064b9f851d995d3888ce409198",
+   "path": "app/scripts/smoke-packaged-mac.mjs"
+  },
+  {
+   "blob": "dd9d5416dc40fcdd1a67943e061f88020b857317",
+   "path": "app/scripts/smoke-packaged-mac.test.mjs"
+  },
+  {
+   "blob": "ab1eeff4ab0a827e531ad7064f558962df5a56a6",
+   "path": "app/scripts/smoke-update-install.mjs"
+  },
+  {
+   "blob": "434f61714c879cbc21b7f0ed5852156068297ee5",
+   "path": "app/scripts/smoke-update-install.test.mjs"
+  },
+  {
+   "blob": "438bda52097c5296d5eb1e2edb814fdcfa9b7ebc",
+   "path": "app/scripts/squirrel-smoke-namespace.mjs"
+  },
+  {
+   "blob": "ee4be61c8c8734ef87572b5a2ffc329f6e998780",
+   "path": "app/scripts/squirrel-smoke-namespace.test.mjs"
+  },
+  {
+   "blob": "b07c6f9099e74b99a5ac3a8e7d75461d5203e250",
+   "path": "app/scripts/strip-packaged-debug-paths.cjs"
+  },
+  {
+   "blob": "409b5372feae1063454f6862eba6b3ea8f3ee29d",
+   "path": "app/scripts/strip-packaged-debug-paths.test.mjs"
+  },
+  {
+   "blob": "ef1387e887e3dfe84b4efc70edae9ecc3b9949d2",
+   "path": "app/scripts/update-signing-trust.mjs"
+  },
+  {
+   "blob": "a5d839b3a71f845343f31c907bb69b492459e661",
+   "path": "app/scripts/verify-clean-install.mjs"
+  },
+  {
+   "blob": "ef09845f93757dd4d8ced6e21168f15772d4c653",
+   "path": "app/scripts/voice-package-payload.test.mjs"
+  },
+  {
+   "blob": "a6f5df5bde781b41b08c79ff76380e25094dce11",
+   "path": "app/scripts/voice-runtime-policy.mjs"
+  },
+  {
+   "blob": "b2889d5f29fd649697fafb5d0a5e026b3813d111",
+   "path": "app/scripts/voice-runtime-policy.test.mjs"
+  },
+  {
+   "blob": "7909f6bcb5a49600af0da3ebd081fb2db2a218c0",
+   "path": "app/scripts/watch-background-controller.test.ts"
+  },
+  {
+   "blob": "c8ddcf207e48cc1fc0097417e70f1b20c4cb5580",
+   "path": "app/scripts/watch-background-native.test.ts"
+  },
+  {
+   "blob": "6c606ebcc6f65a597627a2bd51130daba0453b1e",
+   "path": "app/scripts/watch-background-transport.test.ts"
+  },
+  {
+   "blob": "9e1c5820c82dd524115a996ef5ed7a951b94e33b",
+   "path": "app/scripts/watch-cng-dependency.test.mjs"
+  },
+  {
+   "blob": "71150a47ca2204857690e4a456941deccac49684",
+   "path": "app/scripts/watch-preference.test.ts"
+  },
+  {
+   "blob": "ad3abc16df5a2b3a5612731209bb8093eea9c02f",
+   "path": "app/scripts/watch-relay-adversarial.test.ts"
+  },
+  {
+   "blob": "8bf3d3456ece678ee22e57d8e94c24bfbfc2c034",
+   "path": "app/scripts/watch-relay.test.ts"
+  },
+  {
+   "blob": "8274b49a5db2b4c94b5493f552e6c25bf8a81a47",
+   "path": "app/scripts/youtube_video_research.py"
   },
   {
    "blob": "4d641c8b19d1056dc9bc945a583900a23e934b75",
@@ -93467,6 +93913,14 @@
   {
    "blob": "2cd9903716a8127af50050fe8dc905cc8bd22c47",
    "path": "campaign/kernels/inkling-p5c-chunks-runs/trial.sh"
+  },
+  {
+   "blob": "909e1da10e4a02381ae4225163513530db75928a",
+   "path": "campaign/kernels/inkling-ph2-default-runs/curves/session.sh"
+  },
+  {
+   "blob": "b3a229b74afb4d81a0f7e165d2c01a1b65857d5e",
+   "path": "campaign/kernels/inkling-ph2-default-runs/curves/trial.sh"
   },
   {
    "blob": "3ca45841cbaba94db28908db6a954e2a28ab1712",
@@ -93681,6 +94135,14 @@
    "path": "docs/receipts/xpu-qwen27-sampled-topk/scripts/run_pass.sh"
   },
   {
+   "blob": "f90054d7c46cde29b741c57e9e1badffd1b42cb8",
+   "path": "skills/inference-optimisation/scripts/bench.py"
+  },
+  {
+   "blob": "c0c4ade031660b0596a2e187c74c1b8ebc2c707c",
+   "path": "skills/inference-optimisation/scripts/ceiling.py"
+  },
+  {
    "blob": "9b38b4ca7961d11b91eadaed2a893f3117dfd507",
    "path": "skills/inference-optimisation/scripts/mem.sh"
   },
@@ -93777,6 +94239,10 @@
    "path": "web/ui/package.json"
   },
   {
+   "blob": "642a5ce6d65dd28c56e1308615aec57c48820dbc",
+   "path": "web/ui/scripts/sync-theme.mjs"
+  },
+  {
    "blob": "a3426dc61710fe88dac0e597462fc266fc48e8e1",
    "path": "web/uv.lock"
   },
@@ -93845,7 +94311,7 @@
    "path": "zig/tests/server/zig_test.sh"
   }
  ],
- "inputs_fingerprint": "05269f4182cd119fe393a5d78b6ea8157776815623590be85197c931cc66b8fb",
+ "inputs_fingerprint": "0a908d3d653412d48e009b06d6b4ea23f9dccc503d56e211ebbd3dd190c33386",
  "instances": [
   {
    "commit": null,
@@ -117418,6 +117884,45 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/openssl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/openssl#",
+   "purl": "pkg:system/apt/openssl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/npm",
    "context": "",
    "first_party": false,
@@ -117434,20 +117939,8 @@
   {
    "kind": "unsupported_format",
    "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
    "message": "no parser for build.gradle",
    "path": "app/mobile/modules/tensorfold-pinned-network/android/build.gradle"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "campaign/Makefile"
   }
  ],
  "projects": [

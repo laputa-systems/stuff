@@ -5429,9 +5429,13 @@
   {
    "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
    "path": "rust-toolchain.toml"
+  },
+  {
+   "blob": "41ebfec7e6a81c3ff038768594ebb612a98d409c",
+   "path": "scripts/bench.py"
   }
  ],
- "inputs_fingerprint": "4721b201511d518cead681d8c0b7d8468d0fd64dc73aa55a73ea1941298fea93",
+ "inputs_fingerprint": "c550656ba398332c097889b2e575e115e4931f038e602c879f83915707b25274",
  "instances": [
   {
    "commit": null,
@@ -7358,14 +7362,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

@@ -313,7 +313,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "e79dc71717ae16a27d1a99f000c4c9b40319e3f24a225eef1d954af689524709",
+ "inputs_fingerprint": "e11a0bc61cf5f99d9bda5391a96070414522dd1ddfd9b8196f830828e5aebb49",
  "instances": [
   {
    "commit": null,
@@ -556,12 +556,6 @@
    "locator": null,
    "message": "no lockfile at Cargo.lock",
    "path": "Cargo.lock"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

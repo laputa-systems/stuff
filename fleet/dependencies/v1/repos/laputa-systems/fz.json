@@ -1529,9 +1529,17 @@
   {
    "blob": "a8844c3dae5f9d25c5f5757ef8d80c71c2da30f5",
    "path": "rust-toolchain.toml"
+  },
+  {
+   "blob": "cca956bdc3b9178f3093625d258043abccc76ddd",
+   "path": "scripts/mutants_gate.py"
+  },
+  {
+   "blob": "c349df78a4a845b3e599912dffc081eb12c9876c",
+   "path": "scripts/test_mutants_gate.py"
   }
  ],
- "inputs_fingerprint": "e131a3a7623cd7ecaa074c5839b51a42ab97d66c417cfff6ddfb518ae980f78c",
+ "inputs_fingerprint": "89ab02a07e6116cd0d7f96350dbf9ae979954b18b984b31d7525eb6c82e87dfe",
  "instances": [
   {
    "commit": null,
@@ -2541,12 +2549,6 @@
    "locator": "L68",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "Dockerfile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

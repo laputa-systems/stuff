@@ -635,7 +635,7 @@
    "path": "test-crates/use-libc/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "02d2a0ba5172413f8aa02ea80eb2313cf429ecb0b50041703e6795fe071619cc",
+ "inputs_fingerprint": "b354e0ec2ae48649b905f6ff50f3ae370dad679527e0e1cab0beae2527c3e813",
  "instances": [
   {
    "commit": null,
@@ -1073,12 +1073,6 @@
    "locator": null,
    "message": "no lockfile at Cargo.lock",
    "path": "Cargo.lock"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   },
   {
    "kind": "missing_lock",

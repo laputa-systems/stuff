@@ -3351,9 +3351,69 @@
   {
    "blob": "679ccc128de3d8b5e4640b8b3bf051c980d6bc8f",
    "path": "pnpm-lock.yaml"
+  },
+  {
+   "blob": "909ad7a70e45777613fda704db1ffaddab530ef3",
+   "path": "scripts/bench-budget.mjs"
+  },
+  {
+   "blob": "a828e3702a9d66f267c23c2f706450fdcd860116",
+   "path": "scripts/bench-comparator.json"
+  },
+  {
+   "blob": "467a5ee22be5ab9a8d562c8fd24310d9429c3066",
+   "path": "scripts/bench-process.mjs"
+  },
+  {
+   "blob": "c91580df94cf07740bbc9476af0bd14c5b882b9f",
+   "path": "scripts/bench-workload.mjs"
+  },
+  {
+   "blob": "b1d961d6a199f384a7be5bbed6f76ffc50b6a150",
+   "path": "scripts/bench.mjs"
+  },
+  {
+   "blob": "461cc740f3bcdf59b63f098958c00792338b072f",
+   "path": "scripts/bench.test.ts"
+  },
+  {
+   "blob": "ff1063a7fc0f9164f4d201fc3ab304405108d9ad",
+   "path": "scripts/build-extensions.mjs"
+  },
+  {
+   "blob": "ae373e2de61368b283cda00f78b652551d83e572",
+   "path": "scripts/generate-assets.mjs"
+  },
+  {
+   "blob": "e18ba3c1eb37950c30f115747370032d5b02160d",
+   "path": "scripts/knip.json"
+  },
+  {
+   "blob": "22ece36c77b3ff11416bc91db7365776a0c6e96a",
+   "path": "scripts/rebuild-queue.test.ts"
+  },
+  {
+   "blob": "def4442d900d836691bcd7acaf9cf740179654ee",
+   "path": "scripts/rebuild-queue.ts"
+  },
+  {
+   "blob": "f58ac993e033b3a4c8edc746bf2f19a363dd6dd3",
+   "path": "scripts/render-icons.mjs"
+  },
+  {
+   "blob": "c25d5cd935d52465b00fe3ba6b098a75c0d6c928",
+   "path": "scripts/workloads/extension-startup.mjs"
+  },
+  {
+   "blob": "e916a095bc66167f46106847784df3df94b7cbce",
+   "path": "scripts/workloads/onefile-assemble.mjs"
+  },
+  {
+   "blob": "e14bcc529ceddfe6e40eee38e38229b61fbb525d",
+   "path": "scripts/workloads/x-export.mjs"
   }
  ],
- "inputs_fingerprint": "a36713f7317aae5cbacb1786941803c7d2491bc42fb4f48071fe1adb86f8e730",
+ "inputs_fingerprint": "12921434bd95f976e00ef09db279426b5620b40e0969cd245e3cbb841c9bcd82",
  "instances": [
   {
    "commit": null,
@@ -5059,14 +5119,7 @@
    "version": "11.0.2"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

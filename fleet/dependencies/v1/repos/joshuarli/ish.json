@@ -5435,8 +5435,24 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "506ed23b80e496d645196ca5e3deb98810dde047",
+   "path": "scripts/check-refinement.py"
+  },
+  {
+   "blob": "f696f6ad75433b8e7bd67844210d023f289832f6",
+   "path": "scripts/check-semantic-mutations.py"
+  },
+  {
+   "blob": "0234c2c39ea9b90c6d6fff3b2ae698021966f6d0",
+   "path": "scripts/generate_layout_fixture.py"
+  },
+  {
    "blob": "8fcca6f8b9655986f2ac99d1a1753a1cd1034c7f",
    "path": "scripts/import-fish-history"
+  },
+  {
+   "blob": "d2a780e536381ff9a7901b8715a475bfc0b6b463",
+   "path": "scripts/test-semantic-mutations.py"
   },
   {
    "blob": "e8daac9a3d5dbbbea1f92a9d3673ce225b30195a",
@@ -5455,7 +5471,7 @@
    "path": "vendor/fz/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "c1e51feee61ea386e7a4b32ca97a3fb361318c7456cefdf5cb6676c17b9331bc",
+ "inputs_fingerprint": "0b63ae260ea070c6600604fe4be04ab553cc1fb2a024a54137bf2504bfe249dc",
  "instances": [
   {
    "commit": null,
@@ -7810,12 +7826,6 @@
    "locator": "L52",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "Dockerfile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

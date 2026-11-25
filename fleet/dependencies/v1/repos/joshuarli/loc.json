@@ -4061,9 +4061,17 @@
   {
    "blob": "47e0b17a8068a0088b31d91a7af6c5ecf410208d",
    "path": "scripts/corpus.sh"
+  },
+  {
+   "blob": "8e8ff7e0ca988508ae72dc3309e37cd4153dc697",
+   "path": "scripts/costs.py"
+  },
+  {
+   "blob": "9e274050f482db8bb5cb8d3bd7123ea7a072c055",
+   "path": "scripts/vote.py"
   }
  ],
- "inputs_fingerprint": "a5ac542dd9443d48241f6bdc68c1cdf0e95a5c36a21b77f2185439881f3ffa79",
+ "inputs_fingerprint": "b05b0fabae0d6409a0b20ff26b3897e2c3a15c62125ca1995d38ad7cb0a6c16a",
  "instances": [
   {
    "commit": null,
@@ -6178,12 +6186,6 @@
    "locator": "L28",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "Dockerfile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

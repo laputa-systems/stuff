@@ -2281,6 +2281,10 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "5318e38441b1326f95db7d6c08ffa53f2de7e3be",
+   "path": "src/languages/dockerfile.rs"
+  },
+  {
    "blob": "0d2b0d69ba058368ae2427ef8ca53f37a531384e",
    "path": "tools/bump_minor_release.sh"
   },
@@ -2301,7 +2305,7 @@
    "path": "tools/hi-lite-syntect/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "e42f8807c4946280a48e3893fd240f90dc6dee0a07953bfaac654827e687fa40",
+ "inputs_fingerprint": "95acb51a10498264ec3404830a56d1505dacedd1b9f28ed58c9fab2e86f501b3",
  "instances": [
   {
    "commit": null,
@@ -3474,14 +3478,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

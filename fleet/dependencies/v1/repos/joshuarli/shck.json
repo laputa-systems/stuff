@@ -18415,6 +18415,18 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "5a6e902f82655b09e604b9fa03a95e9cb089d52c",
+   "path": "scripts/benchmarks/export_repo_corpus.py"
+  },
+  {
+   "blob": "fab34a9b1e55c413a7581d3ed890af4b0a3b02dd",
+   "path": "scripts/benchmarks/export_website_data.py"
+  },
+  {
+   "blob": "05b3ce071746188eae9d17f0407af410355a4ca1",
+   "path": "scripts/benchmarks/macro_pr_report.py"
+  },
+  {
    "blob": "09d6f61dd70c9c6637f05c0f0b7c9c51e729db35",
    "path": "scripts/benchmarks/run.sh"
   },
@@ -18427,8 +18439,16 @@
    "path": "scripts/benchmarks/run_formatter_single.sh"
   },
   {
+   "blob": "debc3d90b601383e7dfe1e8f8f8873ecf6de42b8",
+   "path": "scripts/benchmarks/run_linter_memory.py"
+  },
+  {
    "blob": "4b78f2adac61e564832fd9ee788e612a6ec96a27",
    "path": "scripts/benchmarks/run_paired.sh"
+  },
+  {
+   "blob": "8a38ef76f4a508bd3972360412614a4dfbb4dfb6",
+   "path": "scripts/benchmarks/run_parser_memory.py"
   },
   {
    "blob": "ccf940ad38d9f31d26f8f840344d8e027c8feea9",
@@ -18447,12 +18467,40 @@
    "path": "scripts/benchmarks/summarize_formatter.sh"
   },
   {
+   "blob": "ca7d79986f7c3d957ead5894bd93c67ca6053270",
+   "path": "scripts/benchmarks/test_export_website_data.py"
+  },
+  {
+   "blob": "f22a89949b85e4d4d88776a35a4c26bffc558b3f",
+   "path": "scripts/benchmarks/test_macro_pr_report.py"
+  },
+  {
+   "blob": "0de1065488e12c74e170d883380b8da3c3a753a2",
+   "path": "scripts/benchmarks/test_makefile_bench_macro_site_local.py"
+  },
+  {
+   "blob": "45d4dad4bdece2884edb8f2b8a4abacaee666055",
+   "path": "scripts/benchmarks/test_run.py"
+  },
+  {
+   "blob": "e5a1ae2b562d48455794ad28b14ebf30d54fa90c",
+   "path": "scripts/benchmarks/test_run_paired.py"
+  },
+  {
    "blob": "a2d4e2cde667da598b4c1283f2b7cb7a594d0535",
    "path": "scripts/benchmarks/with_timeout.sh"
   },
   {
    "blob": "5d4c66fd6a05cfba5c10c59a47366f51dd12e148",
    "path": "scripts/bootstrap-crates-publish.sh"
+  },
+  {
+   "blob": "d6f6879ff859248849d3b1d375801fe4afb3cfe1",
+   "path": "scripts/build-python-release.py"
+  },
+  {
+   "blob": "ac7dfd2c8031eb60f9056ee9a8d9af4bd0013441",
+   "path": "scripts/build-python-release.py.lock"
   },
   {
    "blob": "7d657c9bb88b467eb9dac46e9fb7c27031db3558",
@@ -18467,12 +18515,24 @@
    "path": "scripts/ci/smoke-python-packaging.sh"
   },
   {
+   "blob": "7cbc1f3697e7ecee8177bfd7e2ffdad53ed30d38",
+   "path": "scripts/compact_large_corpus_log.py"
+  },
+  {
    "blob": "ff47769882840b1e5e0030e3f0da42c6cb022fc7",
    "path": "scripts/corpus-download.sh"
   },
   {
    "blob": "34a1c6c7f3aa6cc7b4ed61e91b335cbe8611e50d",
    "path": "scripts/fuzz-init.sh"
+  },
+  {
+   "blob": "db60c2c11ebd8825a8f681362f27a517aef5c0bf",
+   "path": "scripts/fuzz_cli.py"
+  },
+  {
+   "blob": "125db2a2b885354de97a4117e219b0ec94200e88",
+   "path": "scripts/large_corpus_report.py"
   },
   {
    "blob": "990e5175391e1493972cf4b8e554d22df0cf6637",
@@ -18493,9 +18553,25 @@
   {
    "blob": "d2fe277d93897f9b85189a287736913e5b493e2f",
    "path": "scripts/sync-claude-md.sh"
+  },
+  {
+   "blob": "5b4c18f81476377e9d3d124758a6ac51af5cdd8e",
+   "path": "scripts/test_compact_large_corpus_log.py"
+  },
+  {
+   "blob": "925683438b1afd950089732ac8ebc0ab6c378920",
+   "path": "scripts/test_large_corpus_report.py"
+  },
+  {
+   "blob": "a61df2177cc987cb0053f53267f176941d85b988",
+   "path": "scripts/update_shellcheck_levels.py"
+  },
+  {
+   "blob": "9f482f924edb8d3981d013cacfc791eca6f80aec",
+   "path": "scripts/workspace-publish-crates.py"
   }
  ],
- "inputs_fingerprint": "ded0a94475ff56fb2be2ec25029ada55965d0053fca8caf08b844de8fb971c10",
+ "inputs_fingerprint": "10663a4e59df4ea674ec05ab8cd188a32d0dee8723d9f09f79b93e9b039067df",
  "instances": [
   {
    "commit": null,
@@ -24751,14 +24827,7 @@
    "version": "nightly-2026-09-15"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

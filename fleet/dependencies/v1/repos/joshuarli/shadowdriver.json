@@ -10601,7 +10601,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "30a527d5087543d65af949a1451655f6b7a928abe417e8806638df83bd16ff11",
+ "inputs_fingerprint": "3da093bd20cb304be9b0fd57ec7a44ab8068e18103e001c712585436f1416012",
  "instances": [
   {
    "commit": null,
@@ -14206,30 +14206,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "grab/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "ig-ts/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "ig/Makefile"
-  },
   {
    "kind": "vendored_unknown",
    "locator": null,

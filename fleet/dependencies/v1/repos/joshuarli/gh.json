@@ -2785,7 +2785,7 @@
    "path": "script/sign"
   }
  ],
- "inputs_fingerprint": "dd76db60739827df07b40c84955ecb70a2ff942e43b83f19254bacbf24d6d570",
+ "inputs_fingerprint": "111bf6e2d8a9cf19652db465a9f68c567b706df39e37fbdd57dc7654907a8777",
  "instances": [
   {
    "commit": null,
@@ -4855,14 +4855,7 @@
    "version": "1.27.3"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

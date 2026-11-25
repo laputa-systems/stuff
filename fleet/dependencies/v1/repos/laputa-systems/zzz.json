@@ -339,7 +339,7 @@
    "path": "Makefile"
   }
  ],
- "inputs_fingerprint": "3900cae8c6878b0b68526966583b54bd66674212190e9360bf802ce6165a0eb4",
+ "inputs_fingerprint": "347578c26441e022f5fe372ddaed2321ece31e121dda1d796d4a39035a45fd23",
  "instances": [
   {
    "commit": null,
@@ -706,14 +706,7 @@
    "version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

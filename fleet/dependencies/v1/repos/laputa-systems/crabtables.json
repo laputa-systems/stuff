@@ -229,6 +229,36 @@
    "purl": "pkg:local/nfcrt"
   },
   {
+   "display_name": "apt/conntrack",
+   "ecosystem": "system",
+   "name": "apt/conntrack",
+   "purl": "pkg:system/apt/conntrack"
+  },
+  {
+   "display_name": "apt/iproute2",
+   "ecosystem": "system",
+   "name": "apt/iproute2",
+   "purl": "pkg:system/apt/iproute2"
+  },
+  {
+   "display_name": "apt/netbase",
+   "ecosystem": "system",
+   "name": "apt/netbase",
+   "purl": "pkg:system/apt/netbase"
+  },
+  {
+   "display_name": "apt/nftables",
+   "ecosystem": "system",
+   "name": "apt/nftables",
+   "purl": "pkg:system/apt/nftables"
+  },
+  {
+   "display_name": "apt/python3",
+   "ecosystem": "system",
+   "name": "apt/python3",
+   "purl": "pkg:system/apt/python3"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -439,6 +469,96 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/conntrack#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/iproute2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/netbase#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/nftables#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L36",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/python3#"
   },
   {
    "condition": null,
@@ -1197,9 +1317,17 @@
   {
    "blob": "93943f2c7e8ac35ec238830a1dd0483e94f71dc2",
    "path": "rust-toolchain.toml"
+  },
+  {
+   "blob": "b8625ba85288c00c156d56122da3ccd61772edf6",
+   "path": "scripts/bench.py"
+  },
+  {
+   "blob": "15fca9e43a9cb0bf2e4b52053f8c6cd5ef480eee",
+   "path": "scripts/check-constants.py"
   }
  ],
- "inputs_fingerprint": "300329339e0cced88c1c2bcee20226b9f7a08c6a0054b69691078849f4774e66",
+ "inputs_fingerprint": "2d1d4920fa227daba7f98ccbfa91258e0dd5d61bb1f9981a2aebec8bc805ff76",
  "instances": [
   {
    "commit": null,
@@ -1697,6 +1825,71 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/conntrack",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/conntrack#",
+   "purl": "pkg:system/apt/conntrack",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/iproute2",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/iproute2#",
+   "purl": "pkg:system/apt/iproute2",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/netbase",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/netbase#",
+   "purl": "pkg:system/apt/netbase",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/nftables",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/nftables#",
+   "purl": "pkg:system/apt/nftables",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/python3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/python3#",
+   "purl": "pkg:system/apt/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -1709,14 +1902,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",
@@ -1727,6 +1913,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "cli",

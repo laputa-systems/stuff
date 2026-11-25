@@ -5947,11 +5947,43 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "1f92b19096e6f321ff7a4613c9e6163c7d7585b6",
+   "path": "scripts/.gitignore"
+  },
+  {
+   "blob": "b73fa18f04c4743e0dab8c9ae8d158358d030f19",
+   "path": "scripts/README.md"
+  },
+  {
+   "blob": "93d75bd8a7e2c289d72e6abbcd8fd3059d6fad3e",
+   "path": "scripts/gen-hb-compat-header.py"
+  },
+  {
+   "blob": "6794720a9a83673aee71e1cbac1568ee5944b271",
+   "path": "scripts/gen-shaping-tests.py"
+  },
+  {
+   "blob": "1e76fa2d78ebebad5456be5bffadd48381952870",
+   "path": "scripts/gen-tag-reverse.py"
+  },
+  {
+   "blob": "137d6898d21dfe7d1d09c053b42ead629560f671",
+   "path": "scripts/test-capi-coverage.py"
+  },
+  {
+   "blob": "dea22c7e539297db7b7bef3941d2f5d17b62ada6",
+   "path": "scripts/test-capi-metadata.py"
+  },
+  {
+   "blob": "996556e78c908d362b685c9d18e292fbbff3439d",
+   "path": "scripts/test-capi-ot-queries.py"
+  },
+  {
    "blob": "b2fb7e71f2e1fb88df9b3061a8d6c97f7e1cf396",
    "path": "scripts/update-unicode-tables.mk"
   }
  ],
- "inputs_fingerprint": "31748b3f4d98537c427c77a15555e674c254d33f752b323ee8c6224da403bd5b",
+ "inputs_fingerprint": "3d6ddb34bd852c55c5e580b2caef204a7c47706a0d249450637f8ad1dd70ee2c",
  "instances": [
   {
    "commit": null,
@@ -7917,14 +7949,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

@@ -15237,7 +15237,7 @@
    "path": "rustls/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "83276eacaa8b7141b1f2d3370a567a0c23d5966eddc807cf0c6746b89574d17f",
+ "inputs_fingerprint": "0614cfa3cb86b4db7f5d2d27c88adc04c53cbd12ee59361af204bf985f5b775d",
  "instances": [
   {
    "commit": null,
@@ -19491,14 +19491,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

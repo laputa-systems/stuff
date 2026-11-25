@@ -1625,7 +1625,7 @@
    "path": "tests/upstream/musl.sh"
   }
  ],
- "inputs_fingerprint": "7dde0eb0fd7827efc4ec6337e934fee832acd06cba448f5dcfc971b956da1640",
+ "inputs_fingerprint": "9e8b3ddeb9931e6b9a04f6a27d096bdc9d197ac1e8054daeda6075255c79eacf",
  "instances": [
   {
    "commit": null,
@@ -3059,12 +3059,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "unsupported_format",
    "locator": null,

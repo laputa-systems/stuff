@@ -5345,9 +5345,57 @@
   {
    "blob": "f237735df3b2215b37ae74fd3997502437abdd3d",
    "path": "pnpm-lock.yaml"
+  },
+  {
+   "blob": "400e5943937c5916adcb435eea0a91b492a3fa8a",
+   "path": "scripts/browser/agent.ts"
+  },
+  {
+   "blob": "33c31d2d1524aa26eae64f045bd0ec339a763c2f",
+   "path": "scripts/browser/check.ts"
+  },
+  {
+   "blob": "fb7878f8e6f430d84787b13c6e59f2ad8360bba4",
+   "path": "scripts/browser/harness.html"
+  },
+  {
+   "blob": "08630f063e0eb9adceeb39b8e388def14cab3dd5",
+   "path": "scripts/browser/harness.ts"
+  },
+  {
+   "blob": "2102b9ca17e149adb777076a04743d5c2e0229f4",
+   "path": "scripts/browser/live.ts"
+  },
+  {
+   "blob": "02c16c01e32960d934687df3a81d1f46f835d7b4",
+   "path": "scripts/browser/page.ts"
+  },
+  {
+   "blob": "84cc78253820c67b6b48953457593fabdf1c59f6",
+   "path": "scripts/deploy.ts"
+  },
+  {
+   "blob": "ddb6d28d38b46cecc974b84533071c0e39bece9a",
+   "path": "scripts/serve-vercel-local.ts"
+  },
+  {
+   "blob": "9945d8cf4d050441a43d7bcc064ac1fab91e4164",
+   "path": "scripts/smoke-workerd.ts"
+  },
+  {
+   "blob": "2d2327d804e990ee61d406caa7f4925055500460",
+   "path": "scripts/stamp.ts"
+  },
+  {
+   "blob": "31b4cbda940a5bef9e7114f3f876eeb267244388",
+   "path": "scripts/summarize-export.ts"
+  },
+  {
+   "blob": "3dabbe93c9a51f791f76e8441d85cb18389b2233",
+   "path": "scripts/verify-live.ts"
   }
  ],
- "inputs_fingerprint": "b4d923abc2913cabf14b93d6368bf96b64282d6839f8c109b402df5b86560d13",
+ "inputs_fingerprint": "55188fb7a512216ab6c00ab990324980c12cfb35a0a9cd0f8a39801ad174f9ab",
  "instances": [
   {
    "commit": null,
@@ -8067,14 +8115,7 @@
    "version": "12.21.0"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

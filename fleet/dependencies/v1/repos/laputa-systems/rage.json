@@ -20089,7 +20089,7 @@
    "path": "tools/test_publish_age_core.sh"
   }
  ],
- "inputs_fingerprint": "f66bee4cb1cebe078cdd42bfa784aeddc5ef5eac7ea42ee425a822cf3c800a6d",
+ "inputs_fingerprint": "2e27c4430fd1c1cd6f2843aeae81256d6993f8a075c74fab5a359b9418e925cb",
  "instances": [
   {
    "commit": null,
@@ -24253,12 +24253,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "dynamic_value",
    "locator": "dependencies.age-core",

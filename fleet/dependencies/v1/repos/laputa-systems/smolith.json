@@ -2389,6 +2389,12 @@
    "purl": "pkg:local/smolith-qualify"
   },
   {
+   "display_name": "apt/musl-tools",
+   "ecosystem": "system",
+   "name": "apt/musl-tools",
+   "purl": "pkg:system/apt/musl-tools"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -2791,6 +2797,24 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-09-15#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L106",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/musl-tools#"
   },
   {
    "condition": null,
@@ -23805,6 +23829,10 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "24830dacb0959da4bfb57184498d95fa2ae1ebc5",
+   "path": "scripts/README.md"
+  },
+  {
    "blob": "188e8412a5764f3b61f7662afb810b9b35a5a52c",
    "path": "scripts/bench-matrix.sh"
   },
@@ -23873,7 +23901,7 @@
    "path": "tools/stage.sh"
   }
  ],
- "inputs_fingerprint": "bce9059dbd882123f2585644af03ba9cf3887b08689870aea53301f28b3ddf7a",
+ "inputs_fingerprint": "19cda9f402f6873599b25d21d164f3860816e5c56070c169f5fc43f3cabafdc5",
  "instances": [
   {
    "commit": null,
@@ -29753,6 +29781,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/musl-tools",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/musl-tools#",
+   "purl": "pkg:system/apt/musl-tools",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -29767,22 +29808,10 @@
  ],
  "issues": [
   {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
    "kind": "dynamic_value",
    "locator": "L26",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/$arch-unknown-linux-musl/rustup-init' is not literal",
    "path": "benchmarks/twelve-dollar/linux/Dockerfile.box"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "crates/laputa-fastwebsockets-futures-lite/benches/Makefile"
   },
   {
    "kind": "missing_lock",
@@ -29808,6 +29837,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "benchmarks/twelve-dollar/crates/app-core",

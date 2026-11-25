@@ -8309,8 +8309,84 @@
    "path": "scripts/bump-version.sh"
   },
   {
+   "blob": "f775c65f4af0a2f65d2173d5001d6e57e1b1457d",
+   "path": "scripts/csv/extract-papaparse.js"
+  },
+  {
+   "blob": "004226bd800e8d9b359c126791105fa2efc19a86",
+   "path": "scripts/ini/capture-configparser.py"
+  },
+  {
+   "blob": "49ff1bbfdb97830d8b570b048faa3934ec53572c",
+   "path": "scripts/ini/git-config/baseline.py"
+  },
+  {
+   "blob": "9abd100f6a0908f6fb47e0e93344301c391e271c",
+   "path": "scripts/ini/git-config/capture-dulwich.py"
+  },
+  {
+   "blob": "8a52f1b924c306a166bc5aac7d5a1b0cf9d2760e",
+   "path": "scripts/ini/git-config/capture.go"
+  },
+  {
+   "blob": "07aaa7df4aeaed5784b7f3d91431f9cc12bab0e9",
+   "path": "scripts/ini/git-config/extract-literals.py"
+  },
+  {
+   "blob": "a625bee17bf3a26f4cf0ad676f41406c9af51ba5",
+   "path": "scripts/ini/git-config/patch.py"
+  },
+  {
+   "blob": "9606e900efdf2742a518e4e2eb2888365aae2d57",
+   "path": "scripts/ini/references/inih-driver.c"
+  },
+  {
+   "blob": "b7dea1d63729d600139c130d66088ce5d54ace69",
+   "path": "scripts/ini/references/inputs.py"
+  },
+  {
+   "blob": "def709d337757fa0e3061e534332995eef3b99db",
+   "path": "scripts/ini/references/run-configparser.py"
+  },
+  {
+   "blob": "14493f2aa6355573b39c8effae87815230d076ee",
+   "path": "scripts/ini/references/run-php.php"
+  },
+  {
+   "blob": "47f94621fc28efeb962133a3cfcea4a34d8a4687",
+   "path": "scripts/ini/references/write.py"
+  },
+  {
+   "blob": "56b0cf0584259fe816c66902020c10a90526da6a",
+   "path": "scripts/miri-slowest"
+  },
+  {
+   "blob": "ea17f3c719eec36aa7d01cd1e7a785986c94c43a",
+   "path": "scripts/php-serialize/cases.php"
+  },
+  {
+   "blob": "c284676254bf4a996f7860391b7d70d58312a463",
+   "path": "scripts/php-serialize/generate.php"
+  },
+  {
+   "blob": "ba355befa9756aa7cd9ac0141376f3fdf5b671ad",
+   "path": "scripts/pickle/cases.py"
+  },
+  {
+   "blob": "c5adba6854ed2299244c67227a2cbb39733fbd29",
+   "path": "scripts/pickle/check-serializer.py"
+  },
+  {
+   "blob": "2ad0cbd232bbc09b94b933f91afd6d8aca5b5f3a",
+   "path": "scripts/pickle/generate.py"
+  },
+  {
    "blob": "3e7127c11d9a3be8a71044d849ce1bf96e824b7d",
    "path": "scripts/publish.sh"
+  },
+  {
+   "blob": "bd30f531579584d4936496e1a9e7bb7ae33d50b7",
+   "path": "scripts/scrub-pi-session.mjs"
   },
   {
    "blob": "b8a2a2f61a0b941bfd594a832b4d5dee923a6fa2",
@@ -8357,11 +8433,15 @@
    "path": "scripts/update-yaml-test-data.sh"
   },
   {
+   "blob": "909bcb7d5341687019645247bbca740d146860b1",
+   "path": "scripts/utility-runner"
+  },
+  {
    "blob": "713b49973d336d0ea5836681318129ac7771b668",
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "dd93ec02c4889a897705951741f37216fe16d2c5baddf65f7b8df915b2ff4b58",
+ "inputs_fingerprint": "4920b27bc534b2c150d630720aed6af3936b321c38b78201dd004e19484dcf12",
  "instances": [
   {
    "commit": null,
@@ -10138,12 +10218,6 @@
    "locator": null,
    "message": "no lockfile at Cargo.lock",
    "path": "Cargo.lock"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   },
   {
    "kind": "missing_lock",

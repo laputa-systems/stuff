@@ -6,6 +6,7 @@ from repomod.dependencies.adapters.cloudflare import CloudflareAdapter
 from repomod.dependencies.adapters.cmake import CmakeAdapter
 from repomod.dependencies.adapters.containers import ContainersAdapter
 from repomod.dependencies.adapters.go import GoAdapter
+from repomod.dependencies.adapters.installs import InstallsAdapter
 from repomod.dependencies.adapters.javascript import JavaScriptAdapter
 from repomod.dependencies.adapters.orange import OrangeAdapter
 from repomod.dependencies.adapters.python import PythonAdapter
@@ -29,4 +30,5 @@ ADAPTERS: tuple[Adapter, ...] = (
     CmakeAdapter(),
     CloudflareAdapter(),
     OrangeAdapter(),
+    InstallsAdapter(),
 )

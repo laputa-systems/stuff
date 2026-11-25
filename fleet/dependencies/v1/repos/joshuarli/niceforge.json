@@ -4729,6 +4729,270 @@
    "purl": "pkg:npm/yaml"
   },
   {
+   "display_name": "apt/$(cargo",
+   "ecosystem": "system",
+   "name": "apt/$(cargo",
+   "purl": "pkg:system/apt/%24%28cargo"
+  },
+  {
+   "display_name": "apt/$(rustc",
+   "ecosystem": "system",
+   "name": "apt/$(rustc",
+   "purl": "pkg:system/apt/%24%28rustc"
+  },
+  {
+   "display_name": "apt/*)",
+   "ecosystem": "system",
+   "name": "apt/*)",
+   "purl": "pkg:system/apt/%2A%29"
+  },
+  {
+   "display_name": "apt/;;",
+   "ecosystem": "system",
+   "name": "apt/;;",
+   "purl": "pkg:system/apt/%3B%3B"
+  },
+  {
+   "display_name": "apt/>/dev/null",
+   "ecosystem": "system",
+   "name": "apt/>/dev/null",
+   "purl": "pkg:system/apt/%3E/dev/null"
+  },
+  {
+   "display_name": "apt/>/dev/null;",
+   "ecosystem": "system",
+   "name": "apt/>/dev/null;",
+   "purl": "pkg:system/apt/%3E/dev/null%3B"
+  },
+  {
+   "display_name": "apt/}",
+   "ecosystem": "system",
+   "name": "apt/}",
+   "purl": "pkg:system/apt/%7D"
+  },
+  {
+   "display_name": "apt//etc/apt/sources.list;",
+   "ecosystem": "system",
+   "name": "apt//etc/apt/sources.list;",
+   "purl": "pkg:system/apt//etc/apt/sources.list%3B"
+  },
+  {
+   "display_name": "apt//etc/apt/sources.list.d/*",
+   "ecosystem": "system",
+   "name": "apt//etc/apt/sources.list.d/*",
+   "purl": "pkg:system/apt//etc/apt/sources.list.d/%2A"
+  },
+  {
+   "display_name": "apt//etc/os-release;",
+   "ecosystem": "system",
+   "name": "apt//etc/os-release;",
+   "purl": "pkg:system/apt//etc/os-release%3B"
+  },
+  {
+   "display_name": "apt//var/cache/apt/archives/*.deb",
+   "ecosystem": "system",
+   "name": "apt//var/cache/apt/archives/*.deb",
+   "purl": "pkg:system/apt//var/cache/apt/archives/%2A.deb"
+  },
+  {
+   "display_name": "apt//var/cache/ldconfig/aux-cache",
+   "ecosystem": "system",
+   "name": "apt//var/cache/ldconfig/aux-cache",
+   "purl": "pkg:system/apt//var/cache/ldconfig/aux-cache"
+  },
+  {
+   "display_name": "apt//var/lib/apt/lists/*",
+   "ecosystem": "system",
+   "name": "apt//var/lib/apt/lists/*",
+   "purl": "pkg:system/apt//var/lib/apt/lists/%2A"
+  },
+  {
+   "display_name": "apt//var/log/alternatives.log",
+   "ecosystem": "system",
+   "name": "apt//var/log/alternatives.log",
+   "purl": "pkg:system/apt//var/log/alternatives.log"
+  },
+  {
+   "display_name": "apt//var/log/apt",
+   "ecosystem": "system",
+   "name": "apt//var/log/apt",
+   "purl": "pkg:system/apt//var/log/apt"
+  },
+  {
+   "display_name": "apt//var/log/dpkg.log;",
+   "ecosystem": "system",
+   "name": "apt//var/log/dpkg.log;",
+   "purl": "pkg:system/apt//var/log/dpkg.log%3B"
+  },
+  {
+   "display_name": "apt/1",
+   "ecosystem": "system",
+   "name": "apt/1",
+   "purl": "pkg:system/apt/1"
+  },
+  {
+   "display_name": "apt/DEBIAN_VERSION_FULL",
+   "ecosystem": "system",
+   "name": "apt/DEBIAN_VERSION_FULL",
+   "purl": "pkg:system/apt/DEBIAN_VERSION_FULL"
+  },
+  {
+   "display_name": "apt/VERSION_CODENAME",
+   "ecosystem": "system",
+   "name": "apt/VERSION_CODENAME",
+   "purl": "pkg:system/apt/VERSION_CODENAME"
+  },
+  {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/cargo",
+   "ecosystem": "system",
+   "name": "apt/cargo",
+   "purl": "pkg:system/apt/cargo"
+  },
+  {
+   "display_name": "apt/case",
+   "ecosystem": "system",
+   "name": "apt/case",
+   "purl": "pkg:system/apt/case"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/e2fsprogs",
+   "ecosystem": "system",
+   "name": "apt/e2fsprogs",
+   "purl": "pkg:system/apt/e2fsprogs"
+  },
+  {
+   "display_name": "apt/esac",
+   "ecosystem": "system",
+   "name": "apt/esac",
+   "purl": "pkg:system/apt/esac"
+  },
+  {
+   "display_name": "apt/esac;",
+   "ecosystem": "system",
+   "name": "apt/esac;",
+   "purl": "pkg:system/apt/esac%3B"
+  },
+  {
+   "display_name": "apt/exit",
+   "ecosystem": "system",
+   "name": "apt/exit",
+   "purl": "pkg:system/apt/exit"
+  },
+  {
+   "display_name": "apt/gcc",
+   "ecosystem": "system",
+   "name": "apt/gcc",
+   "purl": "pkg:system/apt/gcc"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/grep",
+   "ecosystem": "system",
+   "name": "apt/grep",
+   "purl": "pkg:system/apt/grep"
+  },
+  {
+   "display_name": "apt/in",
+   "ecosystem": "system",
+   "name": "apt/in",
+   "purl": "pkg:system/apt/in"
+  },
+  {
+   "display_name": "apt/iproute2",
+   "ecosystem": "system",
+   "name": "apt/iproute2",
+   "purl": "pkg:system/apt/iproute2"
+  },
+  {
+   "display_name": "apt/libc6-dev",
+   "ecosystem": "system",
+   "name": "apt/libc6-dev",
+   "purl": "pkg:system/apt/libc6-dev"
+  },
+  {
+   "display_name": "apt/libc6-dev;",
+   "ecosystem": "system",
+   "name": "apt/libc6-dev;",
+   "purl": "pkg:system/apt/libc6-dev%3B"
+  },
+  {
+   "display_name": "apt/make",
+   "ecosystem": "system",
+   "name": "apt/make",
+   "purl": "pkg:system/apt/make"
+  },
+  {
+   "display_name": "apt/openssl",
+   "ecosystem": "system",
+   "name": "apt/openssl",
+   "purl": "pkg:system/apt/openssl"
+  },
+  {
+   "display_name": "apt/pkg-config",
+   "ecosystem": "system",
+   "name": "apt/pkg-config",
+   "purl": "pkg:system/apt/pkg-config"
+  },
+  {
+   "display_name": "apt/procps",
+   "ecosystem": "system",
+   "name": "apt/procps",
+   "purl": "pkg:system/apt/procps"
+  },
+  {
+   "display_name": "apt/python3",
+   "ecosystem": "system",
+   "name": "apt/python3",
+   "purl": "pkg:system/apt/python3"
+  },
+  {
+   "display_name": "apt/ripgrep",
+   "ecosystem": "system",
+   "name": "apt/ripgrep",
+   "purl": "pkg:system/apt/ripgrep"
+  },
+  {
+   "display_name": "apt/rm",
+   "ecosystem": "system",
+   "name": "apt/rm",
+   "purl": "pkg:system/apt/rm"
+  },
+  {
+   "display_name": "apt/rustc",
+   "ecosystem": "system",
+   "name": "apt/rustc",
+   "purl": "pkg:system/apt/rustc"
+  },
+  {
+   "display_name": "apt/xz-utils",
+   "ecosystem": "system",
+   "name": "apt/xz-utils",
+   "purl": "pkg:system/apt/xz-utils"
+  },
+  {
    "display_name": "node",
    "ecosystem": "toolchain",
    "name": "node",
@@ -45538,6 +45802,510 @@
   },
   {
    "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%24%28cargo#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%24%28rustc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%2A%29#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%3B%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//etc/apt/sources.list%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//etc/apt/sources.list.d/%2A#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//etc/os-release%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//var/cache/apt/archives/%2A.deb#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//var/cache/ldconfig/aux-cache#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//var/lib/apt/lists/%2A#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//var/log/alternatives.log#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//var/log/apt#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt//var/log/dpkg.log%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/DEBIAN_VERSION_FULL#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/VERSION_CODENAME#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/cargo#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/case#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/esac#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/esac%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/exit#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/gcc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/grep#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/in#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libc6-dev%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/rm#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L14",
+     "path": "scripts/materials/rust-runner.Dockerfile"
+    }
+   ],
+   "from": "scripts/materials:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/rustc#"
+  },
+  {
+   "condition": null,
    "constraint": "sha256:f6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4",
    "evidence": [
     {
@@ -45553,6 +46321,474 @@
    "scope": "image",
    "source_kind": "image",
    "to": "pkg:docker/debian@trixie-slim?digest=sha256%3Af6b08b09a05725f9431502d3b5714f5c4576e82c1a84fa1debe0c24a7e0c3ec4#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%3E/dev/null#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L106",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%3E/dev/null%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L106",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%7D#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L106",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/e2fsprogs#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/gcc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/gcc#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/iproute2#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libc6-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/libc6-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/openssl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L106",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/pkg-config#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/procps#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/procps#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/python3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ripgrep#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "scripts/forge-deploy.Dockerfile"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/xz-utils#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L56",
+     "path": "scripts/linux-host.sh"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/xz-utils#"
   },
   {
    "condition": null,
@@ -55127,6 +56363,10 @@
  ],
  "inputs": [
   {
+   "blob": "595abbc998e7664c6316e7141a4545d23de68d04",
+   "path": ".agents/skills/rebaseline-native-upstream/scripts/stage-upstream.py"
+  },
+  {
    "blob": "1dda03ddb06ad1c7da5b913539290187eb7fc5aa",
    "path": ".node-version"
   },
@@ -55195,28 +56435,324 @@
    "path": "scripts/build-smolvm-host.sh"
   },
   {
+   "blob": "7ae957b74256f95029d67bccc29860adc40a6d82",
+   "path": "scripts/build_smolvm_debian.py"
+  },
+  {
+   "blob": "202acd8ecc3853be8727764aea902988490e5942",
+   "path": "scripts/build_smolvm_host.py"
+  },
+  {
+   "blob": "1559b9a937d7d1dbd612fb3c1a9dc85e2f8aecd3",
+   "path": "scripts/check-ghostty-vt.mjs"
+  },
+  {
+   "blob": "856aa5a9dd81e679b112a368797c86ac281bda3e",
+   "path": "scripts/ci-deploy.mjs"
+  },
+  {
+   "blob": "e8d4478eba51bb6048f6f71135fc65fe85c2db1b",
+   "path": "scripts/ci-standing.mjs"
+  },
+  {
+   "blob": "ff59e2ca6f1b5a380303e0ce8f94ed6c6406aab3",
+   "path": "scripts/demo.ts"
+  },
+  {
+   "blob": "00786098f911958404b0c025053c6701f20b6fc0",
+   "path": "scripts/dev.mjs"
+  },
+  {
+   "blob": "cfc55599ad4fdb151be7a2e2366848ac06cce4de",
+   "path": "scripts/dogfood-ci.mjs"
+  },
+  {
    "blob": "522ca2d3b89eb8a67f6bf6799366b5787dd40f46",
    "path": "scripts/fetch-native-inputs.sh"
+  },
+  {
+   "blob": "4e50b7c3ff08259b952d16ef79c1224a950878c4",
+   "path": "scripts/fetch-showcase-oci.mjs"
+  },
+  {
+   "blob": "986c8b1d1600d5a32051e5816bd2bf105acf520a",
+   "path": "scripts/forge-acceptance.mjs"
   },
   {
    "blob": "c32a9030a586c789e56d41ac59c1912a84b1981e",
    "path": "scripts/forge-deploy.Dockerfile"
   },
   {
+   "blob": "48ee88ba77e2ec82162ec5587703e99b68bdce04",
+   "path": "scripts/forge-deploy.mjs"
+  },
+  {
+   "blob": "11098560bf9e9febdfa093cf020f4c1fd120a060",
+   "path": "scripts/forge-measure.mjs"
+  },
+  {
    "blob": "cc51374e2fd4472a5ef08bb7fffe3ed3c3e365a5",
    "path": "scripts/linux-host.sh"
+  },
+  {
+   "blob": "143daa69f89f403915746f8735047110158e74b3",
+   "path": "scripts/local-deploy.mjs"
+  },
+  {
+   "blob": "7cc73c02d6e816cf179b9f59c34adb3061807cc7",
+   "path": "scripts/local-instance-lib.mjs"
+  },
+  {
+   "blob": "c773ce80fa3d2e8a3559d2426c94da17bfa4d3f0",
+   "path": "scripts/local-instance.mjs"
+  },
+  {
+   "blob": "e739b8efb5b8d7e8cd0b243028ea57ea96e532f9",
+   "path": "scripts/local-runner.mjs"
+  },
+  {
+   "blob": "1dcd716aa4f3b4df27710cb7b0a88077fff7f824",
+   "path": "scripts/materials/fetch-oci.d.mts"
+  },
+  {
+   "blob": "3d9f2a1c1bd73424c3654bfd3c76536cfc8af643",
+   "path": "scripts/materials/fetch-oci.mjs"
+  },
+  {
+   "blob": "01b99bd6c5771cebd0a3a66df3b287daca4d6249",
+   "path": "scripts/materials/native-material.d.mts"
+  },
+  {
+   "blob": "a0e62541ec8d41f725e34c7d637d50c50c941db9",
+   "path": "scripts/materials/native-material.mjs"
+  },
+  {
+   "blob": "3bf4eb992b7da7e6790f8582430747f957702cb9",
+   "path": "scripts/materials/native-state.d.mts"
+  },
+  {
+   "blob": "76c937454c1f1b6125ddfb24905f38c647b5eb3d",
+   "path": "scripts/materials/native-state.mjs"
+  },
+  {
+   "blob": "0822ddf459b72b15d72b9139e3ded4984527d4fa",
+   "path": "scripts/materials/prepared-oci-material.mjs"
+  },
+  {
+   "blob": "454992dd958fa9bddf48b6472e44bf7d562f222e",
+   "path": "scripts/materials/runtime-identity.d.mts"
+  },
+  {
+   "blob": "203efcd7cf5d0efc014175c900633272102967ef",
+   "path": "scripts/materials/runtime-identity.mjs"
   },
   {
    "blob": "ba25cee8accb26db0a21bcafe4eb24f6dd63fe74",
    "path": "scripts/materials/rust-runner.Dockerfile"
   },
   {
+   "blob": "0edfe34bf6b753b5ae0dac9a4c1dff5d212311b9",
+   "path": "scripts/materials/verify-oci-archive.mjs"
+  },
+  {
+   "blob": "b07f8f65606a81c630379f52bf8d1d660bd6deef",
+   "path": "scripts/measure-investigation-e2e.mjs"
+  },
+  {
+   "blob": "9adea28ea35b3f6ce7fc6620f1f11dfb5146559c",
+   "path": "scripts/measure-investigation.mjs"
+  },
+  {
+   "blob": "bd7978dd258299ec0bf13fd32d0b6846ec8e60cc",
+   "path": "scripts/measure-native-runtime.mjs"
+  },
+  {
+   "blob": "e817cbd8f2fefc5609d27f681ca08c8eacf4c0a9",
+   "path": "scripts/measurement-evidence.mjs"
+  },
+  {
+   "blob": "f6518ce2e02f87faa6affebecd2e28759f260808",
+   "path": "scripts/measurement-host.mjs"
+  },
+  {
+   "blob": "e7861ecfee8af58cc191b784844db877110b7f56",
+   "path": "scripts/measurement-native.test.mjs"
+  },
+  {
+   "blob": "d94efb922992d760a5f4bc2aa95231dc972a332d",
+   "path": "scripts/measurement-results.mjs"
+  },
+  {
+   "blob": "8c3a47cf05f489ee0e4ac38b0203308720e8c892",
+   "path": "scripts/measurement-results.test.mjs"
+  },
+  {
+   "blob": "b0af06d6f436464054684fd2193ef4308606d9db",
+   "path": "scripts/niceforge-vitest-reporter.mjs"
+  },
+  {
+   "blob": "86eca98a0849b3fc7e46a784577acd21019d01e6",
+   "path": "scripts/prepare-native-material.mjs"
+  },
+  {
+   "blob": "8755b97ee7ba058d844f6188d74bf036c069601d",
+   "path": "scripts/prepare-showcase-rust-materials.mjs"
+  },
+  {
    "blob": "431253009de7cfecab0b182a0ea56fea835887e6",
    "path": "scripts/probe-runner-host.sh"
   },
   {
+   "blob": "9fbbd54dd79148ae21e5ffd48312ed45c67aa7b1",
+   "path": "scripts/probe_platform.py"
+  },
+  {
+   "blob": "fe931b53fa6e55f8e7ed46128a6b5c0a9fb3ac29",
+   "path": "scripts/test-ci-deploy.mjs"
+  },
+  {
+   "blob": "9110340d4127104cf767c348e3ee2eb7fdd3e027",
+   "path": "scripts/test-controller-diagnostic-terminal.mjs"
+  },
+  {
+   "blob": "073d558b916bb06f000a506e436e232811e0cdb9",
+   "path": "scripts/test-controller-diagnostic.mjs"
+  },
+  {
+   "blob": "76a03a130668718cf2977c4ac2645b47b62e2ad3",
+   "path": "scripts/test-controller-experiment.mjs"
+  },
+  {
+   "blob": "9b7105766e46703bf0858ed25daf7e95c83d0798",
+   "path": "scripts/test-controller-investigation.mjs"
+  },
+  {
+   "blob": "df3a5f31b0e3d8449afbca544179af7a13cac6e5",
+   "path": "scripts/test-controller-pilot-history.mjs"
+  },
+  {
+   "blob": "ac64df51fddd7f9b9fd4f3a775e8d0c2273f9a66",
+   "path": "scripts/test-controller-pilot-retained.mjs"
+  },
+  {
+   "blob": "6814d31a08bb8562a00b3f433c9ae61ce9e1771f",
+   "path": "scripts/test-controller-pilot.mjs"
+  },
+  {
+   "blob": "a9ba365f4cecf95c599832af0588e346cbc73b2a",
+   "path": "scripts/test-controller-pilot.py"
+  },
+  {
+   "blob": "0bcf3c36aafafe69429cc12c7d950e23d6b06505",
+   "path": "scripts/test-controller-workflow.mjs"
+  },
+  {
+   "blob": "372a2fbc5cdf4aa2520a15e6c6c83b8d82e41e90",
+   "path": "scripts/test-final-scenario.py"
+  },
+  {
+   "blob": "903e0eccfe07de8764f650e51e2615a2ddde13cf",
+   "path": "scripts/test-forge-deploy.mjs"
+  },
+  {
+   "blob": "6b8a7ac6ccb9da005c33ad1967cb3328fe6c5a3e",
+   "path": "scripts/test-installation-recovery-vm.mjs"
+  },
+  {
+   "blob": "a360c6a54e0922325a47413e61b41dcb36dfd875",
+   "path": "scripts/test-installation-recovery.mjs"
+  },
+  {
+   "blob": "afc051d655578938d841fb5ef5782b8a31f8c584",
+   "path": "scripts/test-remote-runner.mjs"
+  },
+  {
+   "blob": "02a743dc1ff31c102d323f2a12f4bf1d17eaa47e",
+   "path": "scripts/test-runner-enroll.mjs"
+  },
+  {
+   "blob": "67b116d4df385239e385f1cb68312270218507fb",
+   "path": "scripts/test-scenario-workbench.mjs"
+  },
+  {
+   "blob": "43ba1010a89ee1527908a88e0c96d033e777b03f",
+   "path": "scripts/test-smolvm-activation.py"
+  },
+  {
+   "blob": "4a23ebf538580628829d2d67bb07e65f9214a215",
+   "path": "scripts/test-smolvm-egress.py"
+  },
+  {
+   "blob": "30437954615a0434acb142e6e00d0328038f0783",
+   "path": "scripts/test-smolvm-file-read.py"
+  },
+  {
+   "blob": "d6cb9f16ac4b41b2f7f0e42c000766246063e412",
+   "path": "scripts/test-smolvm-lease.py"
+  },
+  {
+   "blob": "08f96ba63eb1d62de9cb2350e138a617f1ef0220",
+   "path": "scripts/test-smolvm-restore.py"
+  },
+  {
+   "blob": "ad497841368f6e033034d83acfe52b6a2dd1f43e",
+   "path": "scripts/test-smolvm-result.py"
+  },
+  {
+   "blob": "3e8afef0b229ff351897155802dada794519aa33",
+   "path": "scripts/test-smolvm-scratch.py"
+  },
+  {
+   "blob": "ebe0a7f58892b9864d97d44b043f2210d2e6e5dc",
+   "path": "scripts/test-smolvm-sleep.py"
+  },
+  {
+   "blob": "243b86b291117f6c3ed915e5f7c3f83eac3ec082",
+   "path": "scripts/test-workbench.mjs"
+  },
+  {
+   "blob": "c2b827da9b932be7c7eede3daeada4984e6aaa8e",
+   "path": "scripts/test_build_smolvm_debian.py"
+  },
+  {
+   "blob": "6223c8b3b5ff2e9dcf8990dbf78cd273f65d8894",
+   "path": "scripts/test_build_smolvm_host.py"
+  },
+  {
+   "blob": "f204a35fe640d8a726f297ef6a78d8f7c26de113",
+   "path": "scripts/test_probe_platform.py"
+  },
+  {
+   "blob": "e9f699d12a9e9a90f9ec7e6f5638fc1f7cb5412e",
+   "path": "scripts/test_smolvm_egress.py"
+  },
+  {
+   "blob": "a79297c07521f5cdaf3823b195a11ad0e6d067e6",
+   "path": "scripts/test_smolvm_restore.py"
+  },
+  {
+   "blob": "9920f9408bd687aa43f6f3bd94a53afec52e8f65",
+   "path": "scripts/test_update_smolvm.py"
+  },
+  {
+   "blob": "3f7ff39c42b98aea5ca67f535526750a9230c116",
+   "path": "scripts/update-ghostty-vt.mjs"
+  },
+  {
    "blob": "32077e353257cb2abbd0a402b48d6114a3687a1b",
    "path": "scripts/update-smolvm.sh"
+  },
+  {
+   "blob": "15d20807424d99d9591dc2282469e0b4dc809008",
+   "path": "scripts/update_smolvm.py"
+  },
+  {
+   "blob": "27b032627777707321150e35f7efd80917eda238",
+   "path": "scripts/watch-controller.mjs"
+  },
+  {
+   "blob": "1683d9c3f4f961283457e6edae0138ddb8da1495",
+   "path": "scripts/workbench-forge.mjs"
   },
   {
    "blob": "8475b83af52c8373613acb8a759346ce315bd11e",
@@ -55495,7 +57031,7 @@
    "path": "web/package.json"
   }
  ],
- "inputs_fingerprint": "488484f78009e2a9374d46849c8ad4968b99ee6fc082a9dfb2417c872ce54cad",
+ "inputs_fingerprint": "6cf2b4e181949ca7c298053ee15895e937647d7468d8daa60357e0206a87b0a1",
  "instances": [
   {
    "commit": null,
@@ -68434,6 +69970,578 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/%24%28cargo",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%24%28cargo#",
+   "purl": "pkg:system/apt/%24%28cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/%24%28rustc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%24%28rustc#",
+   "purl": "pkg:system/apt/%24%28rustc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/%2A%29",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%2A%29#",
+   "purl": "pkg:system/apt/%2A%29",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/%3B%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%3B%3B#",
+   "purl": "pkg:system/apt/%3B%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/%3E/dev/null",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%3E/dev/null#",
+   "purl": "pkg:system/apt/%3E/dev/null",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/%3E/dev/null%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%3E/dev/null%3B#",
+   "purl": "pkg:system/apt/%3E/dev/null%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/%7D",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%7D#",
+   "purl": "pkg:system/apt/%7D",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//etc/apt/sources.list%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//etc/apt/sources.list%3B#",
+   "purl": "pkg:system/apt//etc/apt/sources.list%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//etc/apt/sources.list.d/%2A",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//etc/apt/sources.list.d/%2A#",
+   "purl": "pkg:system/apt//etc/apt/sources.list.d/%2A",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//etc/os-release%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//etc/os-release%3B#",
+   "purl": "pkg:system/apt//etc/os-release%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//var/cache/apt/archives/%2A.deb",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//var/cache/apt/archives/%2A.deb#",
+   "purl": "pkg:system/apt//var/cache/apt/archives/%2A.deb",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//var/cache/ldconfig/aux-cache",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//var/cache/ldconfig/aux-cache#",
+   "purl": "pkg:system/apt//var/cache/ldconfig/aux-cache",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//var/lib/apt/lists/%2A",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//var/lib/apt/lists/%2A#",
+   "purl": "pkg:system/apt//var/lib/apt/lists/%2A",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//var/log/alternatives.log",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//var/log/alternatives.log#",
+   "purl": "pkg:system/apt//var/log/alternatives.log",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//var/log/apt",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//var/log/apt#",
+   "purl": "pkg:system/apt//var/log/apt",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt//var/log/dpkg.log%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt//var/log/dpkg.log%3B#",
+   "purl": "pkg:system/apt//var/log/dpkg.log%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/1",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/1#",
+   "purl": "pkg:system/apt/1",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/DEBIAN_VERSION_FULL",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/DEBIAN_VERSION_FULL#",
+   "purl": "pkg:system/apt/DEBIAN_VERSION_FULL",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/VERSION_CODENAME",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/VERSION_CODENAME#",
+   "purl": "pkg:system/apt/VERSION_CODENAME",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/cargo",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/cargo#",
+   "purl": "pkg:system/apt/cargo",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/case",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/case#",
+   "purl": "pkg:system/apt/case",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/e2fsprogs",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/e2fsprogs#",
+   "purl": "pkg:system/apt/e2fsprogs",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/esac",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/esac#",
+   "purl": "pkg:system/apt/esac",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/esac%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/esac%3B#",
+   "purl": "pkg:system/apt/esac%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/exit",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/exit#",
+   "purl": "pkg:system/apt/exit",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/gcc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/gcc#",
+   "purl": "pkg:system/apt/gcc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/grep",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/grep#",
+   "purl": "pkg:system/apt/grep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/in",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/in#",
+   "purl": "pkg:system/apt/in",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/iproute2",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/iproute2#",
+   "purl": "pkg:system/apt/iproute2",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libc6-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libc6-dev#",
+   "purl": "pkg:system/apt/libc6-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/libc6-dev%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/libc6-dev%3B#",
+   "purl": "pkg:system/apt/libc6-dev%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/make#",
+   "purl": "pkg:system/apt/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/openssl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/openssl#",
+   "purl": "pkg:system/apt/openssl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/pkg-config",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/pkg-config#",
+   "purl": "pkg:system/apt/pkg-config",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/procps",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/procps#",
+   "purl": "pkg:system/apt/procps",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/python3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/python3#",
+   "purl": "pkg:system/apt/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ripgrep",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ripgrep#",
+   "purl": "pkg:system/apt/ripgrep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/rm",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/rm#",
+   "purl": "pkg:system/apt/rm",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/rustc",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/rustc#",
+   "purl": "pkg:system/apt/rustc",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/xz-utils",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/xz-utils#",
+   "purl": "pkg:system/apt/xz-utils",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/node",
    "context": "",
    "first_party": false,
@@ -68486,12 +70594,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "dynamic_value",
    "locator": "L6",

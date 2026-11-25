@@ -19,6 +19,12 @@
    "purl": "pkg:apk/coreutils"
   },
   {
+   "display_name": "curl",
+   "ecosystem": "apk",
+   "name": "curl",
+   "purl": "pkg:apk/curl"
+  },
+  {
    "display_name": "libstdc++",
    "ecosystem": "apk",
    "name": "libstdc++",
@@ -3283,6 +3289,84 @@
    "purl": "pkg:pypi/wassima"
   },
   {
+   "display_name": "apt/</tmp/pins",
+   "ecosystem": "system",
+   "name": "apt/</tmp/pins",
+   "purl": "pkg:system/apt/%3C/tmp/pins"
+  },
+  {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/dpkg-dev",
+   "ecosystem": "system",
+   "name": "apt/dpkg-dev",
+   "purl": "pkg:system/apt/dpkg-dev"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/make",
+   "ecosystem": "system",
+   "name": "apt/make",
+   "purl": "pkg:system/apt/make"
+  },
+  {
+   "display_name": "apt/pkgconf",
+   "ecosystem": "system",
+   "name": "apt/pkgconf",
+   "purl": "pkg:system/apt/pkgconf"
+  },
+  {
+   "display_name": "apt/procps",
+   "ecosystem": "system",
+   "name": "apt/procps",
+   "purl": "pkg:system/apt/procps"
+  },
+  {
+   "display_name": "apt/python3",
+   "ecosystem": "system",
+   "name": "apt/python3",
+   "purl": "pkg:system/apt/python3"
+  },
+  {
+   "display_name": "apt/tar",
+   "ecosystem": "system",
+   "name": "apt/tar",
+   "purl": "pkg:system/apt/tar"
+  },
+  {
+   "display_name": "apt/time",
+   "ecosystem": "system",
+   "name": "apt/time",
+   "purl": "pkg:system/apt/time"
+  },
+  {
+   "display_name": "apt/util-linux",
+   "ecosystem": "system",
+   "name": "apt/util-linux",
+   "purl": "pkg:system/apt/util-linux"
+  },
+  {
+   "display_name": "apt/xz-utils",
+   "ecosystem": "system",
+   "name": "apt/xz-utils",
+   "purl": "pkg:system/apt/xz-utils"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -3953,6 +4037,60 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L482",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L482",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L482",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/tar#"
   },
   {
    "condition": null,
@@ -25037,9 +25175,255 @@
    "scope": "image",
    "source_kind": "image",
    "to": "pkg:docker/ubuntu?digest=sha256%3A73b999393d07f2bf65a40373778a44dc9a6d54ad7718d29247d8ff9413c4d6a8#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%3C/tmp/pins#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/dpkg-dev#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/pkgconf#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/procps#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/python3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/tar#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/time#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/util-linux#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L3",
+     "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
+    }
+   ],
+   "from": "rust-cpython/tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/xz-utils#"
   }
  ],
  "inputs": [
+  {
+   "blob": "5b9d832e9988267f38e855709a76be3596a8fd7b",
+   "path": ".github/scripts/toy.py"
+  },
+  {
+   "blob": "a0e84c0d807ac0dec63a1630873f6c8529a1c5dd",
+   "path": ".github/scripts/validate_experimental_artifact.py"
+  },
+  {
+   "blob": "fb5d343aaa637a8492579222ef9a8eca5151cc67",
+   "path": ".github/scripts/verify_uv_python.py"
+  },
   {
    "blob": "84f14714c4c5bf259f290e29f82d64a9eedae415",
    "path": ".github/workflows/ci.yml"
@@ -25577,6 +25961,22 @@
    "path": "rust-cpython/overlay/serc-lane/Cargo.toml"
   },
   {
+   "blob": "24e6f4b0534e527022df1966ffb457b32f831820",
+   "path": "rust-cpython/serc-overlay/crates/serc/scripts/generate_cpython_bootstrap.py"
+  },
+  {
+   "blob": "8287dd1b12a7019c98efb58840b62db5b6d6a30d",
+   "path": "rust-cpython/serc-overlay/crates/serc/scripts/generate_cpython_target.py"
+  },
+  {
+   "blob": "6a717be340aefdc865582060f6e201df7753772c",
+   "path": "rust-cpython/serc-overlay/crates/serc/scripts/generate_legacy_target.py"
+  },
+  {
+   "blob": "8ef2788d0056f1df47759e7cd007587016251ea1",
+   "path": "rust-cpython/serc-overlay/crates/serc/scripts/generate_source_codec_interns.py"
+  },
+  {
    "blob": "116a1c787ce73976c7b06d93353eca750d2c280a",
    "path": "rust-cpython/tools/cloud-ubuntu.Dockerfile"
   },
@@ -25597,7 +25997,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "bac78ca8e5742592075a4d9b12428fba04a89c756d61351b7d17c884b8d876bb",
+ "inputs_fingerprint": "94a73d657e7796112139b66d13f5b4ec79893b064bd2b9093a4f31fb4730a528",
  "instances": [
   {
    "commit": null,
@@ -25611,6 +26011,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "5.3.9-r1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/ca-certificates#",
+   "purl": "pkg:apk/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": null,
@@ -25637,6 +26050,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "9.11-r0"
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/curl#",
+   "purl": "pkg:apk/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": null,
@@ -25689,6 +26115,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "3.14.10-r1"
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/tar",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/tar#",
+   "purl": "pkg:apk/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
   },
   {
    "commit": null,
@@ -33960,6 +34399,175 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/%3C/tmp/pins",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%3C/tmp/pins#",
+   "purl": "pkg:system/apt/%3C/tmp/pins",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/dpkg-dev",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/dpkg-dev#",
+   "purl": "pkg:system/apt/dpkg-dev",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/make#",
+   "purl": "pkg:system/apt/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/pkgconf",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/pkgconf#",
+   "purl": "pkg:system/apt/pkgconf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/procps",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/procps#",
+   "purl": "pkg:system/apt/procps",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/python3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/python3#",
+   "purl": "pkg:system/apt/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/tar",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/tar#",
+   "purl": "pkg:system/apt/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/time",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/time#",
+   "purl": "pkg:system/apt/time",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/util-linux",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/util-linux#",
+   "purl": "pkg:system/apt/util-linux",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/xz-utils",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/xz-utils#",
+   "purl": "pkg:system/apt/xz-utils",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -33998,12 +34606,6 @@
    "path": "Dockerfile"
   },
   {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
    "kind": "dynamic_value",
    "locator": "L3",
    "message": "FROM image '${TOOLCHAIN_IMAGE}' is not literal",
@@ -34038,6 +34640,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "backend/hashing",

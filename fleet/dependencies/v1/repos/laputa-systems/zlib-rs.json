@@ -1899,7 +1899,7 @@
    "path": "zlib-rs/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "92611f27e0939651e460ba82706b45da155d440b250ae7c7b897208cd3e45594",
+ "inputs_fingerprint": "0971c4519f860d8539475cc3ae67b709621f48a5020e8914796d07e5af818f87",
  "instances": [
   {
    "commit": null,
@@ -2708,14 +2708,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

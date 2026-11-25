@@ -5961,7 +5961,7 @@
    "path": "tests/amazon/download_demo_certs.sh"
   }
  ],
- "inputs_fingerprint": "8e14203b530d9f656c59c1e86e85cef08922922c8f942137c3729f72f5a91b13",
+ "inputs_fingerprint": "d793851486c3ceb1cfc6cce170ab79d1997b95a8bf229c7b18496f135923b500",
  "instances": [
   {
    "commit": null,
@@ -7928,12 +7928,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "vendored_unknown",
    "locator": null,

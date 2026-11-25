@@ -151,6 +151,12 @@
    "purl": "pkg:command/apk"
   },
   {
+   "display_name": "apt-get",
+   "ecosystem": "command",
+   "name": "apt-get",
+   "purl": "pkg:command/apt-get"
+  },
+  {
    "display_name": "awk",
    "ecosystem": "command",
    "name": "awk",
@@ -251,6 +257,12 @@
    "ecosystem": "command",
    "name": "ensure_fixtures",
    "purl": "pkg:command/ensure_fixtures"
+  },
+  {
+   "display_name": "ffmpeg",
+   "ecosystem": "command",
+   "name": "ffmpeg",
+   "purl": "pkg:command/ffmpeg"
   },
   {
    "display_name": "find",
@@ -671,6 +683,24 @@
    "ecosystem": "pypi",
    "name": "uv",
    "purl": "pkg:pypi/uv"
+  },
+  {
+   "display_name": "brew/meson",
+   "ecosystem": "system",
+   "name": "brew/meson",
+   "purl": "pkg:system/brew/meson"
+  },
+  {
+   "display_name": "brew/ninja",
+   "ecosystem": "system",
+   "name": "brew/ninja",
+   "purl": "pkg:system/brew/ninja"
+  },
+  {
+   "display_name": "brew/pkgconf",
+   "ecosystem": "system",
+   "name": "brew/pkgconf",
+   "purl": "pkg:system/brew/pkgconf"
   }
  ],
  "edges": [
@@ -1367,6 +1397,78 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/meson#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/ninja#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L115",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/pkgconf#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L210",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/pkgconf#"
   },
   {
    "condition": null,
@@ -2307,6 +2409,18 @@
  ],
  "inputs": [
   {
+   "blob": "98592bfdc0af87a2d2e8672732ce5edcfa1d0d23",
+   "path": ".github/scripts/assemble_release.py"
+  },
+  {
+   "blob": "b7f70a427f2db54750fc044eb3aa4ddbe9822d84",
+   "path": ".github/scripts/select_mutation_scopes.py"
+  },
+  {
+   "blob": "da8526f2086ccd3d61d11a3b10f8cf72023ff505",
+   "path": ".github/scripts/verify_mutation_scope.py"
+  },
+  {
    "blob": "ec9b2559d06a0ec012d8533093e8350f64663a99",
    "path": ".github/workflows/ci.yml"
   },
@@ -2339,7 +2453,7 @@
    "path": "pyproject.toml"
   },
   {
-   "blob": "931b94d776522cd88ad176c49d1f88950515a959",
+   "blob": "9a62096e5d282f0f62e6c315b463f07a018fad0c",
    "path": "scripts/linux-build.sh"
   },
   {
@@ -2391,6 +2505,10 @@
    "path": "tests/qualify-tools.sh"
   },
   {
+   "blob": "12f68017db4f6da05fe3e04ca7d821a5279a8111",
+   "path": "tests/runtime-ubuntu.sh"
+  },
+  {
    "blob": "21d9f3fea9234c99669f5b695140295a72a927c7",
    "path": "tests/tools-workflows.sh"
   },
@@ -2399,7 +2517,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "c110b5ae76426e841fe7075fa562a46225b9663c420482d70d3a63e09e0a7634",
+ "inputs_fingerprint": "0fec0c76eee9ea34bdf49a37eaf6f7063ad71c6d74b3ef434b54043eb62b58e8",
  "instances": [
   {
    "commit": null,
@@ -2728,6 +2846,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:command/apt-get",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/apt-get#shell",
+   "purl": "pkg:command/apt-get",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:command/awk",
    "context": "shell",
    "first_party": false,
@@ -2954,6 +3085,19 @@
    "first_party": false,
    "id": "pkg:command/ensure_fixtures#shell",
    "purl": "pkg:command/ensure_fixtures",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ffmpeg",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ffmpeg#shell",
+   "purl": "pkg:command/ffmpeg",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "path",
@@ -4051,15 +4195,48 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.13.7"
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/meson",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/meson#",
+   "purl": "pkg:system/brew/meson",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/ninja",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/ninja#",
+   "purl": "pkg:system/brew/ninja",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/pkgconf",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/pkgconf#",
+   "purl": "pkg:system/brew/pkgconf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "dynamic_value",
    "locator": "L12",
@@ -4089,6 +4266,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "docker",

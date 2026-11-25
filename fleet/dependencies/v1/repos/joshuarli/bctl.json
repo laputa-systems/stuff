@@ -6283,6 +6283,78 @@
    "purl": "pkg:npm/yallist"
   },
   {
+   "display_name": "apt/apply-format",
+   "ecosystem": "system",
+   "name": "apt/apply-format",
+   "purl": "pkg:system/apt/apply-format"
+  },
+  {
+   "display_name": "apt/brew",
+   "ecosystem": "system",
+   "name": "apt/brew",
+   "purl": "pkg:system/apt/brew"
+  },
+  {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/ccache",
+   "ecosystem": "system",
+   "name": "apt/ccache",
+   "purl": "pkg:system/apt/ccache"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/fd-find",
+   "ecosystem": "system",
+   "name": "apt/fd-find",
+   "purl": "pkg:system/apt/fd-find"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/install",
+   "ecosystem": "system",
+   "name": "apt/install",
+   "purl": "pkg:system/apt/install"
+  },
+  {
+   "display_name": "apt/or",
+   "ecosystem": "system",
+   "name": "apt/or",
+   "purl": "pkg:system/apt/or"
+  },
+  {
+   "display_name": "apt/xxd",
+   "ecosystem": "system",
+   "name": "apt/xxd",
+   "purl": "pkg:system/apt/xxd"
+  },
+  {
+   "display_name": "brew/apply-format",
+   "ecosystem": "system",
+   "name": "brew/apply-format",
+   "purl": "pkg:system/brew/apply-format"
+  },
+  {
    "display_name": "pnpm",
    "ecosystem": "toolchain",
    "name": "pnpm",
@@ -9941,6 +10013,222 @@
    "scope": "image",
    "source_kind": "image",
    "to": "pkg:docker/debian@bookworm?digest=sha256%3A268fb24c39bca92d326dd83ea3abebe4a3f7751c804ffef23bb6d857dd343ff8#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ccache#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/fd-find#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/dev/aarch64.Dockerfile"
+    }
+   ],
+   "from": "kernel/dev:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/xxd#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/nanos/scripts/readme.md"
+    }
+   ],
+   "from": "kernel/nanos/scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/apply-format#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/nanos/scripts/readme.md"
+    }
+   ],
+   "from": "kernel/nanos/scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/brew#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/nanos/scripts/readme.md"
+    }
+   ],
+   "from": "kernel/nanos/scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/install#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/nanos/scripts/readme.md"
+    }
+   ],
+   "from": "kernel/nanos/scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/or#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "kernel/nanos/scripts/readme.md"
+    }
+   ],
+   "from": "kernel/nanos/scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/apply-format#"
   },
   {
    "condition": null,
@@ -54515,6 +54803,114 @@
    "constraint": null,
    "evidence": [
     {
+     "locator": "L2",
+     "path": "runtime/nanos-arm64.Dockerfile"
+    }
+   ],
+   "from": "runtime:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "runtime/nanos-arm64.Dockerfile"
+    }
+   ],
+   "from": "runtime:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "runtime/nanos-arm64.Dockerfile"
+    }
+   ],
+   "from": "runtime:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ccache#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "runtime/nanos-arm64.Dockerfile"
+    }
+   ],
+   "from": "runtime:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/fd-find#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "runtime/nanos-arm64.Dockerfile"
+    }
+   ],
+   "from": "runtime:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L2",
+     "path": "runtime/nanos-arm64.Dockerfile"
+    }
+   ],
+   "from": "runtime:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/xxd#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
      "locator": "L4",
      "path": "tests/interop/webmcp/Dockerfile"
     }
@@ -64343,6 +64739,10 @@
    "path": "kernel/nanos/scripts/git-pre-commit-format"
   },
   {
+   "blob": "a732a8454eb5236461b9271bf8d90a8054edd949",
+   "path": "kernel/nanos/scripts/readme.md"
+  },
+  {
    "blob": "2cb16f8a00fe9b51f5e5da9cd82bad3a53d7896b",
    "path": "kernel/nanos/src/drivers/acpica.mk"
   },
@@ -64487,8 +64887,16 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "c1e7b481d1f433e88077cd481a962ab59625b1a1",
+   "path": "scripts/test_update_smolvm.py"
+  },
+  {
    "blob": "45ec017ded9b50d65331c2124c6fa3224a4e6b56",
    "path": "scripts/update-smolvm.sh"
+  },
+  {
+   "blob": "992b4c78a1cedaf0711b0515b8a762779865ba77",
+   "path": "scripts/update_smolvm.py"
   },
   {
    "blob": "01dfe903fed2c5c591ceb856772fdc7d696cf774",
@@ -65035,7 +65443,7 @@
    "path": "web/pnpm-lock.yaml"
   }
  ],
- "inputs_fingerprint": "500cef681af5065b619e0be0e25b93b82dde227e3de75fe4f6c22ad557df1244",
+ "inputs_fingerprint": "951ec10d8097788574c2fed260ea9b39ebb1af30a8c9cf44d04b2876e094ed07",
  "instances": [
   {
    "commit": null,
@@ -82082,6 +82490,162 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/apply-format",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/apply-format#",
+   "purl": "pkg:system/apt/apply-format",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/brew",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/brew#",
+   "purl": "pkg:system/apt/brew",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ccache",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ccache#",
+   "purl": "pkg:system/apt/ccache",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/fd-find",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/fd-find#",
+   "purl": "pkg:system/apt/fd-find",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/install",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/install#",
+   "purl": "pkg:system/apt/install",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/or",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/or#",
+   "purl": "pkg:system/apt/or",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/xxd",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/xxd#",
+   "purl": "pkg:system/apt/xxd",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/apply-format",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/apply-format#",
+   "purl": "pkg:system/brew/apply-format",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/pnpm",
    "context": "",
    "first_party": false,
@@ -82125,36 +82689,6 @@
    "kind": "unsupported_format",
    "locator": null,
    "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "kernel/nanos/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "kernel/nanos/platform/pc/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "kernel/nanos/platform/pc/boot/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "kernel/nanos/platform/virt/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
    "path": "kernel/nanos/test/Makefile"
   },
   {
@@ -82180,12 +82714,6 @@
    "locator": null,
    "message": "no parser for Makefile",
    "path": "kernel/nanos/test/unit/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "kernel/nanos/tools/Makefile"
   },
   {
    "kind": "unsupported_format",
@@ -82359,6 +82887,11 @@
    "directory": "kernel/dev",
    "ecosystem": "generic",
    "id": "kernel/dev:repo"
+  },
+  {
+   "directory": "kernel/nanos/scripts",
+   "ecosystem": "generic",
+   "id": "kernel/nanos/scripts:repo"
   },
   {
    "directory": "kernel/nanos/test/e2e",

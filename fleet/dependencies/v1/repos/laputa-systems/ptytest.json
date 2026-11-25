@@ -2451,7 +2451,7 @@
    "path": "tools/bump_minor_release.sh"
   }
  ],
- "inputs_fingerprint": "a36cf50566cf842065d320bed4398273cf705159fd53a3950c9ced520033c349",
+ "inputs_fingerprint": "8f214a958cf119a9e10007796adda6e58a15440d441d1f47b38050de464efab3",
  "instances": [
   {
    "commit": null,
@@ -3676,14 +3676,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

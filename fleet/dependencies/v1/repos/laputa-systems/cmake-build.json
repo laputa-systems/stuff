@@ -845,6 +845,10 @@
    "path": "pyproject.toml"
   },
   {
+   "blob": "a38cdc460fecdde1eb9f4bcd516a7e20713dac2c",
+   "path": "scripts/controller_coverage.py"
+  },
+  {
    "blob": "9338a56ff53ff08f09056819e0aefc551caaa024",
    "path": "scripts/setup-dev"
   },
@@ -869,7 +873,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "6571b9b3f9ce76c2b7d9511633d3e362ba0444fcf9288bb4589c0ddfa8815998",
+ "inputs_fingerprint": "3f77eafd9b51d5d4805380cf42b5a5a862c8f32c593e95dba18b3f9e141182e9",
  "instances": [
   {
    "commit": null,
@@ -1757,12 +1761,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "dynamic_value",
    "locator": "L4",

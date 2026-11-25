@@ -3369,7 +3369,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "9f80b310b3829291fcda6254f3669fe2bb3b2868e7df4a3eeaf85e7f79ddb86a",
+ "inputs_fingerprint": "a9de24b37c351d45d31b6f68b4c43b9b66934fb35e7e9efacc052238d404dfd5",
  "instances": [
   {
    "commit": null,
@@ -5029,12 +5029,6 @@
    "locator": "L19",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.1/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "Dockerfile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

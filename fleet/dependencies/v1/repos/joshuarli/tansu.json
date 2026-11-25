@@ -2641,6 +2641,18 @@
    "purl": "pkg:npm/ws?download_url=https%3A%2F%2Fnpm.17166969.xyz%2Fcurrent%2F-%2Ftarballs%2F61d82073df3bf913b40275ad67fed6abd16d36f72b2f56ff44ed2e77d9968d43e00ebb00030412179d6c9b6866d57a1f6d4ff88e4a4612c2c5b1967153ed433a.tgz"
   },
   {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "brew/binaryen\");",
+   "ecosystem": "system",
+   "name": "brew/binaryen\");",
+   "purl": "pkg:system/brew/binaryen%22%29%3B"
+  },
+  {
    "display_name": "node",
    "ecosystem": "toolchain",
    "name": "node",
@@ -4821,6 +4833,24 @@
    "scope": "image",
    "source_kind": "image",
    "to": "pkg:docker/playwright@v1.65.0-noble?digest=sha256%3A9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe&repository_url=https%3A%2F%2Fmcr.microsoft.com%2F#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L11",
+     "path": "docker/linux-e2e-baselines.Dockerfile"
+    }
+   ],
+   "from": "docker:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
   },
   {
    "condition": null,
@@ -17316,6 +17346,24 @@
   },
   {
    "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L411",
+     "path": "scripts/build-defuddle-wasm.mjs"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/binaryen%22%29%3B#"
+  },
+  {
+   "condition": null,
    "constraint": "1.0",
    "evidence": [
     {
@@ -18293,19 +18341,67 @@
    "path": "scripts/auth-recovery-drill.sh"
   },
   {
+   "blob": "fe0f36ad15771e1492e47fd14dbb094efabb26a0",
+   "path": "scripts/build-browser-test-bundles.mjs"
+  },
+  {
+   "blob": "92581c624d22cbd7661a7071911bc1ec2ba7efb6",
+   "path": "scripts/build-defuddle-wasm.mjs"
+  },
+  {
+   "blob": "958871b1de0c675b276cc1d3905001e7a30aea62",
+   "path": "scripts/build-loupe.mjs"
+  },
+  {
+   "blob": "bd5add5757e426be133a5c04a388b5eae0a5e955",
+   "path": "scripts/build-reader-sample-fixture.mjs"
+  },
+  {
    "blob": "3aee482c4491cf50d21ea7584c6761f681ea7e67",
    "path": "scripts/build-sqlite-static.sh"
+  },
+  {
+   "blob": "01f7e1beadaf46789d38e756f4e26d761378c620",
+   "path": "scripts/build-web.mjs"
+  },
+  {
+   "blob": "50960f936aacb5a82bfebcee02a7292b5e117e2f",
+   "path": "scripts/dev-fixture.mjs"
+  },
+  {
+   "blob": "3242f1d35fd3c5a501f3b01216de025060c2bccf",
+   "path": "scripts/dev-hmr.mjs"
+  },
+  {
+   "blob": "7e41fd17a571891bff76ae64e5c8cf839241e7d1",
+   "path": "scripts/install-playwright-browsers.mjs"
   },
   {
    "blob": "c6256f05246ded113cd4dd631f05bb352263d0d1",
    "path": "scripts/perf-gate.sh"
   },
   {
+   "blob": "2089dcef0a0861d95ba7c5b21958fed8d436bf49",
+   "path": "scripts/test-fixture.mjs"
+  },
+  {
+   "blob": "e4efb00c7db61db864221e29b015c5e089cd934a",
+   "path": "scripts/test-fixture.test.mjs"
+  },
+  {
+   "blob": "e3e86e52ac5d112bda2a144fcc3ea99678ee897a",
+   "path": "scripts/webp-encoder.mjs"
+  },
+  {
+   "blob": "52248025c57dee72be09d1b2e5e3a54c73b3a431",
+   "path": "scripts/webp-encoder.test.mjs"
+  },
+  {
    "blob": "01197db14c6c4c5f718aa897ee1d3079b087b230",
    "path": "vendor/tantivy/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "0af43b8aa10bd51a7fc9b358c32cb4e27c74951488857665de37221834f607d5",
+ "inputs_fingerprint": "c1a8a61013953ba6758431e19e06dcdac920eb20718548e8669cc60f76b74bdc",
  "instances": [
   {
    "commit": null,
@@ -24302,6 +24398,32 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/brew/binaryen%22%29%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/binaryen%22%29%3B#",
+   "purl": "pkg:system/brew/binaryen%22%29%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/node",
    "context": "",
    "first_party": false,
@@ -24352,12 +24474,6 @@
    "locator": "dependencies.stats-producer",
    "message": "named registry 'mycrates' cannot be resolved statically",
    "path": "Cargo.toml"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   },
   {
    "kind": "dynamic_value",
@@ -24452,6 +24568,11 @@
    "directory": "docker",
    "ecosystem": "generic",
    "id": "docker:repo"
+  },
+  {
+   "directory": "scripts",
+   "ecosystem": "generic",
+   "id": "scripts:repo"
   },
   {
    "directory": "vendor/tantivy",

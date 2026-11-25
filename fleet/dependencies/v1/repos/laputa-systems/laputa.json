@@ -3739,6 +3739,36 @@
    "purl": "pkg:npm/typescript"
   },
   {
+   "display_name": "apt/>&2;",
+   "ecosystem": "system",
+   "name": "apt/>&2;",
+   "purl": "pkg:system/apt/%3E%262%3B"
+  },
+  {
+   "display_name": "apt/}",
+   "ecosystem": "system",
+   "name": "apt/}",
+   "purl": "pkg:system/apt/%7D"
+  },
+  {
+   "display_name": "apt/1;",
+   "ecosystem": "system",
+   "name": "apt/1;",
+   "purl": "pkg:system/apt/1%3B"
+  },
+  {
+   "display_name": "apt/docker-buildx)",
+   "ecosystem": "system",
+   "name": "apt/docker-buildx)",
+   "purl": "pkg:system/apt/docker-buildx%29"
+  },
+  {
+   "display_name": "apt/exit",
+   "ecosystem": "system",
+   "name": "apt/exit",
+   "purl": "pkg:system/apt/exit"
+  },
+  {
    "display_name": "pnpm",
    "ecosystem": "toolchain",
    "name": "pnpm",
@@ -3769,6 +3799,96 @@
    "scope": "build",
    "source_kind": "git",
    "to": "pkg:github/laputa-systems/asterinas#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L235",
+     "path": "Makefile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%3E%262%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L235",
+     "path": "Makefile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/%7D#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L235",
+     "path": "Makefile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/1%3B#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L235",
+     "path": "Makefile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/docker-buildx%29#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L235",
+     "path": "Makefile"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/exit#"
   },
   {
    "condition": null,
@@ -32039,7 +32159,7 @@
    "path": "tests/system/network_policy_live_vm.sh"
   }
  ],
- "inputs_fingerprint": "aef913b9bfd4a5cb6f41556c69ae2f770ee6808f9547f6cad623b1160960e3a8",
+ "inputs_fingerprint": "57c546729b25acd10938b91f15bc51ee2d5ea61913dd4e4ab1a9d2b90a146c0c",
  "instances": [
   {
    "commit": null,
@@ -41520,6 +41640,71 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/%3E%262%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%3E%262%3B#",
+   "purl": "pkg:system/apt/%3E%262%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/%7D",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/%7D#",
+   "purl": "pkg:system/apt/%7D",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/1%3B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/1%3B#",
+   "purl": "pkg:system/apt/1%3B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/docker-buildx%29",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/docker-buildx%29#",
+   "purl": "pkg:system/apt/docker-buildx%29",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/exit",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/exit#",
+   "purl": "pkg:system/apt/exit",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/pnpm",
    "context": "",
    "first_party": false,
@@ -41598,22 +41783,10 @@
    "path": "Dockerfile.package-tools"
   },
   {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
    "kind": "submodule",
    "locator": null,
    "message": "gitlink content is not inspected",
    "path": "asterinas"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "gluon/Makefile"
   },
   {
    "kind": "unsupported_format",
@@ -41650,12 +41823,6 @@
    "locator": "L55",
    "message": "artifact URL 'https://static.rust-lang.org/rustup/archive/1.29.2/${arch}-unknown-linux-musl/rustup-init' is not literal",
    "path": "ntpd-rs/Dockerfile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "ntpd-rs/Makefile"
   },
   {
    "kind": "dynamic_value",

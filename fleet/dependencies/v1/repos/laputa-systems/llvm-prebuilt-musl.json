@@ -1089,7 +1089,7 @@
    "path": "tests/release-assets.sh"
   }
  ],
- "inputs_fingerprint": "8aace93ede02be1b6089779327bdc83c151c668a37f3530aa8049316bf159d1b",
+ "inputs_fingerprint": "df8758a5296d2031f456b56ef7e67a145c76304de884dc975782392ed44ecdfc",
  "instances": [
   {
    "commit": null,
@@ -2379,14 +2379,7 @@
    "version": null
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

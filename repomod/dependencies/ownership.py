@@ -196,6 +196,14 @@ _MATCH_KINDS: Mapping[Ecosystem, Callable[[str], bool]] = {
 
 
 def _producer(ecosystem: Ecosystem, name: str, cache: dict[str, str | None]) -> str | None:
+    if ecosystem is Ecosystem.SYSTEM and "/" in name:
+        manager, _, package = name.partition("/")
+        wanted = f"package:{manager}"
+        key = f"{ecosystem.value}\0{name}"
+        if key not in cache:
+            matches = substitutes.lookup(package, lambda kind: kind == wanted)
+            cache[key] = matches[0].producer if matches else None
+        return cache[key]
     accepts = _MATCH_KINDS.get(ecosystem)
     if accepts is None:
         return None

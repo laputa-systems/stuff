@@ -5479,7 +5479,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "21a0bd81629e8e47420db40f3c31e9a34f50c3ee7c82725badda33e9b9b71a02",
+ "inputs_fingerprint": "afd8ba1051f463bc32aaea696a09eea010314a3815aa98d29e53f0f2818d221d",
  "instances": [
   {
    "commit": null,
@@ -7433,12 +7433,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "unsupported_format",
    "locator": null,

@@ -1591,6 +1591,42 @@
    "purl": "pkg:local/util"
   },
   {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/clang",
+   "ecosystem": "system",
+   "name": "apt/clang",
+   "purl": "pkg:system/apt/clang"
+  },
+  {
+   "display_name": "apt/cmake",
+   "ecosystem": "system",
+   "name": "apt/cmake",
+   "purl": "pkg:system/apt/cmake"
+  },
+  {
+   "display_name": "apt/gcc-arm-linux-gnueabihf",
+   "ecosystem": "system",
+   "name": "apt/gcc-arm-linux-gnueabihf",
+   "purl": "pkg:system/apt/gcc-arm-linux-gnueabihf"
+  },
+  {
+   "display_name": "apt/gcc-riscv64-linux-gnu",
+   "ecosystem": "system",
+   "name": "apt/gcc-riscv64-linux-gnu",
+   "purl": "pkg:system/apt/gcc-riscv64-linux-gnu"
+  },
+  {
+   "display_name": "apt/ninja-build",
+   "ecosystem": "system",
+   "name": "apt/ninja-build",
+   "purl": "pkg:system/apt/ninja-build"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -3319,6 +3355,168 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L74",
+     "path": ".github/workflows/cc-oracle-full.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L227",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L270",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L74",
+     "path": ".github/workflows/cc-oracle-full.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/clang#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L227",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/clang#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L270",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/cmake#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L270",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/gcc-arm-linux-gnueabihf#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L270",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/gcc-riscv64-linux-gnu#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L270",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ninja-build#"
   },
   {
    "condition": null,
@@ -11799,6 +11997,62 @@
    "path": "scenarios/e2e-rust-workspace/source/pm/Cargo.toml"
   },
   {
+   "blob": "1f93bc1cdbea2680704252109adf48822d8ecf64",
+   "path": "scripts/bench-contention.py"
+  },
+  {
+   "blob": "dfa5ddc9ccdf9670cd03a0a991487ee8f3ac658e",
+   "path": "scripts/bench-edit-loop.py"
+  },
+  {
+   "blob": "1d8f4069aec0f31a955e09da3aac32736fca9c33",
+   "path": "scripts/bench-short.py"
+  },
+  {
+   "blob": "242caf6b8e32439012b3a4ac42555d0b6bfadf96",
+   "path": "scripts/bench/__init__.py"
+  },
+  {
+   "blob": "1439cab5ab5ba611e292fa4ed738390ce4f22ac6",
+   "path": "scripts/bench/binaries.py"
+  },
+  {
+   "blob": "adde171fc9bcbf76e8a1df38d8eae5a42ca0429b",
+   "path": "scripts/bench/design.py"
+  },
+  {
+   "blob": "c9628a0000e718d7b70799702e6973903b629bf0",
+   "path": "scripts/bench/engine.py"
+  },
+  {
+   "blob": "09c87d3e34d326f8edc20c5c93953269025e4687",
+   "path": "scripts/bench/gate_local.py"
+  },
+  {
+   "blob": "9bdcd54703b46e5abd0ccc78706b5bf84cf70e31",
+   "path": "scripts/bench/inference.py"
+  },
+  {
+   "blob": "56afaf3a6f5a7eaf52f022f83674a111be80bf57",
+   "path": "scripts/bench/job_telemetry.py"
+  },
+  {
+   "blob": "02309c20a5033f882c7610c32fc7b12408887a5f",
+   "path": "scripts/bench/phases.py"
+  },
+  {
+   "blob": "db86b3e66a962504e867987402eb5ae694b616bf",
+   "path": "scripts/bench/report.py"
+  },
+  {
+   "blob": "efb02f2b90508124337d9a2694fe6ee873949a52",
+   "path": "scripts/bench/short.py"
+  },
+  {
+   "blob": "9635cf821432989276ccdb0c814d0b8dcfe35827",
+   "path": "scripts/bench/stats.py"
+  },
+  {
    "blob": "4a837bb59ed45fb57a867c19a351f4cb3bb96de0",
    "path": "scripts/cc-bench.sh"
   },
@@ -11807,8 +12061,20 @@
    "path": "scripts/cc-gcov-roundtrip.sh"
   },
   {
+   "blob": "1e0cca287129d44181212541b1d95f29d604f0e5",
+   "path": "scripts/cc-project-autotools.py"
+  },
+  {
+   "blob": "2035e1b90f123c9a7dcac7d3ba6589e50ee7ab68",
+   "path": "scripts/cc-project-cc-crate.py"
+  },
+  {
    "blob": "3d582b291da41aa20ff180a41b7f586e67cc1bb7",
    "path": "scripts/cc-project-llvm.sh"
+  },
+  {
+   "blob": "4f06b929fba526fe8578f64791332fc16a4c6608",
+   "path": "scripts/cc-project-meson.py"
   },
   {
    "blob": "58b9e819365f8199afe3577d65c2b6c7f5698641",
@@ -11827,12 +12093,20 @@
    "path": "scripts/check-version-consistency.sh"
   },
   {
+   "blob": "bfb80f4dc688805ea81f552021750fe8a1240860",
+   "path": "scripts/ci-changes.py"
+  },
+  {
    "blob": "71b924ecaeb70c9cbe1909db2177909420463372",
    "path": "scripts/ci-monitor.sh"
   },
   {
    "blob": "b0bad6c6d0592a09aff1169b3d7f1e8136187ec2",
    "path": "scripts/ci/resolve-version.sh"
+  },
+  {
+   "blob": "fb3234901add0a0c00478721deba3a38344ea90f",
+   "path": "scripts/crates-io.py"
   },
   {
    "blob": "55c4d1cdbe53a4a0977a788ad613b78b29f927d4",
@@ -11843,16 +12117,56 @@
    "path": "scripts/install-bench-mbx.sh"
   },
   {
+   "blob": "e6f053b4a0e462d2746b93e8619c0fec56693a8c",
+   "path": "scripts/mutation-diff.py"
+  },
+  {
+   "blob": "6a7dfab1bd4f01db0d97828104b1800364916551",
+   "path": "scripts/perf-gate-local.py"
+  },
+  {
+   "blob": "c4673c987979b69318e69635b202fd13442a7f3c",
+   "path": "scripts/perf-gate-report.py"
+  },
+  {
    "blob": "986825f666750d7ec764eed150925ab47af24502",
    "path": "scripts/require-ci-green.sh"
+  },
+  {
+   "blob": "759429efc0706e6fcc93152b44fcfc0f025e88a1",
+   "path": "scripts/test-bench-contention.py"
+  },
+  {
+   "blob": "dcdde1b24e1847ee7070f81b12a44e68442e59b3",
+   "path": "scripts/test-ci-changes.py"
+  },
+  {
+   "blob": "680a2ef6b6999447c9899ade18251e9a926309a0",
+   "path": "scripts/test-crates-io.py"
+  },
+  {
+   "blob": "b0d14cd02f7c3986bebc9777c2e78018332b0cd3",
+   "path": "scripts/test-mutation-diff.py"
   },
   {
    "blob": "12467ab9d35e3eaf6af199ed09913566faa35942",
    "path": "scripts/test-unavailable-proc-labels.sh"
   },
   {
+   "blob": "60c838ed049f2632793c3e3183b1157089a22697",
+   "path": "scripts/test-version-consistency.py"
+  },
+  {
    "blob": "2ec9c22fb87ab3190404d47da4524a1497604fd8",
    "path": "scripts/test-with-test-resources.sh"
+  },
+  {
+   "blob": "bb3d6eb887fa4b021731d98518fc644f02224f2d",
+   "path": "scripts/trace-phases.py"
+  },
+  {
+   "blob": "313c7f0178001f69980aad723681a5a4f8d42db6",
+   "path": "scripts/volume-shards-check.py"
   },
   {
    "blob": "f636f354f7909601dc98c09ee14ce9862ce202e2",
@@ -11899,7 +12213,7 @@
    "path": "test-projects/stale-check/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "9a7a30afd2009aa1a740a0d085a67401cda43687373f9bf0f2f013d56c8e56ac",
+ "inputs_fingerprint": "7409ec03cdb190a45da3690241816ce19b7d3bc9f812eda0f3545d4730a21db0",
  "instances": [
   {
    "commit": null,
@@ -15868,6 +16182,84 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/clang",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/clang#",
+   "purl": "pkg:system/apt/clang",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/cmake",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/cmake#",
+   "purl": "pkg:system/apt/cmake",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/gcc-arm-linux-gnueabihf",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/gcc-arm-linux-gnueabihf#",
+   "purl": "pkg:system/apt/gcc-arm-linux-gnueabihf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/gcc-riscv64-linux-gnu",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/gcc-riscv64-linux-gnu#",
+   "purl": "pkg:system/apt/gcc-riscv64-linux-gnu",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ninja-build",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ninja-build#",
+   "purl": "pkg:system/apt/ninja-build",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -15902,138 +16294,6 @@
   {
    "kind": "unsupported_format",
    "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-c-daemon-handoff/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-c-depinfo/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-c-hello/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-c-passthrough/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-asm-incbin/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-bench-flags-gnu/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-bench-flags/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-cl-same-content-sources/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-cl-xclang-deps/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-cross-gcc/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-file-macro-oot/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-flag-soup/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-link/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-literal-path/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-memo-after-entry/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-multi-source/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-parallel/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-response-file/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cc-same-content-sources/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-cpp-hello/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "scenarios/e2e-exclude-c/source/Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
    "message": "no parser for meson.build",
    "path": "test-projects/cc-meson/meson.build"
   }
@@ -16048,6 +16308,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "crates/kache-client",

@@ -17593,9 +17593,17 @@
   {
    "blob": "a701d33d7995fe41a556b21c952d9497a3620c07",
    "path": "pnpm-lock.yaml"
+  },
+  {
+   "blob": "7ed9d9e6b7e55b5e173e80b7f2b3d350cdd35d2e",
+   "path": "scripts/sandbox-stripe.ts"
+  },
+  {
+   "blob": "b9efd67af94378a5f81141324adf1d24645156f4",
+   "path": "scripts/sync-stats-producer.ts"
   }
  ],
- "inputs_fingerprint": "d291b67e9aa88cbba0450d649785b887c2fadcf8abda4b2e74c46888b5129b03",
+ "inputs_fingerprint": "d9e5c15049f7f0a38ec8ca3e037aee5fc13b10251514dde142710313e37ad134",
  "instances": [
   {
    "commit": null,
@@ -24852,14 +24860,7 @@
    "version": "12.20.0"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

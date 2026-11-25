@@ -34,7 +34,7 @@ from repomod.dependencies.model import (
 from repomod.git import GitError, expected_origin, is_git_checkout, origin_url
 from repomod.types import Repository
 
-PARSER_VERSION = 8
+PARSER_VERSION = 9
 
 
 @dataclass(frozen=True, slots=True)
@@ -111,7 +111,7 @@ def inspect_repository(catalog: Catalog, repository: Repository) -> RepositoryIn
 
     candidate_paths = {item.path for item in (*discovery.inputs, *discovery.symlinks)}
     for entry in entries:
-        if entry.kind != "gitlink" and _adapter_for(entry.path) is not None:
+        if entry.kind != "gitlink" and _adapters_for(entry.path):
             candidate_paths.add(entry.path)
 
     inputs: list[InputFile] = []
@@ -172,18 +172,19 @@ def inspect_repository(catalog: Catalog, repository: Repository) -> RepositoryIn
 
     groups: list[tuple[Adapter, list[InputContent]]] = []
     for content in contents:
-        adapter = _adapter_for(content.path)
-        if adapter is None:
+        adapters = _adapters_for(content.path)
+        if not adapters:
             found = discovered.get(content.path)
             label = found.label if found is not None else content.path
             issues.append(Issue(CoverageKind.UNSUPPORTED_FORMAT, f"no parser for {label}", path=content.path))
             continue
-        for owner, items in groups:
-            if owner is adapter:
-                items.append(content)
-                break
-        else:
-            groups.append((adapter, [content]))
+        for adapter in adapters:
+            for owner, items in groups:
+                if owner is adapter:
+                    items.append(content)
+                    break
+            else:
+                groups.append((adapter, [content]))
 
     projects: list[Project] = []
     components: list[Component] = []
@@ -497,8 +498,8 @@ def _inspect_all(
         return tuple(pool.map(partial(inspect_repository, catalog), ordered))
 
 
-def _adapter_for(path: str) -> Adapter | None:
-    return next((adapter for adapter in ADAPTERS if adapter.matches(path)), None)
+def _adapters_for(path: str) -> tuple[Adapter, ...]:
+    return tuple(adapter for adapter in ADAPTERS if adapter.matches(path))
 
 
 def _is_vendored(path: str, roots: Sequence[str]) -> bool:

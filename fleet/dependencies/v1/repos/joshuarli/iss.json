@@ -89,6 +89,12 @@
    "ecosystem": "github",
    "name": "actions/checkout",
    "purl": "pkg:github/actions/checkout"
+  },
+  {
+   "display_name": "brew/cppcheck",
+   "ecosystem": "system",
+   "name": "brew/cppcheck",
+   "purl": "pkg:system/brew/cppcheck"
   }
  ],
  "edges": [
@@ -127,6 +133,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L29",
+     "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/brew/cppcheck#"
   }
  ],
  "inputs": [
@@ -143,7 +167,7 @@
    "path": "Makefile"
   }
  ],
- "inputs_fingerprint": "eabcc270cc0d96d853956a77ae0b497cf108a0e554e14043d91aa55455659846",
+ "inputs_fingerprint": "5138cfe560f73aa285069c1e7125318f05210868f67422e13c196151f29879b0",
  "instances": [
   {
    "commit": null,
@@ -339,21 +363,32 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/checkout",
    "version": "3d3c42e5aac5ba805825da76410c181273ba90b1"
-  }
- ],
- "issues": [
+  },
   {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
+   "commit": null,
+   "component": "pkg:system/brew/cppcheck",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/brew/cppcheck#",
+   "purl": "pkg:system/brew/cppcheck",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
   }
  ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   }
  ],
  "repository": "joshuarli/iss",

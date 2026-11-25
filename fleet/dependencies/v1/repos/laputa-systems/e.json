@@ -1797,11 +1797,15 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "44feea37c9ed41299f7b6a6b0f79eab473fb4eaa",
+   "path": "scripts/bench.py"
+  },
+  {
    "blob": "f2e9450d76fc9f2b2c4c0f95f7c12738412a6051",
    "path": "tests/repro/sigwinch-ssh/run.sh"
   }
  ],
- "inputs_fingerprint": "1cda009d9ea0eecac0e50b499bb7728078f60fd54bc55b0763b7060a9ce24911",
+ "inputs_fingerprint": "5e6cd6e33a554e3f37d1a1c8764bf19c3c6c04e36f0c63b5bd6cbb3387107cb4",
  "instances": [
   {
    "commit": null,
@@ -2999,12 +3003,6 @@
    "locator": "dependencies.rustix",
    "message": "named registry 'stuff-native' cannot be resolved statically",
    "path": "Cargo.toml"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

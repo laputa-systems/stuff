@@ -471,7 +471,7 @@
    "path": "tests/crate/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "795e617e1cd2688a18cc351cc0a8043b0a90932fd78e04fcaa2448d088d7c2f1",
+ "inputs_fingerprint": "4caac280fca94ab3da469fe163a487738d23819c8c46ac4fcd25a2a1cc5ab173",
  "instances": [
   {
    "commit": null,
@@ -727,12 +727,6 @@
    "locator": null,
    "message": "no lockfile at Cargo.lock",
    "path": "Cargo.lock"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
   }
  ],
  "projects": [

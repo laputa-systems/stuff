@@ -15075,6 +15075,14 @@
    "path": "apps/orange/package.json"
   },
   {
+   "blob": "7763c63eb9dcb934b2ae5b5f91be3ff6b1ceb292",
+   "path": "apps/orange/scripts/bundle.mjs"
+  },
+  {
+   "blob": "fc16a76bb5173121382223b12e28d8e041757b00",
+   "path": "apps/orange/scripts/stage-assets.mjs"
+  },
+  {
    "blob": "267d435c43481beeb3a2f6997ac6b144f0e989d8",
    "path": "apps/orange/wrangler.jsonc"
   },
@@ -15169,9 +15177,89 @@
   {
    "blob": "79c6e81126126be4b0419da7418bb9dbe8114313",
    "path": "pnpm-lock.yaml"
+  },
+  {
+   "blob": "5cd646a736b81f78c2916c1f51694e716891e34e",
+   "path": "scripts/capabilities.mjs"
+  },
+  {
+   "blob": "f7f28bf39d38de2d99d8e6a096de699dc2e700dd",
+   "path": "scripts/contracts-compat.mjs"
+  },
+  {
+   "blob": "16a534517764a301eb3e13d2c91611f2e5c7acb4",
+   "path": "scripts/contracts-compat.test.mjs"
+  },
+  {
+   "blob": "07c54149ff47ea85f9e8ba55d4ed26c5cfffb87a",
+   "path": "scripts/contracts.mjs"
+  },
+  {
+   "blob": "25e52858785f34de67a7d9c903012e5bde3fd112",
+   "path": "scripts/dev-smoke.mjs"
+  },
+  {
+   "blob": "4b5485ad067fa4178d7eccbcfe2b8ebfdb11479b",
+   "path": "scripts/dev.mjs"
+  },
+  {
+   "blob": "e3cdfac955b9c07a24e1f1d34ba39cd9a61c1736",
+   "path": "scripts/lib/browser.mjs"
+  },
+  {
+   "blob": "fc601595849d2e0ab1b60c6ac3519c1ac2ef1eda",
+   "path": "scripts/lib/fleet.mjs"
+  },
+  {
+   "blob": "1325eb5ce6fc60b313c75b5e71bf9338b4791731",
+   "path": "scripts/measure-native-owner.mjs"
+  },
+  {
+   "blob": "f07b6d919781bfedfdfac68e123ef765091dacd6",
+   "path": "scripts/ops/agentctl.mjs"
+  },
+  {
+   "blob": "b80bc4174869db0f8205158731773785c4e3eff9",
+   "path": "scripts/ops/backup.mjs"
+  },
+  {
+   "blob": "171d80a2ecacd8f17c8624ec02d7db5f37f03b57",
+   "path": "scripts/ops/restore.mjs"
+  },
+  {
+   "blob": "236f813797d004c555ad08eea47737f4f2c89a7d",
+   "path": "scripts/pilot/pilot.mjs"
+  },
+  {
+   "blob": "90fc29e6ffdba64c11b57faaec8a278921683ba0",
+   "path": "scripts/preview.mjs"
+  },
+  {
+   "blob": "14b0a93f57a7bfc3c4cc740d3cf42590e26b16d5",
+   "path": "scripts/release-check.mjs"
+  },
+  {
+   "blob": "31353da1d7852859e9e549034e8a7c1f4a3a6c4d",
+   "path": "scripts/test-adoption.mjs"
+  },
+  {
+   "blob": "6f77b43a26fc8a10d191ae24d1a4d62cc672674b",
+   "path": "scripts/test-bridge-ui.mjs"
+  },
+  {
+   "blob": "57e58d0ef6426c1a79795e4ce3218d17e88e9e78",
+   "path": "scripts/test-ui-goldens.mjs"
+  },
+  {
+   "blob": "68ecea172ded775ebdb009a1d1b2eb135d14eeb9",
+   "path": "scripts/test-ui-polish.mjs"
+  },
+  {
+   "blob": "81e6eccdfcf94ee3abfb092b1b4794e298c53464",
+   "path": "scripts/test-ui.mjs"
   }
  ],
- "inputs_fingerprint": "5aad1f8f0e7fe26a9d0ccbc1440cad6d61efc48b5a2b6f1614c38afedaa91752",
+ "inputs_fingerprint": "e297d271584941ef3c8cbc6c7332f2bc2b9c69cd95b02c854dbe843e0c439d2a",
  "instances": [
   {
    "commit": null,
@@ -20934,12 +21022,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "vendored_unknown",
    "locator": null,

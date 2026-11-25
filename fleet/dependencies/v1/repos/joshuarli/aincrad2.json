@@ -2779,6 +2779,42 @@
    "purl": "pkg:pypi/zipp"
   },
   {
+   "display_name": "apt/build-essential",
+   "ecosystem": "system",
+   "name": "apt/build-essential",
+   "purl": "pkg:system/apt/build-essential"
+  },
+  {
+   "display_name": "apt/ca-certificates",
+   "ecosystem": "system",
+   "name": "apt/ca-certificates",
+   "purl": "pkg:system/apt/ca-certificates"
+  },
+  {
+   "display_name": "apt/curl",
+   "ecosystem": "system",
+   "name": "apt/curl",
+   "purl": "pkg:system/apt/curl"
+  },
+  {
+   "display_name": "apt/git",
+   "ecosystem": "system",
+   "name": "apt/git",
+   "purl": "pkg:system/apt/git"
+  },
+  {
+   "display_name": "apt/make",
+   "ecosystem": "system",
+   "name": "apt/make",
+   "purl": "pkg:system/apt/make"
+  },
+  {
+   "display_name": "apt/python3",
+   "ecosystem": "system",
+   "name": "apt/python3",
+   "purl": "pkg:system/apt/python3"
+  },
+  {
    "display_name": "rust",
    "ecosystem": "toolchain",
    "name": "rust",
@@ -26552,6 +26588,114 @@
   },
   {
    "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L45",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/build-essential#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L45",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ca-certificates#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L45",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/curl#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L45",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/git#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L45",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/make#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L45",
+     "path": "scripts/setup-dev"
+    }
+   ],
+   "from": "scripts:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/python3#"
+  },
+  {
+   "condition": null,
    "constraint": "=1.0.154",
    "evidence": [
     {
@@ -27055,6 +27199,10 @@
    "path": "scripts/ascent/merge.sh"
   },
   {
+   "blob": "525c0a22e1c4924bc1ca08e05950c5dea9655fdc",
+   "path": "scripts/ascent/resolve.py"
+  },
+  {
    "blob": "c119ba744257f928616b62eb9ad2741e949d08d5",
    "path": "scripts/ascent/step-import.sh"
   },
@@ -27091,6 +27239,30 @@
    "path": "scripts/setup-dev"
   },
   {
+   "blob": "f76ac288705e84e77b67d83176ab788e9e94a5dd",
+   "path": "scripts/visual/audit.py"
+  },
+  {
+   "blob": "df8437fb9ff46f2b0965ca63feaeb895cef5e1f5",
+   "path": "scripts/visual/capture.py"
+  },
+  {
+   "blob": "89ac2875aa544da73adff5324bb44c049c446a6f",
+   "path": "scripts/visual/lint.py"
+  },
+  {
+   "blob": "8652d46c1bb450df579f568e31f648c200e3aa0d",
+   "path": "scripts/visual/review-pdf.py"
+  },
+  {
+   "blob": "d795b8a1a18f088641d78413861e46f4580c3a1a",
+   "path": "scripts/visual/shoot.py"
+  },
+  {
+   "blob": "98462c9ce7a94eb737a4641d7579fb2f9abd65d1",
+   "path": "scripts/visual/vis"
+  },
+  {
    "blob": "79d9d11f62929c1e6df42ec3cccb63e2f3ee5b60",
    "path": "tools/protocol-export/Cargo.lock"
   },
@@ -27123,7 +27295,7 @@
    "path": "xtask/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "c3695856fadc8359e95c70ec3efab9ea7770c25eca8d94e9839bd0acaa96d390",
+ "inputs_fingerprint": "3232d09397092cf1bf9d22f42dce53da5ee349a18f58c02f6cc1ec1653973ba8",
  "instances": [
   {
    "commit": null,
@@ -33549,6 +33721,84 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/build-essential",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/build-essential#",
+   "purl": "pkg:system/apt/build-essential",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/ca-certificates",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ca-certificates#",
+   "purl": "pkg:system/apt/ca-certificates",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/curl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/curl#",
+   "purl": "pkg:system/apt/curl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/git",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/git#",
+   "purl": "pkg:system/apt/git",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/make",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/make#",
+   "purl": "pkg:system/apt/make",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/python3",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/python3#",
+   "purl": "pkg:system/apt/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/rust",
    "context": "",
    "first_party": false,
@@ -33562,12 +33812,6 @@
   }
  ],
  "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
   {
    "kind": "parse_error",
    "locator": "packages['../packages/sdk'].devDependencies.expect",
@@ -33738,6 +33982,11 @@
    "directory": "packages/sdk",
    "ecosystem": "npm",
    "id": "packages/sdk:npm"
+  },
+  {
+   "directory": "scripts",
+   "ecosystem": "generic",
+   "id": "scripts:repo"
   },
   {
    "directory": "tools/protocol-export",

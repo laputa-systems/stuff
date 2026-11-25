@@ -310,9 +310,10 @@ def test_detection_only_formats_report_unsupported_format(
     assert inspection.data.state is RepositoryState.PARTIAL
     assert inspection.data.projects == ()
     assert inspection.data.edges == ()
+    install_surfaces = {"flake.nix", "Makefile", "GNUmakefile"}
     unsupported = [issue for issue in inspection.data.issues if issue.kind is CoverageKind.UNSUPPORTED_FORMAT]
-    assert len(unsupported) == len(files)
-    assert {issue.path for issue in unsupported} == set(files)
+    assert len(unsupported) == len(files) - len(install_surfaces)
+    assert {issue.path for issue in unsupported} == set(files) - install_surfaces
     assert {item.path for item in inspection.data.inputs} == set(files)
 
 

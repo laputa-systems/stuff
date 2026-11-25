@@ -4177,6 +4177,12 @@
    "purl": "pkg:service/cloudflare-durable-object/METRICS"
   },
   {
+   "display_name": "apt/ripgrep",
+   "ecosystem": "system",
+   "name": "apt/ripgrep",
+   "purl": "pkg:system/apt/ripgrep"
+  },
+  {
    "display_name": "node",
    "ecosystem": "toolchain",
    "name": "node",
@@ -4735,6 +4741,24 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L37",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/ripgrep#"
   },
   {
    "condition": null,
@@ -30193,12 +30217,184 @@
    "path": "cloudflare/package.json"
   },
   {
+   "blob": "121b8f645ade9e785d29e66337127e6604898475",
+   "path": "cloudflare/scripts/api.mjs"
+  },
+  {
+   "blob": "10048a43cd412e4ead83871dd2f015206b3603fa",
+   "path": "cloudflare/scripts/bench-application-summary.mjs"
+  },
+  {
+   "blob": "02963893e05e2ebaf013e1a925cdca07820e8e0b",
+   "path": "cloudflare/scripts/bench-bundle.mjs"
+  },
+  {
+   "blob": "15a0937aa799a4fa5b967606b554090b8c5dffdd",
+   "path": "cloudflare/scripts/bench-history.mjs"
+  },
+  {
+   "blob": "c4e25aa06262665afc2e28be48a6cea5fcc21a2e",
+   "path": "cloudflare/scripts/bench-native-replay.mjs"
+  },
+  {
+   "blob": "e127da444b50641d4566be7e7af45df6e581615d",
+   "path": "cloudflare/scripts/bench-native-retention.mjs"
+  },
+  {
+   "blob": "12dcac1324e4f21c3528f76061e5b47898ad54a6",
+   "path": "cloudflare/scripts/bench-native-routes.d.mts"
+  },
+  {
+   "blob": "5f2fc7c111879692ab606f04d6bf2162617f8843",
+   "path": "cloudflare/scripts/bench-native-routes.mjs"
+  },
+  {
+   "blob": "190cc50b498cbb164179f0798826d53b6358bd0d",
+   "path": "cloudflare/scripts/bench-native-server.d.mts"
+  },
+  {
+   "blob": "5e52aee5148f5f7a8c7c357d38fe4a1fb9ed41cf",
+   "path": "cloudflare/scripts/bench-native-server.mjs"
+  },
+  {
+   "blob": "b4f15cc5a1afefd9e764475ce07851474e926913",
+   "path": "cloudflare/scripts/bench-network.d.mts"
+  },
+  {
+   "blob": "5756c51fe63a6729d58ca953f9d8a02193da3a2c",
+   "path": "cloudflare/scripts/bench-network.mjs"
+  },
+  {
+   "blob": "c2a73f4b9a20c00a095e4fed54b95882dbfadf5c",
+   "path": "cloudflare/scripts/bench-platform-runtime.mjs"
+  },
+  {
+   "blob": "ace8252d7bf114af96ec3a8580f66f89aa2abde2",
+   "path": "cloudflare/scripts/bench-preview-fallbacks.mjs"
+  },
+  {
+   "blob": "2c6c11e56ad0c50ff39e7f98ca652d2033b78d2a",
+   "path": "cloudflare/scripts/bench-ui.mjs"
+  },
+  {
+   "blob": "9a49b2fe7cb4936e850c26bcb286ebbb2c80d12c",
+   "path": "cloudflare/scripts/build-all.mjs"
+  },
+  {
+   "blob": "6231ce69e0d28ae326ad913439ea90ad0e32e1bc",
+   "path": "cloudflare/scripts/build-infra-collector.mjs"
+  },
+  {
+   "blob": "98bc4c4810d942b62d74f73ba2d4be2f831dd1c8",
+   "path": "cloudflare/scripts/build-platform-bridge.mjs"
+  },
+  {
+   "blob": "55394ee30dd4f9557ab95eea1234084146729dde",
+   "path": "cloudflare/scripts/bundle-node.mjs"
+  },
+  {
    "blob": "792d75e3a3e611673c1ee4cc1f7a2d16f1424918",
    "path": "cloudflare/scripts/capture-host.sh"
   },
   {
+   "blob": "b0bf0594046ef503084e2b8a24d676c21e383f4e",
+   "path": "cloudflare/scripts/capture-production.mjs"
+  },
+  {
    "blob": "9f7d7502775a42eb158d68ed2393f0f4db2188a1",
    "path": "cloudflare/scripts/capture-project.sh"
+  },
+  {
+   "blob": "01c6c079a17666c110adeeee11d4c98c49cec38a",
+   "path": "cloudflare/scripts/check-analytics-sql.mjs"
+  },
+  {
+   "blob": "4458996e856cdd86d6adaba4c57db46180a95f38",
+   "path": "cloudflare/scripts/check-config.mjs"
+  },
+  {
+   "blob": "89a8727299bf9949322d94e95da8b08df3afcbcd",
+   "path": "cloudflare/scripts/check-parity.mjs"
+  },
+  {
+   "blob": "1496fcf88a88c086c1c511c5f656e3ae4a433a78",
+   "path": "cloudflare/scripts/compatibility-candidate.ts"
+  },
+  {
+   "blob": "17ed5ccb62c4299ab2810233b9a3f90d416e9980",
+   "path": "cloudflare/scripts/dev-doctor.ts"
+  },
+  {
+   "blob": "0d1c01222f8e5497d87b48faaead2a8cdbb53985",
+   "path": "cloudflare/scripts/dev.ts"
+  },
+  {
+   "blob": "3a2b9e0f849f1e4fe7499759a2eda4e42fc37a1b",
+   "path": "cloudflare/scripts/ensure-build.ts"
+  },
+  {
+   "blob": "ca096636ed890b3b0515db0fdd05859e64de0d41",
+   "path": "cloudflare/scripts/local-stack.mjs"
+  },
+  {
+   "blob": "cf69e8263840001047230e1e107413a7d7d7b61a",
+   "path": "cloudflare/scripts/ownership.ts"
+  },
+  {
+   "blob": "20e7f862e4d6794df3a6f7cf82573d219c37c407",
+   "path": "cloudflare/scripts/preview.mjs"
+  },
+  {
+   "blob": "70b667a94b91db5636c3a3a6b70db8b5ba001ce5",
+   "path": "cloudflare/scripts/processes.ts"
+  },
+  {
+   "blob": "ff748d89888280845cd07fef41c3caf225d4fbbd",
+   "path": "cloudflare/scripts/profile.mjs"
+  },
+  {
+   "blob": "1039b42634e8342cdc5a9a17836f5e586a0c861e",
+   "path": "cloudflare/scripts/run-tests.mjs"
+  },
+  {
+   "blob": "5222998b69552a67e854f42b01ff7736c13e3b24",
+   "path": "cloudflare/scripts/run-tests.ts"
+  },
+  {
+   "blob": "0f23bcbc612fedcd0b514217701ed7ee1d9ab0ff",
+   "path": "cloudflare/scripts/serve.mjs"
+  },
+  {
+   "blob": "5469e046d9c8d87c8b5b5945e0b86b7a25777283",
+   "path": "cloudflare/scripts/served-docs.d.mts"
+  },
+  {
+   "blob": "fec63886569d57c4e7a91a1857097b6a6f0dc83e",
+   "path": "cloudflare/scripts/served-docs.mjs"
+  },
+  {
+   "blob": "8652edde503f4b891a18e32b431a56f6674076f3",
+   "path": "cloudflare/scripts/stage-node.ts"
+  },
+  {
+   "blob": "c6b044c0afa3c02c9f57bc77dbe7a0d6f625f29f",
+   "path": "cloudflare/scripts/test-counts.ts"
+  },
+  {
+   "blob": "1039b42634e8342cdc5a9a17836f5e586a0c861e",
+   "path": "cloudflare/scripts/test-runner.mjs"
+  },
+  {
+   "blob": "54836a7a5c815fd6e28ed85183549b81fd79a163",
+   "path": "cloudflare/scripts/test-suites.ts"
+  },
+  {
+   "blob": "8d4880a91f1193d8b53db161709e32e9898869db",
+   "path": "cloudflare/scripts/toolchain.ts"
+  },
+  {
+   "blob": "2a671f0c1700c1f1b1362953b303e116b64562d2",
+   "path": "cloudflare/scripts/worker-test.mjs"
   },
   {
    "blob": "867251be3610475dbd56cfc05fef974f4e0ee741",
@@ -30257,7 +30453,7 @@
    "path": "deploy/orange/pnpm-lock.yaml"
   },
   {
-   "blob": "fec3a745312a429fe5f6bfb9d89d2fbec3da136a",
+   "blob": "07765b3e2b56a29490ecb5fd5d7e5dba86c765e0",
    "path": "deploy/orange/recovery/apply-engine-config.sh"
   },
   {
@@ -30329,6 +30525,14 @@
    "path": "scripts/build-statsctl.sh"
   },
   {
+   "blob": "3e6c0e7f11d8e35fcdf9a6a1a4706bd4a2f48d9f",
+   "path": "scripts/check-fixtures.mjs"
+  },
+  {
+   "blob": "c8a3605bcfe59bf708fe31a206b8b4cb5ca4ffed",
+   "path": "scripts/fixture-sources.mjs"
+  },
+  {
    "blob": "c40b39e39105326ae6486f66b40583f51be91403",
    "path": "scripts/offline-run.sh"
   },
@@ -30337,7 +30541,7 @@
    "path": "scripts/step.sh"
   }
  ],
- "inputs_fingerprint": "85aa27060d606c6c977997b77220e72423bd252dcb8bf188d0a9c33f163df9a2",
+ "inputs_fingerprint": "4fa3a9c3c7f4c8c86088d117de4e00e6e4d93446cb639d9017286c0c3c9a2b17",
  "instances": [
   {
    "commit": null,
@@ -41950,6 +42154,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/ripgrep",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/ripgrep#",
+   "purl": "pkg:system/apt/ripgrep",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:toolchain/node",
    "context": "",
    "first_party": false,
@@ -42003,12 +42220,6 @@
  ],
  "issues": [
   {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
    "kind": "dynamic_value",
    "locator": "dependencies.h12tiny-client-sync",
    "message": "named registry 'mycrates' cannot be resolved statically",
@@ -42043,6 +42254,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "agent/build",

@@ -1,6 +1,18 @@
 {
  "components": [
   {
+   "display_name": ">/dev/null",
+   "ecosystem": "apk",
+   "name": ">/dev/null",
+   "purl": "pkg:apk/%3E/dev/null"
+  },
+  {
+   "display_name": "libstdc++",
+   "ecosystem": "apk",
+   "name": "libstdc++",
+   "purl": "pkg:apk/libstdc%2B%2B"
+  },
+  {
    "display_name": "3",
    "ecosystem": "command",
    "name": "3",
@@ -3539,6 +3551,42 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L153",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/%3E/dev/null#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L153",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/libstdc%2B%2B#"
   },
   {
    "condition": null,
@@ -43503,6 +43551,14 @@
  ],
  "inputs": [
   {
+   "blob": "d0ed2f9c7d281aa2fc03256bf30d96f862dc2e04",
+   "path": ".github/scripts/python_mutants_gate.py"
+  },
+  {
+   "blob": "22722a216e82c4fdfdd58f1139e08f397c132ca2",
+   "path": ".github/scripts/python_mutation_receipts.json"
+  },
+  {
    "blob": "1cc215d8032ca803460879d8f388bcecec435a07",
    "path": ".github/workflows/ci.yml"
   },
@@ -43591,8 +43647,16 @@
    "path": "sources/agent-intercom-claude/package.json"
   },
   {
+   "blob": "5812c78b581b642d27e445af3bef92007120a61b",
+   "path": "sources/agent-intercom-claude/scripts/build.mjs"
+  },
+  {
    "blob": "90bf355b0efd41f8bb1be41ea2b1d7bd446480e3",
    "path": "sources/agent-intercom-codex/package.json"
+  },
+  {
+   "blob": "0fcfdbccdd9575e3150ee7246b1e0954b967fa6d",
+   "path": "sources/agent-intercom-codex/scripts/build.mjs"
   },
   {
    "blob": "33bea0b0f7ce29262052e8be7d7f3f8207ac80dc",
@@ -43603,8 +43667,24 @@
    "path": "sources/agent-intercom-opencode/package.json"
   },
   {
+   "blob": "3595af5c40b3e51871613f152805501a2b4c079e",
+   "path": "sources/agent-intercom-opencode/scripts/build-protected-provider.mjs"
+  },
+  {
+   "blob": "63711bb6a32a00840892ff6976d37413a6ee5a96",
+   "path": "sources/agent-intercom-opencode/scripts/build.mjs"
+  },
+  {
+   "blob": "35f30b47006cc560487aa49215585fa58f321ef4",
+   "path": "sources/agent-intercom-opencode/scripts/core-external.mjs"
+  },
+  {
    "blob": "ff8c4b922bd5de9496636300fb9e41d0cf31e48c",
    "path": "sources/agent-intercom-pi/package.json"
+  },
+  {
+   "blob": "08820dd499baaa363a8dc34951aec2cd4218599e",
+   "path": "sources/agent-intercom-pi/scripts/build-protected-provider.mjs"
   },
   {
    "blob": "c293bdc4d0d6774078f7ceca90e265d2e7e90547",
@@ -43619,6 +43699,10 @@
    "path": "sources/pi-subagents/package.json"
   },
   {
+   "blob": "7f09d23b8edbd1be1b5bfe4c9f541f3d02e4058d",
+   "path": "sources/pi-subagents/scripts/build-package.mjs"
+  },
+  {
    "blob": "695a5201924fe623b02e9efdd0ff3c8a10a15d49",
    "path": "tools/build.sh"
   },
@@ -43631,8 +43715,34 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "6b8d8296c01af9e34698f543562fb0aa8af933269b2e1399b7a8378c5572cff3",
+ "inputs_fingerprint": "1685fcd92d087f5194a06abd2135c40b499286b4f6950d7390c7ab2712711a64",
  "instances": [
+  {
+   "commit": null,
+   "component": "pkg:apk/%3E/dev/null",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/%3E/dev/null#",
+   "purl": "pkg:apk/%3E/dev/null",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:apk/libstdc%2B%2B",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:apk/libstdc%2B%2B#",
+   "purl": "pkg:apk/libstdc%2B%2B",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
   {
    "commit": null,
    "component": "pkg:command/3",
@@ -51486,14 +51596,7 @@
    "version": "0.13.7"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",
@@ -51504,6 +51607,11 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
+  },
+  {
+   "directory": ".github/workflows",
+   "ecosystem": "generic",
+   "id": ".github/workflows:repo"
   },
   {
    "directory": "locks/aarch64-apple-darwin",

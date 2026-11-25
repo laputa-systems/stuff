@@ -1407,7 +1407,7 @@
    "path": "wifi/bin/wifi-bench.sh"
   }
  ],
- "inputs_fingerprint": "ef9599e7e3e4649377b34b8f38b79e933cdcb9949dec51ef6c4a9f7d0d42b10b",
+ "inputs_fingerprint": "7b9df8b3370c58c162654fd6ec1a50bd5ce6306e3193fb89cc60f9ad190ebf9f",
  "instances": [
   {
    "commit": null,
@@ -3386,20 +3386,7 @@
    "version": "949feb2413d6458794dcd2491c4babbbce0c15c1"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  },
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "tailscale/Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",

@@ -3187,7 +3187,7 @@
    "path": "scripts/package-app.sh"
   }
  ],
- "inputs_fingerprint": "87f3fb85ed8383266d26d990c93b0159f56768d38ebcfbf468f7c47adee44ac9",
+ "inputs_fingerprint": "de9ae5677cd95fc13fa491547c6f5dfd27953f315dc16f54761e5ff5ae306dde",
  "instances": [
   {
    "commit": null,
@@ -4425,14 +4425,7 @@
    "version": "nightly-2026-11-09"
   }
  ],
- "issues": [
-  {
-   "kind": "unsupported_format",
-   "locator": null,
-   "message": "no parser for Makefile",
-   "path": "Makefile"
-  }
- ],
+ "issues": [],
  "projects": [
   {
    "directory": ".",
