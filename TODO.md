@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 120
+Next: 121
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -273,6 +273,15 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Recommendation:** Choose the next bounded decision set (snapshot, catalog or policy), add its witness tests and shard, prove it with a negative control, and only then decide whether to register the workflow in fleet/policy/retention.toml.
 - **Fix with:** test-audit
 - **Effort:** M
+
+### STUF-120 · P3 · python-build macOS cpython targets macOS 27 and segfaults on older macOS
+
+- **Area:** producers · python-build
+- **Where:** laputa-systems/python-build macOS deployment target; aarch64-apple-darwin release archive
+- **Problem:** Every Mach-O in python-build's aarch64-apple-darwin cpython (python3.15 and its 63 libraries) records LC_BUILD_VERSION minos 27.0. On GitHub's macos-15 runners buildlib's mutation jobs crashed with exit 139 (SIGSEGV) under it, with no message naming the OS requirement; moving to xcode-27 fixed them (laputa-systems/buildlib#35). python-build has no TODO.md yet (its roadmap is mid-consolidation by another session), so the ticket lives here until it does.
+- **Recommendation:** In python-build, lower the deployment target to the oldest macOS the fleet supports, or keep 27 and have buildlib-run and the release notes state it and refuse older macOS with a clear error; add a release check that records minos for every Mach-O. Move this ticket to python-build's backlog when it has one.
+- **Fix with:** none
+- **Effort:** S
 
 ### STUF-111 · P4 · stuff-server matches route prefixes against the raw request target
 
