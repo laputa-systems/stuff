@@ -198,3 +198,19 @@ sha256 = "c087065de6dfea245871142912731768c09e3448ecb67f80e354a90e4d3d82b5"
 name = "git-2.56.0-x86_64-unknown-linux-musl.tar.xz"
 size = 2569924
 sha256 = "edbf56085c660dc57ff2d19ca733f71b248d6b68fe7c19d9d2e98ced565117d3"
+
+[tools.node]
+repository = "laputa-systems/node-build"
+tag = "release-950f8ce195b9cb564dec7a13a3c82192937edaed"
+product = "node"
+version = "26.12.1"
+
+[tools.node.assets.aarch64-apple-darwin]
+name = "node-26.12.1-aarch64-apple-darwin.tar.xz"
+size = 22102344
+sha256 = "aa44a9414298d431b95231cf6f4455e92c7bdf7a5daf49cb15716e035336b7d6"
+
+[tools.node.assets.x86_64-unknown-linux-musl]
+name = "node-26.12.1-x86_64-unknown-linux-musl.tar.xz"
+size = 28971196
+sha256 = "9ac4889c758acffc064ba452aef9f10e6fb7e59546dbfcc949abc5d8a9948e62"
