@@ -202,6 +202,13 @@ names, layouts and cache format are in buildlib's
 [tools reference](https://github.com/laputa-systems/buildlib/blob/main/docs/tools.md); the action
 pin lives in `fleet/policy/actions.toml`.
 
+An Alpine stage moves its C builds to the owned clang by dropping `gcc` (and `build-base`'s
+compiler) and linking `cc` to `/opt/laputa/bin/clang`: the owned llvm links with its own musl crt
+objects, compiler-rt builtins and `ld.lld`, so it needs only `musl-dev`'s headers. Rust host
+proc-macros still link `-lgcc_s`, so a Rust stage keeps Alpine's `libgcc` runtime and adds the
+`/usr/lib/libgcc_s.so -> libgcc_s.so.1` symlink that gcc's package used to provide
+(joshuarli/loc#39).
+
 Owned node replaces `actions/setup-node` only where the job needs no npm and loads no native
 addon in-process. node-build ships no npm or Corepack, so pnpm comes from `pnpm/action-setup`
 (which also caches the store); list both libcs in `pnpm-workspace.yaml`
