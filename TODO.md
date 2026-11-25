@@ -13,15 +13,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **npm mirror 500s**: recurring HTTP 500s (outages ~16:26-01:00 UTC and ~02:14 UTC on 2026-11-14); mirror packages (pnpm 12.20/12.21, playwright-core 1.65.1, vitest 5.0.3, ws 8.23.0, vite 8.3.6) still absent. Snapshots of deps/loc must wait for merges and a healthy mirror.
 ## Tickets
 
-### STUF-125 · P3 · Fix flow keeps stale changes on an open fix branch after a fixer changes
-
-- **Area:** repomod · fix flow
-- **Where:** repomod/fix.py `_pending_fix_branches` and the continue-the-branch path around line 453; fixers plan against the worktree at the branch tip
-- **Problem:** On 2026-11-25 the Dockerfile fixer stopped removing apk `git` (git-build omits HTTPS), but rerunning `repomod fix --rule owned-tool-substitution --repo laputa-systems/tinyland` pushed to the open fix branch whose earlier commit had already removed git. The fixer planned against that tip, saw no git to keep, and the PR still removed it. Closing the PR and deleting the branch was the only way to regenerate it.
-- **Recommendation:** When a fix branch descends from the default branch, plan against the default branch and replace the branch contents with the new plan (or reset the branch to the default branch before applying), so a fixer change can withdraw an earlier edit. Add a test where the second run's plan drops a hunk the first run made.
-- **Fix with:** root-cause
-- **Effort:** M
-
 ### STUF-75 · P1 · Add integrity-verified S3 backup copies and isolated restore proof
 
 - **Area:** OpenOrange durability

@@ -138,7 +138,12 @@ no policy errors. Every successful fixer gets its own commit on a new local
 `repomod/fix/<id>` branch; the canonical default branch remains untouched. `fix` pushes
 that branch and opens or reuses a pull request against the default branch. It enables GitHub
 auto-merge only when the repository allows it and the default branch requires status checks. The
-next fix run resumes its unmerged branch from the current default branch. Failed or interrupted
+next fix run rebuilds its unmerged branch: when every commit on it is a fixer's (matched by the
+rule's commit message), repomod reruns those rules and the selected ones from the current default
+branch, so a fixer change can withdraw an earlier edit. The rebuilt commits replace the branch
+only when its tree changes and no rule with an earlier commit failed. Publication then
+force-pushes with a lease on the tip repomod last published and refuses a remote branch that
+moved. A branch carrying any other commit is continued at its tip instead. Failed or interrupted
 work remains on its branch or in its worktree.
 Publication retains the canonical branch and HEAD observed before fixing. A change detected
 during fixing prevents publication. The push path rechecks that identity before and after its

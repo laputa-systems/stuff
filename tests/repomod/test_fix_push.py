@@ -310,3 +310,44 @@ def test_fix_push_uses_validated_commit_when_branch_moves(
     remote_head = git("--git-dir", str(tmp_path / "remote.git"), "rev-parse", f"refs/heads/{branch}").stdout.strip()
     assert remote_head == base
     assert git("rev-parse", f"refs/heads/{branch}", cwd=path).stdout.strip() == moved[0]
+
+
+def _commit_on(path: Path, start: str, name: str) -> str:
+    git("checkout", "-q", "--detach", start, cwd=path)
+    (path / name).write_text(f"{name}\n", encoding="utf-8")
+    git("add", name, cwd=path)
+    git("commit", "-q", "-m", name, cwd=path)
+    commit = head(path)
+    git("checkout", "-q", "main", cwd=path)
+    return commit
+
+
+@pytest.mark.parametrize("remote_moved", [False, True])
+def test_rebuilt_fix_branch_replaces_only_the_remote_tip_it_last_published(
+    tmp_path: Path, git_environment: None, remote_moved: bool,
+) -> None:
+    _catalog, repository, path, base = initialize_repository(tmp_path)
+    bare = tmp_path / "remote.git"
+    branch = "repomod/fix/" + "b" * 32
+    previous = _commit_on(path, base, "old.txt")
+    git("push", "-q", "origin", f"{previous}:refs/heads/{branch}", cwd=path)
+    if remote_moved:
+        moved = _commit_on(path, previous, "other.txt")
+        git("push", "-q", "origin", f"{moved}:refs/heads/{branch}", cwd=path)
+    rebuilt = _commit_on(path, base, "new.txt")
+    git("branch", "-f", branch, rebuilt, cwd=path)
+
+    state, message = push_fix_branch(
+        repository, path, branch, "main", base, rebuilt,
+        canonical_head=base, canonical_branch="main", replaces=previous,
+    )
+
+    published = git("--git-dir", str(bare), "rev-parse", f"refs/heads/{branch}").stdout.strip()
+    if remote_moved:
+        assert (state, message) == (
+            "failed", "remote fix branch moved since repomod last fixed it; integrate or delete it",
+        )
+        assert published == moved
+    else:
+        assert (state, message) == ("pushed", None)
+        assert published == rebuilt

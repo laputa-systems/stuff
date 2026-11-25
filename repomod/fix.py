@@ -30,6 +30,7 @@ class FixOutcome:
     recovery_ref: str | None = None
     recovery_worktree: str | None = None
     cleanup_error: str | None = None
+    replaced_head: str | None = None
 
 
 def _allowed(path: str, patterns: tuple[str, ...]) -> bool:
@@ -162,6 +163,9 @@ def _finding_signature(finding: Finding) -> tuple[str, str | None, str, str, str
     )
 
 
+_MANUAL_REVIEW = "policy violations need manual review: "
+
+
 def _manual_violations(findings: tuple[Finding, ...]) -> str | None:
     remaining = [
         finding
@@ -174,7 +178,7 @@ def _manual_violations(findings: tuple[Finding, ...]) -> str | None:
         f"{finding.file or 'repository'}: {finding.message}"
         for finding in sorted(remaining, key=lambda item: (item.file or "", item.message))
     )
-    return "policy violations need manual review: " + details
+    return _MANUAL_REVIEW + details
 
 
 def _fix_one_rule(root: Path, repository: Repository, rule: Rule) -> tuple[str | None, str | None]:
@@ -316,23 +320,65 @@ def _pending_fix_branches(root: Path, baseline: str) -> tuple[tuple[str, ...], t
     return tuple(pending), tuple(diverged)
 
 
-def _remote_branch_head(root: Path, branch: str) -> str:
+@dataclass(frozen=True, slots=True)
+class _Rebuild:
+    rules: tuple[Rule, ...]
+    previous_rules: frozenset[str]
+
+
+def _rebuild(
+    root: Path, baseline: str, tip: str, repository: Repository, selected: tuple[Rule, ...]
+) -> _Rebuild | None:
+    """The rules that recreate a fix branch from `baseline`, or None when a commit on it is not a fixer's."""
+    chosen = {rule.id: rule for rule in selected}
+    by_message = {
+        rule.commit_message.strip(): chosen.get(rule.id, rule)
+        for rule in (*all_policy_rules(), *selected)
+        if rule.fix is not None and rule.commit_message is not None
+    }
+    commits = run_git(
+        ["log", "--reverse", "--no-merges", "--format=%H", f"{baseline}..{tip}"], cwd=root
+    ).stdout.split()
+    ordered: dict[str, Rule] = {}
+    for commit in commits:
+        message = run_git(["log", "-1", "--format=%B", commit], cwd=root).stdout.strip()
+        rule = by_message.get(message)
+        if rule is None:
+            return None
+        if rule.id not in repository.ignored_rules:
+            ordered.setdefault(rule.id, rule)
+    previous = frozenset(ordered)
+    for rule in selected:
+        ordered.setdefault(rule.id, rule)
+    return _Rebuild(tuple(ordered.values()), previous)
+
+
+def _remote_ref(root: Path, branch: str, label: str) -> str | None:
     reference = f"refs/heads/{branch}"
     if run_git(["check-ref-format", reference], cwd=root, check=False).returncode:
-        raise GitError(f"invalid remote default branch name: {branch}")
+        raise GitError(f"invalid {label} name: {branch}")
     result = run_git(
         ["ls-remote", "--exit-code", "origin", reference], cwd=root, check=False
     )
+    if result.returncode == 2 and not result.stdout.strip():
+        return None
     if result.returncode:
         detail = result.stderr.strip() or result.stdout.strip() or "remote branch was not found"
-        raise GitError(f"cannot verify remote default branch {branch}: {detail}")
+        raise GitError(f"cannot verify {label} {branch}: {detail}")
     records = result.stdout.splitlines()
     if len(records) != 1:
-        raise GitError(f"remote default branch {branch} returned an invalid reference")
+        raise GitError(f"{label} {branch} returned an invalid reference")
     fields = records[0].split()
     if len(fields) != 2 or fields[1] != reference or re.fullmatch(r"[0-9a-f]{40}", fields[0]) is None:
-        raise GitError(f"remote default branch {branch} returned an invalid reference")
+        raise GitError(f"{label} {branch} returned an invalid reference")
     return fields[0]
+
+
+def _remote_branch_head(root: Path, branch: str) -> str:
+    remote = _remote_ref(root, branch, "remote default branch")
+    if remote is None:
+        raise GitError(f"cannot verify remote default branch {branch}: remote branch was not found")
+    return remote
 
 
 def _remove_worktree(
@@ -356,6 +402,33 @@ def _remove_worktree(
         outcome.cleanup_error = "; ".join(filter(None, (outcome.cleanup_error, str(error))))
         if worktree.exists():
             outcome.recovery_worktree = str(worktree)
+
+
+def _tree(root: Path, commit: str) -> str:
+    return run_git(["rev-parse", "--verify", f"{commit}^{{tree}}"], cwd=root).stdout.strip()
+
+
+def _settle_rebuild(
+    canonical: Path,
+    worktree: Path,
+    branch: str,
+    previous_head: str,
+    rebuild: _Rebuild,
+    outcome: FixOutcome,
+) -> None:
+    """Point `branch` at the rebuilt commits unless they change nothing or a broken fixer dropped a fix."""
+    rebuilt = head(worktree)
+    committed = {rule for rule, _ in outcome.commits}
+    failed = {rule for rule, message in outcome.failures if not message.startswith(_MANUAL_REVIEW)}
+    if (rebuild.previous_rules - committed) & failed or _tree(canonical, rebuilt) == _tree(canonical, previous_head):
+        outcome.commits.clear()
+        return
+    run_git(["branch", "-f", branch, rebuilt], cwd=canonical)
+    outcome.replaced_head = previous_head
+    if rebuilt == outcome.base_head:
+        outcome.failures.append(
+            ("branch", f"every fix on {branch} was withdrawn; close its pull request and delete the branch")
+        )
 
 
 def fix_repository(
@@ -461,6 +534,13 @@ def fix_repository(
                     )
                 )
                 return outcome
+            previous_head: str | None = None
+            rebuild: _Rebuild | None = None
+            if prior_fix_branches:
+                previous_head = run_git(
+                    ["rev-parse", "--verify", f"refs/heads/{prior_fix_branches[0]}"], cwd=canonical
+                ).stdout.strip()
+                rebuild = _rebuild(canonical, base_head, previous_head, repository, selected)
             worktree_root = _managed_worktree_root(catalog)
             run_id = uuid.uuid4().hex
             worktree_parent = worktree_root / repository.id.owner / repository.id.name
@@ -479,12 +559,14 @@ def fix_repository(
             )
             if branch_created:
                 run_git(["worktree", "add", "-b", branch, str(worktree), base_head], cwd=canonical)
+            elif rebuild is not None:
+                run_git(["worktree", "add", "--detach", str(worktree), base_head], cwd=canonical)
             else:
                 run_git(["worktree", "add", str(worktree), branch], cwd=canonical)
             outcome.branch = branch
             outcome.base_head = base_head
             try:
-                for rule in selected:
+                for rule in selected if rebuild is None else rebuild.rules:
                     if not rule.applies_to.matches(repository.tags):
                         continue
                     new_head, error = _fix_one_rule(worktree, repository, rule)
@@ -492,9 +574,15 @@ def fix_repository(
                         outcome.commits.append((rule.id, new_head))
                     if error is not None:
                         outcome.failures.append((rule.id, error))
+                if rebuild is not None and previous_head is not None:
+                    _settle_rebuild(canonical, worktree, branch, previous_head, rebuild, outcome)
             finally:
                 if worktree.exists():
-                    branch_tip = head(worktree)
+                    branch_tip = (
+                        head(worktree)
+                        if rebuild is None
+                        else run_git(["rev-parse", "--verify", f"refs/heads/{branch}"], cwd=canonical).stdout.strip()
+                    )
                     if branch_tip != base_head:
                         outcome.branch_head = branch_tip
                 if worktree.exists():
@@ -546,6 +634,7 @@ def push_fix_branch(
     *,
     canonical_head: str,
     canonical_branch: str,
+    replaces: str | None = None,
 ) -> tuple[str, str | None]:
     if re.fullmatch(r"repomod/fix/[0-9a-f]{32}", branch) is None:
         return "failed", "fix branch name is invalid"
@@ -574,11 +663,21 @@ def push_fix_branch(
         return "failed", str(error)
     if remote_head != base_head:
         return "skipped", "remote default branch changed; sync before publishing fixes"
+    lease: list[str] = []
+    if replaces is not None:
+        try:
+            published = _remote_ref(path, branch, "remote fix branch")
+        except GitError as error:
+            return "failed", str(error)
+        if published is not None and published != replaces:
+            return "failed", "remote fix branch moved since repomod last fixed it; integrate or delete it"
+        if published is not None:
+            lease = [f"--force-with-lease=refs/heads/{branch}:{replaces}"]
     confirmed = status(path, repository.id)
     if confirmed != current or head(path) != canonical_head:
         return "skipped", "checkout changed before push"
     result = run_git(
-        ["push", "origin", f"{branch_head}:refs/heads/{branch}"],
+        ["push", *lease, "origin", f"{branch_head}:refs/heads/{branch}"],
         cwd=path,
         check=False,
     )

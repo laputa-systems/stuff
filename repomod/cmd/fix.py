@@ -183,6 +183,7 @@ def _fix(args: argparse.Namespace) -> int:
                 outcome.branch_head,
                 canonical_head=outcome.canonical_head,
                 canonical_branch=outcome.canonical_branch,
+                replaces=outcome.replaced_head,
             )
         if state != "pushed":
             return state, message

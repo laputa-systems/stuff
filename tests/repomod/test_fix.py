@@ -258,3 +258,57 @@ def test_legacy_recovery_ref_blocks_new_branch_fix(
     assert outcome.recovery_ref == reference
     assert outcome.failures
     assert head(path) == base
+
+
+def test_rerun_rebuilds_the_fix_branch_so_a_changed_fixer_withdraws_its_edit(
+    tmp_path: Path,
+    git_environment: None,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    catalog, repository, path, base = initialize_repository(tmp_path)
+    keep = file_rule("keep", "keep.txt", "keep\n")
+    monkeypatch.setattr(fix_module, "all_policy_rules", lambda: (keep,))
+    first = fix_repository(catalog, repository, (keep, file_rule("edit", "edit.txt", "old\n")), "main")
+    assert first.branch is not None
+    old_tip = first.commits[-1][1]
+
+    def manual_only(root: Path, repository: Repository) -> list[Finding]:
+        return [Finding(str(repository.id), "edit", "other.txt", "needs a person")]
+
+    withdrawn = Rule(
+        "edit", "Repair edit.txt", TagPredicate(), manual_only,
+        lambda root, repository: {}, "chore(repomod): apply edit policy", ("edit.txt",), None,
+    )
+    rebuilt = fix_repository(catalog, repository, (withdrawn,), "main")
+
+    assert rebuilt.failures == [("edit", "policy violations need manual review: other.txt: needs a person")]
+    assert rebuilt.branch == first.branch
+    assert rebuilt.replaced_head == old_tip
+    assert [rule for rule, _ in rebuilt.commits] == ["keep"]
+    assert subjects(path, base, first.branch) == [keep.commit_message]
+    assert git("rev-parse", f"refs/heads/{first.branch}", cwd=path).stdout.strip() == rebuilt.branch_head
+    assert git("ls-tree", "--name-only", first.branch, cwd=path).stdout.split() == ["README.md", "keep.txt"]
+
+
+def test_rerun_continues_a_fix_branch_that_carries_a_manual_commit(
+    tmp_path: Path,
+    git_environment: None,
+) -> None:
+    catalog, repository, path, _base = initialize_repository(tmp_path)
+    rule = file_rule("edit", "edit.txt", "old\n")
+    first = fix_repository(catalog, repository, (rule,), "main")
+    assert first.branch is not None
+    worktree = tmp_path / "manual"
+    git("worktree", "add", str(worktree), first.branch, cwd=path)
+    (worktree / "manual.txt").write_text("manual\n", encoding="utf-8")
+    git("add", "manual.txt", cwd=worktree)
+    git("commit", "-m", "fix: hand-written repair", cwd=worktree)
+    manual_tip = head(worktree)
+    git("worktree", "remove", str(worktree), cwd=path)
+
+    repeated = fix_repository(catalog, repository, (rule,), "main")
+
+    assert repeated.failures == []
+    assert repeated.replaced_head is None
+    assert repeated.commits == []
+    assert repeated.branch_head == manual_tip
