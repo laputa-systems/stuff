@@ -91,6 +91,14 @@ rule never runs consumer scripts, fetches artifacts or starts containers. File p
 prove reuse; the consumer's behavior tests do. Adoption does not extend the build-repository
 release format to unrelated product releases.
 
+Its fixer moves an enrolled repository to the approved wheel: the `pyproject.toml` pin, the
+`laputa-buildlib` entry in `uv.lock`, the buildlib entry in `sources.lock.json`, and the vendored
+shims, copied from `fleet/policy/buildlib-bootstrap/`, the released buildlib bootstrap whose
+digests the policy approves. To approve a new buildlib release, update `[artifact]` (version,
+filename, sha256, size and bootstrap revision), replace the two files in
+`fleet/policy/buildlib-bootstrap/` with that release's `bootstrap/`, and run
+`uv run repomod fix --rule buildlib-usage`; it opens one pull request per consumer.
+
 ## Make targets
 
 The root `Makefile` defines `build`, `verify`, `lint`, and `clean`. `build` produces the release

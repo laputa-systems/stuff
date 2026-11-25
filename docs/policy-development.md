@@ -403,6 +403,13 @@ policies do not know are findings. Findings are violations naming the file, line
 package or action, and the owned producer to use through `buildlib.tools` or the
 `laputa-systems/buildlib/setup` action.
 
+`fleet/policy/tools-lock.toml` backs the `tools-lock` rule (`rules/tools_lock.py`). It reads
+`tools.lock.json` and `.github/tools.lock.json`, requires schema 1 and tool names from buildlib's
+tool table, and reports each entry that differs from the approved release. Its fixer rewrites
+those entries to the approval and writes the file as `buildlib tools lock` does: two-space
+indent, sorted keys and a trailing newline. See
+[acquiring owned tools](fleet.md#acquiring-owned-tools).
+
 ## Other policy rules
 
 `gha-test-workflow` requires a workflow triggered by `pull_request` to run `make test` or

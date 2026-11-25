@@ -1,0 +1,24 @@
+[project]
+name = "pi-build"
+version = "0.1.0"
+description = "Deterministic, locked Pi runtime archives built from preserved source snapshots"
+requires-python = ">=3.15"
+dependencies = ["laputa-buildlib==0.3.0"]
+
+[tool.pytest.ini_options]
+python_files = ["*_test.py", "test_*.py"]
+testpaths = ["tests"]
+
+[tool.uv]
+environments = ["sys_platform == 'darwin'", "sys_platform == 'linux'"]
+package = false
+
+[dependency-groups]
+dev = [
+    "coverage==7.17.3",
+    "ruff==0.17.4",
+]
+
+[[tool.uv.index]]
+url = "https://pypi.17166969.xyz/current/simple/"
+default = true

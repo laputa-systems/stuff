@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {
+      "name": "node-aarch64-apple-darwin",
+      "version": "26.13.0",
+      "url": "https://nodejs.org/dist/v26.13.0/node-v26.13.0-darwin-arm64.tar.xz",
+      "sha256": "4c1f0b1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f0d1f",
+      "size": 123456,
+      "role": "source",
+      "purpose": "Pinned Node.js runtime"
+    },
+    {
+      "name": "laputa-buildlib",
+      "version": "0.3.0",
+      "url": "https://pypi.17166969.xyz/current/wheels/laputa_buildlib-0.3.0-py3-none-any.whl",
+      "sha256": "86bc1f8ce6be7c345f3cc5ac7046a4c84694319284a52b3479bb2e29a37dc849",
+      "size": 33330,
+      "role": "library",
+      "license": "Apache-2.0",
+      "purpose": "Shared build-repository library"
+    }
+  ]
+}

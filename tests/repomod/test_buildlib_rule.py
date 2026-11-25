@@ -309,11 +309,17 @@ def test_duplicate_classification_is_a_violation(project: tuple[Path, Repository
     assert matched[0].kind == 'violation'
 
 
-def test_rule_is_registered_read_only() -> None:
+def test_rule_registers_a_pin_fixer_limited_to_pin_files() -> None:
     rule = next(rule for rule in registered_rules() if rule.id == 'buildlib-usage')
-    assert rule.fix is None
-    assert rule.commit_message is None
-    assert rule.allowed_paths == ()
+    assert rule.fix is not None
+    assert rule.commit_message == 'build(buildlib): pin the approved laputa-buildlib wheel'
+    assert rule.allowed_paths == (
+        'pyproject.toml',
+        'uv.lock',
+        'sources.lock.json',
+        'bootstrap/buildlib-run',
+        'bootstrap/python.lock',
+    )
 
 
 def test_shipped_policy_is_valid_and_catalogued() -> None:

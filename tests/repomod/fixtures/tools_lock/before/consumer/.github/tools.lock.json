@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "tools": {
+    "ffmpeg-runtime": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "ffmpeg-runtime-9.0.1-aarch64-apple-darwin.tar.xz",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "size": 1
+        }
+      },
+      "product": "ffmpeg-runtime",
+      "repository": "laputa-systems/ffmpeg-build",
+      "tag": "release-1111111111111111111111111111111111111111",
+      "version": "9.0.1"
+    }
+  }
+}

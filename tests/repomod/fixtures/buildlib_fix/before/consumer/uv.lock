@@ -1,0 +1,30 @@
+version = 1
+revision = 5
+requires-python = ">=3.15"
+
+[[package]]
+name = "pi-build"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "laputa-buildlib" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "laputa-buildlib", specifier = "==0.2.0" }]
+
+[[package]]
+name = "click"
+version = "8.5.1"
+source = { registry = "https://pypi.17166969.xyz/current/simple/" }
+wheels = [
+    { url = "https://pypi.17166969.xyz/current/wheels/click-8.5.1-py3-none-any.whl", hash = "sha256:8bb5376d2006950386f8c6427613334a2acadc5f559cb80e638d00b4df957e37" },
+]
+
+[[package]]
+name = "laputa-buildlib"
+version = "0.2.0"
+source = { registry = "https://pypi.17166969.xyz/current/simple/" }
+wheels = [
+    { url = "https://pypi.17166969.xyz/current/wheels/laputa_buildlib-0.2.0-py3-none-any.whl", hash = "sha256:aaee620f0478544b1d32075b44de48e69bbcbd8b974d5f599d037494d59f4b4a" },
+]

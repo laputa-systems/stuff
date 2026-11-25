@@ -1,0 +1,27 @@
+version = 1
+revision = 5
+requires-python = ">=3.15"
+
+[[package]]
+name = "node-build"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "laputa-buildlib" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "laputa-buildlib", specifier = "==0.3.0" }]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "laputa-buildlib", specifier = "==0.3.0" },
+]
+
+[[package]]
+name = "laputa-buildlib"
+version = "0.3.0"
+source = { registry = "https://pypi.17166969.xyz/current/simple/" }
+wheels = [
+    { url = "https://pypi.17166969.xyz/current/wheels/laputa_buildlib-0.3.0-py3-none-any.whl", hash = "sha256:86bc1f8ce6be7c345f3cc5ac7046a4c84694319284a52b3479bb2e29a37dc849" },
+]

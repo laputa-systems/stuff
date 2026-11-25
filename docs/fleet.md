@@ -191,6 +191,14 @@ names, layouts and cache format are in buildlib's
 [tools reference](https://github.com/laputa-systems/buildlib/blob/main/docs/tools.md); the action
 pin lives in `fleet/policy/actions.toml`.
 
+`fleet/policy/tools-lock.toml` approves one release per tool, in the same shape as a
+`tools.lock.json` entry. The `tools-lock` rule reports a consumer's `tools.lock.json` or
+`.github/tools.lock.json` entry that differs from its approval, and an unknown tool name; tools
+the policy does not list are not compared. After a producer release, approve it there and run
+`uv run repomod fix --rule tools-lock` to open the bump pull requests. The buildlib wheel itself
+is approved in `fleet/policy/buildlib.toml` and moved by
+[`buildlib-usage`'s fixer](build-repos.md#enforcement).
+
 ## Owned tools
 
 `repomod tools which COMMAND` resolves an installed command to its maintained repository without

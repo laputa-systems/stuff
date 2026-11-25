@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import datetime
 import hashlib
+import json
 import re
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from repomod import paths
+from repomod import buildlib_pins, paths
 from repomod.catalog import load_catalog
 from repomod.io import read_json_object, safe_relative
 from repomod.types import Finding, RepoId, Repository, Rule, TagPredicate, operational, violation
@@ -88,7 +89,8 @@ def _load_policy() -> Policy:
     unknown = {
         key for key in artifact
         if isinstance(key, str) and key not in {
-            'wheel_version', 'wheel_filename', 'wheel_sha256', 'bootstrap_sha256', 'bootstrap_revision',
+            'wheel_version', 'wheel_filename', 'wheel_sha256', 'wheel_size', 'bootstrap_sha256',
+            'bootstrap_revision',
         }
     }
     if unknown:
@@ -104,6 +106,9 @@ def _load_policy() -> Policy:
         raise ValueError('artifact wheel_filename must agree with wheel_version')
     if not isinstance(digest, str) or _SHA256.fullmatch(digest) is None:
         raise ValueError('artifact wheel_sha256 must be 64 lowercase hex digits')
+    size = artifact.get('wheel_size')
+    if size is not None and (not isinstance(size, int) or isinstance(size, bool) or size <= 0):
+        raise ValueError('artifact wheel_size must be a positive byte count when present')
     revision = artifact.get('bootstrap_revision')
     if revision is not None and (not isinstance(revision, str) or re.fullmatch(r'[0-9a-f]{40}', revision) is None):
         raise ValueError('artifact bootstrap_revision must be a 40-hex revision when present')
@@ -136,6 +141,28 @@ def _requirement_strings(value: object) -> list[str]:
     ]
 
 
+def _raw_requirement_strings(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, str)]
+
+
+def _dependency_requirement_values(data: dict[str, Any]) -> list[str]:
+    requirements: list[str] = []
+    project = data.get('project')
+    if isinstance(project, dict):
+        requirements.extend(_raw_requirement_strings(project.get('dependencies')))
+        optional = project.get('optional-dependencies')
+        if isinstance(optional, dict):
+            for value in optional.values():
+                requirements.extend(_raw_requirement_strings(value))
+    groups = data.get('dependency-groups')
+    if isinstance(groups, dict):
+        for value in groups.values():
+            requirements.extend(_raw_requirement_strings(value))
+    return requirements
+
+
 def _dependency_requirements(data: dict[str, Any]) -> list[str]:
     requirements: list[str] = []
     project = data.get('project')
@@ -156,11 +183,15 @@ def _pin(root: Path, repository: Repository, policy: Policy) -> list[Finding]:
     path = root / 'pyproject.toml'
     expected = f'laputa-buildlib=={policy.wheel_version}'
     try:
-        data = tomllib.loads(path.read_text(encoding='utf-8'))
+        text = path.read_text(encoding='utf-8')
     except FileNotFoundError:
         return [violation(repository, _RULE, 'pyproject.toml',
                           f'missing pyproject.toml; enrolled consumers must pin {expected}')]
-    except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
+    except (OSError, UnicodeError) as error:
+        return [operational(repository, _RULE, 'pyproject.toml', str(error))]
+    try:
+        data = tomllib.loads(text)
+    except tomllib.TOMLDecodeError as error:
         return [operational(repository, _RULE, 'pyproject.toml', str(error))]
     entries = [entry for entry in _dependency_requirements(data) if _PACKAGE.match(entry)]
     if not entries:
@@ -172,8 +203,10 @@ def _pin(root: Path, repository: Repository, policy: Policy) -> list[Finding]:
     )
     if all(exact.fullmatch(entry.split(';', 1)[0].strip()) for entry in entries):
         return []
+    repaired = _repair_pyproject(text, policy)
     return [violation(repository, _RULE, 'pyproject.toml',
-                      f'laputa-buildlib must be pinned exactly as {expected}; found {", ".join(entries)}')]
+                      f'laputa-buildlib must be pinned exactly as {expected}; found {", ".join(entries)}',
+                      fixable=repaired is not None and repaired != text)]
 
 
 def _wheel_digests(document: object, filename: str) -> tuple[bool, list[str | None]]:
@@ -224,7 +257,7 @@ def _is_buildlib_source(entry: dict[str, Any]) -> bool:
 
 
 def _source_findings(
-    document: dict[str, Any], repository: Repository, policy: Policy
+    document: dict[str, Any], repository: Repository, policy: Policy, *, fixable: bool = False
 ) -> list[Finding]:
     inputs = document.get('inputs')
     if not isinstance(inputs, list):
@@ -241,12 +274,14 @@ def _source_findings(
                 repository, _RULE, 'sources.lock.json',
                 f'sources.lock.json records wheel filename {declared}; '
                 f'policy approves {policy.wheel_filename}',
+                fixable=fixable,
             ))
         findings.extend(
             violation(
                 repository, _RULE, 'sources.lock.json',
                 f'sources.lock.json records wheel URL basename {basename}; '
                 f'policy approves {policy.wheel_filename}',
+                fixable=fixable,
             )
             for basename in basenames
             if basename != policy.wheel_filename
@@ -255,6 +290,7 @@ def _source_findings(
             findings.append(violation(
                 repository, _RULE, 'sources.lock.json',
                 'sources.lock.json buildlib entry does not record the approved wheel filename or URL',
+                fixable=fixable,
             ))
         version = entry.get('version')
         if version is not None and version != policy.wheel_version:
@@ -262,6 +298,7 @@ def _source_findings(
                 repository, _RULE, 'sources.lock.json',
                 f'sources.lock.json records wheel version {version}; '
                 f'policy approves {policy.wheel_version}',
+                fixable=fixable,
             ))
         digest = entry.get('sha256')
         if not isinstance(digest, str) or digest != policy.wheel_sha256:
@@ -270,6 +307,7 @@ def _source_findings(
                 f'sources.lock.json records wheel sha256 '
                 f'{digest if isinstance(digest, str) else "missing"}; '
                 f'policy approves {policy.wheel_sha256}',
+                fixable=fixable,
             ))
     return findings
 
@@ -277,12 +315,18 @@ def _source_findings(
 def _uv_lock(root: Path, repository: Repository, policy: Policy) -> list[Finding]:
     path = root / 'uv.lock'
     try:
-        data = tomllib.loads(path.read_text(encoding='utf-8'))
+        text = path.read_text(encoding='utf-8')
     except FileNotFoundError:
         return [violation(repository, _RULE, 'uv.lock',
                           f'missing uv.lock; cannot verify the approved {policy.wheel_filename} sha256')]
-    except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
+    except (OSError, UnicodeError) as error:
         return [operational(repository, _RULE, 'uv.lock', str(error))]
+    try:
+        data = tomllib.loads(text)
+    except tomllib.TOMLDecodeError as error:
+        return [operational(repository, _RULE, 'uv.lock', str(error))]
+    repaired = _repair_uv_lock(text, policy)
+    fixable = repaired is not None and repaired != text
     findings: list[Finding] = []
     packages = data.get('package')
     if isinstance(packages, list):
@@ -294,17 +338,20 @@ def _uv_lock(root: Path, repository: Repository, policy: Policy) -> list[Finding
                         repository, _RULE, 'uv.lock',
                         f'uv.lock records laputa-buildlib version {version}; '
                         f'policy approves {policy.wheel_version}',
+                        fixable=fixable,
                     ))
     matched, digests = _wheel_digests(data, policy.wheel_filename)
     if not matched:
         findings.append(violation(
             repository, _RULE, 'uv.lock',
             f'uv.lock does not record the approved {policy.wheel_filename} wheel',
+            fixable=fixable,
         ))
         return findings
     findings.extend(
         violation(repository, _RULE, 'uv.lock',
-                  f'uv.lock records wheel sha256 {digest or "missing"}; policy approves {policy.wheel_sha256}')
+                  f'uv.lock records wheel sha256 {digest or "missing"}; policy approves {policy.wheel_sha256}',
+                  fixable=fixable)
         for digest in digests
         if digest != policy.wheel_sha256
     )
@@ -322,7 +369,13 @@ def _sources_lock(root: Path, repository: Repository, policy: Policy) -> list[Fi
     if document is None:
         return [violation(repository, _RULE, 'sources.lock.json',
                           f'sources.lock.json is not a valid JSON object: {error}')]
-    return _source_findings(document, repository, policy)
+    try:
+        text = path.read_text(encoding='utf-8')
+    except (OSError, UnicodeError):
+        text = None
+    repaired = _repair_sources_lock(text, repository, policy) if text is not None else None
+    return _source_findings(document, repository, policy,
+                            fixable=repaired is not None and repaired != text)
 
 
 def _bootstrap(
@@ -341,7 +394,11 @@ def _bootstrap(
             continue
         if not path.exists():
             if required:
-                findings.append(violation(repository, _RULE, relative, f'missing bootstrap shim {relative}'))
+                vendored = buildlib_pins.approved_shim(name, approved.get(name, frozenset()))
+                findings.append(violation(
+                    repository, _RULE, relative, f'missing bootstrap shim {relative}',
+                    fixable=vendored is not None,
+                ))
             continue
         try:
             digest = hashlib.sha256(path.read_bytes()).hexdigest()
@@ -350,9 +407,11 @@ def _bootstrap(
             continue
         allowed = approved.get(name, frozenset()) | local.get(name, frozenset())
         if digest not in allowed:
+            vendored = buildlib_pins.approved_shim(name, approved.get(name, frozenset()))
             findings.append(violation(
                 repository, _RULE, relative,
                 f'{relative} sha256 {digest} is not an approved identity or declared local difference',
+                fixable=vendored is not None,
             ))
     return findings
 
@@ -510,6 +569,275 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
     return findings
 
 
+_REQUIREMENT_NAME = re.compile(r'laputa-buildlib(?:\[[^\]]*\])?', re.IGNORECASE)
+_UV_NAME_LINE = re.compile(r'^name = "laputa-buildlib"\s*$')
+_UV_VERSION_LINE = re.compile(r'^version = "[^"]*"\s*$')
+_UV_UHEAD = re.compile(r'^\[\[')
+_UV_WHEEL_FILE = re.compile(r'laputa_buildlib-[^\s"\']*\.whl')
+_UV_HASH = re.compile(r'sha256:[0-9a-f]{64}')
+_UV_SPECIFIER = re.compile(r'(specifier = ")[^"]*(")')
+
+
+def _rewrite_requirement(entry: str, version: str) -> str | None:
+    head, sep, marker = entry.partition(';')
+    stripped = head.strip()
+    match = _REQUIREMENT_NAME.match(stripped)
+    if match is None:
+        return None
+    rebuilt = f'{match.group(0)}=={version}'
+    if sep:
+        rebuilt += f';{marker}'
+    lead = entry[: len(entry) - len(entry.lstrip())]
+    trail = entry[len(entry.rstrip()):]
+    return lead + rebuilt + trail
+
+
+def _repair_pyproject(text: str, policy: Policy) -> str | None:
+    try:
+        data = tomllib.loads(text)
+    except (UnicodeError, tomllib.TOMLDecodeError):
+        return None
+    replacements: dict[str, str] = {}
+    for raw in _dependency_requirement_values(data):
+        core = raw.strip()
+        if not core or _PACKAGE.match(core) is None:
+            continue
+        updated = _rewrite_requirement(core, policy.wheel_version)
+        if updated is None:
+            return None
+        lead = raw[: len(raw) - len(raw.lstrip())]
+        trail = raw[len(raw.rstrip()):]
+        new_raw = f'{lead}{updated}{trail}'
+        if new_raw != raw:
+            replacements[raw] = new_raw
+    result = text
+    for old, new in replacements.items():
+        replaced = False
+        for quote in ('"', "'"):
+            literal_old = f'{quote}{old}{quote}'
+            if literal_old in result:
+                result = result.replace(literal_old, f'{quote}{new}{quote}')
+                replaced = True
+        if not replaced:
+            return None
+    if result == text:
+        return text
+    try:
+        repaired = tomllib.loads(result)
+    except (UnicodeError, tomllib.TOMLDecodeError):
+        return None
+    exact = re.compile(
+        rf'laputa-buildlib(?:\[[^\]]*\])?\s*==\s*{re.escape(policy.wheel_version)}\Z',
+        re.IGNORECASE,
+    )
+    for raw in _dependency_requirement_values(repaired):
+        core = raw.strip()
+        if not core or _PACKAGE.match(core) is None:
+            continue
+        head = core.split(';', 1)[0].strip()
+        if not exact.fullmatch(head):
+            return None
+    return result
+
+
+def _uv_lock_approved(data: dict[str, Any], policy: Policy) -> bool:
+    packages = data.get('package')
+    found = False
+    if isinstance(packages, list):
+        for entry in packages:
+            if isinstance(entry, dict) and entry.get('name') == 'laputa-buildlib':
+                found = True
+                if entry.get('version') != policy.wheel_version:
+                    return False
+    if not found:
+        return False
+    matched, digests = _wheel_digests(data, policy.wheel_filename)
+    return matched and all(digest == policy.wheel_sha256 for digest in digests)
+
+
+def _repair_uv_lock(text: str, policy: Policy) -> str | None:
+    try:
+        tomllib.loads(text)
+    except (UnicodeError, tomllib.TOMLDecodeError):
+        return None
+    output: list[str] = []
+    in_package = False
+    target = False
+    version_done = False
+    changed = False
+    for line in text.splitlines(keepends=True):
+        body = line.rstrip('\r\n')
+        ending = line[len(body):]
+        if _UV_UHEAD.match(body):
+            in_package = True
+            target = False
+            version_done = False
+        elif in_package and _UV_NAME_LINE.match(body):
+            target = True
+        if target:
+            if not version_done and _UV_VERSION_LINE.match(body):
+                newline = f'version = "{policy.wheel_version}"'
+                changed = changed or newline != body
+                output.append(newline + ending)
+                version_done = True
+                continue
+            if 'laputa_buildlib-' in body and '.whl' in body:
+                new_body = _UV_WHEEL_FILE.sub(policy.wheel_filename, body)
+                new_body = _UV_HASH.sub(f'sha256:{policy.wheel_sha256}', new_body)
+                changed = changed or new_body != body
+                output.append(new_body + ending)
+                continue
+        if 'laputa-buildlib' in body and 'specifier = "' in body:
+            new_body = _UV_SPECIFIER.sub(
+                lambda match: f'{match.group(1)}=={policy.wheel_version}{match.group(2)}',
+                body,
+                count=1,
+            )
+            changed = changed or new_body != body
+            output.append(new_body + ending)
+            continue
+        output.append(line)
+    if not changed:
+        return text
+    result = ''.join(output)
+    try:
+        repaired = tomllib.loads(result)
+    except (UnicodeError, tomllib.TOMLDecodeError):
+        return None
+    if not _uv_lock_approved(repaired, policy):
+        return None
+    return result
+
+
+def _url_with_basename(url: str, filename: str) -> str:
+    base, query_sep, query = url.partition('?')
+    head, slash, _ = base.rpartition('/')
+    if not slash:
+        return filename
+    return f'{head}/{filename}{query_sep}{query}'
+
+
+def _repair_sources_lock(
+    text: str | None, repository: Repository, policy: Policy
+) -> str | None:
+    if text is None:
+        return None
+    try:
+        document = json.loads(text)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None
+    if not isinstance(document, dict):
+        return None
+    inputs = document.get('inputs')
+    if not isinstance(inputs, list):
+        return text
+    changed = False
+    for entry in inputs:
+        if not isinstance(entry, dict) or not _is_buildlib_source(entry):
+            continue
+        version = entry.get('version')
+        if version is not None and version != policy.wheel_version:
+            entry['version'] = policy.wheel_version
+            changed = True
+        filename = entry.get('filename')
+        if isinstance(filename, str) and _source_basename(filename) != policy.wheel_filename:
+            entry['filename'] = policy.wheel_filename
+            changed = True
+        url = entry.get('url')
+        if isinstance(url, str) and _source_basename(url) != policy.wheel_filename:
+            entry['url'] = _url_with_basename(url, policy.wheel_filename)
+            changed = True
+        urls = entry.get('urls')
+        if isinstance(urls, list):
+            for index, item in enumerate(urls):
+                if isinstance(item, str) and _source_basename(item) != policy.wheel_filename:
+                    urls[index] = _url_with_basename(item, policy.wheel_filename)
+                    changed = True
+        if entry.get('sha256') != policy.wheel_sha256:
+            entry['sha256'] = policy.wheel_sha256
+            changed = True
+        size = entry.get('size')
+        if 'size' in entry and size != buildlib_pins.WHEEL_SIZE:
+            entry['size'] = buildlib_pins.WHEEL_SIZE
+            changed = True
+        if (entry.get('filename') is None and entry.get('url') is None
+                and not isinstance(entry.get('urls'), list)):
+            entry['url'] = buildlib_pins.WHEEL_URL
+            changed = True
+    if not changed:
+        return text
+    result = json.dumps(document, indent=2) + '\n'
+    try:
+        repaired = json.loads(result)
+    except json.JSONDecodeError:
+        return None
+    if _source_findings(repaired, repository, policy):
+        return None
+    return result
+
+
+def _read_text_file(path: Path) -> str | None:
+    if path.is_symlink() or not path.is_file():
+        return None
+    try:
+        return path.read_text(encoding='utf-8')
+    except (OSError, UnicodeError):
+        return None
+
+
+def _fix(root: Path, repository: Repository) -> dict[str, str]:
+    try:
+        policy = _load_policy()
+    except ValueError:
+        return {}
+    entry = policy.enrolled.get(str(repository.id))
+    if not isinstance(entry, dict):
+        return {}
+    plan: dict[str, str] = {}
+    bootstrap = entry.get('bootstrap')
+    if bootstrap is not True or (root / 'pyproject.toml').exists():
+        for relative, repair in (
+            ('pyproject.toml', lambda text: _repair_pyproject(text, policy)),
+            ('uv.lock', lambda text: _repair_uv_lock(text, policy)),
+        ):
+            text = _read_text_file(root / relative)
+            if text is None:
+                continue
+            repaired = repair(text)
+            if repaired is not None and repaired != text:
+                plan[relative] = repaired
+    text = _read_text_file(root / 'sources.lock.json')
+    repaired = _repair_sources_lock(text, repository, policy)
+    if text is not None and repaired is not None and repaired != text:
+        plan['sources.lock.json'] = repaired
+    try:
+        local = _declared_digests(entry.get('bootstrap_sha256'), 'enrolled bootstrap_sha256')
+    except ValueError:
+        local = {}
+    required = bootstrap is True
+    for shim in _BOOTSTRAP:
+        relative = f'bootstrap/{shim}'
+        path = root / 'bootstrap' / shim
+        if path.is_symlink():
+            continue
+        approved = policy.bootstrap_sha256.get(shim, frozenset())
+        content = buildlib_pins.approved_shim(shim, approved)
+        if content is None:
+            continue
+        if not path.exists():
+            if required:
+                plan[relative] = content
+            continue
+        try:
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        except OSError:
+            continue
+        allowed = approved | local.get(shim, frozenset())
+        if digest not in allowed:
+            plan[relative] = content
+    return plan
+
+
 def buildlib_rules() -> tuple[Rule, ...]:
     return (
         Rule(
@@ -517,8 +845,14 @@ def buildlib_rules() -> tuple[Rule, ...]:
             'Enforce the approved laputa-buildlib pin, bootstrap provenance, and declared entrypoints',
             TagPredicate(),
             _check,
-            None,
-            None,
-            (),
+            _fix,
+            'build(buildlib): pin the approved laputa-buildlib wheel',
+            (
+                'pyproject.toml',
+                'uv.lock',
+                'sources.lock.json',
+                'bootstrap/buildlib-run',
+                'bootstrap/python.lock',
+            ),
         ),
     )

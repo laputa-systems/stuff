@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {
+      "name": "buildlib-wheel",
+      "version": "0.3.0",
+      "url": "https://pypi.17166969.xyz/current/wheels/laputa_buildlib-0.3.0-py3-none-any.whl",
+      "sha256": "86bc1f8ce6be7c345f3cc5ac7046a4c84694319284a52b3479bb2e29a37dc849",
+      "size": 33330,
+      "role": "build-source",
+      "target": "all",
+      "license": "Apache-2.0",
+      "purpose": "Shared build-repository library imported from the verified wheel"
+    }
+  ]
+}

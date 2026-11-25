@@ -1,14 +1,15 @@
 version = 1
 
 [artifact]
-wheel_version = "0.2.0"
-wheel_filename = "laputa_buildlib-0.2.0-py3-none-any.whl"
-wheel_sha256 = "aaee620f0478544b1d32075b44de48e69bbcbd8b974d5f599d037494d59f4b4a"
-bootstrap_revision = "30ad4a0a8b697031a008b1de3b5359fc5cf6f2fe"
+wheel_version = "0.3.0"
+wheel_filename = "laputa_buildlib-0.3.0-py3-none-any.whl"
+wheel_sha256 = "86bc1f8ce6be7c345f3cc5ac7046a4c84694319284a52b3479bb2e29a37dc849"
+wheel_size = 33330
+bootstrap_revision = "55d348a8eefc81982fde789cd73c7032d39e7f69"
 
 [artifact.bootstrap_sha256]
-"buildlib-run" = "e7f957ca6af0b151d25a9ff5bedb5deca0bfc86ba05ff3225a5405d56fa95957"
-"python.lock" = "cab50541ce8b2c2a6a41829f26aac19344532d239535f4d6795d80d5af933832"
+"buildlib-run" = ["e7f957ca6af0b151d25a9ff5bedb5deca0bfc86ba05ff3225a5405d56fa95957", "d595bbe198d93547c4c0bf98118167bba0ad046f0e07f8b505053cfedd2009df"]
+"python.lock" = "98d595416fe3e361a2aa480144de87cd8024aed060541c0f9fba52eedfc2461f"
 
 [enrolled."joshuarli/pi-build"]
 entrypoints = ["tools/release.py", "tools/toolchain.sh"]

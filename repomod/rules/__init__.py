@@ -31,6 +31,7 @@ from repomod.rules.rust_collections import rust_collection_rules
 from repomod.rules.rust_profiles import rust_release_profiles_rules
 from repomod.rules.rust_toolchain import rust_toolchain_rules
 from repomod.rules.template import template_rules
+from repomod.rules.tools_lock import tools_lock_rules
 from repomod.rules.typescript_standard import typescript_standard_rules
 from repomod.rules.workflow_redundancy import workflow_redundancy_rules
 from repomod.rules.workflow_settings import workflow_settings_rules
@@ -70,6 +71,7 @@ def rules() -> tuple[Rule, ...]:
         *owned_substitution_rules(),
         *python_standard_rules(),
         *template_rules(),
+        *tools_lock_rules(),
         *typescript_standard_rules(),
         *workflow_redundancy_rules(),
         *workflow_settings_rules(),

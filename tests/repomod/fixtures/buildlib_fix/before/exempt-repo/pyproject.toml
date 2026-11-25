@@ -1,0 +1,4 @@
+[project]
+name = "stuff"
+version = "0.1.0"
+dependencies = ["laputa-buildlib==0.2.0"]
