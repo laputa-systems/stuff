@@ -46,7 +46,7 @@ def test_dockerfile_findings_fix_and_match_fixture(tmp_path: Path) -> None:
     assert fixable
     assert all(finding.rule == "owned-tool-substitution" for finding in fixable)
     assert {finding.file for finding in fixable} == {DOCKERFILE}
-    assert {finding.line for finding in fixable} == {3, 5, 6, 11}
+    assert {finding.line for finding in fixable} == {3, 5, 6, 10, 11}
     unfixed = [finding for finding in findings if not finding.fixable]
     assert unfixed
     assert all(finding.file == DOCKERFILE for finding in unfixed)

@@ -219,8 +219,11 @@ and the compiler packages carry headers and libc dev files the image does not pu
 Alpine-based stage the fixer removes the mapped packages from `apk add` lines (keeping the
 other arguments and version pins), drops a RUN instruction or `&&`/`;`-chained apk command
 that becomes empty, and inserts the image `COPY --from=<reference>@<digest>` and
-`ENV PATH=/opt/laputa/bin:$PATH` lines once per touched stage, updating an existing COPY's
-digest. apt-based stages, non-Alpine bases, and RUN shapes the parser cannot rewrite safely
+`ENV PATH=$PATH:/opt/laputa/bin` lines once per touched stage, updating an existing COPY's
+digest. The image directory goes after the base image's PATH: removed packages leave no system
+copy, so their commands resolve to the image, while packages the stage keeps (such as python3)
+are not shadowed by the image's builds. The rule reports an `ENV PATH=/opt/laputa/bin:$PATH`
+line as a fixable finding and the fixer rewrites it to the appended form. apt-based stages, non-Alpine bases, and RUN shapes the parser cannot rewrite safely
 stay manual findings.
 
 `fleet/policy/tools-lock.toml` approves one release per tool, in the same shape as a
@@ -249,7 +252,7 @@ installs onto the image automatically:
 
 ```dockerfile
 COPY --from=oci.17166969.xyz/owned-tools@<digest> /opt/laputa /opt/laputa
-ENV PATH=/opt/laputa/bin:$PATH
+ENV PATH=$PATH:/opt/laputa/bin
 ```
 
 `/opt/laputa/bin` holds one symlink per program into `/opt/laputa/<tool>/`. The musl-dynamic

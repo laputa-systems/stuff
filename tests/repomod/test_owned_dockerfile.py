@@ -23,7 +23,7 @@ def test_removes_pinned_packages_and_inserts_image_lines() -> None:
     assert out.text == (
         "FROM alpine:3.20 AS build\n"
         f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
-        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
         "RUN apk add --no-cache \\\n"
         "    curl\n"
     )
@@ -39,7 +39,7 @@ def test_drops_run_that_becomes_empty() -> None:
     assert out.text == (
         "FROM alpine\n"
         f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
-        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
         "RUN apk add curl\n"
     )
     assert out.removed == frozenset({(2, "meson"), (2, "ninja-build"), (2, "samurai")})
@@ -69,13 +69,13 @@ def test_existing_copy_digest_is_updated() -> None:
     out = rewrite(
         "FROM alpine AS runtime\n"
         f"COPY --from={old} /opt/laputa /opt/laputa\n"
-        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
         "RUN apk add --no-cache git fd\n"
     )
     assert out.text == (
         "FROM alpine AS runtime\n"
         f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
-        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
     )
     assert out.text.count("COPY --from") == 1
 
@@ -84,7 +84,7 @@ def test_existing_env_path_is_not_duplicated() -> None:
     out = rewrite(
         "FROM alpine\n"
         "COPY --from=other/image /opt/laputa /opt/laputa\n"
-        "ENV PATH=/opt/laputa/bin:$PATH OTHER=1\n"
+        "ENV PATH=$PATH:/opt/laputa/bin OTHER=1\n"
         "RUN apk add git\n"
     )
     assert out.text.count("ENV PATH=") == 1
@@ -158,7 +158,7 @@ def test_keeps_continuation_layout_and_drops_emptied_lines() -> None:
     assert out.text == (
         "FROM alpine:3.20\n"
         f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
-        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
         "RUN apk add --no-cache \\\n"
         "        bash build-base \\\n"
         "    && git config --global x y \\\n"
@@ -176,6 +176,23 @@ def test_emptied_last_line_closes_the_continuation() -> None:
     assert out.text == (
         "FROM alpine:3.20\n"
         f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
-        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
         "RUN apk add --no-cache curl\n"
     )
+
+
+def test_prepended_path_is_rewritten_to_append() -> None:
+    out = rewrite(
+        "FROM alpine:3.20\n"
+        f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
+        "ENV PATH=/opt/laputa/bin:$PATH\n"
+        "RUN apk add --no-cache python3\n"
+    )
+    assert out.text == (
+        "FROM alpine:3.20\n"
+        f"COPY --from={IMAGE} /opt/laputa /opt/laputa\n"
+        "ENV PATH=$PATH:/opt/laputa/bin\n"
+        "RUN apk add --no-cache python3\n"
+    )
+    assert out.removed == frozenset()
+    assert out.prepended == frozenset({3})

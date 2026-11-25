@@ -768,6 +768,18 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
                 line=hit.line,
                 fixable=fixable,
             ))
+        if docker_rewrite is not None:
+            reported.extend(
+                violation(
+                    repository, RULE, relative,
+                    "ENV PATH puts /opt/laputa/bin before the base image's PATH, so the owned-tools "
+                    "image shadows packages the stage still installs; append it with "
+                    "ENV PATH=$PATH:/opt/laputa/bin",
+                    line=line,
+                    fixable=True,
+                )
+                for line in sorted(docker_rewrite.prepended)
+            )
     for key, item in exemptions.items():
         if key not in suppressed:
             reported.append(violation(

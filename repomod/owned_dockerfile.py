@@ -24,7 +24,8 @@ _LOOSE_SEPARATOR = re.compile(r"(?<!&)&(?!&)|(?<!\|)\|(?!\|)")
 _SEGMENT_SPLIT = re.compile(r"([ \t]*(?:&&|\|\||;)[ \t]*)")
 _SEPARATOR_OP = re.compile(r"&&|\|\||;")
 _COPY_FROM = re.compile(r"^[ \t]*COPY[ \t]+--from=(\S+)", re.IGNORECASE)
-_ENV_PATH = re.compile(r"PATH=/opt/laputa/bin:\$PATH")
+_ENV_PATH = re.compile(r"PATH=(?:/opt/laputa/bin:\$PATH|\$PATH:/opt/laputa/bin)(?![\w:/])")
+_PREPENDED_PATH = re.compile(r"^([ \t]*ENV[ \t]+PATH=)/opt/laputa/bin:\$PATH([ \t]*)$", re.IGNORECASE)
 _ALPINE_NAME = re.compile(r"alpine(?:[.-][0-9][\w.-]*)?", re.IGNORECASE)
 _APK_VALUE_FLAGS = frozenset({
     "--virtual", "-t", "--repository", "-X", "--arch", "-a",
@@ -44,6 +45,7 @@ _APK_PRE_SAFE = frozenset({"-q", "--quiet", "-v", "--verbose"})
 class Rewrite:
     text: str
     removed: frozenset[tuple[int, str]]
+    prepended: frozenset[int] = frozenset()
 
 
 @dataclass(frozen=True, slots=True)
@@ -396,9 +398,20 @@ def rewrite(
         if not copy_present:
             inserted.append(f"COPY --from={image} {_IMAGE_PATH} {_IMAGE_PATH}{eol}")
         if not env_present:
-            inserted.append(f"ENV PATH=/opt/laputa/bin:$PATH{eol}")
+            inserted.append(f"ENV PATH=$PATH:/opt/laputa/bin{eol}")
         if inserted:
             edits.append((insert_at, insert_at, inserted))
+    prepended: set[int] = set()
+    for block in blocks:
+        if block.keyword != "ENV" or block.end - block.start != 1:
+            continue
+        raw = lines[block.start]
+        eol = _eol(raw)
+        match = _PREPENDED_PATH.match(raw[: len(raw) - len(eol)])
+        if match is None:
+            continue
+        edits.append((block.start, block.end, [f"{match.group(1)}$PATH:/opt/laputa/bin{match.group(2)}{eol}"]))
+        prepended.add(block.start + 1)
     if not edits:
         return Rewrite(text, frozenset())
     output: list[str] = []
@@ -408,4 +421,4 @@ def rewrite(
         output.extend(replacement)
         cursor = end
     output.extend(lines[cursor:])
-    return Rewrite("".join(output), frozenset(removed))
+    return Rewrite("".join(output), frozenset(removed), frozenset(prepended))
