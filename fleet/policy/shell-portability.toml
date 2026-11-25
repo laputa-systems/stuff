@@ -133,3 +133,30 @@ reason = "crates/shuck-benchmark/resources/files/ is a corpus of third-party she
 reassess = "If the benchmark corpus is replaced by scripts the repository executes."
 paths = ["crates/shuck-benchmark/resources/files/*"]
 
+[exempt."joshuarli/gh"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
+reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
+
+[exempt."joshuarli/ghostty"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
+reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
+
+[exempt."joshuarli/swift-bylaws"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
+reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
+
+[exempt."joshuarli/syncthing"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
+reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
+
+[exempt."laputa-systems/asterinas"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
+reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
+
+[exempt."laputa-systems/deser"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
+reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
+
+[exempt."laputa-systems/fd"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the non-portable shell is upstream's, and rewriting it would widen the fork's diff without a fleet consumer."
+reassess = "When the fork's own changes add shell, or upstream adopts the portable spellings."
