@@ -1,5 +1,5 @@
 version = 1
 reference = "oci.17166969.xyz/owned-tools"
-digest = "sha256:804e61e0635b8337371ec0df5e1d9b2983f50f30423824aa10b0148757453be7"
+digest = "sha256:5220ca599f4e3e81eadcedf43a3ec2aa75c65973381284ced14906a05a61a3e1"
 
 tools = ["cmake", "cpython", "fd", "git", "gluon", "jaq", "llvm", "mold", "rg"]
