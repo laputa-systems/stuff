@@ -379,12 +379,6 @@
    "purl": "pkg:github/actions/download-artifact"
   },
   {
-   "display_name": "actions/setup-python",
-   "ecosystem": "github",
-   "name": "actions/setup-python",
-   "purl": "pkg:github/actions/setup-python"
-  },
-  {
    "display_name": "actions/upload-artifact",
    "ecosystem": "github",
    "name": "actions/upload-artifact",
@@ -401,6 +395,12 @@
    "ecosystem": "github",
    "name": "docker/setup-buildx-action",
    "purl": "pkg:github/docker/setup-buildx-action"
+  },
+  {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
   },
   {
    "display_name": "taiki-e/install-action",
@@ -748,24 +748,6 @@
   },
   {
    "condition": null,
-   "constraint": "v7.1.0",
-   "evidence": [
-    {
-     "locator": "jobs.mutation.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0#"
-  },
-  {
-   "condition": null,
    "constraint": "v7.0.2",
    "evidence": [
     {
@@ -835,6 +817,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.mutation.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
   },
   {
    "condition": null,
@@ -1489,7 +1489,7 @@
  ],
  "inputs": [
   {
-   "blob": "25be9cd63bba46c21d42b4b6a11cbe124e891977",
+   "blob": "ddb337634248f6de700b1cc3cd5116c0c90b1559",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -1521,7 +1521,7 @@
    "path": "rust-toolchain.toml"
   },
   {
-   "blob": "f9fcd1cb77e762915cef30f96100f7c91012a9ff",
+   "blob": "49071f0d9b6ea482fbc7982b96f6784e4e4851d7",
    "path": "scripts/mutants_gate.py"
   },
   {
@@ -1533,7 +1533,7 @@
    "path": "scrl/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "670c9e6481a255323e1ec10658da54992c40dbfa95d57df4c7208b56af29782d",
+ "inputs_fingerprint": "09382beb3d131c12b979866dfca3a7cb378fa59039302dc7fc25ab19530059e4",
  "instances": [
   {
    "commit": null,
@@ -2407,19 +2407,6 @@
    "version": "9000827ccba6bdab643e8b6fd33ac0654aef8333"
   },
   {
-   "commit": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "component": "pkg:github/actions/setup-python",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0#",
-   "purl": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/setup-python",
-   "version": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
-  },
-  {
    "commit": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
    "component": "pkg:github/actions/upload-artifact",
    "context": "",
@@ -2457,6 +2444,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/docker/setup-buildx-action",
    "version": "f87e5991a6d7451dcb8d9637bfbc97413f497069"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": "4a76afe23f9e08d2d9550fb56e556444e8611d21",

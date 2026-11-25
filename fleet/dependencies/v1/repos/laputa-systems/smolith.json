@@ -3336,7 +3336,7 @@
   },
   {
    "condition": null,
-   "constraint": "3.5.9-r0",
+   "constraint": "3.5.9-r1",
    "evidence": [
     {
      "locator": "L9",
@@ -3347,10 +3347,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "3.5.9-r0",
+   "resolved_version": "3.5.9-r1",
    "scope": "system",
    "source_kind": "registry",
-   "to": "pkg:apk/openssl@3.5.9-r0#"
+   "to": "pkg:apk/openssl@3.5.9-r1#"
   },
   {
    "condition": null,
@@ -23533,7 +23533,7 @@
    "path": "benchmarks/twelve-dollar/crates/h12tiny-app/Cargo.toml"
   },
   {
-   "blob": "759c8ae16cd469754227e719bf6dc9afdd10ab5e",
+   "blob": "d5df57d96a9e2958c4168eccc3593ca97caf4633",
    "path": "benchmarks/twelve-dollar/linux/Dockerfile.box"
   },
   {
@@ -23901,7 +23901,7 @@
    "path": "tools/stage.sh"
   }
  ],
- "inputs_fingerprint": "19cda9f402f6873599b25d21d164f3860816e5c56070c169f5fc43f3cabafdc5",
+ "inputs_fingerprint": "3b3730b6844b18bd1c94a59d047538bb086a4b189d145ad489be306b615b456e",
  "instances": [
   {
    "commit": null,
@@ -24012,13 +24012,13 @@
    "component": "pkg:apk/openssl",
    "context": "",
    "first_party": false,
-   "id": "pkg:apk/openssl@3.5.9-r0#",
-   "purl": "pkg:apk/openssl@3.5.9-r0",
+   "id": "pkg:apk/openssl@3.5.9-r1#",
+   "purl": "pkg:apk/openssl@3.5.9-r1",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "3.5.9-r0"
+   "version": "3.5.9-r1"
   },
   {
    "commit": null,

@@ -311,6 +311,12 @@
    "ecosystem": "pypi",
    "name": "uv",
    "purl": "pkg:pypi/uv"
+  },
+  {
+   "display_name": "apt/musl",
+   "ecosystem": "system",
+   "name": "apt/musl",
+   "purl": "pkg:system/apt/musl"
   }
  ],
  "edges": [
@@ -963,6 +969,24 @@
    "scope": "system",
    "source_kind": "registry",
    "to": "pkg:apk/python3#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L236",
+     "path": ".github/workflows/release.yml"
+    }
+   ],
+   "from": ".github/workflows:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/musl#"
   }
  ],
  "inputs": [
@@ -975,7 +999,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "444e8f0fbefa8b38e8b07bd5624f81b6c58cd761",
+   "blob": "24409228453c96f897f0707a6b486019b8e4dbb8",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -999,7 +1023,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "bc19ebab469384569ced9992dab7d97af03315b056e85ee1bc8f38d64eda8b68",
+ "inputs_fingerprint": "46b9423d51ba820177a0ff6a37ad635c5aab0f6d922ce578942faa5e86fc2d1d",
  "instances": [
   {
    "commit": null,
@@ -1523,6 +1547,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:command/tar",
+   "context": "workflow",
+   "first_party": false,
+   "id": "pkg:command/tar#workflow",
+   "purl": "pkg:command/tar",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:command/test",
    "context": "makefile",
    "first_party": false,
@@ -1780,6 +1817,19 @@
    "source_kind": "registry",
    "vcs_url": null,
    "version": "0.13.7"
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/musl",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/musl#",
+   "purl": "pkg:system/apt/musl",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
   }
  ],
  "issues": [],

@@ -1375,12 +1375,6 @@
    "purl": "pkg:github/actions/download-artifact"
   },
   {
-   "display_name": "actions/setup-python",
-   "ecosystem": "github",
-   "name": "actions/setup-python",
-   "purl": "pkg:github/actions/setup-python"
-  },
-  {
    "display_name": "actions/upload-artifact",
    "ecosystem": "github",
    "name": "actions/upload-artifact",
@@ -1397,6 +1391,12 @@
    "ecosystem": "github",
    "name": "docker/setup-buildx-action",
    "purl": "pkg:github/docker/setup-buildx-action"
+  },
+  {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
   },
   {
    "display_name": "swatinem/rust-cache",
@@ -2356,24 +2356,6 @@
   },
   {
    "condition": null,
-   "constraint": "v7.1.0",
-   "evidence": [
-    {
-     "locator": "jobs.mutants.steps[1].uses",
-     "path": ".github/workflows/mutation-trial.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0#"
-  },
-  {
-   "condition": null,
    "constraint": "v7.0.2",
    "evidence": [
     {
@@ -2443,6 +2425,24 @@
    "scope": "ci",
    "source_kind": "git",
    "to": "pkg:github/docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.mutants.steps[1].uses",
+     "path": ".github/workflows/mutation-trial.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
   },
   {
    "condition": null,
@@ -11121,7 +11121,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "140070eaa866ca27ab2e123aaf4b3b6e69c29efa",
+   "blob": "f16bec2bd764be73b3cb279d6d6ca7914010b1b3",
    "path": ".github/workflows/mutation-trial.yml"
   },
   {
@@ -11153,7 +11153,7 @@
    "path": "rust-toolchain.toml"
   }
  ],
- "inputs_fingerprint": "f07e43c63c5f3d1e44b1086d18ff922aeefa84ab6670093ee0ed816c0d344c17",
+ "inputs_fingerprint": "5df4ec658daa1710ebf3dda0fa7f2d7527b339448ce03dc007f44ce379095977",
  "instances": [
   {
    "commit": null,
@@ -14263,19 +14263,6 @@
    "version": "9000827ccba6bdab643e8b6fd33ac0654aef8333"
   },
   {
-   "commit": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "component": "pkg:github/actions/setup-python",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0#",
-   "purl": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/setup-python",
-   "version": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
-  },
-  {
    "commit": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
    "component": "pkg:github/actions/upload-artifact",
    "context": "",
@@ -14313,6 +14300,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/docker/setup-buildx-action",
    "version": "f87e5991a6d7451dcb8d9637bfbc97413f497069"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": "d1527c8f67ef9af357290475d4af4b0fab8f12e0",

@@ -572,7 +572,7 @@
   },
   {
    "condition": null,
-   "constraint": "2.54.0-r0",
+   "constraint": "2.54.1-r0",
    "evidence": [
     {
      "locator": "L13",
@@ -583,10 +583,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "2.54.0-r0",
+   "resolved_version": "2.54.1-r0",
    "scope": "system",
    "source_kind": "registry",
-   "to": "pkg:apk/git@2.54.0-r0#"
+   "to": "pkg:apk/git@2.54.1-r0#"
   },
   {
    "condition": null,
@@ -644,7 +644,7 @@
   },
   {
    "condition": null,
-   "constraint": "3.14.10-r1",
+   "constraint": "3.14.10-r2",
    "evidence": [
     {
      "locator": "L13",
@@ -655,10 +655,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "3.14.10-r1",
+   "resolved_version": "3.14.10-r2",
    "scope": "system",
    "source_kind": "registry",
-   "to": "pkg:apk/python3@3.14.10-r1#"
+   "to": "pkg:apk/python3@3.14.10-r2#"
   },
   {
    "condition": null,
@@ -1515,7 +1515,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "185117f062c46966995f3c2c8fa34bd55c6d7751",
+   "blob": "7da17643fcaeccf02cae9eef8d86aeed73c163c0",
    "path": "Dockerfile"
   },
   {
@@ -1539,7 +1539,7 @@
    "path": "scripts/test_mutants_gate.py"
   }
  ],
- "inputs_fingerprint": "89ab02a07e6116cd0d7f96350dbf9ae979954b18b984b31d7525eb6c82e87dfe",
+ "inputs_fingerprint": "0540fb1914ac78b5ebe4a7ea4dec182d5e7c43cf4d07a1fb8467d993cb627640",
  "instances": [
   {
    "commit": null,
@@ -1572,13 +1572,13 @@
    "component": "pkg:apk/git",
    "context": "",
    "first_party": false,
-   "id": "pkg:apk/git@2.54.0-r0#",
-   "purl": "pkg:apk/git@2.54.0-r0",
+   "id": "pkg:apk/git@2.54.1-r0#",
+   "purl": "pkg:apk/git@2.54.1-r0",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "2.54.0-r0"
+   "version": "2.54.1-r0"
   },
   {
    "commit": null,
@@ -1624,13 +1624,13 @@
    "component": "pkg:apk/python3",
    "context": "",
    "first_party": false,
-   "id": "pkg:apk/python3@3.14.10-r1#",
-   "purl": "pkg:apk/python3@3.14.10-r1",
+   "id": "pkg:apk/python3@3.14.10-r2#",
+   "purl": "pkg:apk/python3@3.14.10-r2",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "3.14.10-r1"
+   "version": "3.14.10-r2"
   },
   {
    "commit": null,

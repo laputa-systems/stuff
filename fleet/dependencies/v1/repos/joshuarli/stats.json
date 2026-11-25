@@ -19,12 +19,6 @@
    "purl": "pkg:apk/musl-dev"
   },
   {
-   "display_name": "jaq-aarch64-unknown-linux-gnu",
-   "ecosystem": "artifact",
-   "name": "jaq-aarch64-unknown-linux-gnu",
-   "purl": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu"
-  },
-  {
    "display_name": "arrayvec",
    "ecosystem": "cargo",
    "name": "arrayvec",
@@ -1303,12 +1297,6 @@
    "purl": "pkg:command/step.sh"
   },
   {
-   "display_name": "sudo",
-   "ecosystem": "command",
-   "name": "sudo",
-   "purl": "pkg:command/sudo"
-  },
-  {
    "display_name": "sync",
    "ecosystem": "command",
    "name": "sync",
@@ -1427,6 +1415,12 @@
    "ecosystem": "github",
    "name": "actions/upload-artifact",
    "purl": "pkg:github/actions/upload-artifact"
+  },
+  {
+   "display_name": "laputa-systems/buildlib",
+   "ecosystem": "github",
+   "name": "laputa-systems/buildlib",
+   "purl": "pkg:github/laputa-systems/buildlib#setup"
   },
   {
    "display_name": "pnpm/action-setup",
@@ -4177,12 +4171,6 @@
    "purl": "pkg:service/cloudflare-durable-object/METRICS"
   },
   {
-   "display_name": "apt/ripgrep",
-   "ecosystem": "system",
-   "name": "apt/ripgrep",
-   "purl": "pkg:system/apt/ripgrep"
-  },
-  {
    "display_name": "node",
    "ecosystem": "toolchain",
    "name": "node",
@@ -4237,24 +4225,6 @@
    "scope": "toolchain",
    "source_kind": "registry",
    "to": "pkg:npm/pnpm@12.21.0#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[1].run",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": null,
-   "scope": "ci",
-   "source_kind": "url",
-   "to": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu#"
   },
   {
    "condition": null,
@@ -4564,6 +4534,24 @@
   },
   {
    "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
    "constraint": "v6.1.1",
    "evidence": [
     {
@@ -4741,24 +4729,6 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
-  },
-  {
-   "condition": null,
-   "constraint": null,
-   "evidence": [
-    {
-     "locator": "L37",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".github/workflows:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "declared_only",
-   "resolved_version": null,
-   "scope": "system",
-   "source_kind": "registry",
-   "to": "pkg:system/apt/ripgrep#"
   },
   {
    "condition": null,
@@ -30129,7 +30099,7 @@
  ],
  "inputs": [
   {
-   "blob": "22c8f3955c3c8889ad1a3abecde110c033c76c2c",
+   "blob": "d0330d13e49606748cc35a33e82e8cb3ba3d0f86",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -30541,7 +30511,7 @@
    "path": "scripts/step.sh"
   }
  ],
- "inputs_fingerprint": "4fa3a9c3c7f4c8c86088d117de4e00e6e4d93446cb639d9017286c0c3c9a2b17",
+ "inputs_fingerprint": "5d77f868a8c880943e4de9d4f7ee1b78a27a9f83227e90ab68c7a07031b562e8",
  "instances": [
   {
    "commit": null,
@@ -30579,19 +30549,6 @@
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu#",
-   "purl": "pkg:artifact/jaq-aarch64-unknown-linux-gnu?download_url=https%3A%2F%2Fgithub.com%2F01mf02%2Fjaq%2Freleases%2Fdownload%2Fv3.1.2%2Fjaq-aarch64-unknown-linux-gnu",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "url",
    "vcs_url": null,
    "version": null
   },
@@ -32781,19 +32738,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:command/chmod",
-   "context": "workflow",
-   "first_party": false,
-   "id": "pkg:command/chmod#workflow",
-   "purl": "pkg:command/chmod",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "path",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
    "component": "pkg:command/chown",
    "context": "shell",
    "first_party": false,
@@ -32889,19 +32833,6 @@
    "context": "shell",
    "first_party": false,
    "id": "pkg:command/curl#shell",
-   "purl": "pkg:command/curl",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "path",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
-   "component": "pkg:command/curl",
-   "context": "workflow",
-   "first_party": false,
-   "id": "pkg:command/curl#workflow",
    "purl": "pkg:command/curl",
    "registry_url": null,
    "repository_url": null,
@@ -34224,19 +34155,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:command/sudo",
-   "context": "workflow",
-   "first_party": false,
-   "id": "pkg:command/sudo#workflow",
-   "purl": "pkg:command/sudo",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "path",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
    "component": "pkg:command/sync",
    "context": "shell",
    "first_party": false,
@@ -34559,6 +34477,19 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/upload-artifact",
    "version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9"
+  },
+  {
+   "commit": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "component": "pkg:github/laputa-systems/buildlib#setup",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#",
+   "purl": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "git",
+   "vcs_url": "https://github.com/laputa-systems/buildlib",
+   "version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161"
   },
   {
    "commit": "73e46992e05b19abd31f2f3c20e0e7370d762115",
@@ -42154,19 +42085,6 @@
   },
   {
    "commit": null,
-   "component": "pkg:system/apt/ripgrep",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:system/apt/ripgrep#",
-   "purl": "pkg:system/apt/ripgrep",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "registry",
-   "vcs_url": null,
-   "version": null
-  },
-  {
-   "commit": null,
    "component": "pkg:toolchain/node",
    "context": "",
    "first_party": false,
@@ -42254,11 +42172,6 @@
    "directory": ".",
    "ecosystem": "generic",
    "id": ".:repo"
-  },
-  {
-   "directory": ".github/workflows",
-   "ecosystem": "generic",
-   "id": ".github/workflows:repo"
   },
   {
    "directory": "agent/build",

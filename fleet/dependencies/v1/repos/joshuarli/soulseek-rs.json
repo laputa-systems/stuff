@@ -715,6 +715,12 @@
    "purl": "pkg:command/gzip"
   },
   {
+   "display_name": "kill",
+   "ecosystem": "command",
+   "name": "kill",
+   "purl": "pkg:command/kill"
+  },
+  {
    "display_name": "make",
    "ecosystem": "command",
    "name": "make",
@@ -743,6 +749,12 @@
    "ecosystem": "command",
    "name": "printf",
    "purl": "pkg:command/printf"
+  },
+  {
+   "display_name": "ps",
+   "ecosystem": "command",
+   "name": "ps",
+   "purl": "pkg:command/ps"
   },
   {
    "display_name": "python3",
@@ -775,10 +787,22 @@
    "purl": "pkg:command/sed"
   },
   {
+   "display_name": "seq",
+   "ecosystem": "command",
+   "name": "seq",
+   "purl": "pkg:command/seq"
+  },
+  {
    "display_name": "sha256sum",
    "ecosystem": "command",
    "name": "sha256sum",
    "purl": "pkg:command/sha256sum"
+  },
+  {
+   "display_name": "sleep",
+   "ecosystem": "command",
+   "name": "sleep",
+   "purl": "pkg:command/sleep"
   },
   {
    "display_name": "sort",
@@ -811,6 +835,12 @@
    "purl": "pkg:command/test"
   },
   {
+   "display_name": "tr",
+   "ecosystem": "command",
+   "name": "tr",
+   "purl": "pkg:command/tr"
+  },
+  {
    "display_name": "true",
    "ecosystem": "command",
    "name": "true",
@@ -821,6 +851,12 @@
    "ecosystem": "command",
    "name": "uname",
    "purl": "pkg:command/uname"
+  },
+  {
+   "display_name": "wc",
+   "ecosystem": "command",
+   "name": "wc",
+   "purl": "pkg:command/wc"
   },
   {
    "display_name": "actions/checkout",
@@ -5181,6 +5217,14 @@
    "path": "rust-toolchain.toml"
   },
   {
+   "blob": "3d329c1659b3db5b6d2884c69a43800248be4f4e",
+   "path": "scripts/daemon_rss.sh"
+  },
+  {
+   "blob": "c33e59a6eb23c617909f456009ee79862c4e6c06",
+   "path": "scripts/interop_nicotine.py"
+  },
+  {
    "blob": "82160985ea75ec6129bff294a0c18fda7700aa6e",
    "path": "scripts/package-linux.sh"
   },
@@ -5197,7 +5241,7 @@
    "path": "soulseek-rs/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "abdc97a10d27776bc7a15bba24266bdbe4d240555a56c1158da9c5c1fd96e7b8",
+ "inputs_fingerprint": "715b9ca4ec2dc39bc65db848d4a933ebbdb0c3cf2550c20216e9cd72cf245284",
  "instances": [
   {
    "commit": null,
@@ -6930,6 +6974,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:command/kill",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/kill#shell",
+   "purl": "pkg:command/kill",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:command/make",
    "context": "workflow",
    "first_party": false,
@@ -7022,10 +7079,49 @@
   {
    "commit": null,
    "component": "pkg:command/printf",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/printf#shell",
+   "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/printf",
    "context": "workflow",
    "first_party": false,
    "id": "pkg:command/printf#workflow",
    "purl": "pkg:command/printf",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/ps",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/ps#shell",
+   "purl": "pkg:command/ps",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/python3",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/python3#shell",
+   "purl": "pkg:command/python3",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "path",
@@ -7112,6 +7208,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:command/seq",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/seq#shell",
+   "purl": "pkg:command/seq",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:command/sha256sum",
    "context": "shell",
    "first_party": false,
@@ -7130,6 +7239,19 @@
    "first_party": false,
    "id": "pkg:command/sha256sum#workflow",
    "purl": "pkg:command/sha256sum",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/sleep",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/sleep#shell",
+   "purl": "pkg:command/sleep",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "path",
@@ -7216,6 +7338,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:command/tr",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/tr#shell",
+   "purl": "pkg:command/tr",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:command/true",
    "context": "shell",
    "first_party": false,
@@ -7234,6 +7369,19 @@
    "first_party": false,
    "id": "pkg:command/uname#shell",
    "purl": "pkg:command/uname",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/wc",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/wc#shell",
+   "purl": "pkg:command/wc",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "path",

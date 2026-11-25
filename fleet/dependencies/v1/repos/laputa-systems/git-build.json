@@ -313,6 +313,12 @@
    "purl": "pkg:command/xcrun"
   },
   {
+   "display_name": "xz",
+   "ecosystem": "command",
+   "name": "xz",
+   "purl": "pkg:command/xz"
+  },
+  {
    "display_name": "alpine",
    "ecosystem": "docker",
    "name": "alpine",
@@ -617,7 +623,7 @@
    "path": "scripts/download-git-source.sh"
   },
   {
-   "blob": "2fe026da50eac9eebac08a335cd8f1308ebb2ccc",
+   "blob": "6a87829c4570067e0fa05d5b8097a40140e25960",
    "path": "scripts/install-jaq.sh"
   },
   {
@@ -649,7 +655,7 @@
    "path": "tests/package-archive.sh"
   }
  ],
- "inputs_fingerprint": "6180c68d71d160b1b1d14c2a2eba90a6b39a9cff4f4e15fa60c4b667cbab8113",
+ "inputs_fingerprint": "9305ca2dfd2a14409d67cc10f3b35f9664cc8b08462742fe6a0c623f6c1d836e",
  "instances": [
   {
    "commit": null,
@@ -1789,6 +1795,19 @@
    "first_party": false,
    "id": "pkg:command/xcrun#shell",
    "purl": "pkg:command/xcrun",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "path",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:command/xz",
+   "context": "shell",
+   "first_party": false,
+   "id": "pkg:command/xz#shell",
+   "purl": "pkg:command/xz",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "path",

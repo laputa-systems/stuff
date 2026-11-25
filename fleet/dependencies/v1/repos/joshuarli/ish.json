@@ -1418,7 +1418,7 @@
   },
   {
    "condition": null,
-   "constraint": "3.14.10-r1",
+   "constraint": "3.14.10-r2",
    "evidence": [
     {
      "locator": "L12",
@@ -1429,10 +1429,10 @@
    "optional": false,
    "relation": "direct",
    "resolution": "resolved",
-   "resolved_version": "3.14.10-r1",
+   "resolved_version": "3.14.10-r2",
    "scope": "system",
    "source_kind": "registry",
-   "to": "pkg:apk/python3@3.14.10-r1#"
+   "to": "pkg:apk/python3@3.14.10-r2#"
   },
   {
    "condition": null,
@@ -5339,7 +5339,7 @@
    "path": "Cargo.toml"
   },
   {
-   "blob": "dac94bcb528a33793b52ba8433f626aa3230cf55",
+   "blob": "1062b45e3de36c2acc2cc9f464b90d9d31c1e34b",
    "path": "Dockerfile"
   },
   {
@@ -5471,7 +5471,7 @@
    "path": "vendor/fz/Cargo.toml"
   }
  ],
- "inputs_fingerprint": "0b63ae260ea070c6600604fe4be04ab553cc1fb2a024a54137bf2504bfe249dc",
+ "inputs_fingerprint": "be4b3b8f80dabba3fbbf49f4bcab894ba92be1a5b37adc35a63eecc14a1cf7a0",
  "instances": [
   {
    "commit": null,
@@ -5569,13 +5569,13 @@
    "component": "pkg:apk/python3",
    "context": "",
    "first_party": false,
-   "id": "pkg:apk/python3@3.14.10-r1#",
-   "purl": "pkg:apk/python3@3.14.10-r1",
+   "id": "pkg:apk/python3@3.14.10-r2#",
+   "purl": "pkg:apk/python3@3.14.10-r2",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
    "vcs_url": null,
-   "version": "3.14.10-r1"
+   "version": "3.14.10-r2"
   },
   {
    "commit": null,

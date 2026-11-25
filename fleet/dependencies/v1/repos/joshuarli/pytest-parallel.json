@@ -85,12 +85,6 @@
    "purl": "pkg:github/actions/download-artifact"
   },
   {
-   "display_name": "actions/setup-python",
-   "ecosystem": "github",
-   "name": "actions/setup-python",
-   "purl": "pkg:github/actions/setup-python"
-  },
-  {
    "display_name": "actions/upload-artifact",
    "ecosystem": "github",
    "name": "actions/upload-artifact",
@@ -372,42 +366,6 @@
   },
   {
    "condition": null,
-   "constraint": "v7.1.0",
-   "evidence": [
-    {
-     "locator": "jobs.test.steps[1].uses",
-     "path": ".github/workflows/ci.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0#"
-  },
-  {
-   "condition": null,
-   "constraint": "v7.1.0",
-   "evidence": [
-    {
-     "locator": "jobs.package.steps[1].uses",
-     "path": ".github/workflows/release.yml"
-    }
-   ],
-   "from": ".:repo",
-   "optional": false,
-   "relation": "direct",
-   "resolution": "resolved",
-   "resolved_version": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "scope": "ci",
-   "source_kind": "git",
-   "to": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0#"
-  },
-  {
-   "condition": null,
    "constraint": "v7.0.2",
    "evidence": [
     {
@@ -483,8 +441,44 @@
    "constraint": "v0.3.1",
    "evidence": [
     {
+     "locator": "jobs.test.steps[1].uses",
+     "path": ".github/workflows/ci.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
      "locator": "jobs.lint.steps[1].uses",
      "path": ".github/workflows/lint.yml"
+    }
+   ],
+   "from": ".:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161",
+   "scope": "ci",
+   "source_kind": "git",
+   "to": "pkg:github/laputa-systems/buildlib@1cd9d482a684e72c68ac6fea7f4ee3a3e9c4a161#setup#"
+  },
+  {
+   "condition": null,
+   "constraint": "v0.3.1",
+   "evidence": [
+    {
+     "locator": "jobs.package.steps[1].uses",
+     "path": ".github/workflows/release.yml"
     }
    ],
    "from": ".:repo",
@@ -571,7 +565,7 @@
  ],
  "inputs": [
   {
-   "blob": "a87e9aa9c7bf69f0e8808a1321a86f5c51b9ab51",
+   "blob": "f9cf52bfd6371932a41b10adb49564f05dc32c71",
    "path": ".github/workflows/ci.yml"
   },
   {
@@ -579,7 +573,7 @@
    "path": ".github/workflows/lint.yml"
   },
   {
-   "blob": "e1f1fb768ab9e1ff62d32c086b9e74c078fd8297",
+   "blob": "21d30b6eee0cbf700c5f16e2e2022f3e43e60897",
    "path": ".github/workflows/release.yml"
   },
   {
@@ -607,7 +601,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "d920437946f92dc778366ba1a05a1a2df27480f25252f4ccfe4838a94afbc86b",
+ "inputs_fingerprint": "ced1783e70701b0b20c3f68705d7c8294db8696d375d27db2ce7ee5c7a001e2e",
  "instances": [
   {
    "commit": null,
@@ -829,19 +823,6 @@
    "source_kind": "git",
    "vcs_url": "https://github.com/actions/download-artifact",
    "version": "9000827ccba6bdab643e8b6fd33ac0654aef8333"
-  },
-  {
-   "commit": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "component": "pkg:github/actions/setup-python",
-   "context": "",
-   "first_party": false,
-   "id": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0#",
-   "purl": "pkg:github/actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
-   "registry_url": null,
-   "repository_url": null,
-   "source_kind": "git",
-   "vcs_url": "https://github.com/actions/setup-python",
-   "version": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0"
   },
   {
    "commit": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",

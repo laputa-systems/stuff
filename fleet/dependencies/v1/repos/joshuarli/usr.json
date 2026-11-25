@@ -1019,7 +1019,7 @@
    "path": "dotfiles/base/.local/bin/ecount"
   },
   {
-   "blob": "df3455b2c48a0379f23faae447310e92c778fa7d",
+   "blob": "a22b3410a16f980ea1796f3d4c9afe8eb3068764",
    "path": "dotfiles/base/.local/bin/encode"
   },
   {
@@ -1099,7 +1099,7 @@
    "path": "dotfiles/base/.local/bin/setup-git-client.sh"
   },
   {
-   "blob": "f1b1a071ebeaeccf7bddb281b3c67e19759dcbdd",
+   "blob": "2a49b06f37985b1b5ce7c8d606be059a5df7439c",
    "path": "dotfiles/base/.local/bin/setup-kache"
   },
   {
@@ -1127,12 +1127,8 @@
    "path": "dotfiles/base/.local/bin/worktree-remove"
   },
   {
-   "blob": "de405289c3e432a3078821629ed4a8745bd79fac",
+   "blob": "6300d0320f638b8cb3b85c91b6250f0d7c94b111",
    "path": "dotfiles/base/.local/bin/yt-dlp"
-  },
-  {
-   "blob": "b9987efaedf25128bf6846a3ffc0362699910509",
-   "path": "dotfiles/base/.local/lib/cargo-kache/kache"
   },
   {
    "blob": "cb66af24bff9074dd2e48d507498b220a2025c29",
@@ -1151,7 +1147,7 @@
    "path": "dotfiles/base/.local/lib/harness-shims/copilot"
   },
   {
-   "blob": "5002791592e7b750013133eece6251f59f442d65",
+   "blob": "e6689fe115c4832aca478ab06a6ab4f637cf2d31",
    "path": "dotfiles/cargo-wrappers-test.sh"
   },
   {
@@ -1251,7 +1247,7 @@
    "path": "dotfiles/worktree-remove-test.sh"
   },
   {
-   "blob": "8befe5fbac4366ab51691778c826016e3b3e3982",
+   "blob": "b5ffa8219208227fc6899af84b68f02452eaad3b",
    "path": "dotfiles/yt-dlp-shim-test.sh"
   },
   {
@@ -1327,7 +1323,7 @@
    "path": "host/setup-test.sh"
   },
   {
-   "blob": "59bccfd0093b0e6695bd96fb46eb86ba768d3298",
+   "blob": "e106588886c3b874ef04a960ae70a67c5b1832a3",
    "path": "host/setup.sh"
   },
   {
@@ -1375,11 +1371,11 @@
    "path": "tools/policy/package.json"
   },
   {
-   "blob": "86216ae8c90ea4307c4905d89737a3ddd61328ba",
+   "blob": "b067e37d72e4ba74d8532e619c4a4467c5bee5d8",
    "path": "tools/sync/bootstrap-test.sh"
   },
   {
-   "blob": "7ac17f7cdd6663e465f8ec77b2c2b2cf0a14615b",
+   "blob": "d7f9b1fb7e6c9a56b4aa5e5f579df1040337bdf7",
    "path": "tools/sync/bootstrap.sh"
   },
   {
@@ -1407,7 +1403,7 @@
    "path": "wifi/bin/wifi-bench.sh"
   }
  ],
- "inputs_fingerprint": "7b9df8b3370c58c162654fd6ec1a50bd5ce6306e3193fb89cc60f9ad190ebf9f",
+ "inputs_fingerprint": "4150d8357ccd5ce913fee42e9b735ff7dfaa27fcf837a056ba133f5bcc246e89",
  "instances": [
   {
    "commit": null,

@@ -5077,6 +5077,12 @@
    "purl": "pkg:service/orange-r2/stuff/stuff-oci-blobs"
   },
   {
+   "display_name": "apt/BUILDLIB_PYTHON",
+   "ecosystem": "system",
+   "name": "apt/BUILDLIB_PYTHON",
+   "purl": "pkg:system/apt/BUILDLIB_PYTHON"
+  },
+  {
    "display_name": "apt/bubblewrap",
    "ecosystem": "system",
    "name": "apt/bubblewrap",
@@ -5113,6 +5119,18 @@
    "purl": "pkg:system/apt/make"
   },
   {
+   "display_name": "apt/musl),",
+   "ecosystem": "system",
+   "name": "apt/musl),",
+   "purl": "pkg:system/apt/musl%29%2C"
+  },
+  {
+   "display_name": "apt/or",
+   "ecosystem": "system",
+   "name": "apt/or",
+   "purl": "pkg:system/apt/or"
+  },
+  {
    "display_name": "apt/pkg-config",
    "ecosystem": "system",
    "name": "apt/pkg-config",
@@ -5129,6 +5147,12 @@
    "ecosystem": "system",
    "name": "apt/python3",
    "purl": "pkg:system/apt/python3"
+  },
+  {
+   "display_name": "apt/set",
+   "ecosystem": "system",
+   "name": "apt/set",
+   "purl": "pkg:system/apt/set"
   },
   {
    "display_name": "apt/xz-utils",
@@ -10075,6 +10099,168 @@
    "scope": "toolchain",
    "source_kind": "url",
    "to": "pkg:toolchain/rust@nightly-2026-11-09#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L92",
+     "path": "docker/owned-tools/bootstrap/buildlib-run"
+    }
+   ],
+   "from": "docker/owned-tools/bootstrap:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/BUILDLIB_PYTHON#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L92",
+     "path": "docker/owned-tools/bootstrap/buildlib-run"
+    }
+   ],
+   "from": "docker/owned-tools/bootstrap:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/musl%29%2C#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L92",
+     "path": "docker/owned-tools/bootstrap/buildlib-run"
+    }
+   ],
+   "from": "docker/owned-tools/bootstrap:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/or#"
+  },
+  {
+   "condition": null,
+   "constraint": null,
+   "evidence": [
+    {
+     "locator": "L92",
+     "path": "docker/owned-tools/bootstrap/buildlib-run"
+    }
+   ],
+   "from": "docker/owned-tools/bootstrap:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "declared_only",
+   "resolved_version": null,
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:system/apt/set#"
+  },
+  {
+   "condition": null,
+   "constraint": "20261020-r0",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "docker/owned-tools/Dockerfile"
+    }
+   ],
+   "from": "docker/owned-tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "20261020-r0",
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/ca-certificates@20261020-r0#"
+  },
+  {
+   "condition": null,
+   "constraint": "8.23.0-r0",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "docker/owned-tools/Dockerfile"
+    }
+   ],
+   "from": "docker/owned-tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "8.23.0-r0",
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/curl@8.23.0-r0#"
+  },
+  {
+   "condition": null,
+   "constraint": "1.35-r5",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "docker/owned-tools/Dockerfile"
+    }
+   ],
+   "from": "docker/owned-tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "1.35-r5",
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/tar@1.35-r5#"
+  },
+  {
+   "condition": null,
+   "constraint": "5.8.4-r0",
+   "evidence": [
+    {
+     "locator": "L8",
+     "path": "docker/owned-tools/Dockerfile"
+    }
+   ],
+   "from": "docker/owned-tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "5.8.4-r0",
+   "scope": "system",
+   "source_kind": "registry",
+   "to": "pkg:apk/xz@5.8.4-r0#"
+  },
+  {
+   "condition": null,
+   "constraint": "sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6",
+   "evidence": [
+    {
+     "locator": "L5",
+     "path": "docker/owned-tools/Dockerfile"
+    }
+   ],
+   "from": "docker/owned-tools:repo",
+   "optional": false,
+   "relation": "direct",
+   "resolution": "resolved",
+   "resolved_version": "3.24.2",
+   "scope": "image",
+   "source_kind": "image",
+   "to": "pkg:docker/alpine@3.24.2?digest=sha256%3A294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6#"
   },
   {
    "condition": null,
@@ -31133,6 +31319,22 @@
    "path": "docker/musl/verify-static-elf"
   },
   {
+   "blob": "c24b1850ed3e4826eff2cf10ff3874cf9a9a50e7",
+   "path": "docker/owned-tools/Dockerfile"
+  },
+  {
+   "blob": "5ad40ce8d806eb0a521cc4c2cfa54e83ffce13fb",
+   "path": "docker/owned-tools/bootstrap/buildlib-run"
+  },
+  {
+   "blob": "026d2d58b94845bdfd4dca910b7ccc301513d4d0",
+   "path": "docker/owned-tools/bootstrap/python.lock"
+  },
+  {
+   "blob": "79e476781f120991c81fec96a053b993ec29b177",
+   "path": "docker/owned-tools/tools.lock.json"
+  },
+  {
    "blob": "5ad40ce8d806eb0a521cc4c2cfa54e83ffce13fb",
    "path": "fleet/policy/buildlib-bootstrap/buildlib-run"
   },
@@ -31173,7 +31375,7 @@
    "path": "uv.lock"
   }
  ],
- "inputs_fingerprint": "2c79af2368370dc9eb8fdacd27ec47bf67a890bf1e034d8506ab648e88358fde",
+ "inputs_fingerprint": "b676f6c14e374b718cbe1f08943c1b4b888aef2d59716ee20db2dd77945d6c38",
  "instances": [
   {
    "commit": null,
@@ -44398,6 +44600,19 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/BUILDLIB_PYTHON",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/BUILDLIB_PYTHON#",
+   "purl": "pkg:system/apt/BUILDLIB_PYTHON",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:system/apt/bubblewrap",
    "context": "",
    "first_party": false,
@@ -44476,6 +44691,32 @@
   },
   {
    "commit": null,
+   "component": "pkg:system/apt/musl%29%2C",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/musl%29%2C#",
+   "purl": "pkg:system/apt/musl%29%2C",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/or",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/or#",
+   "purl": "pkg:system/apt/or",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
    "component": "pkg:system/apt/pkg-config",
    "context": "",
    "first_party": false,
@@ -44507,6 +44748,19 @@
    "first_party": false,
    "id": "pkg:system/apt/python3#",
    "purl": "pkg:system/apt/python3",
+   "registry_url": null,
+   "repository_url": null,
+   "source_kind": "registry",
+   "vcs_url": null,
+   "version": null
+  },
+  {
+   "commit": null,
+   "component": "pkg:system/apt/set",
+   "context": "",
+   "first_party": false,
+   "id": "pkg:system/apt/set#",
+   "purl": "pkg:system/apt/set",
    "registry_url": null,
    "repository_url": null,
    "source_kind": "registry",
@@ -44780,6 +45034,16 @@
    "directory": "docker/musl",
    "ecosystem": "generic",
    "id": "docker/musl:repo"
+  },
+  {
+   "directory": "docker/owned-tools/bootstrap",
+   "ecosystem": "generic",
+   "id": "docker/owned-tools/bootstrap:repo"
+  },
+  {
+   "directory": "docker/owned-tools",
+   "ecosystem": "generic",
+   "id": "docker/owned-tools:repo"
   },
   {
    "directory": "scripts",
