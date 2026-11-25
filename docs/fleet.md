@@ -211,12 +211,14 @@ The `owned-tool-substitution` fixer performs this rewrite for the uniform `setup
 `uv python install` shape and writes `.github/tools.lock.json`. For Dockerfiles it rewrites
 Alpine stages instead: `fleet/policy/owned-tools-image.toml` carries a `[packages.apk]`
 map from each upstream apk package the image replaces to the image tool that provides it
-(`git`→`git`, `ripgrep`→`rg`, `meson`/`ninja`/`ninja-build`/`samurai`→`gluon`,
+(`ripgrep`→`rg`, `meson`/`ninja`/`ninja-build`/`samurai`→`gluon`,
 `clang`/`lld`/`llvm` and versioned `clangNN`/`lldNN`/`llvmNN`→`llvm`, `ffmpeg`→`ffmpeg-runtime`,
 and so on). python3/py3-*, `build-base`, `gcc`, `g++`, `musl-dev` and anything with a `-dev`
 or `-doc` suffix are deliberately unmapped, because the image's cpython ships no venv or pip
-and the compiler packages carry headers and libc dev files the image does not publish. On an
-Alpine-based stage the fixer removes the mapped packages from `apk add` lines (keeping the
+and the compiler packages carry headers and libc dev files the image does not publish. `git`
+is unmapped as well: git-build omits HTTPS by product decision, so replacing the distribution
+git would break a stage that clones or fetches over HTTPS (lz and tinyland fetch cargo git
+dependencies that way and carry exemptions). On an Alpine-based stage the fixer removes the mapped packages from `apk add` lines (keeping the
 other arguments and version pins), drops a RUN instruction or `&&`/`;`-chained apk command
 that becomes empty, and inserts the image `COPY --from=<reference>@<digest>` and
 `ENV PATH=$PATH:/opt/laputa/bin` lines once per touched stage, updating an existing COPY's

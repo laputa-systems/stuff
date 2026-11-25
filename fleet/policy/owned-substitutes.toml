@@ -215,3 +215,11 @@ reassess = "When the fork builds its own cross-target release artifacts."
 [exempt."laputa-systems/rust-fontconfig".producers."laputa-systems/llvm-prebuilt-musl"]
 reason = "Effectively upstream fork whose inherited build must stay unchanged: its gcc Makefile setting is upstream's, and moving it to the owned clang would widen the fork's diff without a fleet consumer."
 reassess = "When the fork builds its own release artifacts."
+
+[exempt."joshuarli/lz".producers."laputa-systems/git-build"]
+reason = "Needs HTTPS git: cargo fetches its laputa-ptytest git dependency over HTTPS with the git CLI, and git-build omits HTTPS by product decision."
+reassess = "When the dependency moves to a registry release or the build stops fetching git over HTTPS."
+
+[exempt."laputa-systems/tinyland".producers."laputa-systems/git-build"]
+reason = "Needs HTTPS git: cargo fetches its kbvm git dependency over HTTPS with the git CLI, and git-build omits HTTPS by product decision."
+reassess = "When the dependency moves to a registry release or the build stops fetching git over HTTPS."

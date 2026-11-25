@@ -82,7 +82,8 @@ def test_shipped_package_map_covers_only_image_tools() -> None:
     for package in apk:
         assert "python" not in package.casefold()
         assert not package.removeprefix("^").endswith(("-dev", "-doc"))
-    for expected in ("git", "cmake", "ripgrep", "fd", "jaq", "meson",
+    assert "git" not in apk
+    for expected in ("cmake", "ripgrep", "fd", "jaq", "meson",
                      "ninja-build", "samurai", "clang", "lld", "llvm",
                      "mold", "ffmpeg"):
         assert expected in apk

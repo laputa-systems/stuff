@@ -7,8 +7,9 @@ tools = ["cmake", "cpython", "fd", "ffmpeg-runtime", "git", "gluon", "jaq", "llv
 # python3/py3-*, build-base, gcc, g++ and musl-dev are deliberately unmapped:
 # the image's cpython ships no venv or pip, and the compiler packages carry
 # headers and libc dev files the image does not publish. No -dev/-doc suffixes.
+# git is unmapped too: git-build omits HTTPS by product decision, so removing the
+# distribution git would break any stage that clones or fetches over HTTPS.
 [packages.apk]
-git = "git"
 cmake = "cmake"
 ripgrep = "rg"
 fd = "fd"
