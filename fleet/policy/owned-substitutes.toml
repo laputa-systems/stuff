@@ -38,11 +38,11 @@ label = "Clang and LLVM toolchains"
 urls = ["apt.llvm.org"]
 
 [producers."laputa-systems/llvm-prebuilt-musl".packages]
-apk = ["clang", "lld", "llvm", "^clang-?\\d+$", "^lld-?\\d+$", "^llvm-?\\d+$"]
-apt = ["clang", "lld", "llvm", "^clang-\\d+$", "^lld-\\d+$", "^llvm-\\d+$"]
+apk = ["build-base", "clang", "g++", "gcc", "lld", "llvm", "^clang-?\\d+$", "^lld-?\\d+$", "^llvm-?\\d+$"]
+apt = ["build-essential", "clang", "g++", "gcc", "lld", "llvm", "^clang-\\d+$", "^g\\+\\+-\\d+$", "^gcc-\\d+$", "^lld-\\d+$", "^llvm-\\d+$"]
 brew = ["llvm", "^llvm@\\d+(\\.\\d+)*$"]
-dnf = ["clang", "clang-devel", "clang-tools-extra", "lld", "llvm"]
-pacman = ["clang", "clang-tools-extra", "lld", "llvm", "llvm-libs"]
+dnf = ["clang", "clang-devel", "clang-tools-extra", "gcc", "gcc-c++", "lld", "llvm"]
+pacman = ["base-devel", "clang", "clang-tools-extra", "gcc", "lld", "llvm", "llvm-libs"]
 
 [producers."laputa-systems/node-build"]
 label = "Node.js"
@@ -199,3 +199,11 @@ reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybe
 [exempt."laputa-systems/rustls".producers."laputa-systems/rustybench"]
 reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
 reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
+
+[exempt."joshuarli/syncthing".producers."laputa-systems/llvm-prebuilt-musl"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: Dockerfile.builder's toolchain is upstream's, and moving it to the owned clang would widen the fork's diff without a fleet consumer."
+reassess = "When the fork builds its own release artifacts with that image."
+
+[exempt."laputa-systems/asterinas".producers."laputa-systems/llvm-prebuilt-musl"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the OSDK development image's toolchain is upstream's, and moving it to the owned clang would widen the fork's diff without a fleet consumer."
+reassess = "When the fork builds its own release artifacts with that image."
