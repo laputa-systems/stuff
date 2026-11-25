@@ -65,29 +65,6 @@
       "tag": "release-66d59cbcd3e07984e7c1e3ec301cbffcd74bdf2b",
       "version": ""
     },
-    "ffmpeg-runtime": {
-      "assets": {
-        "aarch64-apple-darwin": {
-          "name": "ffmpeg-runtime-9.0.2-aarch64-apple-darwin.tar.xz",
-          "sha256": "380471e07416eb636836d8428e8b2c6bf8052b8df030cff85e4008ccab70369d",
-          "size": 3122496
-        },
-        "aarch64-unknown-linux-musl": {
-          "name": "ffmpeg-runtime-9.0.2-aarch64-unknown-linux-musl.tar.xz",
-          "sha256": "db6364f646b763a7fe2560d38b29e985232c3925ab48347d3a4fa39a94b86549",
-          "size": 3930040
-        },
-        "x86_64-unknown-linux-musl": {
-          "name": "ffmpeg-runtime-9.0.2-x86_64-unknown-linux-musl.tar.xz",
-          "sha256": "9b917fe0939b31430a338b12033d80bac3d32b62777f26ffe44d4a71fc850e65",
-          "size": 4735840
-        }
-      },
-      "product": "ffmpeg-runtime",
-      "repository": "laputa-systems/ffmpeg-build",
-      "tag": "release-ac29c7720327f7dee4ed4677ce8421673fcc3563",
-      "version": "9.0.2"
-    },
     "git": {
       "assets": {
         "aarch64-apple-darwin": {
@@ -174,24 +151,6 @@
       "repository": "laputa-systems/llvm-prebuilt-musl",
       "tag": "release-b29e4d07a2b9a5e72319b37429cf375149212755",
       "version": "23.1.5"
-    },
-    "mold": {
-      "assets": {
-        "aarch64-unknown-linux-musl": {
-          "name": "mold-3.0.0-aarch64-linux-musl.tar.gz",
-          "sha256": "2d904b170d804008ada80157f8f18d9920d3ccc1e49e27d80123d01e386668f3",
-          "size": 7648955
-        },
-        "x86_64-unknown-linux-musl": {
-          "name": "mold-3.0.0-x86_64-linux-musl.tar.gz",
-          "sha256": "d6e47d61b74961a60868ad308acad4dfdc199e7ec97d61d65728e6ef1d6c2565",
-          "size": 7963647
-        }
-      },
-      "product": "mold",
-      "repository": "joshuarli/mold",
-      "tag": "mold-musl-3.0.0-cfb4aab",
-      "version": "3.0.0"
     },
     "rg": {
       "assets": {

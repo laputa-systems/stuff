@@ -28,13 +28,17 @@ MUSL_TRIPLES = ("aarch64-unknown-linux-musl", "x86_64-unknown-linux-musl")
 
 
 def image_tools() -> list[str]:
-    """Approved tools with a musl asset for every image architecture, sorted."""
+    """The tools `owned-tools-image.toml` lists, each approved with a musl asset per image architecture."""
+    raw = image_policy().get("tools")
+    if not isinstance(raw, list) or not all(isinstance(tool, str) for tool in raw):
+        raise ValueError("owned-tools image policy needs a tools list of names")
+    listed = [str(tool) for tool in raw]
     approved = tools_lock._load_policy()
-    return sorted(
-        tool
-        for tool, entry in approved.items()
-        if all(triple in entry["assets"] for triple in MUSL_TRIPLES)
-    )
+    for tool in listed:
+        entry = approved.get(tool)
+        if entry is None or not all(triple in entry["assets"] for triple in MUSL_TRIPLES):
+            raise ValueError(f"owned-tools image tool {tool} has no approved musl asset for every architecture")
+    return sorted(listed)
 
 
 def render_lock() -> str:

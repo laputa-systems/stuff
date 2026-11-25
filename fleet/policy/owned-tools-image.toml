@@ -2,4 +2,4 @@ version = 1
 reference = "oci.17166969.xyz/owned-tools"
 digest = ""
 
-tools = ["cmake", "cpython", "fd", "ffmpeg-runtime", "git", "gluon", "jaq", "llvm", "mold", "rg"]
+tools = ["cmake", "cpython", "fd", "git", "gluon", "jaq", "llvm", "rg"]

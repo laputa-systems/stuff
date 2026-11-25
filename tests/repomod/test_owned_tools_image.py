@@ -91,7 +91,7 @@ def test_dockerfile_apk_pins_match_musl_policy() -> None:
     packages = toolchain["channels"]["stable"]["packages"]
     dockerfile = _dockerfile()
     pinned = dict(re.findall(r"^\s+([a-z0-9-]+)=([0-9][^\s\\]*)\s*\\?$", dockerfile, re.MULTILINE))
-    assert set(pinned) == {"curl", "ca-certificates", "tar", "xz", "libgcc"}
+    assert set(pinned) == {"curl", "ca-certificates", "tar", "xz"}
     for package, version in pinned.items():
         for arch in ("aarch64", "x86_64"):
             assert packages[arch][package] == version, (package, arch)

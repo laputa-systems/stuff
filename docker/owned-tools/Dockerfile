@@ -9,12 +9,10 @@ RUN apk add --no-cache \
         curl=8.23.0-r0 \
         ca-certificates=20261020-r0 \
         tar=1.35-r5 \
-        xz=5.8.4-r0 \
-        libgcc=15.2.0-r5
+        xz=5.8.4-r0
 
 WORKDIR /src
 COPY bootstrap/ /src/bootstrap/
-COPY patch-mold.py /src/patch-mold.py
 COPY tools.lock.json /src/tools.lock.json
 
 RUN set -eu; \
@@ -25,7 +23,7 @@ RUN set -eu; \
     esac; \
     export BUILDLIB_CACHE=/cache; \
     mkdir -p /cache /opt/laputa/bin; \
-    for tool in cmake cpython fd ffmpeg-runtime git gluon jaq llvm mold rg; do \
+    for tool in cmake cpython fd git gluon jaq llvm rg; do \
         bindir=$(sh /src/bootstrap/buildlib-run -- -m buildlib tools install "$tool" \
             --lock /src/tools.lock.json --cache /cache --target "$triple"); \
         case "$(basename "$bindir")" in \
@@ -38,9 +36,7 @@ RUN set -eu; \
             { [ -f "$program" ] || [ -L "$program" ]; } && [ -x "$program" ] || continue; \
             ln -sfn "$program" "/opt/laputa/bin/$(basename "$program")"; \
         done; \
-    done; \
-    install -m 0755 /usr/lib/libgcc_s.so.1 /opt/laputa/g; \
-    sh /src/bootstrap/buildlib-run -- /src/patch-mold.py /opt/laputa/mold/bin/mold
+    done
 
 RUN set -eu; \
     /opt/laputa/bin/git --version; \
@@ -49,7 +45,6 @@ RUN set -eu; \
     /opt/laputa/bin/meson --version; \
     /opt/laputa/bin/ninja --version; \
     /opt/laputa/bin/clang --version; \
-    /opt/laputa/bin/mold --version; \
     /opt/laputa/bin/rg --version; \
     /opt/laputa/bin/jaq --version
 
