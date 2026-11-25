@@ -4,7 +4,7 @@ This is the single plan for this repository: all current and future work, and th
 
 ## Status
 
-- State: active. Fleet verification, dependency friction, owned-tool maintenance and release archives have unfinished work; no single slice is recorded as in progress.
+- State: winding down (2026-11-25); finishing in-flight lanes, launching nothing. Fleet verification, dependency friction, owned-tool maintenance and release archives have unfinished work; no single slice is recorded as in progress.
 - Last accepted Stuff revision before this consolidation: `d78e5c85f33340fc6908d9a7f4cb8da72bd06bd3`. Integration green is not established by the campaign records at that revision.
 - Owned-tool maintenance: tm is parked on laputa-systems/tm#28; retry after that blocker clears. STUF-89 tracks remaining help coverage.
 - Dependency friction F2: clean-clone capsule rerun waits for a kache release containing kache#104; retry when that release is available.
