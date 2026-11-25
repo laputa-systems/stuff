@@ -127,3 +127,9 @@ use = "sha256sum"
 commands = ["sysctl"]
 options = ["-n hw.ncpu"]
 use = "getconf _NPROCESSORS_ONLN"
+
+[exempt."joshuarli/shck"]
+reason = "crates/shuck-benchmark/resources/files/ is a corpus of third-party shell scripts that the linter benchmarks parse, not shell the repository runs."
+reassess = "If the benchmark corpus is replaced by scripts the repository executes."
+paths = ["crates/shuck-benchmark/resources/files/*"]
+

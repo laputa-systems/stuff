@@ -398,7 +398,7 @@ def test_policy_loads_and_validates() -> None:
     policy = shell_portability._load_policy()
     assert policy.rules
     assert all(rule.use for rule in policy.rules)
-    assert policy.exempt == {}
+    assert all(item.reason and item.reassess for item in policy.exempt.values())
 
 
 _ORIGINAL_LOAD_POLICY = shell_portability._load_policy
@@ -430,6 +430,38 @@ def test_check_suppresses_exempt_repository_findings(
     )
     findings = shell_portability._check(tmp_path, REPO)
     assert findings == []
+
+
+def _path_exempt_policy() -> shell_portability.Policy:
+    return shell_portability.Policy(
+        _ORIGINAL_LOAD_POLICY().rules,
+        {
+            "acme/demo": shell_portability.Exemption(
+                "acme/demo", "reason", "reassess", ("corpus/files/*",)
+            )
+        },
+    )
+
+
+def test_path_exemption_suppresses_only_matching_files(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(shell_portability, "_load_policy", _path_exempt_policy)
+    sites = (_site("shasum", ("f",), path="corpus/files/a.sh"), _site("shasum", ("f",), path="scripts/real.sh"))
+    monkeypatch.setattr(shell_portability.commands_module, "call_sites", lambda files: sites)
+    findings = shell_portability._check(tmp_path, REPO)
+    assert [finding.file for finding in findings] == ["scripts/real.sh"]
+
+
+def test_path_exemption_matching_nothing_is_stale(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(shell_portability, "_load_policy", _path_exempt_policy)
+    sites = (_site("shasum", ("f",), path="scripts/real.sh"),)
+    monkeypatch.setattr(shell_portability.commands_module, "call_sites", lambda files: sites)
+    messages = [finding.message for finding in shell_portability._check(tmp_path, REPO)]
+    assert any("stale exemption" in message for message in messages)
+    assert any("shasum" in message for message in messages)
 
 
 @pytest.mark.skipif(AST_GREP is None, reason="REPOMOD_AST_GREP is not set")

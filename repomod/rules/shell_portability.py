@@ -48,6 +48,7 @@ class Exemption:
     name: str
     reason: str
     reassess: str
+    paths: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -113,7 +114,7 @@ def _load_exemptions(raw: object) -> dict[str, Exemption]:
             raise ValueError(f"exempt.{name} is not an OWNER/REPO catalog key") from error
         if not isinstance(value, dict):
             raise ValueError(f"exempt.{name} must be a table with reason and reassess")
-        unknown = set(value) - {"reason", "reassess"}
+        unknown = set(value) - {"reason", "reassess", "paths"}
         if unknown:
             raise ValueError(
                 f"exempt.{name} has unknown keys: {', '.join(sorted(str(k) for k in unknown))}"
@@ -127,7 +128,11 @@ def _load_exemptions(raw: object) -> dict[str, Exemption]:
             or not reassess.strip()
         ):
             raise ValueError(f"exempt.{name} needs non-empty reason and reassess strings")
-        entries[name.casefold()] = Exemption(name, reason.strip(), reassess.strip())
+        raw_paths = value.get("paths", [])
+        if not isinstance(raw_paths, list) or any(not isinstance(item, str) or not item.strip() for item in raw_paths):
+            raise ValueError(f"exempt.{name}.paths must be a list of non-empty glob strings")
+        paths = tuple(item.strip() for item in raw_paths if isinstance(item, str))
+        entries[name.casefold()] = Exemption(name, reason.strip(), reassess.strip(), paths)
     return entries
 
 
@@ -428,6 +433,25 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
         return [*findings, operational(repository, RULE, None, str(error))]
     reported = _evaluate(repository, policy, files, sites)
     exempt = _exemption_for(policy, repository)
+    if exempt is not None and exempt.paths:
+        covered = [
+            item for item in reported
+            if any(fnmatch.fnmatchcase(item.file or "", pattern) for pattern in exempt.paths)
+        ]
+        remaining = [item for item in reported if item not in covered]
+        if covered:
+            return [*findings, *remaining]
+        return [
+            *findings,
+            *remaining,
+            violation(
+                repository,
+                RULE,
+                _POLICY,
+                f"stale exemption for {exempt.name}: its paths match no shell-portability "
+                f"finding in this repository ({exempt.reason}); remove it",
+            ),
+        ]
     if exempt is not None:
         if reported:
             return findings
