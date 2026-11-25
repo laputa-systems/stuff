@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import json
 import os
 import re
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
+from typing import cast
 from urllib.parse import urlsplit
 
 from repomod import paths, substitutes
@@ -32,6 +35,12 @@ _INSTALL_VERBS = {
 }
 _PACMAN = re.compile(r"\bpacman(?![\w-])")
 _PACMAN_SYNC = re.compile(r"^-[a-zA-Z]*S[a-zA-Z]*$")
+_PIP_INSTALL = re.compile(r"(?<![\w.])(?<!uv )(?:pip3?|python[\d.]*\s+-m\s+pip)\s+install\b")
+_UV_ADD = re.compile(r"\buv\s+add\b")
+_UV_PIP_INSTALL = re.compile(r"\buv\s+pip\s+install\b")
+_CARGO_INSTALL = re.compile(r"\bcargo\s+install\b")
+_WRAPPER_ASSIGN = re.compile(r"\b(?:RUSTC_WRAPPER|rustc-wrapper)\s*[:=]\s*[\"']?([^\s\"']+)")
+_DEP_SECTIONS = ("dependencies", "dev-dependencies", "build-dependencies")
 _IGNORED_DIRS = frozenset({
     ".git", ".work", "work", "node_modules", "vendor", "dist", "build", "target",
     ".venv", "venv", "__pycache__", ".zig-cache", "zig-cache", "zig-pkg", ".next",
@@ -57,7 +66,14 @@ def _load_policy() -> Policy:
 
 
 def _owned_producers() -> frozenset[str]:
-    return frozenset(str(producer.repo).casefold() for producer in load_owned_tools().producers)
+    policy = load_owned_tools()
+    owned = {str(producer.repo).casefold() for producer in policy.producers}
+    owned.update(
+        str(repository.id).casefold()
+        for repository in load_catalog(paths.CATALOG).repositories
+        if policy.owned(repository.id)
+    )
+    return frozenset(owned)
 
 
 def _known_repositories() -> frozenset[str]:
@@ -68,6 +84,16 @@ def _surface_kind(relative: PurePosixPath) -> str | None:
     parts = relative.parts
     name = relative.name
     lowered = name.casefold()
+    if lowered == "cargo.toml":
+        return "manifest:cargo"
+    if lowered == "pyproject.toml":
+        return "manifest:pypi"
+    if lowered.startswith("requirements") and lowered.endswith(".txt"):
+        return "manifest:pypi"
+    if lowered == "package.json":
+        return "manifest:npm"
+    if len(parts) >= 2 and parts[-2] == ".cargo" and lowered in {"config", "config.toml"}:
+        return "cargo-config"
     if (
         len(parts) == 3
         and parts[0] == ".github"
@@ -309,6 +335,220 @@ def _action_hits(text: str, producers: dict[str, ProducerSub]) -> list[Hit]:
     return hits
 
 
+def _manifest_name(token: str) -> str:
+    name = _package_name(token)
+    bracket = name.find("[")
+    if bracket > 0:
+        name = name[:bracket]
+    return name
+
+
+def _command_args(text: str, env: dict[str, str]) -> list[str]:
+    names: list[str] = []
+    for token in text.split():
+        bare = token.strip("'\"")
+        if bare in _SEPARATORS:
+            break
+        if bare.startswith("-"):
+            continue
+        names.extend(_expand(bare, env))
+    return names
+
+
+def _manifest_install_hits(
+    line: str, env: dict[str, str], producers: dict[str, ProducerSub]
+) -> list[Hit]:
+    hits: list[Hit] = []
+    specs = (
+        (_PIP_INSTALL, "pypi", "pip"),
+        (_UV_ADD, "pypi", "uv add"),
+        (_UV_PIP_INSTALL, "pypi", "uv pip install"),
+        (_CARGO_INSTALL, "cargo", "cargo install"),
+    )
+    for pattern, ecosystem, label in specs:
+        for match in pattern.finditer(line):
+            for raw_name in _command_args(line[match.end():], env):
+                name = _manifest_name(raw_name)
+                if not name:
+                    continue
+                found = substitutes.manifest_producer(name, ecosystem, producers)
+                if found is not None:
+                    producer_id, _ = found
+                    hits.append(Hit(0, f"package '{name}' installed by {label}", producer_id))
+    return hits
+
+
+def _wrapper_hits(line: str, producers: dict[str, ProducerSub]) -> list[Hit]:
+    hits: list[Hit] = []
+    for match in _WRAPPER_ASSIGN.finditer(line):
+        raw = match.group(1).strip().strip("'\"")
+        name = PurePosixPath(raw).name.removesuffix(".exe")
+        if not name:
+            continue
+        found = substitutes.manifest_producer(name, "cargo", producers)
+        if found is not None:
+            producer_id, _ = found
+            hits.append(Hit(0, f"rustc-wrapper '{name}'", producer_id))
+    return hits
+
+
+def _dep_line(text: str, *names: str) -> int:
+    for name in names:
+        if not name:
+            continue
+        for number, line in enumerate(text.splitlines(), 1):
+            if re.search(rf"(?<![\w.-]){re.escape(name)}(?![\w.-])", line, re.IGNORECASE):
+                return number
+    return 1
+
+
+def _pypi_requirement_name(requirement: object) -> str | None:
+    if not isinstance(requirement, str):
+        return None
+    match = re.match(r"\s*([A-Za-z0-9][A-Za-z0-9._-]*)", requirement)
+    return cast(str, match.group(1)) if match else None
+
+
+def _collect_dependencies(table: object, names: list[str]) -> None:
+    if not isinstance(table, dict):
+        return
+    for key, value in table.items():
+        if not isinstance(key, str):
+            continue
+        if isinstance(value, dict):
+            package = value.get("package")
+            names.append(package if isinstance(package, str) and package else key)
+        else:
+            names.append(key)
+
+
+def _cargo_dependency_names(data: object) -> list[str]:
+    names: list[str] = []
+    if not isinstance(data, dict):
+        return names
+    for section in _DEP_SECTIONS:
+        _collect_dependencies(data.get(section), names)
+    target = data.get("target")
+    if isinstance(target, dict):
+        for entry in target.values():
+            if isinstance(entry, dict):
+                for section in _DEP_SECTIONS:
+                    _collect_dependencies(entry.get(section), names)
+    workspace = data.get("workspace")
+    if isinstance(workspace, dict):
+        _collect_dependencies(workspace.get("dependencies"), names)
+    return names
+
+
+def _pypi_list_names(value: object, names: list[str]) -> None:
+    if not isinstance(value, list):
+        return
+    for item in value:
+        name = _pypi_requirement_name(item)
+        if name is not None:
+            names.append(name)
+
+
+def _pyproject_dependency_names(data: object) -> list[str]:
+    names: list[str] = []
+    if not isinstance(data, dict):
+        return names
+    project = data.get("project")
+    if isinstance(project, dict):
+        _pypi_list_names(project.get("dependencies"), names)
+        optional = project.get("optional-dependencies")
+        if isinstance(optional, dict):
+            for value in optional.values():
+                _pypi_list_names(value, names)
+    groups = data.get("dependency-groups")
+    if isinstance(groups, dict):
+        for value in groups.values():
+            _pypi_list_names(value, names)
+    tool = data.get("tool")
+    uv = tool.get("uv") if isinstance(tool, dict) else None
+    if isinstance(uv, dict):
+        _pypi_list_names(uv.get("dev-dependencies"), names)
+    return names
+
+
+def _requirements_dependency_names(text: str) -> list[str]:
+    names: list[str] = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith(("#", "-")):
+            continue
+        name = _pypi_requirement_name(line)
+        if name is not None:
+            names.append(name)
+    return names
+
+
+def _npm_dependency_names(data: object) -> list[str]:
+    names: list[str] = []
+    if not isinstance(data, dict):
+        return names
+    for key in ("dependencies", "devDependencies", "optionalDependencies"):
+        table = data.get(key)
+        if isinstance(table, dict):
+            names.extend(entry for entry in table if isinstance(entry, str))
+    return names
+
+
+def _manifest_deps(kind: str, filename: str, text: str) -> list[str] | None:
+    try:
+        if kind == "manifest:cargo":
+            return _cargo_dependency_names(tomllib.loads(text))
+        if kind == "manifest:npm":
+            return _npm_dependency_names(json.loads(text))
+        if filename.casefold() == "pyproject.toml":
+            return _pyproject_dependency_names(tomllib.loads(text))
+        return _requirements_dependency_names(text)
+    except ValueError:
+        return None
+
+
+def _manifest_hits(
+    kind: str, filename: str, text: str, producers: dict[str, ProducerSub]
+) -> list[Hit]:
+    ecosystem = kind.split(":", 1)[1]
+    deps = _manifest_deps(kind, filename, text)
+    if deps is None:
+        return []
+    hits: list[Hit] = []
+    for dep in deps:
+        found = substitutes.manifest_producer(dep, ecosystem, producers)
+        if found is None:
+            continue
+        producer_id, matched = found
+        hits.append(
+            Hit(_dep_line(text, dep, matched), f"dependency '{dep}' ({ecosystem})", producer_id)
+        )
+    deduped: dict[tuple[str, str], Hit] = {}
+    for hit in hits:
+        deduped.setdefault((hit.label, hit.producer), hit)
+    return sorted(deduped.values(), key=lambda hit: (hit.line, hit.label))
+
+
+def _cargo_config_hits(text: str, producers: dict[str, ProducerSub]) -> list[Hit]:
+    try:
+        data = tomllib.loads(text)
+    except ValueError:
+        return []
+    build = data.get("build")
+    wrapper = build.get("rustc-wrapper") if isinstance(build, dict) else None
+    if not isinstance(wrapper, str) or not wrapper.strip():
+        return []
+    raw = wrapper.strip().strip("'\"")
+    name = PurePosixPath(raw).name.removesuffix(".exe")
+    if not name:
+        return []
+    found = substitutes.manifest_producer(name, "cargo", producers)
+    if found is None:
+        return []
+    producer_id, _ = found
+    return [Hit(_dep_line(text, name, raw), f"rustc-wrapper '{name}'", producer_id)]
+
+
 def _file_hits(kind: str, text: str, producers: dict[str, ProducerSub]) -> list[Hit]:
     env = _assignments(text)
     hits: list[Hit] = []
@@ -326,6 +566,14 @@ def _file_hits(kind: str, text: str, producers: dict[str, ProducerSub]) -> list[
         hits.extend(
             Hit(number, hit.label, hit.producer)
             for hit in _install_hits(line, env, producers)
+        )
+        hits.extend(
+            Hit(number, hit.label, hit.producer)
+            for hit in _manifest_install_hits(line, env, producers)
+        )
+        hits.extend(
+            Hit(number, hit.label, hit.producer)
+            for hit in _wrapper_hits(line, producers)
         )
         hits.extend(
             Hit(number, f"URL '{url}'", producer_id)
@@ -408,7 +656,13 @@ def _check(root: Path, repository: Repository) -> list[Finding]:
         if kind == "error":
             findings.append(operational(repository, RULE, relative, payload))
             continue
-        for hit in _file_hits(kind, payload, policy.producers):
+        if kind.startswith("manifest:"):
+            hits = _manifest_hits(kind, PurePosixPath(relative).name, payload, policy.producers)
+        elif kind == "cargo-config":
+            hits = _cargo_config_hits(payload, policy.producers)
+        else:
+            hits = _file_hits(kind, payload, policy.producers)
+        for hit in hits:
             key = hit.producer.casefold()
             if key == str(repository.id).casefold():
                 continue

@@ -15,6 +15,7 @@ from repomod.types import RepoId
 
 MANAGER_ALIASES = {"apt-get": "apt", "yum": "dnf"}
 _MANAGERS = frozenset({"apk", "apt", "apt-get", "brew", "dnf", "yum", "pacman"})
+_MANIFEST_ECOSYSTEMS = frozenset({"cargo", "npm", "pypi"})
 _ACTION_REF = re.compile(r"^([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@[^/\s]+$")
 _LABEL_STOPWORDS = frozenset({"a", "and", "an", "for", "of", "or", "the"})
 GENERATED_BEGIN = "<!-- generated: owned-substitutes -->"
@@ -27,6 +28,7 @@ class ProducerSub:
     packages: dict[str, tuple[str, ...]]
     actions: frozenset[str]
     urls: tuple[str, ...]
+    manifests: dict[str, tuple[str, ...]]
     label: str
 
 
@@ -64,7 +66,7 @@ def _load_producer(name: str, raw: object) -> ProducerSub:
     label = f"producers.{name}"
     if not isinstance(raw, dict):
         raise ValueError(f"{label} must be a table")
-    unknown = set(raw) - {"label", "packages", "actions", "urls"}
+    unknown = set(raw) - {"label", "packages", "actions", "urls", "manifests"}
     if unknown:
         raise ValueError(f"{label} has unknown keys: {', '.join(sorted(str(k) for k in unknown))}")
     display = raw.get("label")
@@ -95,9 +97,23 @@ def _load_producer(name: str, raw: object) -> ProducerSub:
         host = url.split("/", 1)[0]
         if "://" in url or not host or "." not in host:
             raise ValueError(f"{label}.urls entry {url!r} must name a host or host/path prefix")
-    if not packages and not actions and not urls:
-        raise ValueError(f"{label} must declare packages, actions, or urls")
-    return ProducerSub(packages, actions, urls, display)
+    raw_manifests = raw.get("manifests", {})
+    if not isinstance(raw_manifests, dict):
+        raise ValueError(f"{label}.manifests must be a table of ecosystem package lists")
+    manifests: dict[str, tuple[str, ...]] = {}
+    for ecosystem, items in raw_manifests.items():
+        if not isinstance(ecosystem, str) or ecosystem not in _MANIFEST_ECOSYSTEMS:
+            raise ValueError(f"{label}.manifests names an unknown ecosystem {ecosystem!r}")
+        names = _string_list(items, f"{label}.manifests.{ecosystem}")
+        for name in names:
+            if any(character.isspace() for character in name):
+                raise ValueError(
+                    f"{label}.manifests.{ecosystem} entry {name!r} must not contain whitespace"
+                )
+        manifests[ecosystem] = names
+    if not packages and not actions and not urls and not manifests:
+        raise ValueError(f"{label} must declare packages, actions, urls, or manifests")
+    return ProducerSub(packages, actions, urls, manifests, display)
 
 
 def _load_exemption(repo: str, producer: str, raw: object) -> Exemption:
@@ -198,6 +214,32 @@ def _label_match(label: str, wanted: str) -> bool:
     return bool(wanted_words) and wanted_words <= _label_words(label)
 
 
+def manifest_key(ecosystem: str, name: str) -> str:
+    if ecosystem == "npm":
+        return name.strip()
+    if ecosystem == "cargo":
+        return name.strip().replace("_", "-").casefold()
+    return re.sub(r"[-_.]+", "-", name.strip()).casefold()
+
+
+def manifest_match(name: str, ecosystem: str, sub: ProducerSub) -> str | None:
+    key = manifest_key(ecosystem, name)
+    for entry in sub.manifests.get(ecosystem, ()):
+        if manifest_key(ecosystem, entry) == key:
+            return entry
+    return None
+
+
+def manifest_producer(
+    name: str, ecosystem: str, producers: dict[str, ProducerSub]
+) -> tuple[str, str] | None:
+    for producer_id, sub in producers.items():
+        matched = manifest_match(name, ecosystem, sub)
+        if matched is not None:
+            return producer_id, matched
+    return None
+
+
 def _producer_match(name: str, producer: str, sub: ProducerSub) -> SubstituteMatch | None:
     wanted = name.strip().casefold()
     for manager, entries in sub.packages.items():
@@ -214,6 +256,10 @@ def _producer_match(name: str, producer: str, sub: ProducerSub) -> SubstituteMat
         wanted_prefix = prefix.casefold().rstrip("/")
         if any(form == wanted_prefix or form.startswith(f"{wanted_prefix}/") for form in forms):
             return SubstituteMatch(producer, "url", prefix)
+    for ecosystem in sorted(sub.manifests):
+        matched = manifest_match(name, ecosystem, sub)
+        if matched is not None:
+            return SubstituteMatch(producer, f"manifest:{ecosystem}", matched)
     if _label_match(sub.label, wanted):
         return SubstituteMatch(producer, "label", sub.label)
     return None

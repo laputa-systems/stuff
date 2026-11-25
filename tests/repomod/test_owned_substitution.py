@@ -120,6 +120,45 @@ apt = ["mold"]
 brew = ["mold"]
 dnf = ["mold"]
 pacman = ["mold"]
+
+[producers."acme/shck"]
+label = "ShellCheck"
+actions = ["ludeeus/action-shellcheck"]
+urls = ["github.com/koalaman/shellcheck"]
+
+[producers."acme/shck".packages]
+apk = ["shellcheck"]
+apt = ["shellcheck"]
+brew = ["shellcheck"]
+dnf = ["ShellCheck", "shellcheck"]
+pacman = ["shellcheck"]
+
+[producers."acme/kache"]
+label = "sccache, ccache"
+actions = ["mozilla-actions/sccache-action", "hendrikmuhs/ccache-action"]
+urls = ["github.com/mozilla/sccache"]
+
+[producers."acme/kache".packages]
+apk = ["sccache", "ccache"]
+apt = ["sccache", "ccache"]
+brew = ["sccache", "ccache"]
+dnf = ["sccache", "ccache"]
+pacman = ["sccache", "ccache"]
+
+[producers."acme/kache".manifests]
+cargo = ["sccache"]
+
+[producers."acme/pytest-parallel"]
+label = "pytest-xdist"
+
+[producers."acme/pytest-parallel".manifests]
+pypi = ["pytest-xdist"]
+
+[producers."acme/rustybench"]
+label = "criterion, divan"
+
+[producers."acme/rustybench".manifests]
+cargo = ["criterion", "divan"]
 {extra_producers}{exempt}"""
 
 
@@ -131,6 +170,10 @@ PRODUCERS = (
     "acme/python-build",
     "acme/git-build",
     "acme/mold",
+    "acme/shck",
+    "acme/kache",
+    "acme/pytest-parallel",
+    "acme/rustybench",
 )
 
 
@@ -510,3 +553,295 @@ def test_producer_may_install_the_upstream_it_reproduces(project: tuple[Path, Re
     _write(root, "Dockerfile", "FROM alpine\nRUN apk add --no-cache meson ninja cmake\n")
     findings = owned_substitution._check(root, producer)
     assert [finding.message.split(" duplicates")[0] for finding in findings] == ["package 'cmake' installed by apk"]
+
+
+def _exempt(policy: Path, repo: str, producer: str) -> None:
+    (policy / "owned-substitutes.toml").write_text(
+        _substitutes_text(
+            exempt=(
+                f'\n[exempt."{repo}".producers."{producer}"]\n'
+                'reason = "The producer publishes no release for this platform."\n'
+                'reassess = "Reassess when the producer ships the platform."\n'
+            )
+        ),
+        encoding="utf-8",
+    )
+
+
+def test_cargo_manifest_dependencies(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(
+        root,
+        "Cargo.toml",
+        "[package]\nname = \"demo\"\nversion = \"0.1.0\"\n\n"
+        "[dependencies]\ncriterion = { version = \"0.5\", features = [\"html_reports\"] }\n\n"
+        "[dev-dependencies]\ndivan = \"0.1\"\n\n"
+        "[build-dependencies]\ncriterion = \"0.4\"\n\n"
+        "[target.'cfg(unix)'.dependencies]\ndivan = { version = \"0.1\" }\n\n"
+        "[workspace.dependencies]\nmybench = { package = \"criterion\", version = \"0.5\" }\n",
+    )
+    findings = owned_substitution._check(root, repository)
+    producers = {finding.message.split("owned producer ")[1].split(";")[0] for finding in findings}
+    assert producers == {"acme/rustybench"}
+    assert all("manifest" not in finding.message for finding in findings)
+    labels = [finding.message.split(" duplicates")[0] for finding in findings]
+    assert any("dependency 'criterion' (cargo)" in label for label in labels)
+    assert any("dependency 'divan' (cargo)" in label for label in labels)
+    by_label = {
+        finding.message.split(" duplicates")[0]: finding.line for finding in findings
+    }
+    assert by_label["dependency 'criterion' (cargo)"] == 6
+    assert by_label["dependency 'divan' (cargo)"] == 9
+
+
+def test_cargo_manifest_lookalikes_are_not_flagged(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    _write(
+        root,
+        "crates/demo/Cargo.toml",
+        "[dependencies]\n"
+        "criterion-derive = \"0.3\"\n"
+        "mycriterion = \"1.0\"\n"
+        "divan-macros = \"0.1\"\n"
+        "criterion_extra = \"0.2\"\n",
+    )
+    assert owned_substitution._check(root, repository) == []
+
+
+def test_pyproject_and_requirements_manifests(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(
+        root,
+        "pyproject.toml",
+        "[project]\nname = \"demo\"\nversion = \"0.1\"\n"
+        "dependencies = [\n    \"requests>=2\",\n    \"pytest-xdist>=3.5\",\n]\n\n"
+        "[project.optional-dependencies]\ntest = [\"pytest-xdist[psutil]\"]\n\n"
+        "[dependency-groups]\ndev = [\"pytest_xdist==3.6\"]\n\n"
+        "[tool.uv]\ndev-dependencies = [\"pytest-xdist\"]\n",
+    )
+    _write(root, "requirements-dev.txt", "# comment\n-r base.txt\npytest_xdist==3.6.1\npytest>=8\n")
+    findings = owned_substitution._check(root, repository)
+    assert findings
+    assert all("acme/pytest-parallel" in finding.message for finding in findings)
+    labels = [finding.message.split(" duplicates")[0] for finding in findings]
+    assert any("dependency 'pytest-xdist' (pypi)" in label for label in labels)
+    assert any("dependency 'pytest_xdist' (pypi)" in label for label in labels)
+    located = {(finding.file, finding.line, finding.message.split(" duplicates")[0]) for finding in findings}
+    assert ("pyproject.toml", 6, "dependency 'pytest-xdist' (pypi)") in located
+    assert ("pyproject.toml", 13, "dependency 'pytest_xdist' (pypi)") in located
+    assert ("requirements-dev.txt", 3, "dependency 'pytest_xdist' (pypi)") in located
+
+
+def test_pip_uv_and_cargo_install_commands(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(
+        root,
+        ".github/workflows/ci.yml",
+        "jobs:\n  test:\n    steps:\n"
+        "      - run: pip install pytest-xdist==3.6\n"
+        "      - run: uv add pytest-xdist\n"
+        "      - run: uv pip install 'pytest-xdist[psutil]>=3'\n"
+        "      - run: cargo install sccache --locked\n"
+        "      - run: cargo install sccache-utils\n"
+        "      - run: pip install pytest-xdist-extra\n",
+    )
+    findings = owned_substitution._check(root, repository)
+    labels = [finding.message.split(" duplicates")[0] for finding in findings]
+    assert sum("package 'pytest-xdist' installed by pip" in label for label in labels) == 1
+    assert sum("package 'pytest-xdist' installed by uv add" in label for label in labels) == 1
+    assert sum("package 'pytest-xdist' installed by uv pip install" in label for label in labels) == 1
+    assert sum("package 'sccache' installed by cargo install" in label for label in labels) == 1
+    assert all((finding.line or 0) >= 4 for finding in findings)
+
+
+def test_uv_pip_install_is_not_double_counted_as_pip(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, repository, _ = project
+    _write(root, "scripts/setup.sh", "#!/bin/sh\nuv pip install pytest-xdist\n")
+    findings = owned_substitution._check(root, repository)
+    assert len(findings) == 1
+    assert "uv pip install" in findings[0].message
+
+
+def test_rustc_wrapper_assignments(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(root, "Makefile", "test:\n\tRUSTC_WRAPPER=sccache cargo test\n")
+    _write(
+        root,
+        ".github/workflows/ci.yml",
+        "jobs:\n  test:\n    env:\n      RUSTC_WRAPPER: sccache\n    steps:\n      - run: cargo test\n",
+    )
+    _write(root, ".cargo/config.toml", "[build]\nrustc-wrapper = \"sccache\"\n")
+    _write(root, "scripts/env.sh", "#!/bin/sh\nexport RUSTC_WRAPPER=/opt/kache/bin/sccache\n")
+    findings = owned_substitution._check(root, repository)
+    files = {finding.file for finding in findings}
+    assert files == {"Makefile", ".github/workflows/ci.yml", ".cargo/config.toml", "scripts/env.sh"}
+    assert all("acme/kache" in finding.message for finding in findings)
+    assert all("rustc-wrapper 'sccache'" in finding.message for finding in findings)
+
+
+def test_rustc_wrapper_lookalikes(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(
+        root,
+        "Makefile",
+        "test:\n\tRUSTC_WRAPPER=rustc cargo test\n\tRUSTC_WRAPPER=sccache-utils cargo test\n",
+    )
+    _write(root, ".cargo/config.toml", "[build]\nrustc-wrapper = \"sccache-wrap\"\n")
+    assert owned_substitution._check(root, repository) == []
+
+
+def test_shellcheck_surfaces(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(root, "Dockerfile", "RUN apt-get install -y shellcheck curl\n")
+    _write(root, "scripts/dnf.sh", "#!/bin/sh\ndnf install -y ShellCheck\n")
+    _write(
+        root,
+        ".github/workflows/lint.yml",
+        "jobs:\n  lint:\n    steps:\n      - uses: ludeeus/action-shellcheck@v1\n",
+    )
+    _write(
+        root,
+        "scripts/fetch.sh",
+        "#!/bin/sh\n"
+        "curl -fsSL https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck.tar.xz -o sc.tar.xz\n",
+    )
+    findings = owned_substitution._check(root, repository)
+    producers = {finding.message.split("owned producer ")[1].split(";")[0] for finding in findings}
+    assert producers == {"acme/shck"}
+    assert len(findings) == 4
+
+
+def test_shellcheck_and_kache_lookalikes(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(root, "Dockerfile", "RUN apk add shellchecks sccache-utils curl\n")
+    _write(
+        root,
+        ".github/workflows/lint.yml",
+        "jobs:\n  lint:\n    steps:\n"
+        "      - uses: ludeeus/action-shellcheck-fork@v1\n"
+        "      - uses: mozilla-actions/sccache-action-extra@v1\n",
+    )
+    _write(root, "Makefile", "test:\n\tRUSTC_WRAPPER=sccache-wrapper cargo test\n")
+    assert owned_substitution._check(root, repository) == []
+
+
+def test_kache_package_and_url_surfaces(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(root, "Dockerfile", "RUN apk add --no-cache sccache ccache curl\n")
+    _write(
+        root,
+        "scripts/fetch.sh",
+        "#!/bin/sh\ngit clone https://github.com/mozilla/sccache.git\n",
+    )
+    findings = owned_substitution._check(root, repository)
+    labels = [finding.message.split(" duplicates")[0] for finding in findings]
+    assert any("package 'sccache' installed by apk" in label for label in labels)
+    assert any("package 'ccache' installed by apk" in label for label in labels)
+    assert any("URL 'https://github.com/mozilla/sccache.git'" in label for label in labels)
+
+
+def test_pypi_lookalikes(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(
+        root,
+        "pyproject.toml",
+        "[project]\nname = \"demo\"\ndependencies = [\"pytest-xdist-extra\", \"pytest-parallel\", \"pytest\"]\n",
+    )
+    _write(root, "requirements.txt", "pytest_xdist_plugin==1.0\npytest-xdist-fork\n")
+    assert owned_substitution._check(root, repository) == []
+
+
+def test_producer_repositories_do_not_flag_their_own_manifests(
+    project: tuple[Path, Repository, Path],
+) -> None:
+    root, _, _ = project
+    _write(
+        root,
+        "Cargo.toml",
+        "[dependencies]\ncriterion = \"0.5\"\ndivan = \"0.1\"\nsccache = \"1\"\n",
+    )
+    _write(root, "pyproject.toml", "[project]\ndependencies = [\"pytest-xdist\"]\n")
+    _write(root, "Dockerfile", "RUN apt-get install -y shellcheck sccache\n")
+    for producer in ("acme/rustybench", "acme/pytest-parallel", "acme/kache", "acme/shck"):
+        repository = Repository(RepoId.parse(producer), ("build",))
+        findings = owned_substitution._check(root, repository)
+        own = [finding for finding in findings if producer.split("/")[1] in finding.message]
+        assert own == [], producer
+
+
+def test_manifest_exemptions(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    _write(root, "Cargo.toml", "[dependencies]\ncriterion = \"0.5\"\n")
+    _write(root, "pyproject.toml", "[project]\ndependencies = [\"pytest-xdist\"]\n")
+    _write(root, "Dockerfile", "RUN apt-get install -y shellcheck\n")
+    _write(root, "Makefile", "test:\n\tRUSTC_WRAPPER=sccache cargo test\n")
+    (policy / "owned-substitutes.toml").write_text(
+        _substitutes_text(
+            exempt=(
+                '\n[exempt."acme/consumer".producers."acme/rustybench"]\n'
+                'reason = "Deferred until the producer gap closes."\n'
+                'reassess = "Reassess when the gap closes."\n'
+                '\n[exempt."acme/consumer".producers."acme/pytest-parallel"]\n'
+                'reason = "Deferred until the producer gap closes."\n'
+                'reassess = "Reassess when the gap closes."\n'
+                '\n[exempt."acme/consumer".producers."acme/shck"]\n'
+                'reason = "Deferred until the producer gap closes."\n'
+                'reassess = "Reassess when the gap closes."\n'
+            )
+        ),
+        encoding="utf-8",
+    )
+    findings = owned_substitution._check(root, repository)
+    assert findings
+    assert all("acme/kache" in finding.message for finding in findings)
+    assert any("stale exemption" not in finding.message for finding in findings)
+
+
+def test_npm_manifest_ecosystem(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, policy = project
+    (policy / "owned-tools.toml").write_text(
+        _owned_tools((*PRODUCERS, "acme/npm-tool")), encoding="utf-8"
+    )
+    (policy / "owned-substitutes.toml").write_text(
+        _substitutes_text(
+            extra_producers=(
+                '\n[producers."acme/npm-tool"]\n'
+                'label = "left-pad"\n\n'
+                '[producers."acme/npm-tool".manifests]\n'
+                'npm = ["left-pad"]\n'
+            ),
+            exempt=(
+                '\n[exempt."acme/other".producers."acme/npm-tool"]\n'
+                'reason = "Not needed here."\n'
+                'reassess = "Never."\n'
+            ),
+        ),
+        encoding="utf-8",
+    )
+    _write(
+        root,
+        "package.json",
+        "{\n  \"dependencies\": {\n    \"left-pad\": \"1.0.0\",\n"
+        "    \"left-pad-extra\": \"2.0.0\"\n  },\n"
+        "  \"devDependencies\": {\n    \"Left-Pad\": \"1.0.0\"\n  },\n"
+        "  \"optionalDependencies\": {\n    \"left-pad\": \"1.0.0\"\n  }\n}\n",
+    )
+    findings = owned_substitution._check(root, repository)
+    assert len(findings) == 1
+    assert findings[0].file == "package.json"
+    assert findings[0].line == 3
+    assert "acme/npm-tool" in findings[0].message
+    assert "dependency 'left-pad' (npm)" in findings[0].message
+
+
+def test_malformed_manifests_are_skipped(project: tuple[Path, Repository, Path]) -> None:
+    root, repository, _ = project
+    _write(root, "Cargo.toml", "[dependencies\ncriterion = \"0.5\"\n")
+    _write(root, "pyproject.toml", "[project\ndependencies = [\"pytest-xdist\"\n")
+    _write(root, "package.json", "{ not json")
+    _write(root, ".cargo/config.toml", "[build\nrustc-wrapper = \"sccache\"\n")
+    assert owned_substitution._check(root, repository) == []

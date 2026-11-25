@@ -132,3 +132,42 @@ pacman = ["mold"]
 [producers."joshuarli/mold"]
 label = "mold"
 urls = ["github.com/rui314/mold"]
+
+[producers."joshuarli/shck"]
+label = "ShellCheck"
+actions = ["ludeeus/action-shellcheck"]
+urls = ["github.com/koalaman/shellcheck"]
+
+[producers."joshuarli/shck".packages]
+apk = ["shellcheck"]
+apt = ["shellcheck"]
+brew = ["shellcheck"]
+dnf = ["ShellCheck", "shellcheck"]
+pacman = ["shellcheck"]
+
+[producers."joshuarli/kache"]
+label = "sccache, ccache"
+actions = ["mozilla-actions/sccache-action", "hendrikmuhs/ccache-action"]
+urls = ["github.com/mozilla/sccache"]
+
+[producers."joshuarli/kache".packages]
+apk = ["sccache", "ccache"]
+apt = ["sccache", "ccache"]
+brew = ["sccache", "ccache"]
+dnf = ["sccache", "ccache"]
+pacman = ["sccache", "ccache"]
+
+[producers."joshuarli/kache".manifests]
+cargo = ["sccache"]
+
+[producers."joshuarli/pytest-parallel"]
+label = "pytest-xdist"
+
+[producers."joshuarli/pytest-parallel".manifests]
+pypi = ["pytest-xdist"]
+
+[producers."laputa-systems/rustybench"]
+label = "criterion, divan"
+
+[producers."laputa-systems/rustybench".manifests]
+cargo = ["criterion", "divan"]

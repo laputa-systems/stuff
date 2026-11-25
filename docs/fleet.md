@@ -138,6 +138,10 @@ repository.
 | fd | `laputa-systems/fd` |
 | jaq | `laputa-systems/jaq` |
 | mold | `joshuarli/mold` |
+| ShellCheck | `joshuarli/shck` |
+| sccache, ccache | `joshuarli/kache` |
+| pytest-xdist | `joshuarli/pytest-parallel` |
+| criterion, divan | `laputa-systems/rustybench` |
 
 <!-- end generated -->
 
@@ -155,9 +159,12 @@ as a parity oracle or build reference; the rule does not report that. Build repo
 The read-only `owned-tool-substitution` repomod rule enforces this table. It reads
 `fleet/policy/owned-substitutes.toml`, which maps each producer to the distribution packages
 (`apk`, `apt`, `brew`, `dnf`, `pacman`), setup actions (`actions/setup-node`,
-`actions/setup-python`, and `astral-sh/setup-uv` when it provides Python) and download URLs it
-replaces, and scans `.github/workflows`, Dockerfiles, Makefiles, `scripts/`, `docker/` and
-`flake.nix`. An unexempted upstream install is a blocking finding that names the producer to use
+`actions/setup-python`, and `astral-sh/setup-uv` when it provides Python), download URLs and
+dependency-manifest names it replaces, and scans `.github/workflows`, Dockerfiles, Makefiles,
+`scripts/`, `docker/` and `flake.nix` plus `Cargo.toml`, `pyproject.toml`, `package.json`,
+`requirements*.txt` and `.cargo/config.toml`. Manifest ecosystems are `cargo`, `pypi` and `npm`;
+the rule also flags `pip install`, `uv add`, `uv pip install` and `cargo install` commands and
+`RUSTC_WRAPPER`/`rustc-wrapper` assignments. An unexempted upstream install is a blocking finding that names the producer to use
 instead and points at buildlib's setup action and `buildlib.tools`. To exempt a repository,
 add `[exempt."owner/repo".producers."producer/id"]` entries with a `reason` drawn from the
 grounds above and a `reassess` condition; an exemption that matches no finding is itself a

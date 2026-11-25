@@ -36,6 +36,27 @@ apt = ['clang', '^clang-\d+$']
 [producers."acme/ssh"]
 label = "OpenSSH"
 urls = ["cdn.openbsd.org/pub/openbsd/openssh"]
+
+[producers."acme/pytest-parallel"]
+label = "pytest-xdist"
+
+[producers."acme/pytest-parallel".manifests]
+pypi = ["pytest-xdist", "pytest_xdist"]
+
+[producers."acme/rustybench"]
+label = "criterion, divan"
+
+[producers."acme/rustybench".manifests]
+cargo = ["criterion", "divan"]
+
+[producers."acme/kache"]
+label = "sccache, ccache"
+
+[producers."acme/kache".packages]
+apt = ["sccache", "ccache"]
+
+[producers."acme/kache".manifests]
+cargo = ["sccache"]
 """
 
 
@@ -98,6 +119,39 @@ def test_json_shape(
     assert json.loads(capsys.readouterr().out) == [
         {"kind": "action", "matched": "actions/setup-node", "producer": "acme/node-build"}
     ]
+
+
+def test_manifest_match_reports_the_ecosystem(
+    substitute_policy: None, capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main(["tools", "substitute", "pytest-xdist"]) == 0
+    assert capsys.readouterr().out == "acme/pytest-parallel\tmanifest:pypi\tpytest-xdist\n"
+
+
+def test_manifest_match_normalizes_names(
+    substitute_policy: None, capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main(["tools", "substitute", "Pytest_Xdist"]) == 0
+    assert capsys.readouterr().out == "acme/pytest-parallel\tmanifest:pypi\tpytest-xdist\n"
+    assert main(["tools", "substitute", "serde_derive"]) == 1
+    assert main(["tools", "substitute", "CRITERION"]) == 0
+    assert capsys.readouterr().out == "acme/rustybench\tmanifest:cargo\tcriterion\n"
+
+
+def test_manifest_lookup_uses_json_shape(
+    substitute_policy: None, capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main(["tools", "substitute", "divan", "--json"]) == 0
+    assert json.loads(capsys.readouterr().out) == [
+        {"kind": "manifest:cargo", "matched": "divan", "producer": "acme/rustybench"}
+    ]
+
+
+def test_package_match_wins_over_manifest_for_shared_names(
+    substitute_policy: None, capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main(["tools", "substitute", "sccache"]) == 0
+    assert capsys.readouterr().out == "acme/kache\tpackage:apt\tsccache\n"
 
 
 def test_fleet_doc_generated_table_matches_the_policy() -> None:
