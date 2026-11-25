@@ -63,25 +63,23 @@ class _Index:
     def walk(
         self, onerror: Callable[[OSError], object] | None
     ) -> Iterator[tuple[Path, list[str], list[str]]]:
-        yield from self._walk(self._root, onerror)
-
-    def _walk(
-        self, directory: Path, onerror: Callable[[OSError], object] | None
-    ) -> Iterator[tuple[Path, list[str], list[str]]]:
-        node = self._node(directory)
-        if isinstance(node, OSError):
-            if onerror is not None:
-                onerror(node)
-            return
-        names = [entry.name for entry in node.dirs]
-        files = list(node.files)
-        yield directory, names, files
-        known = {entry.name: entry for entry in node.dirs}
-        for name in names:
-            entry = known.get(name)
-            if entry is None or entry.is_symlink:
+        stack = [self._root]
+        while stack:
+            directory = stack.pop()
+            node = self._node(directory)
+            if isinstance(node, OSError):
+                if onerror is not None:
+                    onerror(node)
                 continue
-            yield from self._walk(directory / name, onerror)
+            names = [entry.name for entry in node.dirs]
+            files = list(node.files)
+            yield directory, names, files
+            known = {entry.name: entry for entry in node.dirs}
+            for name in reversed(names):
+                entry = known.get(name)
+                if entry is None or entry.is_symlink:
+                    continue
+                stack.append(directory / name)
 
 
 def walk(
