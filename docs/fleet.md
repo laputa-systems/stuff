@@ -217,14 +217,13 @@ is approved in `fleet/policy/buildlib.toml` and moved by
 #### The owned-tools image
 
 `docker/owned-tools/` builds a tools-only image that any fleet Dockerfile can copy from instead
-of `apk add`/`apt install`ing upstream git, Python, CMake, Meson/Ninja, LLVM, mold, fd, ripgrep or
+of `apk add`/`apt install`ing upstream git, Python, CMake, Meson/Ninja, LLVM, mold, FFmpeg, fd, ripgrep or
 jaq. Its fetch stage runs on the pinned musl Alpine base and installs the tools listed in
 `fleet/policy/owned-tools-image.toml`, at the releases `fleet/policy/tools-lock.toml` approves,
 through the vendored `buildlib-run` shim and `docker/owned-tools/tools.lock.json`; the published
 stage is `scratch` plus `/opt/laputa` only. `uv run python -m repomod.owned_tools_image --write`
 regenerates the lock and the `bootstrap/` copies from fleet policy, and its check mode fails when
-either drifts. A listed tool's musl asset must need nothing beyond musl libc, so ffmpeg-runtime
-stays out until its release bundles its libraries.
+either drifts. A listed tool's musl asset must need nothing beyond musl libc and the libraries it bundles.
 
 A consumer Dockerfile copies the tree and puts its bin directory on `PATH`:
 

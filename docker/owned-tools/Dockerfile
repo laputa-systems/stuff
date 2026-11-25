@@ -23,7 +23,7 @@ RUN set -eu; \
     esac; \
     export BUILDLIB_CACHE=/cache; \
     mkdir -p /cache /opt/laputa/bin; \
-    for tool in cmake cpython fd git gluon jaq llvm mold rg; do \
+    for tool in cmake cpython fd ffmpeg-runtime git gluon jaq llvm mold rg; do \
         bindir=$(sh /src/bootstrap/buildlib-run -- -m buildlib tools install "$tool" \
             --lock /src/tools.lock.json --cache /cache --target "$triple"); \
         case "$(basename "$bindir")" in \

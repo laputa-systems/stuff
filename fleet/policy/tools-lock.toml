@@ -23,24 +23,24 @@ sha256 = "9cb15d2b4f1d984063a0102e69e84cec29ee00007e801a4c04e57d144e9e03a2"
 
 [tools.ffmpeg-runtime]
 repository = "laputa-systems/ffmpeg-build"
-tag = "release-ac29c7720327f7dee4ed4677ce8421673fcc3563"
+tag = "release-941c35359d442b01d14ef386ce9b381ac234bd52"
 product = "ffmpeg-runtime"
 version = "9.0.2"
 
 [tools.ffmpeg-runtime.assets.aarch64-apple-darwin]
 name = "ffmpeg-runtime-9.0.2-aarch64-apple-darwin.tar.xz"
-size = 3122496
-sha256 = "380471e07416eb636836d8428e8b2c6bf8052b8df030cff85e4008ccab70369d"
+size = 3158840
+sha256 = "655359de50c6eaa815ee41a9be6e945048dadd766f08eae161931171b730e404"
 
 [tools.ffmpeg-runtime.assets.aarch64-unknown-linux-musl]
 name = "ffmpeg-runtime-9.0.2-aarch64-unknown-linux-musl.tar.xz"
-size = 3930040
-sha256 = "db6364f646b763a7fe2560d38b29e985232c3925ab48347d3a4fa39a94b86549"
+size = 4048024
+sha256 = "abfdda63371178df196ef08c344e97437a20efb1774efe9c4aa742da36f96312"
 
 [tools.ffmpeg-runtime.assets.x86_64-unknown-linux-musl]
 name = "ffmpeg-runtime-9.0.2-x86_64-unknown-linux-musl.tar.xz"
-size = 4735840
-sha256 = "9b917fe0939b31430a338b12033d80bac3d32b62777f26ffe44d4a71fc850e65"
+size = 4860520
+sha256 = "db6316f5ea8629f9fed6cc65cbc2aef85cd6f3e94a2a97eca4d5951c84615343"
 
 [tools.gluon]
 repository = "laputa-systems/gluon"

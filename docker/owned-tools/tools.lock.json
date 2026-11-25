@@ -65,6 +65,29 @@
       "tag": "release-66d59cbcd3e07984e7c1e3ec301cbffcd74bdf2b",
       "version": ""
     },
+    "ffmpeg-runtime": {
+      "assets": {
+        "aarch64-apple-darwin": {
+          "name": "ffmpeg-runtime-9.0.2-aarch64-apple-darwin.tar.xz",
+          "sha256": "655359de50c6eaa815ee41a9be6e945048dadd766f08eae161931171b730e404",
+          "size": 3158840
+        },
+        "aarch64-unknown-linux-musl": {
+          "name": "ffmpeg-runtime-9.0.2-aarch64-unknown-linux-musl.tar.xz",
+          "sha256": "abfdda63371178df196ef08c344e97437a20efb1774efe9c4aa742da36f96312",
+          "size": 4048024
+        },
+        "x86_64-unknown-linux-musl": {
+          "name": "ffmpeg-runtime-9.0.2-x86_64-unknown-linux-musl.tar.xz",
+          "sha256": "db6316f5ea8629f9fed6cc65cbc2aef85cd6f3e94a2a97eca4d5951c84615343",
+          "size": 4860520
+        }
+      },
+      "product": "ffmpeg-runtime",
+      "repository": "laputa-systems/ffmpeg-build",
+      "tag": "release-941c35359d442b01d14ef386ce9b381ac234bd52",
+      "version": "9.0.2"
+    },
     "git": {
       "assets": {
         "aarch64-apple-darwin": {
