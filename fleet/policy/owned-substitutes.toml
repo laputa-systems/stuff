@@ -175,3 +175,27 @@ cargo = ["criterion", "divan"]
 [exempt."joshuarli/tf".producers."laputa-systems/python-build"]
 reason = "The producer publishes no release for the Python versions tf needs: 3.14 for the pinned unicodedata 16.0.0 its table generator requires, 3.12 for the ComfyUI runtime checks, and a 3.11/3.12 support matrix; python-build ships only 3.15."
 reassess = "When python-build publishes the older minors (stuff TODO STUF-123)."
+
+[exempt."laputa-systems/graviola".producers."laputa-systems/rustybench"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
+reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
+
+[exempt."laputa-systems/harfrust".producers."laputa-systems/rustybench"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
+reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
+
+[exempt."laputa-systems/kbvm".producers."laputa-systems/rustybench"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
+reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
+
+[exempt."laputa-systems/rawzip".producers."laputa-systems/rustybench"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
+reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
+
+[exempt."laputa-systems/rustix".producers."laputa-systems/rustybench"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
+reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
+
+[exempt."laputa-systems/rustls".producers."laputa-systems/rustybench"]
+reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
+reassess = "When the fork adds benchmarks of its own, or upstream adopts rustybench."
