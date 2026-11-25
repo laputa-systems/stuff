@@ -537,7 +537,12 @@ def test_shipped_policy_is_valid_and_uses_owned_producers() -> None:
     owned = owned_substitution._owned_producers()
     assert policy.producers
     assert all(name.casefold() in owned for name in policy.producers)
-    assert not policy.exempt
+    producers = {name.casefold() for name in policy.producers}
+    for exemptions in policy.exempt.values():
+        for exemption in exemptions:
+            assert exemption.producer.casefold() in producers
+            assert exemption.reason.strip()
+            assert exemption.reassess.strip()
 
 
 def test_rule_is_registered_with_the_python_fix() -> None:

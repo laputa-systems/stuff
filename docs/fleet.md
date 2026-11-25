@@ -168,7 +168,7 @@ the rule also flags `pip install`, `uv add`, `uv pip install` and `cargo install
 instead and points at buildlib's setup action and `buildlib.tools`. To exempt a repository,
 add `[exempt."owner/repo".producers."producer/id"]` entries with a `reason` drawn from the
 grounds above and a `reassess` condition; an exemption that matches no finding is itself a
-finding. The shipped policy carries no exemptions.
+finding. Each shipped exemption names its producer gap in a `TODO.md` ticket.
 
 ### Acquiring owned tools
 
