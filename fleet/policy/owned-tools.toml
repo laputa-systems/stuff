@@ -221,6 +221,12 @@ zsh = { exempt = "shim that executes the real zsh; its help belongs to zsh" }
 [producers."joshuarli/view".commands]
 view = { help = { source = "src/bin/app.rs", test = "tests/app_regression.rs" } }
 
+[producers."laputa-systems/ast-grep"]
+upstream = "ast-grep/ast-grep"
+
+[producers."laputa-systems/ast-grep".commands]
+ast-grep = { help = { source = "crates/cli/src/owned.footer", test = "crates/cli/tests/owned_help_test.rs" } }
+
 [producers."laputa-systems/chromium-build"]
 upstream = "chromium/chromium"
 
