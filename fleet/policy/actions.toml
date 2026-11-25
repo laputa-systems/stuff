@@ -68,6 +68,11 @@ channel = "v1"
 version = "v1"
 sha = "683b588c487a69d01f6c6ddf40f036ff682cc2c8"
 
+[actions."laputa-systems/buildlib"]
+channel = "v0"
+version = "v0.3.0"
+sha = "55d348a8eefc81982fde789cd73c7032d39e7f69"
+
 [actions."leanprover/lean-action"]
 channel = "v1"
 version = "v1.7.1"

@@ -170,6 +170,27 @@ add `[exempt."owner/repo".producers."producer/id"]` entries with a `reason` draw
 grounds above and a `reassess` condition; an exemption that matches no finding is itself a
 finding. The shipped policy carries no exemptions.
 
+### Acquiring owned tools
+
+A consumer pins the owned tools it needs in a `tools.lock.json` and installs them with buildlib.
+`python -m buildlib tools lock TOOL --tag release-<sha>` adds or replaces an entry with each
+target's asset name, size and SHA-256. In GitHub Actions, add one step:
+
+```yaml
+- uses: laputa-systems/buildlib/setup@55d348a8eefc81982fde789cd73c7032d39e7f69 # v0.3.0
+  with:
+    tools: gluon cmake
+```
+
+The action reads `tools.lock.json` (input `lock`), restores a cache keyed by exactly those pins,
+installs whatever is missing, and puts each tool's bin directory on `PATH`; its `cache-hit` output
+reports a restore. Outside Actions, run `python -m buildlib tools install TOOL... --lock
+tools.lock.json` through the vendored `bootstrap/buildlib-run` shim, which needs no installed
+Python. Both paths verify size and SHA-256 before extraction and need no other tool. The tool
+names, layouts and cache format are in buildlib's
+[tools reference](https://github.com/laputa-systems/buildlib/blob/main/docs/tools.md); the action
+pin lives in `fleet/policy/actions.toml`.
+
 ## Owned tools
 
 `repomod tools which COMMAND` resolves an installed command to its maintained repository without
