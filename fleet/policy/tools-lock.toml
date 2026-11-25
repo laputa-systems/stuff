@@ -83,3 +83,98 @@ sha256 = "d525d2ea985e861484a4346266c07a9149903ec09193727f2630956014ee0133"
 name = "rg-x86_64-unknown-linux-musl.tar.xz"
 size = 1476128
 sha256 = "be034c84f4991b3295f50e26a3fc82cacedc05b86cecbe9f505eb9d5c804041a"
+
+[tools.cmake]
+repository = "laputa-systems/cmake-build"
+tag = "release-281e9cd89fab7a6e566a6c13e9a20bd786b2b212"
+product = "cmake"
+version = "4.4.5"
+
+[tools.cmake.assets.aarch64-unknown-linux-musl]
+name = "cmake-4.4.5-aarch64-unknown-linux-musl.tar.xz"
+size = 19012896
+sha256 = "d430f9ac50cbecee5dae9cfa5c0528967fcbf66ea0e9debaf2852bcecb458c59"
+
+[tools.cmake.assets.x86_64-unknown-linux-musl]
+name = "cmake-4.4.5-x86_64-unknown-linux-musl.tar.xz"
+size = 20740948
+sha256 = "b18ab8bf83dcdf926f30b7d80ada95dd24b2b24d16aa43e2ba1172cb6a88df48"
+
+
+[tools.fd]
+repository = "laputa-systems/fd"
+tag = "release-66d59cbcd3e07984e7c1e3ec301cbffcd74bdf2b"
+product = "fd"
+version = ""
+
+[tools.fd.assets.aarch64-apple-darwin]
+name = "fd-aarch64-apple-darwin.tar.xz"
+size = 646396
+sha256 = "19893278a6b02cac66400bce05f7d2084ce641c4bb8f1f9886f2521224f59d87"
+
+[tools.fd.assets.aarch64-unknown-linux-musl]
+name = "fd-aarch64-unknown-linux-musl.tar.xz"
+size = 677316
+sha256 = "e789f19212caeb28db17b094d8fc4134d61ce36bc85c3431d644a17c22b5fdca"
+
+[tools.fd.assets.x86_64-unknown-linux-musl]
+name = "fd-x86_64-unknown-linux-musl.tar.xz"
+size = 787764
+sha256 = "db969196b08b22d7250e82f7e474e5cba36bda274b7d5efc70f45d31f7a6901c"
+
+
+[tools.jaq]
+repository = "laputa-systems/jaq"
+tag = "release-545e3f7ba20beed0f77031dcc9aa74eb0ef0ba14"
+product = "jaq"
+version = ""
+
+[tools.jaq.assets.aarch64-apple-darwin]
+name = "jaq-aarch64-apple-darwin.tar.xz"
+size = 997792
+sha256 = "714b7f4bc1d032041971a3ff31e493767d6e0ab36ae49deeffe95bff64619728"
+
+[tools.jaq.assets.aarch64-unknown-linux-musl]
+name = "jaq-aarch64-unknown-linux-musl.tar.xz"
+size = 818484
+sha256 = "b17a8d41058d15fad21eee822a8952dc40bf6f465f6ebf246f3ae67bb7d461a0"
+
+[tools.jaq.assets.x86_64-unknown-linux-musl]
+name = "jaq-x86_64-unknown-linux-musl.tar.xz"
+size = 957652
+sha256 = "3a24a3dc32dd19cb4e72ef70fcd9f1253b2804ff92222ca91491e32653a5faa2"
+
+
+[tools.llvm]
+repository = "laputa-systems/llvm-prebuilt-musl"
+tag = "release-b29e4d07a2b9a5e72319b37429cf375149212755"
+product = "llvm"
+version = "23.1.5"
+
+[tools.llvm.assets.aarch64-unknown-linux-musl]
+name = "llvm-23.1.5-aarch64-unknown-linux-musl.tar.xz"
+size = 94369760
+sha256 = "4d8b637d65ed0299c8b7852c1e7e1d41f7141346ce31e707f0975ff67460121e"
+
+[tools.llvm.assets.x86_64-unknown-linux-musl]
+name = "llvm-23.1.5-x86_64-unknown-linux-musl.tar.xz"
+size = 101344736
+sha256 = "de3f6d0ad089391482147c61648c511c500b25289132fe7f2c446a0905406d2a"
+
+
+[tools.mold]
+repository = "joshuarli/mold"
+tag = "mold-musl-3.0.0-cfb4aab"
+product = "mold"
+version = "3.0.0"
+
+[tools.mold.assets.aarch64-unknown-linux-musl]
+name = "mold-3.0.0-aarch64-linux-musl.tar.gz"
+size = 7648955
+sha256 = "2d904b170d804008ada80157f8f18d9920d3ccc1e49e27d80123d01e386668f3"
+
+[tools.mold.assets.x86_64-unknown-linux-musl]
+name = "mold-3.0.0-x86_64-linux-musl.tar.gz"
+size = 7963647
+sha256 = "d6e47d61b74961a60868ad308acad4dfdc199e7ec97d61d65728e6ef1d6c2565"
+

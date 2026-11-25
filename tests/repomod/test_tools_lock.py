@@ -4,13 +4,22 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
+
+from repomod import buildlib_pins, paths
 from repomod.fix import _write_plan
 from repomod.rules import tools_lock
 from repomod.rules.tools_lock import tools_lock_rules
 from repomod.types import RepoId, Repository
 
 FIXTURES = Path(__file__).resolve().parent / 'fixtures' / 'tools_lock'
+SHIPPED_POLICY = paths.POLICY
 REPOSITORY = Repository(RepoId.parse('laputa-systems/gluon'), ('build',))
+
+
+@pytest.fixture(autouse=True)
+def _frozen_policy(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(tools_lock.paths, 'POLICY', FIXTURES / 'policy')
 
 
 def _tree(root: Path) -> dict[str, bytes]:
@@ -112,18 +121,15 @@ def test_unparseable_lock_is_reported_but_not_fixed(tmp_path: Path) -> None:
     assert fix(root, REPOSITORY) == {}
 
 
-def test_policy_approves_the_cpython_release() -> None:
+def test_shipped_policy_approves_only_known_tools(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(tools_lock.paths, 'POLICY', SHIPPED_POLICY)
     approved = tools_lock._load_policy()
-    entry = approved["cpython"]
-    assert entry["repository"] == "laputa-systems/python-build"
-    assert entry["product"] == "cpython"
-    assert entry["version"] == "3.15.1"
-    assert entry["tag"] == "release-6f7c0d46e2eda7f66c705022f1950034045f74d0"
-    assert set(entry["assets"]) == {
-        "aarch64-apple-darwin",
-        "aarch64-unknown-linux-musl",
-        "x86_64-unknown-linux-musl",
-    }
+    assert approved
+    for tool, entry in approved.items():
+        assert tool in buildlib_pins.TOOLS_LOCK_TOOLS
+        assert entry["tag"]
+        assert entry["assets"]
+        assert all(len(asset["sha256"]) == 64 for asset in entry["assets"].values())
 
 
 def test_conforming_lock_is_clean(tmp_path: Path) -> None:
