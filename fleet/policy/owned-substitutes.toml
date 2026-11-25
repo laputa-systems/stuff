@@ -172,6 +172,14 @@ label = "criterion, divan"
 [producers."laputa-systems/rustybench".manifests]
 cargo = ["criterion", "divan"]
 
+[exempt."joshuarli/kache".producers."laputa-systems/llvm-prebuilt-musl"]
+reason = "kache is a compiler cache whose cc-oracle and cc-bench suites run gcc and g++ as compilers under test (crates/kache-e2e/src/cc_oracle), so its images and workflows must install the upstream gcc they cache."
+reassess = "When the oracle drops gcc as a subject."
+
+[exempt."joshuarli/crabc".producers."laputa-systems/llvm-prebuilt-musl"]
+reason = "crabc pins its Alpine images and packages in compat/upstreams.toml, including build-base, clang, lld and llvm and its gcc-driven mold linker wrapper, as inputs to its recorded ABI and compatibility evidence, so the owned toolchain cannot replace them without invalidating that baseline."
+reassess = "When crabc rebaselines its compatibility evidence on the owned toolchain."
+
 [exempt."joshuarli/tf".producers."laputa-systems/python-build"]
 reason = "The producer publishes no release for the Python versions tf needs: 3.14 for the pinned unicodedata 16.0.0 its table generator requires, 3.12 for the ComfyUI runtime checks, and a 3.11/3.12 support matrix; python-build ships only 3.15."
 reassess = "When python-build publishes the older minors (stuff TODO STUF-123)."
