@@ -4,14 +4,14 @@ This is the single plan for this repository: all current and future work, and th
 
 ## Status
 
-- State: paused 2026-11-25 in Owned tools first (OT7 compiler remediation). Resume prompt: "resume the roadmap"; first command: `uv run repomod sync && uv run repomod lint --rule owned-tool-substitution`.
+- State: active 2026-11-26, resumed in Owned tools first (OT7 compiler remediation). The Status first command was rerun: sync succeeded and `owned-tool-substitution` is still red fleet-wide. Two native worker lanes are open, each in its own repo worktree at `.work/wt/ot7-owned-clang` on branch `lane/ot7-owned-clang`: laputa-systems/ssh-build at `78f1594` (gcc to owned clang in both Dockerfiles) and laputa-systems/tm at `eb26032` (build-essential to buildlib/setup in ci.yml). Resume prompt: "resume the roadmap".
 - Last accepted Stuff revision: `5ce04d8d70` on `main`; repomod tests, ruff and ty pass there. Owned-tools image v4 `sha256:aaec19e7…` and node 26.13.1 are approved.
 - Parked laputa-systems/llvm-prebuilt-musl#12 (LLVM-1, runtime build paths and crtbegin frame registration): unverified; retry with a local x86_64 `make build && make verify` on threadripper (jaq is in ~/.local/bin there), then dispatch ci.yml, release, bump the owned-tools image and rerun play.
 - Parked joshuarli/play branch build/owned-clang: blocked on LLVM-1; play's audit-linux.sh rejects the current toolchain.
 - Parked laputa seed/Dockerfile.host-tools (build-base): needs the host-tools and package-tools images rebuilt, published and repinned in seed/images.lock (owner).
 - Parked joshuarli/loc#33 (owned Python in ci.yml): open and unverified against current master; rebase and recheck.
 - Owner decision NODE-6 (node-build): glibc-loadable Linux node or musl node as Alpine-only; extensions and stats stay on setup-node until then.
-- Delegate next, with native subagents: remaining OT7 findings (ssh-build, ffmpeg-build and node-build producers, ghostty, apt and setup-dev stages), FFB-9 (ffmpeg-build mutation receipt), XSH-196/197 (xsh test and lint; another session works in xsh).
+- Delegate next, with native subagents: remaining OT7 findings (ffmpeg-build and node-build producers, ghostty, apt and setup-dev stages), FFB-9 (ffmpeg-build mutation receipt), XSH-196/197 (xsh test and lint; another session works in xsh). FFB-9 needs hosted mutation runners (ubuntu-26.04, ubuntu-26.04-arm, xcode-27); the committed `whole-change-mutation-trial` workflow verifies receipts but does not generate them, so it stays parked until a receipt-generation job exists.
 - Pre-existing, not from this campaign: 10 stuff worktrees under .work/wt (three oo-* trees hold uncommitted changes) and about 114 unmerged stuff branches; triage before reuse.
 - Owned-tool maintenance: tm is parked on laputa-systems/tm#28; retry after that blocker clears. STUF-89 tracks remaining help coverage.
 - Dependency friction F2: clean-clone capsule rerun waits for a kache release containing kache#104; retry when that release is available.
