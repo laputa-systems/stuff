@@ -44,24 +44,24 @@ sha256 = "9b917fe0939b31430a338b12033d80bac3d32b62777f26ffe44d4a71fc850e65"
 
 [tools.gluon]
 repository = "laputa-systems/gluon"
-tag = "release-fa8b6aace38683a17ee3f398d8b568341c7192fe"
+tag = "release-b05cc1a67792531135513db3ec895125ba66e880"
 product = "gluon"
 version = ""
 
 [tools.gluon.assets.aarch64-apple-darwin]
 name = "gluon-aarch64-apple-darwin.tar.xz"
-size = 860740
-sha256 = "4c103442555d8e76a5d57bd4d9b4e90fa86e715ffe1a8e23bcbb3a6247618c6e"
+size = 877892
+sha256 = "b447619fcff86e59c36d4190939a6092cc4abad1a15d5d7b4dd77be60465be2b"
 
 [tools.gluon.assets.aarch64-unknown-linux-musl]
 name = "gluon-aarch64-unknown-linux-musl.tar.xz"
-size = 831344
-sha256 = "6b352c03399cf41f45ee5d9ff601ea17cf4768f74aff31a164e145e6e2326e56"
+size = 856328
+sha256 = "eb0228864778d9af997acc07692fc930d94ec70ed46a0a4412d84d4bba9952d0"
 
 [tools.gluon.assets.x86_64-unknown-linux-musl]
 name = "gluon-x86_64-unknown-linux-musl.tar.xz"
-size = 945204
-sha256 = "3aacbd8756a4dcfeff9cd139ebcd5a3b4cb2cc433c599b7e21f446c716987ce8"
+size = 977076
+sha256 = "2fe3396e900c599e9551de4562354b7d746c4c8c02af65b3ea32045b9909fd97"
 
 [tools.rg]
 repository = "laputa-systems/rg"
@@ -163,19 +163,19 @@ sha256 = "de3f6d0ad089391482147c61648c511c500b25289132fe7f2c446a0905406d2a"
 
 [tools.mold]
 repository = "joshuarli/mold"
-tag = "mold-musl-3.0.0-cfb4aab"
+tag = "mold-musl-3.0.0-5d3f385"
 product = "mold"
 version = "3.0.0"
 
 [tools.mold.assets.aarch64-unknown-linux-musl]
 name = "mold-3.0.0-aarch64-linux-musl.tar.gz"
-size = 7648955
-sha256 = "2d904b170d804008ada80157f8f18d9920d3ccc1e49e27d80123d01e386668f3"
+size = 7667019
+sha256 = "c2e8e5a14c397036e070630d758956913ce4318834f3ff9000bd95809d3c1090"
 
 [tools.mold.assets.x86_64-unknown-linux-musl]
 name = "mold-3.0.0-x86_64-linux-musl.tar.gz"
-size = 7963647
-sha256 = "d6e47d61b74961a60868ad308acad4dfdc199e7ec97d61d65728e6ef1d6c2565"
+size = 7979082
+sha256 = "4ff71e43c5a73a7c46e7ac93c676e78c22981eb9b54218268aef01949dab92ab"
 
 
 [tools.git]

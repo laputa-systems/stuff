@@ -217,15 +217,14 @@ is approved in `fleet/policy/buildlib.toml` and moved by
 #### The owned-tools image
 
 `docker/owned-tools/` builds a tools-only image that any fleet Dockerfile can copy from instead
-of `apk add`/`apt install`ing upstream git, Python, CMake, Meson/Ninja, LLVM, mold, ripgrep or
-jaq. Its fetch stage runs on the pinned musl Alpine base and installs every tool
-`fleet/policy/tools-lock.toml` approves that publishes a Linux musl asset, through the vendored
-`buildlib-run` shim and `docker/owned-tools/tools.lock.json`; the published stage is `scratch`
-plus `/opt/laputa` only. `uv run python -m repomod.owned_tools_image --write` regenerates the
-lock and the `bootstrap/` copies from fleet policy, and its check mode fails when either drifts.
-mold's musl release links `libgcc_s.so.1` dynamically, which no fleet base ships; the image
-installs the policy-pinned Alpine `libgcc` in the fetch stage, ships the library at
-`/opt/laputa/g`, and repoints mold's `NEEDED` entry there (`patch-mold.py`).
+of `apk add`/`apt install`ing upstream git, Python, CMake, Meson/Ninja, LLVM, mold, fd, ripgrep or
+jaq. Its fetch stage runs on the pinned musl Alpine base and installs the tools listed in
+`fleet/policy/owned-tools-image.toml`, at the releases `fleet/policy/tools-lock.toml` approves,
+through the vendored `buildlib-run` shim and `docker/owned-tools/tools.lock.json`; the published
+stage is `scratch` plus `/opt/laputa` only. `uv run python -m repomod.owned_tools_image --write`
+regenerates the lock and the `bootstrap/` copies from fleet policy, and its check mode fails when
+either drifts. A listed tool's musl asset must need nothing beyond musl libc, so ffmpeg-runtime
+stays out until its release bundles its libraries.
 
 A consumer Dockerfile copies the tree and puts its bin directory on `PATH`:
 
@@ -238,9 +237,9 @@ ENV PATH=/opt/laputa/bin:$PATH
 cpython needs the image's musl loader: Alpine bases already ship it, and glibc bases get it from
 the distribution `musl` package. To rebuild and publish, run a multi-arch buildx into an OCI
 layout (`docker buildx build --platform linux/amd64,linux/arm64 -o
-type=oci,dest=<dir>`), then `stuff publish oci --layout <dir> --repository owned-tools --tag
-<tag>`; `fleet/policy/owned-tools-image.toml` records the repository and the pinned digest once
-publication lands.
+type=oci,dest=<dir>`) on an amd64 host, since the amd64 fetch stage dies with SIGILL under Rosetta on Apple
+Silicon; then `stuff publish oci --layout <dir> --repository
+owned-tools --tag <tag>` and record the index digest in `fleet/policy/owned-tools-image.toml`.
 
 ## Owned tools
 
