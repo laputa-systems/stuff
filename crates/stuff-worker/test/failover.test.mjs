@@ -129,6 +129,25 @@ test("an origin that never returns headers serves every registry path from the r
   await assertReplicaServed(server);
 });
 
+test("an object the replica lacks answers a retryable 503, not 404, when the origin fails", async (t) => {
+  const server = await harness(t, originStatus(502));
+  await seedRegistry(server);
+  const response = await server.getWorker().fetch("https://pypi.test/wheels/absent-1.0-py3-none-any.whl");
+  assert.equal(response.status, 503);
+  assert.equal(response.headers.get("x-stuff-served-by"), "replica");
+  assert.equal(response.headers.get("retry-after"), "5");
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  await response.arrayBuffer();
+});
+
+test("an origin 404 stays authoritative and is not turned into a 503", async (t) => {
+  const server = await harness(t, originStatus(404));
+  const response = await server.getWorker().fetch("https://pypi.test/wheels/absent-1.0-py3-none-any.whl");
+  assert.equal(response.status, 404);
+  assert.equal(response.headers.get("x-stuff-served-by"), null);
+  await response.arrayBuffer();
+});
+
 test("a non-GET/HEAD request is never failed over and never reaches the replica", async (t) => {
   const server = await harness(t, originStatus(503), { r2: false });
   const response = await server.getWorker().fetch("https://crates.test/catalog.json", {

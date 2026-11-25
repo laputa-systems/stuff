@@ -15,6 +15,8 @@ import type { ExecutionContext } from "./src/runtime-types.js";
 import { ORIGIN_HEADER_TIMEOUT_MS, planOriginAttempt, shouldServeReplica, type OriginOutcome } from "./src/failover.js";
 
 export const SERVED_BY_HEADER = "x-stuff-served-by";
+/** The replica can lag the origin, so its 404 is not proof of absence; clients retry this 503 instead. */
+export const REPLICA_MISS_RETRY_AFTER_SECONDS = 5;
 
 type Env = Parameters<typeof handler.fetch>[1];
 
@@ -93,6 +95,12 @@ export function createFailoverWorker(options: FailoverOptions = {}) {
       const replica = await handler.fetch(request, env, context);
       const headers = new Headers(replica.headers);
       headers.set(SERVED_BY_HEADER, "replica");
+      if (replica.status === 404) {
+        await replica.body?.cancel().catch(() => undefined);
+        headers.set("retry-after", String(REPLICA_MISS_RETRY_AFTER_SECONDS));
+        headers.set("cache-control", "no-store");
+        return new Response("origin unavailable and the replica does not hold this object\n", { status: 503, headers });
+      }
       return new Response(replica.body, { status: replica.status, statusText: replica.statusText, headers });
     },
   };
