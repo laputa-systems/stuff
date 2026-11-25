@@ -331,6 +331,7 @@ def test_rebuilt_fix_branch_replaces_only_the_remote_tip_it_last_published(
     branch = "repomod/fix/" + "b" * 32
     previous = _commit_on(path, base, "old.txt")
     git("push", "-q", "origin", f"{previous}:refs/heads/{branch}", cwd=path)
+    moved = previous
     if remote_moved:
         moved = _commit_on(path, previous, "other.txt")
         git("push", "-q", "origin", f"{moved}:refs/heads/{branch}", cwd=path)
