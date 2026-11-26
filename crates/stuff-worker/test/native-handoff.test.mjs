@@ -1,63 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createHash } from "node:crypto";
-import { execFileSync, spawn } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { createServer } from "node:net";
-import { join, resolve } from "node:path";
-import { generate } from "../scripts/orange.mjs";
+import { execFileSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { nativeHarness } from "./native-harness.mjs";
 import { fakeS3 } from "./native-s3.mjs";
-
-const workerDir = resolve(import.meta.dirname, "..");
-const root = resolve(workerDir, "../..");
-const bin = join(workerDir, "orange/node_modules/open-orange/dist/bin.js");
-const app = join(workerDir, "build/native/app");
-const digest = (text) => createHash("sha256").update(text).digest("hex");
-const md5 = (text) => createHash("md5").update(text).digest("hex");
-const BUCKETS = { MYCRATES: "stuff-mycrates", MYNPM: "stuff-mynpm", PYPI: "stuff-mypypi", OCI: "stuff-oci", OCI_BLOBS: "stuff-oci-blobs", MIRROR: "stuff-mirror" };
-const tailnet = { "x-oo-ingress": "tailnet", authorization: "Bearer coordinator" };
-
-async function freePort() {
-  const server = createServer();
-  await new Promise((ok) => server.listen(0, "127.0.0.1", ok));
-  const port = server.address().port;
-  await new Promise((ok) => server.close(ok));
-  return port;
-}
-
-async function startLegacy(directory, endpoint) {
-  const configPath = join(directory, "orange.jsonc");
-  const config = generate(configPath, "legacy");
-  Object.assign(config.vars, { STUFF_COORDINATOR_ENABLED: "true", STUFF_COORDINATOR_TOKEN: "coordinator", STUFF_PUBLISH_HOST: "publish.test", STUFF_S3_ACCESS_KEY_ID: "service", STUFF_S3_SECRET_ACCESS_KEY: "service-secret", S3_ENDPOINT: endpoint, S3_REGION: "us-east-1", S3_ACCESS_KEY_ID: "test", S3_SECRET_ACCESS_KEY: "test" });
-  writeFileSync(configPath, JSON.stringify(config));
-  const env = { ...process.env };
-  for (const name of Object.values(BUCKETS)) {
-    const prefix = `ORANGE_R2_${name.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_S3_`;
-    Object.assign(env, { [`${prefix}ENDPOINT`]: endpoint, [`${prefix}REGION`]: "us-east-1", [`${prefix}ACCESS_KEY_ID`]: "test", [`${prefix}SECRET_ACCESS_KEY`]: "test" });
-  }
-  const port = await freePort();
-  const child = spawn(process.execPath, [bin, "dev", "--json", "--ip", "127.0.0.1", "--port", String(port), "--config", configPath], { cwd: directory, env, stdio: ["ignore", "pipe", "pipe"] });
-  let logs = "";
-  await new Promise((ok, fail) => {
-    child.stdout.on("data", chunk => { logs += chunk; for (const line of logs.split("\n")) { try { const event = JSON.parse(line); if (event.type === "ready") ok(); if (event.type === "fatal") fail(new Error(line)); } catch (error) { if (!(error instanceof SyntaxError)) fail(error); } } });
-    child.stderr.on("data", chunk => { logs += chunk; });
-    child.once("exit", code => fail(new Error(`orange exited ${code}: ${logs}`)));
-    setTimeout(() => fail(new Error(`orange readiness timeout: ${logs}`)), 90000).unref();
-  });
-  return { port, child, stop: () => new Promise(ok => { if (child.exitCode !== null) return ok(); child.once("exit", ok); child.kill("SIGTERM"); }) };
-}
-
-function stage(s3, bucket, generation, files) {
-  const objects = Object.entries(files).map(([path, text]) => {
-    const key = `generations/${generation}/${path}`;
-    s3.put(bucket, key, text);
-    return { key, size: Buffer.byteLength(text), etag: md5(text) };
-  });
-  const manifest = JSON.stringify({ schemaVersion: 1, objects });
-  s3.put(bucket, `manifests/${generation}.json`, manifest);
-  return digest(manifest);
-}
+import { app, BUCKETS, controllerFixture, root, runController, stage, startLegacy, tailnet, workerDir } from "./handoff-fixture.mjs";
 
 test("writer handoff from the legacy Orange coordinator to the native host", { timeout: 300000 }, async (t) => {
   execFileSync(process.execPath, [join(workerDir, "scripts/build-native.mjs")], { cwd: workerDir, stdio: "ignore" });
@@ -145,4 +93,52 @@ test("writer handoff from the legacy Orange coordinator to the native host", { t
   assert.deepEqual((await op("cargo", "activate", { token: lease3.body.token, key: "native-g3", generation: "g3", manifest: g3, expectedRevision: 2 })).body, { revision: 3, generation: "g3", manifest: g3 });
   assert.equal(s3.get(BUCKETS.MYCRATES, "current"), "g3");
   assert.equal(await read(), '{"g":3}');
+});
+
+test("the handoff controller resumes after stopping at every durable step", { timeout: 300000 }, async (t) => {
+  const { directory, s3, native, configFile, op } = await controllerFixture(t);
+  const lease = await op("cargo", "begin", {});
+  const g1 = stage(s3, BUCKETS.MYCRATES, "g1", { "catalog.json": '{"g":1}' });
+  assert.equal((await op("cargo", "activate", { token: lease.body.token, key: "legacy-g1", generation: "g1", manifest: g1, expectedRevision: 0 })).status, 200);
+  const journalDir = join(directory, "journal");
+  for (const step of ["prepared", "frozen", "drained", "exported", "imported", "fenced", "transferred"]) {
+    const paused = await runController(configFile, journalDir, "run", step);
+    assert.equal(paused.status, 0, paused.output);
+    assert.match(paused.output, new RegExp(`"after":"${step}"`));
+  }
+  mkdirSync(journalDir, { recursive: true });
+  writeFileSync(join(journalDir, "controller.lock"), JSON.stringify({ token: "other", pid: 1, expires: Date.now() + 60000 }));
+  const refused = await runController(configFile, journalDir, "run");
+  assert.notEqual(refused.status, 0);
+  assert.match(refused.output, /lease held by other/);
+  writeFileSync(join(journalDir, "controller.lock"), JSON.stringify({ token: "stale", pid: 1, expires: Date.now() - 1000 }));
+  const finished = await runController(configFile, journalDir, "run");
+  assert.equal(finished.status, 0, finished.output);
+  const identity = await (await native.control("/identity")).json();
+  assert.equal(identity.authority.publication, "native");
+  const unwind = await runController(configFile, join(directory, "journal"), "unwind");
+  assert.notEqual(unwind.status, 0);
+  assert.match(unwind.output, /only a reverse handoff/);
+  const replay = await op("cargo", "activate", { token: "none", key: "legacy-g1", generation: "g1", manifest: g1, expectedRevision: 0 });
+  assert.deepEqual(replay.body, { revision: 1, generation: "g1", manifest: g1 });
+  const next = await op("cargo", "begin", {});
+  assert.equal(next.status, 200);
+  const g2 = stage(s3, BUCKETS.MYCRATES, "g2", { "catalog.json": '{"g":2}' });
+  assert.equal((await op("cargo", "activate", { token: next.body.token, key: "native-g2", generation: "g2", manifest: g2, expectedRevision: 1 })).status, 200);
+  assert.equal(s3.get(BUCKETS.MYCRATES, "current"), "g2");
+});
+
+test("a lease that outlives the drain deadline unwinds to the still-current writer", { timeout: 300000 }, async (t) => {
+  const { directory, native, configFile, op } = await controllerFixture(t, { drainDeadlineS: 6 });
+  const held = await op("npm", "begin", {});
+  assert.equal(held.status, 200);
+  const result = await runController(configFile, join(directory, "journal"), "run");
+  assert.notEqual(result.status, 0);
+  assert.match(result.output, /drain deadline passed with live leases on npm/);
+  const journal = readFileSync(join(directory, "journal/journal.jsonl"), "utf8");
+  assert.match(journal, /"kind":"unwound"/);
+  const identity = await (await native.control("/identity")).json();
+  assert.equal(identity.authority.publication, "legacy");
+  assert.equal((await op("cargo", "begin", {})).status, 200);
+  assert.equal((await op("npm", "renew", { token: held.body.token })).status, 200);
 });
