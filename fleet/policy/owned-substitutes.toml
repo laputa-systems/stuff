@@ -261,8 +261,8 @@ reason = "The git install in compat/allocator/Dockerfile.x86_64, docker/Dockerfi
 reassess = "When git-build ships HTTPS support with a release smoke test (STUF-127)."
 
 [exempt."joshuarli/crabc".producers."laputa-systems/python-build"]
-reason = "joshuarli/crabc's remaining Python install in compat/allocator/Dockerfile.x86_64, crt/Dockerfile.x86_64, docker/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "joshuarli/crabc's remaining Python install in compat/allocator/Dockerfile.x86_64, crt/Dockerfile.x86_64, docker/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."joshuarli/ctrs".producers."laputa-systems/git-build"]
 reason = "The git install in Dockerfile, scripts/setup-dev is needed for HTTPS fetch or clone; git-build omits HTTPS by product decision."
@@ -309,12 +309,12 @@ reason = "The owned clang in scripts/setup-dev is musl-targeted: in apt/glibc st
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."joshuarli/img".producers."laputa-systems/python-build"]
-reason = "joshuarli/img's remaining Python install in Dockerfile, scripts/setup-dev needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "joshuarli/img's remaining Python install in Dockerfile, scripts/setup-dev needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."joshuarli/ish".producers."laputa-systems/python-build"]
-reason = "joshuarli/ish's remaining Python install in Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "joshuarli/ish's remaining Python install in Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."joshuarli/kache".producers."laputa-systems/cmake-build"]
 reason = "CMake in .github/workflows/ci.yml is acquired from the distribution on this runner; cmake-build publishes musl and darwin assets but the stage is not yet wired through buildlib.setup with a verified lock (STUF-129)."
@@ -325,16 +325,16 @@ reason = "The Meson/Ninja install in .github/workflows/ci.yml runs on a runner o
 reassess = "When a matching gluon asset is wired through buildlib.setup for that runner (STUF-129)."
 
 [exempt."joshuarli/loc".producers."laputa-systems/python-build"]
-reason = "joshuarli/loc's remaining Python install in .github/workflows/mutation-trial.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "joshuarli/loc's remaining Python install in .github/workflows/mutation-trial.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."joshuarli/play".producers."laputa-systems/llvm-prebuilt-musl"]
 reason = "The owned clang in docker/linux/Dockerfile is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."joshuarli/play".producers."laputa-systems/python-build"]
-reason = "joshuarli/play's remaining Python install in docker/linux/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "joshuarli/play's remaining Python install in docker/linux/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."joshuarli/syncthing".producers."laputa-systems/git-build"]
 reason = "The git install in Dockerfile.builder is needed for HTTPS fetch or clone; git-build omits HTTPS by product decision."
@@ -349,8 +349,8 @@ reason = "The owned clang in docker/lab.Dockerfile is musl-targeted: in apt/glib
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."joshuarli/vpn".producers."laputa-systems/python-build"]
-reason = "joshuarli/vpn's remaining Python install in docker/lab.Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "joshuarli/vpn's remaining Python install in docker/lab.Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/asterinas".producers."laputa-systems/git-build"]
 reason = "The git install in osdk/tools/docker/Dockerfile is needed for HTTPS fetch or clone; git-build omits HTTPS by product decision."
@@ -361,24 +361,24 @@ reason = "The Meson/Ninja install in osdk/tools/docker/Dockerfile runs on a runn
 reassess = "When a matching gluon asset is wired through buildlib.setup for that runner (STUF-129)."
 
 [exempt."laputa-systems/asterinas".producers."laputa-systems/jaq"]
-reason = "The jq install in tools/dev_env/docker/kernel-dev/Dockerfile runs on a glibc host where the musl jaq binary from the owned-tools image cannot execute without a pinned loader (STUF-98)."
-reassess = "When a glibc-loadable owned jaq or a pinned musl loader is available (STUF-98)."
+reason = "The jq install in tools/dev_env/docker/kernel-dev/Dockerfile runs on a glibc host where the musl jaq binary from the owned-tools image cannot execute without a pinned loader (STUF-117)."
+reassess = "When a glibc-loadable owned jaq or a pinned musl loader is available (STUF-117)."
 
 [exempt."laputa-systems/asterinas".producers."laputa-systems/python-build"]
-reason = "laputa-systems/asterinas's remaining Python install in osdk/tools/docker/Dockerfile, tools/dev_env/docker/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/asterinas's remaining Python install in osdk/tools/docker/Dockerfile, tools/dev_env/docker/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/asterinas".producers."laputa-systems/ssh-build"]
 reason = "The OpenSSH install in tools/dev_env/docker/kernel-dev/Dockerfile needs a server binary; ssh-build ships client binaries only."
 reassess = "When ssh-build publishes an owned sshd (STUF-128)."
 
 [exempt."laputa-systems/cmake-build".producers."laputa-systems/python-build"]
-reason = "laputa-systems/cmake-build's remaining Python install in scripts/controller_coverage.py needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/cmake-build's remaining Python install in scripts/controller_coverage.py needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/crabtables".producers."laputa-systems/python-build"]
-reason = "laputa-systems/crabtables's remaining Python install in .github/workflows/ci.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/crabtables's remaining Python install in .github/workflows/ci.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/ffmpeg-build".producers."laputa-systems/cmake-build"]
 reason = "CMake in docker/Dockerfile is acquired from the distribution on this runner; cmake-build publishes musl and darwin assets but the stage is not yet wired through buildlib.setup with a verified lock (STUF-129)."
@@ -397,16 +397,16 @@ reason = "The owned clang in docker/Dockerfile is musl-targeted: in apt/glibc st
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."laputa-systems/ffmpeg-build".producers."laputa-systems/python-build"]
-reason = "laputa-systems/ffmpeg-build's remaining Python install in docker/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/ffmpeg-build's remaining Python install in docker/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/fz".producers."laputa-systems/python-build"]
-reason = "laputa-systems/fz's remaining Python install in Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/fz's remaining Python install in Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/git-build".producers."laputa-systems/jaq"]
-reason = "The jq install in scripts/install-jaq.sh runs on a glibc host where the musl jaq binary from the owned-tools image cannot execute without a pinned loader (STUF-98)."
-reassess = "When a glibc-loadable owned jaq or a pinned musl loader is available (STUF-98)."
+reason = "The jq install in scripts/install-jaq.sh runs on a glibc host where the musl jaq binary from the owned-tools image cannot execute without a pinned loader (STUF-117)."
+reassess = "When a glibc-loadable owned jaq or a pinned musl loader is available (STUF-117)."
 
 [exempt."laputa-systems/laputa".producers."laputa-systems/llvm-prebuilt-musl"]
 reason = "The owned clang in seed/Dockerfile.host-tools is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
@@ -417,8 +417,8 @@ reason = "The cache tool in docker/build.Dockerfile cannot come from the owned-t
 reassess = "When the owned-tools image carries kache (STUF-128)."
 
 [exempt."laputa-systems/llvm-prebuilt-musl".producers."laputa-systems/python-build"]
-reason = "laputa-systems/llvm-prebuilt-musl's remaining Python install in docker/build.Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/llvm-prebuilt-musl's remaining Python install in docker/build.Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/node-build".producers."laputa-systems/git-build"]
 reason = "The git install in .github/workflows/release.yml is needed for HTTPS fetch or clone; git-build omits HTTPS by product decision."
@@ -429,12 +429,12 @@ reason = "The owned clang in .github/workflows/release.yml is musl-targeted: in 
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."laputa-systems/node-build".producers."laputa-systems/python-build"]
-reason = "laputa-systems/node-build's remaining Python install in .github/workflows/release.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/node-build's remaining Python install in .github/workflows/release.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/ptytest".producers."laputa-systems/python-build"]
-reason = "laputa-systems/ptytest's remaining Python install in .github/workflows/mutation-trial.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/ptytest's remaining Python install in .github/workflows/mutation-trial.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/python-build".producers."laputa-systems/git-build"]
 reason = "The git install in rust-cpython/tools/cloud-ubuntu.Dockerfile is needed for HTTPS fetch or clone; git-build omits HTTPS by product decision."
@@ -449,16 +449,16 @@ reason = "The owned clang in scripts/setup-dev is musl-targeted: in apt/glibc st
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."laputa-systems/stuff".producers."laputa-systems/python-build"]
-reason = "laputa-systems/stuff's remaining Python install in .github/workflows/repomod-mutation-trial.yml, deploy/mypypi-linux.Dockerfile, docker/musl/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/stuff's remaining Python install in .github/workflows/repomod-mutation-trial.yml, deploy/mypypi-linux.Dockerfile, docker/musl/Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/xsh".producers."laputa-systems/llvm-prebuilt-musl"]
 reason = "The owned clang in dev/verify/aeneas/extract.Dockerfile is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."laputa-systems/xsh".producers."laputa-systems/python-build"]
-reason = "laputa-systems/xsh's remaining Python install in Dockerfile.test needs a minor or pip/venv support that python-build does not ship for this stage (STUF-98, STUF-123, STUF-128)."
-reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-98, STUF-123, STUF-128)."
+reason = "laputa-systems/xsh's remaining Python install in Dockerfile.test needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
+reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."laputa-systems/xsh".producers."laputa-systems/ssh-build"]
 reason = "The OpenSSH install in crates/oxish-client/fixture/Dockerfile needs a server binary; ssh-build ships client binaries only."

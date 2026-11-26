@@ -282,7 +282,7 @@ type=oci,dest=<dir>`) on an amd64 host, since the amd64 fetch stage dies with SI
 Silicon; then `stuff publish oci --layout <dir> --repository
 owned-tools --tag <tag>` and record the index digest in `fleet/policy/owned-tools-image.toml`.
 
-The campaign closed on 2026-11-26 with `repomod lint --rule owned-tool-substitution --rule buildlib-usage` clean across the catalog. Upstream installs that remain are recorded in `fleet/policy/owned-substitutes.toml` as reasoned exemptions tied to open producer tickets: STUF-98 (musl binaries on glibc hosts), STUF-123 (unavailable Python minors), STUF-126 (no glibc-targeted owned clang), STUF-127 (git without HTTPS), STUF-128 (missing tools in the owned-tools image) and STUF-129 (cmake and gluon pins for every runner). Removing an exemption requires closing the linked gap first; do not drop one to make the lint pass.
+The campaign closed on 2026-11-26 with `repomod lint --rule owned-tool-substitution --rule buildlib-usage` clean across the catalog. Upstream installs that remain are recorded in `fleet/policy/owned-substitutes.toml` as reasoned exemptions tied to open producer tickets: STUF-117 (musl binaries on glibc hosts), STUF-123 (unavailable Python minors), STUF-126 (no glibc-targeted owned clang), STUF-127 (git without HTTPS), STUF-128 (missing tools in the owned-tools image) and STUF-129 (cmake and gluon pins for every runner). Removing an exemption requires closing the linked gap first; do not drop one to make the lint pass.
 
 ## Owned tools
 
