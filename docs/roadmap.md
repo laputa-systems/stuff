@@ -305,6 +305,38 @@ copied pointer `02bfc28c…` to R2. The publisher had been restarted onto
 final artifact. The publisher was also stopped 05:19:50–05:21:47 for the
 restore drill's consistent copy; the first run retried through it.
 
+Post-cutover hardening (2026-11-26, after an independent review of
+`69fbf0a284..main`):
+
+- **Store credentials:**
+  - Readers now hold a store user with read-only bucket policies on the six
+    Stuff buckets, proved first on a scratch bucket.
+  - Readers run as `stuff-reader`, which cannot open `main.env`
+    (`4c9cebeacd`).
+  - Lisa's replica sync completed unchanged afterwards.
+- **Release `db5c4ad01313` (merge `bb011147f1`):**
+  - A handoff that fails during freeze now unwinds, and its hold budget
+    starts at the first freeze.
+  - Authority returns to legacy only when every native coordinator is frozen
+    and idle; admission is atomic with the authority check.
+  - Per-waiter admission deadlines and a bounded body on coordinator reads.
+  - Chunked GET/DELETE bodies are framed when proxied (closes a
+    request-smuggling path).
+  - Withdrawal persists in `/run/stuff-native/NAME/`.
+  - The publisher drain is 30 s; long blob streams are cut, coordinator
+    operations are never abandoned.
+  - Client disconnects are logged as `request_cancelled`.
+  - A ranged read requires 206.
+  - Per-minute event-loop samples.
+  - New `/healthz` under the Stats health contract.
+- **Rollout:** both readers rolled with no ingress reload, then the publisher
+  restarted in 1.2 s. 896 observer probes 10:15–10:24 UTC recorded no failure.
+- **Stats probe:** `https://stuff.17166969.xyz/healthz` probes `ok`.
+- **Follow-ups:**
+  - STUF-132: an interrupted OCI state pull is not resumable.
+  - STUF-133: the guest's idle memory is not returned to the host.
+  - STUF-134: both reader forwards share one tunnel.
+
 ## Campaign: Stuff primary on Threadripper
 
 ### Goal and state
