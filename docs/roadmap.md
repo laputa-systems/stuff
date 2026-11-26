@@ -289,6 +289,22 @@ this campaign), so its first native canary attempt correctly refused with a
 conflict and nothing was uploaded; canaries run with a fresh
 `STUFF_STATE_HOME`.
 
+Canary through the native authority: `stuff publish oci --layout` of a
+one-layer image to `native-canary-20261126:native-authority-b`. The first run
+(05:16:45) was killed by its own 50-minute `timeout` while pulling the
+registry's existing blobs (STUF-131), before any upload; OCI stayed at
+revision 15 and the upload lease expired. Reruns then failed with
+`integrity: No such file or directory` until the interrupted `site/` was moved
+aside (STUF-132). The run of 06:10:37–06:28:58 published generation
+`02bfc28c52e74efc5ace63aa` (27 objects, 133,545 bytes uploaded, 363 skipped):
+the coordinator reached revision 16 with 16 receipts and no lease, the tag and
+manifest resolve publicly, the layer blob changed from 404 `no-store` to 200
+`public, max-age=31536000, immutable` with its digest, and Lisa's replica sync
+copied pointer `02bfc28c…` to R2. The publisher had been restarted onto
+`0cd13c02ea11` at 06:07:16 (ready in 1.1 s), so the canary exercised the
+final artifact. The publisher was also stopped 05:19:50–05:21:47 for the
+restore drill's consistent copy; the first run retried through it.
+
 ## Campaign: Stuff primary on Threadripper
 
 ### Goal and state
