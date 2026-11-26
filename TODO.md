@@ -1,9 +1,27 @@
 Prefix: STUF
-Next: 130
+Next: 132
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
 Review priorities are reviewer-assigned; existing owner-assigned priorities are retained.
+
+### STUF-130 · P2 · Retire the OpenOrange stack from the Stuff guest after the native observation window
+
+- **Area:** Operations · Cleanup
+- **Where:** the Stuff guest (`oo-engine`, the stopped `oo-app.stuff` and its image, `/var/lib/openorange/engine`); Lisa's `oo-stuff-primary-tunnel` 18491 forward; docs/native-host.md
+- **Problem:** Since the 2026-11-26 05:14 UTC handoff the native publisher owns publication and nothing serves from `oo-app.stuff`, but the guest still runs its Engine and keeps the app unit, image and depot as the authority-recovery path, and Lisa still forwards 18491 to the stopped app.
+- **Recommendation:** After 24 hours of native observation without a reverse handoff, keep the five sealed exports and the handoff journal, stop and remove `oo-engine` from the guest runlevel, drop the 18491 forward from `oo-stuff-primary-tunnel` (its 18492 store forward feeds the replica sync), and decide whether to keep the depot as archive. Keep `oo-store` (Versity). Never restart `oo-app.stuff`: its coordinator would rewrite `current` from stale state.
+- **Fix with:** none
+- **Effort:** S
+
+### STUF-131 · P3 · Avoid re-reading every OCI blob on each OCI publication
+
+- **Area:** Publisher · OCI
+- **Where:** crates/stuff/src/publish/oci.rs
+- **Problem:** `stuff publish oci --layout` with a one-layer image downloaded the registry's existing blobs through the gateway (about 11 GB at roughly 3 MB/s, more than 15 minutes) before uploading anything, on 2026-11-26 both before and after the native handoff. Publication time grows with the registry's total blob size, and the long lease raises the chance that a handoff or maintenance hold has to wait.
+- **Recommendation:** Verify existing blobs by size and digest from the stored inventory (or by HEAD) instead of downloading them, keeping the integrity guarantee for blobs this publication adds.
+- **Fix with:** root-cause
+- **Effort:** M
 
 ## On hold
 
