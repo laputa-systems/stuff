@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 126
+Next: 130
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -291,6 +291,42 @@ The `crates-blobs.17166969.xyz` `/blobs/*` rule had the same flaw: a HEAD for an
 - **Recommendation:** Decide whether python-build publishes the older supported minors (3.11 to 3.14) as separate products in the same release; when it does, move tf to them through buildlib.tools and drop the exemption. python-build has no backlog yet, so this lives here.
 - **Fix with:** none
 - **Effort:** M
+
+### STUF-129 · P2 · Owned cmake and gluon assets are not wired into every runner stage
+
+- **Area:** producers · cmake-build, gluon
+- **Where:** brew and apt stages in joshuarli/crabc, joshuarli/ghostty, joshuarli/img, joshuarli/kache, laputa-systems/asterinas and laputa-systems/ffmpeg-build
+- **Problem:** cmake-build and gluon publish musl and darwin assets, but those stages acquire CMake and Meson/Ninja from the distribution because no verified `.github/tools.lock.json` and `buildlib/setup` step exists for them yet. They carry reasoned owned-tool-substitution exemptions in the meantime.
+- **Recommendation:** For each stage, add a buildlib setup step with producer-verified pins, verify the tool runs on that runner, and remove the corresponding exemption.
+- **Fix with:** none
+- **Effort:** M
+
+### STUF-126 · P2 · llvm-prebuilt-musl ships no glibc-targeted compiler for apt stages
+
+- **Area:** producers · llvm-prebuilt-musl
+- **Where:** laputa-systems/llvm-prebuilt-musl release targets; glibc Dockerfiles and apt stages across the fleet
+- **Problem:** The owned clang and mold are musl-targeted. When they replace `gcc`/`build-essential` in a Debian or Ubuntu stage, ld.lld cannot find `-lgcc_s` for Rust host build scripts, and compiling against glibc headers produces undefined `__isoc23_*` symbols (reproduced in joshuarli/tm#49). Those stages therefore keep the distribution compiler under reasoned owned-tool-substitution exemptions.
+- **Recommendation:** Publish a glibc-targeted clang (and linker) from an owned producer, with a release check that compiles a glibc C program and links a Rust host build script, then drop the affected exemptions.
+- **Fix with:** none
+- **Effort:** L
+
+### STUF-127 · P2 · git-build omits HTTPS, so HTTPS-fetching stages keep distribution git
+
+- **Area:** producers · git-build
+- **Where:** laputa-systems/git-build release feature set; consumers that clone or fetch over HTTPS
+- **Problem:** git-build ships relocatable git without HTTPS by product decision. Dockerfile stages that fetch dependencies or sources over HTTPS must keep the distribution git package, so they remain owned-tool-substitution findings.
+- **Recommendation:** Add HTTPS support to git-build with a release smoke test that clones a private HTTPS repository, then drop the affected exemptions.
+- **Fix with:** none
+- **Effort:** L
+
+### STUF-128 · P2 · The owned-tools image does not provide every substituted command
+
+- **Area:** producers · owned-tools image
+- **Where:** stuff `docker/owned-tools/Dockerfile`, `fleet/policy/owned-tools-image.toml`
+- **Problem:** The image ships cmake, cpython, fd, ffmpeg-runtime, git, gluon, jaq, llvm, mold and rg. Stages that need kache/ccache, an SSH server, pip or venv, or another minor of Python cannot drop their distribution packages, so they carry owned-tool-substitution exemptions.
+- **Recommendation:** Add the missing owned tools to the image and the package map (with release pins and smoke checks) — notably a pip/venv-capable cpython and ssh-build's server binaries — then drop the affected exemptions.
+- **Fix with:** none
+- **Effort:** L
 
 ### STUF-111 · P4 · stuff-server matches route prefixes against the raw request target
 

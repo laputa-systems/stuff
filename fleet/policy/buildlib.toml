@@ -278,3 +278,11 @@ reassess = "Reassess if it gains a native build or release artifact."
 [exempt."joshuarli/vpn"]
 reason = "Cargo builds and tests the tunnel; the oracle harness and benchmark drivers have no release artifact or multi-step packaging for buildlib to own."
 reassess = "Reassess if the oracle harness gains generated inputs or a published artifact."
+
+[exempt."joshuarli/tf"]
+reason = "Effectively-upstream Electron fork whose app and mobile builds are upstream npm scripts; its Python and Node findings are covered by owned-substitutes exemptions and STUF-123, and there is no Laputa-authored release step for buildlib to own."
+reassess = "When tf adds its own release or acquisition tooling, or python-build publishes the minors it pins."
+
+[exempt."laputa-systems/ast-grep"]
+reason = "The fork publishes its own static-pie release archives from upstream's cargo build; buildlib consumes those releases through the tool table rather than producing them, so there is no build step for buildlib to own."
+reassess = "When the release builder gains a buildlib-owned acquire or package step."
