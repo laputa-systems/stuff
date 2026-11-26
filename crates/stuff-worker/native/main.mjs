@@ -1,7 +1,7 @@
 import { registerHooks } from "node:module";
-import { createServer } from "node:http";
+import { createServer, request as httpRequest } from "node:http";
 import { createHash, timingSafeEqual } from "node:crypto";
-import { mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installDigestStream } from "./digest-stream.mjs";
 
@@ -59,10 +59,14 @@ function configuration(env) {
     role, release, sourceCommit: env.STUFF_NATIVE_SOURCE_COMMIT ?? "unknown",
     listen: address("STUFF_NATIVE_LISTEN", env.STUFF_NATIVE_LISTEN),
     control: address("STUFF_NATIVE_CONTROL", env.STUFF_NATIVE_CONTROL, { loopback: true }),
-    drainMs: Number(env.STUFF_NATIVE_DRAIN_S ?? "900") * 1000,
+    drainMs: Number(env.STUFF_NATIVE_DRAIN_S ?? (role === "publisher" ? "30" : "900")) * 1000,
     vars: { ...vars, STUFF_RELEASE: release, ...(publishHost ? { STUFF_PUBLISH_HOST: publishHost } : {}) },
     bindings, store, readStore, publishHost, telemetry,
+    runtimeDirectory: env.STUFF_NATIVE_RUNTIME_DIR ?? "/run/stuff-native",
+    name: env.STUFF_NATIVE_NAME ?? `${role}-${env.STUFF_NATIVE_LISTEN?.split(":").at(-1)}`,
   };
+  if (!/^[a-zA-Z0-9_-]+$/.test(config.name)) throw new ConfigError("STUFF_NATIVE_NAME must be a simple instance name");
+  if (!Number.isFinite(config.drainMs) || config.drainMs <= 0) throw new ConfigError("STUFF_NATIVE_DRAIN_S must be positive");
   if (role === "reader" && env.STUFF_NATIVE_PUBLICATION_UPSTREAM) {
     if (!publishHost) throw new ConfigError("STUFF_PUBLISH_HOST is required to forward publication");
     if (!/^127\.0\.0\.1:\d{1,5}$/.test(env.STUFF_NATIVE_PUBLICATION_UPSTREAM)) throw new ConfigError("STUFF_NATIVE_PUBLICATION_UPSTREAM must be a loopback HOST:PORT");
@@ -82,8 +86,8 @@ function artifactDigest() {
   return createHash("sha256").update(manifest).digest("hex");
 }
 
-function bucketsFor(config, store, counters, wrap) {
-  return Object.fromEntries(Object.entries(config.bindings).map(([binding, name]) => [binding, wrap(s3Bucket(store, name, counters))]));
+function bucketsFor(config, store, counters, wrap, options) {
+  return Object.fromEntries(Object.entries(config.bindings).map(([binding, name]) => [binding, wrap(s3Bucket(store, name, counters, options))]));
 }
 
 function tokenMatches(supplied, token) {
@@ -115,25 +119,98 @@ async function main() {
   const startedAt = new Date().toISOString();
   const digest = artifactDigest();
   const readerEnv = Object.freeze({ ...config.vars, ...config.telemetry, STUFF_COORDINATOR_ENABLED: "false", ...bucketsFor(config, config.readStore, counters, readOnly) });
+  const healthBuckets = bucketsFor(config, config.readStore, counters, readOnly, { readDeadlineMs: 400 });
   let coordinators = null;
   let publisherEnv = null;
   let authority = null;
   let proxy = null;
   let legacyInFlight = 0;
+  let nativeInFlight = 0;
   if (config.role === "publisher") {
     mkdirSync(config.state, { recursive: true, mode: 0o700 });
     authority = new AuthorityRecord(config.state);
     const storeEnv = { ...config.store, STUFF_S3_BUCKET_BINDINGS: config.vars.STUFF_S3_BUCKET_BINDINGS };
     const writable = bucketsFor(config, config.store, counters, bucket => bucket);
-    coordinators = new CoordinatorNamespace({ directory: join(config.state, "coordinators"), env: { ...storeEnv, ...writable }, counters });
+    const coordinatorBuckets = bucketsFor(config, config.store, counters, bucket => bucket, { readDeadlineMs: 30_000 });
+    coordinators = new CoordinatorNamespace({ directory: join(config.state, "coordinators"), env: { ...storeEnv, ...coordinatorBuckets }, counters });
     coordinators.openAll();
     publisherEnv = Object.freeze({ ...config.vars, ...config.telemetry, ...storeEnv, ...config.publication, ...writable, STUFF_COORDINATOR_ENABLED: "true", COORDINATOR: coordinators });
   }
   const publicationProxy = config.publicationUpstream === undefined ? null : proxyTo(config.publicationUpstream);
   const pending = new Set();
+  const blobReads = new Set();
   const context = { waitUntil(promise) { const tracked = Promise.resolve(promise).catch(() => undefined).finally(() => pending.delete(tracked)); pending.add(tracked); } };
   let draining = false;
-  let withdrawn = false;
+  const withdrawal = join(config.runtimeDirectory, `${config.name}.withdrawn`);
+  let withdrawn = config.role === "reader" && existsSync(withdrawal);
+  let healthResult = null;
+  let healthUntil = 0;
+  let publisherHealthResult = null;
+  let publisherHealthUntil = 0;
+  const publisherHealth = () => {
+    if (publisherHealthResult !== null && Date.now() < publisherHealthUntil) return publisherHealthResult;
+    publisherHealthUntil = Date.now() + 1000;
+    publisherHealthResult = new Promise(resolve => {
+      if (!config.publicationUpstream) { resolve(null); return; }
+      const req = httpRequest(`http://${config.publicationUpstream}/healthz`, { headers: { host: config.publishHost, "x-oo-ingress": "tailnet" }, signal: AbortSignal.timeout(400) }, response => {
+        let body = "";
+        response.setEncoding("utf8");
+        response.on("data", chunk => { body += chunk; if (Buffer.byteLength(body) > 4096) req.destroy(); });
+        response.on("end", () => {
+          try { const value = JSON.parse(body); resolve(value.service === "stuff" && value.role === "publisher" && ["ok", "degraded", "down"].includes(value.status) ? value : null); }
+          catch { resolve(null); }
+        });
+        response.on("error", () => resolve(null));
+      });
+      req.on("error", () => resolve(null));
+      req.end();
+    });
+    return publisherHealthResult;
+  };
+  const check = async (run, failure = "down") => {
+    const start = performance.now();
+    let timer;
+    try {
+      const result = await Promise.race([run(), new Promise(resolve => { timer = setTimeout(() => resolve({ status: failure }), 450); })]);
+      return { ...result, ms: Math.min(450, Math.round(performance.now() - start)) };
+    } catch { return { status: failure, ms: Math.min(450, Math.round(performance.now() - start)) }; }
+    finally { clearTimeout(timer); }
+  };
+  const health = () => {
+    if (healthResult !== null && Date.now() < healthUntil) return healthResult;
+    healthUntil = Date.now() + 1000;
+    healthResult = (async () => {
+      const store = check(async () => {
+        const bindings = ["MYCRATES", "MYNPM", "PYPI", "OCI", "MIRROR"];
+        const results = await Promise.all(bindings.map(async name => {
+          try { const object = await healthBuckets[name].get("current"); if (object === null) return false; await object.text(); return true; } catch { return false; }
+        }));
+        const succeeded = results.filter(Boolean).length;
+        return { status: succeeded === bindings.length ? "ok" : succeeded === 0 ? "down" : "degraded" };
+      });
+      const checks = config.role === "reader" ? {
+        store,
+        publisher: check(async () => {
+          const result = await publisherHealth();
+          return { status: result?.status === "ok" ? "ok" : "degraded" };
+        }, "degraded"),
+        draining: check(async () => ({ status: draining || withdrawn ? "down" : "ok" })),
+      } : {
+        store,
+        coordinators: check(async () => {
+          const instances = Object.values(coordinators.inspect());
+          if (instances.some(instance => !instance.opened)) return { status: "down" };
+          return { status: instances.some(instance => instance.waiting > 128 || (instance.active && Date.now() - instance.active.since > 120000)) ? "degraded" : "ok" };
+        }),
+        authority: check(async () => ({ status: "ok", detail: new AuthorityRecord(config.state).value.publication })),
+      };
+      const resolved = Object.fromEntries(await Promise.all(Object.entries(checks).map(async ([name, result]) => [name, await result])));
+      const values = Object.values(resolved).map(item => item.status);
+      const status = values.includes("down") ? "down" : values.includes("degraded") ? "degraded" : "ok";
+      return { status, service: "stuff", role: config.role, release: config.release.slice(0, 128), checks: resolved };
+    })();
+    return healthResult;
+  };
 
   const server = createServer({ requestTimeout: 0, headersTimeout: 60_000, keepAliveTimeout: 65_000 }, async (incoming, outgoing) => {
     const started = performance.now();
@@ -149,6 +226,28 @@ async function main() {
       if (target.pathname === READY_PATH && /^127\.0\.0\.1$/.test(target.hostname) && (incoming.method === "GET" || incoming.method === "HEAD")) {
         route = "ready";
         json(outgoing, draining || withdrawn ? 503 : 200, { ready: !(draining || withdrawn), release: config.release });
+        return;
+      }
+      if (incoming.method === "GET" && target.pathname === "/healthz") {
+        if (target.hostname === config.publishHost) {
+          if (incoming.headers["x-oo-ingress"] !== "tailnet") { json(outgoing, 404, { error: "not found" }); return; }
+          if (config.role === "reader") {
+            route = "health-forward";
+            const result = await publisherHealth() ?? { status: "down", service: "stuff", role: "publisher", release: config.release.slice(0, 128), checks: { publisher: { status: "down", ms: 400 } } };
+            json(outgoing, result.status === "down" ? 503 : 200, result);
+            return;
+          }
+        } else if (target.hostname !== "stuff.17166969.xyz" || config.role !== "reader") {
+          json(outgoing, 404, { error: "not found" }); return;
+        }
+        route = "health";
+        let result = await health();
+        if (config.role === "reader") {
+          const checks = { ...result.checks, draining: { status: draining || withdrawn ? "down" : "ok", ms: 0 } };
+          const values = Object.values(checks).map(item => item.status);
+          result = { ...result, status: values.includes("down") ? "down" : values.includes("degraded") ? "degraded" : "ok", checks };
+        }
+        json(outgoing, result.status === "down" ? 503 : 200, result);
         return;
       }
       if (config.publishHost !== undefined && isPublicationRequest(target, config.publishHost)) {
@@ -169,14 +268,21 @@ async function main() {
           return;
         }
         const request = requestFrom(incoming, abort.signal);
-        await writeResponse(outgoing, await worker.fetch(request, publisherEnv, context), request.method, counters);
+        if (incoming.method === "GET" && target.pathname.startsWith("/_s3/")) {
+          blobReads.add(outgoing);
+          outgoing.once("close", () => blobReads.delete(outgoing));
+        }
+        nativeInFlight += 1;
+        let response;
+        try { response = await worker.fetch(request, publisherEnv, context); } finally { nativeInFlight -= 1; }
+        await writeResponse(outgoing, response, request.method, counters);
         return;
       }
       const request = requestFrom(incoming, abort.signal);
       await writeResponse(outgoing, await worker.fetch(request, readerEnv, context), request.method, counters);
     } catch (error) {
       const target = targetOf(incoming);
-      console.error(JSON.stringify({ event: "request_failed", at: new Date().toISOString(), route, method: incoming.method, host: target?.hostname ?? null, path: target?.pathname.slice(0, 256) ?? null, range: incoming.headers.range !== undefined, conditional: incoming.headers["if-none-match"] !== undefined || incoming.headers["if-modified-since"] !== undefined, name: error instanceof Error ? error.name : typeof error, message: error instanceof Error ? error.message.slice(0, 200) : "", stack: error instanceof Error ? (error.stack ?? "").split("\n").slice(1, 8).map(line => line.trim().replace(/\(file:\/\/[^)]*\/app\//, "(")) : [] }));
+      console.error(JSON.stringify({ event: abort.signal.aborted || incoming.aborted ? "request_cancelled" : "request_failed", at: new Date().toISOString(), route, method: incoming.method, host: target?.hostname ?? null, path: target?.pathname.slice(0, 256) ?? null, range: incoming.headers.range !== undefined, conditional: incoming.headers["if-none-match"] !== undefined || incoming.headers["if-modified-since"] !== undefined, name: error instanceof Error ? error.name : typeof error, message: error instanceof Error ? error.message.slice(0, 200) : "", stack: error instanceof Error ? (error.stack ?? "").split("\n").slice(1, 8).map(line => line.trim().replace(/\(file:\/\/[^)]*\/app\//, "(")) : [] }));
       if (!outgoing.headersSent) {
         if (route === "read") json(outgoing, 500, { error: "request failed" });
         else { outgoing.setHeader("retry-after", String(PUBLICATION_RETRY_AFTER_S)); json(outgoing, 503, { error: "publication temporarily unavailable" }); }
@@ -195,7 +301,12 @@ async function main() {
       if (incoming.method === "GET" && url.pathname === "/metrics") return json(outgoing, 200, { identity: identity(), legacyInFlight, ...counters.snapshot() });
       if (incoming.method === "POST" && (url.pathname === "/withdraw" || url.pathname === "/restore")) {
         if (config.controlToken !== undefined && !tokenMatches(incoming.headers.authorization, config.controlToken)) return json(outgoing, 401, { error: "unauthorized" });
-        withdrawn = url.pathname === "/withdraw";
+        const next = url.pathname === "/withdraw";
+        if (config.role === "reader") {
+          if (next) { mkdirSync(config.runtimeDirectory, { recursive: true, mode: 0o750 }); writeFileSync(withdrawal, "withdrawn\n", { mode: 0o600 }); }
+          else rmSync(withdrawal, { force: true });
+        }
+        withdrawn = next;
         console.log(JSON.stringify({ event: withdrawn ? "withdrawn" : "restored", at: new Date().toISOString() }));
         return json(outgoing, 200, { withdrawn, draining });
       }
@@ -217,7 +328,7 @@ async function main() {
         const body = await readJson(incoming, 4096);
         if (!PUBLICATION_MODES.includes(body.publication) || typeof body.reason !== "string" || body.reason === "") return json(outgoing, 400, { error: "bad request" });
         if (legacyInFlight > 0) return json(outgoing, 409, { error: "legacy publication requests in flight", legacyInFlight });
-        if (body.publication === "legacy" && coordinators.busy()) return json(outgoing, 409, { error: "native coordinator operations in flight" });
+        if (body.publication === "legacy" && (nativeInFlight > 0 || coordinators.busy() || Object.values(coordinators.inspect()).some(instance => !instance.opened || !instance.frozen))) return json(outgoing, 409, { error: "native coordinators must be frozen and idle" });
         try {
           const next = authority.change(body.expectedGeneration, { publication: body.publication, reason: body.reason, ...(body.publication === "legacy" ? { legacyUpstream: body.legacyUpstream } : {}) });
           console.log(JSON.stringify({ event: "authority_changed", generation: next.generation, publication: next.publication, reason: next.reason }));
@@ -240,7 +351,7 @@ async function main() {
   const sum = (values) => Object.values(values ?? {}).reduce((total, value) => total + value, 0);
   const delta = (now, before) => Math.max(0, Math.round(now - before));
   const sampler = setInterval(() => {
-    const now = counters.snapshot();
+    const now = counters.snapshot({ sample: true });
     const requests = now.http.requests;
     const errors = Object.entries(requests).filter(([key]) => key.endsWith(":5xx")).reduce((total, [, value]) => total + value, 0);
     const errorsBefore = Object.entries(previous.http.requests).filter(([key]) => key.endsWith(":5xx")).reduce((total, [, value]) => total + value, 0);
@@ -283,7 +394,8 @@ async function main() {
     server.closeIdleConnections();
     const deadline = setTimeout(() => {
       console.error(JSON.stringify({ event: "drain_deadline", activeRequests: counters.activeRequests, activeStreams: counters.activeStreams }));
-      server.closeAllConnections();
+      if (config.role === "publisher") for (const response of blobReads) response.destroy();
+      else server.closeAllConnections();
     }, config.drainMs);
     const idle = setInterval(() => server.closeIdleConnections(), 1000);
     await closed;

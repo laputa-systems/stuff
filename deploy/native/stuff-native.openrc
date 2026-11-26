@@ -16,13 +16,21 @@ error_log="/var/log/stuff-native/${STUFF_INSTANCE}.log"
 respawn_delay=3
 respawn_max=0
 respawn_period=60
-retry="TERM/${stuff_drain_s:-900}/KILL/5"
+if [ "${stuff_role}" = publisher ]; then
+	drain_s="${stuff_drain_s:-30}"
+	retry="TERM/$((drain_s + 5))"
+else
+	drain_s="${stuff_drain_s:-900}"
+	retry="TERM/${drain_s}/KILL/5"
+fi
 
 export STUFF_NATIVE_ENV_FILE="${stuff_env}"
 export STUFF_NATIVE_ROLE="${stuff_role}"
+export STUFF_NATIVE_NAME="${STUFF_INSTANCE}"
+export STUFF_NATIVE_RUNTIME_DIR="/run/stuff-native/${STUFF_INSTANCE}"
 export STUFF_NATIVE_LISTEN="${stuff_listen}"
 export STUFF_NATIVE_CONTROL="${stuff_control}"
-export STUFF_NATIVE_DRAIN_S="${stuff_drain_s:-900}"
+export STUFF_NATIVE_DRAIN_S="${drain_s}"
 export STUFF_RELEASE="native-${stuff_release}"
 [ -n "${stuff_state}" ] && export STUFF_NATIVE_STATE="${stuff_state}"
 [ -n "${stuff_source_commit}" ] && export STUFF_NATIVE_SOURCE_COMMIT="${stuff_source_commit}"
@@ -38,13 +46,15 @@ start_pre() {
 	[ -r "${stuff_env}" ] || { eerror "missing ${stuff_env}"; return 1; }
 	checkpath --directory --owner root:root --mode 0755 /var/log/stuff-native
 	checkpath --file --owner "${command_user}" --mode 0600 "${output_log}"
+	checkpath --directory --owner root:root --mode 0755 /run/stuff-native
+	checkpath --directory --owner "${command_user}" --mode 0700 "${STUFF_NATIVE_RUNTIME_DIR}"
 	[ -z "${stuff_state}" ] || checkpath --directory --owner stuff-native:stuff-native --mode 0700 "${stuff_state}"
 }
 
 start_post() {
 	i=0
 	while [ "$i" -lt 60 ]; do
-		wget -q -T 2 -O /dev/null "http://${stuff_control}/ready" && return 0
+		wget -q -T 2 -O /dev/null "http://${stuff_control}/identity" && return 0
 		i=$((i + 1))
 		sleep 1
 	done

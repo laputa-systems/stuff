@@ -66,6 +66,7 @@ export function proxyTo(upstream) {
       const existing = headers[name];
       headers[name] = existing === undefined ? incoming.rawHeaders[index + 1] : [].concat(existing, incoming.rawHeaders[index + 1]);
     }
+    if (incoming.headers["transfer-encoding"] !== undefined && incoming.headers["content-length"] === undefined) headers["transfer-encoding"] = "chunked";
     const proxied = httpRequest({ host, port: Number(port), method: incoming.method, path: incoming.url, headers, agent }, upstreamResponse => {
       const responseHeaders = {};
       for (let index = 0; index + 1 < upstreamResponse.rawHeaders.length; index += 2) {

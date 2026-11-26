@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createHash, createHmac } from "node:crypto";
-import { createServer } from "node:http";
-import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
+import { createServer, request as httpRequest } from "node:http";
+import { connect } from "node:net";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
@@ -163,6 +164,74 @@ test("a native activation is durable across SIGKILL and replays its receipt", as
   assert.equal(await reader.text(), "<p>2</p>");
 });
 
+test("legacy authority requires every native coordinator to be frozen", async (t) => {
+  const directory = stateDirectory(t);
+  initAuthority(directory, "native");
+  const harness = nativeHarness({}, { role: "publisher", directory });
+  t.after(() => harness.close());
+  await harness.listen();
+  const response = await harness.control("/authority", { method: "POST", body: JSON.stringify({ expectedGeneration: 1, publication: "legacy", legacyUpstream: "127.0.0.1:9", reason: "test" }) });
+  assert.equal(response.status, 409);
+  assert.equal((await (await harness.control("/identity")).json()).authority.publication, "native");
+});
+
+test("authority flip cannot overtake an admitted native request", { timeout: 15000 }, async (t) => {
+  const directory = stateDirectory(t);
+  initAuthority(directory, "native");
+  const legacy = createServer((req, res) => { res.writeHead(201, { "content-type": "application/json" }); res.end('{"legacy":true}'); });
+  await new Promise(resolve => legacy.listen(0, "127.0.0.1", resolve));
+  t.after(() => new Promise(resolve => legacy.close(resolve)));
+  const block = join(directory, "block");
+  const entered = join(directory, "entered");
+  const release = join(directory, "release");
+  const preload = join(directory, "delay-auth.mjs");
+  writeFileSync(preload, `import fs from "node:fs"; const digest = crypto.subtle.digest.bind(crypto.subtle); crypto.subtle.digest = async (algorithm, data) => { if (fs.existsSync(${JSON.stringify(block)}) && new TextDecoder().decode(data) === "Bearer coordinator") { fs.writeFileSync(${JSON.stringify(entered)}, ""); while (!fs.existsSync(${JSON.stringify(release)})) await new Promise(resolve => setTimeout(resolve, 10)); } return digest(algorithm, data); };`);
+  const harness = nativeHarness({}, { role: "publisher", directory, env: { NODE_OPTIONS: `--import=${preload}` } });
+  t.after(() => harness.close());
+  await harness.listen();
+  for (const registry of ["cargo", "npm", "pypi", "oci", "mirror"]) assert.equal((await publication(harness, registry, "freeze", {})).status, 200);
+  writeFileSync(block, "");
+  const admitted = publication(harness, "cargo", "current");
+  try {
+    const deadline = Date.now() + 5000;
+    while (!existsSync(entered) && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 10));
+    assert.equal(existsSync(entered), true);
+    const change = () => harness.control("/authority", { method: "POST", body: JSON.stringify({ expectedGeneration: 1, publication: "legacy", legacyUpstream: `127.0.0.1:${legacy.address().port}`, reason: "test" }) });
+    assert.equal((await change()).status, 409);
+    writeFileSync(release, "");
+    assert.equal((await admitted).status, 200);
+    assert.equal((await change()).status, 200);
+    assert.equal((await publication(harness, "cargo", "current")).status, 201);
+  } finally { writeFileSync(release, ""); await admitted.catch(() => undefined); }
+});
+
+test("failed authority initialization leaves no authority record", (t) => {
+  const directory = stateDirectory(t);
+  const modulePath = new URL("../native/authority.mjs", import.meta.url).href;
+  const code = `import fs from "node:fs"; import { syncBuiltinESMExports } from "node:module"; fs.writeFileSync = () => { throw new Error("injected write failure"); }; syncBuiltinESMExports(); const { AuthorityRecord } = await import(${JSON.stringify(modulePath)}); try { AuthorityRecord.initialize(${JSON.stringify(directory)}, { publication: "native", reason: "test" }); } catch {}`;
+  execFileSync(process.execPath, ["--input-type=module", "-e", code]);
+  assert.equal(existsSync(join(directory, "authority.json")), false);
+});
+
+test("a waiting coordinator request expires before the active operation finishes", { timeout: 40000 }, async (t) => {
+  const directory = stateDirectory(t);
+  initAuthority(directory, "native");
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  s3.faults.push({ method: "GET", bucket: "mynpm", key: "current", delayMs: 24000 });
+  const harness = await nativePublisher(t, directory, s3, endpoint);
+  const active = publication(harness, "npm", "current");
+  while (!s3.log.some(item => item.bucket === "mynpm" && item.key === "current")) await new Promise(resolve => setTimeout(resolve, 10));
+  let finished = false;
+  void active.finally(() => { finished = true; });
+  const waiting = await publication(harness, "npm", "current");
+  assert.equal(waiting.status, 503);
+  assert.equal(waiting.headers.get("retry-after"), "5");
+  assert.equal(finished, false);
+  await active;
+});
+
 test("a failed projection is committed as pending, repaired, and replayed after a lost response", async (t) => {
   const directory = stateDirectory(t);
   initAuthority(directory, "native");
@@ -235,6 +304,23 @@ test("SIGTERM drains an in-flight download to its last byte before exiting", asy
   await assert.rejects(send(harness.ports.listen.port, "https://npm.test/tarballs/abc.tgz"));
 });
 
+test("a disconnected streaming client is reported as cancelled", async (t) => {
+  const harness = nativeHarness();
+  t.after(() => harness.close());
+  await harness.listen();
+  await seed(harness);
+  harness.s3.put("mynpm", "tarballs/cancel.tgz", "x".repeat(16 * 1024 * 1024));
+  await new Promise((resolve, reject) => {
+    const socket = connect(harness.ports.listen.port, "127.0.0.1", () => socket.write("GET /tarballs/cancel.tgz HTTP/1.1\r\nHost: npm.test\r\n\r\n"));
+    socket.once("data", () => { socket.destroy(); resolve(); });
+    socket.on("error", reject);
+  });
+  const deadline = Date.now() + 3000;
+  while (!harness.output.includes('"event":"request_cancelled"') && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 20));
+  assert.match(harness.output, /"event":"request_cancelled"/);
+  assert.doesNotMatch(harness.output, /"event":"request_failed"/);
+});
+
 const quote = (s) => encodeURIComponent(s).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
 const hmac = (key, value) => createHmac("sha256", key).update(value).digest();
 function signedHeaders(method, path, body, token, overrides = {}) {
@@ -249,6 +335,35 @@ function signedHeaders(method, path, body, token, overrides = {}) {
   const signature = createHmac("sha256", key).update(["AWS4-HMAC-SHA256", date, scope, digest(canonical)].join("\n")).digest("hex");
   return { ...headers, "x-oo-ingress": "tailnet", authorization: `AWS4-HMAC-SHA256 Credential=service/${date.slice(0, 8)}/auto/s3/aws4_request, SignedHeaders=${names.join(";")}, Signature=${signature}` };
 }
+
+test("publisher shutdown cuts blob streams without abandoning a coordinator", { timeout: 10000 }, async (t) => {
+  const directory = stateDirectory(t);
+  initAuthority(directory, "native");
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  s3.put("mycrates", "blob", "x".repeat(16 * 1024 * 1024));
+  const harness = nativeHarness({}, { role: "publisher", directory, s3, endpoint, drainS: 0.1 });
+  t.after(() => harness.close());
+  await harness.listen();
+  const path = "/_s3/mycrates/blob";
+  const response = await new Promise((resolve, reject) => {
+    const req = httpRequest({ host: "127.0.0.1", port: harness.ports.listen.port, path, headers: signedHeaders("GET", path, "") }, resolve);
+    req.on("error", reject);
+    req.end();
+  });
+  assert.equal(response.statusCode, 200);
+  response.pause();
+  const closed = new Promise(resolve => response.once("close", resolve));
+  s3.faults.push({ method: "GET", bucket: "mynpm", key: "current", delayMs: 800 });
+  const operation = publication(harness, "npm", "current");
+  while (!s3.log.some(item => item.bucket === "mynpm" && item.key === "current")) await new Promise(resolve => setTimeout(resolve, 10));
+  const stopped = harness.stop("SIGTERM");
+  setTimeout(() => response.resume(), 400);
+  await closed;
+  assert.equal((await operation).status, 200);
+  assert.equal(await stopped, 0);
+});
 
 test("the native gateway streams verified uploads and fences mutations to the lease", async (t) => {
   const directory = stateDirectory(t);
@@ -299,6 +414,98 @@ test("an object body survives garbage collection of the store response until it 
   for (const object of objects) assert.equal(await new Response(object.body).text(), body);
 });
 
+test("a ranged bucket read rejects a store that ignores Range", async (t) => {
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  s3.faults.push({ method: "GET", bucket: "mynpm", key: "object", status: 200 });
+  const { s3Bucket } = await import(join(app, "native/bucket.mjs"));
+  const bucket = s3Bucket({ S3_ENDPOINT: endpoint, S3_REGION: "us-east-1", S3_ACCESS_KEY_ID: "test", S3_SECRET_ACCESS_KEY: "test" }, "mynpm");
+  await assert.rejects(bucket.get("object", { range: { offset: 0, length: 1 } }), /store GET answered 200/);
+});
+
+test("coordinator bucket reads bound the response body", async (t) => {
+  const store = createServer((req, res) => {
+    res.writeHead(200, { "content-length": "2" });
+    res.flushHeaders();
+    setTimeout(() => res.end("ok"), 300);
+  });
+  await new Promise(resolve => store.listen(0, "127.0.0.1", resolve));
+  t.after(() => { store.closeAllConnections(); return new Promise(resolve => store.close(resolve)); });
+  const { s3Bucket } = await import(join(app, "native/bucket.mjs"));
+  const bucket = s3Bucket({ S3_ENDPOINT: `http://127.0.0.1:${store.address().port}`, S3_REGION: "us-east-1", S3_ACCESS_KEY_ID: "test", S3_SECRET_ACCESS_KEY: "test" }, "mynpm", undefined, { readDeadlineMs: 100 });
+  const object = await bucket.get("current");
+  await assert.rejects(object.text());
+});
+
+test("metrics snapshots do not reset the minute event-loop sample", async () => {
+  const { createCounters } = await import(join(app, "native/counters.mjs"));
+  const counters = createCounters();
+  try {
+    await new Promise(resolve => setTimeout(resolve, 30));
+    const until = performance.now() + 80;
+    while (performance.now() < until) {}
+    counters.snapshot();
+    await new Promise(resolve => setTimeout(resolve, 30));
+    const sample = counters.snapshot({ sample: true });
+    assert.ok(sample.eventLoop.utilizationSinceLastSnapshot > 0.25);
+    assert.ok(sample.eventLoop.delayMaxMs > 50);
+    await new Promise(resolve => setTimeout(resolve, 30));
+    assert.ok(counters.snapshot({ sample: true }).eventLoop.delayMaxMs < 50);
+  } finally { counters.close(); }
+});
+
+test("parity without a limit attempts its first request", () => {
+  const script = fileURLToPath(new URL("../../../deploy/native/parity.mjs", import.meta.url));
+  assert.throws(() => execFileSync(process.execPath, [script, "127.0.0.1:1", "127.0.0.1:1"], { stdio: "pipe" }), /Command failed/);
+});
+
+test("native suite runner executes all suites after a failure", { timeout: 120000 }, (t) => {
+  const directory = stateDirectory(t);
+  const preload = join(directory, "suite-preload.mjs");
+  const log = join(directory, "suites.txt");
+  writeFileSync(preload, `import child from "node:child_process"; import fs from "node:fs"; import { syncBuiltinESMExports } from "node:module"; const run = child.execFileSync; child.execFileSync = (command, args, options) => { const name = args?.find(value => /^test\\/(native|native-handoff|runtime)\\.test\\.mjs$/.test(value)); if (!name) return run(command, args, options); fs.appendFileSync(${JSON.stringify(log)}, name + "\\n"); if (name === "test/native.test.mjs") throw new Error("injected failure"); return Buffer.alloc(0); }; syncBuiltinESMExports();`);
+  const root = fileURLToPath(new URL("..", import.meta.url));
+  assert.throws(() => execFileSync(process.execPath, ["scripts/build-native.mjs", "--test"], { cwd: root, env: { ...process.env, NODE_OPTIONS: `--import=${preload}` }, stdio: "pipe" }));
+  assert.deepEqual(readFileSync(log, "utf8").trim().split("\n"), ["test/native.test.mjs", "test/native-handoff.test.mjs", "test/runtime.test.mjs"]);
+});
+
+test("native suite runner names the missing handoff prerequisite", { timeout: 120000 }, (t) => {
+  const directory = stateDirectory(t);
+  const preload = join(directory, "missing-orange.mjs");
+  writeFileSync(preload, `import child from "node:child_process"; import fs from "node:fs"; import { syncBuiltinESMExports } from "node:module"; const exists = fs.existsSync; const run = child.execFileSync; fs.existsSync = path => String(path).endsWith("orange/node_modules/open-orange/dist/bin.js") ? false : exists(path); child.execFileSync = (command, args, options) => args?.includes("--test") ? Buffer.alloc(0) : run(command, args, options); syncBuiltinESMExports();`);
+  const root = fileURLToPath(new URL("..", import.meta.url));
+  let error;
+  try { execFileSync(process.execPath, ["scripts/build-native.mjs", "--test"], { cwd: root, env: { ...process.env, NODE_OPTIONS: `--import=${preload}` }, stdio: "pipe" }); }
+  catch (caught) { error = caught; }
+  assert.match(error?.stderr?.toString() ?? "", /pnpm --dir orange install --frozen-lockfile/);
+});
+
+test("a chunked GET body cannot become another upstream request", async (t) => {
+  const seen = [];
+  const upstream = createServer(async (req, res) => {
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    seen.push({ path: req.url, body: Buffer.concat(chunks).toString() });
+    res.end("ok");
+  });
+  await new Promise(resolve => upstream.listen(0, "127.0.0.1", resolve));
+  t.after(() => new Promise(resolve => upstream.close(resolve)));
+  const { proxyTo } = await import(join(app, "native/host.mjs"));
+  const forward = proxyTo(`127.0.0.1:${upstream.address().port}`);
+  const proxy = createServer((req, res) => { void forward(req, res).catch(() => res.destroy()); });
+  await new Promise(resolve => proxy.listen(0, "127.0.0.1", resolve));
+  t.after(() => new Promise(resolve => proxy.close(resolve)));
+  const payload = "GET /smuggled HTTP/1.1\r\nHost: internal\r\n\r\n";
+  await new Promise((resolve, reject) => {
+    const socket = connect(proxy.address().port, "127.0.0.1", () => socket.write(`GET /first HTTP/1.1\r\nHost: external\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n${Buffer.byteLength(payload).toString(16)}\r\n${payload}\r\n0\r\n\r\n`));
+    socket.on("data", () => {});
+    socket.on("end", resolve);
+    socket.on("error", reject);
+  });
+  assert.deepEqual(seen, [{ path: "/first", body: payload }]);
+});
+
 test("a reader forwards tailnet publication to the publisher and holds it while the publisher is away", async (t) => {
   const seen = [];
   const publisher = createServer(async (req, res) => {
@@ -326,6 +533,112 @@ test("a reader forwards tailnet publication to the publisher and holds it while 
   assert.equal(seen.length, 1);
 });
 
+test("health reports bounded cached reader and publisher checks", async (t) => {
+  const directory = stateDirectory(t);
+  initAuthority(directory, "native");
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  for (const name of ["mycrates", "mynpm", "pypi", "oci", "mirror"]) s3.put(name, "current", "g0");
+  const publisher = await nativePublisher(t, directory, s3, endpoint);
+  const reader = nativeHarness({ STUFF_PUBLISH_HOST: "publish.test" }, { s3, endpoint, env: { STUFF_NATIVE_PUBLICATION_UPSTREAM: `127.0.0.1:${publisher.ports.listen.port}`, S3_ACCESS_KEY_ID: "health-access-key", S3_SECRET_ACCESS_KEY: "health-secret-key", APPLICATION_EVENTS_TOKEN: "health-telemetry-token" } });
+  t.after(() => reader.close());
+  await reader.listen();
+  const before = s3.log.length;
+  const responses = await Promise.all(Array.from({ length: 6 }, () => reader.fetch("https://stuff.17166969.xyz/healthz")));
+  assert.ok(responses.every(response => response.status === 200));
+  assert.equal(responses[0].headers.get("cache-control"), "no-store");
+  const body = await responses[0].text();
+  assert.ok(Buffer.byteLength(body) <= 4096);
+  for (const secret of [endpoint, "127.0.0.1", "health-access-key", "health-secret-key", "health-telemetry-token", "service-secret", "coordinator", "Bearer ", "S3_SECRET_ACCESS_KEY"]) assert.equal(body.includes(secret), false, secret);
+  const health = JSON.parse(body);
+  assert.equal(health.status, "ok", body);
+  assert.equal(health.role, "reader");
+  assert.equal(health.checks.publisher.status, "ok");
+  for (const result of Object.values(health.checks)) assert.ok(Number.isInteger(result.ms) && result.ms >= 0 && result.ms <= 500);
+  assert.equal(s3.log.slice(before).filter(item => item.key === "current").length, 10);
+  await reader.fetch("https://stuff.17166969.xyz/healthz");
+  assert.equal(s3.log.slice(before).filter(item => item.key === "current").length, 10);
+  const forwarded = await reader.fetch("https://publish.test/healthz", { headers: { "x-oo-ingress": "tailnet" } });
+  const publisherBody = await forwarded.text();
+  assert.ok(Buffer.byteLength(publisherBody) <= 4096);
+  for (const secret of [endpoint, "127.0.0.1", "health-access-key", "health-secret-key", "health-telemetry-token", "service-secret", "Bearer "]) assert.equal(publisherBody.includes(secret), false, secret);
+  assert.equal(JSON.parse(publisherBody).role, "publisher");
+  assert.equal((await reader.fetch("https://publish.test/healthz", { headers: { "x-oo-ingress": "public" } })).status, 404);
+  await reader.control("/withdraw", { method: "POST" });
+  const down = await reader.fetch("https://stuff.17166969.xyz/healthz");
+  assert.equal(down.status, 503);
+  assert.equal((await down.json()).checks.draining.status, "down");
+});
+
+test("health degrades for partial store loss and publisher loss, and goes down for total store loss", async (t) => {
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  s3.put("mynpm", "current", "g0");
+  const reader = nativeHarness({ STUFF_PUBLISH_HOST: "publish.test" }, { s3, endpoint, env: { STUFF_NATIVE_PUBLICATION_UPSTREAM: "127.0.0.1:1" } });
+  t.after(() => reader.close());
+  await reader.listen();
+  const response = await reader.fetch("https://stuff.17166969.xyz/healthz");
+  assert.equal(response.status, 200);
+  const partial = await response.json();
+  assert.equal(partial.status, "degraded");
+  assert.equal(partial.checks.store.status, "degraded");
+  assert.equal(partial.checks.publisher.status, "degraded");
+  const forwarded = await reader.fetch("https://publish.test/healthz", { headers: { "x-oo-ingress": "tailnet" } });
+  assert.equal(forwarded.status, 503);
+  assert.equal((await forwarded.json()).status, "down");
+  s3.faults.push({ method: "GET", bucket: "mynpm", key: "current", status: 500 });
+  await new Promise(resolve => setTimeout(resolve, 1050));
+  const down = await reader.fetch("https://stuff.17166969.xyz/healthz");
+  assert.equal(down.status, 503);
+  assert.equal((await down.json()).checks.store.status, "down");
+  const metrics = await (await reader.control("/metrics")).json();
+  assert.equal(metrics.http.requests["health:5xx"], undefined);
+  assert.equal(metrics.http.requests["health-forward:5xx"], undefined);
+  assert.doesNotMatch(reader.output, /"event":"request_failed"/);
+});
+
+test("health times out stalled store reads within one second", async (t) => {
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  for (const bucket of ["mycrates", "mynpm", "pypi", "oci", "mirror"]) s3.faults.push({ method: "GET", bucket, key: "current", delayMs: 1500 });
+  const reader = nativeHarness({}, { s3, endpoint });
+  t.after(() => reader.close());
+  await reader.listen();
+  const started = performance.now();
+  const response = await reader.fetch("https://stuff.17166969.xyz/healthz");
+  assert.equal(response.status, 503);
+  assert.ok(performance.now() - started < 1000);
+  const health = await response.json();
+  assert.equal(health.checks.store.status, "down");
+  for (const result of Object.values(health.checks)) assert.ok(Number.isInteger(result.ms) && result.ms >= 0 && result.ms <= 500);
+});
+
+test("publisher health degrades when a coordinator queue is over half full", { timeout: 15000 }, async (t) => {
+  const directory = stateDirectory(t);
+  initAuthority(directory, "native");
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  for (const name of ["mycrates", "mynpm", "pypi", "oci", "mirror"]) s3.put(name, "current", "g0");
+  s3.faults.push({ method: "GET", bucket: "mynpm", key: "current", delayMs: 2500 });
+  const publisher = await nativePublisher(t, directory, s3, endpoint);
+  const active = publication(publisher, "npm", "current");
+  while (!s3.log.some(item => item.bucket === "mynpm" && item.key === "current")) await new Promise(resolve => setTimeout(resolve, 10));
+  const waiting = Array.from({ length: 129 }, () => publication(publisher, "npm", "current"));
+  let state;
+  do {
+    state = await (await publisher.control("/coordinators")).json();
+    if (state.coordinators.npm.waiting <= 128) await new Promise(resolve => setTimeout(resolve, 10));
+  } while (state.coordinators.npm.waiting <= 128);
+  const response = await publisher.fetch("https://publish.test/healthz", { headers: { "x-oo-ingress": "tailnet" } });
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).checks.coordinators.status, "degraded");
+  await Promise.all([active, ...waiting]);
+});
+
 test("a withdrawn reader fails its ingress readiness check while it keeps serving", async (t) => {
   const harness = nativeHarness();
   t.after(() => harness.close());
@@ -339,4 +652,36 @@ test("a withdrawn reader fails its ingress readiness check while it keeps servin
   assert.equal((await harness.fetch("https://crates.test/llms.txt")).status, 200);
   assert.equal((await send(harness.ports.control.port, "http://control/restore", { method: "POST" })).status, 200);
   assert.equal(await ready(), 200);
+});
+
+test("withdrawal survives a reader crash until restore", async (t) => {
+  const directory = stateDirectory(t);
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  const options = { directory, s3, endpoint, env: { STUFF_NATIVE_RUNTIME_DIR: directory, STUFF_NATIVE_NAME: "reader-a" } };
+  const first = nativeHarness({}, options);
+  t.after(() => first.close());
+  await first.listen();
+  assert.equal((await first.control("/withdraw", { method: "POST" })).status, 200);
+  await first.stop("SIGKILL");
+  const second = nativeHarness({}, options);
+  t.after(() => second.close());
+  await second.listen();
+  assert.equal((await second.control("/ready")).status, 503);
+  assert.equal((await second.control("/restore", { method: "POST" })).status, 200);
+  assert.equal((await second.control("/ready")).status, 200);
+});
+
+test("a failed reader restart restores the withdrawn reader", (t) => {
+  const directory = stateDirectory(t);
+  const restored = join(directory, "restored");
+  const wget = join(directory, "wget");
+  writeFileSync(wget, `#!/bin/sh\ncase "$*" in *"/restore"*) : > ${JSON.stringify(restored)} ;; *"/metrics"*) printf '%s\\n' '{"activeRequests":0,}' ;; esac\nexit 0\n`);
+  writeFileSync(join(directory, "rc-service"), "#!/bin/sh\nexit 1\n");
+  writeFileSync(join(directory, "sleep"), "#!/bin/sh\nexit 0\n");
+  for (const name of ["wget", "rc-service", "sleep"]) chmodSync(join(directory, name), 0o755);
+  const script = fileURLToPath(new URL("../../../deploy/native/rollout-reader.sh", import.meta.url));
+  assert.throws(() => execFileSync("/bin/sh", [script, "a"], { env: { ...process.env, PATH: `${directory}:/usr/bin:/bin` }, stdio: "pipe" }));
+  assert.equal(existsSync(restored), true);
 });

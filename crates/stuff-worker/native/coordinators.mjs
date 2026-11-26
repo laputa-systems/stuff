@@ -98,30 +98,36 @@ class Serializer {
     const previous = this.#tail;
     let release;
     this.#tail = new Promise(resolve => { release = resolve; });
-    return previous.then(async () => {
-      this.#waiting -= 1;
-      const waited = performance.now() - queued;
-      try {
-        if (signal?.aborted) {
-          this.#counters?.admission("cancelled");
-          throw new CoordinatorBusy("coordinator request cancelled before admission");
-        }
-        if (waited > ADMISSION_DEADLINE_MS) {
-          this.#counters?.admission("deadline");
-          throw new CoordinatorBusy("coordinator admission deadline passed");
-        }
-        this.#counters?.admission("admitted", waited);
-        this.#active = { since: Date.now() };
-        const started = performance.now();
+    return new Promise((resolve, reject) => {
+      let expired = false;
+      const timer = setTimeout(() => {
+        expired = true;
+        this.#waiting -= 1;
+        this.#counters?.admission("deadline");
+        reject(new CoordinatorBusy("coordinator admission deadline passed"));
+      }, ADMISSION_DEADLINE_MS);
+      void previous.then(async () => {
+        if (expired) { release(); return; }
+        clearTimeout(timer);
+        this.#waiting -= 1;
+        const waited = performance.now() - queued;
         try {
-          return await run();
-        } finally {
-          this.#active = null;
-          this.#counters?.operation(performance.now() - started);
-        }
-      } finally {
-        release();
-      }
+          if (waited >= ADMISSION_DEADLINE_MS) {
+            this.#counters?.admission("deadline");
+            throw new CoordinatorBusy("coordinator admission deadline passed");
+          }
+          if (signal?.aborted) {
+            this.#counters?.admission("cancelled");
+            throw new CoordinatorBusy("coordinator request cancelled before admission");
+          }
+          this.#counters?.admission("admitted", waited);
+          this.#active = { since: Date.now() };
+          const started = performance.now();
+          try { resolve(await run()); }
+          finally { this.#active = null; this.#counters?.operation(performance.now() - started); }
+        } catch (error) { reject(error); }
+        finally { release(); }
+      });
     });
   }
 }

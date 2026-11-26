@@ -54,11 +54,10 @@ function acquire() {
     const held = JSON.parse(readFileSync(lockPath, "utf8"));
     if (held.expires > now) throw new Error(`controller lease held by ${held.token} until ${new Date(held.expires).toISOString()}`);
     durable(journalPath, `${JSON.stringify({ at: new Date().toISOString(), kind: "takeover", from: held.token })}\n`);
+    rmSync(lockPath);
   }
   lease = { token: randomUUID(), pid: process.pid, expires: now + LEASE_MS };
-  const temporary = `${lockPath}.${lease.token}`;
-  durable(temporary, JSON.stringify(lease), "wx");
-  renameSync(temporary, lockPath);
+  durable(lockPath, JSON.stringify(lease), "wx");
 }
 function renew() {
   if (lease === null) return;
@@ -108,8 +107,8 @@ const savedExport = registry => JSON.parse(readFileSync(exportsFile(registry), "
 class Paused extends Error { name = "Paused"; }
 async function step(name, run) {
   if (completed().includes(name)) { if (name === until) throw new Paused(name); return; }
-  const frozenAt = journal().find(entry => entry.kind === "step" && entry.step === "frozen")?.at;
-  if (frozenAt !== undefined && name !== "admitted" && Date.now() - Date.parse(frozenAt) > HOLD_BUDGET_MS) throw new Error(`publication hold exceeded ${HOLD_BUDGET_MS / 1000} s before ${name}`);
+  const frozenAt = journal().find(entry => entry.kind === "begin" && entry.step === "frozen")?.at;
+  if (frozenAt !== undefined && Date.now() - Date.parse(frozenAt) > HOLD_BUDGET_MS) throw new Error(`publication hold exceeded ${HOLD_BUDGET_MS / 1000} s before ${name}`);
   const index = STEPS.indexOf(name);
   if (index > 0 && !completed().includes(STEPS[index - 1])) throw new Error(`step ${name} requires ${STEPS[index - 1]}`);
   record({ kind: "begin", step: name });
@@ -218,9 +217,15 @@ async function run() {
 async function unwind() {
   const done = completed();
   if (done.includes("admitted")) throw new Error("publication was admitted on the native host; only a reverse handoff can move authority back");
+  const id = await identity();
+  if (id.authority.publication === "native") {
+    for (const registry of REGISTRIES) {
+      const frozen = await publication(registry, "freeze", {});
+      if (frozen.status !== 200 || frozen.json?.liveLease) throw new Error(`native ${registry} could not be frozen without a live lease`);
+    }
+  }
   const dumps = await nativeDumps();
   if (done.includes("imported")) for (const registry of REGISTRIES) if (JSON.stringify(canonical(dumps[registry])) !== JSON.stringify(canonical(savedExport(registry)))) throw new Error(`native ${registry} changed after import; refusing a simple unwind`);
-  const id = await identity();
   if (id.authority.publication === "native") {
     const changed = await control("/authority", { expectedGeneration: id.authority.generation, publication: "legacy", legacyUpstream: `${LEGACY.host}:${LEGACY.port}`, reason: `unwind ${lease.token}` });
     if (changed.status !== 200) throw new Error(`authority unwind answered ${changed.status}`);
@@ -251,7 +256,7 @@ if (command === "status") {
       try { record({ kind: "failed", error: error instanceof Error ? error.message : String(error) }); } catch { console.error("could not journal the failure"); }
       console.error(`handoff: ${error instanceof Error ? error.message : error}`);
       process.exitCode = 1;
-      if (command === "run" && completed().includes("frozen") && !completed().includes("admitted") && !/lease (was taken over|expired)/.test(String(error.message))) {
+      if (command === "run" && journal().some(entry => entry.kind === "begin" && entry.step === "frozen") && !completed().includes("admitted") && !/lease (was taken over|expired)/.test(String(error.message))) {
         try { await unwind(); } catch (unwindError) { console.error(`handoff: automatic unwind failed: ${unwindError.message}`); try { record({ kind: "unwind_failed", error: unwindError.message }); } catch { console.error("could not journal the unwind failure"); } }
       }
     }

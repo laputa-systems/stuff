@@ -5,7 +5,14 @@ const usage = "usage: parity.mjs REFERENCE_HOST:PORT CANDIDATE_HOST:PORT [--limi
 const args = process.argv.slice(2);
 if (args.length < 2) { console.error(usage); process.exit(2); }
 const [reference, candidate] = args;
-const limit = Number(args[args.indexOf("--limit") + 1] || 600);
+const option = (name, fallback) => {
+  const index = args.indexOf(name);
+  if (index === -1) return fallback;
+  const value = Number(args[index + 1]);
+  if (!Number.isSafeInteger(value) || value < 0) throw new Error(`invalid ${name}`);
+  return value;
+};
+const limit = option("--limit", 600);
 const HOSTS = ["stuff", "crates", "crates-blobs", "npm", "pypi", "oci", "oci-blobs", "mirror"].map(name => `${name}.17166969.xyz`);
 const IGNORED_HEADERS = new Set(["date", "connection", "keep-alive", "transfer-encoding"]);
 
@@ -64,7 +71,7 @@ const queue = [
 ];
 const sample = (items, count) => items.length <= count ? items : Array.from({ length: count }, (_, i) => items[Math.floor(i * items.length / count)]);
 const cargoIndex = name => name.length <= 2 ? `${name.length}/${name}` : name.length === 3 ? `3/${name[0]}/${name}` : `${name.slice(0, 2)}/${name.slice(2, 4)}/${name}`;
-const perRegistry = Number(args[args.indexOf("--packages") + 1] || 0);
+const perRegistry = option("--packages", 0);
 const BIG = 64 * 1024 * 1024;
 async function catalogSeeds() {
   const json = async (host, path) => { const r = await send(reference, { host, path }); return r.status === 200 ? JSON.parse(r.text) : null; };

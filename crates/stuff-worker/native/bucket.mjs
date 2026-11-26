@@ -8,7 +8,7 @@ const unquote = (etag) => (etag ?? "").replace(/^"|"$/g, "");
 
 const RETAINED_RESPONSE = Symbol("retained store response");
 
-function stored(response, size, body) {
+function stored(response, size, body, finish = () => {}) {
   const etag = unquote(response.headers.get("etag"));
   let consumed = false;
   return {
@@ -22,7 +22,7 @@ function stored(response, size, body) {
       if (body === null) return "";
       if (consumed) throw new TypeError("object body already read");
       consumed = true;
-      return new Response(body).text();
+      try { return await new Response(body).text(); } finally { finish(); }
     },
   };
 }
@@ -52,7 +52,7 @@ async function headersWithin(run) {
   }
 }
 
-export function s3Bucket(store, name, counters) {
+export function s3Bucket(store, name, counters, { readDeadlineMs } = {}) {
   const request = (method, key, options = {}) => {
     counters?.s3Request(method);
     return storeRequest(store, method, name, key, options);
@@ -65,16 +65,24 @@ export function s3Bucket(store, name, counters) {
         if (!Number.isSafeInteger(range.offset) || !Number.isSafeInteger(range.length) || range.offset < 0 || range.length < 1) throw new RangeError("invalid range");
         headers.set("range", `bytes=${range.offset}-${range.offset + range.length - 1}`);
       }
-      const response = await headersWithin(signal => request("GET", key, { headers, signal }));
+      const controller = readDeadlineMs === undefined ? null : new AbortController();
+      const timer = controller === null ? null : setTimeout(() => controller.abort(new Error("store read deadline")), readDeadlineMs);
+      timer?.unref();
+      const finish = () => { if (timer !== null) clearTimeout(timer); };
+      let response;
+      try { response = await headersWithin(signal => request("GET", key, { headers, signal: controller === null ? signal : AbortSignal.any([signal, controller.signal]) })); }
+      catch (error) { finish(); throw error; }
       if (response.status === 404) {
+        finish();
         await discard(response);
         return null;
       }
-      if (response.status !== 200 && response.status !== 206) {
+      if (range !== undefined ? response.status !== 206 : response.status !== 200 && response.status !== 206) {
+        finish();
         await discard(response);
         throw new Error(`store GET answered ${response.status}`);
       }
-      return stored(response, objectSize(response), response.body);
+      try { return stored(response, objectSize(response), response.body, finish); } catch (error) { finish(); throw error; }
     },
     async head(key) {
       const response = await headersWithin(signal => request("HEAD", key, { signal }));
@@ -105,7 +113,8 @@ export function s3Bucket(store, name, counters) {
       const query = new URLSearchParams({ "list-type": "2", "max-keys": String(LIST_PAGE) });
       if (options.prefix) query.set("prefix", options.prefix);
       if (options.cursor) query.set("continuation-token", options.cursor);
-      const xml = await controlText(await headersWithin(signal => request("GET", "", { query, signal })));
+      const deadline = readDeadlineMs === undefined ? null : AbortSignal.timeout(readDeadlineMs);
+      const xml = await controlText(await headersWithin(signal => request("GET", "", { query, signal: deadline === null ? signal : AbortSignal.any([signal, deadline]) })));
       if (!/<ListBucketResult(?:\s|>)/.test(xml)) throw new Error("invalid object listing");
       const objects = [];
       for (const match of xml.matchAll(/<Contents>([\s\S]*?)<\/Contents>/g)) {
