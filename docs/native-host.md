@@ -143,8 +143,9 @@ Recovery is three separate operations:
   instances; the coordinator schema is the Durable Object's.
 - **Authority**: after the native authority accepted any mutation, return to
   another writer only through a fenced reverse handoff (freeze, drain, export
-  from the native publisher, import elsewhere). Never restart the old
-  `oo-app.stuff`: its coordinator would rewrite `current` from stale state.
+  from the native publisher, import elsewhere). The old `oo-app.stuff`
+  units, image and Engine were removed; never rebuild that writer from its
+  retained depot, whose coordinator would rewrite `current` from stale state.
 
 ## Diagnosis
 

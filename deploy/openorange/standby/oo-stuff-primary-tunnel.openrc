@@ -1,15 +1,14 @@
 #!/sbin/openrc-run
 
-description="Forward Lisa's Stuff primary route and replica source to the Threadripper VM"
+description="Forward Lisa's Stuff replica source to the Threadripper VM store"
 supervisor=supervise-daemon
 command=/usr/bin/ssh
 command_user=josh
 directory=/home/josh
 export HOME=/home/josh
 key_dir=/home/josh/.local/share/stuff-primary
-# 18491 serves Lisa's `primary` recovery route for Stuff; 18492 is the VM's store
-# for the Lisa replica sync. The guest key may open only these two destinations.
-command_args="-J threadripper -o BatchMode=yes -o IdentitiesOnly=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o HostKeyAlias=stuff-primary -o UserKnownHostsFile=$key_dir/known_hosts -o StrictHostKeyChecking=yes -i $key_dir/forward -p 49187 -NT -L 127.0.0.1:18491:172.29.80.21:8080 -L 127.0.0.1:18492:172.29.80.10:7070 root@127.0.0.1"
+# 18492 is the VM's store for the Lisa replica sync.
+command_args="-J threadripper -o BatchMode=yes -o IdentitiesOnly=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o HostKeyAlias=stuff-primary -o UserKnownHostsFile=$key_dir/known_hosts -o StrictHostKeyChecking=yes -i $key_dir/forward -p 49187 -NT -L 127.0.0.1:18492:172.29.80.10:7070 root@127.0.0.1"
 output_log="$key_dir/tunnel.log"
 error_log="$key_dir/tunnel.log"
 respawn_delay=3

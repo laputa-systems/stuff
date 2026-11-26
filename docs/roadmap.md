@@ -4,7 +4,7 @@ This is the single plan for this repository: all current and future work, and th
 
 ## Status
 
-- Native migration (NM): active since 2026-11-26. Production Stuff reads and publication authority run on the [native host](native-host.md) with no OpenOrange app, Rivet or Engine on their path (reads since 04:49 UTC, authority since the 05:14 handoff). Open: NM7 (24 h observation, GC resume, Rust-serving decision, removal of the guest's `oo-engine`/old image). Migration-induced failure windows are recorded in the campaign and halt any further reload-based change. Resume from [Campaign: Native Stats and Stuff](#campaign-native-stats-and-stuff).
+- Native migration (NM): active since 2026-11-26. Production Stuff reads and publication authority run on the [native host](native-host.md) with no OpenOrange app, Rivet or Engine on their path (reads since 04:49 UTC, authority since the 05:14 handoff). The guest's `oo-engine`, old `oo-app.stuff` units and images and Lisa's 18491 forward were removed at 15:55 UTC on 2026-11-26 by owner decision, before the 24 h window ended. Open: NM7 (24 h observation, GC resume, Rust-serving decision). Migration-induced failure windows are recorded in the campaign and halt any further reload-based change. Resume from [Campaign: Native Stats and Stuff](#campaign-native-stats-and-stuff).
 - State: Owned tools first closed 2026-11-26. Acceptance passes: `uv run repomod lint --rule owned-tool-substitution --rule buildlib-usage` returns 0 findings fleet-wide, and `make repomod-lint` plus `make repomod-test` pass (1818 passed, 5 skipped). The principle and generated producer table stay in [docs/fleet.md](fleet.md#owned-tools-first); residual upstream installs are reasoned exemptions in `fleet/policy/owned-substitutes.toml`, each linked to an open producer ticket (STUF-117, STUF-123, STUF-126, STUF-127, STUF-128, STUF-129).
 - Last accepted Stuff revision: `a92d66cc9d` on `main`, after kache#170 merged and its stale exemptions were removed; repomod tests, ruff and ty pass there. Owned-tools image v4 `sha256:aaec19e7…` and node 26.13.1 are approved.
 - Needs owner: ghostty branch `lane/ot7-owned-tools` at `ae86acd0f` (no PR by that repo's rule — owner applies it, then removes `[exempt."joshuarli/ghostty"]` from `fleet/policy/buildlib.toml`); NODE-6 decided Alpine-only; laputa seed work deferred to LAP-94 with image publishing approved.
@@ -229,7 +229,7 @@ admission hold must be a 503 with `Retry-After` inside that window.
 | NM4 | Caddy reload rehearsal | NM3 | 40 s and 1 GiB downloads survive reloads; 21,039 keep-alive requests over 20 local reloads, 0 failures | n/a | Done; production still showed resets (below) |
 | NM5 | Public reads to native readers | NM4 | Windows at 04:10, 04:49, 05:02 and 05:12 (probe files under Threadripper `~/stuff-native-rehearsal/window/`) | Reader recovery: withdraw a reader, or route back to another reader | Done; failures recorded |
 | NM6 | Writer handoff | NM5, rehearsal `test/native-handoff.test.mjs` | Guest journal `/var/lib/stuff-native/handoff-20261126/journal/`: no live lease, five exports, canonical import, fence, authority generation 2, admission at 05:14:01; publication held 12 s; store inventory unchanged (154,359 data and 70 version files) | Before 05:14:01: unwind; since then: reverse handoff only | Done; canary below |
-| NM7 | Observation, GC resume, Rust-serving decision, removal of the guest's `oo-engine` and old `oo-app.stuff` image | NM6 + 24 h | 24 h post-cutover observation; restore rehearsal | Retained exports, old image and Engine depot | Open |
+| NM7 | Observation, GC resume, Rust-serving decision, removal of the guest's `oo-engine` and old `oo-app.stuff` image | NM6 + 24 h | 24 h post-cutover observation; restore rehearsal | Retained exports, handoff journal and Engine depot (`/var/lib/openorange/engine`, archive only); the old image and units are deleted | Open (removal done) |
 
 ### Improvement cycle (2026-11-26)
 
@@ -358,10 +358,10 @@ The following is the recorded target configuration; verify current live state be
 | --- | --- |
 | VM | Threadripper `/var/lib/stuff-primary/` (`os.qcow2`, a 160 GiB preallocated `data.qcow2`, `seed.iso`), OpenRC `stuff-primary-vm` and `stuff-primary-vm-watchdog` from `deploy/openorange/standby/` |
 | Reservation | `cpu.weight 10000`, `memory.min 9G`, `memory.swap.max 0`, `io.latency` 10 ms on the image's disk |
-| Guest | Alpine 3.24, 8 vCPU, 8 GiB. `/opt/openorange` from this repository; the overlay `/etc/openorange/overlay.toml` disables Rivet, the platform bridge, the tunnel and DNS and caps the Engine at 4 CPUs and 3 GiB. Only `oo-store`, `oo-engine` and `oo-app.stuff` run |
+| Guest | Alpine 3.24, 8 vCPU, 8 GiB. `/opt/openorange` from this repository; the overlay `/etc/openorange/overlay.toml` disables Rivet, the platform bridge, the tunnel and DNS and caps the Engine at 4 CPUs and 3 GiB. Since 2026-11-26 only `oo-store` and the `stuff-native` instances run; the Engine depot stays as an archive |
 | Engine | The seven-patch candidate `sha256:7df2c2be40ce9d4fa40ddccc4ae20383088b9a5b38754ea94d7430c7c5e74918` on a fresh depot |
 | Access | `~/.config/stuff/primary/ssh_config` (`stuff-primary`, through Threadripper). The host's `shutdown` key may only power the guest off |
-| Forward | Lisa `oo-stuff-primary-tunnel` (`deploy/openorange/standby/oo-stuff-primary-tunnel.openrc`): `127.0.0.1:18491` is the guest app, `127.0.0.1:18492` the guest store. The guest key may open only those two destinations |
+| Forward | Lisa `oo-stuff-primary-tunnel` (`deploy/openorange/standby/oo-stuff-primary-tunnel.openrc`): `127.0.0.1:18492` is the guest store. The 18491 app forward was removed on 2026-11-26 |
 
 The guest has its own Engine, so its coordinator state is moved with the
 coordinator handoff ops (`docs/openorange-runtime.md`), not by copying a depot.

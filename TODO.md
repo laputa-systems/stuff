@@ -23,15 +23,6 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Fix with:** none
 - **Effort:** S
 
-### STUF-130 · P2 · Retire the OpenOrange stack from the Stuff guest after the native observation window
-
-- **Area:** Operations · Cleanup
-- **Where:** the Stuff guest (`oo-engine`, the stopped `oo-app.stuff` and its image, `/var/lib/openorange/engine`); Lisa's `oo-stuff-primary-tunnel` 18491 forward; docs/native-host.md
-- **Problem:** Since the 2026-11-26 05:14 UTC handoff the native publisher owns publication and nothing serves from `oo-app.stuff`, but the guest still runs its Engine and keeps the app unit, image and depot as the authority-recovery path, and Lisa still forwards 18491 to the stopped app.
-- **Recommendation:** After 24 hours of native observation without a reverse handoff, keep the five sealed exports and the handoff journal, stop and remove `oo-engine` from the guest runlevel, drop the 18491 forward from `oo-stuff-primary-tunnel` (its 18492 store forward feeds the replica sync), and decide whether to keep the depot as archive. Keep `oo-store` (Versity). Never restart `oo-app.stuff`: its coordinator would rewrite `current` from stale state.
-- **Fix with:** none
-- **Effort:** S
-
 ### STUF-131 · P3 · Avoid re-reading every OCI blob on each OCI publication
 
 - **Area:** Publisher · OCI

@@ -8,7 +8,7 @@ directory=/home/josh
 export HOME=/home/josh
 key_dir=/home/josh/.local/share/stuff-primary
 # 18493 and 18494 are the guest readers stuff-native.reader-a and reader-b. The forward key must list
-# permitopen for 127.0.0.1:8090 and 127.0.0.1:8092; oo-stuff-primary-tunnel keeps 18491 and 18492.
+# permitopen for 127.0.0.1:8090 and 127.0.0.1:8092; oo-stuff-primary-tunnel keeps 18492.
 command_args="-J threadripper -o BatchMode=yes -o IdentitiesOnly=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o HostKeyAlias=stuff-primary -o UserKnownHostsFile=$key_dir/known_hosts -o StrictHostKeyChecking=yes -i $key_dir/forward -p 49187 -NT -L 127.0.0.1:18493:127.0.0.1:8090 -L 127.0.0.1:18494:127.0.0.1:8092 root@127.0.0.1"
 output_log="$key_dir/native-tunnel.log"
 error_log="$key_dir/native-tunnel.log"
