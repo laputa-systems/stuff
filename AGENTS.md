@@ -35,6 +35,7 @@ Build, test, lint, fleet, publishing, OCI and Worker commands are in
 | Worker host, WASM build, runtime tests | [crates/stuff-worker/README.md](crates/stuff-worker/README.md) |
 | Registry read failover, replica sync, what does not fail over | [docs/registry-failover.md](docs/registry-failover.md) |
 | OpenOrange host stack, ingress, deployment, and recovery | [docs/openorange-runtime.md](docs/openorange-runtime.md) |
+| Native registry host: processes, rollout, writer handoff, recovery | [docs/native-host.md](docs/native-host.md) |
 | OpenOrange runtime releases and rollouts | [docs/openorange-releases.md](docs/openorange-releases.md), [docs/openorange-rollouts.md](docs/openorange-rollouts.md) |
 | Shared storage and generation activation | `crates/stuff-store/src/`; `Site` is used by myoci, while mynpm/mypypi activate their own sites |
 | Shared HTTP policy and native adapter | `crates/stuff-http/src/`, `crates/stuff-server/src/` |

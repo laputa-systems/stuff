@@ -4,7 +4,7 @@ This is the single plan for this repository: all current and future work, and th
 
 ## Status
 
-- Native migration (NM): active 2026-11-26. Goal: production Stats and Stuff with no OpenOrange/Rivet runtime. Resume from [Campaign: Native Stats and Stuff](#campaign-native-stats-and-stuff); NM1 (native host) is implemented on `campaign/native-host`, nothing in production has changed yet.
+- Native migration (NM): active since 2026-11-26. Production Stuff reads and publication authority run on the [native host](native-host.md) with no OpenOrange app, Rivet or Engine on their path (reads since 04:49 UTC, authority since the 05:14 handoff). Open: NM7 (24 h observation, GC resume, Rust-serving decision, removal of the guest's `oo-engine`/old image). Migration-induced failure windows are recorded in the campaign and halt any further reload-based change. Resume from [Campaign: Native Stats and Stuff](#campaign-native-stats-and-stuff).
 - State: Owned tools first closed 2026-11-26. Acceptance passes: `uv run repomod lint --rule owned-tool-substitution --rule buildlib-usage` returns 0 findings fleet-wide, and `make repomod-lint` plus `make repomod-test` pass (1818 passed, 5 skipped). The principle and generated producer table stay in [docs/fleet.md](fleet.md#owned-tools-first); residual upstream installs are reasoned exemptions in `fleet/policy/owned-substitutes.toml`, each linked to an open producer ticket (STUF-117, STUF-123, STUF-126, STUF-127, STUF-128, STUF-129).
 - Last accepted Stuff revision: `a92d66cc9d` on `main`, after kache#170 merged and its stale exemptions were removed; repomod tests, ruff and ty pass there. Owned-tools image v4 `sha256:aaec19e7…` and node 26.13.1 are approved.
 - Needs owner: ghostty branch `lane/ot7-owned-tools` at `ae86acd0f` (no PR by that repo's rule — owner applies it, then removes `[exempt."joshuarli/ghostty"]` from `fleet/policy/buildlib.toml`); NODE-6 decided Alpine-only; laputa seed work deferred to LAP-94 with image publishing approved.
@@ -223,14 +223,32 @@ admission hold must be a 503 with `Retry-After` inside that window.
 
 | Stage | What | Prerequisites | Acceptance and evidence | Recovery | Status |
 | --- | --- | --- | --- | --- | --- |
-| NM1 | Native host (`crates/stuff-worker/native/`): existing entry, wasm planner and coordinator on node:http/node:sqlite | — | `pnpm run build:native && pnpm run test:native && pnpm run test:runtime && pnpm run lint && pnpm run typecheck` | None needed; no production change | Done on `campaign/native-host` (1e3451edd7) |
-| NM2 | Evidence path: extend the host observer with full-body digests, path identity (public/direct/candidate) and deployment markers in fsynced, rotated files | NM1 | Observer runs through a Stats outage; records each probe | Revert observer unit | Open |
-| NM3 | Private reader candidate in the guest on real buckets (read-only credential or code-enforced read-only) and byte/header parity against the live app | NM1, NM2 | Every live route class compares equal (status, headers, body digest) | Stop candidate | Open |
-| NM4 | Raise Caddy `grace_period` above the longest download; rehearse the reload with a 1 GiB stream on a disposable Caddy | NM3 | Rehearsal stream completes across a reload | Previous Caddyfile | Open |
-| NM5 | Public reads to the native host (authority `legacy`: publication proxied unchanged to the old app) via a second forward and a graceful reload | NM4 | Zero public errors across the switch; long downloads complete | Reload previous upstream | Open |
-| NM6 | Writer handoff: freeze old coordinators, prove drain, export, import into native (control `import`), compare dumps, fence old app (stop, disable, storage credential), CAS authority to `native`, thaw, canary | NM5, rehearsal on disposable copies | Canonical dump equality; canary publish/readback; old authority receives no traffic | Before any native mutation: CAS back to `legacy` and thaw the old app; after: reverse handoff only | Open |
-| NM7 | Observation window, GC resume, Rust-serving decision, removal of the obsolete app/Engine units in the Stuff guest | NM6 + 24 h | 24 h post-cutover observation; restore rehearsal | Retained sealed exports and images | Open |
+| NM1 | Native host (`crates/stuff-worker/native/`): existing entry, wasm planner and coordinator on node:http/node:sqlite | — | `pnpm run build:native && pnpm run test:native && pnpm run test:runtime && pnpm run lint && pnpm run typecheck` | None needed | Done (`1e3451edd7`, fixes through `baa0d1f462`) |
+| NM2 | Evidence path: observer content probes on public and direct paths, full-body digests, rotated fsynced evidence | NM1 | Threadripper `/var/lib/stats-observer/content.jsonl`; 28 targets every 15 s | Revert observer unit | Done (Stats `ed0eb708`, pool fix `1c71da65`) |
+| NM3 | Private reader parity on real buckets | NM1, NM2 | `deploy/native/parity.mjs`: 2,545 requests over 499 URLs, 458 MB, 0 mismatches against the live app | Stop candidate | Done |
+| NM4 | Caddy reload rehearsal | NM3 | 40 s and 1 GiB downloads survive reloads; 21,039 keep-alive requests over 20 local reloads, 0 failures | n/a | Done; production still showed resets (below) |
+| NM5 | Public reads to native readers | NM4 | Windows at 04:10, 04:49, 05:02 and 05:12 (probe files under Threadripper `~/stuff-native-rehearsal/window/`) | Reader recovery: withdraw a reader, or route back to another reader | Done; failures recorded |
+| NM6 | Writer handoff | NM5, rehearsal `test/native-handoff.test.mjs` | Guest journal `/var/lib/stuff-native/handoff-20261126/journal/`: no live lease, five exports, canonical import, fence, authority generation 2, admission at 05:14:01; publication held 12 s; store inventory unchanged (154,359 data and 70 version files) | Before 05:14:01: unwind; since then: reverse handoff only | Done; canary below |
+| NM7 | Observation, GC resume, Rust-serving decision, removal of the guest's `oo-engine` and old `oo-app.stuff` image | NM6 + 24 h | 24 h post-cutover observation; restore rehearsal | Retained exports, old image and Engine depot | Open |
 
+### Recorded failures (2026-11-26)
+
+| Window (UTC) | What clients saw | Cause | Disposition |
+| --- | --- | --- | --- |
+| 04:10:02–04:36:48 | Four 500s from the native reader out of about 75,000 requests (paths not recorded) | undici cancelled the body of a garbage-collected store Response before the entry forwarded it | Reads returned to the legacy app at 04:36:48; fixed with a forced-GC regression test (`b013ec18c6`); failure logs now carry method, host and path |
+| 05:02:28 | Eight probe requests (Threadripper and workstation) reset | Caddy reload closed idle keep-alive connections that clients reused | Reload-based route changes stopped; readers fail over by health check (`baa0d1f462`) |
+| 05:12:02 | Two probe requests reset at the reload that installed the health-checked route | same | Last planned reload of the Stuff route; reader restarts use `rollout-reader.sh` (05:13:16, no failures) |
+
+Until `0a2c1bbe10` the window probe's public and direct requests shared one
+keep-alive pool per hostname, so a request labelled public may have used a
+tailnet socket; the observer had the same flaw (fixed in Stats `1c71da65`).
+The workstation's own OCI publisher state was stale (it expected revision 14,
+`c0ed40fc…`, while another machine had already published revision 15 before
+this campaign), so its first native canary attempt correctly refused with a
+conflict and nothing was uploaded; canaries run with a fresh
+`STUFF_STATE_HOME`.
+
+## Campaign: Stuff primary on Threadripper
 
 ### Goal and state
 

@@ -1,13 +1,13 @@
 # Registry failover
 
-When the OpenOrange origin fails, public registry reads are served from an R2
+When the origin fails, public registry reads are served from an R2
 replica by a route-attached Cloudflare Worker. The replica is a read path:
 publishing, OCI pushes and every mutation stay on the origin and are
 unavailable during a failover. Registry access and the replica's purpose are
 described in [PUBLISHING.md](PUBLISHING.md#registry-access).
 
-**Current state (2026-11-25):** the origin is the Stuff primary VM on
-Threadripper. `oo-replica-sync` runs on Lisa again, with its source pointed at
+**Current state (2026-11-26):** the origin is the [native registry host](native-host.md)
+in the Stuff primary VM on Threadripper. `oo-replica-sync` runs on Lisa again, with its source pointed at
 the primary's store through the `oo-stuff-primary-tunnel` forward
 (`STUFF_COPY_SOURCE_S3_ENDPOINT=http://127.0.0.1:18492`, the stuff app's store
 credentials) instead of Lisa's retired local store, so the replica follows the
