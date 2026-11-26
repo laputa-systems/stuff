@@ -269,8 +269,8 @@ reason = "The git install in Dockerfile, scripts/setup-dev is needed for HTTPS f
 reassess = "When git-build ships HTTPS support with a release smoke test (STUF-127)."
 
 [exempt."joshuarli/ctrs".producers."laputa-systems/llvm-prebuilt-musl"]
-reason = "The owned clang in scripts/setup-dev is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
-reassess = "When a glibc-targeted owned clang is published (STUF-126)."
+reason = "The apt branch of scripts/setup-dev cannot use the musl-targeted clang (ld.lld cannot find -lgcc_s and glibc headers yield undefined __isoc23_* symbols, reproduced in joshuarli/tm#49), and the apk build-base packages carry headers and libc dev files the owned-tools image deliberately does not map."
+reassess = "When a glibc-targeted owned clang exists and the owned-tools image maps build-base (STUF-126, STUF-128)."
 
 [exempt."joshuarli/ctrs".producers."laputa-systems/node-build"]
 reason = "Node in scripts/setup-dev keeps the distribution package because node-build ships Node 26 without npm/Corepack by product decision."
@@ -289,7 +289,7 @@ reason = "The Meson/Ninja install in .github/workflows/release.yml runs on a run
 reassess = "When a matching gluon asset is wired through buildlib.setup for that runner (STUF-129)."
 
 [exempt."joshuarli/ghostty".producers."laputa-systems/llvm-prebuilt-musl"]
-reason = "The owned clang in .github/workflows/release.yml is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
+reason = "The Alpine release jobs still install clang from apk. A verified fix exists on branch lane/ot7-owned-tools at ae86acd0f, but that repo forbids PRs, so the owner must apply it. Reassess when the branch is applied."
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."joshuarli/img".producers."joshuarli/mold"]
@@ -305,8 +305,8 @@ reason = "The git install in scripts/setup-dev is needed for HTTPS fetch or clon
 reassess = "When git-build ships HTTPS support with a release smoke test (STUF-127)."
 
 [exempt."joshuarli/img".producers."laputa-systems/llvm-prebuilt-musl"]
-reason = "The owned clang in scripts/setup-dev is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
-reassess = "When a glibc-targeted owned clang is published (STUF-126)."
+reason = "The apt branch of scripts/setup-dev cannot use the musl-targeted clang (ld.lld cannot find -lgcc_s and glibc headers yield undefined __isoc23_* symbols, reproduced in joshuarli/tm#49), and the apk build-base packages carry headers and libc dev files the owned-tools image deliberately does not map."
+reassess = "When a glibc-targeted owned clang exists and the owned-tools image maps build-base (STUF-126, STUF-128)."
 
 [exempt."joshuarli/img".producers."laputa-systems/python-build"]
 reason = "joshuarli/img's remaining Python install in Dockerfile, scripts/setup-dev needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
@@ -321,7 +321,7 @@ reason = "joshuarli/loc's remaining Python install in .github/workflows/mutation
 reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
 [exempt."joshuarli/play".producers."laputa-systems/llvm-prebuilt-musl"]
-reason = "The owned clang in docker/linux/Dockerfile is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
+reason = "play's own linkage audit rejects the owned toolchain while LLVM-1 is open (llvm-prebuilt-musl#12): the runtime embeds absolute build paths and crtbegin imports __register_frame_info. Reassess when LLVM-1 is fixed and released; the branch build/owned-clang is ready to rerun."
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."joshuarli/play".producers."laputa-systems/python-build"]
@@ -385,7 +385,7 @@ reason = "The Meson/Ninja install in .github/workflows/release.yml, docker/Docke
 reassess = "When a matching gluon asset is wired through buildlib.setup for that runner (STUF-129)."
 
 [exempt."laputa-systems/ffmpeg-build".producers."laputa-systems/llvm-prebuilt-musl"]
-reason = "The owned clang in docker/Dockerfile is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
+reason = "The Alpine build stage keeps build-base as the native substrate for the FFmpeg C build with libva and libdrm; the owned clang replacement is not yet wired into that Dockerfile. Reassess when docker/Dockerfile acquires the owned toolchain and its full runtime build is verified."
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."laputa-systems/ffmpeg-build".producers."laputa-systems/python-build"]
@@ -401,7 +401,7 @@ reason = "The jq install in scripts/install-jaq.sh runs on a glibc host where th
 reassess = "When a glibc-loadable owned jaq or a pinned musl loader is available (STUF-117)."
 
 [exempt."laputa-systems/laputa".producers."laputa-systems/llvm-prebuilt-musl"]
-reason = "The owned clang in seed/Dockerfile.host-tools is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
+reason = "The seed host-tools image pins build-base as a bootstrap input; rebuilding and repinning it for both architectures is deferred to LAP-94 at the owner's request. Reassess when LAP-94 rebuilds and publishes the images."
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."laputa-systems/llvm-prebuilt-musl".producers."joshuarli/kache"]
@@ -417,7 +417,7 @@ reason = "The git install in .github/workflows/release.yml is needed for HTTPS f
 reassess = "When git-build ships HTTPS support with a release smoke test (STUF-127)."
 
 [exempt."laputa-systems/node-build".producers."laputa-systems/llvm-prebuilt-musl"]
-reason = "The owned clang in .github/workflows/release.yml is musl-targeted: in apt/glibc stages ld.lld cannot find -lgcc_s and compiling against glibc headers yields undefined __isoc23_* symbols (reproduced in joshuarli/tm#49)."
+reason = "The release workflow's Alpine build containers still install clang22, g++ and build-base for the node build. Reassess when those stages acquire the owned toolchain through buildlib.setup and the release smoke tests pass."
 reassess = "When a glibc-targeted owned clang is published (STUF-126)."
 
 [exempt."laputa-systems/node-build".producers."laputa-systems/python-build"]
