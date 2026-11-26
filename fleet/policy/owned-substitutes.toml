@@ -194,11 +194,11 @@ reassess = "When the npm smoke takes its npm client from an owned source, or nod
 
 [exempt."joshuarli/extensions".producers."laputa-systems/node-build"]
 reason = "Its vite, vitest and oxlint steps load napi-rs addons in-process; on glibc runners those loaders pick GNU bindings, which cannot load into node-build's musl node (node-build NODE-6)."
-reassess = "When node-build publishes a glibc-loadable Linux build or these jobs run on a musl host."
+reassess = "When these jobs run on a musl host; node-build NODE-6 is decided: musl node is Alpine-only."
 
 [exempt."joshuarli/stats".producers."laputa-systems/node-build"]
 reason = "The statsctl release build runs vite, whose rolldown addon picks its GNU binding on glibc runners and cannot load into node-build's musl node (node-build NODE-6)."
-reassess = "When node-build publishes a glibc-loadable Linux build or the job runs on a musl host."
+reassess = "When the job runs on a musl host; node-build NODE-6 is decided: musl node is Alpine-only."
 
 [exempt."laputa-systems/graviola".producers."laputa-systems/rustybench"]
 reason = "Effectively upstream fork whose inherited build must stay unchanged: the criterion benchmarks are upstream's, and porting them to rustybench would widen the fork's diff without a fleet consumer."
