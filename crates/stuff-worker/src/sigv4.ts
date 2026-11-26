@@ -11,9 +11,21 @@ function query(url: URL): string {
     .sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0)
     .map(([k, v]) => `${k}=${v}`).join("&");
 }
+const SIGNING_KEYS_LIMIT = 16;
+const signingKeys = new Map<string, Promise<CryptoKey>>();
+function signingKey(secret: string, day: string, region: string): Promise<CryptoKey> {
+  const cacheKey = `${day}\n${region}\n${secret}`;
+  let key = signingKeys.get(cacheKey);
+  if (key === undefined) {
+    key = (async () => crypto.subtle.importKey("raw", await mac(await mac(await mac(await mac(`AWS4${secret}`, day), region), "s3"), "aws4_request"), { name: "HMAC", hash: "SHA-256" }, false, ["sign", "verify"]))();
+    key.catch(() => signingKeys.delete(cacheKey));
+    if (signingKeys.size >= SIGNING_KEYS_LIMIT) signingKeys.delete(signingKeys.keys().next().value!);
+    signingKeys.set(cacheKey, key);
+  }
+  return key;
+}
 export async function signingMaterial(method: string, url: URL, headers: Headers, names: string[], payload: string, date: string, region: string, secret: string): Promise<{ key: CryptoKey; message: Uint8Array<ArrayBuffer> }> {
   const canonical = `${method}\n${url.pathname}\n${query(url)}\n${names.map(n => `${n}:${headers.get(n)!.trim().replace(/\s+/g, " ")}\n`).join("")}\n${names.join(";")}\n${payload}`;
   const scope = `${date.slice(0, 8)}/${region}/s3/aws4_request`;
-  const key = await mac(await mac(await mac(await mac(`AWS4${secret}`, date.slice(0, 8)), region), "s3"), "aws4_request");
-  return { key: await crypto.subtle.importKey("raw", key, { name: "HMAC", hash: "SHA-256" }, false, ["sign", "verify"]), message: bytes(`AWS4-HMAC-SHA256\n${date}\n${scope}\n${await sha(canonical)}`) };
+  return { key: await signingKey(secret, date.slice(0, 8), region), message: bytes(`AWS4-HMAC-SHA256\n${date}\n${scope}\n${await sha(canonical)}`) };
 }
