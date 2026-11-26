@@ -61,7 +61,7 @@ export function createCounters() {
   return {
     s3Request(method) { s3.add(method); },
     requestStarted() { activeRequests += 1; },
-    requestFinished(route, status, ms) { activeRequests -= 1; requests.add(`${route}:${Math.floor(status / 100)}xx`); requestLatency.observe(ms); },
+    requestFinished(route, status, ms) { activeRequests -= 1; requests.add(`${route}:${route === "health" || route === "health-forward" ? "probe" : `${Math.floor(status / 100)}xx`}`); requestLatency.observe(ms); },
     streamOpened() { activeStreams += 1; },
     streamClosed(outcome, bytes) { activeStreams -= 1; streams.add(outcome); bytesOut += bytes; },
     forRegistry: () => registry,

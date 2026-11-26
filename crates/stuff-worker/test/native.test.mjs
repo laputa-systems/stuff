@@ -593,6 +593,9 @@ test("health degrades for partial store loss and publisher loss, and goes down f
   const down = await reader.fetch("https://stuff.17166969.xyz/healthz");
   assert.equal(down.status, 503);
   assert.equal((await down.json()).checks.store.status, "down");
+  const metrics = await (await reader.control("/metrics")).json();
+  assert.equal(metrics.http.requests["health:5xx"], undefined);
+  assert.equal(metrics.http.requests["health-forward:5xx"], undefined);
   assert.doesNotMatch(reader.output, /"event":"request_failed"/);
 });
 
