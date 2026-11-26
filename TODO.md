@@ -1,5 +1,5 @@
 Prefix: STUF
-Next: 132
+Next: 133
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
@@ -22,6 +22,15 @@ Review priorities are reviewer-assigned; existing owner-assigned priorities are 
 - **Recommendation:** Verify existing blobs by size and digest from the stored inventory (or by HEAD) instead of downloading them, keeping the integrity guarantee for blobs this publication adds.
 - **Fix with:** root-cause
 - **Effort:** M
+
+### STUF-132 · P2 · Make an interrupted OCI state pull resumable
+
+- **Area:** Publisher · OCI · Crash recovery
+- **Where:** crates/stuff/src/publish/oci.rs (`sync_live_state`, `pull_generation_blobs`)
+- **Problem:** `sync_live_state` pulls the live generation into `site/` and then its blobs. If the publisher is killed during `pull_generation_blobs`, `site/` already names the marker generation, so the next run skips the blob pull and `adopt` fails with `integrity: No such file or directory (os error 2)` (exit 4). On 2026-11-26 a canary killed by `timeout` after 50 minutes (7.6 of about 11 GB cached) failed this way on every rerun; moving `site/` aside recovered it, and the cached blobs were reused.
+- **Recommendation:** Pull into a sibling directory and rename it to `site/` only after its blobs are complete, so `current_generation` never names a generation with missing blobs. Regression test: interrupt after the metadata pull, rerun, publish succeeds.
+- **Fix with:** root-cause
+- **Effort:** S
 
 ## On hold
 
