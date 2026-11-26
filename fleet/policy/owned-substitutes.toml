@@ -316,14 +316,6 @@ reassess = "When python-build publishes the pinned minor with pip/venv and a loa
 reason = "joshuarli/ish's remaining Python install in Dockerfile needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
 reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
 
-[exempt."joshuarli/kache".producers."laputa-systems/cmake-build"]
-reason = "CMake in .github/workflows/ci.yml is acquired from the distribution on this runner; cmake-build publishes musl and darwin assets but the stage is not yet wired through buildlib.setup with a verified lock (STUF-129)."
-reassess = "When the stage acquires cmake through buildlib.setup with a verified lock (STUF-129)."
-
-[exempt."joshuarli/kache".producers."laputa-systems/gluon"]
-reason = "The Meson/Ninja install in .github/workflows/ci.yml runs on a runner or baseline where the owned gluon asset cannot be acquired without changing pinned build inputs (STUF-129)."
-reassess = "When a matching gluon asset is wired through buildlib.setup for that runner (STUF-129)."
-
 [exempt."joshuarli/loc".producers."laputa-systems/python-build"]
 reason = "joshuarli/loc's remaining Python install in .github/workflows/mutation-trial.yml needs a minor or pip/venv support that python-build does not ship for this stage (STUF-117, STUF-123, STUF-128)."
 reassess = "When python-build publishes the pinned minor with pip/venv and a loader usable on this runner (STUF-117, STUF-123, STUF-128)."
