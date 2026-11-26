@@ -1,9 +1,18 @@
 Prefix: STUF
-Next: 134
+Next: 135
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
 Review priorities are reviewer-assigned; existing owner-assigned priorities are retained.
+
+### STUF-134 · P2 · Give each native reader its own Lisa tunnel
+
+- **Area:** Operations · Ingress
+- **Where:** deploy/native/oo-stuff-native-tunnel.openrc; Lisa's `recovery-routes.json` (`stuff` upstream 18493, standby 18494)
+- **Problem:** One SSH process carries both reader forwards, so if it dies both upstreams fail together and the health-checked standby cannot help: detection takes up to 45 s (ServerAlive 15 s x 3) plus the 3 s respawn, and public requests get 502s.
+- **Recommendation:** Run one tunnel instance per reader. Moving a forward means restarting the current tunnel or reloading Caddy onto new ports, and either closes live connections, so stage it: start a second tunnel on new local ports, add them as further standby upstreams in one planned reload window, then drop the shared tunnel.
+- **Fix with:** none
+- **Effort:** S
 
 ### STUF-133 · P3 · Return the Stuff guest's idle memory to the host
 
