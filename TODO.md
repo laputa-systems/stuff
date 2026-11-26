@@ -1,9 +1,18 @@
 Prefix: STUF
-Next: 133
+Next: 134
 
 New tickets use STUF. RPMD tickets were filed in repomod before it moved into stuff; they keep their IDs.
 
 Review priorities are reviewer-assigned; existing owner-assigned priorities are retained.
+
+### STUF-133 · P3 · Return the Stuff guest's idle memory to the host
+
+- **Area:** Operations · Host
+- **Where:** threadripper's Stuff VM unit (`qemu-system-x86_64 ... -m 8192 -drive file=os.qcow2 ...`)
+- **Problem:** QEMU keeps every page the guest has touched, so the host holds about 8.2 GiB for the guest regardless of its use; the Stats guest showed the same pattern (4.1 GiB held, under 300 MiB used) until it got a balloon with free page reporting on 2026-11-26 (Stats `e41da366`).
+- **Recommendation:** Add `-device virtio-balloon-pci,free-page-reporting=on` and size `-m` to measured need. The change needs a VM restart, which interrupts public reads; do it only with a second serving guest or in an announced window.
+- **Fix with:** none
+- **Effort:** S
 
 ### STUF-130 · P2 · Retire the OpenOrange stack from the Stuff guest after the native observation window
 
