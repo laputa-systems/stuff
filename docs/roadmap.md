@@ -4,6 +4,7 @@ This is the single plan for this repository: all current and future work, and th
 
 ## Status
 
+- Native migration (NM): active 2026-11-26. Goal: production Stats and Stuff with no OpenOrange/Rivet runtime. Resume from [Campaign: Native Stats and Stuff](#campaign-native-stats-and-stuff); NM1 (native host) is implemented on `campaign/native-host`, nothing in production has changed yet.
 - State: Owned tools first closed 2026-11-26. Acceptance passes: `uv run repomod lint --rule owned-tool-substitution --rule buildlib-usage` returns 0 findings fleet-wide, and `make repomod-lint` plus `make repomod-test` pass (1818 passed, 5 skipped). The principle and generated producer table stay in [docs/fleet.md](fleet.md#owned-tools-first); residual upstream installs are reasoned exemptions in `fleet/policy/owned-substitutes.toml`, each linked to an open producer ticket (STUF-117, STUF-123, STUF-126, STUF-127, STUF-128, STUF-129).
 - Last accepted Stuff revision: `a92d66cc9d` on `main`, after kache#170 merged and its stale exemptions were removed; repomod tests, ruff and ty pass there. Owned-tools image v4 `sha256:aaec19e7…` and node 26.13.1 are approved.
 - Needs owner: ghostty branch `lane/ot7-owned-tools` at `ae86acd0f` (no PR by that repo's rule — owner applies it, then removes `[exempt."joshuarli/ghostty"]` from `fleet/policy/buildlib.toml`); NODE-6 decided Alpine-only; laputa seed work deferred to LAP-94 with image publishing approved.
@@ -24,6 +25,7 @@ Read [fleet operations](fleet.md) and [fleet design](fleet-design.md) before fle
 | F4 | Dependency friction | `repomod/`, `fleet/`, producer and consumer release inputs | Inventory each release hand-off; preserve registry holds | One documented release command reaches consumer lockfiles; `uv run repomod lint --include-private --rule audit-upgrades` |
 | STUF-89 | Owned-tool maintenance | `fleet/policy/owned-tools.toml`, affected owned tools and [TODO.md](../TODO.md) | Recheck pending PRs and each source checkout | `uv run repomod tools coverage` has no ordinary gaps; built help tests pass |
 | A1 | Release archives | Producer release definitions and consumer installer pins | Consumers accept tar.xz before producers switch; verify held checkouts and current release state | `uv run repomod lint --rule release-archive-format --rule binary-release-standard`; verify downloaded archive and checksums per release |
+| NM | Native Stats and Stuff | `crates/stuff-worker/native/`, `deploy/native/`, `deploy/openorange/` ingress and rollout adapters | Stats native parity (Stats roadmap NS); independent observer evidence | Per-stage acceptance in the campaign below |
 | STUF-104 | Stuff primary | `deploy/openorange/`, `crates/stuff-worker/` and host runtime | Lisa Engine soak ends and is recorded; verify current state | Complete the cutover checks and canary in the procedure below |
 | F5 | Dependency friction | usr sync, affected macOS fixtures | Identify supported pinned tools and fixture dependencies | macOS component slices record coverage and mutation; PLAY-55 closes |
 | F6 | Dependency friction | Affected repository workflows | Inspect each job's actual runner needs and hosted access | Verify runner choice per workflow and compare standard-job queue times |
@@ -183,7 +185,52 @@ Do not publish a producer before its consumers can read tar.xz or alter external
 
 [Build repository contracts](build-repos.md), [fleet policy](fleet.md), [backlog](../TODO.md).
 
-## Campaign: Stuff primary on Threadripper
+## Campaign: Native Stats and Stuff
+
+### Goal and state
+
+Run production Stats and Stuff with no OpenOrange or Rivet runtime, keeping
+Cloudflare (DNS, TLS, Tunnel, Worker routes, R2 fallback), Versity, the
+existing VM isolation and the bucket/version identities. This campaign
+supersedes the earlier decisions to keep OpenOrange/Rivet for these two
+applications and to treat native Node only as a reference adapter. It does
+not change agentctl, Discover, nanoshop, discover-wine, tansu or the shared
+Lisa Engine/store/ingress units those parked apps use. Stats-side stages live
+in the Stats roadmap (campaign NS); this section owns Stuff and the shared
+deployment path.
+
+Hard gates: zero migration-induced public Stuff errors; no lost acknowledged
+publication, receipt, artifact or retirement record; the private publisher
+contract (30 s request timeout, 503 + `Retry-After` retried for up to 15
+minutes, `crates/stuff/src/publish/coordinator.rs`) is preserved, so any
+admission hold must be a 503 with `Retry-After` inside that window.
+
+### Baseline (2026-11-26 03:10–03:50 UTC, read-only inspection)
+
+| Fact | Observed |
+| --- | --- |
+| Public path | Cloudflare → `cloudflared` on Lisa → Caddy v2.11.9 `127.0.0.1:18480` (`X-OO-Ingress: public`, `/_s3`, `/_publication`, `/admin` denied, GET/HEAD only) → `127.0.0.1:18491` |
+| Tailnet path | Caddy `100.68.104.43:443`, `X-OO-Ingress: tailnet`, identity sidecar, all nine hosts incl. `stuff-publish` → `127.0.0.1:18491` |
+| Forward | Lisa `oo-stuff-primary-tunnel` (ssh `-L 18491:172.29.80.21:8080 -L 18492:172.29.80.10:7070` via Threadripper `127.0.0.1:49187`); 11 respawns recorded |
+| Caddy reload | `grace_period 15s`; the largest object is a 1 GiB OCI blob (`stuff-oci-blobs/sha256/2c06ade9…`), so a reload under the current setting can truncate long downloads |
+| Writer | Guest `stuff-primary` (Alpine 3.24.4, 8 vCPU, 8 GiB), `oo-app-stuff` image `stuff:5020a6f70e24` with five Rivet-backed coordinators; Engine `7df2c2be40ce`; Lisa's coordinators frozen as the fence and Lisa's `oo-app.stuff` removed |
+| Store | `oo-store` versitygw `sha256:8319a530…` `posix --fsync --versioning-dir`, `172.29.80.10:7070`; six buckets ≈20 GB, 154,761 files; per-app IAM accounts with role `user` |
+| Replica | Lisa `oo-replica-sync` is running (every 300 s) from `127.0.0.1:18492` (guest store) to R2; the STUF-104 record that says no replica is fed is stale |
+| Observer | Threadripper `stats-observer` (`/var/lib/stats-observer/evidence.jsonl`, 60 s) probes Stats health and crates/npm/pypi/mirror status codes only |
+| Incidents | Both guests restarted 2026-11-25 18:06 (three `console.log.crash-*` each on 11-25); Threadripper load ≈20 |
+
+### Stages
+
+| Stage | What | Prerequisites | Acceptance and evidence | Recovery | Status |
+| --- | --- | --- | --- | --- | --- |
+| NM1 | Native host (`crates/stuff-worker/native/`): existing entry, wasm planner and coordinator on node:http/node:sqlite | — | `pnpm run build:native && pnpm run test:native && pnpm run test:runtime && pnpm run lint && pnpm run typecheck` | None needed; no production change | Done on `campaign/native-host` (1e3451edd7) |
+| NM2 | Evidence path: extend the host observer with full-body digests, path identity (public/direct/candidate) and deployment markers in fsynced, rotated files | NM1 | Observer runs through a Stats outage; records each probe | Revert observer unit | Open |
+| NM3 | Private reader candidate in the guest on real buckets (read-only credential or code-enforced read-only) and byte/header parity against the live app | NM1, NM2 | Every live route class compares equal (status, headers, body digest) | Stop candidate | Open |
+| NM4 | Raise Caddy `grace_period` above the longest download; rehearse the reload with a 1 GiB stream on a disposable Caddy | NM3 | Rehearsal stream completes across a reload | Previous Caddyfile | Open |
+| NM5 | Public reads to the native host (authority `legacy`: publication proxied unchanged to the old app) via a second forward and a graceful reload | NM4 | Zero public errors across the switch; long downloads complete | Reload previous upstream | Open |
+| NM6 | Writer handoff: freeze old coordinators, prove drain, export, import into native (control `import`), compare dumps, fence old app (stop, disable, storage credential), CAS authority to `native`, thaw, canary | NM5, rehearsal on disposable copies | Canonical dump equality; canary publish/readback; old authority receives no traffic | Before any native mutation: CAS back to `legacy` and thaw the old app; after: reverse handoff only | Open |
+| NM7 | Observation window, GC resume, Rust-serving decision, removal of the obsolete app/Engine units in the Stuff guest | NM6 + 24 h | 24 h post-cutover observation; restore rehearsal | Retained sealed exports and images | Open |
+
 
 ### Goal and state
 
