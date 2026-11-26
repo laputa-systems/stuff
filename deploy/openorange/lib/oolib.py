@@ -808,6 +808,8 @@ class RecoveryRoute:
     deny_paths: tuple[str, ...]
     snapshot_at: str | None
     mode: str = "reader"
+    standby: tuple[str, ...] = ()
+    health_uri: str | None = None
 
     @property
     def writer(self) -> bool:
@@ -816,6 +818,14 @@ class RecoveryRoute:
     @property
     def primary(self) -> bool:
         return self.mode == "primary"
+
+
+def private_address(address) -> bool:
+    match = re.fullmatch(r"([0-9.]+):([1-9][0-9]{0,4})", address) if isinstance(address, str) else None
+    try:
+        return bool(match) and ipaddress.IPv4Address(match[1]).is_private and int(match[2]) <= 65535
+    except ValueError:
+        return False
 
 
 def load_recovery_routes(cfg) -> dict[str, RecoveryRoute]:
@@ -834,15 +844,10 @@ def load_recovery_routes(cfg) -> dict[str, RecoveryRoute]:
         where = f"{path}: {name}"
         if app is None or not app.enabled or app.kind != "orange" or not isinstance(spec, dict):
             raise ConfigError(f"{where}: expected an enabled Orange app and a route object")
-        if set(spec) - {"mode", "upstream", "hosts", "deny_paths", "snapshot_at"}:
+        if set(spec) - {"mode", "upstream", "hosts", "deny_paths", "snapshot_at", "standby", "health_uri"}:
             raise ConfigError(f"{where}: unknown route field")
         address = spec.get("upstream")
-        match = re.fullmatch(r"([0-9.]+):([1-9][0-9]{0,4})", address) if isinstance(address, str) else None
-        try:
-            valid_address = match and ipaddress.IPv4Address(match[1]).is_private and int(match[2]) <= 65535
-        except ValueError:
-            valid_address = False
-        if not valid_address:
+        if not private_address(address):
             raise ConfigError(f"{where}: upstream must be a private IPv4 address and port")
         if spec.get("mode") == "writer":
             if app.public_hostnames or set(spec) != {"mode", "upstream"}:
@@ -850,10 +855,17 @@ def load_recovery_routes(cfg) -> dict[str, RecoveryRoute]:
             routes[name] = RecoveryRoute(address, (), (), None, "writer")
             continue
         if spec.get("mode") == "primary":
-            if set(spec) != {"mode", "upstream"}:
+            if set(spec) - {"mode", "upstream", "standby", "health_uri"}:
                 raise ConfigError(f"{where}: primary recovery requires no read options")
-            routes[name] = RecoveryRoute(address, (), (), None, "primary")
+            standby, health_uri = spec.get("standby", []), spec.get("health_uri")
+            if not isinstance(standby, list) or len(standby) > 3 or not all(private_address(item) for item in standby) or len({address, *standby}) != len(standby) + 1:
+                raise ConfigError(f"{where}: standby must list up to three other private IPv4 addresses and ports")
+            if (health_uri is None) != (not standby) or (health_uri is not None and not (isinstance(health_uri, str) and re.fullmatch(r"/[A-Za-z0-9._~/-]{1,128}", health_uri))):
+                raise ConfigError(f"{where}: standby upstreams require a health_uri path, and a health_uri requires standby upstreams")
+            routes[name] = RecoveryRoute(address, (), (), None, "primary", tuple(standby), health_uri)
             continue
+        if "standby" in spec or "health_uri" in spec:
+            raise ConfigError(f"{where}: standby and health_uri apply only to primary routes")
         hosts, paths, snapshot = spec.get("hosts"), spec.get("deny_paths"), spec.get("snapshot_at")
         if spec.get("mode") != "reader" or not isinstance(hosts, list) or not hosts or any(
             host not in app.public_hostnames for host in hosts

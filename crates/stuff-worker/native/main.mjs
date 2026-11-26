@@ -25,6 +25,7 @@ class ConfigError extends Error { name = "ConfigError"; }
 
 const ROLES = ["reader", "publisher"];
 const PUBLICATION_RETRY_AFTER_S = 5;
+const READY_PATH = "/.well-known/stuff-native/ready";
 const LOOPBACK = /^(127\.\d+\.\d+\.\d+|::1|localhost)$/;
 const ARTIFACT = new URL("../", import.meta.url);
 
@@ -132,6 +133,7 @@ async function main() {
   const pending = new Set();
   const context = { waitUntil(promise) { const tracked = Promise.resolve(promise).catch(() => undefined).finally(() => pending.delete(tracked)); pending.add(tracked); } };
   let draining = false;
+  let withdrawn = false;
 
   const server = createServer({ requestTimeout: 0, headersTimeout: 60_000, keepAliveTimeout: 65_000 }, async (incoming, outgoing) => {
     const started = performance.now();
@@ -144,6 +146,11 @@ async function main() {
     try {
       const target = targetOf(incoming);
       if (target === null) { json(outgoing, 400, { error: "invalid host" }); return; }
+      if (target.pathname === READY_PATH && /^127\.0\.0\.1$/.test(target.hostname) && (incoming.method === "GET" || incoming.method === "HEAD")) {
+        route = "ready";
+        json(outgoing, draining || withdrawn ? 503 : 200, { ready: !(draining || withdrawn), release: config.release });
+        return;
+      }
       if (config.publishHost !== undefined && isPublicationRequest(target, config.publishHost)) {
         route = "publication";
         if (incoming.headers["x-oo-ingress"] !== "tailnet") { json(outgoing, 404, { error: "not found" }); return; }
@@ -184,8 +191,14 @@ async function main() {
     try {
       const url = new URL(incoming.url ?? "/", "http://control");
       if (incoming.method === "GET" && url.pathname === "/identity") return json(outgoing, 200, identity());
-      if (incoming.method === "GET" && url.pathname === "/ready") return json(outgoing, draining ? 503 : 200, { ready: !draining, release: config.release, artifactSha256: digest });
+      if (incoming.method === "GET" && url.pathname === "/ready") return json(outgoing, draining || withdrawn ? 503 : 200, { ready: !(draining || withdrawn), withdrawn, release: config.release, artifactSha256: digest, activeRequests: counters.activeRequests, activeStreams: counters.activeStreams });
       if (incoming.method === "GET" && url.pathname === "/metrics") return json(outgoing, 200, { identity: identity(), legacyInFlight, ...counters.snapshot() });
+      if (incoming.method === "POST" && (url.pathname === "/withdraw" || url.pathname === "/restore")) {
+        if (config.controlToken !== undefined && !tokenMatches(incoming.headers.authorization, config.controlToken)) return json(outgoing, 401, { error: "unauthorized" });
+        withdrawn = url.pathname === "/withdraw";
+        console.log(JSON.stringify({ event: withdrawn ? "withdrawn" : "restored", at: new Date().toISOString() }));
+        return json(outgoing, 200, { withdrawn, draining });
+      }
       if (config.role !== "publisher") return json(outgoing, 404, { error: "not found" });
       if (!tokenMatches(incoming.headers.authorization, config.controlToken)) return json(outgoing, 401, { error: "unauthorized" });
       if (incoming.method === "GET" && url.pathname === "/coordinators") return json(outgoing, 200, { authority: authority.value, legacyInFlight, coordinators: coordinators.inspect() });

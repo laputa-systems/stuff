@@ -92,6 +92,21 @@ class RecoveryRoutesTests(unittest.TestCase):
             self.assertIn(f"respond @denyre{i} 404", public_stuff)
         self.assertIn("respond @private_method 405", public_stuff)
 
+    def test_primary_standby_upstreams_fail_over_on_health_without_a_reload(self):
+        self.write_routes({"stuff": {"mode": "primary", "upstream": "127.0.0.1:18493", "standby": ["127.0.0.1:18494"],
+                                     "health_uri": "/.well-known/stuff-native/ready"}})
+        route = COMMANDS["oolib"].load_recovery_routes(self.cfg)["stuff"]
+        self.assertEqual(route.standby, ("127.0.0.1:18494",))
+        caddy = COMMANDS["render_caddyfile"](self.cfg)
+        tailnet = caddy.split("# Stuff registries (orange)", 1)[1].split("# Tansu (native)", 1)[0]
+        public = caddy.split("# Stuff registries (public)", 1)[1].split("# Discover (public)", 1)[0]
+        for block, header in ((tailnet, "header_up Stats-Gateway-Secret {$GW_SECRET_RECOVERY_STUFF}"), (public, "header_up X-Forwarded-Proto https")):
+            self.assertIn(f"reverse_proxy 127.0.0.1:18493 127.0.0.1:18494 {{\n\t\t\t{header}\n\t\t\tlb_policy first", block)
+            self.assertIn("\t\t\thealth_uri /.well-known/stuff-native/ready\n", block)
+            self.assertIn("\t\t\tlb_try_duration 5s\n", block)
+        self.write_routes({"stuff": {"mode": "primary", "upstream": "127.0.0.1:18493"}})
+        self.assertNotIn("lb_policy", COMMANDS["render_caddyfile"](self.cfg))
+
     def test_a_route_file_without_primary_renders_byte_identically(self):
         routes = {
             "stats": {"mode": "writer", "upstream": "127.0.0.1:18489"},
@@ -116,6 +131,12 @@ class RecoveryRoutesTests(unittest.TestCase):
             ("discover", {"mode": "writer", "upstream": "127.0.0.1:18485"}),
             ("discover", {"mode": "reader", "upstream": "127.0.0.1:18485",
                           "hosts": ["hq-admin.17166969.xyz"], "deny_paths": []}),
+            ("stuff", {"mode": "primary", "upstream": "127.0.0.1:18493", "standby": ["127.0.0.1:18494"]}),
+            ("stuff", {"mode": "primary", "upstream": "127.0.0.1:18493", "health_uri": "/ready"}),
+            ("stuff", {"mode": "primary", "upstream": "127.0.0.1:18493", "standby": ["127.0.0.1:18493"], "health_uri": "/ready"}),
+            ("stuff", {"mode": "primary", "upstream": "127.0.0.1:18493", "standby": ["8.8.8.8:80"], "health_uri": "/ready"}),
+            ("stuff", {"mode": "primary", "upstream": "127.0.0.1:18493", "standby": ["127.0.0.1:18494"], "health_uri": "/ready\nrespond 200"}),
+            ("stats", {"mode": "writer", "upstream": "127.0.0.1:18489", "standby": ["127.0.0.1:18494"], "health_uri": "/ready"}),
         ):
             with self.subTest(app=app, spec=spec):
                 self.write_routes({app: spec})

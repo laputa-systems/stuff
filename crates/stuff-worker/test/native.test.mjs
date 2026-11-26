@@ -325,3 +325,18 @@ test("a reader forwards tailnet publication to the publisher and holds it while 
   assert.equal(reads.status, 404);
   assert.equal(seen.length, 1);
 });
+
+test("a withdrawn reader fails its ingress readiness check while it keeps serving", async (t) => {
+  const harness = nativeHarness();
+  t.after(() => harness.close());
+  await harness.listen();
+  await seed(harness);
+  const ready = () => send(harness.ports.listen.port, "http://127.0.0.1:18493/.well-known/stuff-native/ready").then(r => r.status);
+  assert.equal(await ready(), 200);
+  assert.equal((await harness.fetch("https://crates.test/.well-known/stuff-native/ready")).status, 404);
+  assert.equal((await send(harness.ports.control.port, "http://control/withdraw", { method: "POST" })).status, 200);
+  assert.equal(await ready(), 503);
+  assert.equal((await harness.fetch("https://crates.test/llms.txt")).status, 200);
+  assert.equal((await send(harness.ports.control.port, "http://control/restore", { method: "POST" })).status, 200);
+  assert.equal(await ready(), 200);
+});

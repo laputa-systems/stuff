@@ -244,6 +244,16 @@ def reader_proxy(app, route: oolib.RecoveryRoute | None) -> list[str]:
     return lines + ["\t\t}"]
 
 
+def primary_proxy(route, header: str) -> list[str]:
+    """A primary route's reverse_proxy; standby upstreams take over when the first fails its health check."""
+    lines = [f"\t\treverse_proxy {' '.join((route.upstream, *route.standby))} {{", header]
+    if route.standby:
+        lines += ["\t\t\tlb_policy first", "\t\t\tlb_try_duration 5s", "\t\t\tlb_try_interval 100ms",
+                  f"\t\t\thealth_uri {route.health_uri}", "\t\t\thealth_interval 1s", "\t\t\thealth_timeout 2s",
+                  "\t\t\thealth_fails 1", "\t\t\thealth_passes 2", "\t\t\tfail_duration 5s"]
+    return lines + ["\t\t}"]
+
+
 def render_caddyfile(cfg, recovery: dict[str, oolib.RecoveryRoute] | None = None) -> str:
     recovery = oolib.load_recovery_routes(cfg) if recovery is None else recovery
     ing = cfg.ingress
@@ -295,11 +305,14 @@ def render_caddyfile(cfg, recovery: dict[str, oolib.RecoveryRoute] | None = None
             if writer:
                 upstream = route.upstream
                 key = f"RECOVERY_{key}"
-            lines += [
-                f"\t\treverse_proxy {upstream} {{",
-                f"\t\t\theader_up Stats-Gateway-Secret {{$GW_SECRET_{key}}}",
-                "\t\t}",
-            ]
+            if writer and route.primary:
+                lines += primary_proxy(route, f"\t\t\theader_up Stats-Gateway-Secret {{$GW_SECRET_{key}}}")
+            else:
+                lines += [
+                    f"\t\treverse_proxy {upstream} {{",
+                    f"\t\t\theader_up Stats-Gateway-Secret {{$GW_SECRET_{key}}}",
+                    "\t\t}",
+                ]
         lines += ["\t}", "}", ""]
     pub = cfg.public
     pub_apps = [a for a in cfg.enabled_apps() if a.public_hostnames]
@@ -328,8 +341,7 @@ def render_caddyfile(cfg, recovery: dict[str, oolib.RecoveryRoute] | None = None
             fenced = route is not None and route.writer
             lines += reader_proxy(app, route)
             if route is not None and route.primary:
-                lines += [f"\t\treverse_proxy {route.upstream} {{",
-                          "\t\t\theader_up X-Forwarded-Proto https", "\t\t}"]
+                lines += primary_proxy(route, "\t\t\theader_up X-Forwarded-Proto https")
             elif app.kind == "orange" and not fenced and not cfg.app_image_file(app).exists():
                 lines += ['\t\trespond "app not deployed" 503']
             else:
