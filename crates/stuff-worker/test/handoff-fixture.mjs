@@ -69,7 +69,6 @@ export function runController(configFile, journalDir, command, until) {
 }
 
 export async function controllerFixture(t, options = {}) {
-  execFileSync(process.execPath, [join(workerDir, "scripts/build-native.mjs")], { cwd: workerDir, stdio: "ignore" });
   mkdirSync(join(root, ".work/tmp"), { recursive: true });
   const directory = mkdtempSync(join(root, ".work/tmp/handoff-controller-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));

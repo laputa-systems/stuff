@@ -8,7 +8,6 @@ import { fakeS3 } from "./native-s3.mjs";
 import { app, BUCKETS, controllerFixture, root, runController, stage, startLegacy, tailnet, workerDir } from "./handoff-fixture.mjs";
 
 test("writer handoff from the legacy Orange coordinator to the native host", { timeout: 300000 }, async (t) => {
-  execFileSync(process.execPath, [join(workerDir, "scripts/build-native.mjs")], { cwd: workerDir, stdio: "ignore" });
   mkdirSync(join(root, ".work/tmp"), { recursive: true });
   const directory = mkdtempSync(join(root, ".work/tmp/handoff-native-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));

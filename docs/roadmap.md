@@ -231,6 +231,47 @@ admission hold must be a 503 with `Retry-After` inside that window.
 | NM6 | Writer handoff | NM5, rehearsal `test/native-handoff.test.mjs` | Guest journal `/var/lib/stuff-native/handoff-20261126/journal/`: no live lease, five exports, canonical import, fence, authority generation 2, admission at 05:14:01; publication held 12 s; store inventory unchanged (154,359 data and 70 version files) | Before 05:14:01: unwind; since then: reverse handoff only | Done; canary below |
 | NM7 | Observation, GC resume, Rust-serving decision, removal of the guest's `oo-engine` and old `oo-app.stuff` image | NM6 + 24 h | 24 h post-cutover observation; restore rehearsal | Retained exports, old image and Engine depot | Open |
 
+### Improvement cycle (2026-11-26)
+
+1. **Cost.** Native readers spent about 6 ms of CPU per request under live
+   and probe traffic (control-listener `/metrics`; 2.0 S3 requests per read).
+2. **Hypothesis and objective.** Re-deriving the SigV4 key (four chained
+   HMACs and a key import) on every S3 request is a measurable part of that
+   cost; caching the derived key lowers reader CPU per request beyond the
+   run-to-run spread. Objective: CPU µs per request on a fixed workload.
+3. **Baseline and protocol.** The idle standby reader served 60 s of 32-way
+   load over eight live read routes (`/tmp/measure.mjs` in the guest, CPU
+   from the reader's own counters), alternating baseline and candidate
+   releases: base 2,834 (pre-run), 2,910, 3,879, 4,882, 3,119 µs; candidate
+   2,579, 2,769, 1,586 µs. Guest load 1.8–2.7; one baseline run lost a third
+   of its throughput to host contention.
+4. **Change.** `acadf76eaf` caches the imported signing key per day, region
+   and secret (bounded to 16 entries).
+5. **Result.** Lower in all three pairs and every candidate run below every
+   baseline run (one-sided Mann–Whitney p ≈ 0.02, 5 vs 3); the median falls
+   about 17%. The ±30% spread under uncontrolled host load means the
+   magnitude is not established; this is recorded as a direction, not a
+   percentage win.
+6. **Qualification and rollout.** `pnpm run test:native` and the runtime
+   suite pass; parity against production 1,537 requests, 0 mismatches;
+   artifact `0cd13c02ea11` rolled to both readers through
+   `rollout-reader.sh` at 05:36 UTC.
+7. **Next.** Measure again on a quiet host with more pairs before claiming a
+   size; the next candidate is the second S3 request per pointer read.
+
+### Rust serving decision
+
+The engine-free reader is the supported final reader. It reproduces the live
+contract byte for byte (parity above), its direct-path medians are below the
+OpenOrange app's on every probed route (observer, legacy 04:00–04:49 versus
+native 05:15–06:00: Cargo config 214 → 34 ms, `llms.txt` 224 → 42 ms, PyPI
+simple 48 → 24 ms, OCI ping 20 → 7 ms), and it costs about 110 MiB RSS and a
+few milliseconds of CPU per read. A Rust reader would need the hostname,
+catalog, OCI and alias logic the Worker entry already has, plus its own S3 and
+streaming path, for no measured need, and Stuff would then carry two serving
+implementations. The Rust crates remain the publisher and the shared
+protocol/catalog libraries; no experiment dependency was added.
+
 ### Recorded failures (2026-11-26)
 
 | Window (UTC) | What clients saw | Cause | Disposition |
