@@ -298,3 +298,30 @@ test("an object body survives garbage collection of the store response until it 
   }
   for (const object of objects) assert.equal(await new Response(object.body).text(), body);
 });
+
+test("a reader forwards tailnet publication to the publisher and holds it while the publisher is away", async (t) => {
+  const seen = [];
+  const publisher = createServer(async (req, res) => {
+    for await (const chunk of req) void chunk;
+    seen.push({ method: req.method, url: req.url, ingress: req.headers["x-oo-ingress"] });
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end('{"from":"publisher"}');
+  });
+  await new Promise(resolve => publisher.listen(0, "127.0.0.1", resolve));
+  const port = publisher.address().port;
+  const harness = nativeHarness({ STUFF_PUBLISH_HOST: "publish.test" }, { env: { STUFF_NATIVE_PUBLICATION_UPSTREAM: `127.0.0.1:${port}`, STUFF_PUBLISH_HOST: "publish.test" } });
+  t.after(() => harness.close());
+  await harness.listen();
+  const forwarded = await publication(harness, "oci", "renew", { token: "x" });
+  assert.deepEqual([forwarded.status, forwarded.body], [200, { from: "publisher" }]);
+  assert.deepEqual(seen, [{ method: "POST", url: "/_publication/oci/renew", ingress: "tailnet" }]);
+  const hidden = await harness.fetch("https://publish.test/_publication/oci/current", { headers: { ...tailnet, "x-oo-ingress": "public" } });
+  assert.equal(hidden.status, 404);
+  await new Promise(resolve => publisher.close(resolve));
+  const held = await publication(harness, "oci", "begin", {});
+  assert.equal(held.status, 503);
+  assert.equal(held.headers.get("retry-after"), "5");
+  const reads = await harness.fetch("https://stuff.test/missing");
+  assert.equal(reads.status, 404);
+  assert.equal(seen.length, 1);
+});

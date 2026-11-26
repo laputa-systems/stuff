@@ -18,11 +18,12 @@ const { s3Bucket, readOnly } = await import("./bucket.mjs");
 const { CoordinatorNamespace, REGISTRIES } = await import("./coordinators.mjs");
 const { AuthorityConflict, AuthorityRecord, PUBLICATION_MODES } = await import("./authority.mjs");
 const { createCounters } = await import("./counters.mjs");
-const { isPublicationRequest, legacyProxy, requestFrom, targetOf, writeResponse } = await import("./host.mjs");
+const { isPublicationRequest, proxyTo, requestFrom, targetOf, writeResponse } = await import("./host.mjs");
 
 class ConfigError extends Error { name = "ConfigError"; }
 
 const ROLES = ["reader", "publisher"];
+const PUBLICATION_RETRY_AFTER_S = 5;
 const LOOPBACK = /^(127\.\d+\.\d+\.\d+|::1|localhost)$/;
 const ARTIFACT = new URL("../", import.meta.url);
 
@@ -60,6 +61,11 @@ function configuration(env) {
     vars: { ...vars, STUFF_RELEASE: release, ...(publishHost ? { STUFF_PUBLISH_HOST: publishHost } : {}) },
     bindings, store, readStore, publishHost, telemetry,
   };
+  if (role === "reader" && env.STUFF_NATIVE_PUBLICATION_UPSTREAM) {
+    if (!publishHost) throw new ConfigError("STUFF_PUBLISH_HOST is required to forward publication");
+    if (!/^127\.0\.0\.1:\d{1,5}$/.test(env.STUFF_NATIVE_PUBLICATION_UPSTREAM)) throw new ConfigError("STUFF_NATIVE_PUBLICATION_UPSTREAM must be a loopback HOST:PORT");
+    config.publicationUpstream = env.STUFF_NATIVE_PUBLICATION_UPSTREAM;
+  }
   if (role === "publisher") {
     if (!publishHost) throw new ConfigError("STUFF_PUBLISH_HOST is required for the publisher role");
     config.state = required(env, "STUFF_NATIVE_STATE");
@@ -121,6 +127,7 @@ async function main() {
     coordinators.openAll();
     publisherEnv = Object.freeze({ ...config.vars, ...config.telemetry, ...storeEnv, ...config.publication, ...writable, STUFF_COORDINATOR_ENABLED: "true", COORDINATOR: coordinators });
   }
+  const publicationProxy = config.publicationUpstream === undefined ? null : proxyTo(config.publicationUpstream);
   const pending = new Set();
   const context = { waitUntil(promise) { const tracked = Promise.resolve(promise).catch(() => undefined).finally(() => pending.delete(tracked)); pending.add(tracked); } };
   let draining = false;
@@ -138,11 +145,17 @@ async function main() {
       if (target === null) { json(outgoing, 400, { error: "invalid host" }); return; }
       if (config.publishHost !== undefined && isPublicationRequest(target, config.publishHost)) {
         route = "publication";
-        if (authority === null || incoming.headers["x-oo-ingress"] !== "tailnet") { json(outgoing, 404, { error: "not found" }); return; }
+        if (incoming.headers["x-oo-ingress"] !== "tailnet") { json(outgoing, 404, { error: "not found" }); return; }
+        if (authority === null) {
+          if (publicationProxy === null) { json(outgoing, 404, { error: "not found" }); return; }
+          route = "publication-forward";
+          await publicationProxy(incoming, outgoing);
+          return;
+        }
         const current = authority.value;
         if (current.publication === "legacy") {
           route = "publication-legacy";
-          if (proxy?.upstream !== current.legacyUpstream) proxy = { upstream: current.legacyUpstream, forward: legacyProxy(current.legacyUpstream) };
+          if (proxy?.upstream !== current.legacyUpstream) proxy = { upstream: current.legacyUpstream, forward: proxyTo(current.legacyUpstream) };
           legacyInFlight += 1;
           try { await proxy.forward(incoming, outgoing); } finally { legacyInFlight -= 1; }
           return;
@@ -156,12 +169,15 @@ async function main() {
     } catch (error) {
       const target = targetOf(incoming);
       console.error(JSON.stringify({ event: "request_failed", at: new Date().toISOString(), route, method: incoming.method, host: target?.hostname ?? null, path: target?.pathname.slice(0, 256) ?? null, range: incoming.headers.range !== undefined, conditional: incoming.headers["if-none-match"] !== undefined || incoming.headers["if-modified-since"] !== undefined, name: error instanceof Error ? error.name : typeof error, message: error instanceof Error ? error.message.slice(0, 200) : "", stack: error instanceof Error ? (error.stack ?? "").split("\n").slice(1, 8).map(line => line.trim().replace(/\(file:\/\/[^)]*\/app\//, "(")) : [] }));
-      if (!outgoing.headersSent) json(outgoing, route === "read" ? 500 : 503, { error: "request failed" });
+      if (!outgoing.headersSent) {
+        if (route === "read") json(outgoing, 500, { error: "request failed" });
+        else { outgoing.setHeader("retry-after", String(PUBLICATION_RETRY_AFTER_S)); json(outgoing, 503, { error: "publication temporarily unavailable" }); }
+      }
       else outgoing.destroy();
     }
   });
 
-  const identity = () => ({ schemaVersion: 1, role: config.role, release: config.release, sourceCommit: config.sourceCommit, artifactSha256: digest, node: process.version, pid: process.pid, startedAt, draining, authority: authority?.value ?? null, publishHost: config.publishHost ?? null });
+  const identity = () => ({ schemaVersion: 1, role: config.role, publicationUpstream: config.publicationUpstream ?? null, release: config.release, sourceCommit: config.sourceCommit, artifactSha256: digest, node: process.version, pid: process.pid, startedAt, draining, authority: authority?.value ?? null, publishHost: config.publishHost ?? null });
 
   const control = createServer(async (incoming, outgoing) => {
     try {

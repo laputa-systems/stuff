@@ -55,7 +55,7 @@ export async function writeResponse(outgoing, response, method, counters) {
   }
 }
 
-export function legacyProxy(upstream) {
+export function proxyTo(upstream) {
   const [host, port] = upstream.split(":");
   const agent = new Agent({ keepAlive: true, maxSockets: 64 });
   return (incoming, outgoing) => new Promise((resolve, reject) => {
