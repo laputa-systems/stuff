@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { appendFileSync, readFileSync } from "node:fs";
-import { request as httpsRequest } from "node:https";
+import { Agent, request as httpsRequest } from "node:https";
 
 const usage = "usage: window-probe.mjs TARGETS.json OUTPUT.jsonl SECONDS [--long URL=SHA256[@RESOLVE] ...]";
 const [targetsFile, output, seconds, ...rest] = process.argv.slice(2);
@@ -15,13 +15,14 @@ for (let i = 0; i < rest.length; i += 2) {
 }
 const record = (value) => appendFileSync(output, `${JSON.stringify({ at: new Date().toISOString(), ...value })}\n`);
 
+const agents = { public: new Agent({ keepAlive: true }), direct: new Agent({ keepAlive: true }) };
 function fetchBody(target, timeoutMs) {
   return new Promise(resolve => {
     const started = performance.now();
     const lookup = target.resolve ? (_h, o, cb) => o?.all ? cb(null, [{ address: target.resolve, family: 4 }]) : cb(null, target.resolve, 4) : undefined;
     let done = false;
     const finish = v => { if (!done) { done = true; resolve({ ms: Math.round(performance.now() - started), ...v }); } };
-    const req = httpsRequest(target.url, { headers: { "user-agent": "stuff-window-probe", "accept-encoding": "identity" }, ...(lookup ? { lookup } : {}) }, res => {
+    const req = httpsRequest(target.url, { agent: agents[target.path], headers: { "user-agent": "stuff-window-probe", "accept-encoding": "identity" }, ...(lookup ? { lookup } : {}) }, res => {
       const hash = createHash("sha256");
       let bytes = 0;
       res.on("data", c => { bytes += c.length; hash.update(c); });
