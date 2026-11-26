@@ -12,6 +12,8 @@ import {
 import { fileURLToPath } from "node:url";
 import { join, posix } from "node:path";
 import { workerHarness } from "./worker-harness.mjs";
+
+const nativePush = process.env.STUFF_WORKER_HOST === "native" ? "network OCI push is disabled on the native host" : false;
 import { catalog, seed, seedOci, OCI_FIXTURE, OCI_INDEX, OCI_ARM64, OCI_AMD64, OCI_REFERRER, OCI_LAYER, OCI_REFERRER_TYPE } from "./fixtures.mjs";
 
 const outputDir = fileURLToPath(
@@ -607,7 +609,7 @@ function pushedIndex() {
   return JSON.stringify(index);
 }
 
-test("oci push authenticates, issues writer sessions, and mounts", async (t) => {
+test("oci push authenticates, issues writer sessions, and mounts", { skip: nativePush }, async (t) => {
   const server = pushWorker();
   t.after(() => server.close());
   await server.listen();
@@ -646,7 +648,7 @@ test("oci push authenticates, issues writer sessions, and mounts", async (t) => 
   assert.equal(missed.status, 202);
 });
 
-test("oci push finalizes manifests and flips current", async (t) => {
+test("oci push finalizes manifests and flips current", { skip: nativePush }, async (t) => {
   const server = pushWorker();
   t.after(() => server.close());
   await server.listen();
@@ -699,7 +701,7 @@ test("oci push finalizes manifests and flips current", async (t) => {
   assert.equal(await indexRead.text(), index);
 });
 
-test("oci push rejects a missing blob and leaves current unchanged", async (t) => {
+test("oci push rejects a missing blob and leaves current unchanged", { skip: nativePush }, async (t) => {
   const server = pushWorker();
   t.after(() => server.close());
   await server.listen();
@@ -752,7 +754,7 @@ async function assertTagsServe(server, repository, bodies) {
   }
 }
 
-test("oci push keeps every acknowledged tag under a concurrent current flip", async (t) => {
+test("oci push keeps every acknowledged tag under a concurrent current flip", { skip: nativePush }, async (t) => {
   const server = pushWorker();
   t.after(() => server.close());
   await server.listen();
@@ -769,7 +771,7 @@ test("oci push keeps every acknowledged tag under a concurrent current flip", as
   await assertTagsServe(server, "example/app", bodies);
 });
 
-test("oci first publications race without losing an acknowledged tag", async (t) => {
+test("oci first publications race without losing an acknowledged tag", { skip: nativePush }, async (t) => {
   const server = pushWorker();
   t.after(() => server.close());
   await server.listen();
@@ -785,7 +787,7 @@ test("oci first publications race without losing an acknowledged tag", async (t)
   await assertTagsServe(server, "example/app", bodies);
 });
 
-test("oci push preserves other repositories and referrers across listing pages", async (t) => {
+test("oci push preserves other repositories and referrers across listing pages", { skip: nativePush }, async (t) => {
   const server = pushWorker();
   t.after(() => server.close());
   await server.listen();
@@ -821,7 +823,7 @@ test("oci push preserves other repositories and referrers across listing pages",
   );
 });
 
-test("oci push refuses to rebuild from an incomplete prior generation", async (t) => {
+test("oci push refuses to rebuild from an incomplete prior generation", { skip: nativePush }, async (t) => {
   const server = pushWorker();
   t.after(() => server.close());
   await server.listen();

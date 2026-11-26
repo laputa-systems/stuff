@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createTestHarness } from "wrangler";
+import { nativeHarness } from "./native-harness.mjs";
 
 const workerDir = fileURLToPath(new URL("../build/orange/workers/default", import.meta.url));
 const bundleDir = join(workerDir, "bundle");
@@ -15,6 +16,7 @@ const routes = JSON.stringify([
 ]);
 
 export function workerHarness(vars = {}) {
+  if (process.env.STUFF_WORKER_HOST === "native") return nativeHarness(vars);
   process.env.CLOUDFLARE_CF_FETCH_ENABLED = "false";
   mkdirSync(harnessRoot, { recursive: true });
   const config = JSON.parse(readFileSync(join(workerDir, "worker.config.json"), "utf8"));

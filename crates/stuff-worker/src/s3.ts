@@ -34,7 +34,7 @@ export async function storeRequest(env: StoreEnv, method: string, bucket: string
   return fetch(url, init);
 }
 
-async function controlText(response: Response): Promise<string> {
+export async function controlText(response: Response): Promise<string> {
   if (!response.ok || response.body === null) throw new Error("store control request failed");
   const reader = response.body.getReader();
   let value = "";
@@ -57,7 +57,7 @@ function xmlText(value: string): string {
     return ({ amp: "&", lt: "<", gt: ">", quot: '"', apos: "'" } as Record<string, string>)[entity]!;
   });
 }
-function element(xml: string, tag: string): string | undefined {
+export function element(xml: string, tag: string): string | undefined {
   const match = new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`).exec(xml);
   return match ? xmlText(match[1]!) : undefined;
 }
