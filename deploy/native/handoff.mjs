@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { appendFileSync, closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { appendFileSync, closeSync, existsSync, fsyncSync, linkSync, mkdirSync, openSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { request } from "node:http";
 import { connect } from "node:net";
 import { join } from "node:path";
@@ -53,8 +53,21 @@ function acquire() {
   if (existsSync(lockPath)) {
     const held = JSON.parse(readFileSync(lockPath, "utf8"));
     if (held.expires > now) throw new Error(`controller lease held by ${held.token} until ${new Date(held.expires).toISOString()}`);
+    const stale = `${lockPath}.stale.${randomUUID()}`;
+    try {
+      renameSync(lockPath, stale);
+    } catch (error) {
+      if (error.code === "ENOENT") throw new Error("another controller took over the expired lease; stopping without mutation");
+      throw error;
+    }
+    const moved = JSON.parse(readFileSync(stale, "utf8"));
+    if (moved.token !== held.token) {
+      linkSync(stale, lockPath);
+      rmSync(stale);
+      throw new Error(`controller lease was taken over by ${moved.token}; stopping without mutation`);
+    }
+    rmSync(stale);
     durable(journalPath, `${JSON.stringify({ at: new Date().toISOString(), kind: "takeover", from: held.token })}\n`);
-    rmSync(lockPath);
   }
   lease = { token: randomUUID(), pid: process.pid, expires: now + LEASE_MS };
   durable(lockPath, JSON.stringify(lease), "wx");

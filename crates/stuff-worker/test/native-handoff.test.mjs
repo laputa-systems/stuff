@@ -208,3 +208,17 @@ test("a controller cannot replace a lock created after its existence check", { t
   assert.notEqual(result.status, 0);
   assert.equal(readFileSync(lockPath, "utf8"), held);
 });
+
+test("breaking an expired lease never removes a lease another controller just took", { timeout: 300000 }, async (t) => {
+  const { directory, configFile } = await controllerFixture(t);
+  const journalDir = join(directory, "journal-takeover-race");
+  mkdirSync(journalDir);
+  const lockPath = join(journalDir, "controller.lock");
+  writeFileSync(lockPath, JSON.stringify({ token: "expired", pid: 1, expires: Date.now() - 1000 }));
+  const fresh = JSON.stringify({ token: "other", pid: 2, expires: Date.now() + 60000 });
+  const preload = join(directory, "takeover-race.mjs");
+  writeFileSync(preload, `import fs from "node:fs"; import { syncBuiltinESMExports } from "node:module"; const rename = fs.renameSync; let raced = false; fs.renameSync = (from, to) => { if (!raced && String(from) === ${JSON.stringify(lockPath)}) { raced = true; fs.writeFileSync(from, ${JSON.stringify(fresh)}); } return rename(from, to); }; syncBuiltinESMExports();`);
+  const result = await runController(configFile, journalDir, "run", undefined, { NODE_OPTIONS: `--import=${preload}` });
+  assert.notEqual(result.status, 0);
+  assert.equal(readFileSync(lockPath, "utf8"), fresh);
+});
