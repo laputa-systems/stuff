@@ -14,6 +14,7 @@ registerHooks({
 installDigestStream();
 
 const { default: worker } = await import("../entry.js");
+const { recordSample } = await import("../src/telemetry.js");
 const { s3Bucket, readOnly } = await import("./bucket.mjs");
 const { CoordinatorNamespace, REGISTRIES } = await import("./coordinators.mjs");
 const { AuthorityConflict, AuthorityRecord, PUBLICATION_MODES } = await import("./authority.mjs");
@@ -219,6 +220,38 @@ async function main() {
     }
   });
 
+  const SAMPLE_MS = 60_000;
+  const instance = `native-${config.role}-${config.listen.port}`;
+  const sampleEnv = config.role === "publisher" ? publisherEnv : readerEnv;
+  let previous = counters.snapshot();
+  const sum = (values) => Object.values(values ?? {}).reduce((total, value) => total + value, 0);
+  const delta = (now, before) => Math.max(0, Math.round(now - before));
+  const sampler = setInterval(() => {
+    const now = counters.snapshot();
+    const requests = now.http.requests;
+    const errors = Object.entries(requests).filter(([key]) => key.endsWith(":5xx")).reduce((total, [, value]) => total + value, 0);
+    const errorsBefore = Object.entries(previous.http.requests).filter(([key]) => key.endsWith(":5xx")).reduce((total, [, value]) => total + value, 0);
+    recordSample(sampleEnv, "stuff.native.runtime", SAMPLE_MS, instance, {
+      cpu_user_us: delta(now.process.userCpuUs, previous.process.userCpuUs),
+      cpu_system_us: delta(now.process.systemCpuUs, previous.process.systemCpuUs),
+      rss_kib: Math.round(now.process.rssBytes / 1024),
+      heap_used_kib: Math.round(now.process.heapUsedBytes / 1024),
+      loop_p99_us: Math.round(now.eventLoop.delayP99Ms * 1000),
+      loop_max_us: Math.round(now.eventLoop.delayMaxMs * 1000),
+      loop_utilization_permille: Math.round(now.eventLoop.utilizationSinceLastSnapshot * 1000),
+      active_requests: now.http.activeRequests,
+      active_streams: now.http.activeStreams,
+      requests: delta(sum(requests), sum(previous.http.requests)),
+      errors_5xx: delta(errors, errorsBefore),
+      bytes_out_kib: delta(now.http.bytesOut / 1024, previous.http.bytesOut / 1024),
+      s3_requests: delta(sum(now.s3.requests), sum(previous.s3.requests)),
+      gc_pause_us: delta(sum(now.gc.pauseMs) * 1000, sum(previous.gc.pauseMs) * 1000),
+      coordinator_ops: delta(now.coordinator.operationMs.count, previous.coordinator.operationMs.count),
+      coordinator_wait_ms: delta(now.coordinator.admissionWaitMs.sumMs, previous.coordinator.admissionWaitMs.sumMs),
+    });
+    previous = now;
+  }, SAMPLE_MS);
+  sampler.unref();
   const listen = (target, where) => new Promise((resolve, reject) => {
     target.once("error", reject);
     target.listen(where.port, where.host, () => { target.off("error", reject); resolve(); });
@@ -231,6 +264,7 @@ async function main() {
   const stop = async (signal) => {
     if (draining) return;
     draining = true;
+    clearInterval(sampler);
     console.log(JSON.stringify({ event: "draining", signal, activeRequests: counters.activeRequests, activeStreams: counters.activeStreams }));
     const closed = new Promise(resolve => server.close(resolve));
     server.closeIdleConnections();

@@ -30,6 +30,9 @@ export function recordOperation(env: Config, operation: string, durationMs: numb
       ...(failure instanceof Error ? { diagnostics: { version: 1, name: "Error", message: "", frames: (failure.stack ?? "").split("\n").filter(line => /^\s*at /u.test(line)) } } : {}) });
   } catch { return; }
 }
+export function recordSample(env: Config, operation: string, durationMs: number, instance: string, work: Readonly<Record<string, number>>): void {
+  try { producer(env)?.record({ operation, durationMs: Math.round(durationMs), outcome: "ok", instance, work }); } catch { return; }
+}
 export async function flushOperations(): Promise<void> {
   try { await configured?.producer.flush(); } catch { return; }
 }
