@@ -28,7 +28,8 @@ export function createCounters() {
   const startedAt = Date.now();
   const delay = monitorEventLoopDelay({ resolution: 10 });
   delay.enable();
-  let elu = performance.eventLoopUtilization();
+  let metricElu = performance.eventLoopUtilization();
+  let sampleElu = metricElu;
   const gc = tally();
   const gcPause = tally();
   const observer = new PerformanceObserver(list => {
@@ -66,15 +67,14 @@ export function createCounters() {
     forRegistry: () => registry,
     get activeRequests() { return activeRequests; },
     get activeStreams() { return activeStreams; },
-    snapshot() {
+    snapshot({ sample = false } = {}) {
       const usage = process.resourceUsage();
       const memory = process.memoryUsage();
       const now = performance.eventLoopUtilization();
-      const utilization = performance.eventLoopUtilization(now, elu).utilization;
-      elu = now;
+      const utilization = performance.eventLoopUtilization(now, sample ? sampleElu : metricElu).utilization;
       let fds = null;
       try { fds = readdirSync("/proc/self/fd").length; } catch { fds = null; }
-      return {
+      const result = {
         startedAt: new Date(startedAt).toISOString(),
         process: { userCpuUs: usage.userCPUTime, systemCpuUs: usage.systemCPUTime, rssBytes: memory.rss, heapUsedBytes: memory.heapUsed, heapTotalBytes: memory.heapTotal, externalBytes: memory.external, arrayBuffersBytes: memory.arrayBuffers, openFds: fds, fsReads: usage.fsRead, fsWrites: usage.fsWrite },
         eventLoop: { delayP50Ms: delay.percentile(50) / 1e6, delayP99Ms: delay.percentile(99) / 1e6, delayMaxMs: delay.max / 1e6, utilizationSinceLastSnapshot: utilization },
@@ -83,6 +83,9 @@ export function createCounters() {
         s3: { requests: s3.snapshot() },
         coordinator: { admissions: admissions.snapshot(), admissionWaitMs: admissionWait.snapshot(), operationMs: coordinatorOps.snapshot(), sqlStatementMs: sqlElapsed.statement.snapshot(), sqlTransactionMs: sqlElapsed.transaction.snapshot(), sqlFailures: sqlFailures.snapshot() },
       };
+      if (sample) { sampleElu = now; delay.reset(); }
+      else metricElu = now;
+      return result;
     },
     close() { observer.disconnect(); delay.disable(); },
   };

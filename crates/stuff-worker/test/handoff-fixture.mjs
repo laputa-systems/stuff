@@ -58,9 +58,9 @@ export function stage(s3, bucket, generation, files) {
 }
 
 const controller = join(root, "deploy/native/handoff.mjs");
-export function runController(configFile, journalDir, command, until) {
+export function runController(configFile, journalDir, command, until, env = {}) {
   return new Promise(resolve => {
-    const child = spawn(process.execPath, [controller, configFile, journalDir, command, ...(until ? ["--until", until] : [])], { stdio: ["ignore", "pipe", "pipe"] });
+    const child = spawn(process.execPath, [controller, configFile, journalDir, command, ...(until ? ["--until", until] : [])], { stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, ...env } });
     let output = "";
     child.stdout.on("data", chunk => { output += chunk; });
     child.stderr.on("data", chunk => { output += chunk; });

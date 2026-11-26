@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { configuration } from "./orange.mjs";
@@ -50,3 +50,18 @@ const manifest = {
 writeFileSync(join(output, "native/artifact.json"), `${JSON.stringify(manifest, null, 2)}\n`);
 const digest = createHash("sha256").update(readFileSync(join(output, "native/artifact.json"))).digest("hex");
 console.log(JSON.stringify({ event: "native_artifact", output, sourceCommit: commit, sourceDirty: dirty, artifactSha256: digest, files: files.length }));
+
+if (process.argv.includes("--test")) {
+  let failed = !existsSync(join(root, "orange/node_modules/open-orange/dist/bin.js"));
+  if (failed) console.error("Native handoff tests require: pnpm --dir orange install --frozen-lockfile");
+  for (const [name, args, env] of [
+    ["native", ["--expose-gc", "--test", "test/native.test.mjs"], {}],
+    ["handoff", ["--test", "test/native-handoff.test.mjs"], {}],
+    ["runtime-on-native", ["--test", "test/runtime.test.mjs"], { STUFF_WORKER_HOST: "native" }],
+  ]) {
+    console.log(`native suite: ${name}`);
+    try { execFileSync(process.execPath, args, { cwd: root, stdio: "inherit", env: { ...process.env, ...env } }); }
+    catch { failed = true; }
+  }
+  if (failed) process.exitCode = 1;
+}

@@ -55,7 +55,8 @@ row is committed and `current` is projected.
 `state/authority.json` records who answers publication: `legacy` proxies the
 routes unchanged to the old app, `native` uses the local coordinators. Changes
 are compare-and-set on its `generation` through the control listener and are
-written with fsync and an atomic rename.
+written with fsync and an atomic rename. A change to `legacy` requires all native
+coordinators to be frozen and idle, with no native publication request in flight.
 
 ## Control listener
 
@@ -69,11 +70,32 @@ back into the ingress rotation. With the control token: `GET /coordinators`,
 into an empty coordinator). Every minute each instance also sends one
 `stuff.native.runtime` application event with those counters to Stats.
 
+Withdrawal persists across reader restarts in `/run/stuff-native/NAME.withdrawn`.
+`STUFF_NATIVE_RUNTIME_DIR` changes the directory and `STUFF_NATIVE_NAME` names the instance.
+Restore removes the file. A failed reader rollout attempts to restore the reader and names it
+if restoration fails.
+
+## Health
+
+`GET /healthz` on `stuff.17166969.xyz` reports reader health. The same path on
+`stuff-publish.17166969.xyz` reaches the publisher through the reader and requires tailnet
+ingress. Both return JSON with `status`, `service`, `role`, `release`, and timed `checks`.
+An `ok` or `degraded` result returns 200. A `down` result returns 503. Responses use
+`Cache-Control: no-store` and are at most 4 KiB.
+
+Readers check the current pointer in each registry, publisher reachability, and withdrawal or
+draining. A partial store failure or unreachable publisher degrades the result. Losing every
+store pointer or withdrawing the reader makes it down. Publishers check the same store
+pointers, coordinator availability and load, and the readable authority record. Each check
+has a deadline below 500 ms. Instances share concurrent checks and cache results for one
+second. Withdrawal and draining change the reported status immediately.
+
 ## Build, release and rollout
 
 ```sh
 cd crates/stuff-worker
 pnpm run build:native      # build/native/app with native/artifact.json (file digests, source commit)
+pnpm --dir orange install --frozen-lockfile # handoff rehearsal prerequisite
 pnpm run test:native       # native tests, the handoff rehearsal, and the runtime suite on the native host
 ```
 
@@ -83,8 +105,11 @@ file, then roll each reader with
 [`rollout-reader.sh`](../deploy/native/rollout-reader.sh) `a` and `b`: it
 withdraws the reader, waits for its requests to finish, restarts it and
 restores it, with no ingress reload. Restart the publisher with
-`rc-service stuff-native.publisher restart`; publishers see 503 with
-`Retry-After` for the second it takes. A Caddy reload is not a zero-error
+`rc-service stuff-native.publisher restart`. The publisher cuts long `/_s3` GET streams after
+30 seconds by default, while started coordinator operations finish. Set `stuff_drain_s` to
+change the stream drain deadline. OpenRC does not force-kill a publisher that still has a
+started operation. Publication requests may receive 503 with `Retry-After` during the restart.
+A Caddy reload is not a zero-error
 operation: it closes idle keep-alive connections, and a client that reuses
 one at that moment sees a reset (observed 2026-11-26 05:02:28 and 05:12:02).
 

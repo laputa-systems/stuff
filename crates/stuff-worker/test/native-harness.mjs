@@ -61,6 +61,7 @@ export function nativeHarness(vars = {}, options = {}) {
       const childEnv = {
         PATH: process.env.PATH, ...env, STUFF_NATIVE_ROLE: options.role ?? "reader", STUFF_RELEASE: "test", STUFF_NATIVE_VARS_FILE: varsFile,
         STUFF_NATIVE_LISTEN: "127.0.0.1:0", STUFF_NATIVE_CONTROL: "127.0.0.1:0", STUFF_NATIVE_DRAIN_S: String(options.drainS ?? 30),
+        STUFF_NATIVE_RUNTIME_DIR: directory, STUFF_NATIVE_NAME: options.role ?? "reader",
         ...(options.role === "publisher" ? { STUFF_PUBLISH_HOST: "publish.test", STUFF_NATIVE_STATE: join(directory, "state"), STUFF_NATIVE_CONTROL_TOKEN: "control", STUFF_COORDINATOR_TOKEN: "coordinator", STUFF_S3_ACCESS_KEY_ID: "service", STUFF_S3_SECRET_ACCESS_KEY: "service-secret" } : {}),
         ...options.env,
       };

@@ -3,6 +3,7 @@ import test from "node:test";
 import { execFileSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { createServer, request } from "node:http";
 import { nativeHarness } from "./native-harness.mjs";
 import { fakeS3 } from "./native-s3.mjs";
 import { app, BUCKETS, controllerFixture, root, runController, stage, startLegacy, tailnet, workerDir } from "./handoff-fixture.mjs";
@@ -140,4 +141,70 @@ test("a lease that outlives the drain deadline unwinds to the still-current writ
   assert.equal(identity.authority.publication, "legacy");
   assert.equal((await op("cargo", "begin", {})).status, 200);
   assert.equal((await op("npm", "renew", { token: held.body.token })).status, 200);
+});
+
+test("a failure during freeze thaws every legacy coordinator", { timeout: 300000 }, async (t) => {
+  const { directory, native, configFile, op } = await controllerFixture(t);
+  const journalDir = join(directory, "journal-partial-freeze");
+  const proxy = createServer((incoming, outgoing) => {
+    if (incoming.url === "/_publication/pypi/freeze") { outgoing.writeHead(503); outgoing.end(); return; }
+    const forwarded = request({ host: "127.0.0.1", port: native.ports.listen.port, path: incoming.url, method: incoming.method, headers: incoming.headers }, response => { outgoing.writeHead(response.statusCode, response.headers); response.pipe(outgoing); });
+    incoming.pipe(forwarded);
+  });
+  await new Promise(resolve => proxy.listen(0, "127.0.0.1", resolve));
+  t.after(() => new Promise(resolve => proxy.close(resolve)));
+  const config = JSON.parse(readFileSync(configFile, "utf8"));
+  config.listen = `127.0.0.1:${proxy.address().port}`;
+  writeFileSync(configFile, JSON.stringify(config));
+  assert.equal((await runController(configFile, journalDir, "run", "prepared")).status, 0);
+  const failed = await runController(configFile, journalDir, "run");
+  assert.notEqual(failed.status, 0);
+  assert.match(failed.output, /pypi freeze answered/);
+  assert.match(readFileSync(join(journalDir, "journal.jsonl"), "utf8"), /"kind":"unwound"/);
+  assert.equal((await op("cargo", "begin", {})).status, 200);
+  assert.equal((await op("npm", "begin", {})).status, 200);
+});
+
+test("the hold budget starts with the first freeze attempt", { timeout: 300000 }, async (t) => {
+  const { directory, configFile, op } = await controllerFixture(t, { holdBudgetS: 60 });
+  const journalDir = join(directory, "journal-hold");
+  const paused = await runController(configFile, journalDir, "run", "frozen");
+  assert.equal(paused.status, 0, paused.output);
+  const journalPath = join(journalDir, "journal.jsonl");
+  const entries = readFileSync(journalPath, "utf8").trim().split("\n").map(line => JSON.parse(line));
+  entries.find(entry => entry.kind === "begin" && entry.step === "frozen").at = new Date(Date.now() - 120000).toISOString();
+  writeFileSync(journalPath, `${entries.map(entry => JSON.stringify(entry)).join("\n")}\n`);
+  const result = await runController(configFile, journalDir, "run");
+  assert.notEqual(result.status, 0);
+  assert.match(result.output, /publication hold exceeded/);
+  assert.equal((await op("cargo", "begin", {})).status, 200);
+});
+
+test("unwind refuses a native coordinator with a live lease", { timeout: 300000 }, async (t) => {
+  const { directory, native, configFile, op } = await controllerFixture(t);
+  const journalDir = join(directory, "journal-live-native");
+  const imported = await runController(configFile, journalDir, "run", "imported");
+  assert.equal(imported.status, 0, imported.output);
+  const changed = await native.control("/authority", { method: "POST", body: JSON.stringify({ expectedGeneration: 1, publication: "native", reason: "test" }) });
+  assert.equal(changed.status, 200);
+  assert.equal((await op("cargo", "thaw", {})).status, 200);
+  assert.equal((await op("cargo", "begin", {})).status, 200);
+  const result = await runController(configFile, journalDir, "unwind");
+  assert.notEqual(result.status, 0);
+  assert.match(result.output, /live lease/);
+  assert.equal((await (await native.control("/identity")).json()).authority.publication, "native");
+});
+
+test("a controller cannot replace a lock created after its existence check", { timeout: 300000 }, async (t) => {
+  const { directory, configFile } = await controllerFixture(t);
+  const journalDir = join(directory, "journal-lock-race");
+  mkdirSync(journalDir);
+  const lockPath = join(journalDir, "controller.lock");
+  const held = JSON.stringify({ token: "other", pid: 1, expires: Date.now() + 60000 });
+  writeFileSync(lockPath, held);
+  const preload = join(directory, "lock-race.mjs");
+  writeFileSync(preload, `import fs from "node:fs"; import { syncBuiltinESMExports } from "node:module"; const exists = fs.existsSync; fs.existsSync = path => String(path) === ${JSON.stringify(lockPath)} ? false : exists(path); syncBuiltinESMExports();`);
+  const result = await runController(configFile, journalDir, "run", undefined, { NODE_OPTIONS: `--import=${preload}` });
+  assert.notEqual(result.status, 0);
+  assert.equal(readFileSync(lockPath, "utf8"), held);
 });

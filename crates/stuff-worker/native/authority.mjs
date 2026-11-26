@@ -1,4 +1,4 @@
-import { closeSync, fsyncSync, openSync, readFileSync, renameSync, writeFileSync, rmSync } from "node:fs";
+import { closeSync, fsyncSync, linkSync, openSync, readFileSync, renameSync, writeFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 export const PUBLICATION_MODES = Object.freeze(["legacy", "native"]);
@@ -41,11 +41,16 @@ export class AuthorityRecord {
   static initialize(stateDirectory, initial) {
     const path = join(stateDirectory, "authority.json");
     const value = validate({ schemaVersion: 1, generation: 1, changedAt: new Date().toISOString(), ...initial });
-    let file;
-    try { file = openSync(path, "wx", 0o600); }
-    catch (error) { if (error.code === "EEXIST") throw new AuthorityConflict("authority record already exists"); throw error; }
-    closeSync(file);
-    durableWrite(path, `${JSON.stringify(value)}\n`);
+    const temporary = `${path}.tmp-${process.pid}`;
+    try {
+      writeFileSync(temporary, `${JSON.stringify(value)}\n`, { mode: 0o600, flag: "wx" });
+      const file = openSync(temporary, "r");
+      try { fsyncSync(file); } finally { closeSync(file); }
+      try { linkSync(temporary, path); }
+      catch (error) { if (error.code === "EEXIST") throw new AuthorityConflict("authority record already exists"); throw error; }
+      const directory = openSync(stateDirectory, "r");
+      try { fsyncSync(directory); } finally { closeSync(directory); }
+    } finally { rmSync(temporary, { force: true }); }
     return value;
   }
   get value() { return this.#value; }
