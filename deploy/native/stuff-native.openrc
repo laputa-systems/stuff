@@ -1,0 +1,51 @@
+#!/sbin/openrc-run
+# Install as /etc/init.d/stuff-native and link instances: ln -s stuff-native /etc/init.d/stuff-native.NAME
+# /etc/conf.d/stuff-native.NAME sets stuff_release (a directory under /opt/stuff-native/releases),
+# stuff_env (root:stuff-native 0640 env file), stuff_role, stuff_listen, stuff_control and stuff_state.
+
+STUFF_INSTANCE="${RC_SVCNAME#stuff-native.}"
+description="Stuff native registry host (${STUFF_INSTANCE})"
+supervisor=supervise-daemon
+command="/opt/stuff-native/node-v26.13.1-linux-x64-musl/bin/node"
+command_args="/opt/stuff-native/releases/${stuff_release}/native/main.mjs"
+command_user="stuff-native:stuff-native"
+directory="/opt/stuff-native/releases/${stuff_release}"
+output_log="/var/log/stuff-native/${STUFF_INSTANCE}.log"
+error_log="/var/log/stuff-native/${STUFF_INSTANCE}.log"
+respawn_delay=3
+respawn_max=0
+respawn_period=60
+retry="TERM/${stuff_drain_s:-900}/KILL/5"
+
+export STUFF_NATIVE_ENV_FILE="${stuff_env}"
+export STUFF_NATIVE_ROLE="${stuff_role}"
+export STUFF_NATIVE_LISTEN="${stuff_listen}"
+export STUFF_NATIVE_CONTROL="${stuff_control}"
+export STUFF_NATIVE_DRAIN_S="${stuff_drain_s:-900}"
+export STUFF_RELEASE="native-${stuff_release}"
+[ -n "${stuff_state}" ] && export STUFF_NATIVE_STATE="${stuff_state}"
+[ -n "${stuff_source_commit}" ] && export STUFF_NATIVE_SOURCE_COMMIT="${stuff_source_commit}"
+
+depend() {
+	need net
+	after oo-store
+}
+
+start_pre() {
+	[ "${STUFF_INSTANCE}" != "${RC_SVCNAME}" ] || { eerror "use an instance: stuff-native.NAME"; return 1; }
+	[ -f "/opt/stuff-native/releases/${stuff_release}/native/artifact.json" ] || { eerror "missing release ${stuff_release}"; return 1; }
+	[ -r "${stuff_env}" ] || { eerror "missing ${stuff_env}"; return 1; }
+	checkpath --directory --owner stuff-native:stuff-native --mode 0750 /var/log/stuff-native
+	[ -z "${stuff_state}" ] || checkpath --directory --owner stuff-native:stuff-native --mode 0700 "${stuff_state}"
+}
+
+start_post() {
+	i=0
+	while [ "$i" -lt 60 ]; do
+		wget -q -T 2 -O /dev/null "http://${stuff_control}/ready" && return 0
+		i=$((i + 1))
+		sleep 1
+	done
+	eerror "stuff-native.${STUFF_INSTANCE} did not become ready"
+	return 1
+}
