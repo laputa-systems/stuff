@@ -6,10 +6,13 @@ const LIST_PAGE = 1000;
 
 const unquote = (etag) => (etag ?? "").replace(/^"|"$/g, "");
 
+const RETAINED_RESPONSE = Symbol("retained store response");
+
 function stored(response, size, body) {
   const etag = unquote(response.headers.get("etag"));
   let consumed = false;
   return {
+    [RETAINED_RESPONSE]: response,
     size,
     etag,
     httpEtag: `"${etag}"`,

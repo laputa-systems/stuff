@@ -154,7 +154,8 @@ async function main() {
       const request = requestFrom(incoming, abort.signal);
       await writeResponse(outgoing, await worker.fetch(request, readerEnv, context), request.method, counters);
     } catch (error) {
-      console.error(JSON.stringify({ event: "request_failed", route, name: error instanceof Error ? error.name : typeof error, message: error instanceof Error ? error.message.slice(0, 200) : "" }));
+      const target = targetOf(incoming);
+      console.error(JSON.stringify({ event: "request_failed", at: new Date().toISOString(), route, method: incoming.method, host: target?.hostname ?? null, path: target?.pathname.slice(0, 256) ?? null, range: incoming.headers.range !== undefined, conditional: incoming.headers["if-none-match"] !== undefined || incoming.headers["if-modified-since"] !== undefined, name: error instanceof Error ? error.name : typeof error, message: error instanceof Error ? error.message.slice(0, 200) : "", stack: error instanceof Error ? (error.stack ?? "").split("\n").slice(1, 8).map(line => line.trim().replace(/\(file:\/\/[^)]*\/app\//, "(")) : [] }));
       if (!outgoing.headersSent) json(outgoing, route === "read" ? 500 : 503, { error: "request failed" });
       else outgoing.destroy();
     }

@@ -280,3 +280,21 @@ test("the native gateway streams verified uploads and fences mutations to the le
   assert.equal(read.status, 200);
   assert.equal(await read.text(), "g1");
 });
+
+test("an object body survives garbage collection of the store response until it is consumed", async (t) => {
+  assert.equal(typeof globalThis.gc, "function", "run with --expose-gc");
+  const s3 = fakeS3();
+  const endpoint = await s3.listen();
+  t.after(() => s3.close());
+  const body = "q".repeat(256 * 1024);
+  s3.put("mynpm", "tarballs/gc.tgz", body);
+  const { s3Bucket } = await import(join(app, "native/bucket.mjs"));
+  const bucket = s3Bucket({ S3_ENDPOINT: endpoint, S3_REGION: "us-east-1", S3_ACCESS_KEY_ID: "test", S3_SECRET_ACCESS_KEY: "test" }, "mynpm");
+  const objects = [];
+  for (let index = 0; index < 8; index += 1) objects.push(await bucket.get("tarballs/gc.tgz"));
+  for (let round = 0; round < 6; round += 1) {
+    globalThis.gc();
+    await new Promise(resolve => setImmediate(resolve));
+  }
+  for (const object of objects) assert.equal(await new Response(object.body).text(), body);
+});

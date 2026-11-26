@@ -15,7 +15,7 @@
     "lint": "oxlint --type-aware entry.ts cloudflare.ts src native",
     "check": "node scripts/build.mjs && oxlint --type-aware entry.ts cloudflare.ts src && tsrs -p tsconfig.json --noEmit --fast && node --test test/runtime.test.mjs test/body-lifecycle.test.mjs test/render-cache.test.mjs test/failover.test.mjs test/failover-decision.test.mjs",
     "build:native": "node scripts/build-native.mjs",
-    "test:native": "node --test test/native.test.mjs test/native-handoff.test.mjs && STUFF_WORKER_HOST=native node --test test/runtime.test.mjs"
+    "test:native": "node --expose-gc --test test/native.test.mjs test/native-handoff.test.mjs && STUFF_WORKER_HOST=native node --test test/runtime.test.mjs"
   },
   "devDependencies": {
     "@laputa-systems/ui-dashboard": "0.11.3",

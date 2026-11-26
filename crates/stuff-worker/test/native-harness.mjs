@@ -64,7 +64,7 @@ export function nativeHarness(vars = {}, options = {}) {
         ...(options.role === "publisher" ? { STUFF_PUBLISH_HOST: "publish.test", STUFF_NATIVE_STATE: join(directory, "state"), STUFF_NATIVE_CONTROL_TOKEN: "control", STUFF_COORDINATOR_TOKEN: "coordinator", STUFF_S3_ACCESS_KEY_ID: "service", STUFF_S3_SECRET_ACCESS_KEY: "service-secret" } : {}),
         ...options.env,
       };
-      child = spawn(process.execPath, [join(app, "native/main.mjs")], { env: childEnv, stdio: ["ignore", "pipe", "pipe"] });
+      child = spawn(process.execPath, [...(options.nodeArgs ?? []), join(app, "native/main.mjs")], { env: childEnv, stdio: ["ignore", "pipe", "pipe"] });
       child.stderr.on("data", chunk => { output += chunk; });
       ports = await new Promise((resolve, reject) => {
         let buffered = "";
