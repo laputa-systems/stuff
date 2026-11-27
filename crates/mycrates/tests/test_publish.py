@@ -137,6 +137,29 @@ class GenerationTest(ScratchTestCase):
         self.assertEqual(destination.read_bytes(), b"payload")
         self.assertFalse(os.path.samefile(source, destination))
 
+    def test_sync_relinks_an_independent_copy_of_the_same_size(self):
+        source = self.tmp / "src.crate"
+        source.write_bytes(b"payload")
+        checksum = sha256(b"payload")
+        destination = self.tmp / "other" / "dst.crate"
+        destination.parent.mkdir()
+        destination.write_bytes(b"payload")
+        self.assertFalse(os.path.samefile(source, destination))
+        sync_immutable_file(source, destination, checksum)
+        self.assertTrue(os.path.samefile(source, destination))
+        self.assertEqual(destination.read_bytes(), b"payload")
+
+    def test_sync_rejects_a_same_size_destination_with_different_content(self):
+        source = self.tmp / "src.crate"
+        source.write_bytes(b"payload")
+        checksum = sha256(b"payload")
+        destination = self.tmp / "other" / "dst.crate"
+        destination.parent.mkdir()
+        destination.write_bytes(b"sevens!")
+        with self.assertRaisesRegex(IntegrityError, "served blob mismatch"):
+            sync_immutable_file(source, destination, checksum)
+        self.assertEqual(destination.read_bytes(), b"sevens!")
+
     def test_interrupted_publications_leave_nothing_that_blocks_the_next_one(self):
         put_native(self.store, "foo", "1.0.0", b"x")
         self.site.mkdir()

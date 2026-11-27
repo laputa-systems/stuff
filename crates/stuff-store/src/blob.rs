@@ -32,13 +32,13 @@ pub fn sync_immutable_file(src: &Path, dst: &Path, expected_hex: &str, alg: Hash
             if (dst_meta.dev(), dst_meta.ino()) == (src_meta.dev(), src_meta.ino()) {
                 return Ok(());
             }
-            if dst_meta.len() == src_meta.len() {
-                return Ok(());
+            let dst_hash = stream_file_hash(dst, alg)?;
+            if dst_hash != expected_hex {
+                return Err(Error::Integrity(format!(
+                    "served blob mismatch for {expected_hex}: destination is stale or replaced ({})",
+                    dst.display()
+                )));
             }
-            return Err(Error::Integrity(format!(
-                "served blob mismatch for {expected_hex}: destination is stale or replaced ({})",
-                dst.display()
-            )));
         }
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
         Err(e) => {
@@ -58,61 +58,50 @@ pub fn sync_immutable_file(src: &Path, dst: &Path, expected_hex: &str, alg: Hash
             actual
         )));
     }
-    if let Some(parent) = dst.parent() {
-        fs::create_dir_all(parent)?;
-    }
-    if fs::hard_link(src, dst).is_err() {
-        let parent = dst.parent().ok_or_else(|| {
-            Error::Input(format!("destination has no parent: {}", dst.display()))
-        })?;
-        let tmp = parent.join(format!(
-            ".tmp.install.{}.{}.{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .map(|d| d.as_nanos())
-                .unwrap_or(0),
-            BLOB_COUNTER.fetch_add(1, Ordering::SeqCst)
-        ));
-        {
-            let mut from = File::open(src)?;
-            let mut to = OpenOptions::new().create_new(true).write(true).open(&tmp)?;
-            let mut buf = [0u8; 65536];
-            loop {
-                let n = from.read(&mut buf)?;
-                if n == 0 {
-                    break;
-                }
-                to.write_all(&buf[..n])?;
+    let parent = dst.parent().ok_or_else(|| {
+        Error::Input(format!("destination has no parent: {}", dst.display()))
+    })?;
+    fs::create_dir_all(parent)?;
+    let tmp = parent.join(format!(
+        ".tmp.install.{}.{}.{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .map(|d| d.as_nanos())
+            .unwrap_or(0),
+        BLOB_COUNTER.fetch_add(1, Ordering::SeqCst)
+    ));
+    if fs::hard_link(src, &tmp).is_err() {
+        let mut from = File::open(src)?;
+        let mut to = OpenOptions::new().create_new(true).write(true).open(&tmp)?;
+        let mut buf = [0u8; 65536];
+        loop {
+            let n = from.read(&mut buf)?;
+            if n == 0 {
+                break;
             }
-            to.sync_all()?;
+            to.write_all(&buf[..n])?;
         }
-        fs::rename(&tmp, dst).map_err(|_| {
-            let _ = fs::remove_file(&tmp);
-            Error::Integrity(format!(
-                "served blob changed during install: {expected_hex} ({})",
-                dst.display()
-            ))
-        })?;
-        let installed = stream_file_hash(dst, alg)?;
-        if installed != expected_hex {
-            return Err(Error::Integrity(format!(
-                "served blob changed during install: {expected_hex} ({})",
-                dst.display()
-            )));
-        }
-    } else {
-        let dst_hash = stream_file_hash(dst, alg)?;
-        if dst_hash != expected_hex {
-            return Err(Error::Integrity(format!(
-                "served blob mismatch for {expected_hex}: destination is stale or replaced ({})",
-                dst.display()
-            )));
-        }
+        to.sync_all()?;
     }
-    if let Some(parent) = dst.parent() {
-        sync_dir(parent)?;
+    let installed = stream_file_hash(&tmp, alg).inspect_err(|_| {
+        let _ = fs::remove_file(&tmp);
+    })?;
+    if installed != expected_hex {
+        let _ = fs::remove_file(&tmp);
+        return Err(Error::Integrity(format!(
+            "served blob changed during install: {expected_hex} ({})",
+            dst.display()
+        )));
     }
+    fs::rename(&tmp, dst).map_err(|_| {
+        let _ = fs::remove_file(&tmp);
+        Error::Integrity(format!(
+            "served blob changed during install: {expected_hex} ({})",
+            dst.display()
+        ))
+    })?;
+    sync_dir(parent)?;
     Ok(())
 }
 
@@ -185,13 +174,31 @@ mod tests {
     }
 
     #[test]
-    fn accepts_a_same_size_destination_without_rehashing() {
+    fn relinks_an_independent_copy_of_the_same_size() {
+        let dir = tempdir().unwrap();
+        let (src, hex) = fixture(dir.path(), "a.bin", b"payload", HashAlg::Sha256);
+        let dst = dir.path().join("out/a.bin");
+        fs::create_dir_all(dst.parent().unwrap()).unwrap();
+        fs::write(&dst, b"payload").unwrap();
+        let copied_ino = fs::metadata(&dst).unwrap().ino();
+        sync_immutable_file(&src, &dst, &hex, HashAlg::Sha256).unwrap();
+        let linked = fs::metadata(&dst).unwrap();
+        let source = fs::metadata(&src).unwrap();
+        assert_ne!(linked.ino(), copied_ino);
+        assert_eq!((linked.dev(), linked.ino()), (source.dev(), source.ino()));
+        assert_eq!(fs::read(&dst).unwrap(), b"payload");
+    }
+
+    #[test]
+    fn rejects_a_same_size_destination_with_different_content() {
         let dir = tempdir().unwrap();
         let (src, hex) = fixture(dir.path(), "a.bin", b"payload", HashAlg::Sha256);
         let dst = dir.path().join("out/a.bin");
         fs::create_dir_all(dst.parent().unwrap()).unwrap();
         fs::write(&dst, b"sevens!").unwrap();
-        sync_immutable_file(&src, &dst, &hex, HashAlg::Sha256).unwrap();
+        let err = sync_immutable_file(&src, &dst, &hex, HashAlg::Sha256).unwrap_err();
+        assert!(matches!(err, Error::Integrity(_)));
+        assert!(format!("{err}").contains("served blob mismatch"));
         assert_eq!(fs::read(&dst).unwrap(), b"sevens!");
     }
 
