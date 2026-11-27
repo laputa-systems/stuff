@@ -101,7 +101,7 @@ All writes need the token (`Authorization: <token>` or `Bearer <token>`, compare
 
 ```
 site/
-  blobs/<sha256>.crate               hard links to state/blobs, never overwritten
+  blobs/<sha256>.crate               hard links to state/blobs; a matching copy is relinked
   generations/<id>/
     registry/config.json             {"dl":"<base>/blobs/{sha256-checksum}.crate","api":"<base>","auth-required":false}
     registry/<shard>                 native index files

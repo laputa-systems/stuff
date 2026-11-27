@@ -52,21 +52,26 @@ def sync_immutable_file(src, dst, expected_hex):
             )
         if (dst_stat.st_dev, dst_stat.st_ino) == (src_stat.st_dev, src_stat.st_ino):
             return
-        if dst_stat.st_size == src_stat.st_size:
-            return
-        raise IntegrityError(f"served blob mismatch for {expected_hex}: destination is stale or replaced ({dst})")
+        if sha256_file(dst) != expected_hex:
+            raise IntegrityError(f"served blob mismatch for {expected_hex}: destination is stale or replaced ({dst})")
 
     actual = sha256_file(src)
     if actual != expected_hex:
         raise IntegrityError(f"tampered blob {src}: expected {expected_hex}, got {actual}")
     dst.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dst.parent / f".tmp.install.{unique_suffix()}"
     try:
-        os.link(src, dst)
+        os.link(src, tmp)
     except OSError:
         _copy_into_place(src, dst, expected_hex)
     else:
-        if sha256_file(dst) != expected_hex:
-            raise IntegrityError(f"served blob mismatch for {expected_hex}: destination is stale or replaced ({dst})")
+        try:
+            if sha256_file(tmp) != expected_hex:
+                raise IntegrityError(f"served blob changed during install: {expected_hex} ({dst})")
+            os.replace(tmp, dst)
+        except BaseException:
+            tmp.unlink(missing_ok=True)
+            raise
     sync_dir(dst.parent)
 
 
