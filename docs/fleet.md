@@ -86,6 +86,32 @@ uv run repomod gc --dry-run
 uv run repomod gc
 ```
 
+## Clean build artifacts
+
+`repomod clean` removes well-known generated build directories from catalogued checkouts under
+`~/repos`. It uses each repository's language tags to decide which names to inspect, so it never
+walks unrelated trees. It only touches catalogued checkouts whose path and `origin` match the
+catalog, and it refuses a candidate that is a symlink, a regular file, tracked by Git, a nested
+checkout, or outside the checkout. Candidates are opened by directory descriptor and rechecked
+under the repository lock before removal. `--repo`/`--tag` select repositories and `--dry-run`
+previews the removals.
+
+| Tag | Directories |
+| --- | --- |
+| `rust` | `target/` |
+| `python` | `.venv/`, `venv/`, `__pycache__/`, `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/` |
+| `javascript`, `typescript` | `node_modules/` |
+| `zig` | `.zig-cache/`, `zig-cache/` |
+| `swift` | `.build/` |
+
+Python caches are inspected only at the checkout root. A skipped path is reported without
+failing; an error, such as a checkout whose origin does not match the catalog, fails the command.
+
+```sh
+uv run repomod clean --dry-run
+uv run repomod clean --tag rust
+```
+
 ## Status and lint
 
 `repomod status` shows only what needs attention: repositories with local Git work, CI or workflow

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import override
 
 from repomod.catalog import CatalogError
+from repomod.cmd.clean import _clean
 from repomod.cmd.deps import _deps
 from repomod.cmd.discover import _discover
 from repomod.cmd.fix import _fix
@@ -212,6 +213,15 @@ def _parser() -> argparse.ArgumentParser:
     gc.add_argument("--dry-run", action="store_true", help="report planned changes without applying them")
     gc.add_argument("--force", action="store_true", help="also consider dirty or non-default-branch checkouts")
     gc.add_argument("--workers", help="maximum concurrent operations", type=int, default=4)
+
+    clean = commands.add_parser(
+        "clean",
+        epilog="Examples:\n  repomod clean --dry-run\n  repomod clean --tag rust",
+        help="remove known generated build directories from catalogued checkouts",
+    )
+    _filters(clean)
+    clean.add_argument("--dry-run", action="store_true", help="report planned changes without applying them")
+    clean.add_argument("--workers", help="maximum concurrent operations", type=int, default=4)
 
     discover = commands.add_parser(
         "discover", epilog="Examples:\n  repomod discover --owner joshuarli --json",
@@ -457,6 +467,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "merge": _merge,
             "release": _release,
             "gc": _gc,
+            "clean": _clean,
             "discover": _discover,
             "deps": _deps,
             "loc": _loc,
