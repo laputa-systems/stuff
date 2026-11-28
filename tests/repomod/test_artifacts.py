@@ -41,11 +41,22 @@ def make_catalog(tmp_path: Path) -> Catalog:
     )
 
 
+IGNORED_ARTIFACTS = (
+    "target", "node_modules", ".venv", "venv", "__pycache__",
+    ".pytest_cache", ".mypy_cache", ".ruff_cache", ".zig-cache", "zig-cache", ".build",
+)
+
+
 def checkout(catalog: Catalog, name: str, owner: str = "acme") -> Path:
     path = repository_path(catalog, find_repository(catalog, f"{owner}/{name}"))
     path.parent.mkdir(parents=True, exist_ok=True)
     git("init", "--initial-branch=main", str(path))
     git("remote", "add", "origin", f"https://github.com/{owner}/{name}.git", cwd=path)
+    (path / ".gitignore").write_text(
+        "".join(f"{artifact}/\n{artifact}\n" for artifact in IGNORED_ARTIFACTS), encoding="utf-8"
+    )
+    git("add", ".gitignore", cwd=path)
+    git("commit", "-m", "ignore build artifacts", cwd=path)
     return path
 
 
@@ -71,7 +82,10 @@ def test_clean_removes_tagged_artifacts_and_leaves_unknown_paths(
     (outside / "keep.txt").write_text("keep\n", encoding="utf-8")
     (rust / "target" / "link").symlink_to(outside, target_is_directory=True)
     (rust / "dist").mkdir()
+    (rust / "dist" / "bundle").write_text("bundle\n", encoding="utf-8")
     (rust / "notes.txt").write_text("keep\n", encoding="utf-8")
+    git("add", "dist", "notes.txt", cwd=rust)
+    git("commit", "-m", "keep unknown paths", cwd=rust)
     for name in (".zig-cache", "zig-cache"):
         (zig / name).mkdir(parents=True)
 
@@ -103,6 +117,19 @@ def test_clean_dry_run_plans_without_removing(tmp_path: Path, git_environment: N
     assert by_artifact(results)["node_modules"].action == "planned"
     assert (rust / "target").is_dir()
     assert (rust / "node_modules").is_dir()
+
+
+def test_clean_skips_a_dirty_checkout(tmp_path: Path, git_environment: None) -> None:
+    catalog = make_catalog(tmp_path)
+    rust = checkout(catalog, "tool")
+    (rust / "target").mkdir()
+    (rust / "notes.txt").write_text("uncommitted\n", encoding="utf-8")
+
+    results = clean_repositories(catalog, catalog.repositories, dry_run=False)
+
+    assert [result.action for result in results] == ["skipped"]
+    assert "uncommitted changes" in results[0].message
+    assert (rust / "target").is_dir()
 
 
 def test_clean_refuses_a_candidate_replaced_after_inspection(
@@ -150,7 +177,7 @@ def test_clean_refuses_symlink_tracked_and_nested_checkout(
     (rust / "node_modules").symlink_to(outside, target_is_directory=True)
     (rust / "target").mkdir()
     (rust / "target" / "keep").write_text("tracked\n", encoding="utf-8")
-    git("add", "target/keep", cwd=rust)
+    git("add", "-f", "target/keep", cwd=rust)
     git("commit", "-m", "keep build output", cwd=rust)
     (rust / ".venv").mkdir()
     (rust / ".venv" / ".git").mkdir()

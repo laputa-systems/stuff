@@ -217,7 +217,7 @@ def _parser() -> argparse.ArgumentParser:
     clean = commands.add_parser(
         "clean",
         epilog="Examples:\n  repomod clean --dry-run\n  repomod clean --tag rust",
-        help="remove known generated build directories from catalogued checkouts",
+        help="remove known generated build directories from clean catalogued checkouts",
     )
     _filters(clean)
     clean.add_argument("--dry-run", action="store_true", help="report planned changes without applying them")

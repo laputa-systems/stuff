@@ -92,9 +92,9 @@ uv run repomod gc
 `~/repos`. It uses each repository's language tags to decide which names to inspect, so it never
 walks unrelated trees. It only touches catalogued checkouts whose path and `origin` match the
 catalog, and it refuses a candidate that is a symlink, a regular file, tracked by Git, a nested
-checkout, or outside the checkout. Candidates are opened by directory descriptor and rechecked
-under the repository lock before removal. `--repo`/`--tag` select repositories and `--dry-run`
-previews the removals.
+checkout, or outside the checkout. Dirty checkouts are skipped entirely. Candidates are opened by
+directory descriptor and rechecked under the repository lock before removal. `--repo`/`--tag`
+select repositories and `--dry-run` previews the removals.
 
 | Tag | Directories |
 | --- | --- |

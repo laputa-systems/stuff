@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Literal
 
 from repomod.catalog import Catalog, CatalogError, repository_path
-from repomod.git import GitError, repository_lock, tracked_paths, validated_checkout
+from repomod.git import GitError, repository_lock, status, tracked_paths
 from repomod.types import Repository
 
 type ArtifactAction = Literal["absent", "planned", "removed", "skipped", "failed"]
@@ -85,11 +85,20 @@ def clean_one(catalog: Catalog, repository: Repository, *, dry_run: bool) -> lis
     if not candidates:
         return []
     try:
-        validated = validated_checkout(checkout, repository.id)
+        current = status(checkout, repository.id)
     except GitError as error:
-        return [ArtifactResult(label, checkout, "failed", f"{error}; refusing to clean an unverified checkout")]
+        return [ArtifactResult(label, checkout, "failed", str(error))]
+    if not current.valid or not current.origin_valid:
+        detail = current.error or "checkout origin does not match the catalog"
+        return [
+            ArtifactResult(label, checkout, "failed", f"{detail}; refusing to clean an unverified checkout")
+        ]
+    if current.dirty:
+        return [
+            ArtifactResult(label, checkout, "skipped", "checkout has uncommitted changes; refusing to clean")
+        ]
     try:
-        tracked = tracked_paths(validated, tuple(path.name for path in candidates))
+        tracked = tracked_paths(checkout, tuple(path.name for path in candidates))
     except GitError as error:
         return [ArtifactResult(label, checkout, "failed", str(error))]
     tracked_names = {value.split("/", 1)[0] for value in tracked}
@@ -97,7 +106,7 @@ def clean_one(catalog: Catalog, repository: Repository, *, dry_run: bool) -> lis
     results: list[ArtifactResult] = []
     prepared: list[tuple[Path, int, os.stat_result]] = []
     try:
-        checkout_fd = os.open(validated, _ARTIFACT_FLAGS)
+        checkout_fd = os.open(checkout, _ARTIFACT_FLAGS)
     except OSError as error:
         return [ArtifactResult(label, checkout, "failed", str(error))]
     try:
